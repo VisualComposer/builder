@@ -4,10 +4,10 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-/**
- * @var array[string#premiumTitle, string#premiumDescription, string#premiumButton] $page
- */
 
+/**
+ * @var array $page [string#premiumTitle, string#premiumDescription, string#premiumButton, string#activationUrl]
+ */
 ?>
 <div class="vcv-premium-teaser-inner">
     <div class="vcv-premium-teaser-image"></div>
@@ -22,6 +22,11 @@ if (!defined('ABSPATH')) {
             <a class="vcv-premium-teaser-btn vcv-premium-teaser-download-addon-btn" data-vcv-action="download" data-vcv-action-bundle="<?php echo $page['premiumActionBundle']; ?>"><?php esc_html_e('Download Addon', 'visualcomposer'); ?></a>
         <?php else : ?>
             <a class="vcv-premium-teaser-btn" href="<?php echo $page['premiumUrl']; ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Go Premium', 'visualcomposer'); ?></a>
+            <p class="vcv-premium-teaser-text">
+                <?php if (!empty($page['activationUrl'])) : ?>
+                    <?php esc_html_e('Already have a Premium license?', 'visualcomposer'); ?> <a href="<?php echo $page['activationUrl']; ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Activate here', 'visualcomposer'); ?></a>
+                <?php endif; ?>
+            </p>
         <?php endif; ?>
     </div>
 </div>

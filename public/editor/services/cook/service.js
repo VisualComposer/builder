@@ -67,6 +67,7 @@ const API = {
     getDynamicFieldsData: (props, attribute = null, raw = false, options = {}) => {
       const { blockAtts, beforeBlock, afterBlock } = props
       let postData = settingsStorage.state('postData').get()
+      const postFields = settingsStorage.state('postFields').get()
 
       const key = blockAtts.value.replace('::', ':')
       let result = null
@@ -80,14 +81,36 @@ const API = {
         if (postData && postData[key].length) {
           // Value should be NEVER empty
           result = postData[key]
+
+          if (dataManager.get('editorType') === 'vcv_layouts' && blockAtts.value === 'post_title') {
+            result = 'Post title'
+          }
         }
       }
-
       const getDefaultPlaceholder = (blockValue) => {
+        const isDefaultPlaceholderAcfImage = function (metaValue) {
+          let isImage = false
+          if (postFields?.attachimage?.acf?.group?.values) {
+            for (const acf of postFields.attachimage.acf.group.values) {
+              if (acf.fieldType === 'image' && (acf.fieldMetaSlug === metaValue || acf.value === metaValue)) {
+                isImage = true
+              }
+            }
+          }
+
+          return isImage
+        }
+
         if (blockValue === 'post_excerpt') {
           return localizations ? localizations.excerptPlaceholderText : 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
         } else if (blockValue === 'post_author_bio') {
           return localizations ? localizations.authorBioPlaceholderText : 'This is a placeholder for the Author Bio element. It will be replaced by the actual content.'
+        } else if (isDefaultPlaceholderAcfImage(blockValue)) {
+          if (attribute?.fieldType && attribute.fieldType === 'attachimage') {
+            return postData.featured_image
+          } else {
+            return '<img src="' + postData.featured_image + '">'
+          }
         }
         const noValueText = localizations ? localizations.noValue : 'No Value'
         return `${noValueText} (${blockValue})`
@@ -286,9 +309,6 @@ const API = {
       }
     },
     updateDynamicComments: (ref, id, cookElement, inner) => {
-      if (!env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-        return
-      }
       if (!ref || !cookElement) {
         return
       }
@@ -297,22 +317,38 @@ const API = {
       // Clean all comments before/after element dom ref
       API.dynamicFields.cleanComments(el, id)
 
-      const commentsStackResult = API.dynamicFields.getCommentsStack(id, cookElement, inner)
-
-      if (commentsStackResult.commentStack.length) {
-        if (inner) {
-          innerRenderCount++
+      el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
+      el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
+      if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        const commentsStackResult = API.dynamicFields.getCommentsStack(id, cookElement, inner)
+        if (commentsStackResult.commentStack.length) {
+          if (inner) {
+            innerRenderCount++
+          }
+          const nestingLevel = API.getParentCount(id)
+          const innerNestingLevel = inner ? innerRenderCount : 0
+          commentsStackResult.commentStack.forEach((commentData) => {
+            const { blockInfo, attributesLevel } = commentData
+            el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
+            el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} -->`)
+          })
         }
-        const nestingLevel = API.getParentCount(id)
-        const innerNestingLevel = inner ? innerRenderCount : 0
-        el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
-        el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
-        commentsStackResult.commentStack.forEach((commentData) => {
-          const { blockInfo, attributesLevel } = commentData
-          el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-          el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-        })
       }
+      API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+    },
+    updateViewPageRenderComments: (ref, id, cookElement, inner) => {
+      if (!ref || !cookElement) {
+        return
+      }
+      const el = ReactDOM.findDOMNode(ref)
+      // Clean all comments before/after element dom ref
+      const tag = cookElement.get('tag')
+      const atts = JSON.stringify({
+        id: id,
+        tag: tag
+      })
+      el.insertAdjacentHTML('beforebegin', `<!-- wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
+      el.insertAdjacentHTML('afterend', `<!-- /wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
     },
     getDynamicFieldsList: (fieldType) => {
       const postFields = settingsStorage.state('postFields').get() || []

@@ -1,10 +1,12 @@
 import React from 'react'
-import { getStorage, setData } from 'vc-cake'
+import { getStorage, setData, getService } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 const workspaceTreeViewId = workspaceStorage.state('treeViewId')
 const layoutStorage = getStorage('layout')
+const dataManager = getService('dataManager')
+const cook = getService('cook')
 
 export default function ControlAction (props) {
   const { id, options } = props
@@ -14,7 +16,7 @@ export default function ControlAction (props) {
 
   const handleClick = () => {
     const event = options.data.vcControlEvent
-    const tag = options.data.vcControlEventOptions || false
+    let tag = options.data.vcControlEventOptions || false
     const eventOptions = {
       insertAfter: options.data.vcControlEventOptionInsertAfter || false
     }
@@ -24,14 +26,31 @@ export default function ControlAction (props) {
     if (event === 'treeView') {
       workspaceTreeViewId.set(id)
       workspaceContentState.set('treeView')
+    } else if (event === 'edit') {
+      const settings = workspaceStorage.state('settings').get()
+      if (settings && settings.action === 'edit' && settings.elementAccessPoint.id === id) {
+        workspaceStorage.state('settings').set(false)
+        setTimeout(() => {
+          workspaceStorage.trigger(event, id, tag, eventOptions)
+        }, 300)
+      } else {
+        workspaceStorage.trigger(event, id, tag, eventOptions)
+      }
     } else {
-      if (event === 'edit') {
-        workspaceContentState.set(false)
-        const settings = workspaceStorage.state('settings').get()
-        if (settings && settings.action === 'edit') {
-          workspaceStorage.state('settings').set(false)
+      if (event === 'copy') {
+        const cookElement = cook.getById(id)
+        if (!tag) {
+          tag = cookElement.get('tag')
+        }
+        const elementSetting = cookElement.getAll()
+        const isEditorTypeRelated = dataManager.get('editorType') === 'vcv_layouts' && (tag === 'layoutContentArea' || (elementSetting.sourceItem && elementSetting.sourceItem.tag === 'postsGridDataSourceArchive'))
+
+        if (isEditorTypeRelated) {
+          eventOptions.editorTypeRelation = dataManager.get('editorType')
+          eventOptions.elementTag = tag === 'layoutContentArea' ? 'layoutContentArea' : 'postsGridDataSourceArchive'
         }
       }
+      workspaceContentState.set(false)
       workspaceStorage.trigger(event, id, tag, eventOptions)
     }
     layoutStorage.state('interactWithControls').set({

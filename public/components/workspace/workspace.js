@@ -21,20 +21,30 @@ export default class Workspace extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentEditableMode: false
+      contentEditableMode: false,
+      isNavbarDisabled: true
     }
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.handleNavbarStateChange = this.handleNavbarStateChange.bind(this)
   }
 
   componentDidMount () {
     onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
     workspaceStorage.state('layoutBarMount').set({ layoutBarMounted: true })
-    bindEditorKeys(this.document)
+    workspaceStorage.state('navbarDisabled').onChange(this.handleNavbarStateChange)
   }
 
   componentWillUnmount () {
     ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    workspaceStorage.state('navbarDisabled').ignoreChange(this.handleNavbarStateChange)
+  }
+
+  handleNavbarStateChange (isDisabled) {
+    if (this.state.isNavbarDisabled && !isDisabled) {
+      bindEditorKeys(this.document)
+      this.setState({ isNavbarDisabled: false })
+    }
   }
 
   handleLayoutCustomModeChange (data) {

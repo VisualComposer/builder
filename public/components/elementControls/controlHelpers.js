@@ -1,7 +1,9 @@
-import { getService } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 
 const cook = getService('cook')
 const documentManager = getService('document')
+const dataManager = getService('dataManager')
+const settingsStorage = getStorage('settings')
 
 export const ControlHelpers = {
   getVcElement: function (elementId) {
@@ -43,7 +45,24 @@ export const ControlHelpers = {
     const pasteElContainerFor = pasteElCook.get('containerFor')
     const pasteElContainerForValue = pasteElContainerFor && pasteElContainerFor.value
 
-    if (
+    const editorType = dataManager.get('editorType')
+    const layoutType = settingsStorage.state('layoutType').get()
+
+    const copyOptions = copyData && copyData.options
+    const isEditorSpecific =
+      copyData &&
+      copyOptions.editorTypeRelation &&
+      copyOptions.editorTypeRelation === 'vcv_layouts' &&
+      (editorType !== 'vcv_layouts' ||
+        (
+          (layoutType === 'archiveTemplate' && copyOptions.elementTag === 'layoutContentArea') ||
+          (layoutType === 'postTemplate' && copyOptions.elementTag === 'postsGridDataSourceArchive')
+        )
+      )
+
+    if (isEditorSpecific) {
+      pasteOptions.disabled = true
+    } else if (
       copiedElRelatedToValue &&
       pasteElContainerForValue &&
       copiedElRelatedToValue.length &&

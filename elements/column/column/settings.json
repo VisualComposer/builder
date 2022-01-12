@@ -34,7 +34,7 @@
     "value": {},
     "options": {
       "label": "Parallax",
-      "tooltip": "Enabling <a href=\"https://visualcomposer.com/help/design-options/parallax-effect/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point\" target=\"_blank\" rel=\"noopener noreferrer\">Parallax</a> creates a 3D scrolling effect on the page."
+      "tooltip": "Enabling <a href=\"https://help.visualcomposer.com/docs/features/design-options/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point\" target=\"_blank\" rel=\"noopener noreferrer\">Parallax</a> creates a 3D scrolling effect on the page."
     }
   },
   "designOptionsAdvanced": {

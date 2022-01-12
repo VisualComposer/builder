@@ -96,6 +96,7 @@ export default class TreeViewElement extends React.Component {
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
     this.props.onMountCallback(this.state.element.id)
     workspaceStorage.state('copyData').onChange(this.checkPaste)
+    window.addEventListener('storage', this.checkPaste)
   }
 
   componentWillUnmount () {
@@ -103,6 +104,7 @@ export default class TreeViewElement extends React.Component {
     this.props.onUnmountCallback(this.state.element.id)
     workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
     workspaceStorage.state('userInteractWith').set(false)
+    window.removeEventListener('storage', this.checkPaste)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -114,9 +116,10 @@ export default class TreeViewElement extends React.Component {
   }
 
   checkPaste (data) {
-    if (data && data.element) {
+    if ((data && data.element) || data.key === 'vcv-copy-data') {
+      const copyData = data.key === 'vcv-copy-data' ? JSON.parse(data.newValue) : data
       this.setState({
-        copyData: data
+        copyData: copyData
       })
     }
   }
@@ -148,7 +151,18 @@ export default class TreeViewElement extends React.Component {
 
   handleClickCopy = (e) => {
     e && e.preventDefault()
-    workspaceStorage.trigger('copy', this.state.element.id)
+    const options = {}
+    const cookElement = cook.getById(this.state.element.id)
+    const tag = cookElement.get('tag')
+    const elementSetting = cookElement.getAll()
+    const isEditorTypeRelated = dataManager.get('editorType') === 'vcv_layouts' && (tag === 'layoutContentArea' || (elementSetting.sourceItem && elementSetting.sourceItem.tag === 'postsGridDataSourceArchive'))
+
+    if (isEditorTypeRelated) {
+      options.editorTypeRelation = dataManager.get('editorType')
+      options.elementTag = tag === 'layoutContentArea' ? 'layoutContentArea' : 'postsGridDataSourceArchive'
+    }
+    console.log('this.state.element', this.state.element)
+    workspaceStorage.trigger('copy', this.state.element.id, tag, options)
   }
 
   clickPaste = (e) => {

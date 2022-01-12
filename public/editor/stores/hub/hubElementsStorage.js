@@ -1,6 +1,8 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
 import lodash from 'lodash'
 import { getResponse } from 'public/tools/response'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const getCategory = (tag, categories) => {
   return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
@@ -37,7 +39,6 @@ const parseData = (presets) => {
 
 addStorage('hubElements', (storage) => {
   const workspaceStorage = getStorage('workspace')
-  const notificationsStorage = getStorage('notifications')
   const utils = getService('utils')
   const sharedAssetsStorage = getStorage('sharedAssets')
   const dataManager = getService('dataManager')
@@ -117,10 +118,10 @@ addStorage('hubElements', (storage) => {
                 // Need to show notification only for the elements that can be added to the page
                 if (metaDescription) {
                   const name = element.settings.name
-                  notificationsStorage.trigger('add', {
+                  store.dispatch(notificationAdded({
                     text: successMessage.replace('{name}', name),
                     time: 5000
-                  })
+                  }))
                 }
               })
             }
@@ -154,12 +155,12 @@ addStorage('hubElements', (storage) => {
               }
 
               console.warn('failed to download element status is false', errorMessage, response)
-              notificationsStorage.trigger('add', {
+              store.dispatch(notificationAdded({
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
                 time: 5000
-              })
+              }))
               workspaceStorage.trigger('removeFromDownloading', tag)
             }
           }
@@ -169,12 +170,12 @@ addStorage('hubElements', (storage) => {
           if (tries < 2) {
             tryDownload()
           } else {
-            notificationsStorage.trigger('add', {
+            store.dispatch(notificationAdded({
               type: 'error',
               text: localizations.defaultErrorElementDownload || 'Failed to download the element',
               showCloseButton: 'true',
               time: 5000
-            })
+            }))
             workspaceStorage.trigger('removeFromDownloading', tag)
           }
         }
@@ -186,12 +187,12 @@ addStorage('hubElements', (storage) => {
         if (tries < 2) {
           tryDownload()
         } else {
-          notificationsStorage.trigger('add', {
+          store.dispatch(notificationAdded({
             type: 'error',
             text: localizations.defaultErrorElementDownload || 'Failed to download the element',
             showCloseButton: 'true',
             time: 5000
-          })
+          }))
         }
       }
       utils.startDownload(tag, data, successCallback, errorCallback)

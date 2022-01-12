@@ -7,6 +7,8 @@ import TransparentOverlayComponent from '../../overlays/transparentOverlay/trans
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
 import TemplatesGroup from './lib/templatesGroup'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -17,7 +19,6 @@ const workspaceStorage = getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
-const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
 
@@ -173,18 +174,18 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   displaySuccess (successText) {
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   displayError (error) {
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       type: 'error',
       text: error,
       time: 5000
-    })
+    }))
   }
 
   getTemplateControlProps (template) {
@@ -258,8 +259,20 @@ export default class AddTemplatePanel extends React.Component {
   getSearchResults () {
     const searchValue = this.props.searchValue.toLowerCase()
     const allCategories = this.state.categories.find(category => category.id === 'all')
-
+    const checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
+    let layoutType = ''
+    if (checkForLayoutTemplates) {
+      layoutType = settingsStorage.state('layoutType').get()
+    }
     return allCategories.templates.filter((template) => {
+      if (!checkForLayoutTemplates && template.type && template.type.indexOf('customLayout') !== -1) {
+        // Remove layout template from regular pages
+        return false
+      }
+      if (template.type && template.type.indexOf('customLayout') !== -1 && template.type.indexOf('customLayout' + layoutType) === -1) {
+        // Remove layout template from other type
+        return false
+      }
       const name = template.name && template.name.toLowerCase()
       if (name && name.indexOf(searchValue) !== -1) {
         return true
@@ -285,10 +298,22 @@ export default class AddTemplatePanel extends React.Component {
   getTemplatesByGroup () {
     const allGroups = this.state.categories.filter(category => category.id !== 'all')
     const allTemplates = []
-
+    const checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
+    let layoutType = ''
+    if (checkForLayoutTemplates) {
+      layoutType = settingsStorage.state('layoutType').get()
+    }
     allGroups.forEach((groupData) => {
       const groupTemplates = []
       groupData.templates.forEach((template) => {
+        if (!checkForLayoutTemplates && template.type && template.type.indexOf('customLayout') !== -1) {
+          // Remove layout template from regular pages
+          return
+        }
+        if (template.type && template.type.indexOf('customLayout') !== -1 && template.type.indexOf('customLayout' + layoutType) === -1) {
+          // Remove layout template from other type
+          return
+        }
         groupTemplates.push(this.getTemplateControl(template))
       })
       groupTemplates.sort((a, b) => {
@@ -296,16 +321,18 @@ export default class AddTemplatePanel extends React.Component {
         const y = b.props.name
         return ((x < y) ? -1 : ((x > y) ? 1 : 0))
       })
-      allTemplates.push(
-        <TemplatesGroup
-          key={`vcv-element-category-${groupData.id}`}
-          groupData={groupData}
-          isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
-          onGroupToggle={this.handleGroupToggle}
-        >
-          {groupTemplates}
-        </TemplatesGroup>
-      )
+      if (groupTemplates.length) {
+        allTemplates.push(
+          <TemplatesGroup
+            key={`vcv-element-category-${groupData.id}`}
+            groupData={groupData}
+            isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
+            onGroupToggle={this.handleGroupToggle}
+          >
+            {groupTemplates}
+          </TemplatesGroup>
+        )
+      }
     })
 
     return allTemplates
@@ -372,10 +399,10 @@ export default class AddTemplatePanel extends React.Component {
 
     const successText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaved : 'The template has been successfully saved.'
 
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   onSaveFailed () {
@@ -461,12 +488,12 @@ export default class AddTemplatePanel extends React.Component {
               const elementName = cookElement.get('name')
               let errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContainsLimitElement : 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.'
               errorText = errorText.split('%element').join(elementName)
-              notificationsStorage.trigger('add', {
+              store.dispatch(notificationAdded({
                 type: 'error',
                 text: errorText,
                 time: 5000,
                 showCloseButton: true
-              })
+              }))
               elementLimitHasExceeded = true
             }
           })
@@ -575,9 +602,8 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-form-button--action': true,
       'vcv-ui-form-button--loading': !!this.state.showSpinner
     })
-    const editorType = dataManager.get('editorType')
 
-    const saveTemplate = (this.state.isRemoveStateActive || !isAbleToSave) || (editorType === 'vcv_layouts') ? null : (
+    const saveTemplate = (this.state.isRemoveStateActive || !isAbleToSave) ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
           <form

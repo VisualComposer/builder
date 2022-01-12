@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Pages\Settings;
+use VisualComposer\Helpers\Settings\TabsRegistry;
 
 /**
  * Class MenuController.
@@ -44,12 +45,14 @@ class MenuController extends Container implements Module
         );
 
         $this->wpAddAction('admin_head', 'addMenuCss');
+
+        $this->wpAddAction('admin_menu', 'arrangeSubmenuItems', 1000);
     }
 
     /**
      * Get main page slug.
      * This determines what page is opened when user clicks 'Visual Composer' in settings menu.
-     * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened.
+     * If user has administrator privileges, 'General' page is opened, if not, 'About' is opened.
      *
      * Register main menu page
      *
@@ -95,5 +98,34 @@ class MenuController extends Container implements Module
         }
     </style>
 CSS;
+    }
+
+    /**
+     * Re-range settings menu items in dashboard according to menu tabs tree structure.
+     */
+    protected function arrangeSubmenuItems(TabsRegistry $tabsRegistryHelper)
+    {
+        global $submenu;
+
+        if (empty($submenu['vcv-settings'])) {
+            return;
+        }
+
+        $menuColumn = array_column($submenu['vcv-settings'], 2);
+
+        foreach ($tabsRegistryHelper->menuTree as $slug => $item) {
+            if (is_array($item)) {
+                $index = array_search($slug, $menuColumn);
+            } else {
+                $index = array_search($item, $menuColumn);
+            }
+
+            if ($index !== false) {
+                $topLevelMenu[] = $submenu['vcv-settings'][$index];
+                unset($submenu['vcv-settings'][$index]);
+            }
+        }
+
+        $submenu['vcv-settings'] = array_merge($topLevelMenu, $submenu['vcv-settings']);
     }
 }
