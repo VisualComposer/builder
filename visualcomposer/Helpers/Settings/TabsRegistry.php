@@ -47,7 +47,7 @@ class TabsRegistry extends Container implements Helper
         'vcv-import',
         'vcv-global-css-js',
         'vcv-hub',
-        'vcv-getting-started'
+        'vcv-getting-started',
     ];
 
     public function __construct(License $licenseHelper, Options $optionsHelper, Update $updateHelper)
