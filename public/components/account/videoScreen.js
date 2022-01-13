@@ -3,7 +3,6 @@ import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
-import Timeline from './timeline'
 import { getResponse } from 'public/tools/response'
 
 const dataProcessorService = vcCake.getService('dataProcessor')
