@@ -235,6 +235,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Update: Drag and Drop improved for better user experience
 - Update: Editor windows have transitions for better user experience
 - Update: Getting Started screen updated for better user experience
+- Update: Accessibility improved for the elements
 - Fix: Disable row stacking works properly
 - Fix: YouTube background video works properly on iPhone
 - Fix: Background color can be removed to make background transparent
@@ -278,6 +279,8 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Copyright element works properly with dynamic content added
 - Fix: Style queue works properly for layouts and global templates
 - Fix: Banner element images are displayed properly
+- Fix: Content Slider works properly
+- Fix: Dynamic content works properly with param groups
 
 = 41.1 =
 *Release Date - 2021-12-15*
