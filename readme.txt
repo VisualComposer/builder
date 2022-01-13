@@ -229,7 +229,6 @@ Yes, we have an awesome online community that you can join to share your experti
 *Release Date - 2022-01-19*
 
 ### Free:
-- New: Maintenance mode option is available for free
 - New: Ability to close editor windows with 'Esc' button added
 - New: Authors and Contributors don not have access to Visual Composer by default for security reasons
 - Update: Help Center links in the editor updated with the pathes to the new Help Center
