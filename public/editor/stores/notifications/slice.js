@@ -42,9 +42,11 @@ const slice = createSlice({
         notifications.queue.push(action.payload)
       } else {
         notifications.list.push(action.payload)
-        window.setTimeout(() => {
-          store.dispatch(notificationRemoved(data.id))
-        }, data.time)
+        if (data.time !== -1) {
+          window.setTimeout(() => {
+            store.dispatch(notificationRemoved(data.id))
+          }, data.time)
+        }
       }
     },
     notificationRemoved: (notifications, action) => {
@@ -68,8 +70,11 @@ const slice = createSlice({
 
           window.setTimeout(() => {
             store.dispatch(notificationAdded({
+              showCloseButton: clone.showCloseButton,
               text: clone.text,
-              time: clone.time
+              time: clone.time,
+              type: clone.type,
+              html: clone.html
             }))
           }, 10)
         }
