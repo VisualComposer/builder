@@ -69,13 +69,7 @@ const slice = createSlice({
           notifications.queue.splice(0, 1)
 
           window.setTimeout(() => {
-            store.dispatch(notificationAdded({
-              showCloseButton: clone.showCloseButton,
-              text: clone.text,
-              time: clone.time,
-              type: clone.type,
-              html: clone.html
-            }))
+            store.dispatch(notificationAdded(clone))
           }, 10)
         }
       }
