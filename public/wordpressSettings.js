@@ -30,7 +30,7 @@ import { downloadAddon } from './components/wpVcSettings/downloadAddon'
         window.document.addEventListener('vcv-dashboard-rendered', () => {
           dashboard()
         }, false)
-      } else {
+      } else if (current !== 'vcv-getting-started') { // Dashboard script is not needed in getting started page (no menu)
         dashboard()
       }
       downloadAddon()
