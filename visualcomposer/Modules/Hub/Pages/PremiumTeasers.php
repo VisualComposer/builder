@@ -28,7 +28,6 @@ class PremiumTeasers extends Container implements Module
      */
     public function __construct()
     {
-        $utmTemplate = vchelper('Utm')->get('editor-hub-popup-teaser');
         $this->dashboardSections[] = [
             'slug' => 'vcv-maintenance-mode',
             'name' => __('Maintenance Mode', 'visualcomposer'),
@@ -39,7 +38,7 @@ class PremiumTeasers extends Container implements Module
                 'Enable a maintenance mode for site visitors with Visual Composer Premium when performing updates, changes in design layouts, or code releases.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'maintenancemode-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'maintenancemode-vcdashboard',
             'premiumActionBundle' => 'maintenanceMode',
             'capability' => 'manage_options',
         ];
@@ -52,7 +51,7 @@ class PremiumTeasers extends Container implements Module
                 'Specify site-wide popups for specific events (First Page Load, Every Page Load, or Exit Intent) with Popup Builder addon available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'customsitepopups-vcdashboard',
             'premiumActionBundle' => 'popupBuilder',
             'iconClass' => 'vcv-ui-icon-dashboard-popup-builder',
             'parent' => 'vcv-custom-site-popups',
@@ -66,7 +65,7 @@ class PremiumTeasers extends Container implements Module
                 'Create global templates that will automatically update across all site upon changes. Save time on editing with the Global Templates addon available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'templates-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'templates-vcdashboard',
             'premiumActionBundle' => 'globalTemplate',
             'name' => __('Global Templates', 'visualcomposer'),
             'subTitle' => __('Templates', 'visualcomposer'),
@@ -82,10 +81,10 @@ class PremiumTeasers extends Container implements Module
             'parent' => 'vcv-headers-footers',
             'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Replace the theme default header and footer with custom header and footer templates using Visual Composer Header and Footer Builder.',
+                'Replace the theme default layout for pages, posts, and archives with custom layouts using Visual Composer.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'headersfooters-vcdashboard',
             'premiumActionBundle' => 'themeEditor',
             'iconClass' => 'vcv-ui-icon-dashboard-theme-builder',
             'capabilityPart' => 'dashboard_addon_theme_builder',
@@ -98,7 +97,7 @@ class PremiumTeasers extends Container implements Module
                 'Create custom header templates or pick a ready-to-use template with the Header Builder available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'headers-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'headers-vcdashboard',
             'premiumActionBundle' => 'themeEditor',
             'name' => __('Headers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
@@ -111,7 +110,7 @@ class PremiumTeasers extends Container implements Module
                 'Build a custom website footer or pick a ready-to-use template with the Footer Builder available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'footers-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'footers-vcdashboard',
             'premiumActionBundle' => 'themeEditor',
             'name' => __('Footers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
@@ -124,7 +123,7 @@ class PremiumTeasers extends Container implements Module
                 'Create a custom sidebar or pick a ready-made template with the Sidebar Builder available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'sidebars-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'sidebars-vcdashboard',
             'premiumActionBundle' => 'themeEditor',
             'name' => __('Sidebars', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
@@ -137,7 +136,7 @@ class PremiumTeasers extends Container implements Module
                 'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'layouts-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'layouts-vcdashboard',
             'premiumActionBundle' => 'themeBuilder',
             'name' => __('Layouts', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
@@ -152,7 +151,7 @@ class PremiumTeasers extends Container implements Module
                 'Control the typography and other font styling of your site, including links, paragraphs, headings.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'fontmanager-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'fontmanager-vcdashboard',
             'premiumActionBundle' => 'fontManager',
             'iconClass' => 'vcv-ui-icon-dashboard-a-letter',
             'parent' => 'vcv-font-manager',
@@ -169,7 +168,7 @@ class PremiumTeasers extends Container implements Module
                 'Migrate your templates from site to site with the Export/Import addon available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'templatesimport-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'templatesimport-vcdashboard',
             'iconClass' => 'vcv-ui-icon-dashboard-import',
             'premiumActionBundle' => 'exportImport',
             'capabilityPart' => 'dashboard_addon_export_import',
@@ -183,10 +182,12 @@ class PremiumTeasers extends Container implements Module
                 'Build custom popups with the Popup Builder addon available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
+            'premiumUrl' => 'customsitepopups-vcdashboard',
             'premiumActionBundle' => 'popupBuilder',
             'capabilityPart' => 'dashboard_addon_popup_builder',
         ];
+
+        $this->dashboardSections = $this->addMainValueDashboardSection($this->dashboardSections);
 
         // Append defaults for all sections
         $this->dashboardSections = array_map(
@@ -213,6 +214,32 @@ class PremiumTeasers extends Container implements Module
 
         // Call this function after init for multisite WordPress instances
         $this->wpAddAction('init', 'checkTeaserVisibility');
+    }
+
+    /**
+     * Add values common for all dashboard sections.
+     *
+     * @oaram array $dashboard
+     *
+     * @return array
+     */
+    protected function addMainValueDashboardSection($dashboard)
+    {
+        $utmTemplate = vchelper('Utm')->get('editor-hub-popup-teaser');
+
+        foreach ($dashboard as $index => $section) {
+            if (empty($section['premiumUrl'])) {
+                continue;
+            }
+
+            $premiumUrlSlug = $section['premiumUrl'];
+            $dashboard[$index]['premiumUrl']
+                = str_replace('{medium}', $premiumUrlSlug, $utmTemplate);
+            $dashboard[$index]['activationUrl']
+                 = vchelper('Utm')->getActivationUrl($premiumUrlSlug);
+        }
+
+        return $dashboard;
     }
 
     /**
@@ -370,7 +397,7 @@ class PremiumTeasers extends Container implements Module
      * @param array $teaser
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
-     * @return array
+     * @return bool
      */
     protected function hasAccess(array $teaser, CurrentUser $currentUserAccess)
     {
