@@ -96,7 +96,6 @@ export default class VideoScreen extends React.Component {
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
         <VersionBox />
-        <Timeline />
         <p className='vcv-activation-heading'>
           {createYourWordpressWebsite}
           <br />
