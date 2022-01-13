@@ -262,6 +262,14 @@ const API = {
             isDynamic = value.match(blockRegexp)
           }
         }
+
+        let elementJsonData = ''
+        if (cookElement.toJS !== undefined) {
+          elementJsonData = cookElement.toJS()
+        } else if (cookElement.element.toJS !== undefined) {
+          elementJsonData = cookElement.element.toJS()
+        }
+
         if (isDynamic) {
           if (typeName === 'inputSelect') {
             value = value.input
@@ -269,13 +277,6 @@ const API = {
           const blockInfo = parseDynamicBlock(value)
           blockInfo.blockAtts.elementId = id
           if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
-            let elementJsonData = ''
-            if (cookElement.toJS !== undefined) {
-              elementJsonData = cookElement.toJS()
-            } else if (cookElement.element.toJS !== undefined) {
-              elementJsonData = cookElement.element.toJS()
-            }
-
             blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
               fieldType: typeName,
               fieldOptions: options
@@ -300,7 +301,7 @@ const API = {
                 blockInfo.blockAtts.device = device
                 blockInfo.blockAtts.elementId = id
                 if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
-                  blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true, { element: cookElement.toJS() })
+                  blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true, { elementJsonData })
                 }
                 attributesLevel++
                 commentStack.push({ blockInfo, attributesLevel })
