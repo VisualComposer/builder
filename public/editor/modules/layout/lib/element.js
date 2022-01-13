@@ -5,7 +5,7 @@ import ContentControls from 'public/components/layoutHelpers/contentControls/com
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import { isEqual, defer, cloneDeep } from 'lodash'
 import PropTypes from 'prop-types'
-import EmptyCommentElementWrapper from './emptyCommentElementWrapper.tsx'
+// import EmptyCommentElementWrapper from './emptyCommentElementWrapper.tsx'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -145,16 +145,19 @@ export default class Element extends React.Component {
     } else {
       if (currentElement.containerFor().length > 0) {
         if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && currentElement.get('metaIsElementLocked')) {
-          returnData = <EmptyCommentElementWrapper />
+          returnData = null // TODO: view page render <EmptyCommentElementWrapper />
         } else {
-          returnData = <EmptyCommentElementWrapper><ContentControls api={this.props.api} id={currentElement.get('id')} /></EmptyCommentElementWrapper>
+          // TODO: returnData = <EmptyCommentElementWrapper><ContentControls api={this.props.api} id={currentElement.get('id')} /></EmptyCommentElementWrapper>
+          returnData = <ContentControls api={this.props.api} id={currentElement.get('id')} />
         }
       } else {
-        returnData = content || <EmptyCommentElementWrapper />
+        // TODO: returnData = content || <EmptyCommentElementWrapper />
+        returnData = content
       }
     }
 
-    return !returnData ? <EmptyCommentElementWrapper /> : returnData
+    // TODO: return !returnData ? <EmptyCommentElementWrapper /> : returnData
+    return returnData
   }
 
   getEditorProps (id, cookElement) {
