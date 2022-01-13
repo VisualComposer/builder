@@ -269,10 +269,17 @@ const API = {
           const blockInfo = parseDynamicBlock(value)
           blockInfo.blockAtts.elementId = id
           if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
+            let elementJsonData = ''
+            if (cookElement.toJS !== undefined) {
+              elementJsonData = cookElement.toJS()
+            } else if (cookElement.element.toJS !== undefined) {
+              elementJsonData = cookElement.element.toJS()
+            }
+
             blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
               fieldType: typeName,
               fieldOptions: options
-            }, true, { element: cookElement.toJS() })
+            }, true, { element: elementJsonData })
           }
           if (cookElement.paramGroupItemId) {
             blockInfo.blockAtts.paramGroupItemId = cookElement.paramGroupItemId
