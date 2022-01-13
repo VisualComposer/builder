@@ -342,7 +342,8 @@ const API = {
           })
         }
       }
-      API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+      // TODO: view page render API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+      // NOTE: Issue with slick-slider elements, need to find out the way to write comments after dom was modified by element js (slick slider)
     },
     updateViewPageRenderComments: (ref, id, cookElement, inner) => {
       if (!ref || !cookElement) {

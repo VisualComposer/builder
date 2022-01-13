@@ -3,7 +3,6 @@ import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
-import Timeline from './timeline'
 import { getResponse } from 'public/tools/response'
 
 const dataProcessorService = vcCake.getService('dataProcessor')
@@ -96,7 +95,6 @@ export default class VideoScreen extends React.Component {
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
         <VersionBox />
-        <Timeline />
         <p className='vcv-activation-heading'>
           {createYourWordpressWebsite}
           <br />

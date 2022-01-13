@@ -256,7 +256,8 @@ STYLE;
         </svg>
     </div>
     <section class="vcv-dashboard-container">
-        <aside class="vcv-dashboard-sidebar">
+        <?php if ($activeTab !== 'vcv-getting-started') { ?>
+	    <aside class="vcv-dashboard-sidebar">
             <header class="vcv-dashboard-sidebar-header">
                 <?php if (!vchelper('License')->isPremiumActivated()) : ?>
                     <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get(
@@ -380,6 +381,7 @@ STYLE;
                 </nav>
             </div>
         </aside>
+	    <?php } ?>
         <main class="vcv-dashboard-main">
             <div class="vcv-dashboard-content">
                 <?php

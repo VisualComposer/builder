@@ -161,7 +161,6 @@ export default class TreeViewElement extends React.Component {
       options.editorTypeRelation = dataManager.get('editorType')
       options.elementTag = tag === 'layoutContentArea' ? 'layoutContentArea' : 'postsGridDataSourceArchive'
     }
-    console.log('this.state.element', this.state.element)
     workspaceStorage.trigger('copy', this.state.element.id, tag, options)
   }
 
