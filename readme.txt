@@ -148,7 +148,7 @@ Visual Composer team provides one-on-one email support that is available to Visu
 
 = Where To Look For Support? =
 
-- Visual Composer [Help Center](https://visualcomposer.com/help/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=help-center-text-link)
+- Visual Composer [Help Center](https://help.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=help-center-text-link)
 - Facebook [Community](https://www.facebook.com/groups/VisualComposers/)
 - WordPress.org support section
 - Real-person [Dedicated Support](https://visualcomposer.com/support/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=dedicated-support-text-link) (*available for Premium users*)
