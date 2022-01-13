@@ -115,8 +115,7 @@ export default class CssBuilder {
 
     this.doJobs(data).then((result) => {
       this.addElementJobsToStorage(data, false)
-      const jobsElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
-      elementsStorage.trigger(`element:${data.id}:assets`, { elements: jobsElements })
+      elementsStorage.trigger(`element:${data.id}:assets`)
       window.setTimeout(() => {
         this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
       }, 1)
@@ -148,8 +147,7 @@ export default class CssBuilder {
     }
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
-      const jobsElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
-      elementsStorage.trigger(`element:${data.id}:assets`, { elements: jobsElements })
+      elementsStorage.trigger(`element:${data.id}:assets`)
       this.window.vcv.trigger('ready', 'update', data.id, options, data.tag)
     })
   }

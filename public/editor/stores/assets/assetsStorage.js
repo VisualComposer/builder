@@ -107,7 +107,8 @@ addStorage('assets', (storage) => {
 
   const updateMixinsState = (cookElement) => {
     const cssMixins = storage.state('cssMixins').get() || {}
-    cssMixins[cookElement.get('id')] = globalAssetsStorage.getCssMixinsByElement(cookElement.toJS())
+    const cssMixinsByElement = globalAssetsStorage.getCssMixinsByElement(cookElement.toJS())
+    cssMixins[cookElement.get('id')] = cssMixinsByElement
     storage.state('cssMixins').set(cssMixins)
   }
 
