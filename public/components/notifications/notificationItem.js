@@ -20,8 +20,6 @@ export default class NotificationItem extends React.Component {
     this.handleRemoveNotification = this.handleRemoveNotification.bind(this)
   }
 
-  componentDidMount () {}
-
   componentWillUnmount () {
     store.dispatch(notificationRemoved(this.props.data.id))
   }
