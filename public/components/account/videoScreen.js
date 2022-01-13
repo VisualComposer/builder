@@ -103,6 +103,11 @@ export default class VideoScreen extends React.Component {
         <p className='vcv-activation-description'>
           {buildYourSiteWithDragAndDropText}
         </p>
+        <div className='vcv-activation-button-container'>
+          {createNewButton}
+          {takeTutorialButton}
+        </div>
+        {this.getDoMoreText()}
         <div className='vcv-activation-video-container'>
           <div className='vcv-activation-video'>
             <iframe
@@ -112,11 +117,6 @@ export default class VideoScreen extends React.Component {
             />
           </div>
         </div>
-        <div className='vcv-activation-button-container'>
-          {createNewButton}
-          {takeTutorialButton}
-        </div>
-        {this.getDoMoreText()}
       </div>
     )
   }
