@@ -18,6 +18,7 @@ class ViewPageRender extends Container implements Module
 
     public function __construct()
     {
+        return;
         // Use WordPress 5.1 pre_render_block as it is more performance efficient
         if (version_compare(get_bloginfo('version'), '5.1', '>=')) {
             $this->wpAddFilter('pre_render_block', 'renderDynamicBlock');
