@@ -263,7 +263,7 @@ const API = {
           }
         }
 
-        let elementJsonData = ''
+        let elementJsonData = {}
         if (cookElement.toJS !== undefined) {
           elementJsonData = cookElement.toJS()
         } else if (cookElement.element.toJS !== undefined) {
