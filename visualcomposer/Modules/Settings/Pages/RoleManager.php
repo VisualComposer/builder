@@ -262,7 +262,7 @@ class RoleManager extends Container implements Module
             'contributor',
         ];
 
-        if (in_array($payload['role'], $roleList)) {
+        if (in_array($payload['role'], $roleList) &&  $rolePresetValue !== 'custom') {
             $rolePresetValue = 'subscriber';
         }
 
