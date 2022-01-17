@@ -1,11 +1,14 @@
+// @ts-ignore
 import { notificationRemoved } from 'public/editor/stores/notifications/slice'
 import React, { useEffect, useState } from 'react'
+// @ts-ignore
 import store from 'public/editor/stores/store'
+// @ts-ignore
 import { getService } from 'vc-cake'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
 
-const NotificationItem = (props) => {
+const NotificationItem = (props: any) => {
   const dataManager = getService('dataManager')
   const [hidden, setHidden] = useState(false)
 
@@ -18,10 +21,11 @@ const NotificationItem = (props) => {
   const handleRemoveNotification = () => {
     store.dispatch(notificationRemoved(props.data.id))
   }
-
+  // @ts-ignore
   const handleClickHideNotification = (e) => {
     setHidden(true)
     const element = ReactDOM.findDOMNode(e.target)
+    // @ts-ignore
     element.addEventListener('transitionend', handleRemoveNotification)
   }
 
@@ -29,8 +33,11 @@ const NotificationItem = (props) => {
 
   if (!props.data.text) return null
   let textHtml
-  let closeButton = ''
-  const customProps = {}
+  // eslint-disable-next-line no-undef
+  let closeButton: JSX.Element|string = ''
+  const customProps = {
+    onClick: undefined
+  }
 
   if (props.data.html) {
     textHtml = <div className='vcv-layout-notifications-text' dangerouslySetInnerHTML={{ __html: props.data.text }} />
@@ -46,6 +53,7 @@ const NotificationItem = (props) => {
       </div>
     )
   } else {
+    // @ts-ignore
     customProps.onClick = handleClickHideNotification
   }
 

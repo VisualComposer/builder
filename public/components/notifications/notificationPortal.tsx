@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom'
 
-const NotificationPortal = (props) => {
+const NotificationPortal = (props: any) => {
   if (props.portalContainer) {
     return ReactDOM.createPortal(
       props.children,

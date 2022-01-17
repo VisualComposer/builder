@@ -2,16 +2,16 @@ import NotificationItem from './notificationItem'
 import { connect } from 'react-redux'
 import React from 'react'
 
-const NotificationsContainer = (props) => {
+const NotificationsContainer = (props: any) => {
   const renderItems = () => {
     const { notifications, isPortal } = props
     if (!notifications || !notifications.length) {
       return null
     }
 
-    const filteredNotifications = notifications.filter(item => !(isPortal ^ item.usePortal))
+    const filteredNotifications = notifications.filter((item:any) => !(isPortal ^ item.usePortal))
 
-    return filteredNotifications.map((item) => {
+    return filteredNotifications.map((item:any) => {
       return (
         <NotificationItem
           data={item}
@@ -30,7 +30,7 @@ const NotificationsContainer = (props) => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state:any) => ({
   notifications: state.notifications.list
 })
 

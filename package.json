@@ -106,7 +106,9 @@
     "vc-webpack-vendors": "3.1.1",
     "webfontloader": "1.6.28"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/react-dom": "^17.0.11"
+  },
   "engines": {
     "node": ">=14",
     "npm": ">=5.8"
