@@ -272,7 +272,7 @@ const API = {
             blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
               fieldType: typeName,
               fieldOptions: options
-            }, true, { element: cookElement.toJS() })
+            }, true, { element: atts })
           }
           if (cookElement.paramGroupItemId) {
             blockInfo.blockAtts.paramGroupItemId = cookElement.paramGroupItemId
@@ -293,7 +293,7 @@ const API = {
                 blockInfo.blockAtts.device = device
                 blockInfo.blockAtts.elementId = id
                 if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
-                  blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true, { element: cookElement.toJS() })
+                  blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true, { element: atts })
                 }
                 attributesLevel++
                 commentStack.push({ blockInfo, attributesLevel })
@@ -334,7 +334,8 @@ const API = {
           })
         }
       }
-      API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+      // TODO: view page render API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+      // NOTE: Issue with slick-slider elements, need to find out the way to write comments after dom was modified by element js (slick slider)
     },
     updateViewPageRenderComments: (ref, id, cookElement, inner) => {
       if (!ref || !cookElement) {

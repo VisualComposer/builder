@@ -54,7 +54,7 @@ describe('Test notifications store', () => {
       }
 
       let notificationsState = store.getState().notifications.list
-      expect(notificationsState.length).toEqual(10)
+      expect(notificationsState.length).toEqual(5)
     })
   })
 })

@@ -274,7 +274,8 @@ left: -69px;
 
               const parent = e.target.parentElement;
               const presetDropdown = parent.querySelector('.vcv-ui-form-presets-dropdown')
-              if (presetDropdown) {
+
+              if (presetDropdown && presetDropdown.value !== 'custom') {
                   var event = new Event('change');
                   presetDropdown.dispatchEvent(event);
               }
