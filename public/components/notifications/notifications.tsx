@@ -4,12 +4,15 @@ import NotificationPortal from './notificationPortal'
 import { connect } from 'react-redux'
 import React from 'react'
 
-const Notifications = (props: any) => {
+interface Props {
+  portal: any
+}
+
+const Notifications: React.FC<Props> = (props) => {
   const getVisibleContainer = (selector: any) => {
     const portals = [].slice.call(document.querySelectorAll(selector))
     if (portals.length) {
-      const visibleItems = portals.filter((item) => {
-        // @ts-ignore
+      const visibleItems = portals.filter((item: any) => {
         return item.offsetParent !== null
       })
       return visibleItems[0]
@@ -31,7 +34,7 @@ const Notifications = (props: any) => {
   )
 }
 
-const mapStateToProps = (state : any) => ({
+const mapStateToProps = (state: any) => ({
   portal: state.notifications.portal
 })
 

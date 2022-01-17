@@ -2,7 +2,12 @@ import NotificationItem from './notificationItem'
 import { connect } from 'react-redux'
 import React from 'react'
 
-const NotificationsContainer = (props: any) => {
+interface NotificationsContainerType {
+  notifications: [];
+  isPortal?: any;
+}
+
+const NotificationsContainer: React.FC<NotificationsContainerType> = (props) => {
   const renderItems = () => {
     const { notifications, isPortal } = props
     if (!notifications || !notifications.length) {
