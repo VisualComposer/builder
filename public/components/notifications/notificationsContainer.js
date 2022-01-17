@@ -1,10 +1,10 @@
-import React from 'react'
 import NotificationItem from './notificationItem'
 import { connect } from 'react-redux'
+import React from 'react'
 
-class NotificationsContainer extends React.Component {
-  renderItems () {
-    const { notifications, isPortal } = this.props
+const NotificationsContainer = (props) => {
+  const renderItems = () => {
+    const { notifications, isPortal } = props
     if (!notifications || !notifications.length) {
       return null
     }
@@ -21,15 +21,13 @@ class NotificationsContainer extends React.Component {
     })
   }
 
-  render () {
-    return (
-      <div className='vcv-layout-notifications'>
-        <div className='vcv-layout-notifications-inner'>
-          {this.renderItems()}
-        </div>
+  return (
+    <div className='vcv-layout-notifications'>
+      <div className='vcv-layout-notifications-inner'>
+        {renderItems()}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 const mapStateToProps = state => ({
