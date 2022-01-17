@@ -31,9 +31,6 @@ $accessParts = $roleAccessHelper->getAvailableParts();
 <style>
 
 .vcv-role-manager-capabilities-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   margin-top: 20px;
 }
 
@@ -65,10 +62,6 @@ flex: 0 0 48%;
 
 .vcv-settings-section .vcv-ui-settings-status-table .description {
 margin: 0;
-}
-
-.vcv-settings-section .vcv-ui-settings-status-table .vcv-ui-settings-status-table-title {
-color: #5F5F70;
 }
 
 .vcv-ui-settings-status-table-title {
@@ -117,7 +110,7 @@ left: -69px;
 ); ?>"
         method="post"
         data-vcv-ui-element="settings-tab-<?php echo esc_attr($slug); ?>"
-        class="vcv-role-manager-capabilities-form vcv-settings-tab-content">
+        class="vcv-role-manager-capabilities-form vcv-dashboard-accordion vcv-settings-tab-content">
     <?php
     $submitButtonAttributes = [
         'id' => 'submit_btn-' . $slug,
@@ -156,10 +149,12 @@ left: -69px;
         $name = translate_user_role($details['name']);
 
         echo '<div class="vcv-dashboard-accordion-item">
-   <div class="vcv-dashboard-accordion-item--heading">
-    ' . $name . '
+   <div class="vcv-dashboard-accordion-item-heading">
+    <span class="vcv-dashboard-accordion-item-heading-text">
+       ' . $name . '
+    </span>
    </div>
-   <div class="vcv-dashboard-accordion-item--content">';
+   <div class="vcv-dashboard-accordion-item-content">';
         if ($role === 'administrator') {
             $part = 'post_types';
             $stateValue = $roleAccessHelper->who($role)->part($part)->getState();
@@ -274,7 +269,7 @@ left: -69px;
         document.addEventListener('click', function (e) {
           // loop parent nodes from the target to the delegation node
           for (var target = e.target; target && target != this; target = target.parentNode) {
-            if (target.matches('.vcv-dashboard-accordion-item--heading')) {
+            if (target.matches('.vcv-dashboard-accordion-item-heading')) {
               target.parentElement.classList.toggle('vcv-dashboard-accordion-item--active')
 
               const parent = e.target.parentElement;
@@ -293,7 +288,7 @@ left: -69px;
         const capabilityToggles = document.querySelectorAll('input[type=checkbox][name^="vcv-role-manager"]');
         capabilityToggles.forEach(toggle => {
             toggle.addEventListener('change', function () {
-                const roleContent = toggle.closest('.vcv-dashboard-accordion-item--content')
+                const roleContent = toggle.closest('.vcv-dashboard-accordion-item-content')
                 const presetDropdown = roleContent.querySelector('select[id^="vcv-settings-role-preset"]')
                 presetDropdown.value = 'custom';
             })
@@ -302,7 +297,7 @@ left: -69px;
             preset.addEventListener('change', function() {
                 const role = preset.value
                 const defaultCapabilities = window.VCV_DEFAULT_CAPABILITIES ? window.VCV_DEFAULT_CAPABILITIES() : null
-                const roleContent = preset.closest('.vcv-dashboard-accordion-item--content')
+                const roleContent = preset.closest('.vcv-dashboard-accordion-item-content')
                 const capSwitches = roleContent.querySelectorAll('.vcv-ui-form-switch > input[type=checkbox]')
                 capSwitches.forEach(capSwitch => {
                     if (role === 'administrator') {

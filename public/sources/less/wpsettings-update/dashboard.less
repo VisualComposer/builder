@@ -257,11 +257,6 @@
     color: @vcv-dashboard-headers-color;
   }
 
-  .vcv-layout-settings-accordion .form-table th,
-  .vcv-headers-footers-section .form-table th {
-    color: @vcv-dashboard-text-color;
-  }
-
   h1 {
     margin: 0 0 30px;
     padding: 0;
@@ -679,6 +674,22 @@
 
   .vcv-dashboard-main .vcv-settings-tab-content select.vcv-ui-form-dropdown {
     max-width: 300px;
+  }
+
+
+  .vcv-settings .vcv-settings-tab-content input[type="color"] {
+    padding: 10px 13px;
+    height: 45px;
+    width: 50px;
+    border: 1px #dedede solid;
+    border-radius: 5px;
+    -webkit-transition: border-color .2s;
+    transition: border-color .2s;
+  }
+
+  .vcv-settings .vcv-settings-tab-content input[type="color"]:hover,
+  .vcv-settings .vcv-settings-tab-content input[type="color"]:focus {
+    border-color: #b2b2b2;
   }
 
   #vcv-headerFooterSettings {
