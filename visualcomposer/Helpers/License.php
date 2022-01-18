@@ -69,7 +69,7 @@ class License extends Container implements Helper
     {
         $optionsHelper = vchelper('Options');
 
-        return $optionsHelper->get('license-type', 'free');
+        return $optionsHelper->get('license-type');
     }
 
     /**

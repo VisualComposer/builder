@@ -115,6 +115,7 @@ class FeedbackController extends Container implements Module
         $reasonId = $requestHelper->input('vcv-reason');
         $feedback = $requestHelper->input('vcv-extra-feedback');
         $licenseType = $licenseHelper->getType();
+        $licenseType = $licenseType ?: 'free';
 
         $url = $urlHelper->query(
             vcvenv('VCV_HUB_URL'),
@@ -153,6 +154,7 @@ class FeedbackController extends Container implements Module
     {
         $userPluginReasonUse = esc_html($requestHelper->input('vcv-plugin-user-reason-use'));
         $licenseType = $licenseHelper->getType();
+        $licenseType = $licenseType ?: 'free';
 
         $url = $urlHelper->query(
             vcvenv('VCV_HUB_URL'),
