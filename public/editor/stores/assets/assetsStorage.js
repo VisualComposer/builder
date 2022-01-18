@@ -6,7 +6,6 @@ import AssetsLibraryManager from './lib/assetsLibraryManager'
 import AttributeLibNames from './lib/attributeLibNames'
 
 addStorage('assets', (storage) => {
-  const cook = getService('cook')
   const documentManager = getService('document')
   const stylesManager = getService('stylesManager')
   const elementAssetsLibrary = getService('elementAssetsLibrary')
@@ -104,35 +103,6 @@ addStorage('assets', (storage) => {
   settingsStorage.state('globalCss').onChange(updateSettingsCss)
   settingsStorage.state('customCss').onChange(updateSettingsCss)
   settingsStorage.state('pageDesignOptions').onChange(updatePageDesignOptions)
-
-  const updateMixinsState = (cookElement) => {
-    const cssMixins = storage.state('cssMixins').get() || {}
-    const cssMixinsByElement = globalAssetsStorage.getCssMixinsByElement(cookElement.toJS())
-    cssMixins[cookElement.get('id')] = cssMixinsByElement
-    storage.state('cssMixins').set(cssMixins)
-  }
-
-  const updateMixins = (id) => {
-    const cookElement = cook.getById(id)
-    if (!cookElement) {
-      return
-    }
-    updateMixinsState(cookElement)
-  }
-  const updateMixinsByData = (data) => {
-    const cookElement = cook.get(data)
-    updateMixinsState(cookElement)
-  }
-  const removeMixins = (id) => {
-    const cssMixins = storage.state('cssMixins').get() || {}
-    delete cssMixins[id]
-
-    storage.state('cssMixins').set(cssMixins)
-  }
-  storage.on('addElement', updateMixins)
-  storage.on('updateElement', updateMixins)
-  storage.on('updateInnerElementByData', updateMixinsByData)
-  storage.on('removeElement', removeMixins)
 
   workspaceStorage.state('iframe').onChange(({ type }) => {
     if (type === 'loaded') {
