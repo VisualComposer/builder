@@ -83,7 +83,9 @@ if (!defined('ABSPATH')) {
             echo $content;
             echo '</div>';
         } else {
+            echo '<div class="vcv-dashboard-standard">';
             echo $content;
+            echo '</div>';
         }
     }
 
