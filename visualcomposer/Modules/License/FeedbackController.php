@@ -126,7 +126,7 @@ class FeedbackController extends Container implements Module
                 'vcv-license-type' => $licenseType,
                 'vcv-activation-time' => $optionsHelper->get('plugin-activation'),
                 'vcv-plugin-user-reason-use' => $optionsHelper->get('activation-survey-user-reason-to-use'),
-                'vcv-site-id' => substr(md5(wp_salt() . get_site_url()), 2, 12),
+                'vcv-site-id' => $licenseHelper->getSiteId(),
             ]
         );
 
@@ -163,7 +163,7 @@ class FeedbackController extends Container implements Module
                 'vcv-plugin-user-reason-use' => $userPluginReasonUse,
                 'vcv-license-type' => $licenseType,
                 'vcv-activation-time' => $optionsHelper->get('plugin-activation'),
-                'vcv-site-id' => substr(md5(wp_salt() . get_site_url()), 2, 12),
+                'vcv-site-id' => $licenseHelper->getSiteId(),
             ]
         );
 

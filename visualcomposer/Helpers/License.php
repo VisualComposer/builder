@@ -214,4 +214,14 @@ class License extends Container implements Helper
 
         return $agreeHubTerms || $this->getType() === 'free';
     }
+
+    /**
+     * Get site id.
+     *
+     * @return string
+     */
+    public function getSiteId()
+    {
+        return substr(hash("sha512", wp_salt() . get_site_url()), 2, 12);
+    }
 }
