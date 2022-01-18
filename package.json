@@ -18,7 +18,8 @@
     "standard": "standard --version && standard",
     "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest --env=jsdom",
     "watch": "webpack --version && webpack --config webpack.config.babel.js --progress --watch",
-    "watch-settings": "echo 'nothing';exit 0"
+    "watch-settings": "echo 'nothing';exit 0",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
   },
   "babel": {
     "plugins": [
@@ -37,9 +38,45 @@
     "ie 11"
   ],
   "eslintConfig": {
-    "react": {
-      "version": "detect"
-    }
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:react/recommended",
+      "plugin:import/recommended"
+    ],
+    "rules": {
+      "import/no-webpack-loader-syntax": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "react/prop-types": 0
+    },
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "node": true
+    },
+    "ignorePatterns": [
+      "**/*.bundle.js",
+      "**/*.spec.js",
+      "**/*.min.js",
+      "**/commands.js",
+      "elements/*/public/*",
+      "devAddons/_tests/*",
+      "_infrastructure/*",
+      "devElements/_tests/*",
+      "public/sources/*",
+      "public/config/*",
+      "public/dist/*",
+      "tests/*",
+      "tools/*"
+    ]
   },
   "jest": {
     "moduleNameMapper": {
@@ -106,7 +143,16 @@
     "vc-webpack-vendors": "3.1.1",
     "webfontloader": "1.6.28"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "8.2.0",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-jest": "^25.7.0",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-react-hooks": "4.3.0"
+  },
   "engines": {
     "node": ">=14",
     "npm": ">=5.8"

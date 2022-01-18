@@ -13,6 +13,7 @@ add('insights', () => {
   if (env('VCV_FT_INSIGHTS')) {
     const insightsChecksInstance = new InsightsChecks()
     const runChecksCallback = debounce(() => {
+
       const iframeDomNode = document.querySelector<HTMLIFrameElement>('.vcv-layout-iframe')
       if (!iframeDomNode || !iframeDomNode.contentWindow) {
         return // editor reload
