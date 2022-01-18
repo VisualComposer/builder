@@ -14,6 +14,7 @@ import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
 import { updateHtmlWithServer, renderInlineHtml } from 'public/tools/updateHtmlWithServer'
+import { getCssMixinsData, getInnerCssMixinsData, getMixinsSelector } from 'public/editor/services/modernAssetsStorage/cssMixins'
 import { spinnerHtml } from 'public/tools/spinnerHtml'
 
 const assetsStorage = getStorage('assets')
@@ -22,7 +23,6 @@ const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 const elementsSettingsStorage = getStorage('elementsSettings')
 const dataManager = getService('dataManager')
-import { getCssMixinsData, getInnerCssMixinsData, getMixinsSelector } from 'public/editor/services/modernAssetsStorage/cssMixins'
 
 export default class ElementComponent extends React.Component {
   static propTypes = {
