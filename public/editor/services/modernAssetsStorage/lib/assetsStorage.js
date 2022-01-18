@@ -11,7 +11,7 @@ export default class {
    * @param data
    * @returns {*}
    */
-  getElementTagsByTagName (tag, tags, data = {}) { // @SM
+  getElementTagsByTagName (tag, tags, data = null) { // @SM
     // TODO: Memoize, note @data argument it is used for inner
     const elementSettings = cookService.getSettings(tag)
     if (!elementSettings) {
@@ -20,14 +20,14 @@ export default class {
     for (const key in elementSettings.settings) {
       // If found element than get actual tags form element
       if (elementSettings.settings[key].type === 'element') {
-        if (lodash.isEmpty(data) || lodash.isEmpty(data[key])) {
+        if (!data || !data[key]) {
           // get tag from default value
           if (elementSettings.settings[key].value.tag) {
             tags = this.getElementTagsByTagName(elementSettings.settings[key].value.tag, tags)
           }
         } else {
           // get tag from data
-          if (data[key].tag) {
+          if (data[key]?.tag) {
             tags = this.getElementTagsByTagName(data[key].tag, tags, data[key])
           }
         }
@@ -45,9 +45,7 @@ export default class {
         }
       }
     }
-    if (!Object.prototype.hasOwnProperty.call(tags, tag)) {
-      tags[tag] = true
-    }
+    tags[tag] = true
 
     return tags
   }

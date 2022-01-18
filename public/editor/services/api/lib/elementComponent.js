@@ -22,6 +22,7 @@ const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 const elementsSettingsStorage = getStorage('elementsSettings')
 const dataManager = getService('dataManager')
+import { getCssMixinsData, getInnerCssMixinsData, getMixinsSelector } from 'public/editor/services/modernAssetsStorage/cssMixins'
 
 export default class ElementComponent extends React.Component {
   static propTypes = {
@@ -276,49 +277,29 @@ export default class ElementComponent extends React.Component {
     if (!this.props.atts.tag) {
       return null
     }
-    const allMixinData = assetsStorage.state('cssMixins').get() || {}
-    const mixinData = allMixinData[this.props.id] || null
-    if (!mixinData) {
-      return null
-    }
-    const { tag } = this.props.atts
-    let returnData = null
-    if (mixinData[tag] && mixinData[tag][mixinName]) {
-      let mixin = Object.keys(mixinData[tag][mixinName])
-      mixin = mixin.length ? mixin.pop() : null
-      if (mixin) {
-        returnData = mixinData[tag][mixinName][mixin]
+    const allMixinData = getCssMixinsData(this.props.atts.tag)
+    const mixin = allMixinData[mixinName]
+    let result = null
+    if (mixin) {
+      result = {
+        selector: getMixinsSelector(mixin, this.props.atts)
       }
-    } else {
-      returnData = mixinData[tag] || mixinData
     }
 
-    return returnData
+    return result
   }
 
   getInnerMixinData (fieldKey, mixinName, i) {
-    const tag = this.props.atts.tag
-    const allMixinData = assetsStorage.state('cssMixins').get()
-    const parentMixinData = allMixinData[this.props.id] || null
-    if (!parentMixinData || !parentMixinData[tag] || !parentMixinData[tag][fieldKey] || !parentMixinData[tag][fieldKey][i]) {
-      return null
-    }
-    const innerMixinData = parentMixinData[tag][fieldKey][i]
-    if (!innerMixinData) {
-      return null
-    }
-    let returnData = null
-    if (innerMixinData.innerTag && innerMixinData.innerTag[mixinName]) {
-      let mixin = Object.keys(innerMixinData.innerTag[mixinName])
-      mixin = mixin.length ? mixin.pop() : null
-      if (mixin) {
-        returnData = innerMixinData.innerTag[mixinName][mixin]
+    const allMixinData = getInnerCssMixinsData(this.props.atts.tag)
+    const mixin = allMixinData[mixinName]
+    let result = null
+    if (mixin && this.props.atts[fieldKey]?.value[i]) {
+      result = {
+        selector: getMixinsSelector(mixin, this.props.atts[fieldKey].value[i])
       }
-    } else {
-      returnData = innerMixinData.innerTag || innerMixinData
     }
 
-    return returnData
+    return result
   }
 
   getBackgroundTypeContent (designOptionsAdvanced = this.props.atts.designOptionsAdvanced, parallax = this.props.atts.parallax) {
