@@ -13,6 +13,7 @@ import ActivationSurvey from './activationSurvey'
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
 const dataManager = getService('dataManager')
+const dataProcessor = getService('dataProcessor')
 
 export default class ActivationSectionProvider extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -108,7 +109,12 @@ export default class ActivationSectionProvider extends React.Component {
   componentDidMount () {
     const { isLoadingFinished, assetsActions, postUpdateActions } = this.state
     const { shouldDoUpdate } = ActivationSectionProvider
-    this.setState({ showSurvey: true })
+    if (window.vcvActivationSurveyUserReasonToUse === false) {
+      this.setState({ showSurvey: true })
+    } else {
+      this.setState({ showSurvey: false })
+    }
+
     if (shouldDoUpdate && !isLoadingFinished) {
       const cnt = assetsActions.length
 
@@ -286,13 +292,28 @@ export default class ActivationSectionProvider extends React.Component {
     })
   }
 
-  handleSubmitSurvey (value) {
-    console.log('submit', value)
+  handleSubmitSurvey (userReasonUse) {
+    this.handleClosePopup()
+
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'license:activation:survey:adminNonce',
+      'vcv-plugin-user-reason-use': userReasonUse,
+      'vcv-nonce': dataManager.get('nonce')
+    })
+  }
+
+  handleClosePopup () {
+    this.setState({
+      showSurvey: false
+    })
   }
 
   handleCloseSurvey () {
-    this.setState({
-      showSurvey: false
+    this.handleClosePopup()
+
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'license:activation:survey:close:adminNonce',
+      'vcv-nonce': dataManager.get('nonce')
     })
   }
 
