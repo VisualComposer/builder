@@ -20,18 +20,7 @@ export default class NotificationItem extends React.Component {
     this.handleRemoveNotification = this.handleRemoveNotification.bind(this)
   }
 
-  componentDidMount () {
-    const { time } = this.props.data
-    const timeout = parseInt(time)
-    if (timeout !== -1) {
-      this.timer = window.setTimeout(() => {
-        this.handleClickHideNotification()
-      }, timeout)
-    }
-  }
-
   componentWillUnmount () {
-    window.clearTimeout(this.timer)
     store.dispatch(notificationRemoved(this.props.data.id))
   }
 
@@ -40,7 +29,6 @@ export default class NotificationItem extends React.Component {
   }
 
   handleClickHideNotification () {
-    window.clearTimeout(this.timer)
     this.setState({ hidden: true })
     const element = ReactDOM.findDOMNode(this)
     element.addEventListener('transitionend', this.handleRemoveNotification)

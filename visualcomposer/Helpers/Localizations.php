@@ -1891,6 +1891,14 @@ class Localizations extends Container implements Helper
                 . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Design Options</a>.',
                 'visualcomposer'
+            ),
+            'enableDeviceStyling' => __(
+                'Enable device styling',
+                'visualcomposer'
+            ),
+            'disableDeviceStyling' => __(
+                'Disable device styling',
+                'visualcomposer'
             )
         ];
 

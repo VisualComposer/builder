@@ -261,6 +261,11 @@ $accessParts = $roleAccessHelper->getAvailableParts();
             $rolePresets = $optionsHelper->get('role-presets', []);
 
             $rolePresetValue = isset($rolePresets[$role]) ? $rolePresets[$role] : '';
+            $rolePresetValue = vcfilter(
+                'vcv:render:settings:roleManager:rolePreset',
+                $rolePresetValue,
+                ['role' => $role]
+            );
             if (empty($rolePresetValue)) {
                 $roleCapabilities = array_filter(
                     array_keys(get_role($role)->capabilities),
@@ -337,6 +342,15 @@ $accessParts = $roleAccessHelper->getAvailableParts();
           for (var target = e.target; target && target != this; target = target.parentNode) {
             if (target.matches('.vcv-role-manager-capabilities-form--item--heading')) {
               target.parentElement.classList.toggle('vcv-role-manager-capabilities-form--item--active')
+
+              const parent = e.target.parentElement;
+              const presetDropdown = parent.querySelector('.vcv-ui-form-presets-dropdown')
+
+              if (presetDropdown && presetDropdown.value !== 'custom') {
+                  var event = new Event('change');
+                  presetDropdown.dispatchEvent(event);
+              }
+
               break;
             }
           }
