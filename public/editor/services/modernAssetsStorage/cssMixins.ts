@@ -71,20 +71,14 @@ export function getInnerCssMixinsBySettings (elSettings: { [key: string]: any })
       namePattern?: string
     }
   } = {}
-  const paramsGroups = []
+  let foundMixins: CssMixinsBySettingsType = {}
   for (const key in elSettings) {
     if (elSettings[key].type === 'paramsGroup') {
-      paramsGroups.push({ key, settings: elSettings[key].options.settings })
+      const groupFieldsSettings = elSettings[key].options.settings
+      let newFoundMixins = getCssMixinsBySettings(groupFieldsSettings)
+      foundMixins = { ...foundMixins, ...newFoundMixins }
     }
   }
-
-  let foundMixins: CssMixinsBySettingsType = {}
-
-  paramsGroups.forEach((group) => {
-    const groupFieldsSettings = group.settings
-    let newFoundMixins = getCssMixinsBySettings(groupFieldsSettings)
-    foundMixins = { ...foundMixins, ...newFoundMixins }
-  })
 
   return foundMixins
 }

@@ -620,7 +620,6 @@ describe('Test cssMixins from modernAssetsStorage', () => {
       }
 
       const foundMixins = getCssMixinsBySettings(settings)
-      // console.log(JSON.stringify(foundMixins, null, 4));
       expect(foundMixins).toEqual({
           "titleColor": [
             {
@@ -742,27 +741,27 @@ describe('Test cssMixins from modernAssetsStorage', () => {
                 "value": 80,
                 "backgroundColor": "rgba(242, 242, 242, .5)",
                 "colorType": "gradient",
-                "color": "#50E3C2",
-                "gradientStart": "#3023AE",
-                "gradientEnd": "#C86DD7"
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
               },
               {
                 "title": "Marketing",
                 "value": 50,
                 "backgroundColor": "rgba(242, 242, 242, .5)",
                 "colorType": "gradient",
-                "color": "#50E3C2",
-                "gradientStart": "#3023AE",
-                "gradientEnd": "#C86DD7"
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
               },
               {
                 "title": "Social Media",
                 "value": 60,
                 "backgroundColor": "rgba(242, 242, 242, .5)",
                 "colorType": "gradient",
-                "color": "#50E3C2",
-                "gradientStart": "#3023AE",
-                "gradientEnd": "#C86DD7"
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
               }
             ]
           },
@@ -827,7 +826,7 @@ describe('Test cssMixins from modernAssetsStorage', () => {
               "color": {
                 "type": "color",
                 "access": "public",
-                "value": "#50E3C2",
+                "value": "#50e3c2",
                 "options": {
                   "label": "Bar color",
                   "cssMixin": {
@@ -1255,26 +1254,896 @@ describe('Test cssMixins from modernAssetsStorage', () => {
           }
         }
       }
-      console.log(JSON.stringify(getInnerCssMixinsBySettings(settings), null, 4))
+      const foundMixins = getInnerCssMixinsBySettings(settings)
+      expect(foundMixins).toEqual({
+        "barValue": [
+          {
+            "propertyName": "value",
+            "attributeName": "value",
+            "namePattern": "[\\da-f]+"
+          }
+        ],
+        "barBackgroundColor": [
+          {
+            "propertyName": "backgroundColor",
+            "attributeName": "backgroundColor",
+            "namePattern": "[\\da-f]+"
+          }
+        ],
+        "barColor": [
+          {
+            "propertyName": "color",
+            "attributeName": "color",
+            "namePattern": "[\\da-f]+"
+          },
+          {
+            "propertyName": "gradientEnd",
+            "attributeName": "gradientEnd",
+            "namePattern": "[\\da-f]+"
+          },
+          {
+            "propertyName": "gradientStart",
+            "attributeName": "gradientStart",
+            "namePattern": "[\\da-f]+"
+          }
+        ]
+      })
+    })
 
-      // const values = {
-      //   titleColor: "rgba(255, 255, 255, 0.99)",
-      //   backgroundOneColor: "rgba(255, 255, 255, 0.99)",
-      //   backgroundTwoColor: "#fff",
-      //   blend: "difference",
-      // }
-      // const selector = getMixinsSelector(foundMixins['backgroundColor'], values)
-      // expect(selector).toEqual('ba-255-255-255-0-99--fff--difference')
-      //
-      // const selectorWithProps = getMixinsSelector(foundMixins['backgroundColor'], values, true)
-      // expect(selectorWithProps).toEqual(
-      //   {
-      //     backgroundColor1: "rgba(255, 255, 255, 0.99)",
-      //     backgroundColor2: "#fff",
-      //     blendFunction: "difference",
-      //     selector: 'ba-255-255-255-0-99--fff--difference'
-      //   }
-      // )
+    test('get cssMixins from settings custom multiple paramsGroup', () => {
+      const settings = {
+        "tag": {
+          "access": "protected",
+          "type": "string",
+          "value": "progressBars"
+        },
+        "relatedTo": {
+          "type": "group",
+          "access": "protected",
+          "value": [
+            "General"
+          ]
+        },
+        "thickness": {
+          "type": "number",
+          "access": "public",
+          "value": "10",
+          "options": {
+            "label": "Thickness",
+            "description": "Enter progress bar thickness in pixels.",
+            "cssMixin": {
+              "mixin": "barThickness",
+              "property": "thickness",
+              "namePattern": "[\\da-f]+"
+            },
+            "min": 1
+          }
+        },
+        "toggleValue": {
+          "type": "toggle",
+          "access": "public",
+          "value": true,
+          "options": {
+            "label": "Show value",
+            "description": "Option to disable percentage display"
+          }
+        },
+        "shape": {
+          "type": "buttonGroup",
+          "access": "public",
+          "value": "square",
+          "options": {
+            "label": "Shape",
+            "values": [
+              {
+                "label": "Square",
+                "value": "square",
+                "icon": "vcv-ui-icon-attribute-shape-square"
+              },
+              {
+                "label": "Rounded",
+                "value": "rounded",
+                "icon": "vcv-ui-icon-attribute-shape-rounded"
+              },
+              {
+                "label": "Round",
+                "value": "round",
+                "icon": "vcv-ui-icon-attribute-shape-round"
+              }
+            ]
+          }
+        },
+        "bars": {
+          "type": "paramsGroup",
+          "access": "public",
+          "value": {
+            "value": [
+              {
+                "title": "Web Design",
+                "value": 80,
+                "backgroundColor": "rgba(242, 242, 242, .5)",
+                "colorType": "gradient",
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
+              },
+              {
+                "title": "Marketing",
+                "value": 50,
+                "backgroundColor": "rgba(242, 242, 242, .5)",
+                "colorType": "gradient",
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
+              },
+              {
+                "title": "Social Media",
+                "value": 60,
+                "backgroundColor": "rgba(242, 242, 242, .5)",
+                "colorType": "gradient",
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
+              }
+            ]
+          },
+          "options": {
+            "label": "General",
+            "title": "Progress bar",
+            "groupDefaultTile": "Progress bar",
+            "settings": {
+              "title": {
+                "type": "string",
+                "access": "public",
+                "value": "Progress bar",
+                "options": {
+                  "label": "Title",
+                  "dynamicField": true
+                }
+              },
+              "value": {
+                "type": "range",
+                "access": "public",
+                "value": "70",
+                "options": {
+                  "label": "Value",
+                  "cssMixin": {
+                    "mixin": "barValue",
+                    "property": "value",
+                    "namePattern": "[\\da-f]+"
+                  }
+                }
+              },
+              "backgroundColor": {
+                "type": "color",
+                "access": "public",
+                "value": "rgba(242, 242, 242, .5)",
+                "options": {
+                  "label": "Background color",
+                  "cssMixin": {
+                    "mixin": "barBackgroundColor",
+                    "property": "backgroundColor",
+                    "namePattern": "[\\da-f]+"
+                  }
+                }
+              },
+              "colorType": {
+                "type": "dropdown",
+                "access": "public",
+                "value": "gradient",
+                "options": {
+                  "label": "Color type",
+                  "values": [
+                    {
+                      "label": "Color",
+                      "value": "color"
+                    },
+                    {
+                      "label": "Gradient",
+                      "value": "gradient"
+                    }
+                  ]
+                }
+              },
+              "color": {
+                "type": "color",
+                "access": "public",
+                "value": "#50e3c2",
+                "options": {
+                  "label": "Bar color",
+                  "cssMixin": {
+                    "mixin": "barColor",
+                    "property": "color",
+                    "namePattern": "[\\da-f]+"
+                  },
+                  "onChange": {
+                    "rules": {
+                      "colorType": {
+                        "rule": "value",
+                        "options": {
+                          "value": "color"
+                        }
+                      }
+                    },
+                    "actions": [
+                      {
+                        "action": "toggleVisibility"
+                      }
+                    ]
+                  }
+                }
+              },
+              "gradientStart": {
+                "type": "color",
+                "access": "public",
+                "value": " #3023AE",
+                "options": {
+                  "label": "Start color",
+                  "cssMixin": {
+                    "mixin": "barColor",
+                    "property": "gradientStart",
+                    "namePattern": "[\\da-f]+"
+                  },
+                  "onChange": {
+                    "rules": {
+                      "colorType": {
+                        "rule": "value",
+                        "options": {
+                          "value": "gradient"
+                        }
+                      }
+                    },
+                    "actions": [
+                      {
+                        "action": "toggleVisibility"
+                      }
+                    ]
+                  }
+                }
+              },
+              "gradientEnd": {
+                "type": "color",
+                "access": "public",
+                "value": " #C86DD7",
+                "options": {
+                  "label": "End color",
+                  "cssMixin": {
+                    "mixin": "barColor",
+                    "property": "gradientEnd",
+                    "namePattern": "[\\da-f]+"
+                  },
+                  "onChange": {
+                    "rules": {
+                      "colorType": {
+                        "rule": "value",
+                        "options": {
+                          "value": "gradient"
+                        }
+                      }
+                    },
+                    "actions": [
+                      {
+                        "action": "toggleVisibility"
+                      }
+                    ]
+                  }
+                }
+              },
+              "_paramGroupEditFormTab1": {
+                "type": "group",
+                "access": "protected",
+                "value": [
+                  "title",
+                  "value",
+                  "backgroundColor",
+                  "colorType",
+                  "color",
+                  "gradientStart",
+                  "gradientEnd"
+                ],
+                "options": {
+                  "label": "General"
+                }
+              },
+              "metaEditFormTabs": {
+                "type": "group",
+                "access": "protected",
+                "value": [
+                  "_paramGroupEditFormTab1"
+                ]
+              }
+            }
+          }
+        },
+        "bars2": {
+          "type": "paramsGroup",
+          "access": "public",
+          "value": {
+            "value": [
+              {
+                "title": "Web Design",
+                "value": 80,
+                "backgroundColor": "rgba(242, 242, 242, .5)",
+                "colorType": "gradient",
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
+              },
+              {
+                "title": "Marketing",
+                "value": 50,
+                "backgroundColor": "rgba(242, 242, 242, .5)",
+                "colorType": "gradient",
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
+              },
+              {
+                "title": "Social Media",
+                "value": 60,
+                "backgroundColor": "rgba(242, 242, 242, .5)",
+                "colorType": "gradient",
+                "color": "#50e3c2",
+                "gradientStart": "#3023ae",
+                "gradientEnd": "#c86dd7"
+              }
+            ]
+          },
+          "options": {
+            "label": "General",
+            "title": "Progress bar",
+            "groupDefaultTile": "Progress bar",
+            "settings": {
+              "title": {
+                "type": "string",
+                "access": "public",
+                "value": "Progress bar",
+                "options": {
+                  "label": "Title",
+                  "dynamicField": true
+                }
+              },
+              "value": {
+                "type": "range",
+                "access": "public",
+                "value": "70",
+                "options": {
+                  "label": "Value",
+                  "cssMixin": {
+                    "mixin": "barValueBar2",
+                    "property": "value",
+                    "namePattern": "[\\da-f]+"
+                  }
+                }
+              },
+              "backgroundColor": {
+                "type": "color",
+                "access": "public",
+                "value": "rgba(242, 242, 242, .5)",
+                "options": {
+                  "label": "Background color",
+                  "cssMixin": {
+                    "mixin": "barBackgroundColorBar2",
+                    "property": "backgroundColor",
+                    "namePattern": "[\\da-f]+"
+                  }
+                }
+              },
+              "colorType": {
+                "type": "dropdown",
+                "access": "public",
+                "value": "gradient",
+                "options": {
+                  "label": "Color type",
+                  "values": [
+                    {
+                      "label": "Color",
+                      "value": "color"
+                    },
+                    {
+                      "label": "Gradient",
+                      "value": "gradient"
+                    }
+                  ]
+                }
+              },
+              "color": {
+                "type": "color",
+                "access": "public",
+                "value": "#50e3c2",
+                "options": {
+                  "label": "Bar color",
+                  "cssMixin": {
+                    "mixin": "barColorBar2",
+                    "property": "color",
+                    "namePattern": "[\\da-f]+"
+                  },
+                  "onChange": {
+                    "rules": {
+                      "colorType": {
+                        "rule": "value",
+                        "options": {
+                          "value": "color"
+                        }
+                      }
+                    },
+                    "actions": [
+                      {
+                        "action": "toggleVisibility"
+                      }
+                    ]
+                  }
+                }
+              },
+              "gradientStart": {
+                "type": "color",
+                "access": "public",
+                "value": " #3023AE",
+                "options": {
+                  "label": "Start color",
+                  "cssMixin": {
+                    "mixin": "barColorBar2",
+                    "property": "gradientStart",
+                    "namePattern": "[\\da-f]+"
+                  },
+                  "onChange": {
+                    "rules": {
+                      "colorType": {
+                        "rule": "value",
+                        "options": {
+                          "value": "gradient"
+                        }
+                      }
+                    },
+                    "actions": [
+                      {
+                        "action": "toggleVisibility"
+                      }
+                    ]
+                  }
+                }
+              },
+              "gradientEnd": {
+                "type": "color",
+                "access": "public",
+                "value": " #C86DD7",
+                "options": {
+                  "label": "End color",
+                  "cssMixin": {
+                    "mixin": "barColorBar2",
+                    "property": "gradientEnd",
+                    "namePattern": "[\\da-f]+"
+                  },
+                  "onChange": {
+                    "rules": {
+                      "colorType": {
+                        "rule": "value",
+                        "options": {
+                          "value": "gradient"
+                        }
+                      }
+                    },
+                    "actions": [
+                      {
+                        "action": "toggleVisibility"
+                      }
+                    ]
+                  }
+                }
+              },
+              "_paramGroupEditFormTab1": {
+                "type": "group",
+                "access": "protected",
+                "value": [
+                  "title",
+                  "value",
+                  "backgroundColor",
+                  "colorType",
+                  "color",
+                  "gradientStart",
+                  "gradientEnd"
+                ],
+                "options": {
+                  "label": "General"
+                }
+              },
+              "metaEditFormTabs": {
+                "type": "group",
+                "access": "protected",
+                "value": [
+                  "_paramGroupEditFormTab1"
+                ]
+              }
+            }
+          }
+        },
+        "titleFont": {
+          "type": "googleFonts",
+          "access": "public",
+          "value": {
+            "fontFamily": "Lato",
+            "fontStyle": {
+              "weight": "400",
+              "style": "regular"
+            },
+            "status": "active",
+            "fontText": "The sky was cloudless and of a deep dark blue."
+          },
+          "options": {
+            "label": "",
+            "cssMixin": {
+              "mixin": "titleFontFamilyBars2",
+              "property": "titleFontFamily",
+              "namePattern": "[a-z]+",
+              "valueKey": "fontFamily"
+            }
+          }
+        },
+        "valueFont": {
+          "type": "googleFonts",
+          "access": "public",
+          "value": {
+            "fontFamily": "Lato",
+            "fontStyle": {
+              "weight": "400",
+              "style": "regular"
+            },
+            "status": "active",
+            "fontText": "The sky was cloudless and of a deep dark blue."
+          },
+          "options": {
+            "label": "",
+            "cssMixin": {
+              "mixin": "valueFontFamilyBars2",
+              "property": "valueFontFamily",
+              "namePattern": "[a-z]+",
+              "valueKey": "fontFamily"
+            }
+          }
+        },
+        "titleElementTag": {
+          "type": "dropdown",
+          "access": "public",
+          "value": "span",
+          "options": {
+            "label": "Element tag",
+            "values": [
+              {
+                "label": "h1",
+                "value": "h1"
+              },
+              {
+                "label": "h2",
+                "value": "h2"
+              },
+              {
+                "label": "h3",
+                "value": "h3"
+              },
+              {
+                "label": "h4",
+                "value": "h4"
+              },
+              {
+                "label": "h5",
+                "value": "h5"
+              },
+              {
+                "label": "h6",
+                "value": "h6"
+              },
+              {
+                "label": "p",
+                "value": "p"
+              },
+              {
+                "label": "span",
+                "value": "span"
+              }
+            ]
+          }
+        },
+        "valueElementTag": {
+          "type": "dropdown",
+          "access": "public",
+          "value": "span",
+          "options": {
+            "label": "Element tag",
+            "values": [
+              {
+                "label": "h1",
+                "value": "h1"
+              },
+              {
+                "label": "h2",
+                "value": "h2"
+              },
+              {
+                "label": "h3",
+                "value": "h3"
+              },
+              {
+                "label": "h4",
+                "value": "h4"
+              },
+              {
+                "label": "h5",
+                "value": "h5"
+              },
+              {
+                "label": "h6",
+                "value": "h6"
+              },
+              {
+                "label": "p",
+                "value": "p"
+              },
+              {
+                "label": "span",
+                "value": "span"
+              }
+            ]
+          }
+        },
+        "titleColor": {
+          "type": "color",
+          "access": "public",
+          "value": "#333",
+          "options": {
+            "label": "Color",
+            "cssMixin": {
+              "mixin": "titleColorBars2",
+              "property": "titleColor",
+              "namePattern": "[\\da-f]+"
+            }
+          }
+        },
+        "valueColor": {
+          "type": "color",
+          "access": "public",
+          "value": "#333",
+          "options": {
+            "label": "Color",
+            "cssMixin": {
+              "mixin": "valueColorBars2",
+              "property": "valueColor",
+              "namePattern": "[\\da-f]+"
+            }
+          }
+        },
+        "titleFontSize": {
+          "type": "string",
+          "access": "public",
+          "value": "16px",
+          "options": {
+            "label": "Font size"
+          }
+        },
+        "valueFontSize": {
+          "type": "string",
+          "access": "public",
+          "value": "16px",
+          "options": {
+            "label": "Font size"
+          }
+        },
+        "titleLineHeight": {
+          "type": "string",
+          "access": "public",
+          "value": "1.3",
+          "options": {
+            "label": "Line height"
+          }
+        },
+        "valueLineHeight": {
+          "type": "string",
+          "access": "public",
+          "value": "1.3",
+          "options": {
+            "label": "Line height"
+          }
+        },
+        "titleLetterSpacing": {
+          "type": "string",
+          "access": "public",
+          "value": "0",
+          "options": {
+            "label": "Letter spacing"
+          }
+        },
+        "valueLetterSpacing": {
+          "type": "string",
+          "access": "public",
+          "value": "0",
+          "options": {
+            "label": "Letter spacing"
+          }
+        },
+        "customClass": {
+          "type": "string",
+          "access": "public",
+          "value": "",
+          "options": {
+            "label": "Extra class name",
+            "description": "Add an extra class name to the element and refer to it from the custom CSS option."
+          }
+        },
+        "metaCustomId": {
+          "type": "customId",
+          "access": "public",
+          "value": "",
+          "options": {
+            "label": "Element ID",
+            "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+          }
+        },
+        "fontsForTitle": {
+          "type": "group",
+          "access": "protected",
+          "value": [
+            "titleFont",
+            "titleElementTag",
+            "titleColor",
+            "titleFontSize",
+            "titleLineHeight",
+            "titleLetterSpacing"
+          ],
+          "options": {
+            "label": "Title Font Face"
+          }
+        },
+        "fontsForValue": {
+          "type": "group",
+          "access": "protected",
+          "value": [
+            "valueFont",
+            "valueElementTag",
+            "valueColor",
+            "valueFontSize",
+            "valueLineHeight",
+            "valueLetterSpacing"
+          ],
+          "options": {
+            "label": "Value Font Face",
+            "onChange": {
+              "rules": {
+                "toggleValue": {
+                  "rule": "toggle"
+                }
+              },
+              "actions": [
+                {
+                  "action": "toggleSectionVisibility"
+                }
+              ]
+            }
+          }
+        },
+        "designOptions": {
+          "type": "designOptions",
+          "access": "public",
+          "value": {},
+          "options": {
+            "label": "Design Options"
+          }
+        },
+        "editFormTab1": {
+          "type": "group",
+          "access": "protected",
+          "value": [
+            "thickness",
+            "toggleValue",
+            "shape",
+            "bars",
+            "metaCustomId",
+            "customClass"
+          ],
+          "options": {
+            "label": "General"
+          }
+        },
+        "metaEditFormTabs": {
+          "type": "group",
+          "access": "protected",
+          "value": [
+            "editFormTab1",
+            "fontsForTitle",
+            "fontsForValue",
+            "designOptions"
+          ]
+        },
+        "sharedAssetsLibrary": {
+          "access": "protected",
+          "type": "string",
+          "value": {
+            "libraries": [
+              {
+                "libsNames": [
+                  "waypoints",
+                  "countUp"
+                ]
+              }
+            ]
+          }
+        },
+        "metaPublicJs": {
+          "access": "protected",
+          "type": "string",
+          "value": {
+            "libraries": [
+              {
+                "libPaths": "public/dist/countUpStarter.min.js"
+              }
+            ]
+          }
+        }
+      }
+      const foundMixins = getInnerCssMixinsBySettings(settings)
+      expect(foundMixins).toEqual({
+          "barValue": [
+            {
+              "propertyName": "value",
+              "attributeName": "value",
+              "namePattern": "[\\da-f]+"
+            }
+          ],
+          "barBackgroundColor": [
+            {
+              "propertyName": "backgroundColor",
+              "attributeName": "backgroundColor",
+              "namePattern": "[\\da-f]+"
+            }
+          ],
+          "barColor": [
+            {
+              "propertyName": "color",
+              "attributeName": "color",
+              "namePattern": "[\\da-f]+"
+            },
+            {
+              "propertyName": "gradientEnd",
+              "attributeName": "gradientEnd",
+              "namePattern": "[\\da-f]+"
+            },
+            {
+              "propertyName": "gradientStart",
+              "attributeName": "gradientStart",
+              "namePattern": "[\\da-f]+"
+            }
+          ],
+          "barValueBar2": [
+            {
+              "propertyName": "value",
+              "attributeName": "value",
+              "namePattern": "[\\da-f]+"
+            }
+          ],
+          "barBackgroundColorBar2": [
+            {
+              "propertyName": "backgroundColor",
+              "attributeName": "backgroundColor",
+              "namePattern": "[\\da-f]+"
+            }
+          ],
+          "barColorBar2": [
+            {
+              "propertyName": "color",
+              "attributeName": "color",
+              "namePattern": "[\\da-f]+"
+            },
+            {
+              "propertyName": "gradientEnd",
+              "attributeName": "gradientEnd",
+              "namePattern": "[\\da-f]+"
+            },
+            {
+              "propertyName": "gradientStart",
+              "attributeName": "gradientStart",
+              "namePattern": "[\\da-f]+"
+            }
+          ]
+        }
+      )
     })
   })
 })
