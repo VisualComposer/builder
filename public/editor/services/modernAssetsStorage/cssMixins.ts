@@ -64,13 +64,6 @@ export function getCssMixinsBySettings (elSettings: { [key: string]: any }): Css
 }
 
 export function getInnerCssMixinsBySettings (elSettings: { [key: string]: any }): CssMixinsBySettingsType {
-  const foundAttributesWithMixins: {
-    [key: string]: {
-      mixin: string
-      property: string
-      namePattern?: string
-    }
-  } = {}
   let foundMixins: CssMixinsBySettingsType = {}
   for (const key in elSettings) {
     if (elSettings[key].type === 'paramsGroup') {
@@ -103,7 +96,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
       attrSelector = matches.length ? matches.join('-') : 'empty'
     }
     if (attrSelector.indexOf('%')) {
-      attrSelector = attrSelector.replace('%', 'percent')
+      attrSelector = attrSelector.replace(/%/g, 'percent')
     }
     return attrSelector
   }
