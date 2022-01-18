@@ -29,6 +29,7 @@ import { downloadAddon } from './components/wpVcSettings/downloadAddon'
         // Need to wait for font manager to build (react)
         window.document.addEventListener('vcv-dashboard-rendered', () => {
           dashboard()
+          hoverTooltip()
         }, false)
       } else if (current !== 'vcv-getting-started') { // Dashboard script is not needed in getting started page (no menu)
         dashboard()
