@@ -11,7 +11,7 @@ export default class FeatureDescription extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { description, image, addButton, button, shape, alignment, size, metaCustomId, customClass } = atts
+    const { description, image, addButton, button, shape, alignment, size, metaCustomId, customClass, backgroundImagePosition } = atts
     const containerProps = {}
     let containerClasses = 'vce-feature-description vce'
 
@@ -59,10 +59,7 @@ export default class FeatureDescription extends vcvAPI.elementComponent {
       containerClasses += ' ' + customClass
     }
 
-    const mixinData = this.getMixinData('backgroundPosition')
-    if (mixinData) {
-      imageClasses += ` vce-feature-description-image--background-position-${mixinData.selector}`
-    }
+    imageClasses += ` vce-feature-description-image--background-position-${backgroundImagePosition.replace(' ', '-')}`
 
     let buttonOutput = ''
     if (addButton) {
