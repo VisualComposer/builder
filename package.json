@@ -19,7 +19,7 @@
     "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest --env=jsdom",
     "watch": "webpack --version && webpack --config webpack.config.babel.js --progress --watch",
     "watch-settings": "echo 'nothing';exit 0",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "babel": {
     "plugins": [
@@ -52,9 +52,10 @@
       "plugin:import/recommended"
     ],
     "rules": {
-      "import/no-webpack-loader-syntax": "off",
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/ban-ts-comment": "off",
+      "import/no-webpack-loader-syntax": "off",
+      "import/no-unresolved": "off",
       "react/prop-types": 0
     },
     "env": {
@@ -63,6 +64,7 @@
       "node": true
     },
     "ignorePatterns": [
+      "**/*.babel.js",
       "**/*.bundle.js",
       "**/*.spec.js",
       "**/*.min.js",
