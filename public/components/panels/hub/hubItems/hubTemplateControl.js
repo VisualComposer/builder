@@ -11,8 +11,6 @@ const hubTemplateStorage = getStorage('hubTemplates')
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
 const localizations = dataManager.get('localizations')
-const editorPopupStorage = getStorage('editorPopup')
-const settingsStorage = getStorage('settings')
 
 export default class HubTemplateControl extends ElementControl {
   constructor (props) {
@@ -29,11 +27,6 @@ export default class HubTemplateControl extends ElementControl {
   }
 
   downloadTemplate () {
-    if (settingsStorage.state('agreeHubTerms').get() === false) {
-      editorPopupStorage.state('fullScreenPopupData').set({ onPrimaryButtonClick: this.downloadTemplate })
-      editorPopupStorage.state('activeFullPopup').set('terms-box')
-      return
-    }
     const { element, onDownloadItem } = this.props
     const errorMessage = localizations.templateDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this template.'
 

@@ -8,8 +8,6 @@ const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const hubElementsState = hubElementsStorage.state('elements')
-const editorPopupStorage = getStorage('editorPopup')
-const settingsStorage = getStorage('settings')
 const roleManager = getService('roleManager')
 
 export default class HubElementControl extends ElementControl {
@@ -25,11 +23,6 @@ export default class HubElementControl extends ElementControl {
   }
 
   downloadElement () {
-    if (settingsStorage.state('agreeHubTerms').get() === false) {
-      editorPopupStorage.state('fullScreenPopupData').set({ onPrimaryButtonClick: this.downloadElement })
-      editorPopupStorage.state('activeFullPopup').set('terms-box')
-      return
-    }
     const { element, onDownloadItem } = this.props
     const errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
 
