@@ -28,14 +28,11 @@ export default class Element extends React.Component {
   constructor (props) {
     super(props)
     this.dataUpdate = this.dataUpdate.bind(this)
-    this.cssJobsUpdate = this.cssJobsUpdate.bind(this)
     this.elementComponentTransformation = this.elementComponentTransformation.bind(this)
     this.getEditorProps = this.getEditorProps.bind(this)
     this.elementComponentRef = React.createRef()
     this.state = {
       element: props.element,
-      cssBuildingProcess: true,
-      isRendered: false,
       currentContent: null
     }
   }
@@ -48,7 +45,6 @@ export default class Element extends React.Component {
       elementsStorage.trigger('addHtmlString', this.state.element.id, htmlString)
     }
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
-    elementsStorage.on(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
     if (this.elementComponentRef && this.elementComponentRef.current) {
       const cookElement = cook.get(this.state.element)
@@ -63,7 +59,6 @@ export default class Element extends React.Component {
     this.props.api.notify('element:unmount', this.state.element.id)
     elementsStorage.trigger('removeHtmlString', this.state.element.id)
     elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
-    elementsStorage.off(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
     // Clean everything before/after
     if (!this.elementComponentRef || !this.elementComponentRef.current) {
@@ -99,15 +94,6 @@ export default class Element extends React.Component {
     }
     if (disableUpdateComponent !== true) {
       this.setState({ element: data || this.props.element })
-    }
-  }
-
-  cssJobsUpdate () {
-    if (this.state.cssBuildingProcess !== false) {
-      this.setState({ cssBuildingProcess: false })
-    }
-    if (!this.state.cssBuildingProcess && !this.state.isRendered) {
-      this.setState({ isRendered: true })
     }
   }
 
@@ -172,9 +158,6 @@ export default class Element extends React.Component {
   }
 
   render () {
-    if (this.state.cssBuildingProcess && !this.state.isRendered) {
-      return null
-    }
     const { api, ...other } = this.props
     const element = this.state.element
     const cookElement = cook.get(element)
