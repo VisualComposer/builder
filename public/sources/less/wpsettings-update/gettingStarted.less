@@ -3,6 +3,10 @@
 .vcv-activation-survey {
   font-family: Montserrat;
 
+  .vcv-ui-modal-overlay{
+    padding-left: 160px;
+  }
+
   .vcv-ui-modal {
     padding: 20px;
     background-color: #f6f6f6;
@@ -121,11 +125,17 @@
   }
 }
 
+@media only screen and (max-width: 960px) {
+  .vcv-activation-survey {
+    .vcv-ui-modal-overlay {
+      padding-left: 36px;
+    }
+  }
+}
+
 @media only screen and (max-width: 782px) {
   .vcv-activation-survey {
-
     .vcv-ui-modal-overlay {
-      position: fixed;
       padding-left: 0;
     }
   }
