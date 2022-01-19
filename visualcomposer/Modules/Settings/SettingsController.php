@@ -41,6 +41,14 @@ class SettingsController extends Container implements Module
         );
         /** @see \VisualComposer\Modules\Settings\SettingsController::beforeRenderRedirect */
         $this->wpAddAction('admin_init', 'beforeRenderRedirect', 100);
+
+        /** @see \VisualComposer\Modules\Settings\SettingsController::addActionLinks */
+        $this->wpAddFilter(
+            'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
+            'addActionLinks',
+            10,
+            1
+        );
     }
 
     /**
@@ -143,5 +151,27 @@ class SettingsController extends Container implements Module
                 }
             }
         }
+    }
+
+    /**
+     * Add plugin action links.
+     * You can find them in wp dashboard > plugins section.
+     *
+     * @param array $links
+     *
+     * @return array
+     */
+    protected function addActionLinks($links)
+    {
+        return array_merge(
+            array(
+                sprintf(
+                    '<a href="%s">%s</a>',
+                    admin_url('admin.php?page=vcv-settings'),
+                    esc_html__('Settings', 'visualcomposer')
+                ),
+            ),
+            $links
+        );
     }
 }
