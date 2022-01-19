@@ -6,7 +6,6 @@ import store from 'public/editor/stores/store'
 // @ts-ignore
 import { getService } from 'vc-cake'
 import classNames from 'classnames'
-import ReactDOM from 'react-dom'
 
 interface Props {
   data: {
@@ -16,6 +15,7 @@ interface Props {
     showCloseButton: boolean;
     html: boolean;
     time: number;
+    usePortal: boolean
   };
 }
 
@@ -26,20 +26,12 @@ const NotificationItem: React.FC<Props> = (props) => {
   let textHtml
 
   useEffect(() => {
-    return () => {
-      store.dispatch(notificationRemoved(props.data.id))
+    if (hidden) {
+      setTimeout(() => {
+        store.dispatch(notificationRemoved(props.data.id))
+      }, 600);
     }
-  }, [])
-
-  const handleRemoveNotification = (): void => {
-    store.dispatch(notificationRemoved(props.data.id))
-  }
-
-  const handleClickHideNotification = (e: React.BaseSyntheticEvent): void => {
-    setHidden(true)
-    const element = ReactDOM.findDOMNode(e.target)
-    element?.addEventListener('transitionend', handleRemoveNotification)
-  }
+  }, [hidden, props])
 
   if (!props.data.text) return null
 
@@ -59,22 +51,19 @@ const NotificationItem: React.FC<Props> = (props) => {
     'vcv-layout-notifications-type--disabled': hidden
   })
 
-  return (
-    <div
-      className={classes}
-      onClick={!props.data.showCloseButton ? handleClickHideNotification : () => {
-      }}
-    >
-      {textHtml}
-      {props.data.showCloseButton &&
+  return (!props.data.showCloseButton ?
+      <div className={classes} onClick={() => setHidden(true)}>
+        {textHtml}
+      </div> : <div className={classes}>
+        {textHtml}
         <div
           className='vcv-layout-notifications-close'
           title={localizations ? localizations.close : 'Close'}
-          onClick={handleClickHideNotification}
+          onClick={() => setHidden(true)}
         >
           <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
-        </div>}
-    </div>
+        </div>
+      </div>
   )
 }
 
