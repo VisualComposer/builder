@@ -246,7 +246,7 @@
   overflow: hidden;
 
   h1, h2, h3, h4, h5, h6, button, input[type="submit"] {
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: @vcv-dashboard-title-font-family;
   }
 
   h1,
@@ -258,20 +258,15 @@
     color: @vcv-dashboard-headers-color;
   }
 
-  .vcv-layout-settings-accordion .form-table th,
-  .vcv-headers-footers-section .form-table th {
-    color: @vcv-dashboard-text-color;
-  }
-
   h1 {
     margin: 0 0 30px;
     padding: 0;
-    font-size: 32px;
+    font-size: @vcv-dashboard-h1-font-size;
     font-weight: 600;
   }
 
   h2 {
-    font-size: 18px;
+    font-size: @vcv-dashboard-h2-font-size;
   }
 
   a {
@@ -345,7 +340,7 @@
     background: transparent;
     margin: 0;
     padding: 18px 58px;
-    font-size: 12px;
+    font-size: @vcv-dashboard-button-font-size;
     font-weight: 700;
     height: auto;
     line-height: 15px;
@@ -682,6 +677,22 @@
     max-width: 300px;
   }
 
+
+  .vcv-settings .vcv-settings-tab-content input[type="color"] {
+    padding: 10px 13px;
+    height: 45px;
+    width: 50px;
+    border: 1px #dedede solid;
+    border-radius: 5px;
+    -webkit-transition: border-color .2s;
+    transition: border-color .2s;
+  }
+
+  .vcv-settings .vcv-settings-tab-content input[type="color"]:hover,
+  .vcv-settings .vcv-settings-tab-content input[type="color"]:focus {
+    border-color: #b2b2b2;
+  }
+
   #vcv-headerFooterSettings {
     max-width: 362px;
   }
@@ -713,5 +724,23 @@
   th {
     padding: 10px 0;
     flex: 0 0 auto;
+  }
+}
+
+.vcv-dashboard-standard {
+  padding: 16px;
+  background-color: #fff;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+
+  .vcv-settings-section {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid @vcv-status-table-border-color;
+  }
+
+  .vcv-settings-section:last-of-type {
+    border: none;
   }
 }
