@@ -28,7 +28,7 @@ export default class OutlineButtonElement extends vcvAPI.elementComponent {
       hoverColorOutline,
       borderColor,
       hoverBorder,
-      hoverBackground,
+      hoverBackground
     } = atts
 
     const wrapperClasses = ['vce-button--style-outline-wrapper', 'vce']
