@@ -4,9 +4,32 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class OutlineButtonElement extends vcvAPI.elementComponent {
+  getColorSelector (colors) {
+    const selector = colors.map(color => {
+      return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+    })
+    return selector.join('--')
+  }
+
   render () {
     const { id, atts, editor } = this.props
-    const { buttonUrl, buttonText, shape, alignment, customClass, buttonType, metaCustomId, size, toggleStretchButton } = atts
+    const {
+      buttonUrl,
+      buttonText,
+      shape,
+      alignment,
+      customClass,
+      buttonType,
+      metaCustomId,
+      size,
+      toggleStretchButton,
+      color,
+      hoverColorAnimated,
+      hoverColorOutline,
+      borderColor,
+      hoverBorder,
+      hoverBackground,
+    } = atts
 
     const wrapperClasses = ['vce-button--style-outline-wrapper', 'vce']
     const containerClasses = ['vce-button--style-outline-container']
@@ -50,29 +73,16 @@ export default class OutlineButtonElement extends vcvAPI.elementComponent {
       wrapperClasses.push('vce-button--style-outline-wrapper--stretched')
     }
 
-    let mixinData = this.getMixinData('color')
+    classes.push(`${buttonCustomClass}--color-${this.getColorSelector([color, hoverColorAnimated, hoverColorOutline])}`)
+    classes.push(`${buttonCustomClass}--border-color-${this.getColorSelector([borderColor, hoverBorder])}`)
+    classes.push(`${buttonCustomClass}--background-color-${this.getColorSelector([hoverBackground])}`)
 
-    if (mixinData) {
-      classes.push(`${buttonCustomClass}--color-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('borderColor')
-
-    if (mixinData) {
-      classes.push(`${buttonCustomClass}--border-color-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('backgroundColor')
-
-    if (mixinData) {
-      classes.push(`${buttonCustomClass}--background-color-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('designOptions')
-
-    if (mixinData) {
-      classes.push(`${buttonCustomClass}--background-color-${mixinData.selector}`)
-    }
+    // TODO: can't find the use case, possibly can remove
+    // mixinData = this.getMixinData('designOptions')
+    //
+    // if (mixinData) {
+    //   classes.push(`${buttonCustomClass}--background-color-${mixinData.selector}`)
+    // }
 
     if (metaCustomId) {
       customProps.id = metaCustomId

@@ -7,7 +7,7 @@ const cook = getService('cook')
 export default class FeatureSection extends vcvAPI.elementComponent {
   render () {
     const { id, atts, editor } = this.props
-    const { description, image, imageAlignment, reverseStacking, addButton, customClass, button, metaCustomId } = atts
+    const { description, image, imageAlignment, reverseStacking, addButton, customClass, button, metaCustomId, backgroundImagePosition, backgroundColor } = atts
     const classNames = require('classnames')
     const containerProps = {}
 
@@ -40,16 +40,10 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       imageClasses.push(`vce-feature-section-image--alignment-${imageAlignment}`)
     }
 
-    let mixinData = this.getMixinData('backgroundColor')
+    const backgroundColorSelector = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+    wrapperClasses += ` vce-feature-section-background-color--${backgroundColorSelector}`
 
-    if (mixinData) {
-      wrapperClasses += ` vce-feature-section-background-color--${mixinData.selector}`
-    }
-
-    mixinData = this.getMixinData('backgroundPosition')
-    if (mixinData) {
-      imageClasses.push(`vce-feature-section-image--background-position-${mixinData.selector}`)
-    }
+    imageClasses.push(`vce-feature-section-image--background-position-${backgroundImagePosition.replace(' ', '-')}`)
 
     let buttonOutput = ''
     if (addButton) {

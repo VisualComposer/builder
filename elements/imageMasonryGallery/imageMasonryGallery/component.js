@@ -99,7 +99,7 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { image, shape, customClass, metaCustomId, clickableOptions, showCaption } = atts
+    const { image, shape, customClass, metaCustomId, clickableOptions, showCaption, gap, columns } = atts
     const containerClasses = ['vce-image-masonry-gallery']
     const wrapperClasses = ['vce-image-masonry-gallery-wrapper vce']
     const containerProps = {}
@@ -178,15 +178,8 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
       containerClasses.push(customClass)
     }
 
-    let mixinData = this.getMixinData('imageGalleryGap')
-    if (mixinData) {
-      wrapperClasses.push(`vce-image-masonry-gallery--gap-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('imageGalleryColumns')
-    if (mixinData) {
-      wrapperClasses.push(`vce-image-masonry-gallery--columns-${mixinData.selector}`)
-    }
+    wrapperClasses.push(`vce-image-masonry-gallery--gap-${gap}`)
+    wrapperClasses.push(`vce-image-masonry-gallery--columns-${columns}`)
 
     if (shape === 'rounded') {
       containerClasses.push('vce-image-masonry-gallery--border-rounded')
