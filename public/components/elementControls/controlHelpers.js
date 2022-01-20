@@ -51,6 +51,7 @@ export const ControlHelpers = {
     const copyOptions = copyData && copyData.options
     const isEditorSpecific =
       copyData &&
+      copyOptions &&
       copyOptions.editorTypeRelation &&
       copyOptions.editorTypeRelation === 'vcv_layouts' &&
       (editorType !== 'vcv_layouts' ||
