@@ -116,7 +116,7 @@ export default class ImageGallery extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { image, shape, clickableOptions, showCaption, customClass, metaCustomId, showCaptionGeneral, captionAlignment } = atts
+    const { image, shape, clickableOptions, showCaption, customClass, metaCustomId, showCaptionGeneral, captionAlignment, gap, columns } = atts
     let containerClasses = 'vce-image-gallery'
     const wrapperClasses = 'vce-image-gallery-wrapper vce'
     const containerProps = {}
@@ -127,15 +127,8 @@ export default class ImageGallery extends vcvAPI.elementComponent {
       containerClasses += ' ' + customClass
     }
 
-    let mixinData = this.getMixinData('imageGalleryGap')
-    if (mixinData) {
-      containerClasses += ` vce-image-gallery--gap-${mixinData.selector}`
-    }
-
-    mixinData = this.getMixinData('imageGalleryColumns')
-    if (mixinData) {
-      containerClasses += ` vce-image-gallery--columns-${mixinData.selector}`
-    }
+    containerClasses += ` vce-image-gallery--gap-${gap}`
+    containerClasses += ` vce-image-gallery--columns-${columns}`
 
     if (shape === 'rounded') {
       containerClasses += ' vce-image-gallery--border-rounded'

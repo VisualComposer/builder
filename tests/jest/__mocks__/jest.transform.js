@@ -7,4 +7,4 @@ const config = {
   ]
 }
 
-module.exports = require('babel-jest').createTransformer(config)
+module.exports = require('babel-jest').default.createTransformer(config)

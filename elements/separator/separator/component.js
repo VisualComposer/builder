@@ -4,9 +4,13 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class BasicSeparator extends vcvAPI.elementComponent {
+  getColorSelector (color) {
+    return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+  }
+
   render () {
     const { id, atts, editor } = this.props
-    const { alignment, customClass, metaCustomId, style } = atts
+    const { alignment, customClass, metaCustomId, style, color, width, thickness } = atts
     const classNames = require('classnames')
     const customProps = {}
     let separator
@@ -26,23 +30,9 @@ export default class BasicSeparator extends vcvAPI.elementComponent {
       containerClasses.push(`vce-separator--style-${style}`)
     }
 
-    let mixinData = this.getMixinData('basicColor')
-
-    if (mixinData) {
-      classes.push(`vce-separator--color-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('separatorWidth')
-
-    if (mixinData) {
-      classes.push(`vce-separator--width-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('separatorThickness')
-
-    if (mixinData) {
-      classes.push(`vce-separator--thickness-${mixinData.selector}`)
-    }
+    classes.push(`vce-separator--color-${this.getColorSelector(color)}`)
+    classes.push(`vce-separator--width-${width}`)
+    classes.push(`vce-separator--thickness-${thickness}`)
 
     if (metaCustomId) {
       customProps.id = metaCustomId

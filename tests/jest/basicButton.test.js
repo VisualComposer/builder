@@ -26,6 +26,8 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 // import './__mocks__/api'
 
+// Register element first
+import '../../elements/basicButton/basicButton/index'
 import ButtonElement from '../../elements/basicButton/basicButton/component'
 
 
@@ -34,10 +36,10 @@ describe('Tests Basic Button element render', () => {
     const text = 'Hello jest from react'
 
     vcCake.env('platform', 'jest').start(()=>{})
+    const atts = vcCake.getService('cook').get({tag:'basicButton', id: '123456789', buttonText: text}).toJS()
     const tree = renderer
-      .create(<ButtonElement atts={{ buttonText: text }} id='123456789' />)
+      .create(<ButtonElement atts={atts} id='123456789' />)
       .toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
-
