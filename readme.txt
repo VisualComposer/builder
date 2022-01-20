@@ -228,8 +228,8 @@ Yes, we have an awesome online community that you can join to share your experti
 = 42.1 =
 *Release Date - 2022-01-20*
 
-### Premium:
-- Fix: Editor works properly after template import
+### Free:
+- Fix: Editor works properly
 
 = 42.0 =
 *Release Date - 2022-01-20*
