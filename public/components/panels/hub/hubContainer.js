@@ -10,6 +10,7 @@ import getHubControls from './categoriesSettings.js'
 import GiphyContainer from '../../stockMedia/giphyContainer'
 import UnsplashContainer from '../../stockMedia/unsplashContainer'
 import Notifications from '../../notifications/notifications'
+import TermsBox from '../../termsBox/component'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const cook = vcCake.getService('cook')
@@ -23,6 +24,7 @@ const dataManager = vcCake.getService('dataManager')
 const editorPopupStorage = vcCake.getStorage('editorPopup')
 const hubElementsService = vcCake.getService('hubElements')
 const workspaceContentState = workspaceStorage.state('content')
+const settingsStorage = vcCake.getStorage('settings')
 
 export default class HubContainer extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -36,7 +38,8 @@ export default class HubContainer extends React.Component {
     this.state = {
       filterType: firstKey,
       activeCategoryIndex: this.categories[firstKey].index,
-      isVisible: props.visible || workspaceContentState.get() === 'addHubElement'
+      isVisible: props.visible || workspaceContentState.get() === 'addHubElement',
+      isHubTermsAccepted: !(settingsStorage.state('agreeHubTerms').get() === false)
     }
 
     const workspaceState = workspaceStorage.state('settings').get()
@@ -562,7 +565,9 @@ export default class HubContainer extends React.Component {
     const teaserUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
 
     let panelContent = ''
-    if (filterType === 'unsplash') {
+    if (!this.state.isHubTermsAccepted) {
+      panelContent = <TermsBox onPrimaryButtonClick={() => { this.setState({ isHubTermsAccepted: true }) }} />
+    } else if (filterType === 'unsplash') {
       panelContent = (
         <UnsplashContainer
           scrolledToBottom={this.state.scrolledToBottom}
