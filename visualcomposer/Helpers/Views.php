@@ -77,11 +77,11 @@ class Views extends container implements Helper
 
         if (isset($section['type']) && $section['type'] === 'accordion') {
             // create accordion wrapper for child content
-            echo '<div class="vcv-settings-form--item">';
-            echo '<div class="vcv-settings-form--item--heading">
-                <span class="vcv-settings-form-item--heading-text">' . esc_html($section['title']) . '</span>
+            echo '<div class="vcv-dashboard-accordion-item">';
+            echo '<div class="vcv-dashboard-accordion-item-heading">
+                <span class="vcv-dashboard-accordion-item-heading-text">' . esc_html($section['title']) . '</span>
                 </div>';
-            echo '<div class="vcv-settings-form--item--content">';
+            echo '<div class="vcv-dashboard-accordion-item-content">';
             echo isset($section['description']) ? ('<p class="description">' . esc_html($section['description']) . '</p>') : '';
         }
         echo sprintf(
@@ -91,7 +91,7 @@ class Views extends container implements Helper
             esc_attr($section['slug']),
             $class
         );
-        echo '<div class="vcv-settings-form-item--title">';
+        echo '<div class="vcv-dashboard-accordion-item-title">';
         if ($section['title'] && !$hideTitle) {
             echo "<h2>{$section['title']}</h2>\n";
         }
