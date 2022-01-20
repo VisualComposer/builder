@@ -3,7 +3,7 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,ko
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.8.2
+Tested up to: 5.8.3
 Stable tag: 42.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -83,9 +83,9 @@ This means that web creators now have all the creative freedom and the topmost c
 
 = Ecommerce Website Builder =
 
-Customize your Woocommerce website and provide a unique user experience to people when visiting your online store. Highlight your top product and services by creating specific ecommerce landing page with Visual Composer. 
+Customize your Woocommerce website and provide a unique user experience to people when visiting your online store. Highlight your top product and services by creating specific ecommerce landing page with Visual Composer.
 
-= Landingpages Builder = 
+= Landingpages Builder =
 
 Whatever is your buisness you can attract more users and customers just creating top performers seo landing page that suits any needs: from ecommerce and lead generation landing page, to event landing page and many many more.
 
@@ -226,12 +226,12 @@ Yes, we have an awesome online community that you can join to share your experti
 == Changelog ==
 
 = 42.0 =
-*Release Date - 2022-01-19*
+*Release Date - 2022-01-20*
 
 ### Free:
 - New: Ability to close editor windows with 'Esc' button added
-- New: Authors and Contributors don not have access to Visual Composer by default for security reasons
-- Update: Help Center links in the editor updated with the pathes to the new Help Center
+- New: Authors and Contributors do not have access to Visual Composer by default for security reasons
+- Update: Help Center links in the editor updated with the paths to the new Help Center
 - Update: Drag and Drop improved for better user experience
 - Update: Editor windows have transitions for better user experience
 - Update: Getting Started screen updated for better user experience
