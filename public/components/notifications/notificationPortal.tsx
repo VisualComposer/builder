@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 
 interface Props {
-  portalContainer: Element | null
+  portalContainer: HTMLElement | null
 }
 
 const NotificationPortal: React.FC<Props> = (props) => {
