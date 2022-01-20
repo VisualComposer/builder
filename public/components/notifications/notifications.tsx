@@ -4,18 +4,17 @@ import { connect } from 'react-redux'
 import React from 'react'
 
 interface Props {
-  portal: string | null
+  portal: string | undefined | null
 }
 
 const Notifications: React.FC<Props> = (props) => {
 
-
-  const getVisibleContainer = (selector: string): HTMLElement | null => {
+  const getVisibleContainer = (selector: string): Element | null => {
     const portals = [].slice.call(document.querySelectorAll(selector))
 
     if (portals.length) {
       const visibleItems = portals.filter((item: {
-        offsetParent: null | never
+        offsetParent: string
       }) => {
         return item.offsetParent !== null
       })
@@ -25,7 +24,7 @@ const Notifications: React.FC<Props> = (props) => {
   }
 
   const { portal } = props
-  const portalContainer = portal ? getVisibleContainer(portal) : portal
+  const portalContainer = portal ? getVisibleContainer(portal) : null
 
   return (
     <>
@@ -37,7 +36,7 @@ const Notifications: React.FC<Props> = (props) => {
   )
 }
 
-const mapStateToProps = (state: { notifications: { portal: HTMLElement | null } }) => ({
+const mapStateToProps = (state: { notifications: Props }) => ({
   portal: state.notifications.portal
 })
 
