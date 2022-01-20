@@ -4,6 +4,10 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
+  getColorSelector (color) {
+    return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+  }
+
   validateSize (value) {
     const units = ['px', 'em', 'rem', '%', 'vw', 'vh']
     const re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
@@ -16,7 +20,7 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    let { text, elementTag, font, fontSize, alignment, lineHeight, letterSpacing, link, colorType, customClass, metaCustomId } = atts
+    let { text, elementTag, font, fontSize, alignment, lineHeight, letterSpacing, link, colorType, customClass, metaCustomId, color, gradientStart, gradientEnd, gradientAngle } = atts
     let classes = 'vce-google-fonts-heading'
     const wrapperClasses = 'vce-google-fonts-heading-wrapper'
     const customProps = {}
@@ -77,25 +81,13 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
       classes += ` vce-google-fonts-heading--align-${alignment}`
     }
 
-    let mixinData = this.getMixinData('textColor')
+    const colorSelector = color ? this.getColorSelector(color) : 'empty'
+    const gradientStartSelector = this.getColorSelector(gradientStart)
+    const gradientEndSelector = this.getColorSelector(gradientEnd)
+    const fontColorSelector = `${colorSelector}--${gradientAngle}--${gradientEndSelector}--${gradientStartSelector}`
 
-    if (mixinData) {
-      switch (colorType) {
-        case 'gradient':
-          classes += ` vce-google-fonts-heading--gradient-${mixinData.selector}`
-          break
-        case 'color':
-          classes += ` vce-google-fonts-heading--color-${mixinData.selector}`
-          break
-        default:
-          console.warn('There was an issue assigning color type.')
-      }
-    }
-
-    mixinData = this.getMixinData('fontFamily')
-    if (mixinData) {
-      classes += ` vce-google-fonts-heading--font-family-${mixinData.selector}`
-    }
+    classes += ` vce-google-fonts-heading--${colorType}-${fontColorSelector}`
+    classes += ` vce-google-fonts-heading--font-family-${font.fontFamily.replace(' ', '-')}`
 
     if (font && font.status === 'active') {
       const fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? 'normal' : font.fontStyle.style) : 'normal'

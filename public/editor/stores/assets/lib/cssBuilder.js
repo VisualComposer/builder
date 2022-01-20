@@ -5,6 +5,7 @@ const dataManager = getService('dataManager')
 const assetsStorage = getStorage('assets')
 const elementsStorage = getStorage('elements')
 const cacheStorage = getStorage('cache')
+let cache = {}
 export default class CssBuilder {
   constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
     Object.defineProperties(this, {
@@ -115,8 +116,7 @@ export default class CssBuilder {
 
     this.doJobs(data).then((result) => {
       this.addElementJobsToStorage(data, false)
-      const jobsElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
-      elementsStorage.trigger(`element:${data.id}:assets`, { elements: jobsElements })
+      elementsStorage.trigger(`element:${data.id}:assets`)
       window.setTimeout(() => {
         this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
       }, 1)
@@ -138,6 +138,7 @@ export default class CssBuilder {
 
     this.updateStyleDomNodes(data)
     if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD')) {
+      // initial load
       this.addElementEditorFiles(data)
     } else {
       this.addCssElementBaseByElement(data)
@@ -148,8 +149,7 @@ export default class CssBuilder {
     }
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
-      const jobsElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
-      elementsStorage.trigger(`element:${data.id}:assets`, { elements: jobsElements })
+      elementsStorage.trigger(`element:${data.id}:assets`)
       this.window.vcv.trigger('ready', 'update', data.id, options, data.tag)
     })
   }
@@ -227,8 +227,7 @@ export default class CssBuilder {
       // If found element than get actual tags form element
       if (settings[key].type === 'element') {
         // we can get globalAttributesCssMixins for inner element
-        const innerData = elementObject.get(key)
-        const checksum = this.checksum(JSON.stringify(innerData))
+        const checksum = key
         if (!this.window.document.getElementById(`vcv-css-styles-${id}-${checksum}`)) {
           const innerCssStyleElement = this.window.document.createElement('style')
           innerCssStyleElement.id = `vcv-css-styles-${id}-${checksum}`
@@ -287,7 +286,6 @@ export default class CssBuilder {
   }
 
   getCachedCSS (id, type) {
-    const cache = cacheStorage.state('elementsCssCache').get() || {}
     return cache[id] && cache[id][type] ? cache[id][type] : false
   }
 
@@ -305,21 +303,6 @@ export default class CssBuilder {
         }
       }
     })
-  }
-
-  /**
-   * Used in inner elements without ID for css styles
-   * @param s
-   * @return {string}
-   */
-  checksum (s) {
-    let chk = 0x12345678
-    const len = s.length
-    for (let i = 0; i < len; i++) {
-      chk += (s.charCodeAt(i) * (i + 1))
-    }
-
-    return (chk & 0xffffffff).toString(16)
   }
 
   addElementLocalAttributesCssMixins (data, cache = false) {
@@ -348,7 +331,7 @@ export default class CssBuilder {
       if (settings[key].type === 'element') {
         // we can get localCss for inner element
         const innerData = elementObject.get(key)
-        const checksum = this.checksum(JSON.stringify(innerData))
+        const checksum = key
         const innerElementLocalAttributesCssMixins = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(innerData)
         const innerStyles = this.stylesManager.create()
         innerStyles.add(innerElementLocalAttributesCssMixins)
@@ -419,7 +402,7 @@ export default class CssBuilder {
       if (settings[key].type === 'element') {
         // we can get globalAttributesCssMixins for inner element
         const innerData = elementObject.get(key)
-        const checksum = this.checksum(JSON.stringify(innerData))
+        const checksum = key
         const innerElementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(innerData)
         const innerStyles = this.stylesManager.create()
         innerStyles.add(innerElementGlobalAttributesCssMixins)
@@ -440,6 +423,7 @@ export default class CssBuilder {
   }
 
   buildStylesContainers () {
+    cache = cacheStorage.state('elementsCssCache').get() || {}
     const ids = ['vcv-settings-css-styles', 'vcv-element-css-styles--base', 'vcv-element-css-styles--editor', 'vcv-element-css-styles--mixins']
     ids.forEach(id => {
       const container = this.window.document.getElementById(id)
@@ -486,8 +470,8 @@ export default class CssBuilder {
       }
       // Remove previously loaded page design options as they are rebuild from scratch.
       const removeAssetsFile = () => {
-        const source = dataManager.get('sourceID')
-        const pageDesignStyles = env('iframe').document.getElementById(`vcv:assets:pageDesignOptions:${source}-inline-css`)
+        const sourceId = dataManager.get('sourceID')
+        const pageDesignStyles = env('iframe').document.getElementById(`vcv:assets:pageDesignOptions:${sourceId}-inline-css`)
         if (pageDesignStyles) {
           pageDesignStyles.parentNode.removeChild(pageDesignStyles)
         }

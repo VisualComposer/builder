@@ -2,6 +2,9 @@ import { getService, addService, env } from 'vc-cake'
 import { deflate } from 'pako/lib/deflate'
 import base64 from 'base-64'
 
+// compute once, optimization for recalculate styles
+const isRTL = window.getComputedStyle(document.body).direction === 'rtl'
+
 const API = {
   ajaxRequests: [],
   ajaxCall: false,
@@ -287,7 +290,7 @@ const API = {
     }
   },
   isRTL () {
-    return window.getComputedStyle(document.body).direction === 'rtl'
+    return isRTL
   },
   startDownload (tag, data, successCallback, errorCallback) {
     this.ajaxRequests.push({ tag: tag, data: data, successCallback: successCallback, errorCallback: errorCallback })

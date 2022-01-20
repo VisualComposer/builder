@@ -19,6 +19,7 @@ import Helpers from 'public/components/helpers/helpers'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
+const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceSettings = workspaceStorage.state('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const elementsStorage = vcCake.getStorage('elements')
@@ -26,6 +27,10 @@ const assetsStorage = vcCake.getStorage('assets')
 const dataManager = vcCake.getService('dataManager')
 
 vcCake.add('contentLayout', (api) => {
+  // disable this module on post update action
+  if (typeof window.vcvRebuildPostSave !== 'undefined') {
+    return
+  }
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
   const dnd = new DndManager(api)
   const controls = new ControlsManager(api)
@@ -244,6 +249,12 @@ vcCake.add('contentLayout', (api) => {
       removeLoadingScreen()
     }
   }
-
-  renderLayout()
+  api.on('editor:mount', function () {
+    removeLoadingScreen()
+  })
+  wordpressDataStorage.state('status').onChange((result) => {
+    if (result && result.status && result.status === 'loadSuccess') {
+      renderLayout()
+    }
+  })
 })
