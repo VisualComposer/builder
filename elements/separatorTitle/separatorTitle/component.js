@@ -5,9 +5,23 @@ import classNames from 'classnames'
 const vcvAPI = vcCake.getService('api')
 
 export default class SeparatorTitle extends vcvAPI.elementComponent {
+  getColorSelector (color) {
+    return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+  }
+
   render () {
     const { id, atts, editor } = this.props
-    const { separatorAlignment, separatorStyle, title, customClass, metaCustomId } = atts
+    const {
+      separatorColor,
+      separatorAlignment,
+      separatorStyle,
+      separatorThickness,
+      separatorWidth,
+      title,
+      titleColor,
+      customClass,
+      metaCustomId
+    } = atts
     const customProps = {}
     let separatorContainerClasses = ['vce', 'vce-separator-with-title-container']
     let separatorClasses = ['vce-separator-with-title']
@@ -28,29 +42,12 @@ export default class SeparatorTitle extends vcvAPI.elementComponent {
       lineClasses.push(`vce-separator-with-title--line--style-${separatorStyle}`)
     }
 
-    let mixinData = this.getMixinData('separatorColor')
+    separatorClasses.push(`vce-separator-with-title--color-${this.getColorSelector(separatorColor)}`)
+    separatorClasses.push(`vce-separator-with-title--width-${separatorWidth}`)
 
-    if (mixinData) {
-      separatorClasses.push(`vce-separator-with-title--color-${mixinData.selector}`)
-    }
+    lineClasses.push(`vce-separator-with-title-line--thickness-${separatorThickness}`)
 
-    mixinData = this.getMixinData('separatorWidth')
-
-    if (mixinData) {
-      separatorClasses.push(`vce-separator-with-title--width-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('separatorThickness')
-
-    if (mixinData) {
-      lineClasses.push(`vce-separator-with-title-line--thickness-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('titleColor')
-
-    if (mixinData) {
-      titleClasses.push(`vce-separator-with-title--title--color-${mixinData.selector}`)
-    }
+    titleClasses.push(`vce-separator-with-title--title--color-${this.getColorSelector(titleColor)}`)
 
     if (metaCustomId) {
       customProps.id = metaCustomId

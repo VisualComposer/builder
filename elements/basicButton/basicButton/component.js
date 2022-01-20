@@ -4,9 +4,15 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class ButtonElement extends vcvAPI.elementComponent {
+  getColorSelector (textColor, backgroundColor) {
+    const txtColor = [...textColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+    const bgColor = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+    return `${bgColor}--${txtColor}`
+  }
+
   render () {
     const { id, atts, editor } = this.props
-    const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton } = atts
+    const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton, color, background, hoverColor, hoverBackground } = atts
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
@@ -45,18 +51,10 @@ export default class ButtonElement extends vcvAPI.elementComponent {
       wrapperClasses += ' vce-button--style-basic-wrapper--stretched'
     }
 
-    let mixinData = this.getMixinData('basicColor')
-
-    if (mixinData) {
-      classes += ` vce-button--style-basic--color-${mixinData.selector}`
-    }
+    classes += ` vce-button--style-basic--color-${this.getColorSelector(color, background)}`
 
     if (toggleCustomHover) {
-      mixinData = this.getMixinData('basicHoverColor')
-
-      if (mixinData) {
-        classes += ` vce-button--style-basic--hover-color-${mixinData.selector}`
-      }
+      classes += ` vce-button--style-basic--hover-color-${this.getColorSelector(hoverColor, hoverBackground)}`
     }
 
     if (metaCustomId) {

@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  opacity: 1;
 }
 
 .vcv-loading-overlay-inner {
@@ -214,3 +215,20 @@
     }
   }
 }
+
+ /* create 30s opacity animation */
+ @keyframes vcvOverlayFadeIn {
+   50% {
+     opacity: 1;
+   }
+   100% {
+     opacity: 0.5;
+   }
+ }
+
+ /* apply opacity animation for overlay */
+ .vcv-loading-overlay {
+   animation: vcvOverlayFadeIn 30s ease-in;
+   /** run animation only in one direction */
+   animation-direction: normal;
+ }

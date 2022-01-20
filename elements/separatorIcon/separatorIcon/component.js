@@ -5,9 +5,26 @@ import classNames from 'classnames'
 const vcvAPI = vcCake.getService('api')
 
 export default class SeparatorIcon extends vcvAPI.elementComponent {
+  getColorSelector (color) {
+    return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+  }
+
   render () {
     const { id, atts, editor } = this.props
-    const { separatorAlignment, separatorStyle, iconPicker, iconShape, iconSize, customClass, metaCustomId } = atts
+    const {
+      separatorColor,
+      separatorAlignment,
+      separatorStyle,
+      iconPicker,
+      iconShape,
+      iconSize,
+      iconColor,
+      iconShapeColor,
+      customClass,
+      metaCustomId,
+      separatorWidth,
+      separatorThickness
+    } = atts
     const customProps = {}
     let iconClasses = [`vce-icon-container ${iconPicker.icon}`]
     let iconWrapperClasses = ['vce-separator-with-icon--icon', 'vce-icon']
@@ -37,35 +54,13 @@ export default class SeparatorIcon extends vcvAPI.elementComponent {
       iconWrapperClasses.push(`vce-separator-with-icon--icon--style-size-${iconSize}`)
     }
 
-    let mixinData = this.getMixinData('separatorColor')
+    separatorClasses.push(`vce-separator-with-icon--color-${this.getColorSelector(separatorColor)}`)
+    separatorClasses.push(`vce-separator-with-icon--width-${separatorWidth}`)
 
-    if (mixinData) {
-      separatorClasses.push(`vce-separator-with-icon--color-${mixinData.selector}`)
-    }
+    lineClasses.push(`vce-separator-with-icon-line--thickness-${separatorThickness}`)
 
-    mixinData = this.getMixinData('separatorWidth')
-
-    if (mixinData) {
-      separatorClasses.push(`vce-separator-with-icon--width-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('separatorThickness')
-
-    if (mixinData) {
-      lineClasses.push(`vce-separator-with-icon-line--thickness-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('iconColor')
-
-    if (mixinData) {
-      iconWrapperClasses.push(`vce-separator-with-icon--icon--style-color-${mixinData.selector}`)
-    }
-
-    mixinData = this.getMixinData('iconShapeColor')
-
-    if (mixinData) {
-      iconWrapperClasses.push(`vce-separator-with-icon--icon--style-shape-color-${mixinData.selector}`)
-    }
+    iconWrapperClasses.push(`vce-separator-with-icon--icon--style-color-${this.getColorSelector(iconColor)}`)
+    iconWrapperClasses.push(`vce-separator-with-icon--icon--style-shape-color-${this.getColorSelector(iconShapeColor)}`)
 
     if (metaCustomId) {
       customProps.id = metaCustomId
