@@ -51,6 +51,7 @@ export default class ElementControl extends React.Component {
     const copyOptions = copyData && copyData.options
     const isEditorRelatedElement =
       copyData &&
+      copyOptions &&
       copyOptions.editorTypeRelation &&
       copyOptions.editorTypeRelation === 'vcv_layouts' &&
       (editorType !== 'vcv_layouts' ||
