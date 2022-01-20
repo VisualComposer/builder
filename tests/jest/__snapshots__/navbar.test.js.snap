@@ -15,14 +15,6 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
       <nav
         className="vcv-ui-navbar vcv-ui-navbar-hide-labels"
       >
-        <div
-          className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler"
-          onMouseDown={[Function]}
-        >
-          <i
-            className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"
-          />
-        </div>
         <a
           className="vcv-ui-navbar-logo"
           href="undefined"
@@ -65,13 +57,15 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
             <span />
           </span>
         </span>
-        <div
-          className="vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close"
+        <dl
+          className="vcv-ui-navbar-dropdown vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close"
+          onMouseLeave={[Function]}
         >
-          <span
-            className="vcv-ui-navbar-control"
+          <dt
+            className="vcv-ui-navbar-control vcv-ui-navbar-dropdown-trigger"
             disabled={true}
             onClick={[Function]}
+            onMouseEnter={[Function]}
             title="undefined (Ctrl + Z)"
           >
             <span
@@ -82,31 +76,37 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
               />
               <span />
             </span>
-          </span>
-          <span
-            className="vcv-ui-navbar-control"
-            disabled={true}
-            onClick={[Function]}
-            title="undefined (Ctrl + Shift + Z)"
+          </dt>
+          <dd
+            className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-dropdown-content--sm"
           >
             <span
-              className="vcv-ui-navbar-control-content"
+              className="vcv-ui-navbar-control"
+              disabled={true}
+              onClick={[Function]}
+              title="undefined (Ctrl + Shift + Z)"
             >
-              <i
-                className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo"
-              />
-              <span />
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <i
+                  className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo"
+                />
+                <span />
+              </span>
             </span>
-          </span>
-        </div>
+          </dd>
+        </dl>
         <dl
           className="vcv-ui-navbar-dropdown vcv-ui-navbar-dropdown--layout vcv-ui-navbar-dropdown-linear vcv-ui-pull-end"
           data-vcv-guide-helper="layout-control"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           tabIndex="0"
         >
           <dt
             className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
           >
             <span
               className="vcv-ui-navbar-control-content"
@@ -149,7 +149,7 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
                 />
                 <span>
                   <em>
-                    (Width: 1220 px)
+                    (Width: 1080 px)
                   </em>
                 </span>
               </span>
@@ -166,7 +166,7 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
                 />
                 <span>
                   <em>
-                    (Width: 818 px)
+                    (Width: 780 px)
                   </em>
                 </span>
               </span>
@@ -183,7 +183,7 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
                 />
                 <span>
                   <em>
-                    (Width: 664 px)
+                    (Width: 560 px)
                   </em>
                 </span>
               </span>
@@ -200,7 +200,7 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
                 />
                 <span>
                   <em>
-                    (Width: 340 px)
+                    (Width: 320 px)
                   </em>
                 </span>
               </span>
@@ -245,32 +245,120 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
             <span />
           </span>
         </span>
-        <span
-          className="vcv-ui-navbar-control vcv-ui-pull-end"
-          data-vcv-guide-helper="settings-control"
-          onClick={[Function]}
-          title="undefined (Shift + S)"
+        <dl
+          className="vcv-ui-navbar-dropdown vcv-ui-navbar-settings vcv-ui-pull-end"
+          onMouseLeave={[Function]}
         >
-          <span
-            className="vcv-ui-navbar-control-content"
+          <dt
+            className="vcv-ui-navbar-control vcv-ui-pull-end vcv-ui-navbar-dropdown-trigger"
+            data-vcv-control="settings"
+            data-vcv-guide-helper="settings-control"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            title="undefined (Shift + S)"
           >
-            <i
-              className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog"
-            />
-            <span />
-          </span>
-        </span>
+            <span
+              className="vcv-ui-navbar-control-content"
+            >
+              <i
+                className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog"
+              />
+              <span />
+            </span>
+          </dt>
+          <dd
+            className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels"
+          >
+            <span
+              className="vcv-ui-navbar-control"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <span />
+              </span>
+            </span>
+            <span
+              className="vcv-ui-navbar-control"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <span />
+              </span>
+            </span>
+            <span
+              className="vcv-ui-navbar-control"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <span />
+              </span>
+            </span>
+            <span
+              className="vcv-ui-navbar-control"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <span />
+              </span>
+            </span>
+            <span
+              className="vcv-ui-navbar-control"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <span />
+              </span>
+            </span>
+            <span
+              className="vcv-ui-navbar-control"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <span />
+              </span>
+            </span>
+            
+            <div
+              className="vcv-ui-navbar-controls-set"
+            >
+              <span
+                className="vcv-ui-navbar-control"
+                data-backend-editor="backendEditor"
+                data-vcv-controls="backToWP"
+                onClick={[Function]}
+              >
+                <span
+                  className="vcv-ui-navbar-control-content"
+                />
+              </span>
+            </div>
+          </dd>
+        </dl>
         <span
           className="vcv-ui-navbar-control-separator vcv-ui-pull-end"
         />
-        <div
-          className="vcv-ui-navbar-controls-group vcv-ui-pull-end"
+        <dl
+          className="vcv-ui-navbar-dropdown vcv-ui-navbar-save vcv-ui-pull-end"
           data-vcv-guide-helper="save-control"
+          onMouseLeave={[Function]}
         >
-          <span
-            className="vcv-ui-navbar-control"
+          <dt
+            className="vcv-ui-navbar-control vcv-ui-navbar-dropdown-trigger"
+            data-vcv-control="publish"
             onClick={[Function]}
-            title="undefined (Ctrl + S)"
+            onMouseEnter={[Function]}
           >
             <span
               className="vcv-ui-navbar-control-content"
@@ -280,134 +368,44 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
               />
               <span />
             </span>
-          </span>
-        </div>
-        <dl
-          className="vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich"
-        >
-          <dt
-            className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control"
-            onClick={[Function]}
-          >
-            <span
-              className="vcv-ui-navbar-control-content"
-            >
-              <i
-                className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"
-              />
-              <span />
-            </span>
           </dt>
           <dd
-            className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels"
+            className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels vcv-ui-navbar-dropdown-content--save"
           >
             <div
-              style={
-                Object {
-                  "height": "auto",
-                  "maxHeight": "80vh",
-                  "minHeight": 0,
-                  "overflow": "hidden",
-                  "position": "relative",
-                  "width": "100%",
-                }
-              }
+              className="vcv-ui-navbar-controls-set"
             >
-              <div
-                className="vcv-ui-scroll-content"
-                style={
-                  Object {
-                    "WebkitOverflowScrolling": "touch",
-                    "bottom": undefined,
-                    "left": undefined,
-                    "marginBottom": 0,
-                    "marginRight": 0,
-                    "maxHeight": "calc(80vh + 0px)",
-                    "minHeight": 0,
-                    "overflow": "scroll",
-                    "position": "relative",
-                    "right": undefined,
-                    "top": undefined,
-                  }
-                }
+              <span
+                className="vcv-ui-navbar-control"
+                data-vcv-control="preview"
+                onClick={[Function]}
+                title="undefined (Ctrl + Shift + P)"
               >
-                <div>
-                  <div
-                    className="vcv-ui-navbar-controls-set"
-                  >
-                    <span
-                      className="vcv-ui-navbar-control"
-                      onClick={[Function]}
-                      title="undefined (Ctrl + Shift + P)"
-                    >
-                      <span
-                        className="vcv-ui-navbar-control-content"
-                      />
-                    </span>
-                    <span
-                      className="vcv-ui-navbar-control"
-                      onClick={[Function]}
-                    >
-                      <span
-                        className="vcv-ui-navbar-control-content"
-                      />
-                    </span>
-                    
-                    <span
-                      className="vcv-ui-navbar-control"
-                      data-backend-editor="backendEditor"
-                      onClick={[Function]}
-                    >
-                      <span
-                        className="vcv-ui-navbar-control-content"
-                      />
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="vcv-ui-scroll-track--horizontal"
-                style={
-                  Object {
-                    "display": "none",
-                    "height": 6,
-                    "position": "absolute",
-                  }
-                }
-              >
-                <div
-                  className="vcv-ui-scroll-thumb--horizontal"
-                  style={
-                    Object {
-                      "display": "block",
-                      "height": "100%",
-                      "position": "relative",
-                    }
-                  }
+                <span
+                  className="vcv-ui-navbar-control-content"
                 />
-              </div>
-              <div
-                className="vcv-ui-scroll-track--vertical"
-                style={
-                  Object {
-                    "display": "none",
-                    "position": "absolute",
-                    "width": 6,
-                  }
-                }
-              >
-                <div
-                  className="vcv-ui-scroll-thumb--vertical"
-                  style={
-                    Object {
-                      "display": "block",
-                      "position": "relative",
-                      "width": "100%",
-                    }
-                  }
-                />
-              </div>
+              </span>
+              
             </div>
+            <span
+              className="vcv-ui-navbar-control"
+              data-vcv-control="saveDraft"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              />
+            </span>
+            <span
+              className="vcv-ui-navbar-control"
+              data-vcv-control="publish"
+              onClick={[Function]}
+              title="undefined (Ctrl + S)"
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              />
+            </span>
           </dd>
         </dl>
         <div
