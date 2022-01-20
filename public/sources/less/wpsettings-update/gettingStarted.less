@@ -3,10 +3,6 @@
 .vcv-activation-survey {
   font-family: Montserrat;
 
-  .vcv-ui-modal-overlay{
-    padding-left: 160px;
-  }
-
   .vcv-ui-modal {
     padding: 20px;
     background-color: #f6f6f6;
@@ -106,6 +102,7 @@
   }
 
   .survey-submit {
+    position: relative;
     display: block;
     background: #FFAE27;
     color: #FFFFFF;
@@ -122,10 +119,24 @@
     &:hover {
       background: #d98800
     }
+
+    &[disabled] {
+      color: #fff !important;
+      background: #d98800 !important;
+      text-shadow: none !important;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    &--loading {
+      &::before{
+        .spinner();
+      }
+    }
   }
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (min-width: 782px) {
   .vcv-activation-survey {
     .vcv-ui-modal-overlay {
       padding-left: 36px;
@@ -133,11 +144,12 @@
   }
 }
 
-@media only screen and (max-width: 782px) {
+@media only screen and (min-width: 960px) {
   .vcv-activation-survey {
     .vcv-ui-modal-overlay {
-      padding-left: 0;
+      padding-left: 160px;
     }
   }
 }
+
 
