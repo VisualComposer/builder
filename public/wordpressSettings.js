@@ -11,6 +11,7 @@ import { themeTemplatesToggle } from './components/wpVcSettings/themeTemplatesTo
 import { deactivationFeedbackPopup } from './components/deactivationFeedbackPopup/deactivationFeedbackPopup'
 import { dashboard } from './components/wpVcSettings/dashboard'
 import { downloadAddon } from './components/wpVcSettings/downloadAddon'
+import { maintenanceMode } from './components/wpVcSettings/maintenanceMode'
 
 (($) => {
   $(() => {
@@ -53,6 +54,8 @@ export default function importJS (currentSection) {
     hfSectionToggle()
     dropdownEditLink()
     themeTemplatesToggle()
+  } else if (currentSection === 'vcv-maintenance-mode') {
+      maintenanceMode()
   } else if (currentSection === 'vcv-headers-footers' || currentSection === 'vcv-custom-site-popups' || currentSection === 'vcv-maintenance-mode') {
     dropdownEditLink()
   }

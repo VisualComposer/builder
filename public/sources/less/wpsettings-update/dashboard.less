@@ -744,3 +744,22 @@
     border: none;
   }
 }
+
+.wp-admin {
+  .vcv-maintenance-mode-section.vcv-maintenance-mode_vcv-maintenanceMode {
+    &:not(.vcv-visible) {
+      tr:nth-child(2) {
+        display: none;
+      }
+    }
+  }
+}
+
+#wpadminbar .vcv-maintenance-mode-active > .ab-item{
+  color:#fff;
+  background-color: #f44;
+}
+
+#wpadminbar .vcv-maintenance-active:hover > .ab-item{
+  background-color: #aa1000 !important;
+}
