@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import PremiumTeaser from 'public/components/premiumTeasers/component'
-import TermsBox from 'public/components/termsBox/component'
 
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
@@ -76,8 +75,6 @@ export default class FullPagePopupContainer extends React.Component {
 
     if (activePopup === 'premium-teaser') {
       activePopupHtml = <PremiumTeaser {...popupProps} />
-    } else if (activePopup === 'terms-box') {
-      activePopupHtml = <TermsBox onClose={this.handleCloseClick} />
     }
 
     return (

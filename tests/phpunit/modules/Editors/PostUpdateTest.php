@@ -64,6 +64,7 @@ class PostUpdateTest extends WP_UnitTestCase
             // Now need to check FE variables
             $this->checkEditorVariables($feEditorOutput);
             $this->checkFeEditorVariables($feEditorOutput);
+            $this->checkFeEditorBundles($feEditorOutput);
 
             preg_match_all('/Visual Composer Post Update/', $feEditorOutput, $matches);
             $this->assertEquals(1, count($matches[0]), 'Visual Composer Post Update');
@@ -162,6 +163,9 @@ class PostUpdateTest extends WP_UnitTestCase
         preg_match_all('/Object\.defineProperty\(window, \'VCV_UTM\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_UTM');
 
+    }
+
+    protected function checkFeEditorBundles($output) {
         preg_match_all('/\?vcv-script=vendor/', $output, $matches);
         $this->assertEquals(2, count($matches[0]), 'vendor');
 

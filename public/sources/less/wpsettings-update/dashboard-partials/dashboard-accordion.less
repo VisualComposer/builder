@@ -1,0 +1,116 @@
+.vcv-dashboard-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &-item {
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+
+    &-heading {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      font-family: 'Montserrat', sans-serif;
+      line-height: 18px;
+      font-weight: 600;
+      font-size: @vcv-dashboard-h2-font-size;
+      color: #515162;
+      position: relative;
+      cursor: pointer;
+
+      &::after {
+        position: absolute;
+        right: 16px;
+        font-family: 'VC-Icons', serif;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        content: "\25be";
+        color: #C6CBD4;
+      }
+
+      & &-text + .vcv-ui-settings-status-table {
+        margin: 0 0 0 8px;
+
+        .description {
+          margin: 0;
+          line-height: 18px;
+        }
+      }
+
+      .vcv-coming-soon-badge {
+        background: #ffae27;
+        font-size: 13px;
+        font-family: 'Nunito Sans', sans-serif;
+        font-weight: bold;
+        font-style: italic;
+        color: #fff;
+        padding: 3px 11px;
+        border-radius: 12px;
+        margin-left: auto;
+      }
+    }
+
+    &--active &-heading::after {
+      content: "\25b4";
+    }
+
+    &--teaser &-heading {
+      cursor: auto;
+      &::after {
+        display: none;
+      }
+    }
+
+    &--teaser &-heading-text {
+      opacity: .5;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    }
+
+    &-content {
+      padding: 16px;
+      border-top: 1px solid @vcv-status-table-border-color;
+      display: none;
+
+      .vcv-ui-form-switch {
+        input, .vcv-ui-form-switch-indicator, .vcv-ui-form-switch-label {
+          font-family: 'Roboto', sans-serif;
+        }
+      }
+
+      .vcv-ui-settings-status-table-title, .form-table th {
+        color: @vcv-dashboard-attribute-color;
+      }
+
+      p.admin-description {
+        margin-top: -20px;
+      }
+
+      h2 {
+        font-size: 16px;
+      }
+    }
+
+    &--active &-content {
+      display: block;
+    }
+
+    .vcv-settings-section {
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid @vcv-status-table-border-color;
+    }
+
+    .vcv-settings-section:last-of-type {
+      border: none;
+    }
+
+    .vc-ui-settings-info {
+      width: 30px;
+    }
+  }
+}
+

@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.8.2
-Stable tag: 41.1
+Stable tag: 42.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -148,7 +148,7 @@ Visual Composer team provides one-on-one email support that is available to Visu
 
 = Where To Look For Support? =
 
-- Visual Composer [Help Center](https://visualcomposer.com/help/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=help-center-text-link)
+- Visual Composer [Help Center](https://help.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=help-center-text-link)
 - Facebook [Community](https://www.facebook.com/groups/VisualComposers/)
 - WordPress.org support section
 - Real-person [Dedicated Support](https://visualcomposer.com/support/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=dedicated-support-text-link) (*available for Premium users*)
@@ -224,6 +224,63 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 42.0 =
+*Release Date - 2022-01-19*
+
+### Free:
+- New: Ability to close editor windows with 'Esc' button added
+- New: Authors and Contributors don not have access to Visual Composer by default for security reasons
+- Update: Help Center links in the editor updated with the pathes to the new Help Center
+- Update: Drag and Drop improved for better user experience
+- Update: Editor windows have transitions for better user experience
+- Update: Getting Started screen updated for better user experience
+- Update: Accessibility improved for the elements
+- Fix: Disable row stacking works properly
+- Fix: YouTube background video works properly on iPhone
+- Fix: Background color can be removed to make background transparent
+- Fix: Yoast Canonical URL is correct for archive pages
+- Fix: Undo/Redo works properly
+- Fix: gziping compression works properly
+- Fix: Runtime bundle works properly
+- Fix: Keyboard shortcuts work properly
+- Fix: Gutenberg element works properly in the editor
+
+### Premium:
+- New: Font Manager allows styling captions, bullets, buttons, and menus
+- New: Option to save layout as templates added
+- New: Option to save part of the layout as a block template added
+- New: All premium addons are downloaded automatically when activating the premium version
+- Update: Font Manager preview improved for better user experience
+- Update: Font Manager preview is clickable to reveal corresponding font settings
+- Update: Font Manager paragraph styles are applied to regular body texts
+- Update: Ability to set custom header and footer for the archive tag pages added
+- Update: Dynamic content and ACF images have placeholders
+- Update: Tweet button element updated for design consistency
+- Update: Color labels are updated in the Font Manager for consistency
+- Fix: Left sidebar position works properly with stretched rows in the content area
+- Fix: Layout width is applied properly when sidebars are used
+- Fix: Basic menu element is displayed properly in the TwentyTwentyOne theme
+- Fix: Animated Outline button works properly in the Storefront theme
+- Fix: 3 Color button works properly in the Storefront theme
+- Fix: WooCommerce Products element works properly in the Storefront theme
+- Fix: Simple Image Slider works properly inside tabs and accordions
+- Fix: Sandwich menu works properly in the Basic Menu element
+- Fix: Visual Composer works properly with the GeneratePress theme
+- Fix: Theme Builder addon download does not produce errors
+- Fix: Full width row size works properly in custom layouts
+- Fix: Copying Content Area works properly
+- Fix: Layout Builder does not trigger warning notices
+- Fix: Layout Builder elements can not be added to the regular page from the Visual Composer Hub
+- Fix: WooCommerce checkout fields are displayed properly
+- Fix: Custom search works properly in the Layout Builder
+- Fix: Rearranging elements in the Layout Builder works properly
+- Fix: Plugin activation check for vendors works properly
+- Fix: Copyright element works properly with dynamic content added
+- Fix: Style queue works properly for layouts and global templates
+- Fix: Banner element images are displayed properly
+- Fix: Content Slider works properly
+- Fix: Dynamic content works properly with param groups
 
 = 41.1 =
 *Release Date - 2021-12-15*

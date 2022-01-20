@@ -39,120 +39,9 @@ if (!defined('ABSPATH')) {
         }
       }
 
-      .vcv-ui-settings-sections {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .vcv-settings-form--item {
-        background-color: #fff;
-        border: none;
-        border-radius: 5px;
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
-      }
-
-      .vcv-settings-form--item .vcv-no-title.vcv-hidden {
+      .vcv-dashboard-accordion-item .vcv-no-title.vcv-hidden {
           visibility: hidden;
           height: 0;
-      }
-
-      .vcv-settings-form--item--teaser .vcv-settings-form--item--heading {
-        cursor: auto;
-      }
-
-      .vcv-settings-form--item--teaser .vcv-settings-form--item--heading::after {
-        display: none;
-      }
-
-      .vcv-settings-form-item--heading-text {
-        flex-grow: 1;
-        margin: 6px 0;
-      }
-
-      .vcv-settings-form--item--teaser .vcv-settings-form-item--heading-text {
-        opacity: .5;
-      }
-
-      .vcv-settings-form--item--heading {
-        padding: 10px 16px;
-        font-family: 'Montserrat', sans-serif;
-        line-height: 18px;
-        font-weight: 600;
-        font-size: 18px;
-        color: #515162;
-        position: relative;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-      }
-
-      .vcv-settings-form--item--heading::after {
-        position: absolute;
-        right: 16px;
-        font-family: 'VC-Icons', serif;
-        font-size: 18px;
-        width: 18px;
-        height: 18px;
-        content: "\25be";
-        color: #C6CBD4;
-        margin-top: 6px;
-      }
-
-      .vcv-settings-form--item--active .vcv-settings-form--item--heading::after {
-        content: "\25b4";
-      }
-
-      .vcv-settings-form-item--title {
-          display: flex;
-      }
-
-      .vcv-settings-form-item--title h2 {
-          flex: 0 0 250px;
-      }
-
-      .vcv-settings-form--item--content {
-        padding: 16px;
-        border-top: 1px solid #f1f1f1;
-        display: none;
-      }
-
-      .vcv-settings-form--item .vcv-settings-form--item--content h2 {
-        font-family: 'Roboto', sans-serif;
-        font-weight: 500;
-        font-size: 15px;
-        color: #8E8E9E;
-      }
-
-      .vcv-settings-form--item--active .vcv-settings-form--item--content {
-        display: block;
-      }
-
-      .vcv-settings-form .vcv-ui-settings-status-table {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        box-shadow: none;
-        border-radius: 0;
-        margin: 0 0 8px;
-      }
-
-      .vcv-settings-form--item .vcv-settings-section {
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #F1F1F1;
-      }
-
-      .vcv-settings-form--item .vcv-settings-section:last-of-type {
-        border: none;
-      }
-
-      .vcv-settings-section .vcv-ui-settings-status-table .description {
-        margin: 0;
-      }
-
-      .vcv-settings-section .vcv-ui-settings-status-table .vcv-ui-settings-status-table-title {
-        color: #5F5F70;
       }
     </style>
     <div class="vcv-table-loader-wrapper">
@@ -175,7 +64,7 @@ if (!defined('ABSPATH')) {
 ); ?>"
         method="post"
         data-vcv-ui-element="settings-tab-<?php echo esc_attr($slug); ?>"
-        class="vcv-settings-tab-content vcv-settings-tab-content-active">
+        class="vcv-settings-tab-content vcv-settings-tab-content--active">
     <?php
 
     $sectionsRegistry = vchelper('SettingsSectionsRegistry');
@@ -190,11 +79,13 @@ if (!defined('ABSPATH')) {
         }
         $content = ob_get_clean();
         if ($useAccordion) {
-            echo '<div class="vcv-ui-settings-sections">';
+            echo '<div class="vcv-dashboard-accordion">';
             echo $content;
             echo '</div>';
         } else {
+            echo '<div class="vcv-dashboard-standard">';
             echo $content;
+            echo '</div>';
         }
     }
 
@@ -230,8 +121,8 @@ if (!defined('ABSPATH')) {
     document.addEventListener('click', function (e) {
       // loop parent nodes from the target to the delegation node
       for (let target = e.target; target && target !== this; target = target.parentNode) {
-        if (target.matches('.vcv-settings-form--item--heading')) {
-          target.parentElement.classList.toggle('vcv-settings-form--item--active')
+        if (target.matches('.vcv-dashboard-accordion-item-heading')) {
+          target.parentElement.classList.toggle('vcv-dashboard-accordion-item--active')
           break;
         }
       }
