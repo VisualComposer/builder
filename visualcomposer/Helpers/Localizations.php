@@ -1899,7 +1899,40 @@ class Localizations extends Container implements Helper
             'disableDeviceStyling' => __(
                 'Disable device styling',
                 'visualcomposer'
-            )
+            ),
+            // Activation Survey Options
+            'myselfTitle' => __(
+                'Myself',
+                'visualcomposer'
+            ),
+            'myselfDescription' => __(
+                'This is a site for myself or my business',
+                'visualcomposer'
+            ),
+            'clientTitle' => __(
+                'My Client',
+                'visualcomposer'
+            ),
+            'clientDescription' => __(
+                'I am getting paid by a client to create this site',
+                'visualcomposer'
+            ),
+            'workTitle' => __(
+                'My Work',
+                'visualcomposer'
+            ),
+            'workDescription' => __(
+                'I am creating a site for a company I work for',
+                'visualcomposer'
+            ),
+            'elseTitle' => __(
+                'Someone Else',
+                'visualcomposer'
+            ),
+            'elseDescription' => __(
+                'I am creating a site for my friend or family',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
