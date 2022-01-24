@@ -10,9 +10,17 @@ export default class Scrollbar extends React.Component {
 
   constructor (props) {
     super(props)
+    this.scrollRef = React.createRef();
+
     this.state = {
       showTracks: true
     }
+
+    this.scrollTop = this.scrollTop.bind(this)
+  }
+
+  scrollTop(top) {
+    window.scrollTo({ behavior: 'smooth', top: this.scrollRef.current.offsetTop + top })
   }
 
   render () {
@@ -31,6 +39,7 @@ export default class Scrollbar extends React.Component {
 
     return (
       <div
+        ref={this.scrollRef}
         className={scrollbarClasses}
         style={customStyle}
       >
