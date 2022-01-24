@@ -35,15 +35,13 @@ class MaintenanceModeMigration extends MigrationsController implements Module
             $optionsHelper->delete('hubAction:addon/maintenanceMode');
         }
 
-        $allCachedAddons = $optionsHelper->getTransient('addons:autoload:all');
+        $optionsHelper->deleteTransient('addons:autoload:all');
 
-        if ($allCachedAddons) {
-            unset($allCachedAddons['modules']['maintenanceModemaintenanceModeMaintenanceModeController']);
-            unset($allCachedAddons['modules']['maintenanceModemaintenanceModeAdminBarMenuController']);
-            unset($allCachedAddons['modules']['maintenanceModemaintenanceModeSettingsController']);
+        $hubAddonsList = $optionsHelper->get('hubAddons');
 
-            $optionsHelper->setTransient('addons:autoload:all', $allCachedAddons);
-        }
+        unset($hubAddonsList['maintenanceMode']);
+
+        $optionsHelper->set('hubAddons', $hubAddonsList);
 
         return true;
     }
