@@ -59,7 +59,7 @@ export default class SettingsButtonControl extends NavbarContent {
     const title = SettingsButtonControl.isMacLike ? name + ' (⇧S)' : name + ' (Shift + S)'
     const controls = workspaceSettingControls.get()
     const controlsArray = Object.keys(controls).map(key => controls[key])
-    const assignLayout = dataManager.get('editorType') === 'vcv_layouts' ? (<AssignLayoutControl />) : ''
+    const assignLayout = dataManager.get('editorType') === 'vcv_layouts' ? (<AssignLayoutControl key='assign-layout-control' />) : ''
 
     const settingsControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
@@ -87,10 +87,10 @@ export default class SettingsButtonControl extends NavbarContent {
       'vcv-ui-navbar-show-labels': true
     })
 
-    const settings = controlsArray.map(control =>
+    const settings = controlsArray.map((control, i) =>
       <span
         onClick={(e) => this.handleClickSettings(e, control.type)}
-        key={control.title}
+        key={`control-${control.title}-${i}`}
         className='vcv-ui-navbar-control'
         title={control.title}
       >
@@ -120,7 +120,7 @@ export default class SettingsButtonControl extends NavbarContent {
       <div className='vcv-ui-navbar-controls-set'>
         {settings}
         {assignLayout}
-        <BackendControl />
+        <BackendControl key='backend-control' />
       </div>
     )
 
