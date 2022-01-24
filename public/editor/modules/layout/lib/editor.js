@@ -32,8 +32,8 @@ export default class LayoutEditor extends React.Component {
 
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateState)
-    this.props.api.notify('editor:mount')
     workspaceStorage.state('navbarDisabled').onChange(this.handleNavbarStateChange)
+    this.props.api.notify('editor:mount')
   }
 
   componentWillUnmount () {

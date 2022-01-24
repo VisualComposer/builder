@@ -12,7 +12,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { description, backgroundImage, backgroundImagePosition, align, addButton, customClass, button, background, metaCustomId } = atts
+    const { description, backgroundImage, backgroundImagePosition, backgroundColor, align, addButton, customClass, button, background, metaCustomId } = atts
     const customProps = {}
     const containerProps = {}
 
@@ -31,8 +31,6 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
     let rowClasses = ['vce-hero-section--wrap-row']
 
-    let mixinData = this.getMixinData('backgroundColor')
-
     if (typeof customClass === 'string' && customClass) {
       wrapperClasses = wrapperClasses.concat(' ' + customClass)
     }
@@ -40,13 +38,13 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
     const rowStyles = {}
     if (background === 'image' && backgroundImage) {
       rowStyles.backgroundImage = `url(${this.getImageUrl(backgroundImage)})`
-    } else if (background === 'color' && mixinData) {
-      rowClasses.push(`vce-hero-section--background-color-${mixinData.selector}`)
+    } else if (background === 'color') {
+      const backgroundColorSelector = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+      rowClasses.push(`vce-hero-section--background-color-${backgroundColorSelector}`)
     }
 
-    mixinData = this.getMixinData('backgroundPosition')
-    if (mixinData && backgroundImagePosition) {
-      rowClasses.push(`vce-hero-section--background-position-${mixinData.selector}`)
+    if (backgroundImagePosition) {
+      rowClasses.push(`vce-hero-section--background-position-${backgroundImagePosition.replace(' ', '-')}`)
     }
 
     let buttonOutput = ''

@@ -21,6 +21,7 @@ export default class HtmlLayout extends React.Component {
     this.handleDragStateChage = this.handleDragStateChage.bind(this)
     this.handleBodyMouseUp = this.handleBodyMouseUp.bind(this)
     this.getBlankRowPlaceholder = this.getBlankRowPlaceholder.bind(this)
+    this.layoutRef = React.createRef()
   }
 
   componentDidMount () {
@@ -39,12 +40,12 @@ export default class HtmlLayout extends React.Component {
    * @param data {object}
    */
   handleDragStateChage (data) {
-    if (data && data.addPanel && this.layout.getAttribute('data-vcv-dnd-element')) {
-      const body = this.layout.closest('.vcwb')
+    if (data && data.addPanel && this.layoutRef.current && this.layoutRef.current.getAttribute('data-vcv-dnd-element')) {
+      const body = this.layoutRef.current.closest('.vcwb')
       body.addEventListener('mouseup', this.handleBodyMouseUp)
     }
-    if (data && !data.active && this.layout.getAttribute('data-vcv-dnd-element')) {
-      const body = this.layout.closest('.vcwb')
+    if (data && !data.active && this.layoutRef.current && this.layoutRef.current.getAttribute('data-vcv-dnd-element')) {
+      const body = this.layoutRef.current.closest('.vcwb')
       body.removeEventListener('mouseup', this.handleBodyMouseUp)
     }
   }
@@ -76,7 +77,7 @@ export default class HtmlLayout extends React.Component {
           getBlankRowPlaceholder = this.getBlankRowPlaceholder
         }
         return (
-          <Element element={element} key={element.id} api={this.props.api} getBlankRowPlaceholder={getBlankRowPlaceholder} />
+          <Element element={element} key={'element-wrapper-' + element.id} api={this.props.api} getBlankRowPlaceholder={getBlankRowPlaceholder} />
         )
       })
     }
@@ -92,7 +93,7 @@ export default class HtmlLayout extends React.Component {
       <div
         className='vcv-layouts-html'
         data-vcv-module='content-layout'
-        ref={layout => (this.layout = layout)}
+        ref={this.layoutRef}
       >
         {layoutsContent}
       </div>

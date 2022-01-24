@@ -5,6 +5,10 @@ import { renderToStaticMarkup } from 'react-dom/server'
 const vcvAPI = vcCake.getService('api')
 
 export default class FaqToggle extends vcvAPI.elementComponent {
+  getColorSelector (color) {
+    return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+  }
+
   getContent () {
     const { atts } = this.props
     const { textBlock, titleText, elementTag } = atts
@@ -25,7 +29,7 @@ export default class FaqToggle extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { shape, customHoverColors, metaCustomId, customClass } = atts
+    const { shape, customHoverColors, metaCustomId, customClass, iconColor, shapeColor, iconHoverColor, shapeHoverColor } = atts
 
     let containerClasses = 'vce-faq-toggle'
     const customProps = {}
@@ -34,18 +38,10 @@ export default class FaqToggle extends vcvAPI.elementComponent {
       containerClasses += ' ' + customClass
     }
 
-    let mixinData = this.getMixinData('color')
-
-    if (mixinData) {
-      containerClasses += ` vce-faq-toggle-color--${mixinData.selector}`
-    }
+    containerClasses += ` vce-faq-toggle-color--${this.getColorSelector(iconColor)}`
 
     if (shape !== 'none') {
-      mixinData = this.getMixinData('shapeColor')
-
-      if (mixinData) {
-        containerClasses += ` vce-faq-toggle-shape-color--${mixinData.selector}`
-      }
+      containerClasses += ` vce-faq-toggle-shape-color--${this.getColorSelector(shapeColor)}`
 
       if (shape !== 'square') {
         containerClasses += ` vce-faq-toggle-shape--${shape}`
@@ -53,18 +49,10 @@ export default class FaqToggle extends vcvAPI.elementComponent {
     }
 
     if (customHoverColors) {
-      mixinData = this.getMixinData('hoverColor')
-
-      if (mixinData) {
-        containerClasses += ` vce-faq-toggle-hover-color--${mixinData.selector}`
-      }
+      containerClasses += ` vce-faq-toggle-hover-color--${this.getColorSelector(iconHoverColor)}`
 
       if (shape !== 'none') {
-        mixinData = this.getMixinData('shapeHoverColor')
-
-        if (mixinData) {
-          containerClasses += ` vce-faq-toggle-shape-hover-color--${mixinData.selector}`
-        }
+        containerClasses += ` vce-faq-toggle-shape-hover-color--${this.getColorSelector(shapeHoverColor)}`
       }
     }
 
