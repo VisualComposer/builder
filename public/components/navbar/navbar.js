@@ -3,11 +3,11 @@ import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import { getRealSize } from './tools'
-import { Scrollbars } from 'react-custom-scrollbars'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import WordpressPostSaveControl from './controls/wordpressPostSaveControl'
 import NavbarSeparator from './controls/navbarSeparator'
+import Scrollbar from '../scrollbar/scrollbar'
 
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
@@ -310,7 +310,6 @@ export default class Navbar extends React.Component {
       'vcv-ui-show-dropdown-content': this.state.isActiveSandwich
     })
 
-    const hideTracksWhenNotNeeded = true
     return (
       <dl className={sandwichClasses} onMouseLeave={this.handleDropdown}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' onMouseEnter={this.handleDropdown} title={menuTitle}>
@@ -320,22 +319,15 @@ export default class Navbar extends React.Component {
           </span>
         </dt>
         <dd className={navbarContentClasses}>
-          <Scrollbars
-            ref='scrollbars'
-            renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
-            renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
-            renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
-            renderThumbVertical={props => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
-            renderView={props => <div {...props} className='vcv-ui-scroll-content' />}
-            hideTracksWhenNotNeeded={hideTracksWhenNotNeeded}
+          <Scrollbar
             autoHeight
-            autoHeightMax='100vh'
+            maxHeight='100vh'
           >
             <div ref={this.setHiddenControlsReference}>
               {dropdownControls}
               {singleControls}
             </div>
-          </Scrollbars>
+          </Scrollbar>
         </dd>
       </dl>
     )

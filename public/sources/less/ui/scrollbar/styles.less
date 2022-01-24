@@ -10,20 +10,55 @@
   flex: 1 1 100%;
   display: flex;
   flex-flow: column nowrap;
+
+  &-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    overflow-scrolling: touch;
+  }
+
+  &--auto-height {
+    height: auto;
+    min-height: 0px;
+
+    .vcv-ui-scroll-content {
+      position: relative;
+      overflow: scroll;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: @scroll-size;
+    height: @scroll-size;
+
+    &-track{
+      background: transparent;
+    }
+
+    &-thumb {
+      background: transparent;
+      border-radius: @scroll-radius;
+
+    }
+
+    &-corner{
+      background: transparent;
+    }
+  }
+
+  &:hover{
+    ::-webkit-scrollbar {
+      &-thumb {
+        background: @scroll-color;
+      }
+    }
+  }
 }
 
-.vcv-ui-scroll-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: scroll;
-  overflow-scrolling: touch;
-  display: flex;
-  flex-flow: column nowrap;
-  direction: ltr;
-}
 
 .vcv-ui-tree-layout-filled {
   .vcv-ui-scroll-content {
@@ -32,90 +67,58 @@
   }
 }
 
-.vcv-ui-scroll-track--horizontal,
-.vcv-ui-scroll-track--vertical {
-  position: absolute;
-  cursor: pointer;
-  right: @scroll-indent;
-  bottom: @scroll-indent;
-  transition-duration: @transition-duration;
-  transition-property: opacity;
-  transition-timing-function: @transition-timing-function;
-  opacity: 0;
-  .vcv-ui-scroll:hover & {
-    opacity: 1;
+@supports (scrollbar-color: red blue) {
+  .vcv-ui-scroll-content  {
+    overflow: auto;
+    scrollbar-color: transparent transparent;
+    scrollbar-width: thin;
+
+    &:hover{
+      scrollbar-color: @scroll-color transparent;
+      scrollbar-width: thin;
+    }
   }
-}
-
-.vcv-ui-scroll-track--horizontal {
-  left: @scroll-indent;
-  border-radius: @scroll-radius;
-  height: @scroll-size;
-}
-
-.vcv-ui-scroll-track--vertical {
-  top: @scroll-indent;
-  border-radius: @scroll-radius;
-  width: @scroll-size;
-}
-
-.vcv-ui-scroll-thumb--horizontal,
-.vcv-ui-scroll-thumb--vertical {
-  position: relative;
-  display: block;
-  cursor: pointer;
-  border-radius: inherit;
-  background-color: @scroll-color;
-  z-index: 9;
-}
-
-.vcv-ui-scroll-thumb--horizontal {
-  height: 100%;
-}
-
-.vcv-ui-scroll-thumb--vertical {
-  width: 100%;
 }
 
 .vcv-scroll-dots {
-  opacity: 0;
-  text-align: center;
-  position: relative;
-  transition: opacity @transition-duration @transition-timing-function;
-  pointer-events: none;
+opacity: 0;
+text-align: center;
+position: relative;
+transition: opacity @transition-duration @transition-timing-function;
+pointer-events: none;
 
-  &.vcv-scroll-dots--visible {
-    opacity: 1;
-  }
+&.vcv-scroll-dots--visible {
+opacity: 1;
+}
 }
 
 .vcv-scroll-dots::after {
-  content: '';
-  position: absolute;
-  height: 30px;
-  width: 96%; // leave space for the scrollbar
-  left: 0;
-  bottom: 0;
-  background-image: linear-gradient(0, @vcv-scroll-dots-fade-color 30%, transparent);
-  z-index: 1;
+content: '';
+position: absolute;
+height: 30px;
+width: 96%; // leave space for the scrollbar
+left: 0;
+bottom: 0;
+background-image: linear-gradient(0, @vcv-scroll-dots-fade-color 30%, transparent);
+z-index: 1;
 }
 
 .vcv-scroll-dots::before {
-  content: '';
-  position: absolute;
-  color: @vcv-scroll-dots-color;
-  z-index: 2;
-  width: 3px;
-  height: 3px;
-  background: @vcv-scroll-dots-color;
-  border-radius: 100%;
-  box-shadow: 6px 0, -6px 0;
+content: '';
+position: absolute;
+color: @vcv-scroll-dots-color;
+z-index: 2;
+width: 3px;
+height: 3px;
+background: @vcv-scroll-dots-color;
+border-radius: 100%;
+box-shadow: 6px 0, -6px 0;
 }
 
 .vcv-scroll-dots--before {
-  &.vcv-scroll-dots::after {
-    bottom: initial;
-    top: 0;
-    background-image: linear-gradient(180deg, @vcv-scroll-dots-fade-color, transparent 30%);
-  }
+&.vcv-scroll-dots::after {
+bottom: initial;
+top: 0;
+background-image: linear-gradient(180deg, @vcv-scroll-dots-fade-color, transparent 30%);
+}
 }
