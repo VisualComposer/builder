@@ -117,7 +117,7 @@
     "color-name": "1.1.4",
     "core-js": "3.19.0",
     "css-loader": "6.5.0",
-    "eslint": "7.32.*",
+    "eslint": "7.32.0",
     "jest": "27.4.7",
     "jest-cli": "27.4.7",
     "less": "4.1.2",
