@@ -117,7 +117,7 @@
     "color-name": "1.1.4",
     "core-js": "3.19.0",
     "css-loader": "6.5.0",
-    "eslint": "8.2.0",
+    "eslint": "7.32.*",
     "jest": "27.4.7",
     "jest-cli": "27.4.7",
     "less": "4.1.2",
@@ -143,7 +143,7 @@
     "compression-webpack-plugin": "9.2.0",
     "enzyme": "3.11.0",
     "enzyme-to-json": "3.6.2",
-    "eslint": "8.2.0",
+    "eslint": "7.32.*",
     "eslint-plugin-import": "2.25.3",
     "eslint-plugin-jest": "25.7.0",
     "eslint-plugin-jsx-a11y": "6.5.1",
@@ -173,7 +173,9 @@
     "vc-webpack-vendors": "3.1.1",
     "webfontloader": "1.6.28"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^10.1.0"
+  },
   "engines": {
     "node": ">=14",
     "npm": ">=5.8"
