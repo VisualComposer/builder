@@ -23,6 +23,12 @@ export default class Scrollbar extends React.Component {
     window.scrollTo({ behavior: 'smooth', top: this.scrollRef.current.offsetTop + top })
   }
 
+  componentDidMount () {
+    if (this.props.initialScrollTop) {
+      this.scrollbars.scrollTop(this.props.initialScrollTop)
+    }
+  }
+
   render () {
     const scrollProps = Object.assign({}, this.props)
     const customStyle = {}
