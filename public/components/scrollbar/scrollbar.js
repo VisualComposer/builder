@@ -25,7 +25,7 @@ export default class Scrollbar extends React.Component {
 
   componentDidMount () {
     if (this.props.initialScrollTop) {
-      this.scrollbars.scrollTop(this.props.initialScrollTop)
+      this.scrollTop(this.props.initialScrollTop)
     }
   }
 
