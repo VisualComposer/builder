@@ -41,7 +41,8 @@ export default class SaveController {
     const globalCss = settingsStorage.state('globalCss').get() || ''
 
     globalStylesManager.add([{
-      src: globalCss
+      src: globalCss,
+      pureCss: true
     }])
     promises.push(globalStylesManager.compile().then((result) => {
       globalStylesCompiled = result
@@ -49,7 +50,8 @@ export default class SaveController {
     const localStylesManager = stylesManager.create()
     const customCss = settingsStorage.state('customCss').get() || ''
     localStylesManager.add([{
-      src: customCss
+      src: customCss,
+      pureCss: true
     }])
     // localStylesManager.add(globalAssetsStorageInstance.getPageCssDataNG())
     promises.push(localStylesManager.compile().then((result) => {
