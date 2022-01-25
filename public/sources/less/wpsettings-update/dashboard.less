@@ -101,17 +101,23 @@
   }
 }
 .vcv-dashboard-sidebar-navigation-menu-item.vcv-dashboard-sidebar-navigation-menu-item-parent {
-  font-family: 'VC-Icons';
   position: relative;
-  &::after {
+  .vcv-dashboard-caret {
     position: absolute;
     right: -5px;
-    top: 15px;
     font-size: 18px;
     color: #fff;
     opacity: 0.5;
-    content: "\25be";
-    pointer-events: none;
+    transition: opacity .2s;
+
+    &::before {
+      content: "\25be";
+      font-family: 'VC-Icons';
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &.vcv-dashboard-sidebar-navigation-menu-item--active,
@@ -121,7 +127,7 @@
     }
   }
 
-  &.vcv-dashboard-sidebar-navigation-menu-item--active::after {
+  &.vcv-dashboard-sidebar-navigation-menu-item--active .vcv-dashboard-caret::before {
     content: "\25b4";
   }
 }
