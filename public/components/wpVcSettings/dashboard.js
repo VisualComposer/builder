@@ -120,7 +120,7 @@ export const dashboard = () => {
   }
 
   const handleMenuLinkClick = (e) => {
-    if (e.target.classList.contains('vcv-dashboard-sidebar-navigation-menu-item-parent-link')) {
+    if (e.target.classList.contains('vcv-dashboard-caret')) {
       e.target.closest('.vcv-dashboard-sidebar-navigation-menu-item-parent').classList.toggle('vcv-dashboard-sidebar-navigation-menu-item--active')
       e.preventDefault()
     }

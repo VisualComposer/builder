@@ -297,8 +297,7 @@ STYLE;
                             <li class="vcv-dashboard-sidebar-navigation-menu-item<?php echo esc_attr(
                                 $activeClassMenuItem . $haveChilds
                             ); ?>">
-                                <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard
-                                <?php
+                                <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard <?php
                                 $iconClass = isset($menuValue['iconClass']) ? $menuValue['iconClass'] : '';
                                 echo esc_attr($iconClass) . esc_attr($activeClass) . esc_attr($haveChildsLinkClass); ?>"
                                         href="?page=<?php echo esc_attr($menuKey) ?>">
@@ -306,6 +305,7 @@ STYLE;
                                         empty($menuValue['dashboardName']) ? $menuValue['name']
                                             : $menuValue['dashboardName']
                                     ); ?>
+                                    <?php echo count($subTabs) > 1 ? '<span class="vcv-dashboard-caret"></span>' : ''?>
                                 </a>
                                 <?php
                                 // Render sub menu items
