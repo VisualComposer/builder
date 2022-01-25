@@ -29,20 +29,6 @@ class PremiumTeasers extends Container implements Module
     public function __construct()
     {
         $this->dashboardSections[] = [
-            'slug' => 'vcv-maintenance-mode',
-            'name' => __('Maintenance Mode', 'visualcomposer'),
-            'parent' => 'vcv-settings',
-            'subTitle' => '',
-            'premiumTitle' => __('MAINTENANCE MODE IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Enable a maintenance mode for site visitors with Visual Composer Premium when performing updates, changes in design layouts, or code releases.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'maintenancemode-vcdashboard',
-            'premiumActionBundle' => 'maintenanceMode',
-            'capability' => 'manage_options',
-        ];
-        $this->dashboardSections[] = [
             'slug' => 'vcv-custom-site-popups',
             'name' => __('Popup Builder', 'visualcomposer'),
             'subTitle' => __('Popup Settings', 'visualcomposer'),
