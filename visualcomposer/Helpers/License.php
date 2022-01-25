@@ -214,4 +214,16 @@ class License extends Container implements Helper
 
         return $agreeHubTerms || $this->getType() === 'free';
     }
+
+    /**
+     * Get hashed key
+     *
+     * @param string $key
+     *
+     * @return false|string
+     */
+    public function getHashedKey($key)
+    {
+        return substr(md5(wp_salt() . $key), 2, 12);
+    }
 }
