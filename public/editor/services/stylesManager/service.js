@@ -15,9 +15,6 @@ import objectHash from 'node-object-hash'
 
 import cssNano from 'cssnano'
 
-import store from 'public/editor/stores/store'
-import { notificationAdded } from 'public/editor/stores/notifications/slice'
-
 const cssHashes = {}
 const mainPlugins = []
 mainPlugins.push(postcssEach)
