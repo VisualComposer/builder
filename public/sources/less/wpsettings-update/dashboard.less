@@ -753,6 +753,16 @@
   }
 }
 
+.wp-admin {
+  .vcv-maintenance-mode-section.vcv-maintenance-mode_vcv-maintenanceMode {
+    &:not(.vcv-visible) {
+      tr:nth-child(2) {
+        display: none;
+      }
+    }
+  }
+}
+
 .vcv-ui-settings-status-table {
   &-title.vcv-help{
     padding: 0;

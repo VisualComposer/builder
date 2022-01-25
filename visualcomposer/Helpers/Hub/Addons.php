@@ -21,6 +21,11 @@ class Addons implements Helper
 
         if (is_array($addons)) {
             foreach ($addons as $key => $addon) {
+                $migratedToFreeList = $this->getMigratedToFree();
+                if (in_array($key, $migratedToFreeList)) {
+                    continue;
+                }
+
                 $data = $addon;
                 if (!$outputAddonRealPath) {
                     // Clean secure variables
@@ -175,5 +180,15 @@ class Addons implements Helper
         }
 
         return $phpFiles;
+    }
+
+    /**
+     * Get list slugs addons that was migrated from free to premium version.
+     *
+     * @return array
+     */
+    public function getMigratedToFree()
+    {
+        return ['maintenanceMode'];
     }
 }
