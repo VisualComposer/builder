@@ -216,12 +216,14 @@ class License extends Container implements Helper
     }
 
     /**
-     * Get site id.
+     * Get hashed key
      *
-     * @return string
+     * @param string $key
+     *
+     * @return false|string
      */
-    public function getSiteId()
+    public function getHashedKey($key)
     {
-        return substr(md5(wp_salt() . get_site_url()), 2, 12);
+        return substr(md5(wp_salt() . $key), 2, 12);
     }
 }
