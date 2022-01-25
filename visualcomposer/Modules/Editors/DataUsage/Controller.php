@@ -440,6 +440,6 @@ class Controller extends Container implements Module
      */
     protected function getHashedKey($key)
     {
-        return substr(hash("sha512", wp_salt() . $key), 2, 12);
+        return substr(md5(wp_salt() . $key), 2, 12);
     }
 }

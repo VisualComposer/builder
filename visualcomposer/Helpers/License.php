@@ -222,6 +222,6 @@ class License extends Container implements Helper
      */
     public function getSiteId()
     {
-        return substr(hash("sha512", wp_salt() . get_site_url()), 2, 12);
+        return substr(md5(wp_salt() . get_site_url()), 2, 12);
     }
 }
