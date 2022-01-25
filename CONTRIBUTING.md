@@ -128,9 +128,9 @@ $ bash tools/elements/buildProductionScript.sh
 You can build each element separately.
 ```sh
 $ cd elements/{elementDirectory}
-$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js
+$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.config.js
 # watch
-$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js --watch
+$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.config.js --watch
 ```
 Compile less files in elements
 ```sh
