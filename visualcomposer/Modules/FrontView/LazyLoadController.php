@@ -43,7 +43,11 @@ class LazyLoadController extends Container implements Module
     protected function initialize(Options $optionsHelper)
     {
         $isGlobalEnabled = $optionsHelper->get('settings-lazy-load-enabled', true);
-        $isWpNativeLazyLoadEnabled = wp_lazy_loading_enabled('img', 'the_content');
+
+        $isWpNativeLazyLoadEnabled = true;
+        if (function_exists('wp_lazy_loading_enabled')) {
+            $isWpNativeLazyLoadEnabled = wp_lazy_loading_enabled('img', 'the_content');
+        }
 
         if (!$isGlobalEnabled || !$isWpNativeLazyLoadEnabled) {
             $this->wpAddFilter('the_content', 'globalOptionParser', 100);
@@ -88,12 +92,6 @@ class LazyLoadController extends Container implements Module
         $variables[] = [
             'key' => 'VCV_GLOBAL_LAZY_LOAD_ENABLED',
             'value' => $optionsHelper->get('settings-lazy-load-enabled', true),
-            'type' => 'constant',
-        ];
-
-        $variables[] = [
-            'key' => 'VCV_WP_LAZY_LOAD_ENABLED',
-            'value' => wp_lazy_loading_enabled('img', 'the_content'),
             'type' => 'constant',
         ];
 
