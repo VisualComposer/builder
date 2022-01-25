@@ -1,30 +1,34 @@
 import React, { useState } from 'react'
 import Modal from 'public/components/modal/modal'
+import classNames from 'classnames'
+import { getService } from 'vc-cake'
+const dataManager = getService('dataManager')
 
-function ActivationSurvey ({ show, onClose, onSubmitSurvey }) {
-  const options = [
-    {
-      id: 'myself',
-      title: 'Myself',
-      description: 'This is a site for myself or my business'
-    },
-    {
-      id: 'client',
-      title: 'My Client',
-      description: 'I am getting paid by a client to create this site'
-    },
-    {
-      id: 'work',
-      title: 'My Work',
-      description: 'I am creating a site for a company I work for'
-    },
-    {
-      id: 'else',
-      title: 'Someone Else',
-      description: 'I am creating a site for my friend or family'
-    }
-  ]
+const localizations = dataManager.get('localizations')
+const options = [
+  {
+    id: 'myself',
+    title: localizations.myselfTitle,
+    description: localizations.myselfDescription
+  },
+  {
+    id: 'client',
+    title: localizations.clientTitle,
+    description: localizations.clientDescription
+  },
+  {
+    id: 'work',
+    title: localizations.workTitle,
+    description: localizations.workDescription
+  },
+  {
+    id: 'else',
+    title: localizations.elseTitle,
+    description: localizations.elseDescription
+  }
+]
 
+function ActivationSurvey ({ show, onClose, onSubmitSurvey, isLoading }) {
   const [selectedAnswer, setSelectedAnswer] = useState(false)
 
   const handleSelect = (e) => {
@@ -34,6 +38,11 @@ function ActivationSurvey ({ show, onClose, onSubmitSurvey }) {
   const handleSubmit = () => {
     onSubmitSurvey(selectedAnswer)
   }
+
+  const buttonClasses = classNames({
+    'survey-submit': true,
+    'survey-submit--loading': isLoading
+  })
 
   return (
     <div className='vcv-activation-survey'>
@@ -59,7 +68,7 @@ function ActivationSurvey ({ show, onClose, onSubmitSurvey }) {
             </ul>
           </section>
           <footer className='vcv-ui-modal-footer'>
-            <button className='survey-submit' onClick={handleSubmit}>Submit</button>
+            <button className={buttonClasses} disabled={isLoading} onClick={handleSubmit}>Submit</button>
           </footer>
         </div>
       </Modal>

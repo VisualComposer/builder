@@ -92,7 +92,8 @@ export default class ActivationSectionProvider extends React.Component {
       errorReported: false,
       loadingText: null,
       loadingDescription: null,
-      showSurvey: false
+      showSurvey: window.vcvActivationSurveyUserReasonToUse === false,
+      surveyIsLoading: false
     }
 
     this.doAction = this.doAction.bind(this)
@@ -109,11 +110,6 @@ export default class ActivationSectionProvider extends React.Component {
   componentDidMount () {
     const { isLoadingFinished, assetsActions, postUpdateActions } = this.state
     const { shouldDoUpdate } = ActivationSectionProvider
-    if (window.vcvActivationSurveyUserReasonToUse === false) {
-      this.setState({ showSurvey: true })
-    } else {
-      this.setState({ showSurvey: false })
-    }
 
     if (shouldDoUpdate && !isLoadingFinished) {
       const cnt = assetsActions.length
@@ -293,12 +289,14 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   handleSubmitSurvey (userReasonUse) {
-    this.handleClosePopup()
-
+    this.setState({ surveyIsLoading: true })
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'license:activation:survey:adminNonce',
       'vcv-plugin-user-reason-use': userReasonUse,
       'vcv-nonce': dataManager.get('nonce')
+    }).then(() => {
+      this.setState({ surveyIsLoading: false })
+      this.handleClosePopup()
     })
   }
 
@@ -324,7 +322,7 @@ export default class ActivationSectionProvider extends React.Component {
           ...this.state
         }}
       >
-        <ActivationSurvey show={this.state.showSurvey} onClose={this.handleCloseSurvey} onSubmitSurvey={this.handleSubmitSurvey} />
+        <ActivationSurvey show={this.state.showSurvey} onClose={this.handleCloseSurvey} onSubmitSurvey={this.handleSubmitSurvey} isLoading={this.state.surveyIsLoading} />
         <div className='vcv-activation-section'>
           {this.getActiveScreen()}
         </div>
