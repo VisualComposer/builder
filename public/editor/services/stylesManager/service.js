@@ -15,6 +15,9 @@ import objectHash from 'node-object-hash'
 
 import cssNano from 'cssnano'
 
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+
 const cssHashes = {}
 const mainPlugins = []
 mainPlugins.push(postcssEach)
@@ -60,6 +63,7 @@ mainPlugins.push(functions({
 }))
 mainPlugins.push(postcssColor)
 mainPlugins.push(postcssNested)
+
 // mainPlugins.push(postcssClean)
 
 class StylesManager {
@@ -139,6 +143,11 @@ class StylesManager {
         return iterations.push(cssHashes[hash].result)
       }
 
+      // No PostCSS used in local/global css
+      if (style.pureCss) {
+        return style.src
+      }
+
       let use = []
       if (Object.prototype.hasOwnProperty.call(style, 'variables')) {
         use.push(postcssAdvancedVars({
@@ -174,13 +183,19 @@ class StylesManager {
           style.src = style.src.default
         }
       }
-      return iterations.push(postcss(use).process(style.src, { from: undefined }).then((result) => {
-        const resultCss = result && result.css ? result.css : ''
-        cssHashes[hash].result = resultCss
-        return resultCss
-      }).catch((result) => {
-        window.console && window.console.warn && window.console.warn('Failed to compile css', style, result)
-      }))
+
+      try {
+        return iterations.push(postcss(use).process(style.src, { from: undefined }).then((result) => {
+          const resultCss = result && result.css ? result.css : ''
+          cssHashes[hash].result = resultCss
+          return resultCss
+        }).catch((result) => {
+          window.console && window.console.warn && window.console.warn('Failed to compile css', style, result)
+        }))
+      } catch (e) {
+        console.error(e)
+        return ''
+      }
     })
 
     if (join) {
