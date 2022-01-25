@@ -2,7 +2,7 @@
 
 exports[`Tests Basic Button element render Basic Button render 1`] = `
 <div
-  className="vce-button--style-basic-container"
+  className="vce-button--style-basic-container vce-button--style-basic-container--align-left"
 >
   <span
     className="vce-button--style-basic-wrapper vce"
@@ -10,7 +10,7 @@ exports[`Tests Basic Button element render Basic Button render 1`] = `
     id="el-123456789"
   >
     <button
-      className="vce-button--style-basic"
+      className="vce-button vce-button--style-basic vce-button--style-basic--border-square vce-button--style-basic--size-medium vce-button--style-basic--color-557cbf--fff"
       data-vce-do-apply="padding border background  el-123456789"
     >
       Hello jest from react
