@@ -66,8 +66,8 @@ class PostUpdateTest extends WP_UnitTestCase
             $this->checkFeEditorVariables($feEditorOutput);
             $this->checkFeEditorBundles($feEditorOutput);
 
-            preg_match_all('/Visual Composer Post Update/', $feEditorOutput, $matches);
-            $this->assertEquals(1, count($matches[0]), 'Visual Composer Post Update');
+            preg_match_all('/Visual Composer: Update/', $feEditorOutput, $matches);
+            $this->assertEquals(1, count($matches[0]), 'Visual Composer: Update');
         }
 
         $this->assertTrue($exceptionCalled, 'exception called successfully');
