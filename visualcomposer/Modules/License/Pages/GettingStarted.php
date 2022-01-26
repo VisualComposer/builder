@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Request;
@@ -58,7 +59,24 @@ class GettingStarted extends Container implements Module
             },
             70
         );
+
         $this->addFilter('vcv:editor:variables', 'addVariables');
+
+        $this->addFilter('vcv:wp:dashboard:variables', 'addDashboardVariables');
+    }
+
+    protected function addDashboardVariables($variables, Options $optionsHelper)
+    {
+        // Used in Tutorial Template to get back to WordPress
+        if (isset($_GET['page'])  &&  $_GET['page'] == 'vcv-getting-started') {
+            $variables[] = [
+                'key' => 'vcvActivationSurveyUserReasonToUse',
+                'value' => $optionsHelper->get('activation-survey-user-reason-to-use', false),
+                'type' => 'variable',
+            ];
+        }
+
+        return $variables;
     }
 
     protected function addVariables($variables, $payload)
@@ -74,7 +92,7 @@ class GettingStarted extends Container implements Module
     }
 
     /**
-     *
+     * Add actions before render.
      */
     protected function beforeRender()
     {
