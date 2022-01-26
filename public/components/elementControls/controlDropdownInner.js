@@ -38,17 +38,17 @@ export default function ControlDropdownInner ({ elementId, isRightClick }) {
     // tabs don't have advanced design options
     let label = addElementText
     let addElementTag = ''
-    let children = cook.getContainerChildren(options.tag)
+    const children = cook.getContainerChildren(options.tag)
     if (children.length === 1) {
-      addElementTag = children[ 0 ].tag
-      label = `${addText} ${children[ 0 ].name}`
+      addElementTag = children[0].tag
+      label = `${addText} ${children[0].name}`
     }
     if (options.tag === 'buttonGroup') {
       label = `${addText} Button`
       addElementTag = options.tag
     }
     if (options.tag === 'iconGroup') {
-      let element = cook.get({ tag: 'icon' })
+      const element = cook.get({ tag: 'icon' })
       label = `${addText} ${element.get('name')}`
       addElementTag = element.get('tag')
     }
