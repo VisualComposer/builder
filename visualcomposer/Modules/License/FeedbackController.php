@@ -44,11 +44,6 @@ class FeedbackController extends Container implements Module
             'activationSurveySubmitForm'
         );
 
-        $this->addFilter(
-            'vcv:ajax:license:activation:survey:close:adminNonce',
-            'processCloseActivationSurvey'
-        );
-
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
         $file = plugin_basename(VCV_PLUGIN_FULL_PATH);
@@ -175,18 +170,6 @@ class FeedbackController extends Container implements Module
                 'timeout' => 30,
             ]
         );
-
-        return ['status' => true];
-    }
-
-    /**
-     * Disable activation survey after user close window.
-     *
-     * @return []
-     */
-    protected function processCloseActivationSurvey(Options $optionsHelper)
-    {
-        $optionsHelper->set('activation-survey-user-reason-to-use', '');
 
         return ['status' => true];
     }

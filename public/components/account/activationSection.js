@@ -308,11 +308,6 @@ export default class ActivationSectionProvider extends React.Component {
 
   handleCloseSurvey () {
     this.handleClosePopup()
-
-    dataProcessor.appAdminServerRequest({
-      'vcv-action': 'license:activation:survey:close:adminNonce',
-      'vcv-nonce': dataManager.get('nonce')
-    })
   }
 
   render () {
