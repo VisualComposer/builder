@@ -165,7 +165,7 @@ export default class Sticky extends Attribute {
     }
     const value = deviceData[fieldKey] || false
     const labelText = Sticky.localizations ? Sticky.localizations.zIndex : 'Z-index'
-    const tooltipText = Sticky.localizations ? Sticky.localizations.specifySpacesFromTheScreenTop : 'Control z-index for the element to place it on top or above the following content.'
+    const tooltipText = Sticky.localizations ? Sticky.localizations.controlZIndexForElement : 'Control the z-index for the section to place it over or under the following content. Sections with a higher index will be placed on top of sections with a lower index.'
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-group-heading-wrapper'>
