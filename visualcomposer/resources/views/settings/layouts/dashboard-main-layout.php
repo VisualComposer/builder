@@ -198,25 +198,6 @@ STYLE;
     color: #8E8F9F;
   }
 
-  .vcv-dashboard-sidebar-navigation-menu .vcv-dashboard-sidebar-navigation-menu-item {
-    margin-right: -12px;
-  }
-
-  .vcv-dashboard-sidebar-navigation-menu-item .vcv-available-in-premium.vcv-ui-icon-dashboard-star {
-    color: #6476BD;
-  }
-
-  .vcv-dashboard-sidebar-navigation-link--active .vcv-available-in-premium.vcv-ui-icon-dashboard-star,
-  .vcv-dashboard-sidebar-navigation-link:hover .vcv-available-in-premium.vcv-ui-icon-dashboard-star {
-    color: #FFB718;
-  }
-
-  .vcv-dashboard-sidebar-navigation-menu-item .vcv-available-in-premium.vcv-ui-icon-dashboard-star::before {
-    font-size: 13px;
-    margin: 0;
-    padding: 0 0 0 8px;
-  }
-
   @-webkit-keyframes vcv-ui-wp-spinner-animation {
     from {
       -webkit-transform: translate(-50%, -50%) rotate(0deg);
@@ -258,23 +239,24 @@ STYLE;
     <section class="vcv-dashboard-container">
         <?php if ($activeTab !== 'vcv-getting-started') { ?>
 	    <aside class="vcv-dashboard-sidebar">
-            <header class="vcv-dashboard-sidebar-header">
-                <?php if (!vchelper('License')->isPremiumActivated()) : ?>
-                    <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get(
-                        'vcdashboard-logo-url'
-                    ); ?>" target="_blank" rel="noopener noreferrer">
-                        <?php evcview('settings/partials/dashboard-logo'); ?>
-                    </a>
-                <?php else : ?>
-                    <a class="vcv-dashboard-logo">
-                        <?php evcview('settings/partials/dashboard-logo'); ?>
-                    </a>
-                <?php endif; ?>
-                <button class="vcv-dashboard-nav-toggle" aria-label="Navigation toggle" aria-expanded="false">
-                    <span class="vcv-dashboard-nav-toggle-hamburger"></span>
-                </button>
-            </header>
-            <div class="vcv-dashboard-sidebar-navigation-container">
+            <div class="vcv-dashboard-sidebar-inner">
+                <header class="vcv-dashboard-sidebar-header">
+                    <?php if (!vchelper('License')->isPremiumActivated()) : ?>
+                        <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get(
+                            'vcdashboard-logo-url'
+                        ); ?>" target="_blank" rel="noopener noreferrer">
+                            <?php evcview('settings/partials/dashboard-logo'); ?>
+                        </a>
+                    <?php else : ?>
+                        <a class="vcv-dashboard-logo">
+                            <?php evcview('settings/partials/dashboard-logo'); ?>
+                        </a>
+                    <?php endif; ?>
+                    <button class="vcv-dashboard-nav-toggle" aria-label="Navigation toggle" aria-expanded="false">
+                        <span class="vcv-dashboard-nav-toggle-hamburger"></span>
+                    </button>
+                </header>
+                <div class="vcv-dashboard-sidebar-navigation-container">
                 <nav class="vcv-dashboard-sidebar-navigation vcv-dashboard-sidebar-navigation--main">
                     <ul class="vcv-dashboard-sidebar-navigation-menu">
                         <?php
@@ -379,6 +361,7 @@ STYLE;
                         ?>
                     </ul>
                 </nav>
+            </div>
             </div>
         </aside>
 	    <?php } ?>
