@@ -19,8 +19,11 @@
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;
-  padding: 30px;
   background-image: linear-gradient(to right, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
+
+  .vcv-dashboard-sidebar-inner {
+    padding: 30px;
+  }
 }
 
 .vcv-dashboard-sidebar-navigation-container {
@@ -47,6 +50,7 @@
     box-shadow: none;
   }
 }
+
 .vcv-dashboard-sidebar-navigation-menu-item.vcv-dashboard-sidebar-navigation-menu-item-parent {
   font-family: 'VC-Icons';
   position: relative;
@@ -75,6 +79,7 @@
   list-style-type: none;
   cursor: pointer;
 }
+
 .vcv-dashboard-sidebar-navigation-menu :not(.vcv-dashboard-sidebar-navigation-menu-item--active) ul {
   display: none;
 }
@@ -100,18 +105,26 @@
     box-shadow: none;
   }
 }
+
 .vcv-dashboard-sidebar-navigation-menu-item.vcv-dashboard-sidebar-navigation-menu-item-parent {
-  font-family: 'VC-Icons';
   position: relative;
-  &::after {
+
+  .vcv-dashboard-caret {
     position: absolute;
     right: -5px;
-    top: 15px;
     font-size: 18px;
     color: #fff;
     opacity: 0.5;
-    content: "\25be";
-    pointer-events: none;
+    transition: opacity .2s;
+
+    &::before {
+      content: "\25be";
+      font-family: 'VC-Icons';
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &.vcv-dashboard-sidebar-navigation-menu-item--active,
@@ -121,10 +134,11 @@
     }
   }
 
-  &.vcv-dashboard-sidebar-navigation-menu-item--active::after {
+  &.vcv-dashboard-sidebar-navigation-menu-item--active .vcv-dashboard-caret::before {
     content: "\25b4";
   }
 }
+
 .vcv-dashboard-sidebar-navigation-menu--submenu {
   padding: 0 0 0 50px;
 
@@ -137,6 +151,7 @@
   .vcv-dashboard-sidebar-navigation-link--active {
     color: rgba(255, 255, 255, 0.6);
   }
+
   .vcv-dashboard-sidebar-navigation-menu-item:only-child {
     display: none;
   }
@@ -148,6 +163,25 @@
   .vcv-dashboard-sidebar-navigation-menu-item:last-child {
     margin-bottom: 6px;
   }
+}
+
+.vcv-dashboard-sidebar-navigation-menu .vcv-dashboard-sidebar-navigation-menu-item {
+  margin-right: 12px;
+}
+
+.vcv-dashboard-sidebar-navigation-menu-item .vcv-available-in-premium.vcv-ui-icon-dashboard-star {
+  color: #6476BD;
+}
+
+.vcv-dashboard-sidebar-navigation-link--active .vcv-available-in-premium.vcv-ui-icon-dashboard-star,
+.vcv-dashboard-sidebar-navigation-link:hover .vcv-available-in-premium.vcv-ui-icon-dashboard-star {
+  color: #FFB718;
+}
+
+.vcv-dashboard-sidebar-navigation-menu-item .vcv-available-in-premium.vcv-ui-icon-dashboard-star::before {
+  font-size: 13px;
+  margin: 0;
+  padding: 0 0 0 8px;
 }
 
 .vcv-ui-icon-dashboard::before {
@@ -199,10 +233,12 @@
     .vcv-dashboard-nav-toggle-hamburger {
       transform: translate3d(0, 0, 0) rotate(45deg);
     }
+
     .vcv-dashboard-nav-toggle-hamburger::before {
       transform: rotate(-45deg) translate3d(-5.71429px, -6px, 0);
       opacity: 0;
     }
+
     .vcv-dashboard-nav-toggle-hamburger::after {
       transform: translate3d(0, -7px, 0) rotate(-90deg);
     }
@@ -356,12 +392,15 @@
       box-shadow: none;
     }
   }
+
   .vcv-dashboard-button--save {
     width: 100%;
   }
+
   .vcv-dashboard-button--inline {
     width: auto;
   }
+
   .vcv-license-btn-activate-hub.vcv-license-btn-go-premium,
   .vcv-dashboard-button--save {
     background: @vcv-dashboard-save-btn-bg-color;
@@ -415,6 +454,7 @@
 
   .vcv-ui-form-switch {
     font-size: 10px;
+
     + span {
       line-height: @vcv-dashboard-text-line-height;
       margin: 0 0 0 15px;
@@ -447,6 +487,7 @@
   position: relative;
   display: block;
   margin: 30px 0 0;
+
   &.vcv-dashboard-button--loading {
     &::before {
       .spinner()
@@ -562,6 +603,7 @@
   .vcv-ui-settings-status-table .good:not(.vcv-no-icon),
   .vcv-ui-settings-status-table .bad:not(.vcv-no-icon) {
     padding: 10px 35px 10px 15px;
+
     &::before {
       left: initial;
       right: 13px;
@@ -581,23 +623,28 @@
     padding-top: 5px;
   }
 }
+
 .vcv-ui-settings-data-collection-table-wrapper {
   overflow: hidden;
   transition: all .2s ease;
 
   .vcv-ui-settings-data-collection-table {
     margin-top: 24px;
+
     tr {
       display: table-row;
     }
+
     td {
       display: table-cell;
       padding: 15px 10px;
+
       &:first-child {
         flex: none;
       }
     }
   }
+
   .vcv-description, .description, .vcv-description p {
     margin: 0;
   }
@@ -612,10 +659,6 @@
     max-width: 310px;
     flex: 0 0 310px;
     background-image: linear-gradient(to bottom, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
-    position: sticky;
-    top: 32px;
-    bottom: 0;
-    height: 100%;
     min-height: calc(100vh - 32px);
   }
 
@@ -637,6 +680,10 @@
 
   .vcv-dashboard-main .vcv-dashboards-section-content .form-table {
     margin: 0;
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu .vcv-dashboard-sidebar-navigation-menu-item {
+    margin-right: -12px;
   }
 
   .vcv-dashboard-main .vcv-dashboards-section-content .form-table tr {
@@ -760,7 +807,7 @@
 }
 
 .vcv-ui-settings-status-table {
-  &-title.vcv-help{
+  &-title.vcv-help {
     padding: 0;
   }
 
