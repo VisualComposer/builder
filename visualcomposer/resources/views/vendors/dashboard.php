@@ -13,13 +13,22 @@ $utmHelper = vchelper('Utm');
 ?>
 <div class="rss-widget">
     <style>
+        .vcwb-logo-container {
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            margin: 5px 0;
+            flex-wrap: wrap;
+        }
+        .vcwb-logo-container .button.button-primary {
+          margin: 5px 0;
+        }
         .vcwb-logo {
-            padding-top: 5px;
-            margin-bottom: 10px;
-            display: inline-block;
+            margin: 5px 10px 5px 0;
+            display: inline-flex;
         }
         .vcwb-logo svg {
-            width: 250px;
+            width: 200px;
             max-width: 100%;
         }
         #visualcomposer-blog-dashboard .inside {
@@ -32,9 +41,14 @@ $utmHelper = vchelper('Utm');
             padding-bottom: 8px;
         }
     </style>
-    <a href="<?php echo $utmHelper->get('wpdashboard-news-logo'); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
-        <?php evcview('vendors/images/vc-logo'); ?>
-    </a>
+    <div class="vcwb-logo-container">
+        <a href="<?php echo $utmHelper->get('wpdashboard-news-logo'); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
+            <?php evcview('vendors/images/vc-logo'); ?>
+        </a>
+        <a href="<?php echo admin_url('post-new.php?post_type=page&vcv-action=frontend'); ?>" class="button button-primary">
+            <?php echo esc_html__('Create New Page', 'visualcomposer'); ?>
+        </a>
+    </div>
     <ul>
         <?php
         if (isset($rssItems) && !empty($rssItems)) :
@@ -69,6 +83,11 @@ $utmHelper = vchelper('Utm');
     <a href="<?php echo $utmHelper->get('wpdashboard-news-blog'); ?>" target="_blank" rel="noopener noreferrer"
         class="vcwb-rss-widget-link vcwb-rss-widget-link--blog">
         <?php echo esc_html__('Blog', 'visualcomposer'); ?>
+        <span aria-hidden="true" class="dashicons dashicons-external"></span>
+    </a> |
+    <a href="<?php echo $utmHelper->get('wpdashboard-news-help'); ?>" target="_blank" rel="noopener noreferrer"
+        class="vcwb-rss-widget-link vcwb-rss-widget-link--blog">
+        <?php echo esc_html__('Help', 'visualcomposer'); ?>
         <span aria-hidden="true" class="dashicons dashicons-external"></span>
     </a>
     <?php if (!vchelper('License')->isPremiumActivated()) : ?>
