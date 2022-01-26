@@ -18,12 +18,8 @@ export const dashboard = () => {
   let httpRequest = false
   let formTouched = false
   const urlHash = new URL(document.URL).hash
-  const dashboardSidebar = document.querySelector('.vcv-dashboard-sidebar')
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
   const navigationMenuContainer = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
-  const navigationMenu = document.querySelector('.vcv-dashboard-sidebar-navigation.vcv-dashboard-sidebar-navigation--main')
-  const navigationMenuTop = document.querySelector('.vcv-dashboard-sidebar-navigation-menu')
-  const navigationMenuBottom = document.querySelector('.vcv-dashboard-sidebar-navigation-bottom-menu')
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
   const menuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-link'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
@@ -31,14 +27,17 @@ export const dashboard = () => {
   const dataCollectionTableWrapper = document.querySelector('.vcv-ui-settings-data-collection-table-wrapper')
   const dataCollectionTableButton = document.querySelector('#vcv-data-collection-table-button')
 
-  const sidebar = new StickySidebar('.vcv-dashboard-sidebar',
-    {
-      topSpacing: 32,
-      innerWrapperSelector: '.vcv-dashboard-sidebar-inner',
-      resizeSensor: true,
-      minWidth: 783
-    }
-  )
+  const initSidebar = () => {
+    return new StickySidebar('.vcv-dashboard-sidebar',
+      {
+        topSpacing: 32,
+        innerWrapperSelector: '.vcv-dashboard-sidebar-inner',
+        resizeSensor: true,
+        minWidth: 783
+      }
+    )
+  }
+  initSidebar()
 
   const handleNavigationToggle = () => {
     navigationMenuContainer.classList.toggle('vcv-is-navigation-visible')
