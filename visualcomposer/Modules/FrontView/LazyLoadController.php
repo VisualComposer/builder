@@ -42,14 +42,14 @@ class LazyLoadController extends Container implements Module
      */
     protected function initialize(Options $optionsHelper)
     {
-        $isGlobalEnabled = $optionsHelper->get('settings-lazy-load-enabled', true);
+        $isGlobalLazyLoadOptionEnabled = $optionsHelper->get('settings-lazy-load-enabled', true);
 
-        $isWpNativeLazyLoadEnabled = true;
+        $isVisualcomposerLazyLoadEnabled = true;
         if (function_exists('wp_lazy_loading_enabled')) {
-            $isWpNativeLazyLoadEnabled = wp_lazy_loading_enabled('img', 'the_content');
+            $isVisualcomposerLazyLoadEnabled = wp_lazy_loading_enabled('img', 'the_content');
         }
 
-        if (!$isGlobalEnabled || !$isWpNativeLazyLoadEnabled) {
+        if (!$isGlobalLazyLoadOptionEnabled || !$isVisualcomposerLazyLoadEnabled) {
             $this->wpAddFilter('the_content', 'globalOptionParser', 100);
             $this->addFilter('vcv:frontend:content', 'globalOptionParser', 100);
             $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
