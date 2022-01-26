@@ -1440,7 +1440,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'specifySpacesFromTheScreenTop' => __(
-                'Specify space (in pixels) from the screen top where element should stick.',
+                'Control the z-index for the section to place it over or under the following content. Sections with a higher index will be placed on top of sections with a lower index.',
                 'visualcomposer'
             ),
             'zIndex' => __(
