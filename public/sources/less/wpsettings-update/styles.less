@@ -304,18 +304,14 @@
 }
 
 .vcv-ui-settings-status-table,
-.vcv-ui-settings-data-collection-table {
-  background-color: #fff;
+.vcv-ui-settings-data-collection-table-wrapper table.vcv-ui-settings-data-collection-table {
   border: none;
-  border-radius: 5px;
-  border-collapse: collapse;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
-  border-spacing: 0;
   width: 100%;
   font-size: 14px;
   margin-bottom: 20px;
   visibility: visible;
   text-align: left;
+  padding-left: 10px;
 
   th,
   td {
@@ -325,7 +321,7 @@
     line-height: 24px;
     background: none;
     border: none;
-    padding: 15px 10px;
+    padding: 8px 10px;
   }
 
   th {
@@ -333,7 +329,7 @@
   }
 
   tr {
-    border-top: 1px solid #fafafa;
+    display: flex;
   }
 
   thead {
@@ -346,7 +342,9 @@
     color: @vcv-dashboard-text-color;
 
     &:first-child {
+      display: block;
       width: 33%;
+      max-width: 140px;
     }
   }
 
