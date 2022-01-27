@@ -304,8 +304,13 @@
 }
 
 .vcv-ui-settings-status-table,
-.vcv-ui-settings-data-collection-table-wrapper table.vcv-ui-settings-data-collection-table {
+.vcv-ui-settings-data-collection-table {
+  background-color: #fff;
   border: none;
+  border-radius: 5px;
+  border-collapse: collapse;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  border-spacing: 0;
   width: 100%;
   font-size: 14px;
   margin-bottom: 20px;
@@ -321,7 +326,7 @@
     line-height: 24px;
     background: none;
     border: none;
-    padding: 8px 10px;
+    padding: 15px 10px;
   }
 
   th {
@@ -329,7 +334,7 @@
   }
 
   tr {
-    display: flex;
+    border-top: 1px solid #fafafa;
   }
 
   thead {
@@ -342,9 +347,7 @@
     color: @vcv-dashboard-text-color;
 
     &:first-child {
-      display: block;
       width: 33%;
-      max-width: 140px;
     }
   }
 
