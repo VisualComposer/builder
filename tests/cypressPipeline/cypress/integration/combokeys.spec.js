@@ -163,6 +163,5 @@ describe('Editor controls', function () {
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 83, which: 83 })
         cy.wait('@saveRequest')
         cy.viewPage()
-
-    }) 
+    })
 })
