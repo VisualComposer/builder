@@ -287,8 +287,8 @@ STYLE;
                                         empty($menuValue['dashboardName']) ? $menuValue['name']
                                             : $menuValue['dashboardName']
                                     ); ?>
-                                    <?php echo count($subTabs) > 1 ? '<span class="vcv-dashboard-caret"></span>' : ''?>
                                 </a>
+                                <?php echo count($subTabs) > 1 ? '<span class="vcv-dashboard-caret"></span>' : ''?>
                                 <?php
                                 // Render sub menu items
                                 if (count($subTabs) > 1) :
