@@ -25,15 +25,32 @@ class WpJobsManagerController extends Container implements Module
 
     protected function initialize()
     {
-        if (defined('JOB_MANAGER_VERSION')) {
-            $this->wpAddAction(
-                'job_content_start',
-                function () {
-                    global $post;
-                    // @codingStandardsIgnoreLine
-                    $post->post_content = vcfilter('vcv:frontView:content:encode', $post->post_content);
-                }
-            );
+        if (!defined('JOB_MANAGER_VERSION')) {
+            return;
         }
+
+        $this->wpAddAction(
+            'job_content_start',
+            function () {
+                global $post;
+                // @codingStandardsIgnoreLine
+                $post->post_content = vcfilter('vcv:frontView:content:encode', $post->post_content);
+            }
+        );
+
+        $this->addFilter(
+            'vcv:addon:themeBuilder:filterContentBeforeLayoutInsert',
+            'removeMetadataFromLayout'
+        );
+    }
+
+    /**
+     * Remove all metadata from content for layout cases.
+     *
+     * @return string
+     */
+    protected function removeMetadataFromLayout()
+    {
+        return get_the_content();
     }
 }
