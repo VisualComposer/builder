@@ -22,7 +22,9 @@ $utmHelper = vchelper('Utm');
         justify-content: space-between;
         -ms-flex-line-pack: center;
         align-content: center;
-        margin: 5px 0;
+        margin: 0 -12px 10px;
+        padding: 0 12px 10px 12px;
+        border-bottom: 1px solid #dcdcde;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
       }
