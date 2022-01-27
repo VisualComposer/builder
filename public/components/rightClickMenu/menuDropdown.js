@@ -54,6 +54,7 @@ export default class MenuDropdown extends React.Component {
   render () {
     const vcElement = ControlHelpers.getVcElement(this.props.id)
     const colorIndex = ControlHelpers.getElementColorIndex(vcElement)
+    const isRightClick = true
 
     if (!vcElement) {
       return null
@@ -74,7 +75,7 @@ export default class MenuDropdown extends React.Component {
     return (
       <div className='vcv-ui-right-click-menu-container' style={styles}>
         <div className={dropdownClasses} ref={this.rightClickDropdown}>
-          <ControlDropdownInner elementId={this.props.id} />
+          <ControlDropdownInner elementId={this.props.id} isRightClick={isRightClick} />
         </div>
       </div>
     )
