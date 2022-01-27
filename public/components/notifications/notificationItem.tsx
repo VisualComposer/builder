@@ -1,6 +1,6 @@
 // @ts-ignore
 import { notificationRemoved } from 'public/editor/stores/notifications/slice'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 // @ts-ignore
 import store from 'public/editor/stores/store'
 // @ts-ignore
@@ -25,15 +25,16 @@ const NotificationItem: React.FC<Props> = (props) => {
   const [hidden, setHidden] = useState<boolean>(false)
   let textHtml
 
-  useEffect(() => {
-    if (hidden) {
-      setTimeout(() => {
-        store.dispatch(notificationRemoved(props.data.id))
-      }, 600);
-    }
-  }, [hidden, props])
+  if (!props.data.text) {
+    return null
+  }
 
-  if (!props.data.text) return null
+  const handleClickHideNotification = () => {
+    setHidden(true)
+    setTimeout(() => {
+      store.dispatch(notificationRemoved(props.data.id))
+    }, 600);
+  }
 
   if (props.data.html) {
     textHtml = <div className='vcv-layout-notifications-text' dangerouslySetInnerHTML={{ __html: props.data.text }} />
@@ -52,14 +53,14 @@ const NotificationItem: React.FC<Props> = (props) => {
   })
 
   return (!props.data.showCloseButton ?
-      <div className={classes} onClick={() => setHidden(true)}>
+      <div className={classes} onClick={handleClickHideNotification}>
         {textHtml}
       </div> : <div className={classes}>
         {textHtml}
         <div
           className='vcv-layout-notifications-close'
           title={localizations ? localizations.close : 'Close'}
-          onClick={() => setHidden(true)}
+          onClick={handleClickHideNotification}
         >
           <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
         </div>
