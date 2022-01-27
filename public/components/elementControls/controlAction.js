@@ -50,7 +50,10 @@ export default function ControlAction (props) {
           eventOptions.elementTag = tag === 'layoutContentArea' ? 'layoutContentArea' : 'postsGridDataSourceArchive'
         }
       }
-      workspaceContentState.set(false)
+      const currentSettingsState = workspaceStorage.state('settings').get()
+      if (currentSettingsState?.action && event === currentSettingsState.action && tag !== 'column') {
+        workspaceContentState.set(false)
+      }
       workspaceStorage.trigger(event, id, tag, eventOptions)
     }
     const isControlPermanent = event === 'add' && tag === 'column'
