@@ -36,7 +36,8 @@ export const initEditors = () => {
     const stylesManagerService = getService('stylesManager')
     const stylesBuilder = stylesManagerService.create()
     stylesBuilder.add({
-      src: css
+      src: css,
+      pureCss: true
     })
     return stylesBuilder.compile().then((result) => {
       globalCssTextareaCompiled.value = result

@@ -8,10 +8,12 @@ import { log as logError, send as sendErrorReport } from './logger'
 import { getResponse } from '../../tools/response'
 import VideoScreen from './videoScreen'
 import { getService } from 'vc-cake'
+import ActivationSurvey from './activationSurvey'
 
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
 const dataManager = getService('dataManager')
+const dataProcessor = getService('dataProcessor')
 
 export default class ActivationSectionProvider extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -89,7 +91,9 @@ export default class ActivationSectionProvider extends React.Component {
       sendingErrorReport: false,
       errorReported: false,
       loadingText: null,
-      loadingDescription: null
+      loadingDescription: null,
+      showSurvey: window.vcvActivationSurveyUserReasonToUse === false,
+      surveyIsLoading: false
     }
 
     this.doAction = this.doAction.bind(this)
@@ -99,11 +103,14 @@ export default class ActivationSectionProvider extends React.Component {
     this.setError = this.setError.bind(this)
     this.sendErrorReport = this.sendErrorReport.bind(this)
     this.sendErrorCallback = this.sendErrorCallback.bind(this)
+    this.handleCloseSurvey = this.handleCloseSurvey.bind(this)
+    this.handleSubmitSurvey = this.handleSubmitSurvey.bind(this)
   }
 
   componentDidMount () {
     const { isLoadingFinished, assetsActions, postUpdateActions } = this.state
     const { shouldDoUpdate } = ActivationSectionProvider
+
     if (shouldDoUpdate && !isLoadingFinished) {
       const cnt = assetsActions.length
 
@@ -281,6 +288,28 @@ export default class ActivationSectionProvider extends React.Component {
     })
   }
 
+  handleSubmitSurvey (userReasonUse) {
+    this.setState({ surveyIsLoading: true })
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'license:activation:survey:adminNonce',
+      'vcv-plugin-user-reason-use': userReasonUse,
+      'vcv-nonce': dataManager.get('nonce')
+    }).then(() => {
+      this.setState({ surveyIsLoading: false })
+      this.handleClosePopup()
+    })
+  }
+
+  handleClosePopup () {
+    this.setState({
+      showSurvey: false
+    })
+  }
+
+  handleCloseSurvey () {
+    this.handleClosePopup()
+  }
+
   render () {
     return (
       <ActivationSectionContext.Provider
@@ -288,6 +317,7 @@ export default class ActivationSectionProvider extends React.Component {
           ...this.state
         }}
       >
+        <ActivationSurvey show={this.state.showSurvey} onClose={this.handleCloseSurvey} onSubmitSurvey={this.handleSubmitSurvey} isLoading={this.state.surveyIsLoading} />
         <div className='vcv-activation-section'>
           {this.getActiveScreen()}
         </div>

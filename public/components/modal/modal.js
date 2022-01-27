@@ -17,6 +17,7 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
 
   useEffect(() => {
     workspaceStorage.state('hasModal').set(show)
+    document.body.style.overflow = show ? 'hidden' : 'auto'
   }, [show])
 
   const handleShowOnInnerClick = useCallback(event => {

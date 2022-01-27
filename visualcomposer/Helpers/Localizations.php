@@ -1443,6 +1443,10 @@ class Localizations extends Container implements Helper
                 'Specify space (in pixels) from the screen top where element should stick.',
                 'visualcomposer'
             ),
+            'controlZIndexForElement' => __(
+                'Control the z-index for the section to place it over or under the following content. Sections with a higher index will be placed on top of sections with a lower index.',
+                'visualcomposer'
+            ),
             'zIndex' => __(
                 'Z-index',
                 'visualcomposer'
@@ -1899,7 +1903,40 @@ class Localizations extends Container implements Helper
             'disableDeviceStyling' => __(
                 'Disable device styling',
                 'visualcomposer'
-            )
+            ),
+            // Activation Survey Options
+            'myselfTitle' => __(
+                'Myself',
+                'visualcomposer'
+            ),
+            'myselfDescription' => __(
+                'This is a site for myself or my business',
+                'visualcomposer'
+            ),
+            'clientTitle' => __(
+                'My Client',
+                'visualcomposer'
+            ),
+            'clientDescription' => __(
+                'I am getting paid by a client to create this site',
+                'visualcomposer'
+            ),
+            'workTitle' => __(
+                'My Work',
+                'visualcomposer'
+            ),
+            'workDescription' => __(
+                'I am creating a site for a company I work for',
+                'visualcomposer'
+            ),
+            'elseTitle' => __(
+                'Someone Else',
+                'visualcomposer'
+            ),
+            'elseDescription' => __(
+                'I am creating a site for my friend or family',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -33,7 +33,17 @@ class FeedbackController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:ajax:license:feedback:submit:adminNonce', 'submitForm');
-        $this->addFilter('vcv:ajax:license:deactivation:submit:adminNonce', 'deactivationSubmitForm');
+
+        $this->addFilter(
+            'vcv:ajax:license:deactivation:submit:adminNonce',
+            'deactivationSubmitForm'
+        );
+
+        $this->addFilter(
+            'vcv:ajax:license:activation:survey:adminNonce',
+            'activationSurveySubmitForm'
+        );
+
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
         $file = plugin_basename(VCV_PLUGIN_FULL_PATH);
@@ -88,7 +98,6 @@ class FeedbackController extends Container implements Module
     /**
      * Send reason of deactivation feedback
      *
-     * @param $response
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
@@ -96,11 +105,12 @@ class FeedbackController extends Container implements Module
      *
      * @return array
      */
-    protected function deactivationSubmitForm($response, Request $requestHelper, Url $urlHelper, License $licenseHelper, Options $optionsHelper)
+    protected function deactivationSubmitForm(Request $requestHelper, Url $urlHelper, License $licenseHelper, Options $optionsHelper)
     {
         $reasonId = $requestHelper->input('vcv-reason');
         $feedback = $requestHelper->input('vcv-extra-feedback');
         $licenseType = $licenseHelper->getType();
+        $licenseType = $licenseType ?: 'free';
 
         $url = $urlHelper->query(
             vcvenv('VCV_HUB_URL'),
@@ -110,8 +120,49 @@ class FeedbackController extends Container implements Module
                 'vcv-deactivation-feedback' => $feedback,
                 'vcv-license-type' => $licenseType,
                 'vcv-activation-time' => $optionsHelper->get('plugin-activation'),
+                'vcv-plugin-user-reason-use' => $optionsHelper->get('activation-survey-user-reason-to-use'),
+                'vcv-site-id' => $licenseHelper->getHashedKey(get_site_url()),
             ]
         );
+
+        wp_remote_get(
+            $url,
+            [
+                'timeout' => 30,
+            ]
+        );
+
+        return ['status' => true];
+    }
+
+    /**
+     * Send an identity person data.
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
+    protected function activationSurveySubmitForm(Request $requestHelper, Url $urlHelper, License $licenseHelper, Options $optionsHelper)
+    {
+        $userPluginReasonUse = esc_html($requestHelper->input('vcv-plugin-user-reason-use'));
+        $licenseType = $licenseHelper->getType();
+        $licenseType = $licenseType ?: 'free';
+
+        $url = $urlHelper->query(
+            vcvenv('VCV_HUB_URL'),
+            [
+                'vcv-send-activation-survey' => 'sendData',
+                'vcv-plugin-user-reason-use' => $userPluginReasonUse,
+                'vcv-license-type' => $licenseType,
+                'vcv-activation-time' => $optionsHelper->get('plugin-activation'),
+                'vcv-site-id' => $licenseHelper->getHashedKey(get_site_url()),
+            ]
+        );
+
+        $optionsHelper->set('activation-survey-user-reason-to-use', $userPluginReasonUse);
 
         wp_remote_get(
             $url,

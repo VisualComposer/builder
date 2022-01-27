@@ -50,6 +50,7 @@ class Utm implements Helper
             'wpdashboard-news-blog' => 'https://visualcomposer.com/blog/?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=info&utm_content=blog-text',
             'wpdashboard-news-blog-post' => '?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=info&utm_content=post-title-text',
             'wpdashboard-news-gopremium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=gopremium&utm_content=go-premium-text',
+            'wpdashboard-news-help' => 'https://help.visualcomposer.com/?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=info&utm_content=help-text',
 
             // Getting Started
             'gettingstarted' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=gettingstarted&utm_campaign=gopremium&utm_content=go-premium-text',
