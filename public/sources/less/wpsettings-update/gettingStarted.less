@@ -84,7 +84,7 @@
 
   .survey-radio + .survey-label:before {
     content: '';
-    background: #fff;
+    background: #fff no-repeat center;
     border: 1px solid #ddd;
     display: inline-block;
     vertical-align: middle;
@@ -94,6 +94,11 @@
     border-radius: 50%;
     margin-right: 15px;
     text-align: center;
+    transition: all 0.25s ease;
+  }
+
+  .survey-radio + .survey-label:hover::before {
+    border: 1px solid darken(#ddd, 30%);
   }
 
   .survey-radio:checked + .survey-label:before {

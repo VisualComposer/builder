@@ -12,11 +12,12 @@ export default function EmptyCommentElementWrapper({ children }: EmptyCommentEle
       ref.current.insertAdjacentHTML('beforebegin', '<!-- wp:vcwb/empty-comment-element-wrapper -->')
       ref.current.insertAdjacentHTML('afterend', '<!-- /wp:vcwb/empty-comment-element-wrapper -->')
     }
+    const current = ref.current
 
     return () => {
-      if (ref && ref.current && ref.current.parentNode) {
+      if (ref && current && current.parentNode) {
         // for each siblings clear comments
-        const siblings: NodeListOf<ChildNode> = ref.current.parentNode.childNodes
+        const siblings: NodeListOf<ChildNode> = current.parentNode.childNodes
         for (let i = 0; i < siblings.length; i++) {
           // if comment contains emptyCommentElementWrapper text
           if (siblings[i].nodeType === document.COMMENT_NODE && siblings[i]?.textContent?.includes('empty-comment-element-wrapper')) {

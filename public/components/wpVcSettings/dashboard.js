@@ -1,5 +1,9 @@
 import { getService } from 'vc-cake'
 import importJS from '../../wordpressSettings'
+import ResizeSensorModule from 'resize-sensor'
+import StickySidebar from 'sticky-sidebar'
+
+window.ResizeSensor = ResizeSensorModule
 
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
@@ -14,28 +18,28 @@ export const dashboard = () => {
   let httpRequest = false
   let formTouched = false
   const urlHash = new URL(document.URL).hash
-  const dashboardSidebar = document.querySelector('.vcv-dashboard-sidebar')
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
   const navigationMenuContainer = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
-  const navigationMenu = document.querySelector('.vcv-dashboard-sidebar-navigation.vcv-dashboard-sidebar-navigation--main')
-  const navigationMenuTop = document.querySelector('.vcv-dashboard-sidebar-navigation-menu')
-  const navigationMenuBottom = document.querySelector('.vcv-dashboard-sidebar-navigation-bottom-menu')
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
   const menuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-link'))
+  const carets = Array.from(document.querySelectorAll('.vcv-dashboard-caret'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
   const dataCollectionTableWrapper = document.querySelector('.vcv-ui-settings-data-collection-table-wrapper')
   const dataCollectionTableButton = document.querySelector('#vcv-data-collection-table-button')
-  const setDashboardMenuStyles = () => {
-    const innerHeight = window.innerHeight - 30 - 32 - 30 - 32 // 2x paddings(30px) and logo(title) (32px) and admin-bar(32px)
-    if ((parseInt(window.getComputedStyle(navigationMenuTop).height) + parseInt(window.getComputedStyle(navigationMenuBottom).height)) > innerHeight) {
-      dashboardSidebar.style.height = 'auto'
-      navigationMenu.style.justifyContent = 'flex-start'
-    } else {
-      dashboardSidebar.style.height = '100%'
-      navigationMenu.style.justifyContent = 'space-between'
-    }
+
+  const initSidebar = () => {
+    return new StickySidebar('.vcv-dashboard-sidebar',
+      {
+        topSpacing: 32,
+        innerWrapperSelector: '.vcv-dashboard-sidebar-inner',
+        resizeSensor: true,
+        minWidth: 783
+      }
+    )
   }
+  initSidebar()
+
   const handleNavigationToggle = () => {
     navigationMenuContainer.classList.toggle('vcv-is-navigation-visible')
     const ariaExpandedAttr = navigationToggle.getAttribute('aria-expanded')
@@ -119,11 +123,11 @@ export const dashboard = () => {
     submitButton.setAttribute('disabled', true)
   }
 
+  const handleSubmenuOpen = (e) => {
+    e?.target?.closest('.vcv-dashboard-sidebar-navigation-menu-item-parent')?.classList?.toggle('vcv-dashboard-sidebar-navigation-menu-item--active')
+  }
+
   const handleMenuLinkClick = (e) => {
-    if (e.target.classList.contains('vcv-dashboard-sidebar-navigation-menu-item-parent-link')) {
-      e.target.closest('.vcv-dashboard-sidebar-navigation-menu-item-parent').classList.toggle('vcv-dashboard-sidebar-navigation-menu-item--active')
-      e.preventDefault()
-    }
     if (formTouched) {
       const userResponse = window.confirm(unsavedChangesText)
       if (!userResponse) {
@@ -139,25 +143,12 @@ export const dashboard = () => {
         handleSubmenuLinkClick(e)
       }
     }
-    setDashboardMenuStyles()
   }
 
   const handleContentFormChange = (e) => {
     formTouched = true
   }
-  // Implement throttle on window resize
-  const handleWindowResize = (func, duration) => {
-    let shouldWait = false
-    return function (...args) {
-      if (!shouldWait) {
-        func.apply(this, args)
-        shouldWait = true
-        setTimeout(function () {
-          shouldWait = false
-        }, duration)
-      }
-    }
-  }
+
   const handleDataCollectionTableToggle = () => {
     if (!dataCollectionTableWrapper) {
       return
@@ -172,17 +163,12 @@ export const dashboard = () => {
     dataCollectionTableButton.addEventListener('click', handleDataCollectionTableToggle)
   }
   menuLinks.forEach(link => link.addEventListener('click', handleMenuLinkClick))
+  carets.forEach(caret => caret.addEventListener('click', handleSubmenuOpen))
   contentForms.forEach(form => {
     form.addEventListener('submit', handleContentFormSubmit)
     form.addEventListener('change', handleContentFormChange)
   })
   navigationToggle.addEventListener('click', handleNavigationToggle)
-  window.addEventListener(
-    'resize',
-    handleWindowResize(() => {
-      setDashboardMenuStyles()
-    }, 250)
-  )
   window.onbeforeunload = () => {
     const isCodeEditorsTouched = dataManager.get('isCodeEditorsTouched')
     if (formTouched || isCodeEditorsTouched) {
