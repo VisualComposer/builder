@@ -38,8 +38,8 @@ class WpJobsManagerController extends Container implements Module
             }
         );
 
-        $this->addFilter(
-            'vcv:addon:themeBuilder:filterContentBeforeLayoutInsert',
+        $this->wpAddAction(
+            'vcv:addons:themeBuilder:pages:beforeMergeLayoutAndPostContent',
             'removeMetadataFromLayout'
         );
     }
@@ -51,6 +51,10 @@ class WpJobsManagerController extends Container implements Module
      */
     protected function removeMetadataFromLayout()
     {
-        return get_the_content();
+        $this->wpRemoveClassMethodFilter(
+            'the_content',
+            'WP_Job_Manager_Post_Types',
+            'job_content'
+        );
     }
 }
