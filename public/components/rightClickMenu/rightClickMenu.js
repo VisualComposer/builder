@@ -49,14 +49,12 @@ export default class RightClickMenu extends React.Component {
     const targetElement = e.target
     let id = targetElement.getAttribute('data-vcv-element')
 
-    console.log('handleRightClick', id)
     if (!id) {
       const closest = targetElement.closest('[data-vcv-element]')
       if (closest) {
         id = closest.getAttribute('data-vcv-element')
       }
     }
-
 
     if (id) {
       e.preventDefault()
