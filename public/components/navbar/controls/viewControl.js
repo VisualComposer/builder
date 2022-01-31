@@ -237,6 +237,7 @@ export default class ViewControl extends NavbarContent {
           href={PostData.permalink()}
           data-vcv-control='view'
           target='_blank'
+          rel='noopener noreferrer'
         >
           <span className='vcv-ui-navbar-control-content'>{PostData.viewText()}</span>
         </a>
