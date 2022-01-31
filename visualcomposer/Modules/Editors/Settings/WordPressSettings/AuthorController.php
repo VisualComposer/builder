@@ -61,7 +61,7 @@ class AuthorController extends Container implements Module
 
         // Capability queries were only introduced in WP 5.9.
         // @codingStandardsIgnoreLine
-        if (version_compare($wp_version, '5.8.99', '<')) {
+        if (version_compare($wp_version, '5.9', '>=')) {
             $users = get_users('who=authors');
         } else {
             $users = get_users(['capability' => ['edit_posts' ]]);
