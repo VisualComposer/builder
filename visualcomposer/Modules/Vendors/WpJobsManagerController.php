@@ -39,7 +39,7 @@ class WpJobsManagerController extends Container implements Module
         );
 
         $this->wpAddAction(
-            'vcv:addons:themeBuilder:pages:beforeMergeLayoutAndPostContent',
+            'vcv:addons:themeBuilder:mergeLayoutAndPostContent:before',
             'removeMetadataFromLayout'
         );
     }
