@@ -24,7 +24,7 @@ if (isset($_GET['php-e2e'])) {
         }
     }
     $devElementsActions = glob(
-        $pluginDir . '/devElements/{,*/,*/*/,*/*/*/}tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
+        $pluginDir . '/devElements/tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
         GLOB_BRACE
     );
     if (is_array($devElementsActions) && !empty($devElementsActions)) {
@@ -33,7 +33,7 @@ if (isset($_GET['php-e2e'])) {
         }
     }
     $devAddonsActions = glob(
-        $pluginDir . '/devAddons/{,*/,*/*/,*/*/*/}tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
+        $pluginDir . '/devAddons/tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
         GLOB_BRACE
     );
     if (is_array($devAddonsActions) && !empty($devAddonsActions)) {

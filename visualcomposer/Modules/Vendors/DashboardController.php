@@ -31,7 +31,7 @@ class DashboardController extends Container implements Module
     {
         wp_add_dashboard_widget(
             'visualcomposer-blog-dashboard',
-            esc_html__('Visual Composer News', 'visualcomposer'),
+            esc_html__('Visual Composer', 'visualcomposer'),
             function () {
                 $rssItems = $this->getRssData();
                 evcview('vendors/dashboard', ['rssItems' => $rssItems]);

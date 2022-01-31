@@ -788,14 +788,33 @@
   border-radius: 5px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
 
-  .vcv-ui-settings-data-collection-table {
-    background-color: #FAFAFA;
-  }
-
   .vcv-settings-section {
     margin-bottom: 30px;
     padding-bottom: 10px;
     border-bottom: 1px solid @vcv-status-table-border-color;
+
+    .vcv-ui-settings-data-collection-table {
+      background-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      margin-left: 10px;
+
+      th, td {
+        padding: 8px 10px;
+      }
+
+      tr {
+        border-top: none;
+        display: flex;
+      }
+
+      td {
+        &:first-child {
+          display: block;
+          max-width: 140px;
+        }
+      }
+    }
   }
 
   .vcv-settings-section:last-of-type {

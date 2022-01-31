@@ -133,17 +133,15 @@ export default function ControlDropdownInner ({ elementId, isRightClick }) {
   }
 
   // edit design options control
-  if ((isRightClick && !options.isContainer) || options.isContainer) {
-    actions.push({
-      label: designOptionsText,
-      title: `${options.title} ${designOptionsText}`,
-      icon: 'vcv-ui-icon-brush-alt',
-      data: {
-        vcControlEvent: 'edit',
-        vcControlEventOptions: designOptionEvent
-      }
-    })
-  }
+  actions.push({
+    label: designOptionsText,
+    title: `${options.title} ${designOptionsText}`,
+    icon: 'vcv-ui-icon-brush-alt',
+    data: {
+      vcControlEvent: 'edit',
+      vcControlEventOptions: designOptionEvent
+    }
+  })
 
   // remove control
   actions.push({
