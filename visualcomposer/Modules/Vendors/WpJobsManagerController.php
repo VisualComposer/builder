@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use WP_Job_Manager_Post_Types;
 
 class WpJobsManagerController extends Container implements Module
 {
@@ -50,6 +49,8 @@ class WpJobsManagerController extends Container implements Module
      */
     protected function removeMetadataFromLayout()
     {
-        remove_filter('the_content', [WP_Job_Manager_Post_Types::instance(), 'job_content']);
+        if (class_exists('WP_Job_Manager_Post_Types')) {
+            remove_filter('the_content', [\WP_Job_Manager_Post_Types::instance(), 'job_content']);
+        }
     }
 }
