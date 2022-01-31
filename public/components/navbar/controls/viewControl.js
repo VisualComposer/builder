@@ -23,7 +23,6 @@ export default class ViewControl extends NavbarContent {
     this.handleClickSavePreview = this.handleClickSavePreview.bind(this)
     this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
     this.updateButtons = this.updateButtons.bind(this)
-    this.handleViewPageClick = this.handleViewPageClick.bind(this)
     this.handleResetClick = this.handleResetClick.bind(this)
   }
 
@@ -184,12 +183,6 @@ export default class ViewControl extends NavbarContent {
     }
   }
 
-  handleViewPageClick (e) {
-    e && e.preventDefault && e.preventDefault()
-    const viewUrl = PostData.permalink()
-    window.open(viewUrl, '_blank')
-  }
-
   handleResetClick () {
     workspaceStorage.state('settings').set(false)
 
@@ -238,14 +231,15 @@ export default class ViewControl extends NavbarContent {
     let viewButton = ''
     if (PostData.isViewable() && PostData.isPublished()) {
       viewButton = (
-        <span
+        <a
           className='vcv-ui-navbar-control'
           title={PostData.viewText()}
-          onClick={this.handleViewPageClick}
+          href={PostData.permalink()}
           data-vcv-control='view'
+          target='_blank'
         >
           <span className='vcv-ui-navbar-control-content'>{PostData.viewText()}</span>
-        </span>
+        </a>
       )
     }
 
