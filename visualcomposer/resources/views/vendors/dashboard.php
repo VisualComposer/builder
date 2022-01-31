@@ -24,7 +24,7 @@ $utmHelper = vchelper('Utm');
         align-content: center;
         margin: 0 -12px 10px;
         padding: 0 12px 10px 12px;
-        border-bottom: 1px solid #dcdcde;
+        border-bottom: 1px solid #f0f0f1;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
       }
@@ -67,7 +67,7 @@ $utmHelper = vchelper('Utm');
             ?>
             <a href="<?php echo vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'); ?>"
                     class="button button-primary">
-                <?php echo esc_html__('Create a new page', 'visualcomposer'); ?>
+                <?php echo esc_html__('Create New Page', 'visualcomposer'); ?>
             </a>
             <?php
         } elseif ($userCapabilitiesHelper->isEditorEnabled('post')) {
