@@ -80,4 +80,20 @@ class Wp implements Helper
     {
         return ((int)$this->getUpdateVersionFromWordpressOrg() - (int)VCV_VERSION) >= 4;
     }
+
+
+    /**
+     * Check if native wordpress lazy load option was enabled.
+     *
+     * @return bool
+     */
+    public function isWpNativeLazyLoadExist()
+    {
+        $isEnabled = false;
+        if (function_exists('wp_lazy_loading_enabled')) {
+            $isEnabled = true;
+        }
+
+        return $isEnabled;
+    }
 }

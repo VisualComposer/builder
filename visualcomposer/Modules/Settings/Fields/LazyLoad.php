@@ -31,13 +31,17 @@ class LazyLoad extends Container implements Module
     {
         $this->optionGroup = $this->slug;
         $this->optionSlug = 'vcv-settings-lazy-load-enabled';
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
 
-        $this->wpAddAction(
-            'admin_init',
-            'buildPage',
-            50
-        );
+        $wpHelper = vchelper('Wp');
+
+        if (!$wpHelper->isWpNativeLazyLoadExist()) {
+            $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+            $this->wpAddAction(
+                'admin_init',
+                'buildPage',
+                50
+            );
+        }
     }
 
     protected function buildPage()

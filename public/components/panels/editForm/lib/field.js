@@ -78,15 +78,80 @@ export default class Field extends React.Component {
     this.setState({ isFieldLoading: isLoading })
   }
 
+  // analog for a version_compare in php
+  versionCompare (v1, v2, options) {
+    var lexicographical = options && options.lexicographical
+    var zeroExtend = options && options.zeroExtend
+    var v1parts = v1.split('.')
+    var v2parts = v2.split('.')
+
+    function isValidPart (x) {
+      return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x)
+    }
+
+    if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
+      return NaN
+    }
+
+    if (zeroExtend) {
+      while (v1parts.length < v2parts.length) v1parts.push('0')
+      while (v2parts.length < v1parts.length) v2parts.push('0')
+    }
+
+    if (!lexicographical) {
+      v1parts = v1parts.map(Number)
+      v2parts = v2parts.map(Number)
+    }
+
+    for (var i = 0; i < v1parts.length; ++i) {
+      if (v2parts.length === i) {
+        return 1
+      }
+
+      if (v1parts[i] === v2parts[i]) {
+        continue
+      } else if (v1parts[i] > v2parts[i]) {
+        return 1
+      } else {
+        return -1
+      }
+    }
+
+    if (v1parts.length !== v2parts.length) {
+      return -1
+    }
+
+    return 0
+  }
+
+  isElementWpVersionActual (settings) {
+    let isActual = true
+    if (settings.options.wpVersion !== undefined) {
+      const result = this.versionCompare(settings.options.wpVersion, window.VCV_WP_VERSION())
+
+      if (result !== 1) {
+        isActual = false
+      }
+    }
+
+    return isActual
+  }
+
   render () {
     const { fieldKey, tab, fieldType, elementAccessPoint, isInnerElementReplaceOpened } = this.props
-
     const cookElement = elementAccessPoint.cook()
     const element = cookElement.toJS()
+
     if (!element) {
       console.warn('No element to render edit form fields')
       return
     }
+
+    let { type, settings } = cookElement.settings(fieldKey)
+    if (!this.isElementWpVersionActual(settings)) {
+      return null
+    }
+
     const classes = classNames({
       'vcv-ui-form-dependency': true
     }, this.state.dependenciesClasses)
@@ -99,7 +164,6 @@ export default class Field extends React.Component {
     if (fieldKey && element) {
       value = element[fieldKey]
     }
-    let { type, settings } = cookElement.settings(fieldKey)
     if (this.props.options && this.props.options.nestedAttr) {
       const attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
       const elSettings = cookElement.settings(fieldKey, attrSettings)

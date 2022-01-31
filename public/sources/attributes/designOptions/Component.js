@@ -1003,6 +1003,10 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getImageLazyLoadRender () {
+    if (window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST()) {
+      return null
+    }
+
     if (!dataManager.get('globalLazyLoadEnabled')) {
       return null
     }

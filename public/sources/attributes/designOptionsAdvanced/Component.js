@@ -940,6 +940,10 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
+    if (window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST()) {
+      return null
+    }
+
     const allowedBackgroundTypes = [
       'imagesSimple',
       'backgroundZoom',

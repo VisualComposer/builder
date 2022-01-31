@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Wp;
 
 /**
  * Class LazyLoadController
@@ -30,30 +31,18 @@ class LazyLoadController extends Container implements Module
     {
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
-        $this->wpAddAction('init', 'initialize');
-    }
+        $this->wpAddAction('init', function () {
+            $optionsHelper = vchelper('Options');
+            $isRemoveLazyLoad
+                = $this->isWpNativeLazyLoadFilterReturnFalse() ||
+                !$optionsHelper->get('settings-lazy-load-enabled', true);
 
-    /**
-     * Init hook and actions that demand init action before.
-     *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return void
-     */
-    protected function initialize(Options $optionsHelper)
-    {
-        $isGlobalEnabled = $optionsHelper->get('settings-lazy-load-enabled', true);
-
-        $isWpNativeLazyLoadEnabled = true;
-        if (function_exists('wp_lazy_loading_enabled')) {
-            $isWpNativeLazyLoadEnabled = wp_lazy_loading_enabled('img', 'the_content');
-        }
-
-        if (!$isGlobalEnabled || !$isWpNativeLazyLoadEnabled) {
-            $this->wpAddFilter('the_content', 'globalOptionParser', 100);
-            $this->addFilter('vcv:frontend:content', 'globalOptionParser', 100);
-            $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
-        }
+            if ($isRemoveLazyLoad) {
+                $this->wpAddFilter('the_content', 'globalOptionParser', 100);
+                $this->addFilter('vcv:frontend:content', 'globalOptionParser', 100);
+                $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
+            }
+        });
     }
 
     /**
@@ -87,11 +76,27 @@ class LazyLoadController extends Container implements Module
      *
      * @return array
      */
-    protected function addVariables($variables, Options $optionsHelper)
+    protected function addVariables($variables, Options $optionsHelper, Wp $wpHelper)
     {
+        // @codingStandardsIgnoreLine
+        global $wp_version;
+
         $variables[] = [
             'key' => 'VCV_GLOBAL_LAZY_LOAD_ENABLED',
             'value' => $optionsHelper->get('settings-lazy-load-enabled', true),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST',
+            'value' => $wpHelper->isWpNativeLazyLoadExist(),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_WP_VERSION',
+            // @codingStandardsIgnoreLine
+            'value' => $wp_version,
             'type' => 'constant',
         ];
 
@@ -190,7 +195,7 @@ class LazyLoadController extends Container implements Module
      */
     protected function removeFromSingleImageElement($content)
     {
-        $pattern = '/<img[^>]*class="vce-single-image vcv-lozad"(.*?)>/';
+        $pattern = '/<img[^>]*class="(.+) vcv-lozad"(.*?)>/';
 
         return $this->removeFromElement($pattern, $content);
     }
@@ -244,5 +249,24 @@ class LazyLoadController extends Container implements Module
             },
             $content
         );
+    }
+
+    /**
+     * Check if native wp_lazy_loading_enabled filter deactivated.
+     *
+     * @return bool
+     */
+    protected function isWpNativeLazyLoadFilterReturnFalse()
+    {
+        $wpHelper = vchelper('Wp');
+        if (!$wpHelper->isWpNativeLazyLoadExist()) {
+            return false;
+        }
+
+        if (wp_lazy_loading_enabled('img', 'the_content')) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
