@@ -95,6 +95,7 @@ export default class SearchElement extends React.Component {
           </label>
           <input
             className='vcv-ui-form-input vcv-ui-editor-search-field'
+            autoComplete='off'
             id='add-element-search'
             onChange={this.handleSearch}
             onFocus={this.handleInputFocus}

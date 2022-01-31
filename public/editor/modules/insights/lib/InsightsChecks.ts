@@ -1,5 +1,5 @@
 // @ts-ignore
-import { getStorage, getService, env } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 import { debounce, memoize } from 'lodash'
 import { AxePlugin, AxeResults, NodeResult } from '../axe'
 
@@ -27,7 +27,7 @@ export default class InsightsChecks {
     let pageTitleLength = settingsStorage.state('pageTitle').get().length
     if (settingsStorage.state('pageTitleDisabled').get()) {
       const headings = env('iframe').document.body.querySelectorAll('h1')
-      for (let heading of headings) {
+      for (const heading of headings) {
         if (heading.offsetParent !== null && heading.getBoundingClientRect().height) {
           pageTitleLength = heading.innerText.length
           break
@@ -281,7 +281,7 @@ export default class InsightsChecks {
     }
   }
 
-  async getImageSize (src: string, domNode: HTMLElement, type: string = '') {
+  async getImageSize (src: string, domNode: HTMLElement, type = '') {
     const imageSizeBytes: number = await InsightsChecks.getImageSizeRequest(src)
     if (imageSizeBytes && imageSizeBytes >= 1024 * 1024) {
       const imageSizeBigTitle = type === 'background' ? this.localizations.insightsBgImageSizeBigTitle : this.localizations.insightsImageSizeBigTitle
@@ -505,9 +505,7 @@ export default class InsightsChecks {
     const foregroundIndex = message.indexOf(fgString) + fgString.length
     const messageWithFgColor = message.slice(0, foregroundIndex) + colorBox(fgColor) + message.slice(foregroundIndex)
     const backgroundIndex = messageWithFgColor.lastIndexOf(bgString) + bgString.length
-    const messageWithBgColor = messageWithFgColor.slice(0, backgroundIndex) + colorBox(bgColor) + messageWithFgColor.slice(backgroundIndex)
-
-    return messageWithBgColor
+    return messageWithFgColor.slice(0, backgroundIndex) + colorBox(bgColor) + messageWithFgColor.slice(backgroundIndex)
   }
 
   checkContrast () {

@@ -22,6 +22,7 @@ export const dashboard = () => {
   const navigationMenuContainer = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
   const menuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-link'))
+  const carets = Array.from(document.querySelectorAll('.vcv-dashboard-caret'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
   const dataCollectionTableWrapper = document.querySelector('.vcv-ui-settings-data-collection-table-wrapper')
@@ -122,11 +123,11 @@ export const dashboard = () => {
     submitButton.setAttribute('disabled', true)
   }
 
+  const handleSubmenuOpen = (e) => {
+    e?.target?.closest('.vcv-dashboard-sidebar-navigation-menu-item-parent')?.classList?.toggle('vcv-dashboard-sidebar-navigation-menu-item--active')
+  }
+
   const handleMenuLinkClick = (e) => {
-    if (e.target.classList.contains('vcv-dashboard-caret')) {
-      e.target.closest('.vcv-dashboard-sidebar-navigation-menu-item-parent').classList.toggle('vcv-dashboard-sidebar-navigation-menu-item--active')
-      e.preventDefault()
-    }
     if (formTouched) {
       const userResponse = window.confirm(unsavedChangesText)
       if (!userResponse) {
@@ -162,6 +163,7 @@ export const dashboard = () => {
     dataCollectionTableButton.addEventListener('click', handleDataCollectionTableToggle)
   }
   menuLinks.forEach(link => link.addEventListener('click', handleMenuLinkClick))
+  carets.forEach(caret => caret.addEventListener('click', handleSubmenuOpen))
   contentForms.forEach(form => {
     form.addEventListener('submit', handleContentFormSubmit)
     form.addEventListener('change', handleContentFormChange)
