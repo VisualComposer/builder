@@ -362,6 +362,16 @@
     font: normal 500 @vcv-dashboard-text-font-size/@vcv-dashboard-text-line-height @vcv-dashboard-font-family;
   }
 
+  .vcv-headers-footers-section {
+    .vcv-dashboard-accordion-item-title {
+      display: flex;
+
+      h2 {
+        flex: 0 0 195px;
+      }
+    }
+  }
+
   .vcv-ui-form-switch > input:checked ~ .vcv-ui-form-switch-indicator {
     background: @vcv-dashboard-toggle-bg-color-on;
   }
@@ -837,6 +847,12 @@
       tr:nth-child(2) {
         display: none;
       }
+    }
+    .form-table tr:not(:first-child) {
+      margin-left: 60px;
+    }
+    .form-table th {
+      flex: 0 0 195px
     }
   }
 }
