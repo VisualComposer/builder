@@ -26,32 +26,14 @@ class LazyLoadController extends Container implements Module
     /**
      * Controller constructor.
      */
-    public function __construct()
+    public function __construct(Options $optionsHelper)
     {
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
-        $this->wpAddAction('init', 'initialize');
-    }
-
-    /**
-     * Init hook and actions that demand init action before.
-     *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return void
-     */
-    protected function initialize(Options $optionsHelper)
-    {
-        $isGlobalEnabled = $optionsHelper->get('settings-lazy-load-enabled', true);
-
-        $isWpNativeLazyLoadEnabled = true;
-        if (function_exists('wp_lazy_loading_enabled')) {
-            $isWpNativeLazyLoadEnabled = wp_lazy_loading_enabled('img', 'the_content');
-        }
-
-        if (!$isGlobalEnabled || !$isWpNativeLazyLoadEnabled) {
+        if (!$optionsHelper->get('settings-lazy-load-enabled', true)) {
             $this->wpAddFilter('the_content', 'globalOptionParser', 100);
             $this->addFilter('vcv:frontend:content', 'globalOptionParser', 100);
+
             $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
         }
     }
