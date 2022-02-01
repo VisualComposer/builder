@@ -110,7 +110,7 @@ class MaintenanceMode extends Container implements Module
         $this->addField(
             [
                 'page' => $this->optionGroup,
-                'title' => __('Select a maintenance page', 'visualcomposer'),
+                'title' => __('Maintenance page', 'visualcomposer'),
                 'name' => 'settings-maintenanceMode-page',
                 'id' => 'vcv-maintenance-mode-page',
                 'fieldCallback' => $dropdownFieldCallback,
