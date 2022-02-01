@@ -4,7 +4,7 @@ describe('Editor controls', function () {
        
         cy.get('#add-content-search').should('have.focus')
 
-        // 7. Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
+        // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
         
         // Add elements search input
         cy.get('#add-content-search[placeholder="Search for content elements"]')
@@ -33,18 +33,19 @@ describe('Editor controls', function () {
             .should('have.focus')
 
 
-        // 6. Press Shift + A, check if add tab opens
+        // Press Shift + A, check if add tab opens
         cy.get('body').trigger('keydown', { shiftKey: true, keyCode: 65, which: 65 })
 
-        // Text Block element
+        // Add Text Block element
         cy.addElement('Text Block')
 
+        // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
+
         //* ID
-        cy.setInput('Element ID', '{shift}AST') // ?
+        cy.setInput('Element ID', '{shift}AST')
         cy.getIframe('#vcv-editor-iframe').find('#AST')
 
         //* tinyMCE editor field
-        cy.wait(200)
         cy.getIframe('#vcv-wpeditor-output_ifr')
             .clear()
             .type('{shift}A')
@@ -88,9 +89,12 @@ describe('Editor controls', function () {
             .should('have.focus')
 
         // Tree view
-        // 2. Press Shift + T, check if tree view opens
+        // Press Shift + T, check if tree view opens
         cy.get('body').trigger('keydown', { shiftKey: true, keyCode: 84, which: 84 })
         cy.get('.vcv-ui-tree-layout-container')
+
+
+        // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
 
         cy.get('.vcv-ui-tree-layout-control-label')
             .first()
@@ -115,11 +119,13 @@ describe('Editor controls', function () {
 
         cy.get('body').click(0,0)
 
-        // Settings -> Custom CSS
-
-        // 5. Press Shift + S, check if settings tab opens
+        // Press Shift + S, check if settings tab opens
         cy.get('body').trigger('keydown', { shiftKey: true, keyCode: 83, which: 83 })
         cy.get('.vcv-ui-panel-heading').contains('Settings')
+
+
+        // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
+        // Settings -> Custom CSS
 
         cy.get('.vcv-ui-navigation-slider-button').contains('Custom CSS').click()
         cy.get('.CodeMirror-code')
@@ -139,31 +145,32 @@ describe('Editor controls', function () {
             .click()
             .clear()
 
-        //esc
+        // Press Esc, check if the sidebar closes
         cy.get('.vcv-layout-bar.vcv-ui-content-all--visible')
         cy.get('body').type('{esc}')
         cy.get('.vcv-layout-bar.vcv-ui-content--hidden')
 
-        // 3. Press ctrl/command + Z, check if this undo last action(adding element)
+        // Press ctrl/command + Z, check if this undo last action(editing text field text)
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 90, which: 90 })
         cy.wait(200)
-        cy.getIframe('#vcv-editor-iframe').find('.vcvhelper > h2').contains('AST').should('not.exist')
-        //.should('have.text', 'AST')
+        cy.getIframe('#vcv-editor-iframe').find('h2').contains('Typography is the art and technique').should('exist')
 
-        // 4. Press ctrl/command + shift + Z, check if this redo the last action
+        // Press ctrl/command + shift + Z, check if this redo the last action
         cy.get('body').trigger('keydown', { ctrlKey: true, shiftKey:true, keyCode: 90, which: 90 })
         cy.wait(200)
-        //cy.getIframe('#vcv-editor-iframe').find('#mce_0').contains('AST')
-        cy.getIframe('#vcv-editor-iframe').find('.vcvhelper > h2').contains('AST').should('not.exist')
-        //cy.getIframe('#vcv-editor-iframe').find('#mce_0').should('not.have.text', 'AST')
-        cy.pause()
+        cy.getIframe('#vcv-editor-iframe').find('h2').contains('Typography is the art and technique').should('not.exist')
 
-        // 8. Press ctrl/command + S, check if the page is saved
+        // Press ctrl/command + S, check if the page is saved
         cy.window().then((win) => {
             cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
           })
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 83, which: 83 })
         cy.wait('@saveRequest')
         cy.viewPage()
+
+        cy.get('.vce-text-block')
+            .should('have.attr', 'id', 'AST')
+            .contains('AST')
+
     })
 })
