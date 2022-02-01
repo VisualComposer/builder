@@ -1,5 +1,4 @@
-// @ts-ignore
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { getService } from 'vc-cake'
 
 const BackendControl: React.FC = () => {
@@ -25,8 +24,7 @@ const BackendControl: React.FC = () => {
     dataHref = dataManager.get('gettingStartedUrl')
   }
 
-  let wordpressDashboardButton: ReactNode = null
-  wordpressDashboardButton = (
+  const wordpressDashboardButton = !PostData.vcvCustomPostType() ? null : (
     <a
       className='vcv-ui-navbar-control'
       title={wordPressDashboard}
@@ -36,9 +34,6 @@ const BackendControl: React.FC = () => {
       <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
     </a>
   )
-  if (!PostData.vcvCustomPostType()) {
-    wordpressDashboardButton = null
-  }
 
   return (
     PostData.vcvCustomPostType() ? (

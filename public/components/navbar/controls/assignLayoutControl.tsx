@@ -1,4 +1,3 @@
-// @ts-ignore
 import React from 'react'
 import { getService } from 'vc-cake'
 
@@ -9,11 +8,10 @@ declare const window: any
 
 const AssignLayoutControl: React.FC = () => {
   const assignLayoutTitle = localizations ? localizations.assignLayout : 'Assign Layout to...'
-  const adminLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
+  const adminLink = window.vcvWpAdminUrl || ''
   const assignUrl = adminLink + 'admin.php?page=vcv-headers-footers'
 
   return (
-    <>
       <div className='vcv-ui-navbar-controls-set'>
           <a
             className='vcv-ui-navbar-control'
@@ -23,7 +21,6 @@ const AssignLayoutControl: React.FC = () => {
             {assignLayoutTitle}
           </a>
       </div>
-    </>
   )
 }
 
