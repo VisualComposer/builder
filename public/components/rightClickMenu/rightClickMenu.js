@@ -25,6 +25,10 @@ export default class RightClickMenu extends React.Component {
   }
 
   unmountMenuComponent () {
+    const controlsState = layoutStorage.state('interactWithControls').get()
+    if (controlsState && controlsState.vcControlIsPermanent) {
+      return
+    }
     this.iframeWindow.document.removeEventListener('click', this.unmountMenuComponent)
     window.document.removeEventListener('click', this.unmountMenuComponent)
 
