@@ -1,38 +1,22 @@
-/* global setUserSetting */
 import React from 'react'
 import { getService } from 'vc-cake'
 
-const BackendControl = () => {
+const BackendControl: React.FC = () => {
   const PostData = getService('wordpress-post-data')
   const dataManager = getService('dataManager')
   const editorType = dataManager.get('editorType')
   const localizations = dataManager.get('localizations')
   const { backToWordpress, wordPressDashboard } = localizations
 
-  const handleClick = (e) => {
-    e && e.preventDefault && e.preventDefault()
-    const target = e.currentTarget
-    const isBackendEditor = target.dataset.backendEditor && target.dataset.backendEditor === 'backendEditor'
-    if (isBackendEditor) {
-      setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
-    }
-    window.open(
-      target.dataset.href,
-      target.dataset.target ? target.dataset.target : '_self'
-    )
-  }
-
   const backendEditorButton = (
-    <span
+    <a
       className='vcv-ui-navbar-control'
-      onClick={handleClick}
       title={backToWordpress}
-      data-href={PostData.backendEditorUrl()}
-      data-backend-editor='backendEditor'
+      href={PostData.backendEditorUrl()}
       data-vcv-controls='backToWP'
     >
       <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
-    </span>
+    </a>
   )
 
   let dataHref = PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()
@@ -40,20 +24,16 @@ const BackendControl = () => {
     dataHref = dataManager.get('gettingStartedUrl')
   }
 
-  let wordpressDashboardButton = (
-    <span
+  const wordpressDashboardButton = !PostData.vcvCustomPostType() ? null : (
+    <a
       className='vcv-ui-navbar-control'
-      onClick={handleClick}
       title={wordPressDashboard}
-      data-href={dataHref}
+      href={dataHref}
       data-vcv-control='backToWP'
     >
       <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
-    </span>
+    </a>
   )
-  if (!PostData.vcvCustomPostType()) {
-    wordpressDashboardButton = null
-  }
 
   return (
     PostData.vcvCustomPostType() ? (

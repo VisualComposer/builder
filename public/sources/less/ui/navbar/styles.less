@@ -52,7 +52,9 @@
   transition-property: color, background-color;
   position: relative;
   &:hover,
-  &.vcv-ui-navbar-control--active {
+  &.vcv-ui-navbar-control--active,
+  &:focus,
+  &:active {
     background-color: @navbar-bg-base-hover;
     color: @navbar-text-color-base;
   }
