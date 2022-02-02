@@ -66,10 +66,11 @@ describe('Editor controls', function () {
             .dblclick()
             .wait(100)
             .clear()
-            .wait(300)
+            .wait(200)
             .type(capitalA)
             .type(capitalS)
             .type(capitalT)
+            .wait(200)
             .should('have.text', 'AST')
             .should('have.focus')
 
