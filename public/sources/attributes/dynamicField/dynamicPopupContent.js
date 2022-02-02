@@ -18,7 +18,7 @@ export default class DynamicPopupContent extends React.Component {
   static propTypes = {
     fieldType: PropTypes.string.isRequired,
     value: PropTypes.string,
-    elementAccessPoint: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object,
     renderExtraOptions: PropTypes.func,
     handleCurrentPostFieldChange: PropTypes.func.isRequired,
     handleSourceIdChange: PropTypes.func.isRequired,
