@@ -26,12 +26,12 @@ class LazyLoadController extends Container implements Module
     /**
      * Controller constructor.
      */
-    public function __construct(Options $optionsHelper)
+    public function __construct()
     {
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
         $this->wpAddAction('init', function () {
-            if ($this->isWpNativeLazyLoadFilterReturnFalse()) {
+            if ($this->isWpNativeLazyLoadFilterDisabled()) {
                 $this->wpAddFilter('the_content', 'globalOptionParser', 100);
                 $this->addFilter('vcv:frontend:content', 'globalOptionParser', 100);
                 $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
@@ -50,9 +50,8 @@ class LazyLoadController extends Container implements Module
         $content = $this->removeFromAdvancedDesignOptions($content);
         $content = $this->removeFromSingleImageElement($content);
         $content = $this->removeFromLayoutFeatureImageElement($content);
-        $content = $this->removeFromVideoElement($content);
 
-        return $content;
+        return $this->removeFromVideoElement($content);
     }
 
     /**
@@ -67,11 +66,10 @@ class LazyLoadController extends Container implements Module
      * Add frontend variables.
      *
      * @param array $variables
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return array
      */
-    protected function addVariables($variables, Options $optionsHelper)
+    protected function addVariables($variables)
     {
         $variables[] = [
             'key' => 'VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST',
@@ -249,13 +247,13 @@ class LazyLoadController extends Container implements Module
      *
      * @return bool
      */
-    protected function isWpNativeLazyLoadFilterReturnFalse()
+    protected function isWpNativeLazyLoadFilterDisabled()
     {
         if (!$this->isWpNativeLazyLoadExist()) {
             return false;
         }
 
-        return wp_lazy_loading_enabled('img', 'the_content') ? false : true;
+        return !wp_lazy_loading_enabled('img', 'the_content');
     }
 
     /**

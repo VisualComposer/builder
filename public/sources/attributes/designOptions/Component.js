@@ -1461,7 +1461,6 @@ export default class DesignOptions extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundColorRender()}
             {this.getAttachImageRender()}
-            {this.props.elementSelector ? null : true}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
             {this.getBorderStyleRender()}

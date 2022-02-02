@@ -932,13 +932,6 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
-   * Render lazy load toggle control for background image
-   */
-  getLazyLoadRender () {
-    return true
-  }
-
-  /**
    * Handle simple fieldKey - value type change
    * @param fieldKey
    * @param value
@@ -2020,7 +2013,6 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getYoutubeVideoRender()}
             {this.getVimeoVideoRender()}
             {this.getEmbedVideoRender()}
-            {this.getLazyLoadRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
             {this.getBackgroundZoomRender()}
