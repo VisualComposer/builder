@@ -366,7 +366,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       naturalDynamicSizes = true
     }
 
-    let isLazyLoad = !dataManager.get('isWpNativeLazyLoadExist')
+    const isLazyLoad = !dataManager.get('isWpNativeLazyLoadExist')
 
     const shortcodeOptions = {
       props: customImageProps,
