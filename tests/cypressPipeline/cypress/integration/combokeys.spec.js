@@ -165,12 +165,12 @@ describe('Editor controls', function () {
         // Press ctrl/command + Z, check if this undo last action(editing text field text)
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 90, which: 90 })
         cy.wait(200)
-        cy.getIframe('#vcv-editor-iframe').find('h2').contains('Typography is the art and technique').should('exist')
+        cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('exist')
 
         // Press ctrl/command + shift + Z, check if this redo the last action
         cy.get('body').trigger('keydown', { ctrlKey: true, shiftKey:true, keyCode: 90, which: 90 })
         cy.wait(200)
-        cy.getIframe('#vcv-editor-iframe').find('h2').contains('Typography is the art and technique').should('not.exist')
+        cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('not.exist')
 
         // Press ctrl/command + S, check if the page is saved
         cy.window().then((win) => {

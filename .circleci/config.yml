@@ -65,7 +65,6 @@ jobs:
           command: |
             wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=test --dbuser=wpuser --allow-root
             wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --skip-email --allow-root --debug
-            wp theme install visual-composer-starter --activate --path=/var/www/html
             sudo chmod 777 -R /var/www/html/wp-content
       - run: php ci/composer.phar install
       - run: php tools/php-composer/cli.php
@@ -255,6 +254,7 @@ jobs:
           command: |
             wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=test --dbuser=wpuser --allow-root
             wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --skip-email --allow-root --debug
+            wp theme install visual-composer-starter --activate --path=/var/www/html
       - run: php ci/composer.phar install
       - run:
           name: Link files and directories
