@@ -64,7 +64,7 @@ describe('Editor controls', function () {
         cy.getIframe('#vcv-editor-iframe')
             .find('.vce-text-block-wrapper.vce > .vcvhelper')
             .dblclick()
-            .wait(100)
+            .wait(200)
             .clear()
             .wait(200)
             .type(capitalA)
