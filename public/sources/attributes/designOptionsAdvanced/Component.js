@@ -933,53 +933,9 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   /**
    * Render lazy load toggle control for background image
-   * @returns {*}
    */
   getLazyLoadRender () {
-    if (!dataManager.get('globalLazyLoadEnabled')) {
-      return null
-    }
-
-    const allowedBackgroundTypes = [
-      'imagesSimple',
-      'backgroundZoom',
-      'imagesSlideshow'
-    ]
-    const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
-      return null
-    }
-
-    const images = deviceData.images
-    const isArray = images.constructor === Array
-
-    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
-      return null
-    }
-
-    const lazyLoadToggleText = DesignOptionsAdvanced.localizations.lazyLoad || 'Lazy load'
-    const lazyLoadTooltipText = DesignOptionsAdvanced.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
-    let value
-    if (Object.prototype.hasOwnProperty.call(this.state.devices[this.state.currentDevice], 'lazyLoad')) {
-      value = this.state.devices[this.state.currentDevice].lazyLoad
-    } else {
-      value = DesignOptionsAdvanced.defaultState.lazyLoad
-    }
-
-    return (
-      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-        <Toggle
-          api={this.props.api}
-          fieldKey='lazyLoad'
-          updater={this.backgroundLazyLoadHandler}
-          options={{ labelText: lazyLoadToggleText }}
-          value={value}
-        />
-        <Tooltip>
-          {lazyLoadTooltipText}
-        </Tooltip>
-      </div>
-    )
+    return true
   }
 
   /**

@@ -999,50 +999,6 @@ export default class DesignOptions extends Attribute {
   }
 
   /**
-   * Render lazy load toggle control for background image
-   * @returns {*}
-   */
-  getImageLazyLoadRender () {
-    if (!dataManager.get('globalLazyLoadEnabled')) {
-      return null
-    }
-
-    const { devices, currentDevice } = this.state
-    if (devices[currentDevice].display) {
-      return null
-    }
-
-    const imageData = devices[currentDevice].image || ''
-
-    if (!this.isBackgroundActive(imageData)) {
-      return null
-    }
-
-    const lazyLoadToggleText = DesignOptions.localizations.lazyLoad || 'Lazy load'
-    const lazyLoadTooltipText = DesignOptions.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
-    let value
-    if (Object.prototype.hasOwnProperty.call(this.state.devices[this.state.currentDevice], 'lazyLoad')) {
-      value = this.state.devices[this.state.currentDevice].lazyLoad
-    } else {
-      value = DesignOptions.defaultState.lazyLoad
-    }
-    return (
-      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-        <Toggle
-          api={this.props.api}
-          fieldKey='lazyLoad'
-          updater={this.backgroundImageLazyLoadHandler}
-          options={{ labelText: lazyLoadToggleText }}
-          value={value}
-        />
-        <Tooltip>
-          {lazyLoadTooltipText}
-        </Tooltip>
-      </div>
-    )
-  }
-
-  /**
    * Render attach image
    * @returns {*}
    */
@@ -1505,7 +1461,7 @@ export default class DesignOptions extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundColorRender()}
             {this.getAttachImageRender()}
-            {this.props.elementSelector ? null : this.getImageLazyLoadRender()}
+            {this.props.elementSelector ? null : true}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
             {this.getBorderStyleRender()}

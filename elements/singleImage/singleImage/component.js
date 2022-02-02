@@ -5,6 +5,7 @@ const vcvAPI = getService('api')
 const renderProcessor = getService('renderProcessor')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
+const dataManager = getService('dataManager')
 
 export default class SingleImageElement extends vcvAPI.elementComponent {
   promise = null
@@ -202,11 +203,12 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   getImageShortcode (options) {
-    const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes, lazyLoad } = options
-    const imageSource = lazyLoad ? '' : src
+    const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes } = options
+    const imageSource = dataManager.get('isWpNativeLazyLoadExist') ? src : ''
     let imageClasses = classes
     let lazyLoadAttr = ''
-    if (lazyLoad) {
+
+    if (!dataManager.get('isWpNativeLazyLoadExist')) {
       imageClasses += ' vcv-lozad'
       lazyLoadAttr = `data-src="${src}"`
     }
@@ -243,7 +245,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     shortcode += ` alt="${alt}" title="${title}" ]`
-    if (lazyLoad) {
+    if (!dataManager.get('isWpNativeLazyLoadExist')) {
       shortcode += `<noscript>
         <img class="${classes}" src="${src}" width="${this.state.parsedWidth || 0}" height="${this.state.parsedHeight || 0}" alt="${alt}" title="${title}" />
       </noscript>`
@@ -254,7 +256,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image, lazyLoad } = atts
+    const { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image } = atts
     let containerClasses = 'vce-single-image-container'
     const wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner vce-single-image--absolute'
@@ -364,6 +366,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       naturalDynamicSizes = true
     }
 
+    let isLazyLoad = !dataManager.get('isWpNativeLazyLoadExist')
+
     const shortcodeOptions = {
       props: customImageProps,
       classes: imageClasses,
@@ -371,7 +375,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       src: imgSrc,
       isDynamicImage: isDynamic,
       naturalSizes: naturalDynamicSizes,
-      lazyLoad: lazyLoad
+      lazyLoad: isLazyLoad
     }
 
     if (imgSrc) {
