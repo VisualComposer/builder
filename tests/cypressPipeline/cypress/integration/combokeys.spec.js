@@ -66,7 +66,7 @@ describe('Editor controls', function () {
             .dblclick()
             .wait(100)
             .clear()
-            .wait(100)
+            .wait(300)
             .type(capitalA)
             .type(capitalS)
             .type(capitalT)
@@ -97,7 +97,7 @@ describe('Editor controls', function () {
         //     .type(capitalT)
         //     .should('have.value', 'AST')
         //     .should('have.focus')
-        
+
 
         // Tree view
         // Press Shift + T, check if tree view opens
