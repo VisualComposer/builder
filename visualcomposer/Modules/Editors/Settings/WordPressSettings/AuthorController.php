@@ -44,6 +44,8 @@ class AuthorController extends Container implements Module
      */
     protected function getAuthorList()
     {
+        // @codingStandardsIgnoreLine
+        global $wp_version;
         $requestHelper = vchelper('Request');
         $postTypeHelper = vchelper('PostType');
         $currentPost = $postTypeHelper->get();
@@ -56,7 +58,14 @@ class AuthorController extends Container implements Module
 
         // @codingStandardsIgnoreLine
         $currentPostAuthor = $currentPost->post_author;
-        $users = get_users('who=authors');
+
+        // Capability queries were only introduced in WP 5.9.
+        // @codingStandardsIgnoreLine
+        if (version_compare($wp_version, '5.9-alpha', '>=')) {
+            $users = get_users(['capability' => ['edit_posts' ]]);
+        } else {
+            $users = get_users('who=authors');
+        }
         $authorList = [];
         foreach ($users as $user) {
             // @codingStandardsIgnoreLine
