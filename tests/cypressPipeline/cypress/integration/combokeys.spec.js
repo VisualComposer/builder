@@ -1,3 +1,9 @@
+/* global describe, it, cy */
+
+const capitalA = '{shift}A'
+const capitalS = '{shift}S'
+const capitalT = '{shift}T'
+
 describe('Editor controls', function () {
     it('Checks different keyboard shortcuts', function () {
         cy.createPage()
@@ -8,27 +14,27 @@ describe('Editor controls', function () {
         
         // Add elements search input
         cy.get('#add-content-search[placeholder="Search for content elements"]')
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.value', 'AST')
             .should('have.focus')
 
         // Add template search input
         cy.get('.vcv-ui-navigation-slider').find('button:contains("Templates")').click()
         cy.get('#add-content-search[placeholder="Search for templates"]')
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.value', 'AST')
             .should('have.focus')
 
         // Save template input
         cy.get('input[placeholder="Enter template name"')
             .focus()
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.value', 'AST')
             .should('have.focus')
 
@@ -48,9 +54,9 @@ describe('Editor controls', function () {
         //* tinyMCE editor field
         cy.getIframe('#vcv-wpeditor-output_ifr')
             .clear()
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.text', 'AST')
             .should('have.focus')
 
@@ -60,9 +66,9 @@ describe('Editor controls', function () {
             .dblclick()
             .clear()
             .wait(100)
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.text', 'AST')
             .should('have.focus')
 
@@ -72,9 +78,9 @@ describe('Editor controls', function () {
         cy.get('.vcv-ui-edit-form-header-title')
             .click()
             .clear()
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.text', 'AST')
             .should('have.focus')
 
@@ -82,9 +88,9 @@ describe('Editor controls', function () {
         cy.get('.vcv-ui-edit-form-header-control[title="Element Settings"]').click()
         cy.get('.vcv-ui-form-input.vcv-ui-editor-save-preset-field')
             .focus()
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.value', 'AST')
             .should('have.focus')
 
@@ -101,9 +107,9 @@ describe('Editor controls', function () {
             .find('span')
             .click()
             .clear()
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.text', 'AST')
             .should('have.focus')
 
@@ -111,9 +117,9 @@ describe('Editor controls', function () {
         cy.get('.vcv-ui-navbar-control[title="Visual Composer Hub"]').click()
         cy.get('#add-element-search')
             .focus()
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.value', 'AST')
             .should('have.focus')
 
@@ -132,9 +138,9 @@ describe('Editor controls', function () {
             .first()
             .click()
             .clear()
-            .type('{shift}A')
-            .type('{shift}S')
-            .type('{shift}T')
+            .type(capitalA)
+            .type(capitalS)
+            .type(capitalT)
             .should('have.focus')
 
         cy.get('.CodeMirror-line').should('have.text', 'AST')
