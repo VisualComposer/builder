@@ -86,14 +86,18 @@ describe('Editor controls', function () {
             .should('have.focus')
 
         //* element settings -> preset name
-        cy.get('.vcv-ui-edit-form-header-control[title="Element Settings"]').click()
-        cy.get('.vcv-ui-form-input.vcv-ui-editor-save-preset-field')
-            .focus()
-            .type(capitalA)
-            .type(capitalS)
-            .type(capitalT)
-            .should('have.value', 'AST')
-            .should('have.focus')
+        
+        //it requires premium, so we can't test it now
+
+        // cy.get('.vcv-ui-edit-form-header-control[title="Element Settings"]').click()
+        // cy.get('.vcv-ui-form-input.vcv-ui-editor-save-preset-field')
+        //     .focus()
+        //     .type(capitalA)
+        //     .type(capitalS)
+        //     .type(capitalT)
+        //     .should('have.value', 'AST')
+        //     .should('have.focus')
+        
 
         // Tree view
         // Press Shift + T, check if tree view opens
