@@ -1896,12 +1896,61 @@ class Localizations extends Container implements Helper
                 . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Design Options</a>.',
                 'visualcomposer'
             ),
-            'enableDeviceStyling' => __(
-                'Enable device styling',
+            'deviceStyling' => __(
+                'Control font styling for all devices or adjust specific device type',
                 'visualcomposer'
             ),
-            'disableDeviceStyling' => __(
-                'Disable device styling',
+            // Font Manager Preview Tooltips
+            'previewMenuTooltip' => __(
+                'Menu',
+                'visualcomposer'
+            ),
+            'previewSubmenuTooltip' => __(
+                'Submenu',
+                'visualcomposer'
+            ),
+            'previewH1Tooltip' => __(
+                'H1',
+                'visualcomposer'
+            ),
+            'previewH2Tooltip' => __(
+                'H2',
+                'visualcomposer'
+            ),
+            'previewH3Tooltip' => __(
+                'H3',
+                'visualcomposer'
+            ),
+            'previewH4Tooltip' => __(
+                'H4',
+                'visualcomposer'
+            ),
+            'previewH5Tooltip' => __(
+                'H5',
+                'visualcomposer'
+            ),
+            'previewH6Tooltip' => __(
+                'H6',
+                'visualcomposer'
+            ),
+            'previewParagraphTooltip' => __(
+                'Paragraph',
+                'visualcomposer'
+            ),
+            'previewCaptionTooltip' => __(
+                'Caption',
+                'visualcomposer'
+            ),
+            'previewBulletTooltip' => __(
+                'Bullet',
+                'visualcomposer'
+            ),
+            'previewBlockquoteTooltip' => __(
+                'Blockquote',
+                'visualcomposer'
+            ),
+            'previewButtonTooltip' => __(
+                'Button',
                 'visualcomposer'
             ),
             // Activation Survey Options
