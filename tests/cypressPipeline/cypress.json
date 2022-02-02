@@ -9,7 +9,7 @@
     "serverType": "ci",
     "checkSnapshots": false
   },
-  "video": true,
+  "video": false,
   "pageLoadTimeout": 80000,
   "execTimeout": 350000,
   "requestTimeout": 10000,
