@@ -49,7 +49,7 @@ describe('Editor controls', function () {
           cy.wrap($field)
             .next()
             .clear()
-            .type('Test Editor controls')
+            .type('test')
         })
 
       cy.contains('.vcv-ui-panel-navigation-container .vcv-ui-navigation-slider-button', 'Custom CSS').click()
@@ -67,7 +67,6 @@ describe('Editor controls', function () {
       cy.savePage()
       cy.viewPage()
 
-      cy.wait(1500)
       cy.get(`.${settings.customClass}.vce-button--style-basic-container--align-${settings.alignment}`)
         .should('have.css', 'text-align', settings.alignment)
 
