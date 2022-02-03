@@ -8,7 +8,7 @@ const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
 
-export default function ControlDropdownInner ({ elementId, isRightClick }) {
+export default function ControlDropdownInner ({ elementId, isRightClick, inline = false }) {
   const vcElement = ControlHelpers.getVcElement(elementId)
   const colorIndex = ControlHelpers.getElementColorIndex(vcElement)
   const options = ControlHelpers.getDropdownOptions(vcElement, colorIndex)
@@ -154,6 +154,6 @@ export default function ControlDropdownInner ({ elementId, isRightClick }) {
   })
 
   return actions.map((actionOptions, i) => {
-    return <ControlAction key={`dropdown-control-${i}`} id={elementId} options={actionOptions} />
+    return <ControlAction inline={inline} key={`dropdown-control-${i}`} id={elementId} options={actionOptions} />
   })
 }

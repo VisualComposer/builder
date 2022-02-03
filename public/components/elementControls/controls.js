@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { getStorage, getService } from 'vc-cake'
 import Control from './control'
 import ControlAction from './controlAction'
+import ControlCenter from './controlCenter'
 
 const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
@@ -38,6 +39,7 @@ const getContainerPosition = (data, iframeDocument, controlsContainer) => {
   }
 
   position.width = elementRect.width
+  position.height = elementRect.height
 
   return position
 }
@@ -100,7 +102,7 @@ function ControlItems (props) {
     }
     if (i < vcvEditableElements.length - 1) {
       controls.push(
-        <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
+        <i className="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right" key={`element-delimiter-${id}-${i}`} />)
     }
   })
 
@@ -123,7 +125,7 @@ export default function Controls (props) {
     if (!visibleControls) {
       setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
-  })
+  }, [])
 
   const handleMouseEnter = () => {
     layoutStorage.state('interactWithControls').set({
@@ -148,7 +150,7 @@ export default function Controls (props) {
     styles = {
       top: `${containerPos.top}px`,
       left: `${containerPos.left}px`,
-      width: `${containerPos.width}px`
+      width: `${containerPos.width}px`,
     }
   }
 
@@ -157,12 +159,32 @@ export default function Controls (props) {
     controlsPos ? 'vcv-ui-controls-o-controls-right' : ''
   ]
 
+  const sortControls = () => {
+    let iterableControls = props.data.vcvEditableElements || vcvEditableElements
+    iterableControls = [...iterableControls]
+    iterableControls.reverse()
+    const res = {
+      center: null,
+      top: null
+    }
+
+    if (iterableControls.length === 3) {
+      res.center = iterableControls[2]
+      iterableControls.pop()
+    }
+    res.top = iterableControls
+
+    return res
+  }
+
   containerClasses = containerClasses.join(' ')
+  const sortedControls = sortControls()
 
   return (
     <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <nav className='vcv-ui-outline-controls' ref={controls}>
-        <ControlItems data={props.data} visibleControls={visibleControls} />
+      {sortedControls.center && <ControlCenter data={props.data} id={sortedControls.center} />}
+      <nav className="vcv-ui-outline-controls" ref={controls}>
+        <ControlItems data={props.data} visibleControls={sortedControls.top} />
       </nav>
     </div>
   )

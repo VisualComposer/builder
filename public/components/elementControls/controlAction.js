@@ -87,7 +87,7 @@ export default function ControlAction (props) {
     >
       <span className='vcv-ui-outline-control-content' title={title} disabled={options.disabled}>
         <i className={iconClasses} />
-        {label}
+        { !props.inline ?? label}
       </span>
     </span>
   )
