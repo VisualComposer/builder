@@ -19,7 +19,7 @@ export default class DynamicPopup extends React.Component {
     onOpen: PropTypes.func.isRequired,
     fieldType: PropTypes.string.isRequired,
     value: PropTypes.string,
-    elementAccessPoint: PropTypes.object.isRequired
+    elementAccessPoint: PropTypes.object
   }
 
   constructor (props) {

@@ -503,7 +503,7 @@ export default class AttachImage extends Attribute {
 
   handleDynamicFieldClose () {
     this.setFieldValue('')
-    this.props.onDynamicFieldClose()
+    this.props.onDynamicFieldClose && this.props.onDynamicFieldClose()
   }
 
   getDynamicButtonHtml (dynamicApi) {
