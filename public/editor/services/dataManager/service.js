@@ -90,7 +90,7 @@ const dataManager = {
       hubGetTemplates: () => { return window.VCV_HUB_GET_TEMPLATES && window.VCV_HUB_GET_TEMPLATES() },
       agreeHubTerms: () => { return window.vcvAgreeHubTerms },
       showPricingPopup: () => { return window.vcvShowPricingPopup },
-      globalLazyLoadEnabled: () => { return window.VCV_GLOBAL_LAZY_LOAD_ENABLED && window.VCV_GLOBAL_LAZY_LOAD_ENABLED() },
+      isWpNativeLazyLoadExist: () => { return window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST && window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST() },
       globalSettings: () => { return window.VCV_GLOBAL_DATA && window.VCV_GLOBAL_DATA() }
     }
   }
