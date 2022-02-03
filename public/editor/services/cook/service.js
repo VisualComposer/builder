@@ -334,7 +334,7 @@ const API = {
           })
         }
       }
-      // TODO: view page render API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+      API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
       // NOTE: Issue with slick-slider elements, need to find out the way to write comments after dom was modified by element js (slick slider)
     },
     updateViewPageRenderComments: (ref, id, cookElement, inner) => {
@@ -344,6 +344,10 @@ const API = {
       const el = ReactDOM.findDOMNode(ref)
       // Clean all comments before/after element dom ref
       const tag = cookElement.get('tag')
+      if (['contentSlide', 'pageableTab'].indexOf(tag) !== -1) {
+        // Unfortunately we must skip comments logic for contentSlide/pageableTab because of slick slider problem
+        return
+      }
       const atts = JSON.stringify({
         id: id,
         tag: tag
