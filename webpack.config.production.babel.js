@@ -51,6 +51,7 @@ export default Object.assign({}, config, {
     new Collector({
       wp: {
         modules: [
+          'updateContent',
           'layout',
           'wordpressWorkspace',
           'insights',
