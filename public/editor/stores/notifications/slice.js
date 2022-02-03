@@ -1,6 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit'
 import { getService } from 'vc-cake'
-import store from '../store'
 
 const slice = createSlice({
   name: 'notifications',
@@ -38,16 +37,9 @@ const slice = createSlice({
         return
       }
 
-      if (notifications.list.length >= limit) {
-        notifications.queue.push(action.payload)
-      } else {
-        notifications.list.push(action.payload)
-        if (data.time !== -1) {
-          window.setTimeout(() => {
-            store.dispatch(notificationRemoved(data.id))
-          }, data.time)
-        }
-      }
+      notifications.list.length >= limit
+        ? notifications.queue.push(action.payload)
+        : notifications.list.push(action.payload)
     },
     notificationRemoved: (notifications, action) => {
       const Utils = getService('utils')
@@ -67,10 +59,7 @@ const slice = createSlice({
         if (current(notifications).queue[0]) {
           const clone = { ...current(notifications).queue[0] }
           notifications.queue.splice(0, 1)
-
-          window.setTimeout(() => {
-            store.dispatch(notificationAdded(clone))
-          }, 10)
+          notifications.list.push(clone)
         }
       }
     },
