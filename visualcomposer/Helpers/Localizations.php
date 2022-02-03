@@ -1953,6 +1953,14 @@ class Localizations extends Container implements Helper
                 'Button',
                 'visualcomposer'
             ),
+            'skinToggleTooltip' => __(
+                'Use the toggle to switch between light and dark backgrounds',
+                'visualcomposer'
+            ),
+            'refreshIconTitle' => __(
+                'Reset and sync with default values',
+                'visualcomposer'
+            ),
             // Activation Survey Options
             'myselfTitle' => __(
                 'Myself',
