@@ -13,7 +13,7 @@ export default function ControlCenter (props) {
     return null
   }
 
-  //@todo Add proper style
+  // @todo Add proper style
   return (
     <div style={{
       position: 'absolute',
@@ -26,11 +26,12 @@ export default function ControlCenter (props) {
       display: 'flex',
       width: '240px',
       borderRadius: '5px'
-    }}>
-        <span className="vcv-ui-outline-control-content">
-          <img className="vcv-ui-outline-control-icon" src={icon} alt={title} />
-        </span>
-      <ControlDropdownInner elementId={props.id} inline={true} />
+    }}
+    >
+      <span className='vcv-ui-outline-control-content'>
+        <img className='vcv-ui-outline-control-icon' src={icon} alt={title} />
+      </span>
+      <ControlDropdownInner elementId={props.id} inline />
     </div>
   )
 }

@@ -102,7 +102,7 @@ function ControlItems (props) {
     }
     if (i < vcvEditableElements.length - 1) {
       controls.push(
-        <i className="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right" key={`element-delimiter-${id}-${i}`} />)
+        <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
     }
   })
 
@@ -150,7 +150,7 @@ export default function Controls (props) {
     styles = {
       top: `${containerPos.top}px`,
       left: `${containerPos.left}px`,
-      width: `${containerPos.width}px`,
+      width: `${containerPos.width}px`
     }
   }
 
@@ -183,7 +183,7 @@ export default function Controls (props) {
   return (
     <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {sortedControls.center && <ControlCenter data={props.data} id={sortedControls.center} />}
-      <nav className="vcv-ui-outline-controls" ref={controls}>
+      <nav className='vcv-ui-outline-controls' ref={controls}>
         <ControlItems data={props.data} visibleControls={sortedControls.top} />
       </nav>
     </div>
