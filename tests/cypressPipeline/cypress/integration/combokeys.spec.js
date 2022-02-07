@@ -180,6 +180,8 @@ describe('Editor controls', function () {
         cy.wait('@saveRequest')
         cy.viewPage()
 
+        cy.wait(1500)
+
         cy.get('.vce-text-block')
             .should('have.attr', 'id', 'AST')
             .contains('AST')

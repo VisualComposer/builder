@@ -44,7 +44,7 @@ class WpmlController extends Container implements Module
             if (class_exists('\SitePress')) {
                 /** @see \VisualComposer\Modules\Vendors\WpmlController::disableGutenberg */
                 $this->wpAddAction(
-                    'admin_init',
+                    'current_screen',
                     'disableGutenberg',
                     11
                 );
