@@ -261,6 +261,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     const wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner vce-single-image--absolute'
     const imageClasses = 'vce-single-image'
+    const figureInnerClasses = 'vce-single-image-figure-inner'
+
     let customProps = {}
     const containerProps = {}
     const wrapperProps = {}
@@ -395,9 +397,11 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       <div className={containerClasses} {...editor} {...containerProps}>
         <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
           <figure>
-            <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
-              {imgElement}
-            </CustomTag>
+            <div className={figureInnerClasses} style={{ width: this.state.parsedWidth }}>
+              <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: '100%' }}>
+                {imgElement}
+              </CustomTag>
+            </div>
             {caption}
           </figure>
         </div>
