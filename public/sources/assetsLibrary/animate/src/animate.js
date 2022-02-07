@@ -2,7 +2,7 @@ import './animate.css';
 
 window.vcv.on('ready', function (action, id, options) {
   let enableAnimate = function (id, action, innerKey) {
-    let selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
+    const selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
     let elements = document.querySelectorAll(selector)
     elements = [].slice.call(elements)
     elements.forEach(function (element) {
@@ -19,15 +19,15 @@ window.vcv.on('ready', function (action, id, options) {
           }
 
           if (action === 'add') {
-            let innerElements = element.querySelectorAll('[data-vcv-animate-fieldkey]')
+            let innerElements = element.querySelectorAll('[data-vcv-animate-fieldkey], [data-vce-animate]')
             innerElements = [].slice.call(innerElements)
             innerElements.forEach(function (innerElement) {
               animateElement(innerElement)
             })
           }
         } else {
-          let innerSelector = '[data-vce-animate][data-vcv-animate-fieldkey="' + innerKey + '"]'
-          let innerElement = element.querySelector(innerSelector)
+          const innerSelector = '[data-vce-animate][data-vcv-animate-fieldkey="' + innerKey + '"]'
+          const innerElement = element.querySelector(innerSelector)
           if (innerElement) {
             animateElement(innerElement)
           }
@@ -39,12 +39,12 @@ window.vcv.on('ready', function (action, id, options) {
   }
 
   let animateElement = function (element) {
-    let previousElementWaypoints = element.vcvWaypoints
+    const previousElementWaypoints = element.vcvWaypoints
     if (previousElementWaypoints) {
       previousElementWaypoints.destroy()
       element.removeAttribute('data-vcv-o-animated')
     }
-    let waypointObj = new window.Waypoint({
+    const waypointObj = new window.Waypoint({
       element: element,
       handler: function (a, b, c, d, e) {
         element.setAttribute('data-vcv-o-animated', 'true')

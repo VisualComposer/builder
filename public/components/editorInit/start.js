@@ -28,6 +28,10 @@ export const start = (callback) => {
     }
     const iframe = $iframe.get(0).contentWindow
     const iframeDocument = iframe.document
+    // Fix opacity blinking for gtags and other scripts
+    iframeDocument.body.classList.add('vcwb-editor-body', 'vcwb-editor--opacity')
+    iframeDocument.documentElement.classList.add('vcwb-editor-html', 'vcwb-editor--opacity')
+
     // Disable iframe clicks
     $(iframeDocument.body).on('click', 'a[href]:not([data-vcv-link])', (e) => {
       e && e.preventDefault()
