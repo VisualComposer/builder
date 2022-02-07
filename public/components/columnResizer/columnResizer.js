@@ -129,7 +129,6 @@ export default class ColumnResizer extends React.Component {
 
   handleLabelState (e) {
     console.log('--- handleLabelState ---')
-
     const newState = {
       isLabelsActive: !this.state.isLabelsActive
     }
@@ -137,8 +136,14 @@ export default class ColumnResizer extends React.Component {
       const Event = new window.MouseEvent('mouseenter', {
         clientX: e.currentTarget.getBoundingClientRect().x
       })
+
+      console.log('--- mouseenter ---')
+      console.log(ReactDOM.findDOMNode(this))
+      console.log('--- mouseenter ---')
+
+      /*** NAUGHTY NAUGHTY ***/
       this.getRowData(Event)
-      const colSizes = this.getResizedColumnsWidth(Event)
+      /*const colSizes = this.getResizedColumnsWidth(Event)
 
       const leftColData = documentService.get(this.resizerData.leftColumn.id.replace('el-', ''))
       const rightColData = documentService.get(this.resizerData.rightColumn.id.replace('el-', ''))
@@ -161,7 +166,7 @@ export default class ColumnResizer extends React.Component {
       }
 
       newState.leftColPercentage = colSizes.leftCol
-      newState.rightColPercentage = colSizes.rightCol
+      newState.rightColPercentage = colSizes.rightCol*/
     } else {
       window.setTimeout(() => {
         newState.leftColValue = null
@@ -192,22 +197,41 @@ export default class ColumnResizer extends React.Component {
 
   getRowData (e) {
     console.log('--- getRowData ---')
+    let $isFirst = false
+    let $isLast = false
 
     const $helper = ReactDOM.findDOMNode(this)
     let $tempRightCol = $helper.nextElementSibling
-    let $rightCol = null
-    let $leftCol = null
 
     // Search for next visible column
-    while (!$tempRightCol.offsetParent) {
-      $tempRightCol = $tempRightCol.nextElementSibling
+    if($tempRightCol){
+      while (!$tempRightCol.offsetParent) {
+        $tempRightCol = $tempRightCol.nextElementSibling
+      }
+    } else {
+      $isLast = true
     }
 
     let $tempLeftCol = $helper.previousElementSibling
 
-    while (!$tempLeftCol.offsetParent) {
-      $tempLeftCol = $tempLeftCol.nextElementSibling
+    if($tempLeftCol){
+      while (!$tempLeftCol.offsetParent) {
+        $tempLeftCol = $tempLeftCol.nextElementSibling
+      }
+    } else {
+      $isFirst = true
     }
+
+    if(!($isFirst || $isLast)){
+      this.processMiddleColumns(e, $helper, $tempLeftCol, $tempRightCol)
+    } else {
+      this.processSideColumns($isFirst)
+    }
+  }
+
+  processMiddleColumns(e, $helper, $tempLeftCol, $tempRightCol){
+    let $rightCol
+    let $leftCol
 
     if ($tempLeftCol.getBoundingClientRect().left > $tempRightCol.getBoundingClientRect().left) {
       $rightCol = $tempLeftCol
@@ -250,6 +274,10 @@ export default class ColumnResizer extends React.Component {
     this.resizerData.leftColumnIndex = leftColumnIndex
     this.resizerData.rightColumnIndex = rightColumnIndex
     this.resizerData.currentDevice = this.getCurrentDevice()
+  }
+
+  processSideColumns($isFirst){
+    console.log($isFirst)
   }
 
   handleMouseDown (e) {
