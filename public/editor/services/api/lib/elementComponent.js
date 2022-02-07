@@ -70,9 +70,9 @@ export default class ElementComponent extends React.Component {
     }
   }
 
-  updateShortcodeToHtml (content, ref, cb) {
+  updateShortcodeToHtml (content, ref, cb, action) {
     if (ref) {
-      updateHtmlWithServer(content, ref, this.props.id, cb)
+      updateHtmlWithServer(content, ref, this.props.id, cb, action)
     } else if (env('VCV_DEBUG')) {
       console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
     }
@@ -98,6 +98,7 @@ export default class ElementComponent extends React.Component {
           spinner && spinner.remove()
           const freezeReady = dataManager.get('freezeReady')
           freezeReady && freezeReady(id, false)
+          console.log('updateInlineHtml', id)
           window.vcv && window.vcv.trigger('ready', 'update', id)
         }, 500)
       })(env('iframe')))
