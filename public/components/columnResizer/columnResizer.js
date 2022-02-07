@@ -599,8 +599,8 @@ export default class ColumnResizer extends React.Component {
 
     const isOnSide = () => {
       let res = ''
-      if( this.props.isFirst ) res = 'vce-column-resizer-first'
-      if( this.props.isLast ) res = 'vce-column-resizer-last'
+      if (this.props.isFirst) res = 'vce-column-resizer-first'
+      if (this.props.isLast) res = 'vce-column-resizer-last'
       return res
     }
 

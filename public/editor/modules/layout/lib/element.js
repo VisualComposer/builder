@@ -114,18 +114,14 @@ export default class Element extends React.Component {
           elements.push(
             <ColumnResizer
               key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
-              api={this.props.api} isLast={ i + 1 === data.length }
+              api={this.props.api} isLast={i + 1 === data.length}
             />
           )
 
           if (i === 0) {
-            const newElement = <ColumnResizer isFirst={true}
-              key={`columnResizer-${childElement.id}-first`} linkedElement={childElement.id}
-              api={this.props.api}
-            />
+            const newElement = <ColumnResizer isFirst key={`columnResizer-${childElement.id}-first`} linkedElement={childElement.id} api={this.props.api} />
             elements = [newElement].concat(elements)
           }
-
         }
       }
       return elements
