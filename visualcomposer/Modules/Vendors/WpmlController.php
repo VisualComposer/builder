@@ -44,7 +44,7 @@ class WpmlController extends Container implements Module
             if (class_exists('\SitePress')) {
                 /** @see \VisualComposer\Modules\Vendors\WpmlController::disableGutenberg */
                 $this->wpAddAction(
-                    'admin_init',
+                    'current_screen',
                     'disableGutenberg',
                     11
                 );
@@ -276,7 +276,7 @@ class WpmlController extends Container implements Module
                     $screen = get_current_screen();
                     if (
                         !$requestHelper->exists('classic-editor')
-                        && !(
+                        && (
                             method_exists($screen, 'is_block_editor')
                             && $screen->is_block_editor()
                         )
