@@ -49,8 +49,8 @@ export default class ColumnResizer extends React.Component {
       isLabelsActive: false,
       isResizerActive: false,
       isResizerVisible: true,
-      isFirst: false,
-      isLast: false
+      isFirst: props.isFirst || false,
+      isLast: props.isLast || false
     }
     this.resizerRef = React.createRef()
     this.handleMouseDown = this.handleMouseDown.bind(this)
@@ -107,6 +107,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   setVisibility () {
+    console.log('--- setVisibility ---')
+
     if (!this.resizerRef.current) {
       return
     }
@@ -126,6 +128,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleLabelState (e) {
+    console.log('--- handleLabelState ---')
+
     const newState = {
       isLabelsActive: !this.state.isLabelsActive
     }
@@ -176,6 +180,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleResizerState () {
+    console.log('--- handleResizerState ---')
+
     if (!this.state.dragging) {
       this.setState({
         isResizerActive: !this.state.isResizerActive,
@@ -185,6 +191,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   getRowData (e) {
+    console.log('--- getRowData ---')
+
     const $helper = ReactDOM.findDOMNode(this)
     let $tempRightCol = $helper.nextElementSibling
     let $rightCol = null
@@ -245,13 +253,14 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleMouseDown (e) {
+    console.log('--- handleMouseDown ---')
+
     if (e.nativeEvent.which === 1) {
       this.getRowData(e)
       this.getResizerPositions(e)
       this.createWrapBlockers()
       this.setResizeLabelsPosition(e)
       const colSizes = this.getResizedColumnsWidth(e)
-
       this.setState({
         dragging: true,
         leftColValue: null,
@@ -264,6 +273,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   getResizerPositions (e) {
+    console.log('--- getResizerPositions ---')
+
     const positions = []
     const currentResizer = e.currentTarget
     const currentResizerClientRect = currentResizer.getBoundingClientRect()
@@ -313,6 +324,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleMouseUp () {
+    console.log('--- handleMouseUp ---')
+
     this.setState({ dragging: false })
     this.removeWrapBlockers()
     this.rebuildRowLayout()
@@ -323,6 +336,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleMouseMove (e) {
+    console.log('--- handleMouseMove ---')
+
     if (!this.state.dragging) {
       return
     }
@@ -331,12 +346,16 @@ export default class ColumnResizer extends React.Component {
   }
 
   setResizeLabelsPosition (e) {
+    console.log('--- setResizeLabelsPosition ---')
+
     const resizerHeight = this.resizerData.resizer.getBoundingClientRect().height
     const labelPosition = e.clientY - this.resizerData.helper.getBoundingClientRect().top - (resizerHeight / 2)
     this.setState({ labelPosition: labelPosition })
   }
 
   renderTemporaryColStyles (e) {
+    console.log('--- renderTemporaryColStyles ---')
+
     const columnGap = this.resizerData.columnGap
     const colSizes = this.getResizedColumnsWidth(e)
     let resizerPercentages = colSizes.leftCol
@@ -402,11 +421,15 @@ export default class ColumnResizer extends React.Component {
   }
 
   removeTemporaryColStyles () {
+    console.log('--- removeTemporaryColStyles ---')
+
     this.resizerData.leftColumn.removeAttribute('style')
     this.resizerData.rightColumn.removeAttribute('style')
   }
 
   createWrapBlockers () {
+    console.log('--- createWrapBlockers ---')
+
     const $resizer = this.resizerData.helper
     const firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--all-first') || this.getSibling($resizer, 'prev', 'vce-col--' + this.resizerData.currentDevice + '-first')
     const blockElement = document.createElement('div')
@@ -418,11 +441,15 @@ export default class ColumnResizer extends React.Component {
   }
 
   removeWrapBlockers () {
+    console.log('--- removeWrapBlockers ---')
+
     const blocker = this.resizerData.helper.parentNode.querySelector('.vce-column-wrap-blocker')
     blocker.parentNode.removeChild(blocker)
   }
 
   getSibling (element, direction, className) {
+    console.log('--- getSibling ---')
+
     let sibling = null
     if (direction === 'prev') {
       direction = 'previousElementSibling'
@@ -449,6 +476,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   setLabelPercentages (left, right) {
+    console.log('--- setLabelPercentages ---')
+
     this.setState({
       leftColPercentage: left,
       rightColPercentage: right
@@ -456,6 +485,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   getResizedColumnsWidth (e, leftColumn) {
+    console.log('--- getResizedColumnsWidth ---')
+
     const rowWidth = this.resizerData.rowWidth
     const resizerWidth = e.clientX - (leftColumn || this.resizerData.leftColumn.getBoundingClientRect().left) + this.resizerData.columnGap / 2
     const leftCol = resizerWidth / rowWidth
@@ -463,6 +494,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   rebuildRowLayout () {
+    console.log('--- rebuildRowLayout ---')
+
     const parentRow = documentService.get(this.resizerData.rowId)
     const layoutData = this.getLayoutData(this.resizerData.rowId)
 
@@ -480,6 +513,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   getCurrentDevice () {
+    console.log('--- getCurrentDevice ---')
+
     const iframeDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     const windowWidth = Math.max(iframeDocument.document.documentElement.clientWidth, iframeDocument.innerWidth || 0)
     let currentDevice = null
@@ -496,6 +531,8 @@ export default class ColumnResizer extends React.Component {
   }
 
   getLayoutData (rowId) {
+    console.log('--- getLayoutData ---')
+
     const deviceLayoutData = {}
     const rowChildren = documentService.children(rowId)
 
@@ -526,10 +563,12 @@ export default class ColumnResizer extends React.Component {
   }
 
   hide () {
+    console.log('--- hide ---')
     this.setState({ isVisible: false })
   }
 
   show () {
+    console.log('--- show ---')
     this.setState({ isVisible: true })
   }
 
