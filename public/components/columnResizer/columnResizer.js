@@ -141,9 +141,9 @@ export default class ColumnResizer extends React.Component {
       console.log(ReactDOM.findDOMNode(this))
       console.log('--- mouseenter ---')
 
-      /*** NAUGHTY NAUGHTY ***/
+      /** * NAUGHTY NAUGHTY ***/
       this.getRowData(Event)
-      /*const colSizes = this.getResizedColumnsWidth(Event)
+      /* const colSizes = this.getResizedColumnsWidth(Event)
 
       const leftColData = documentService.get(this.resizerData.leftColumn.id.replace('el-', ''))
       const rightColData = documentService.get(this.resizerData.rightColumn.id.replace('el-', ''))
@@ -166,7 +166,7 @@ export default class ColumnResizer extends React.Component {
       }
 
       newState.leftColPercentage = colSizes.leftCol
-      newState.rightColPercentage = colSizes.rightCol*/
+      newState.rightColPercentage = colSizes.rightCol */
     } else {
       window.setTimeout(() => {
         newState.leftColValue = null
@@ -204,7 +204,7 @@ export default class ColumnResizer extends React.Component {
     let $tempRightCol = $helper.nextElementSibling
 
     // Search for next visible column
-    if($tempRightCol){
+    if ($tempRightCol) {
       while (!$tempRightCol.offsetParent) {
         $tempRightCol = $tempRightCol.nextElementSibling
       }
@@ -214,7 +214,7 @@ export default class ColumnResizer extends React.Component {
 
     let $tempLeftCol = $helper.previousElementSibling
 
-    if($tempLeftCol){
+    if ($tempLeftCol) {
       while (!$tempLeftCol.offsetParent) {
         $tempLeftCol = $tempLeftCol.nextElementSibling
       }
@@ -222,14 +222,14 @@ export default class ColumnResizer extends React.Component {
       $isFirst = true
     }
 
-    if(!($isFirst || $isLast)){
+    if (!($isFirst || $isLast)) {
       this.processMiddleColumns(e, $helper, $tempLeftCol, $tempRightCol)
     } else {
       this.processSideColumns($isFirst)
     }
   }
 
-  processMiddleColumns(e, $helper, $tempLeftCol, $tempRightCol){
+  processMiddleColumns (e, $helper, $tempLeftCol, $tempRightCol) {
     let $rightCol
     let $leftCol
 
@@ -276,7 +276,7 @@ export default class ColumnResizer extends React.Component {
     this.resizerData.currentDevice = this.getCurrentDevice()
   }
 
-  processSideColumns($isFirst){
+  processSideColumns ($isFirst) {
     console.log($isFirst)
   }
 
