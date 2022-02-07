@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import Layout from 'public/sources/attributes/rowLayout/Component'
@@ -201,7 +200,7 @@ export default class ColumnResizer extends React.Component {
     let $isFirst = false
     let $isLast = false
 
-    const $helper = ReactDOM.findDOMNode(this)
+    const $helper = this.resizerRef.current
     let $tempRightCol = $helper.nextElementSibling
 
     // Search for next visible column
@@ -336,7 +335,7 @@ export default class ColumnResizer extends React.Component {
   getResizerPositions (e) {
     console.log('--- getResizerPositions ---')
 
-    /*const positions = []
+    const positions = []
     const currentResizer = e.currentTarget
     const currentResizerClientRect = currentResizer.getBoundingClientRect()
 
@@ -364,12 +363,16 @@ export default class ColumnResizer extends React.Component {
       const position = firstInRow.left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
       positions.push((Math.round(position * 100) / 100))
 
-      const leftPosition = this.resizerData.leftColumn.getBoundingClientRect().left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
-      positions.push((Math.round(leftPosition * 100) / 100))
+      if (this.resizerData.leftColumn) {
+        const leftPosition = this.resizerData.leftColumn.getBoundingClientRect().left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
+        positions.push((Math.round(leftPosition * 100) / 100))
+      }
 
-      const rightColClientRect = this.resizerData.rightColumn.getBoundingClientRect()
-      const rightPosition = rightColClientRect.left + rightColClientRect.width + currentResizerClientRect.width / 2 - rowContentWidth * (percentage / 100)
-      positions.push((Math.round(rightPosition * 100) / 100))
+      if (this.resizerData.rightColumn) {
+        const rightColClientRect = this.resizerData.rightColumn.getBoundingClientRect()
+        const rightPosition = rightColClientRect.left + rightColClientRect.width + currentResizerClientRect.width / 2 - rowContentWidth * (percentage / 100)
+        positions.push((Math.round(rightPosition * 100) / 100))
+      }
     })
     // get default grid snap points and add them to positions []
     allResizers.forEach((resizer) => {
@@ -381,7 +384,7 @@ export default class ColumnResizer extends React.Component {
         }
       }
     })
-    this.resizerData.resizerPositions = positions*/
+    this.resizerData.resizerPositions = positions
   }
 
   handleMouseUp () {
@@ -430,8 +433,9 @@ export default class ColumnResizer extends React.Component {
 
     const mouseLeftPosition = e.clientX
 
+    console.log(this.resizerData.resizerPositions)
     this.resizerData.resizerPositions.forEach((position) => {
-      /*const minPosition = Math.round(position) - this.resizerData.snapWidth
+      const minPosition = Math.round(position) - this.resizerData.snapWidth
       const maxPosition = Math.round(position) + this.resizerData.snapWidth
       if (mouseLeftPosition > minPosition && mouseLeftPosition < maxPosition) {
         const fullRowWidth = this.resizerData.rowWidth
@@ -442,7 +446,7 @@ export default class ColumnResizer extends React.Component {
         rightResizerPercentages = this.resizerData.bothColumnsWidth - leftCol
         equalSpace = columnGap * (resizerPercentages * 100 - 1)
         rightEqualSpace = columnGap * (rightResizerPercentages * 100 - 1)
-      }*/
+      }
     })
 
     const leftWidth = `calc((100% - ${gapSpace}px) * ${resizerPercentages} + ${equalSpace}px)`
@@ -485,8 +489,8 @@ export default class ColumnResizer extends React.Component {
   removeTemporaryColStyles () {
     console.log('--- removeTemporaryColStyles ---')
 
-    /*this.resizerData.leftColumn.removeAttribute('style')
-    this.resizerData.rightColumn.removeAttribute('style')*/
+    /* this.resizerData.leftColumn.removeAttribute('style')
+    this.resizerData.rightColumn.removeAttribute('style') */
   }
 
   createWrapBlockers () {
@@ -503,10 +507,10 @@ export default class ColumnResizer extends React.Component {
   }
 
   removeWrapBlockers () {
-    console.log('--- removeWrapBlockers ---')
-
-    const blocker = this.resizerData.helper.parentNode.querySelector('.vce-column-wrap-blocker')
-    blocker.parentNode.removeChild(blocker)
+    if (this.resizerData.helper) {
+      const blocker = this.resizerData.helper.parentNode.querySelector('.vce-column-wrap-blocker')
+      blocker.parentNode.removeChild(blocker)
+    }
   }
 
   getSibling (element, direction, className) {
