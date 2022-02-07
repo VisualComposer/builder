@@ -98,7 +98,6 @@ export default class ElementComponent extends React.Component {
           spinner && spinner.remove()
           const freezeReady = dataManager.get('freezeReady')
           freezeReady && freezeReady(id, false)
-          console.log('updateInlineHtml', id)
           window.vcv && window.vcv.trigger('ready', 'update', id)
         }, 500)
       })(env('iframe')))
