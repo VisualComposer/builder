@@ -3,8 +3,8 @@ Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,konutis,or
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.8.3
-Stable tag: 42.1
+Tested up to: 5.9
+Stable tag: 43.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -224,6 +224,42 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 43.0 =
+*Release Date - 2022-02-15*
+
+### Free:
+- New: Element controls improved for a better user experience
+- New: Maintenance mode option available in the free version
+- New: Settings link added to the Visual Composer in the WordPress Plugins section
+- New: Plugin activation survey added for better product development
+- New: Link to the Help Center added to the Visual Composer News widget in the WP Dashboard
+- New: Option to create a page added to the Visual Composer News widget in the WP Dashboard
+- Update: New page titles improved for a better user experience
+- Update: Lazy load controls removed in the editor to rely on the WordPress native lazy load
+- Update: Clicking on the Visual Composer logo in the editor opens Add Content Window
+- Update: Dashboard menu improved for a better user experience
+- Update: Premium feature notice interface improved for consistency
+- Fix: Addon dependencies work properly
+- Fix: Shortcuts work properly in the editor
+- Fix: User experience improved for notification display
+- Fix: Autocomplete option removed from the Visual Composer search field in the editor
+- Fix: Additional validation added for Global CSS and JavaScript
+- Fix: Visual Composer General Settings list order improved
+- Fix: Row stretching works properly in the layouts with sidebar
+- Fix: Tooltip for sticky options updated with properly description
+- Fix: Deprecation warnings removed in WP 5.9
+- Fix: Hero Section font colors adjusted for consistency
+- Fix: WPML compatibility improved
+
+### Premium:
+- New: Responsive settings for the Font Manager added
+- New: Visual Composer Layout Builder is compatible with WP Job Manage
+- Fix: Role Manager does not list non-downloaded addons
+- Fix: Dynamic content background images work properly in layouts
+- Fix: Font Manager and Essential Grid compatibility improved
+- Fix: Basic Menu element works properly
+- Fix: CSS Animations work properly in Global templates
 
 = 42.1 =
 *Release Date - 2022-01-20*
