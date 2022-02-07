@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
-import { isEqual, defer, cloneDeep } from 'lodash'
+import { cloneDeep, defer, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import EmptyCommentElementWrapper from './emptyCommentElementWrapper.tsx'
 
@@ -106,8 +106,8 @@ export default class Element extends React.Component {
   getContent (content) {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
-    const elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
+    const elementsList = DocumentData.children(currentElement.get('id')).map((childElement, i) => {
+      let elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
         if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) || !this.state.element.metaIsElementLocked) {
           elements.push(
@@ -116,6 +116,15 @@ export default class Element extends React.Component {
               api={this.props.api}
             />
           )
+
+          if (i === 0) {
+            const newElement = <ColumnResizer isFirst={true}
+              key={`columnResizer-${childElement.id}-first`} linkedElement={childElement.id}
+              api={this.props.api}
+            />
+            elements = [newElement].concat(elements)
+          }
+
         }
       }
       return elements

@@ -48,7 +48,9 @@ export default class ColumnResizer extends React.Component {
       isVisible: true,
       isLabelsActive: false,
       isResizerActive: false,
-      isResizerVisible: true
+      isResizerVisible: true,
+      isFirst: false,
+      isLast: false
     }
     this.resizerRef = React.createRef()
     this.handleMouseDown = this.handleMouseDown.bind(this)
@@ -556,6 +558,15 @@ export default class ColumnResizer extends React.Component {
       'vce-column-resizer--hidden': !this.state.isResizerVisible
     })
 
+    const isOnSide = () => {
+      let res = ''
+      if( this.props.isFirst ) res = 'vce-column-resizer-first'
+      if( this.props.isLast ) res = 'vce-column-resizer-last'
+      return res
+    }
+
+    const side = isOnSide()
+
     return (
       <div
         className={columnResizerClasses}
@@ -563,7 +574,7 @@ export default class ColumnResizer extends React.Component {
         onMouseOut={this.handleResizerState}
         ref={this.resizerRef}
       >
-        <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
+        <div className={`vce-column-resizer-handler ${side}`} data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
           <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
             <div className='vce-column-resizer-label vce-column-resizer-label-left'>
               <span className='vce-column-resizer-label-percentage'>
