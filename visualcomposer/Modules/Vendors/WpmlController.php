@@ -276,7 +276,7 @@ class WpmlController extends Container implements Module
                     $screen = get_current_screen();
                     if (
                         !$requestHelper->exists('classic-editor')
-                        && (
+                        && !(
                             method_exists($screen, 'is_block_editor')
                             && $screen->is_block_editor()
                         )
