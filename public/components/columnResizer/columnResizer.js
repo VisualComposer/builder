@@ -107,7 +107,6 @@ export default class ColumnResizer extends React.Component {
 
   setVisibility () {
     console.log('--- setVisibility ---')
-
     if (!this.resizerRef.current) {
       return
     }
@@ -186,7 +185,6 @@ export default class ColumnResizer extends React.Component {
 
   handleResizerState () {
     console.log('--- handleResizerState ---')
-
     if (!this.state.dragging) {
       this.setState({
         isResizerActive: !this.state.isResizerActive,
@@ -314,7 +312,6 @@ export default class ColumnResizer extends React.Component {
 
   handleMouseDown (e) {
     console.log('--- handleMouseDown ---')
-
     if (e.nativeEvent.which === 1) {
       this.getRowData(e)
       this.getResizerPositions(e)
@@ -464,7 +461,6 @@ export default class ColumnResizer extends React.Component {
           this.resizerData.rightColumn.style.maxWidth = this.resizerData.bothColumnsWidthPx - this.resizerData.leftColumn.getBoundingClientRect().width + 'px'
         }
       } else if (this.resizerData.mousePosition < e.clientX) {
-        console.log('Line 468')
         const left = this.resizerData.leftColumn.getBoundingClientRect().width
         const right = (rowWidth - gapSpace) * rightResizerPercentages + rightEqualSpace
         if ((left + right) < this.resizerData.bothColumnsWidthPx) {
@@ -676,14 +672,7 @@ export default class ColumnResizer extends React.Component {
       'vce-column-resizer--hidden': !this.state.isResizerVisible
     })
 
-    const isOnSide = () => {
-      let res = ''
-      if (isFirst) res = 'vce-column-resizer-first'
-      if (isLast) res = 'vce-column-resizer-last'
-      return res
-    }
-
-    const side = isOnSide()
+    const isOnSide = () => isFirst || isLast ? 'vce-column-resizer-' + (isFirst ? 'first' : 'last') : ''
 
     return (
       <div
@@ -692,7 +681,7 @@ export default class ColumnResizer extends React.Component {
         onMouseOut={this.handleResizerState}
         ref={this.resizerRef}
       >
-        <div className={`vce-column-resizer-handler ${side}`} data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
+        <div className={`vce-column-resizer-handler ${isOnSide()}`} data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
           <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
             <div className='vce-column-resizer-label vce-column-resizer-label-left'>
               <span className='vce-column-resizer-label-percentage'>
