@@ -60,24 +60,6 @@ describe('Editor controls', function () {
             .should('have.text', 'AST')
             .should('have.focus')
 
-        //* element in editor
-        cy.getIframe('#vcv-editor-iframe')
-            .find('.vce-text-block-wrapper.vce > .vcvhelper')
-            .dblclick()
-            .wait(100)
-            .clear()
-            .wait(100)
-            .clear()
-            .type(capitalA)
-            .type(capitalS)
-            .type(capitalT)
-            .wait(200)
-            .should('have.text', 'AST')
-            .wait(100)
-            .should('have.focus')
-
-        cy.getIframe('#vcv-editor-iframe').find('div[aria-label="Open Edit Form"] > button').click()
-
         //* title
         cy.get('.vcv-ui-edit-form-header-title')
             .click()
