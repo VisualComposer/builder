@@ -1,6 +1,6 @@
 {
-  "customId": "basic-button-id",
-  "customClass": "basic-button-class",
+  "customId": "bb-id",
+  "customClass": "bb-class",
   "alignment": "center",
   "buttonLink": {
     "url": "visualcomposer.com"
@@ -13,7 +13,7 @@
     "name": "small",
     "cssValue": "10px 30px"
   },
-  "buttonText": "Hello World",
+  "buttonText": "b-text",
   "titleColor": {
     "title": "Title color",
     "initialValue": "FFFFFF",
