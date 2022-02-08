@@ -174,6 +174,8 @@ describe('Editor controls', function () {
         cy.wait(200)
         cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('not.exist')
 
+        cy.wait(1000)
+
         // Press ctrl/command + S, check if the page is saved
         cy.window().then((win) => {
             cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
@@ -181,8 +183,6 @@ describe('Editor controls', function () {
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 83, which: 83 })
         cy.wait('@saveRequest')
         cy.viewPage()
-
-        cy.wait(1500)
 
         cy.get('.vce-text-block')
             .should('have.attr', 'id', 'AST')
