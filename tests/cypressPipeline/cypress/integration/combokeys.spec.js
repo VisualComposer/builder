@@ -78,6 +78,8 @@ describe('Editor controls', function () {
 
         cy.get('body').click(0,0)
 
+        cy.wait(1000)
+
         //* title
         cy.get('.vcv-ui-edit-form-header-title')
             .click()
