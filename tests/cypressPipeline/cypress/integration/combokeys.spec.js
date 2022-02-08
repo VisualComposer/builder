@@ -60,22 +60,6 @@ describe('Editor controls', function () {
             .should('have.text', 'AST')
             .should('have.focus')
 
-        //* element in editor
-        cy.getIframe('#vcv-editor-iframe')
-            .find('.vce-text-block-wrapper.vce > .vcvhelper')
-            .dblclick()
-            .wait(200)
-            .clear()
-            .wait(200)
-            .type(capitalA)
-            .type(capitalS)
-            .type(capitalT)
-            .wait(200)
-            .should('have.text', 'AST')
-            .should('have.focus')
-
-        cy.get('body').click(0,0)
-
         //* title
         cy.get('.vcv-ui-edit-form-header-title')
             .click()
@@ -168,7 +152,7 @@ describe('Editor controls', function () {
         cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('exist')
 
         // Press ctrl/command + shift + Z, check if this redo the last action
-        cy.get('body').trigger('keydown', { ctrlKey: true, shiftKey:true, keyCode: 90, which: 90 })
+        cy.get('body').focus().trigger('keydown', { ctrlKey: true, shiftKey:true, keyCode: 90, which: 90 })
         cy.wait(200)
         cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('not.exist')
 
@@ -179,8 +163,6 @@ describe('Editor controls', function () {
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 83, which: 83 })
         cy.wait('@saveRequest')
         cy.viewPage()
-
-        cy.wait(1500)
 
         cy.get('.vce-text-block')
             .should('have.attr', 'id', 'AST')
