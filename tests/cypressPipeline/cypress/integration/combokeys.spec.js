@@ -76,9 +76,7 @@ describe('Editor controls', function () {
             .wait(100)
             .should('have.focus')
 
-        cy.get('body').click(0,0)
-
-        cy.wait(1000)
+        cy.getIframe('#vcv-editor-iframe').find('div[aria-label="Open Edit Form"] > button').click()
 
         //* title
         cy.get('.vcv-ui-edit-form-header-title')
