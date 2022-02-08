@@ -1,9 +1,14 @@
 import './animate.css';
 
 window.vcv.on('ready', function (action, id, options) {
-  let enableAnimate = function (id, action, innerKey) {
+  const enableAnimate = function (id, action, innerKey) {
     const selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
     let elements = document.querySelectorAll(selector)
+
+    if (!elements.length) {
+      return
+    }
+
     elements = [].slice.call(elements)
     elements.forEach(function (element) {
       if (id) {
@@ -18,7 +23,7 @@ window.vcv.on('ready', function (action, id, options) {
             animateElement(containerElement)
           }
 
-          if (action === 'add') {
+          if (action === 'add' || action === 'update') {
             let innerElements = element.querySelectorAll('[data-vcv-animate-fieldkey], [data-vce-animate]')
             innerElements = [].slice.call(innerElements)
             innerElements.forEach(function (innerElement) {
@@ -61,8 +66,14 @@ window.vcv.on('ready', function (action, id, options) {
     element.vcvWaypoints = waypointObj
   }
 
-  // TODO refactor if statement, simplify logic
-  if (action === 'add' || action === undefined || (action === 'update' && options && (options.changedAttribute === 'animation' || options.changedAttributeType === 'animateDropdown' || !options.hidden))) {
+  const isUpdated = action === 'update' && options && (
+      options.changedAttribute === 'animation' ||
+      options.changedAttributeType === 'animateDropdown' ||
+      !options.hidden ||
+      options.changedAttribute === 'template'
+    )
+
+  if (action === 'add' || action === undefined || isUpdated) {
     let innerKey = ''
     if (action && options && options.changedAttributeType === 'animateDropdown' && options.changedAttribute !== 'animation') {
       innerKey = options.changedAttribute
