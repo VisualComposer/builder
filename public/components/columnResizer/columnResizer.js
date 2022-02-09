@@ -106,7 +106,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   setVisibility () {
-    console.log('--- setVisibility ---')
+    /* console.log('--- setVisibility ---') */
     if (!this.resizerRef.current) {
       return
     }
@@ -164,14 +164,15 @@ export default class ColumnResizer extends React.Component {
         }
       }
 
-      newState.leftColPercentage = colSizes.leftCol
-      newState.rightColPercentage = colSizes.rightCol
+      newState.leftColPercentage = this.state.isFirst ? 0 : colSizes.leftCol
+      newState.rightColPercentage = this.state.isLast ? 0 : colSizes.rightCol
     } else {
       window.setTimeout(() => {
         newState.leftColValue = null
         newState.rightColValue = null
       }, 300)
     }
+    console.log(this.state)
     this.setState(newState)
   }
 
@@ -184,7 +185,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleResizerState () {
-    console.log('--- handleResizerState ---')
+    /* console.log('--- handleResizerState ---') */
     if (!this.state.dragging) {
       this.setState({
         isResizerActive: !this.state.isResizerActive,
@@ -194,7 +195,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   getRowData (e) {
-    console.log('--- getRowData ---')
+    /* console.log('--- getRowData ---') */
     let $isFirst = false
     let $isLast = false
 
@@ -311,7 +312,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleMouseDown (e) {
-    console.log('--- handleMouseDown ---')
+    /* console.log('--- handleMouseDown ---') */
     if (e.nativeEvent.which === 1) {
       this.getRowData(e)
       this.getResizerPositions(e)
@@ -330,7 +331,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   getResizerPositions (e) {
-    console.log('--- getResizerPositions ---')
+    /* console.log('--- getResizerPositions ---') */
 
     const positions = []
     const currentResizer = e.currentTarget
@@ -385,7 +386,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleMouseUp () {
-    console.log('--- handleMouseUp ---')
+    /* console.log('--- handleMouseUp ---') */
 
     this.setState({ dragging: false })
     this.removeWrapBlockers()
@@ -397,7 +398,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleMouseMove (e) {
-    console.log('--- handleMouseMove ---')
+    /* console.log('--- handleMouseMove ---') */
 
     if (!this.state.dragging) {
       return
@@ -407,7 +408,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   setResizeLabelsPosition (e) {
-    console.log('--- setResizeLabelsPosition ---')
+    /* console.log('--- setResizeLabelsPosition ---') */
 
     const resizerHeight = this.resizerData.resizer.getBoundingClientRect().height
     const labelPosition = e.clientY - this.resizerData.helper.getBoundingClientRect().top - (resizerHeight / 2)
@@ -471,9 +472,12 @@ export default class ColumnResizer extends React.Component {
           this.resizerData.leftColumn.style.maxWidth = this.resizerData.bothColumnsWidthPx - this.resizerData.rightColumn.getBoundingClientRect().width + 'px'
         }
       }
+    } else {
+      this.resizeSideColumn(e)
     }
 
     const columnCalc = (100 * columnGap) + (rowWidth - gapSpace)
+
     const leftCol = this.resizerData.leftColumn
       ? columnGap + this.resizerData.leftColumn.getBoundingClientRect().width
       : columnGap
@@ -488,8 +492,24 @@ export default class ColumnResizer extends React.Component {
     this.resizerData.mousePosition = e.clientX
   }
 
+  resizeSideColumn (e) {
+    const row = documentService.get(this.resizerData.rowId)
+    console.log(row.designOptionsAdvanced.attributeMixins['boxModelMixin:all'].variables)
+
+    const element = this.resizerData[this.state.isFirst ? 'rightColumn' : 'leftColumn']
+    const bounding = element.getBoundingClientRect()
+    if (this.state.isFirst) {
+      element.style.marginLeft = e.clientX - bounding.x + 'px'
+    } else {
+      const width = e.clientX - (bounding.x + bounding.width)
+      if (width < 0) {
+        element.style.marginRight = Math.abs(width) + 'px'
+      }
+    }
+  }
+
   removeTemporaryColStyles () {
-    console.log('--- removeTemporaryColStyles ---')
+    /* console.log('--- removeTemporaryColStyles ---') */
     if (this.resizerData.leftColumn) {
       this.resizerData.leftColumn.removeAttribute('style')
     }
@@ -499,7 +519,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   createWrapBlockers () {
-    console.log('--- createWrapBlockers ---')
+    /* console.log('--- createWrapBlockers ---') */
 
     const $resizer = this.resizerData.helper
     const firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--all-first') || this.getSibling($resizer, 'prev', 'vce-col--' + this.resizerData.currentDevice + '-first')
@@ -512,7 +532,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   removeWrapBlockers () {
-    console.log('--- removeWrapBlockers ---')
+    /* console.log('--- removeWrapBlockers ---') */
 
     const blocker = this.resizerData.helper.parentNode.querySelector('.vce-column-wrap-blocker')
     if (blocker) {
@@ -521,7 +541,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   getSibling (element, direction, className) {
-    console.log('--- getSibling ---')
+    /* console.log('--- getSibling ---') */
 
     let sibling = null
     if (direction === 'prev') {
@@ -549,7 +569,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   setLabelPercentages (left, right) {
-    console.log('--- setLabelPercentages ---')
+    /* console.log('--- setLabelPercentages ---') */
 
     this.setState({
       leftColPercentage: left,
@@ -567,7 +587,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   rebuildRowLayout () {
-    console.log('--- rebuildRowLayout ---')
+    /* console.log('--- rebuildRowLayout ---') */
 
     const parentRow = documentService.get(this.resizerData.rowId)
     const layoutData = this.getLayoutData(this.resizerData.rowId)
@@ -588,7 +608,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   getCurrentDevice () {
-    console.log('--- getCurrentDevice ---')
+    /* console.log('--- getCurrentDevice ---') */
 
     const iframeDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     const windowWidth = Math.max(iframeDocument.document.documentElement.clientWidth, iframeDocument.innerWidth || 0)
@@ -606,7 +626,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   getLayoutData (rowId) {
-    console.log('--- getLayoutData ---')
+    /* console.log('--- getLayoutData ---') */
 
     const deviceLayoutData = {}
     const rowChildren = documentService.children(rowId)
@@ -638,12 +658,12 @@ export default class ColumnResizer extends React.Component {
   }
 
   hide () {
-    console.log('--- hide ---')
+    /* console.log('--- hide ---') */
     this.setState({ isVisible: false })
   }
 
   show () {
-    console.log('--- show ---')
+    /* console.log('--- show ---') */
     this.setState({ isVisible: true })
   }
 
@@ -674,6 +694,14 @@ export default class ColumnResizer extends React.Component {
 
     const isOnSide = () => isFirst || isLast ? 'vce-column-resizer-' + (isFirst ? 'first' : 'last') : ''
 
+    const newColumn = (isFirst = false) => {
+      if (isFirst) {
+        console.log('*** Pre-pend')
+      } else {
+        console.log('*** append')
+      }
+    }
+
     return (
       <div
         className={columnResizerClasses}
@@ -683,14 +711,16 @@ export default class ColumnResizer extends React.Component {
       >
         <div className={`vce-column-resizer-handler ${isOnSide()}`} data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
           <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
-            <div className='vce-column-resizer-label vce-column-resizer-label-left'>
-              <span className='vce-column-resizer-label-percentage'>
-                {isFirst ? <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' /> : leftColValue || Math.round(leftColPercentage * 100) + '%'}
+            <div onClick={isFirst ? () => newColumn(isFirst) : undefined} className='vce-column-resizer-label vce-column-resizer-label-left'>
+              <span className='vce-column-resizer-label-percentage'>{isFirst
+                ? <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
+                : leftColValue || Math.round(leftColPercentage * 100) + '%'}
               </span>
             </div>
-            <div className='vce-column-resizer-label vce-column-resizer-label-right'>
-              <span className='vce-column-resizer-label-percentage'>
-                {isLast ? <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' /> : rightColValue || Math.round(rightColPercentage * 100) + '%'}
+            <div onClick={isLast ? () => newColumn() : undefined} className='vce-column-resizer-label vce-column-resizer-label-right'>
+              <span className='vce-column-resizer-label-percentage'>{isLast
+                ? <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
+                : rightColValue || Math.round(rightColPercentage * 100) + '%'}
               </span>
             </div>
           </div>
