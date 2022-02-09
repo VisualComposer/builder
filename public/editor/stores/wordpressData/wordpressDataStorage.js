@@ -354,7 +354,7 @@ addStorage('wordpressData', (storage) => {
     // Set dynamic content post data
     if (data && !data.initialSet) {
       const currentPostData = settingsStorage.state('postData').get() || {}
-      currentPostData.featured_image = data && data.urls && data.urls[0] && (data.urls[0].full || data.urls[0].large)
+      currentPostData.featured_image = data.urls && data.urls[0] && (data.urls[0].full || data.urls[0].large)
       settingsStorage.state('postData').set(currentPostData)
       // Trigger page design options to change
       assetsStorage.trigger('update:pageDesignOptions')
@@ -364,7 +364,7 @@ addStorage('wordpressData', (storage) => {
     }
     const current = data
     if (!featuredImage) {
-      if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
+      if (!featuredImageNotification && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
         featuredImageNotification = true
         store.dispatch(notificationAdded({
           text: localizations.featuredImageSet || 'Featured image is set. Save page and reload editor to see changes.',
@@ -373,16 +373,13 @@ addStorage('wordpressData', (storage) => {
       }
       return
     }
-    if (typeof current === 'undefined') {
-      return
-    }
-    if (current && current.urls && !current.urls.length) {
+    if (current.urls && !current.urls.length) {
       store.dispatch(notificationAdded({
         text: localizations.featuredImageRemoved || 'Featured image is removed. Save page and reload editor to see changes.',
         time: 8000
       }))
     }
-    const imageSource = current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
+    const imageSource = current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
     featuredImage.src = imageSource || ''
     featuredImage.style.display = imageSource ? '' : 'none'
     featuredImage.hasAttribute('srcset') && featuredImage.removeAttribute('srcset')
