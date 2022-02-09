@@ -6,6 +6,7 @@ import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import { cloneDeep, defer, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import EmptyCommentElementWrapper from './emptyCommentElementWrapper.tsx'
+import RowSideResizer from 'public/components/columnResizer/rowSideResizer'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -108,20 +109,20 @@ export default class Element extends React.Component {
     const currentElement = cook.get(this.state.element) // optimize
     const data = DocumentData.children(currentElement.get('id'))
     const elementsList = data.map((childElement, i) => {
-      let elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
+      const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
         if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) || !this.state.element.metaIsElementLocked) {
-          elements.push(
-            <ColumnResizer
-              key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
-              api={this.props.api} isLast={i + 1 === data.length}
-            />
-          )
+          elements.push(<RowSideResizer left />)
 
-          if (i === 0) {
-            const newElement = <ColumnResizer isFirst key={`columnResizer-${childElement.id}-first`} linkedElement={childElement.id} api={this.props.api} />
-            elements = [newElement].concat(elements)
+          if (!(i + 1 === data.length)) {
+            elements.push(
+              <ColumnResizer
+                key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
+                api={this.props.api} isLast={i + 1 === data.length}
+              />
+            )
           }
+          elements.push(<RowSideResizer left={false} />)
         }
       }
       return elements
