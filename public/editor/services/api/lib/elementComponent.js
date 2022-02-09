@@ -70,9 +70,9 @@ export default class ElementComponent extends React.Component {
     }
   }
 
-  updateShortcodeToHtml (content, ref, cb, action) {
+  updateShortcodeToHtml (content, ref, cb, action, options) {
     if (ref) {
-      updateHtmlWithServer(content, ref, this.props.id, cb, action)
+      updateHtmlWithServer(content, ref, this.props.id, cb, action, options)
     } else if (env('VCV_DEBUG')) {
       console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
     }

@@ -16,7 +16,7 @@ export default class TokenizationList extends React.Component {
   static propTypes = {
     validator: PropTypes.func.isRequired,
     validation: PropTypes.bool,
-    elementAccessPoint: PropTypes.object.isRequired
+    elementAccessPoint: PropTypes.object
   }
 
   stayEditing = false
@@ -244,10 +244,10 @@ export default class TokenizationList extends React.Component {
       'vcv-action': 'autocomplete:findString:adminNonce',
       'vcv-search': search.trim(),
       'vcv-nonce': dataManager.get('nonce'),
-      'vcv-tag': this.props.elementAccessPoint.tag,
+      'vcv-tag': this.props.elementAccessPoint?.tag,
       'vcv-param': this.props.fieldKey,
       'vcv-autocomplete-action': this.props.action,
-      'vcv-element': this.props.elementAccessPoint.cook().toJS(),
+      'vcv-element': this.props.elementAccessPoint?.cook().toJS(),
       'vcv-source-id': dataManager.get('sourceID'),
       'vcv-return-value': this.props.returnValue
     }, (request) => {
@@ -334,7 +334,7 @@ export default class TokenizationList extends React.Component {
       'vcv-source-id': dataManager.get('sourceID'),
       'vcv-label-action': this.props.labelAction,
       'vcv-return-value': this.props.returnValue,
-      'vcv-element': this.props.elementAccessPoint.cook().toJS()
+      'vcv-element': this.props.elementAccessPoint?.cook().toJS()
     }, (request) => {
       if (request.response) {
         const labels = getResponse(request.response)
