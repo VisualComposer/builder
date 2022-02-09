@@ -21,8 +21,6 @@ export default class PageDesignOptions extends React.Component {
   render () {
     const value = settingsStorage.state('pageDesignOptions').get() || {}
     const designOptionsDescription = localizations ? localizations.pageDesignOptionsDescription : 'The global Design Options might not work with all themes. Use any of the Visual Composer layouts or get the Visual Composer Starter Theme to access this feature.'
-    const editorType = dataManager.get('editorType')
-    const isBackgroundDynamic = editorType !== 'vcv_layouts'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-edit-form-section-content'>
@@ -34,7 +32,6 @@ export default class PageDesignOptions extends React.Component {
           options={{}}
           elementSelector={this.selector}
           value={value}
-          isBackgroundDynamic={isBackgroundDynamic}
         />
       </div>
     )
