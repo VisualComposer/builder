@@ -66,7 +66,7 @@ function vcevent($event, $payload = [])
  * @param mixed $payload
  * @param bool $haltable
  *
- * @return array|null
+ * @return mixed
  */
 function vcfilter($filter, $body = '', $payload = [], $haltable = false)
 {
