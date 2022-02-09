@@ -711,13 +711,13 @@ export default class ColumnResizer extends React.Component {
       >
         <div className={`vce-column-resizer-handler ${isOnSide()}`} data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
           <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
-            <div onClick={isFirst ? () => newColumn(isFirst) : undefined} className={`vce-column-resizer-label vce-column-resizer-label-left ${isFirst ? 'vce-column-resizer-pointer': ''}`}>
+            <div onClick={isFirst ? () => newColumn(isFirst) : undefined} className={`vce-column-resizer-label vce-column-resizer-label-left ${isFirst ? 'vce-column-resizer-pointer' : ''}`}>
               <span className='vce-column-resizer-label-percentage'>{isFirst
                 ? <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
                 : leftColValue || Math.round(leftColPercentage * 100) + '%'}
               </span>
             </div>
-            <div onClick={isLast ? () => newColumn() : undefined} className={`vce-column-resizer-label vce-column-resizer-label-right ${isLast ? 'vce-column-resizer-pointer' : ''}`}  >
+            <div onClick={isLast ? () => newColumn() : undefined} className={`vce-column-resizer-label vce-column-resizer-label-right ${isLast ? 'vce-column-resizer-pointer' : ''}`}>
               <span className='vce-column-resizer-label-percentage'>{isLast
                 ? <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
                 : rightColValue || Math.round(rightColPercentage * 100) + '%'}
