@@ -47,6 +47,8 @@ class MenuController extends Container implements Module
         $this->wpAddAction('admin_head', 'addMenuCss');
 
         $this->wpAddAction('admin_menu', 'arrangeSubmenuItems', 1000);
+
+        $this->wpAddAction('after_setup_theme', 'addMenuSectionToDashboard', 100);
     }
 
     /**
@@ -127,5 +129,23 @@ CSS;
         }
 
         $submenu['vcv-settings'] = array_merge($topLevelMenu, $submenu['vcv-settings']);
+    }
+
+    /**
+     * We initialize menu section for every WP installation.
+     *
+     * @return void
+     */
+    protected function addMenuSectionToDashboard()
+    {
+        // @codingStandardsIgnoreLine
+        global $wp_version;
+
+        // @codingStandardsIgnoreLine
+        $isVersionCorrespond = version_compare($wp_version, '5.9-alpha', '>=');
+        $isMenuSectionActive = get_theme_support('menus');
+        if ($isVersionCorrespond && !$isMenuSectionActive) {
+            add_theme_support('menus');
+        }
     }
 }
