@@ -143,9 +143,9 @@ CSS;
 
         // @codingStandardsIgnoreLine
         $isVersionCorrespond = version_compare($wp_version, '5.9-alpha', '>=');
-        $isMenuSectionActive = get_theme_support('menus');
-        if ($isVersionCorrespond && !$isMenuSectionActive) {
+        if ($isVersionCorrespond) {
             add_theme_support('menus');
+            add_theme_support('widgets');
         }
     }
 }
