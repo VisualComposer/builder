@@ -1,6 +1,6 @@
 import { getService, env } from 'vc-cake'
 import lodash from 'lodash'
-
+import DesignOptions from 'public/sources/attributes/designOptions/Component'
 const cookService = getService('cook')
 
 export default class {
@@ -498,7 +498,8 @@ export default class {
   }
 
   getPageDesignOptionsMixins (data) {
-    const elementMixins = Object.assign({}, data.attributeMixins)
+    // need to re-generate attributeMixins from data value
+    const elementMixins = DesignOptions.buildMixins({}, data, undefined, undefined, true)
     const foundMixins = {}
     const mixins = {}
     const tag = 'pageDesignOptions'
