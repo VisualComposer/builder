@@ -240,6 +240,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Update: Clicking on the Visual Composer logo in the editor opens Add Content Window
 - Update: Dashboard menu improved for a better user experience
 - Update: Premium feature notice interface improved for consistency
+- Update: WordPress menu section is enabled by Visual Composer automatically for the FSE themes on WordPress 5.9
 - Fix: Addon dependencies work properly
 - Fix: Shortcuts work properly in the editor
 - Fix: User experience improved for notification display
@@ -260,6 +261,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Font Manager and Essential Grid compatibility improved
 - Fix: Basic Menu element works properly
 - Fix: CSS Animations work properly in Global templates
+- Fix: Basic menu works properly on iPhone devices
 
 = 42.1 =
 *Release Date - 2022-01-20*
