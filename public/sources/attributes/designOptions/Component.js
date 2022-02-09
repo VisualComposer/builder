@@ -24,8 +24,7 @@ const blockRegexp = getBlockRegexp()
 
 export default class DesignOptions extends Attribute {
   static defaultProps = {
-    fieldType: 'designOptions',
-    isBackgroundDynamic: true
+    fieldType: 'designOptions'
   }
 
   /**
@@ -1029,7 +1028,7 @@ export default class DesignOptions extends Attribute {
           key={`${this.state.currentDevice}-${fieldKey}`}
           options={{
             multiple: true,
-            dynamicField: this.props.isBackgroundDynamic
+            dynamicField: true
           }}
           updater={this.attachImageChangeHandler}
           value={value}
