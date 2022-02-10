@@ -1,11 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Scrollbars } from 'react-custom-scrollbars'
 import PropTypes from 'prop-types'
 
 export default class Scrollbar extends React.Component {
-  scrollbars = null
-
   static propTypes = {
     content: PropTypes.number,
     onScroll: PropTypes.func
@@ -13,40 +10,48 @@ export default class Scrollbar extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = {
-      showTracks: true
-    }
+    this.scrollRef = React.createRef()
+    this.scrollTop = this.scrollTop.bind(this)
   }
 
   componentDidMount () {
     if (this.props.initialScrollTop) {
-      this.scrollbars.scrollTop(this.props.initialScrollTop)
+      this.scrollTop(this.props.initialScrollTop)
     }
   }
 
   scrollTop (top) {
-    return this.scrollbars.scrollTop(top)
+    window.scrollTo({ behavior: 'smooth', top: this.scrollRef.current.offsetTop + top })
   }
 
   render () {
     const scrollProps = Object.assign({}, this.props)
+    const customStyle = {}
     delete scrollProps.initialScrollTop
     const scrollbarClasses = classNames({
       'vcv-ui-scroll': true,
+      'vcv-ui-scroll--hidden': this.props.hideScrollbar,
+      'vcv-ui-scroll--auto-height': this.props.autoHeight,
       'vcv-ui-tree-layout-filled': Object.prototype.hasOwnProperty.call(this.props, 'content') && this.props.content
     })
 
+    if (scrollProps.maxHeight) {
+      customStyle.maxHeight = scrollProps.maxHeight
+    }
+
     return (
-      <Scrollbars
-        ref={(scrollbars) => { this.scrollbars = scrollbars }} {...scrollProps} className={scrollbarClasses}
-        renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
-        renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
-        renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
-        renderThumbVertical={props => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
-        renderView={props => <div {...props} className='vcv-ui-scroll-content' />}
-        onScroll={this.props.onScroll}
-        hideTracksWhenNotNeeded={this.state.showTracks}
-      />
+      <div
+        ref={this.scrollRef}
+        className={scrollbarClasses}
+        style={customStyle}
+      >
+        <div
+          onScroll={this.props.onScroll}
+          className='vcv-ui-scroll-content' style={customStyle}
+        >
+          {this.props.children}
+        </div>
+      </div>
     )
   }
 }

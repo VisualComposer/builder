@@ -111,7 +111,9 @@
     "testURL": "http://localhost/",
     "transform": {
       "^.+\\.jsx?$": "./tests/jest/__mocks__/jest.transform.js",
-      ".(ts|tsx)": ["ts-jest"]
+      ".(ts|tsx)": [
+        "ts-jest"
+      ]
     },
     "verbose": true
   },
@@ -136,21 +138,34 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.7.1",
+    "@types/jest": "27.4.0",
     "@types/lodash": "4.14.178",
     "@types/react": "17.0.38",
+    "@types/react-dom": "17.0.11",
+    "@typescript-eslint/eslint-plugin": "5.10.0",
+    "@typescript-eslint/parser": "5.10.0",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.5",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "27.4.6",
     "combokeys": "3.0.1",
     "compression-webpack-plugin": "9.2.0",
     "enzyme": "3.11.0",
     "enzyme-to-json": "3.6.2",
+    "eslint": "7.32.0",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-jest": "25.7.0",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-react-hooks": "4.3.0",
     "event-emitter": "0.3.5",
     "form-serialize": "0.7.2",
     "immutable": "4.0.0",
+    "jest": "27.4.7",
+    "jest-cli": "27.4.7",
     "mobile-detect": "1.4.5",
     "node-object-hash": "2.3.10",
     "react-addons-shallow-compare": "15.6.3",
     "react-color": "2.19.3",
-    "react-custom-scrollbars": "4.2.1",
     "react-datepicker": "4.5.0",
     "react-redux": "7.2.6",
     "react-slick": "0.28.1",
@@ -161,28 +176,13 @@
     "resize-sensor": "^0.0.6",
     "standard": "14.3.4",
     "sticky-sidebar": "^3.3.1",
+    "ts-jest": "27.1.3",
     "ts-loader": "9.2.6",
     "typescript": "4.5.4",
     "vc-webpack-vendors": "3.1.1",
-    "webfontloader": "1.6.28",
-    "@types/jest": "27.4.0",
-    "ts-jest": "27.1.3",
-    "jest": "27.4.7",
-    "babel-jest": "27.4.6",
-    "jest-cli": "27.4.7",
-    "@types/react-dom": "17.0.11",
-    "eslint": "7.32.0",
-    "eslint-plugin-import": "2.25.3",
-    "eslint-plugin-jest": "25.7.0",
-    "eslint-plugin-jsx-a11y": "6.5.1",
-    "eslint-plugin-react": "7.28.0",
-    "eslint-plugin-react-hooks": "4.3.0",
-    "@typescript-eslint/eslint-plugin": "5.10.0",
-    "@typescript-eslint/parser": "5.10.0",
-    "babel-eslint": "10.1.0"
+    "webfontloader": "1.6.28"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "engines": {
     "node": ">=14",
     "npm": ">=5.8"

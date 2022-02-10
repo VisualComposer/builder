@@ -3,7 +3,6 @@ import AddElementPanel from '../addElement/addElementPanel'
 import AddTemplatePanel from '../addTemplate/addTemplatePanel'
 import AddBlockPanel from '../addBlock/addBlockPanel'
 import PanelNavigation from '../panelNavigation'
-import Scrollbar from '../../scrollbar/scrollbar'
 import Search from './lib/search'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
@@ -229,9 +228,7 @@ export default class AddContentPanel extends React.Component {
         </div>
         <PanelNavigation controls={controls} activeSection={this.props.activeTab} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
-          <Scrollbar>
-            {content}
-          </Scrollbar>
+          {content}
         </div>
       </div>
     )

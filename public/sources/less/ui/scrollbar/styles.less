@@ -10,19 +10,61 @@
   flex: 1 1 100%;
   display: flex;
   flex-flow: column nowrap;
-}
 
-.vcv-ui-scroll-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: scroll;
-  overflow-scrolling: touch;
-  display: flex;
-  flex-flow: column nowrap;
-  direction: ltr;
+  &-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 4px;
+    bottom: 0;
+    overflow-scrolling: touch;
+    overflow: auto;
+  }
+
+  &--auto-height {
+    height: auto;
+    min-height: 0px;
+
+    .vcv-ui-scroll-content {
+      position: relative;
+      overflow: scroll;
+    }
+  }
+
+
+  ::-webkit-scrollbar {
+    width: @scroll-size;
+    height: @scroll-size;
+
+    &-track{
+      background: transparent;
+    }
+
+    &-thumb {
+      background: transparent;
+      border-radius: @scroll-radius;
+    }
+
+    &-corner{
+      background: transparent;
+    }
+  }
+
+  &:hover{
+    ::-webkit-scrollbar {
+      &-thumb {
+        background: @scroll-color;
+      }
+    }
+  }
+
+  &--hidden {
+    &, &:hover {
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
 }
 
 .vcv-ui-tree-layout-filled {
@@ -32,49 +74,27 @@
   }
 }
 
-.vcv-ui-scroll-track--horizontal,
-.vcv-ui-scroll-track--vertical {
-  position: absolute;
-  cursor: pointer;
-  right: @scroll-indent;
-  bottom: @scroll-indent;
-  transition-duration: @transition-duration;
-  transition-property: opacity;
-  transition-timing-function: @transition-timing-function;
-  opacity: 0;
-  .vcv-ui-scroll:hover & {
-    opacity: 1;
+@supports (scrollbar-color: red blue) {
+
+  .vcv-ui-scroll {
+    &-content {
+      overflow: auto;
+      scrollbar-color: transparent transparent;
+      scrollbar-width: thin;
+      right: 2px;
+
+      &:hover{
+        scrollbar-color: @scroll-color transparent;
+        scrollbar-width: thin;
+      }
+    }
+
+    &--hidden {
+      .vcv-ui-scroll-content {
+        scrollbar-width: none;
+      }
+    }
   }
-}
-
-.vcv-ui-scroll-track--horizontal {
-  left: @scroll-indent;
-  border-radius: @scroll-radius;
-  height: @scroll-size;
-}
-
-.vcv-ui-scroll-track--vertical {
-  top: @scroll-indent;
-  border-radius: @scroll-radius;
-  width: @scroll-size;
-}
-
-.vcv-ui-scroll-thumb--horizontal,
-.vcv-ui-scroll-thumb--vertical {
-  position: relative;
-  display: block;
-  cursor: pointer;
-  border-radius: inherit;
-  background-color: @scroll-color;
-  z-index: 9;
-}
-
-.vcv-ui-scroll-thumb--horizontal {
-  height: 100%;
-}
-
-.vcv-ui-scroll-thumb--vertical {
-  width: 100%;
 }
 
 .vcv-scroll-dots {
