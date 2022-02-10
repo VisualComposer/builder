@@ -18,10 +18,10 @@
 }
 
 .vce-row-resizer-handler {
-  background-color: @vcv-color-lucky-point;
+  background-color: @vcv-resizer-background-color;
   color: rgb(255, 255, 255);
+  border-radius: 7.5px;
   pointer-events: all;
-  border-radius: 10px;
   align-items: center;
   position: absolute;
   z-index: 999999;
@@ -29,7 +29,7 @@
   display: flex;
   height: 29px;
   margin: auto;
-  width: 90px;
+  width: 14px;
   opacity: 0;
   bottom: 0;
   top: 0;
@@ -38,18 +38,62 @@
     opacity: 1;
   }
 
+  &.expanded {
+    background-color: @vcv-color-lucky-point;
+
+    span {
+      background-color: @vcv-color-lucky-point;
+      font-family: 'Nunito Sans', sans-serif;
+      border-radius: 7.5px;
+      align-items: center;
+      position: absolute;
+      font-weight: bold;
+      font-size: 12px;
+      display: flex;
+      height: 29px;
+      top: -14.5px;
+      width: 45px;
+
+      &:first-child {
+        border-radius: 7.5px 0 0 7.5px;
+        left: -38.5px;
+      }
+
+      &:last-child {
+        border-radius: 0 7.5px 7.5px 0;
+        left: 7.5px;
+      }
+    }
+  }
+
   &.vce-row-resizer-position-left {
     flex-direction: row;
-    left: -45px;
     right: auto;
+    left: -7px;
   }
 
   &.vce-row-resizer-position-right {
-    right: -45px;
+    right: -7px;
     left: auto;
 
     > div {
       flex-direction: row-reverse;
+    }
+
+    &.expanded {
+      background-color: @vcv-color-lucky-point;
+
+      span {
+        &:last-child {
+          border-radius: 7.5px 0 0 7.5px;
+          left: -38.5px;
+        }
+
+        &:first-child {
+          border-radius: 0 7.5px 7.5px 0;
+          left: 7.5px;
+        }
+      }
     }
   }
 
@@ -70,9 +114,9 @@
       content: '';
       height: 3px;
       width: 3px;
-      top: -24px;
+      top: -26px;
       bottom: 0;
-      left: 2.5px;
+      left: 3.5px;
       right: 0;
     }
 
@@ -99,30 +143,25 @@
 }
 
 .vce-column-resizer-handler {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 999;
-  display: flex;
   justify-content: center;
   align-items: center;
   cursor: col-resize;
-
-  &.vce-column-resizer-first,
-  &.vce-column-resizer-last {
-    margin-right: -15px;
-  }
+  position: absolute;
+  display: flex;
+  z-index: 999;
+  bottom: 0;
+  right: 0;
+  top: 0;
 
   &:before {
+    border-right: @resizer-handler-width dashed @resizer-handler-color;
+    transform: translateX(-50%);
+    position: absolute;
     display: block;
     content: "";
-    position: absolute;
-    border-right: @resizer-handler-width dashed @resizer-handler-color;
-    top: 0;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
+    top: 0;
   }
 }
 

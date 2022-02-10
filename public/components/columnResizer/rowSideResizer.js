@@ -9,6 +9,7 @@ const RowSideResizer = (props) => {
   const [container, setContainer] = React.useState(undefined)
   const [left, setLeft] = React.useState('auto')
   const [right, setRight] = React.useState('auto')
+  const [expanded, setExpanded] = React.useState(false)
   const self = React.useRef(null)
 
   React.useEffect(() => setContainer(() => self.current.closest('.vce-row-container')), [])
@@ -19,7 +20,8 @@ const RowSideResizer = (props) => {
       // const rowService = documentService.get(rowId)
       const bounding = container.getBoundingClientRect()
       const row = self.current.closest('.vce-row')
-      /* const value = */ props.left ? handleLeftBar(e, bounding, row) : handleRightBar(e, bounding, row)
+      /* const value = */
+      props.left ? handleLeftBar(e, bounding, row) : handleRightBar(e, bounding, row)
       // rowService.designOptionsAdvanced.attributeMixins['boxModelMixin:all'].variables.marginLeft.value = value
       // rowService.designOptionsAdvanced.device.all.boxModel.marginLeft = value
       // documentService.update(rowId, rowService)
@@ -42,25 +44,35 @@ const RowSideResizer = (props) => {
 
   const addColumn = () => {
     const rowId = container.firstChild.dataset.vcvDndElement
-    workspaceStorage.trigger('add', rowId, 'column', {})
+    workspaceStorage.trigger('add', rowId, 'column', { insertAfter: 0 })
+  }
+
+  const handleMouseEnter = () => {
+    setDragging(false)
+    setExpanded(true)
+  }
+
+  const handleMouseLeave = () => {
+    setDragging(true)
+    setExpanded(false)
   }
 
   return (
     <div
       ref={self}
-      onMouseEnter={() => setDragging(false)}
-      onMouseLeave={() => setDragging(true)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
       onMouseDown={() => setDragging(true)}
       onMouseUp={() => setDragging(false)}
-      className={`vce-row-resizer-handler vce-row-resizer-position-${props.left ? 'left' : 'right'}`}
+      className={`vce-row-resizer-handler vce-row-resizer-position-${props.left ? 'left' : 'right'} ${expanded ? 'expanded' : ''}`}
     >
       <div>
-        <span onClick={addColumn}>
-          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
-        </span>
-        <i className='seperator' />
-        <span>{props.left ? left : right}</span>
+        {expanded && <span onClick={addColumn}>
+          <i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add" />
+        </span>}
+        <i className="seperator" />
+        {expanded && <span>{props.left ? left : right}</span>}
       </div>
     </div>
   )
