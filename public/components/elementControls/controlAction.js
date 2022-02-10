@@ -37,7 +37,6 @@ export default function ControlAction (props) {
         workspaceStorage.trigger(event, id, tag, eventOptions)
       }
     } else {
-      console.log('--- Not treeView ---')
       if (event === 'copy') {
         const cookElement = cook.getById(id)
         if (!tag) {
