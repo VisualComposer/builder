@@ -134,6 +134,18 @@
       }
     }
   }
+
+  &.expanded:before {
+    display: block;
+    content: '';
+    position: absolute;
+    background-color: transparent;
+    top: -75px;
+    left: -75px;
+    width: 150px;
+    height: 150px;
+    z-index: -4;
+  }
 }
 
 .vce-row-container:hover {
