@@ -1,16 +1,20 @@
 import React from 'react'
 // import vcCake from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const RowSideResizer = (props) => {
   // const documentService = vcCake.getService('document')
+  const workspaceStorage = getStorage('workspace')
   const [dragging, setDragging] = React.useState(false)
+  const [container, setContainer] = React.useState(undefined)
   const [left, setLeft] = React.useState('auto')
   const [right, setRight] = React.useState('auto')
   const self = React.useRef(null)
 
+  React.useEffect(() => setContainer(() => self.current.closest('.vce-row-container')), [])
+
   const handleMouseMove = (e) => {
     if (dragging) {
-      const container = self.current.closest('.vce-row-container')
       // const rowId = container.firstChild.dataset.vcvDndElement
       // const rowService = documentService.get(rowId)
       const bounding = container.getBoundingClientRect()
@@ -37,7 +41,8 @@ const RowSideResizer = (props) => {
   }
 
   const addColumn = () => {
-    console.log('addColumn')
+    const rowId = container.firstChild.dataset.vcvDndElement
+    workspaceStorage.trigger('add', rowId, 'column', {})
   }
 
   return (

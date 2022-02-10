@@ -37,6 +37,7 @@ export default function ControlAction (props) {
         workspaceStorage.trigger(event, id, tag, eventOptions)
       }
     } else {
+      console.log('--- Not treeView ---')
       if (event === 'copy') {
         const cookElement = cook.getById(id)
         if (!tag) {
@@ -54,6 +55,7 @@ export default function ControlAction (props) {
       if (currentSettingsState?.action && event === currentSettingsState.action && tag !== 'column') {
         workspaceContentState.set(false)
       }
+      console.log(event, id, tag, eventOptions)
       workspaceStorage.trigger(event, id, tag, eventOptions)
     }
     const isControlPermanent = event === 'add' && tag === 'column'
