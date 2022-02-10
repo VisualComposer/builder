@@ -38,10 +38,10 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
   }
 }
 
-export function updateHtmlWithServer (content, ref, id, cb, action) {
+export function updateHtmlWithServer (content, ref, id, cb, action, options) {
   if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
     ref.innerHTML = spinnerHtml
-    updateHtmlWithServerRequest(content, ref, id, cb, action)
+    updateHtmlWithServerRequest(content, ref, id, cb, action, options)
   } else {
     ref && (ref.innerHTML = content)
     requests[id] = null
@@ -49,7 +49,7 @@ export function updateHtmlWithServer (content, ref, id, cb, action) {
   }
 }
 
-export function updateHtmlWithServerRequest (content, ref, id, cb, action = 'update') {
+export function updateHtmlWithServerRequest (content, ref, id, cb, action = 'update', options = {}) {
   requests[id] = dataProcessor.appServerRequest({
     'vcv-action': 'elements:ajaxShortcode:adminNonce',
     'vcv-shortcode-string': content,
@@ -62,7 +62,7 @@ export function updateHtmlWithServerRequest (content, ref, id, cb, action = 'upd
         window.setTimeout(() => {
           const freezeReady = dataManager.get('freezeReady')
           freezeReady && freezeReady(id, false)
-          window.vcv && window.vcv.trigger('ready', action, id)
+          window.vcv && window.vcv.trigger('ready', action, id, options)
           requests[id] = null
           cb && cb.constructor === Function && cb()
         }, 500)
