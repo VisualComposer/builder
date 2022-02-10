@@ -43,8 +43,10 @@ const RowSideResizer = (props) => {
   }
 
   const addColumn = () => {
-    const rowId = container.firstChild.dataset.vcvDndElement
-    workspaceStorage.trigger('add', rowId, 'column', { insertAfter: 0 })
+    if (!dragging) {
+      const rowId = container.firstChild.dataset.vcvDndElement
+      workspaceStorage.trigger('add', rowId, 'column')
+    }
   }
 
   const handleMouseEnter = () => {
@@ -68,10 +70,11 @@ const RowSideResizer = (props) => {
       className={`vce-row-resizer-handler vce-row-resizer-position-${props.left ? 'left' : 'right'} ${expanded ? 'expanded' : ''}`}
     >
       <div>
-        {expanded && <span onClick={addColumn}>
-          <i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add" />
-        </span>}
-        <i className="seperator" />
+        {expanded &&
+          <span onClick={addColumn}>
+            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
+          </span>}
+        <i className='seperator' />
         {expanded && <span>{props.left ? left : right}</span>}
       </div>
     </div>
