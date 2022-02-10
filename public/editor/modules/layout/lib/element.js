@@ -112,8 +112,6 @@ export default class Element extends React.Component {
       const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
         if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) || !this.state.element.metaIsElementLocked) {
-          elements.push(<RowSideResizer left />)
-
           if (!(i + 1 === data.length)) {
             elements.push(
               <ColumnResizer
@@ -122,8 +120,9 @@ export default class Element extends React.Component {
               />
             )
           }
-          elements.push(<RowSideResizer left={false} />)
         }
+        if (i === 0) elements.unshift(<RowSideResizer key={`rowLeftResizer-${childElement.id}`} left />)
+        if (data.length === i + 1) elements.push(<RowSideResizer key={`rowRightResizer-${childElement.id}`} left={false} />)
       }
       return elements
     })

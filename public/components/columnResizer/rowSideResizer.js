@@ -1,8 +1,8 @@
 import React from 'react'
-import vcCake from 'vc-cake'
+// import vcCake from 'vc-cake'
 
 const RowSideResizer = (props) => {
-  const documentService = vcCake.getService('document')
+  // const documentService = vcCake.getService('document')
   const [dragging, setDragging] = React.useState(false)
   const [left, setLeft] = React.useState('auto')
   const [right, setRight] = React.useState('auto')
@@ -11,14 +11,14 @@ const RowSideResizer = (props) => {
   const handleMouseMove = (e) => {
     if (dragging) {
       const container = self.current.closest('.vce-row-container')
-      const rowId = container.firstChild.dataset.vcvDndElement
-      const rowService = documentService.get(rowId)
+      // const rowId = container.firstChild.dataset.vcvDndElement
+      // const rowService = documentService.get(rowId)
       const bounding = container.getBoundingClientRect()
       const row = self.current.closest('.vce-row')
-      const value = props.left ? handleLeftBar(e, bounding, row) : handleRightBar(e, bounding, row)
-      rowService.designOptionsAdvanced.attributeMixins['boxModelMixin:all'].variables.marginLeft.value = value
-      rowService.designOptionsAdvanced.device.all.boxModel.marginLeft = value
-      documentService.update(rowId, rowService)
+      /* const value = */ props.left ? handleLeftBar(e, bounding, row) : handleRightBar(e, bounding, row)
+      // rowService.designOptionsAdvanced.attributeMixins['boxModelMixin:all'].variables.marginLeft.value = value
+      // rowService.designOptionsAdvanced.device.all.boxModel.marginLeft = value
+      // documentService.update(rowId, rowService)
     }
   }
 
