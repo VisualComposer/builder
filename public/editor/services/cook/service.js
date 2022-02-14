@@ -292,6 +292,7 @@ const API = {
                 const blockInfo = parseDynamicBlock(imgValue)
                 blockInfo.blockAtts.device = device
                 blockInfo.blockAtts.elementId = id
+                blockInfo.blockAtts.typeName = attrSettings.type.name
                 if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
                   blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true, { element: atts })
                 }
@@ -367,35 +368,26 @@ const API = {
       const { dynamicTemplateProps, forceSaveSourceId } = options
       let newValue = null
 
-      let dynamicProps = {}
-      if (dynamicTemplateProps) {
-        dynamicProps = Object.assign({}, dynamicTemplateProps)
-        dynamicProps.value = dynamicFieldKey
-        if (!forceSaveSourceId && (dataManager.get('sourceID') === sourceId)) {
-          delete dynamicProps.sourceId
-        } else {
-          dynamicProps.sourceId = sourceId
-        }
+      const dynamicProps = Object.assign({}, dynamicTemplateProps || {})
+      dynamicProps.value = dynamicFieldKey
+      if (!forceSaveSourceId && (dataManager.get('sourceID') === sourceId)) {
+        delete dynamicProps.sourceId
       } else {
-        const currentValue = API.dynamicFields.getDynamicFieldsData(
-          {
-            blockAtts: {
-              value: dynamicFieldKey,
-              sourceId: sourceId
-            }
-          },
-          attribute,
-          true,
-          options
-        )
-        dynamicProps = {
-          value: dynamicFieldKey,
-          currentValue: currentValue
-        }
-        if (dataManager.get('sourceID') !== sourceId || forceSaveSourceId) {
-          dynamicProps.sourceId = sourceId
-        }
+        dynamicProps.sourceId = sourceId
       }
+
+      const currentValue = API.dynamicFields.getDynamicFieldsData(
+        {
+          blockAtts: {
+            value: dynamicFieldKey,
+            sourceId: sourceId
+          }
+        },
+        attribute,
+        true,
+        options
+      )
+      dynamicProps.currentValue = currentValue
 
       if (options?.fieldOptions?.dynamicFieldsOptions?.addAttributes) {
         const element = options?.element || {}

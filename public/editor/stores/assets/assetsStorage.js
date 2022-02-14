@@ -102,6 +102,7 @@ addStorage('assets', (storage) => {
   }
   settingsStorage.state('globalCss').onChange(updateSettingsCss)
   settingsStorage.state('customCss').onChange(updateSettingsCss)
+  storage.on('update:pageDesignOptions', updatePageDesignOptions)
   settingsStorage.state('pageDesignOptions').onChange(updatePageDesignOptions)
 
   workspaceStorage.state('iframe').onChange(({ type }) => {
