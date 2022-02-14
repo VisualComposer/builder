@@ -235,6 +235,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - New: Plugin activation survey added for better product development
 - New: Link to the Help Center added to the Visual Composer News widget in the WP Dashboard
 - New: Option to create a page added to the Visual Composer News widget in the WP Dashboard
+- New: Performance improvements for the editor
 - Update: New page titles improved for a better user experience
 - Update: Lazy load controls removed in the editor to rely on the WordPress native lazy load
 - Update: Clicking on the Visual Composer logo in the editor opens Add Content Window
