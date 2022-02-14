@@ -10,6 +10,7 @@ import { notificationAdded } from 'public/editor/stores/notifications/slice'
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
   const elementsStorage = getStorage('elements')
+  const assetsStorage = getStorage('assets')
   const workspaceStorage = getStorage('workspace')
   const settingsStorage = getStorage('settings')
   const hubTemplatesStorage = getStorage('hubTemplates')
@@ -132,10 +133,24 @@ addStorage('wordpressData', (storage) => {
       if (responseData.elementsCssData) {
         cacheStorage.state('elementsCssCache').set(responseData.elementsCssData)
       }
-      // fix for post update on empty templates
-      if (empty) {
-        elementsStorage.trigger('elementsRenderDone')
+      let postData = {}
+      if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
+        postData = responseData.postData
       }
+      if (Object.prototype.hasOwnProperty.call(responseData, 'postFields')) {
+        const postFields = responseData.postFields
+        if (Object.prototype.hasOwnProperty.call(postFields, 'dynamicFieldCustomPostData')) {
+          const customPostData = postFields.dynamicFieldCustomPostData
+          Object.keys(customPostData).forEach((key) => {
+            const item = customPostData[key]
+            postData[key] = item.postData
+            postFields[key] = item.postFields
+          })
+        }
+        settingsStorage.state('postFields').set(postFields)
+      }
+      settingsStorage.state('postData').set(postData)
+
       if (responseData.cssSettings && Object.prototype.hasOwnProperty.call(responseData.cssSettings, 'custom')) {
         settingsStorage.state('customCss').set(responseData.cssSettings.custom || '')
       }
@@ -173,9 +188,6 @@ addStorage('wordpressData', (storage) => {
           return item.notification_type.indexOf(licenseType) >= 0 && !isMessageOld(item.notification_duedate)
         })
         insightsStorage.state('notifications').set(messagesByType)
-      }
-      if (responseData.pageDesignOptions) {
-        settingsStorage.state('pageDesignOptions').set(JSON.parse(responseData.pageDesignOptions ? decodeURIComponent(responseData.pageDesignOptions) : '{}'))
       }
       if (responseData.templates && !Array.isArray(responseData.templates)) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
@@ -239,24 +251,13 @@ addStorage('wordpressData', (storage) => {
         const mobileDetect = new MobileDetect(window.navigator.userAgent)
         settingsStorage.state('outputEditorLayoutDesktop').set(mobileDetect.mobile() ? 'dynamic' : responseData.outputEditorLayoutDesktop)
       }
-      let postData = {}
-      if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
-        postData = responseData.postData
+      if (responseData.pageDesignOptions) {
+        settingsStorage.state('pageDesignOptions').set(JSON.parse(responseData.pageDesignOptions ? decodeURIComponent(responseData.pageDesignOptions) : '{}'))
       }
-      if (Object.prototype.hasOwnProperty.call(responseData, 'postFields')) {
-        const postFields = responseData.postFields
-        if (Object.prototype.hasOwnProperty.call(postFields, 'dynamicFieldCustomPostData')) {
-          const customPostData = postFields.dynamicFieldCustomPostData
-          Object.keys(customPostData).forEach((key) => {
-            const item = customPostData[key]
-            postData[key] = item.postData
-            postFields[key] = item.postFields
-          })
-        }
-        settingsStorage.state('postFields').set(postFields)
+      // fix for post update on empty templates
+      if (empty) {
+        elementsStorage.trigger('elementsRenderDone')
       }
-      settingsStorage.state('postData').set(postData)
-
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })
       workspaceStorage.state('app').set('started')
@@ -350,12 +351,20 @@ addStorage('wordpressData', (storage) => {
   }
 
   function setFeaturedImage (data) {
+    // Set dynamic content post data
+    if (data && !data.initialSet) {
+      const currentPostData = settingsStorage.state('postData').get() || {}
+      currentPostData.featured_image = data.urls && data.urls[0] && (data.urls[0].full || data.urls[0].large)
+      settingsStorage.state('postData').set(currentPostData)
+      // Trigger page design options to change
+      assetsStorage.trigger('update:pageDesignOptions')
+    }
     if (!data) {
       return
     }
-    const current = settingsStorage.state('featuredImage').get()
+    const current = data
     if (!featuredImage) {
-      if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
+      if (!featuredImageNotification && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
         featuredImageNotification = true
         store.dispatch(notificationAdded({
           text: localizations.featuredImageSet || 'Featured image is set. Save page and reload editor to see changes.',
@@ -364,16 +373,13 @@ addStorage('wordpressData', (storage) => {
       }
       return
     }
-    if (typeof current === 'undefined') {
-      return
-    }
-    if (current && current.urls && !current.urls.length) {
+    if (current.urls && !current.urls.length) {
       store.dispatch(notificationAdded({
         text: localizations.featuredImageRemoved || 'Featured image is removed. Save page and reload editor to see changes.',
         time: 8000
       }))
     }
-    const imageSource = current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
+    const imageSource = current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
     featuredImage.src = imageSource || ''
     featuredImage.style.display = imageSource ? '' : 'none'
     featuredImage.hasAttribute('srcset') && featuredImage.removeAttribute('srcset')

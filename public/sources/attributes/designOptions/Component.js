@@ -454,12 +454,12 @@ export default class DesignOptions extends Attribute {
     this.setState(newState)
   }
 
-  static buildMixins (data, value) {
+  static buildMixins (data, value, cookElement, attributeSettings, isSimple = false) {
     const mixins = {}
     const devices = ['all', 'xs', 'sm', 'md', 'lg', 'xl']
     devices.forEach((device) => {
       if (value.device && typeof value.device[device] !== 'undefined') {
-        DesignOptions.getMixins(value.device, device, mixins, false)
+        DesignOptions.getMixins(value.device, device, mixins, isSimple)
       }
     })
 
