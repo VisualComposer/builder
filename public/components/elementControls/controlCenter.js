@@ -13,9 +13,8 @@ export default function ControlCenter (props) {
     return null
   }
 
-  // @todo Add proper style
   return (
-    <div style={{
+    <div className={'vcv-ui-outline-control-wrap'} style={{
       position: 'absolute',
       top: '50px',
       backgroundColor: 'rgb(109, 171, 60)',

@@ -124,6 +124,23 @@
   }
 }
 
+.vcv-ui-outline-control-wrap{
+  position: absolute;
+  top: 50px;
+  background-color: @controls-background-element;
+  margin: auto;
+  left: 0;
+  right: 0;
+  pointer-events: all;
+  display: flex;
+  width: 240px;
+  border-radius: 5px;
+
+  .vcv-ui-outline-control:hover{
+    background-color: @state-color-success-hover;
+  }
+}
+
 .vcv-ui-outline-control-icon {
   position: relative;
   width: @control-size;

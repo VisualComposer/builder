@@ -13,13 +13,13 @@
   position: relative;
   width: 0;
   align-self: stretch;
-  opacity: 0;
+  // opacity: 0;
   visibility: hidden;
 }
 
 .vce-row-resizer-handler {
   background-color: @vcv-resizer-background-color;
-  border-radius: 7.5px;
+  border-radius: 15px;
   pointer-events: all;
   align-items: center;
   position: absolute;
@@ -30,7 +30,7 @@
   height: 29px;
   margin: auto;
   width: 14px;
-  opacity: 0;
+  // opacity: 0;
   bottom: 0;
   top: 0;
 
@@ -38,30 +38,43 @@
     opacity: 1;
   }
 
+  .vce-row-resizer-inner-side{
+    color: transparent;
+    transition: width .3s, color .1s, transform .3s;
+    width:0;
+  }
+
   &.expanded {
     background-color: @vcv-color-lucky-point;
 
-    span {
+    .vce-row-resizer-inner-side {
       background-color: @vcv-color-lucky-point;
       font-family: 'Nunito Sans', sans-serif;
-      border-radius: 7.5px;
+      border-radius: 15px;
       align-items: center;
       position: absolute;
       font-weight: bold;
       font-size: 12px;
+      color: #FFFFFF;
       display: flex;
       height: 29px;
       top: -14.5px;
       width: 45px;
 
       &:first-child {
-        border-radius: 7.5px 0 0 7.5px;
+        border-radius: 15px 0 0 15px;
         left: -38.5px;
       }
 
       &:last-child {
-        border-radius: 0 7.5px 7.5px 0;
+        border-radius: 0 15px 15px 0;
         left: 7.5px;
+      }
+    }
+
+    &.vce-row-resizer-position-left {
+      .vce-row-resizer-inner-side:first-child{
+        transform: translateX(0px);
       }
     }
   }
@@ -70,34 +83,39 @@
     flex-direction: row;
     right: auto;
     left: -7px;
+
+    .vce-row-resizer-inner-side:first-child{
+      transform: translateX(45px);
+    }
   }
 
   &.vce-row-resizer-position-right {
     right: -7px;
     left: auto;
 
-    > div {
+
+    > .vce-row-resizer-inner {
       flex-direction: row-reverse;
     }
 
     &.expanded {
       background-color: @vcv-color-lucky-point;
 
-      span {
+      .vce-row-resizer-inner-side {
         &:last-child {
-          border-radius: 7.5px 0 0 7.5px;
+          border-radius: 15px 0 0 15px;
           left: -38.5px;
         }
 
         &:first-child {
-          border-radius: 0 7.5px 7.5px 0;
+          border-radius: 0 15px 15px 0;
           left: 7.5px;
         }
       }
     }
   }
 
-  > div {
+  > .vce-row-resizer-inner {
     align-items: center;
     position: relative;
     display: flex;
@@ -120,7 +138,7 @@
       right: 0;
     }
 
-    > span {
+    > .vce-row-resizer-inner-side {
       justify-content: center;
       display: flex;
       flex: 1;
@@ -139,12 +157,12 @@
     background-color: transparent;
     position: absolute;
     display: block;
-    height: 150px;
+    height: 75px;
     width: 150px;
     content: '';
-    left: -75px;
+    left: -70px;
     z-index: -4;
-    top: -75px;
+    top: -25px;
   }
 }
 
@@ -241,12 +259,12 @@
 
   &.vce-column-resizer-label-left {
     right: 0;
-    border-radius: 7.5px 0 0 7.5px;
+    border-radius: 15px 0 0 15px;
   }
 
   &.vce-column-resizer-label-right {
     left: 0;
-    border-radius: 0 7.5px 7.5px 0;
+    border-radius: 0 15px 15px 0;
   }
 }
 
@@ -267,13 +285,13 @@
   cursor: pointer;
 }
 
-//.vce-col--all-last + .vce-column-resizer,
+.vce-col--all-last + .vce-column-resizer,
 .vce-col--all-hide + .vce-column-resizer {
   display: none;
 }
 
 @media (min-width: 0) and (max-width: 543px) {
-  //.vce-col--xs-last + .vce-column-resizer,
+  .vce-col--xs-last + .vce-column-resizer,
   .vce-col--xs-hide + .vce-column-resizer {
     display: none;
   }
@@ -281,7 +299,7 @@
 
 /* styles for mobile-landscape */
 @media (min-width: 544px) and (max-width: 767px) {
-  //.vce-col--sm-last + .vce-column-resizer,
+  .vce-col--sm-last + .vce-column-resizer,
   .vce-col--sm-hide + .vce-column-resizer {
     display: none;
   }
@@ -289,7 +307,7 @@
 
 /* styles for mobile-landscape */
 @media (min-width: 768px) and (max-width: 991px) {
-  //.vce-col--md-last + .vce-column-resizer,
+  .vce-col--md-last + .vce-column-resizer,
   .vce-col--md-hide + .vce-column-resizer {
     display: none;
   }
@@ -297,7 +315,7 @@
 
 /* styles for mobile-landscape */
 @media (min-width: 992px) and (max-width: 1199px) {
-  //.vce-col--lg-last + .vce-column-resizer,
+  .vce-col--lg-last + .vce-column-resizer,
   .vce-col--lg-hide + .vce-column-resizer {
     display: none;
   }

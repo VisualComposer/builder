@@ -85,13 +85,12 @@ const RowSideResizer = (props) => {
       onMouseUp={handleMouseUp}
       className={`vce-row-resizer-handler vce-row-resizer-position-${props.left ? 'left' : 'right'} ${expanded ? 'expanded' : ''}`}
     >
-      <div>
-        {expanded &&
-          <span onClick={addColumn}>
-            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
-          </span>}
+      <div className={'vce-row-resizer-inner'} >
+        <span className={'vce-row-resizer-inner-side'} onClick={addColumn}>
+          <i className='vcv-ui-icon vcv-ui-icon-add' />
+        </span>
         <i className='separator' />
-        {expanded && <span>{props.left ? left : right}</span>}
+        <span className={'vce-row-resizer-inner-side'}>{props.left ? left : right}</span>
       </div>
     </div>
   )
