@@ -52,9 +52,9 @@ const RowSideResizer = (props) => {
       <div>
         {expanded &&
           <span onClick={addColumn}>
-            <i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add" />
+            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           </span>}
-        <i className="separator" />
+        <i className='separator' />
         {expanded && <span>{props.left ? left : right}</span>}
       </div>
     </div>
