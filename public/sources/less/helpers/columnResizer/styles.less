@@ -130,9 +130,21 @@
       }
 
       &:last-child {
-        cursor: default;
+        cursor: col-resize;
       }
     }
+  }
+
+  &.expanded:before {
+    background-color: transparent;
+    position: absolute;
+    display: block;
+    height: 150px;
+    width: 150px;
+    content: '';
+    left: -75px;
+    z-index: -4;
+    top: -75px;
   }
 }
 
