@@ -19,13 +19,13 @@
 
 .vce-row-resizer-handler {
   background-color: @vcv-resizer-background-color;
-  color: rgb(255, 255, 255);
   border-radius: 7.5px;
   pointer-events: all;
   align-items: center;
   position: absolute;
   z-index: 999999;
   font-size: 12px;
+  color: #ffffff;
   display: flex;
   height: 29px;
   margin: auto;
@@ -103,7 +103,7 @@
     display: flex;
     width: 100%;
 
-    i.seperator {
+    i.separator {
       box-shadow: 0 5px #ffffff, 0 -5px #ffffff;
       transform: translate(-50%, 13px);
       background: #ffffff;
@@ -113,10 +113,10 @@
       margin: auto;
       content: '';
       height: 3px;
+      left: 3.5px;
       width: 3px;
       top: -26px;
       bottom: 0;
-      left: 3.5px;
       right: 0;
     }
 
@@ -130,21 +130,9 @@
       }
 
       &:last-child {
-        cursor: col-resize;
+        cursor: default;
       }
     }
-  }
-
-  &.expanded:before {
-    display: block;
-    content: '';
-    position: absolute;
-    background-color: transparent;
-    top: -75px;
-    left: -75px;
-    width: 150px;
-    height: 150px;
-    z-index: -4;
   }
 }
 
