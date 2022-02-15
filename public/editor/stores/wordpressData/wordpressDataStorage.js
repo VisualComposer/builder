@@ -328,6 +328,38 @@ addStorage('wordpressData', (storage) => {
     }
   }
 
+  function createTitleControls (title) {
+    // Create control elements
+    const titleControl = document.createElement('div')
+    titleControl.className = 'vcv-title-control'
+    const editIcon = document.createElement('i')
+    editIcon.className = 'vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit'
+    titleControl.appendChild(editIcon)
+
+    // Apply events to controls and title
+    const openTitleSettings = () => {
+      workspaceStorage.state('settingsTab').set('pageSettings')
+      workspaceContentState.set('settings')
+      settingsStorage.state('isTitleFocused').set(true)
+    }
+
+    titleControl.onclick = () => {
+      openTitleSettings()
+    }
+    title.ondblclick = () => {
+      openTitleSettings()
+    }
+    title.parentNode.onmouseover = () => {
+      titleControl.classList.add('vcv-title-control--active')
+    }
+    title.parentNode.onmouseleave = () => {
+      titleControl.classList.remove('vcv-title-control--active')
+    }
+
+    // Append control elements
+    title.parentNode.insertBefore(titleControl, title.nextSibling)
+  }
+
   function setTitle () {
     // TODO: Check
     if (!titles.length) {
@@ -342,10 +374,10 @@ addStorage('wordpressData', (storage) => {
     titles.forEach(title => {
       title.innerText = current
       title.style.display = disabled ? 'none' : ''
-      title.onclick = () => {
-        workspaceStorage.state('settingsTab').set('pageSettings')
-        workspaceContentState.set('settings')
-        settingsStorage.state('isTitleFocused').set(true)
+      const hasControls = title.parentNode.querySelector('.vcv-title-control')
+
+      if (!hasControls) {
+        createTitleControls(title)
       }
     })
   }
