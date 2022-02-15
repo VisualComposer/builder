@@ -79,3 +79,7 @@ a.vce-single-image-inner:focus {
 .vce-single-image-container .vce-single-image-inner .vce-single-image {
   box-shadow: none;
 }
+
+.vce-single-image-figure-inner {
+  display: inline-block;
+}

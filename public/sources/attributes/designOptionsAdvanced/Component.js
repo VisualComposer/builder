@@ -23,6 +23,7 @@ const dataManager = getService('dataManager')
 const documentService = getService('document')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
+const { getDynamicValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
 
 export default class DesignOptionsAdvanced extends Attribute {
   static localizations = dataManager.get('localizations')
@@ -1165,6 +1166,11 @@ export default class DesignOptionsAdvanced extends Attribute {
     const value = this.state.devices[this.state.currentDevice].images || ''
 
     const fieldKey = 'attachImage'
+    const dynamicTemplateProps = {
+      value: '$dynamicFieldKey',
+      type: 'backgroundImage',
+      sourceId: '$sourceId'
+    }
 
     return (
       <div className='vcv-ui-form-group'>
@@ -1185,8 +1191,13 @@ export default class DesignOptionsAdvanced extends Attribute {
           value={value}
           prevValue={this.state.devices[this.state.currentDevice].prevValue}
           elementAccessPoint={this.props.elementAccessPoint}
-          onDynamicFieldOpen={this.props.onDynamicFieldOpen}
-          onDynamicFieldChange={this.props.onDynamicFieldChange}
+          onDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
+            const defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
+            return getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplateProps: dynamicTemplateProps })
+          }}
+          onDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
+            return getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplateProps: dynamicTemplateProps, forceSaveSourceId })
+          }}
           onDynamicFieldClose={this.props.onDynamicFieldClose}
         />
       </div>

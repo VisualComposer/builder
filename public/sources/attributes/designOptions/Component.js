@@ -24,8 +24,7 @@ const blockRegexp = getBlockRegexp()
 
 export default class DesignOptions extends Attribute {
   static defaultProps = {
-    fieldType: 'designOptions',
-    isBackgroundDynamic: true
+    fieldType: 'designOptions'
   }
 
   /**
@@ -455,12 +454,12 @@ export default class DesignOptions extends Attribute {
     this.setState(newState)
   }
 
-  static buildMixins (data, value) {
+  static buildMixins (data, value, cookElement, attributeSettings, isSimple = false) {
     const mixins = {}
     const devices = ['all', 'xs', 'sm', 'md', 'lg', 'xl']
     devices.forEach((device) => {
       if (value.device && typeof value.device[device] !== 'undefined') {
-        DesignOptions.getMixins(value.device, device, mixins, false)
+        DesignOptions.getMixins(value.device, device, mixins, isSimple)
       }
     })
 
@@ -1029,7 +1028,7 @@ export default class DesignOptions extends Attribute {
           key={`${this.state.currentDevice}-${fieldKey}`}
           options={{
             multiple: true,
-            dynamicField: this.props.isBackgroundDynamic
+            dynamicField: true
           }}
           updater={this.attachImageChangeHandler}
           value={value}

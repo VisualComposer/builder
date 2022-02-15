@@ -16,7 +16,6 @@ use VisualComposer\Helpers\AssetsEnqueue;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -30,6 +29,8 @@ class EnqueueController extends Container implements Module
     protected $globalCssAdded = false;
 
     protected static $initialPostId = null;
+
+    protected static $initialEnqueue = null;
 
     public function __construct(Request $requestHelper)
     {
@@ -77,7 +78,7 @@ class EnqueueController extends Container implements Module
 
     protected function enqueueAssetsFromList($payload, AssetsEnqueue $assetsEnqueueHelper)
     {
-        // NOTE: This is not an feature toggler, it is local env to avoid recursion
+        // NOTE: This is not a feature toggler, it is local env to avoid recursion
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
@@ -239,6 +240,11 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueAssets(Frontend $frontendHelper, Assets $assetsHelper)
     {
+        // Needed to keep proper ordering for layout styles rendering (background images)
+        if (is_null(self::$initialEnqueue)) {
+            self::$initialEnqueue = true;
+            $this->call('enqueueAssetsFromList');
+        }
         // @codingStandardsIgnoreStart
         global $wp_query;
         if (is_null(self::$initialPostId)) {
@@ -277,16 +283,12 @@ class EnqueueController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Str $strHelper
-     * @param \VisualComposer\Helpers\Assets $assetsHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param $sourceId
      *
      * @throws \ReflectionException
      */
     protected function enqueueSourceAssetsBySourceId(
-        Str $strHelper,
-        Assets $assetsHelper,
         AssetsEnqueue $assetsEnqueueHelper,
         Options $optionsHelper,
         $sourceId = null
