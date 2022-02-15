@@ -14,19 +14,7 @@ export default function ControlCenter (props) {
   }
 
   return (
-    <div className={'vcv-ui-outline-control-wrap'} style={{
-      position: 'absolute',
-      top: '50px',
-      backgroundColor: 'rgb(109, 171, 60)',
-      margin: 'auto',
-      left: 0,
-      right: 0,
-      pointerEvents: 'all',
-      display: 'flex',
-      width: '240px',
-      borderRadius: '5px'
-    }}
-    >
+    <div className={'vcv-ui-outline-control-wrap'} >
       <span className='vcv-ui-outline-control-content'>
         <img className='vcv-ui-outline-control-icon' src={icon} alt={title} />
       </span>
