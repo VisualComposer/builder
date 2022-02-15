@@ -21,7 +21,7 @@ export default function ControlCenter (props) {
     return (all * 40) + 'px'
   }
   return (
-    <div className={'vcv-ui-outline-control-wrap'} style={{width: getWidth()}} >
+    <div className='vcv-ui-outline-control-wrap' style={{ width: getWidth() }}>
       <span className='vcv-ui-outline-control-content'>
         <img className='vcv-ui-outline-control-icon' src={icon} alt={title} />
       </span>

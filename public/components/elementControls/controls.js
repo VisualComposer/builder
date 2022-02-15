@@ -102,9 +102,8 @@ function ControlItems (props) {
     }
 
     if (i < vcvEditableElements.length - 1) {
-      if(!(iterableControls.length === 3 && i === 0)){
-        controls.push(
-          <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
+      if (!(iterableControls.length === 3 && i === 0)) {
+        controls.push(<i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
       }
     }
   })
