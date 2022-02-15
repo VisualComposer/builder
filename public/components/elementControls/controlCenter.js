@@ -13,8 +13,15 @@ export default function ControlCenter (props) {
     return null
   }
 
+  const getWidth = () => {
+    const vcElementsPath = props.data.vcElementsPath.length
+    const vcvDraggableIds = props.data.vcvDraggableIds.length
+    const vcvEditableElements = props.data.vcvEditableElements.length
+    const all = vcElementsPath + vcvDraggableIds + vcvEditableElements
+    return (all * 40) + 'px'
+  }
   return (
-    <div className={'vcv-ui-outline-control-wrap'} >
+    <div className={'vcv-ui-outline-control-wrap'} style={{width: getWidth()}} >
       <span className='vcv-ui-outline-control-content'>
         <img className='vcv-ui-outline-control-icon' src={icon} alt={title} />
       </span>
