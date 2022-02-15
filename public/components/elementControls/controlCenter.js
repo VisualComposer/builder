@@ -9,18 +9,12 @@ export default function ControlCenter (props) {
   const hubElementsService = getService('hubElements')
   const icon = hubElementsService.getElementIcon(vcElement.get('tag'))
 
-  React.useEffect(() => {
-    console.log(window.innerHeight)
-  }, [])
-
   if (!vcElement) {
     return null
   }
 
-  console.log('--- mount ---')
-
   const getWidth = () => {
-    const optionCount = 6
+    const optionCount = 7
     return (optionCount * 40) + 'px'
   }
 
