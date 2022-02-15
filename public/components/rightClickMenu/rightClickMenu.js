@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import MenuDropdown from './menuDropdown'
 import { disableScroll, enableScroll } from 'public/tools/disableScroll'
 
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
+const cook = getService('cook')
+const roleManager = getService('roleManager')
 
 export default class RightClickMenu extends React.Component {
   constructor (props) {
@@ -55,8 +57,10 @@ export default class RightClickMenu extends React.Component {
         id = closest.getAttribute('data-vcv-element')
       }
     }
+    const element = cook.getById(id)
+    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element?.get('metaIsElementLocked') && !roleManager?.can('editor_settings_element_lock', roleManager?.defaultAdmin())
 
-    if (id) {
+    if (id && !isElementLocked) {
       e.preventDefault()
 
       workspaceStorage.state('userInteractWith').set(id)
