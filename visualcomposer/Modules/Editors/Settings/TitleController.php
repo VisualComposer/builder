@@ -73,13 +73,9 @@ class TitleController extends Container implements Module
         $sourceId = $payload['sourceId'];
         $post = get_post($sourceId);
         if (is_object($post)) {
-            if ($frontendHelper->isPreview()) {
-                $preview = wp_get_post_autosave($sourceId);
-                if (is_object($preview)) {
-                    $sourceId = $preview->ID;
-                    $post = $preview;
-                }
-            }
+            $post = vchelper('Preview')->updateSourcePostWithPreviewPost($post);
+            $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId($sourceId);
+
             $pageTitle = $requestHelper->input('vcv-page-title');
             $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled', false);
             if ($requestHelper->exists('vcv-page-title') && !$pageTitle) {
@@ -124,13 +120,8 @@ class TitleController extends Container implements Module
         if (!is_admin()) {
             $frontendHelper = vchelper('Frontend');
             $requestHelper = vchelper('Request');
-            $post = get_post($postId);
-            if ($frontendHelper->isPreview()) {
-                $preview = wp_get_post_autosave($post->ID);
-                if (is_object($preview)) {
-                    $post = $preview;
-                }
-            }
+            $post = vchelper('Preview')->updateSourcePostWithPreviewPost(get_post($postId));
+
             if ($post) {
                 $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
                 // Add entry title only for correct Page Editable

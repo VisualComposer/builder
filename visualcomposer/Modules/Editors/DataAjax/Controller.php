@@ -240,12 +240,9 @@ class Controller extends Container implements Module
         );
         $post->post_content = $content;
         $isDraftPost = isset($dataDecoded['draft']) && $post->post_status !== 'publish';
-        $isPreview = isset($dataDecoded['inherit']);
 
         if ($isDraftPost) {
             $post->post_status = 'draft';
-        } elseif ($isPreview) {
-            $previewPost = $previewHelper->createPreview($post, $sourceId);
         } else {
             if ($currentUserAccessHelper->wpAll(
                 [get_post_type_object($post->post_type)->cap->publish_posts, $sourceId]
@@ -263,7 +260,10 @@ class Controller extends Container implements Module
         kses_remove_filters();
         remove_filter('content_save_pre', 'balanceTags', 50);
 
-        if ($isPreview && !empty($previewPost)) {
+        $isPreview = isset($dataDecoded['inherit']);
+        if ($isPreview) {
+            $previewPost = $previewHelper->generatePreview($post, $sourceId);
+
             // @codingStandardsIgnoreLine
             if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
                 // @codingStandardsIgnoreLine

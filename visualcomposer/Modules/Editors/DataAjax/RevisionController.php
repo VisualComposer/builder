@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Preview;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Request;
@@ -120,13 +121,17 @@ class RevisionController extends Container implements Module
      *
      * @return array
      */
-    protected function getRevisionData(Request $requestHelper)
+    protected function getRevisionData(Request $requestHelper, Preview $previewHelper)
     {
         $response = [];
         $sourceId = $requestHelper->input('vcv-source-id');
 
         // get last auto save
-        $postAutoSave = wp_get_post_autosave($sourceId);
+        $previewPostList = $previewHelper->getPostPreviewList(get_post($sourceId), $sourceId);
+        if (!empty($previewPostList[0]) && is_object($previewPostList[0])) {
+            $postAutoSave = $previewPostList[0];
+        }
+
         $pageContent = get_post_meta($postAutoSave->ID, 'vcv-pageContent', true);
 
         $response['pageContent'] = $pageContent;

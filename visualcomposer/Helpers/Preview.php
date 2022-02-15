@@ -20,19 +20,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 class Preview implements Helper
 {
     /**
-     * Check if current page is preview.
-     *
-     * @return bool
-     */
-    public function isPreview()
-    {
-        $requestHelper = vchelper('Request');
-        $isPreview = $requestHelper->input('preview');
-
-        return !empty($isPreview);
-    }
-
-    /**
      * Get preview id of certain post.
      *
      * @param $sourceId
@@ -41,7 +28,8 @@ class Preview implements Helper
      */
     public function getPreviewId($sourceId)
     {
-        if (!$this->isPreview()) {
+        $frontendHelper = vchelper('Frontend');
+        if (!$frontendHelper->isPreview()) {
             return false;
         }
 
@@ -59,14 +47,14 @@ class Preview implements Helper
     }
 
     /**
-     * Create post preview.
+     * Generate post preview from post.
      *
      * @param object $post
      * @param int $sourceId
      *
      * @return array
      */
-    public function createPreview($post, $sourceId)
+    public function generatePreview($post, $sourceId)
     {
         $previewPost = [];
         // @codingStandardsIgnoreLine
@@ -114,5 +102,47 @@ class Preview implements Helper
                 'order' => 'DESC',
             ]
         );
+    }
+
+    /**
+     * Replace provided post id with corresponding preview id.
+     *
+     * @param int $sourceId
+     *
+     * @return int
+     */
+    public function updateSourceIdWithPreviewId($sourceId)
+    {
+        $frontendHelper = vchelper('Frontend');
+
+        if ($frontendHelper->isPreview()) {
+            $previewPostList = $this->getPostPreviewList(get_post($sourceId), $sourceId);
+            if (!empty($previewPostList[0]) && is_object($previewPostList[0])) {
+                $sourceId = $previewPostList[0]->ID;
+            }
+        }
+
+        return $sourceId;
+    }
+
+    /**
+     * Replace provided post object with corresponding preview object.
+     *
+     * @param \WP_Post $post
+     *
+     * @return \WP_Post
+     */
+    public function updateSourcePostWithPreviewPost($post)
+    {
+        $frontendHelper = vchelper('Frontend');
+
+        if ($frontendHelper->isPreview()) {
+            $previewPostList = $this->getPostPreviewList($post, $post->ID);
+            if (!empty($previewPostList[0]) && is_object($previewPostList[0])) {
+                $post = $previewPostList[0];
+            }
+        }
+
+        return $post;
     }
 }

@@ -28,11 +28,7 @@ class PreviewJsDataController extends Container implements Module
     protected function setData($response, $payload, Frontend $frontendHelper)
     {
         if ($frontendHelper->isPreview()) {
-            $sourceId = $payload['sourceId'];
-            $preview = wp_get_post_autosave($sourceId);
-            if (is_object($preview)) {
-                $sourceId = $preview->ID;
-            }
+            $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
             $this->setPreviewLocalJs($sourceId);
             $this->setPreviewGlobalJs($sourceId);
         }
