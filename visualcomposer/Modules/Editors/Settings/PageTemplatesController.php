@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -40,7 +39,7 @@ class PageTemplatesController extends Container implements Module
         );
     }
 
-    protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper)
+    protected function getCurrentTemplateLayout($output, PostType $postTypeHelper)
     {
         $postId = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current:custom');
 
@@ -55,12 +54,7 @@ class PageTemplatesController extends Container implements Module
             return $output;
         }
 
-        if ($frontendHelper->isPreview()) {
-            $preview = wp_get_post_autosave($post->ID);
-            if (is_object($preview)) {
-                $post = $preview;
-            }
-        }
+        $post = vchelper('Preview')->updateSourcePostWithPreviewPost($post);
 
         // check if custom vc template is set
         $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
