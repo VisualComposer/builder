@@ -18,8 +18,8 @@
 }
 
 .vce-row-resizer-handler {
-  background-color: @vcv-resizer-background-color;
   transition: width .3s, color .1s, transform .3s, opacity .3s;
+  background-color: @vcv-resizer-background-color;
   border-radius: 15px;
   pointer-events: all;
   align-items: center;
@@ -45,6 +45,7 @@
     font-family: 'Nunito Sans', sans-serif;
     border-radius: 15px;
     align-items: center;
+    flex-direction: row;
     position: absolute;
     color: transparent;
     font-weight: bold;
@@ -52,6 +53,8 @@
     display: flex;
     height: 29px;
     top: -14.5px;
+    right: auto;
+    left: -7px;
     width:0;
 
     &:first-child {
@@ -73,41 +76,29 @@
       width: 45px;
     }
 
-    &.vce-row-resizer-position-left {
-      .vce-row-resizer-inner-side:first-child{
-        transform: translateX(0px);
-      }
+    .vce-row-resizer-inner-side:first-child{
+      transform: translateX(0px);
     }
   }
 
-  &.vce-row-resizer-position-left {
-    flex-direction: row;
-    right: auto;
-    left: -7px;
-
-    .vce-row-resizer-inner-side:first-child{
-      transform: translateX(45px);
-    }
+  .vce-row-resizer-inner-side:first-child{
+    transform: translateX(45px);
   }
 
   &.vce-row-resizer-position-right {
     right: -7px;
     left: auto;
 
-    > .vce-row-resizer-inner {
-      flex-direction: row-reverse;
-    }
-
     &.expanded {
       background-color: @vcv-color-lucky-point;
 
       .vce-row-resizer-inner-side {
-        &:last-child {
+        &:first-child {
           border-radius: 15px 0 0 15px;
           left: -38.5px;
         }
 
-        &:first-child {
+        &:last-child {
           border-radius: 0 15px 15px 0;
           left: 7.5px;
         }
