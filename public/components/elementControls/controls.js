@@ -164,7 +164,7 @@ export default function Controls (props) {
   const getCenterControls = () => {
     const iterableControls = props.data.vcvEditableElements || vcvEditableElements
     const clone = [...iterableControls]
-    return clone.length === 3 ? clone[2] : null
+    return clone.length === 3 ? clone[0] : null
   }
 
   containerClasses = containerClasses.join(' ')
