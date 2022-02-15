@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Preview;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Request;
@@ -25,12 +26,6 @@ class RevisionController extends Container implements Module
         $this->wpAddAction('save_post', 'saveRevisionMeta');
         /** @see \VisualComposer\Modules\Editors\DataAjax\RevisionController::restoreRevision */
         $this->wpAddAction('wp_restore_post_revision', 'restoreRevision');
-
-        /** @see \VisualComposer\Modules\Editors\DataAjax\RevisionController::getRevisionData */
-        $this->addFilter(
-            'vcv:ajax:getRevisionData:adminNonce',
-            'getRevisionData'
-        );
     }
 
     /**
@@ -65,16 +60,39 @@ class RevisionController extends Container implements Module
 
         if ($sourceId && wp_is_post_revision($revisionId) === intval($sourceId)) {
             if (false !== $vcvdata) {
-                update_metadata('post', $revisionId, VCV_PREFIX . 'pageContent', $vcvdata);
+                $this->updateRevisionMeta($revisionId);
             }
         }
+
         if ($requestHelper->exists('revision') && wp_is_post_revision($revisionId)) {
             if (!empty($vcvdata)) {
                 $latestRevision = wp_get_post_revisions(wp_is_post_revision($revisionId));
                 $latestRevisionId = array_values($latestRevision)[0]->ID;
-                update_metadata('post', $latestRevisionId, VCV_PREFIX . 'pageContent', $vcvdata);
+
+                $this->updateRevisionMeta($latestRevisionId);
             }
         }
+    }
+
+    protected function updateRevisionMeta($revisionId)
+    {
+        $requestHelper = vchelper('Request');
+        $vcvdata = $requestHelper->input('vcv-data');
+
+        update_metadata('post', $revisionId, VCV_PREFIX . 'pageContent', $vcvdata);
+
+        update_metadata(
+            'post',
+            $revisionId,
+            '_' . VCV_PREFIX . 'pageDesignOptionsData',
+            $requestHelper->input('vcv-settings-page-design-options')
+        );
+        update_metadata(
+            'post',
+            $revisionId,
+            '_' . VCV_PREFIX . 'pageDesignOptionsCompiledCss',
+            $requestHelper->input('vcv-settings-page-design-options-compiled')
+        );
     }
 
     /**
@@ -90,24 +108,5 @@ class RevisionController extends Container implements Module
         if (!empty($pageContent)) {
             update_post_meta($postId, VCV_PREFIX . 'pageContent', $pageContent);
         }
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @return array
-     */
-    protected function getRevisionData(Request $requestHelper)
-    {
-        $response = [];
-        $sourceId = $requestHelper->input('vcv-source-id');
-
-        // get last auto save
-        $postAutoSave = wp_get_post_autosave($sourceId);
-        $pageContent = get_post_meta($postAutoSave->ID, 'vcv-pageContent', true);
-
-        $response['pageContent'] = $pageContent;
-
-        return $response;
     }
 }

@@ -30,11 +30,8 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
      */
     protected function enqueuePreviewHeadHtml()
     {
-        $sourceId = get_the_ID();
-        $preview = wp_get_post_autosave($sourceId);
-        if (is_object($preview)) {
-            $sourceId = $preview->ID;
-        }
+        $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId(get_the_ID());
+
         $globalJs = '';
         $localJs = '';
         if (!$this->globalJSHeadAdded) {
@@ -54,11 +51,8 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
      */
     protected function enqueuePreviewFooterHtml()
     {
-        $sourceId = get_the_ID();
-        $preview = wp_get_post_autosave($sourceId);
-        if (is_object($preview)) {
-            $sourceId = $preview->ID;
-        }
+        $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId(get_the_ID());
+
         $globalJs = '';
         $localJs = '';
         if (!$this->globalJSFooterAdded) {
