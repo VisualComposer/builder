@@ -98,11 +98,14 @@ function ControlItems (props) {
       }
       controls.push(<ControlAction id={id} options={options} key={`element-control-tree-view-${id}`} />)
     } else {
-      controls.push(<Control id={id} key={`element-control-${id}`} isDraggable={vcvDraggableIds.includes(id)} />)
+      controls.push(<Control hide={iterableControls.length === 3 && i === 0} id={id} key={`element-control-${id}`} isDraggable={vcvDraggableIds.includes(id)} />)
     }
+
     if (i < vcvEditableElements.length - 1) {
-      controls.push(
-        <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
+      if(!(iterableControls.length === 3 && i === 0)){
+        controls.push(
+          <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
+      }
     }
   })
 
@@ -159,32 +162,20 @@ export default function Controls (props) {
     controlsPos ? 'vcv-ui-controls-o-controls-right' : ''
   ]
 
-  const sortControls = () => {
-    let iterableControls = props.data.vcvEditableElements || vcvEditableElements
-    iterableControls = [...iterableControls]
-    iterableControls.reverse()
-    const res = {
-      center: null,
-      top: null
-    }
-
-    if (iterableControls.length === 3) {
-      res.center = iterableControls[2]
-      iterableControls.pop()
-    }
-    res.top = iterableControls
-
-    return res
+  const getCenterControls = () => {
+    const iterableControls = props.data.vcvEditableElements || vcvEditableElements
+    const clone = [...iterableControls]
+    return clone.length === 3 ? clone[2] : null
   }
 
   containerClasses = containerClasses.join(' ')
-  const sortedControls = sortControls()
+  const centerControls = getCenterControls()
 
   return (
     <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {sortedControls.center && <ControlCenter data={props.data} id={sortedControls.center} />}
+      {centerControls && <ControlCenter data={props.data} id={centerControls} />}
       <nav className='vcv-ui-outline-controls' ref={controls}>
-        <ControlItems data={props.data} visibleControls={sortedControls.top} />
+        <ControlItems centerControls={!!centerControls} data={props.data} visibleControls={visibleControls} />
       </nav>
     </div>
   )

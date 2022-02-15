@@ -91,7 +91,7 @@ export default function Control (props) {
 
   const controlDropdown = activeDropdown ? <ControlDropdown id={props.id} handleHover={handleHover} /> : null
 
-  return (
+  return (!props.hide ?
     <div
       className={controlsClasses}
       onMouseEnter={handleMouseEnter}
@@ -109,6 +109,6 @@ export default function Control (props) {
         </span>
       </div>
       {controlDropdown}
-    </div>
+    </div> : null
   )
 }
