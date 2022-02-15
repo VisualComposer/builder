@@ -121,6 +121,13 @@ class AssetsEnqueue extends Container implements Helper
         if (!empty($this->doneList[ $sourceId ])) {
             return;
         }
+
+        $previewHelper = vchelper('Preview');
+        $previewId = $previewHelper->getPreviewId($sourceId);
+        if ($previewId) {
+            $sourceId = $previewId;
+        }
+
         $styles = get_post_meta(
             $sourceId,
             '_' . VCV_PREFIX . 'pageDesignOptionsCompiledCss',

@@ -28,12 +28,8 @@ class PreviewDataController extends Container implements Module
 
     protected function setData($response, $payload, Frontend $frontendHelper)
     {
-        $sourceId = $payload['sourceId'];
         if ($frontendHelper->isPreview()) {
-            $preview = wp_get_post_autosave($sourceId);
-            if (is_object($preview)) {
-                $sourceId = $preview->ID;
-            }
+            $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
             $this->updatePreviewLocalAssets($sourceId);
             $this->updatePreviewGlobalAssets($sourceId);
         }
