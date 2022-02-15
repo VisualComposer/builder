@@ -26,12 +26,6 @@ class RevisionController extends Container implements Module
         $this->wpAddAction('save_post', 'saveRevisionMeta');
         /** @see \VisualComposer\Modules\Editors\DataAjax\RevisionController::restoreRevision */
         $this->wpAddAction('wp_restore_post_revision', 'restoreRevision');
-
-        /** @see \VisualComposer\Modules\Editors\DataAjax\RevisionController::getRevisionData */
-        $this->addFilter(
-            'vcv:ajax:getRevisionData:adminNonce',
-            'getRevisionData'
-        );
     }
 
     /**
@@ -114,28 +108,5 @@ class RevisionController extends Container implements Module
         if (!empty($pageContent)) {
             update_post_meta($postId, VCV_PREFIX . 'pageContent', $pageContent);
         }
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @return array
-     */
-    protected function getRevisionData(Request $requestHelper, Preview $previewHelper)
-    {
-        $response = [];
-        $sourceId = $requestHelper->input('vcv-source-id');
-
-        // get last auto save
-        $previewPostList = $previewHelper->getPostPreviewList(get_post($sourceId), $sourceId);
-        if (!empty($previewPostList[0]) && is_object($previewPostList[0])) {
-            $postAutoSave = $previewPostList[0];
-        }
-
-        $pageContent = get_post_meta($postAutoSave->ID, 'vcv-pageContent', true);
-
-        $response['pageContent'] = $pageContent;
-
-        return $response;
     }
 }
