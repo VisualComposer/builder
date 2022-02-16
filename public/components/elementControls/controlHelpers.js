@@ -85,6 +85,11 @@ export const ControlHelpers = {
           pasteOptions.pasteAfter = true
         }
       }
+    } else if (!pasteElContainerForValue) {
+      pasteOptions.pasteAfter = true
+      if (copiedElRelatedToValue.indexOf('General') < 0) {
+        pasteOptions.disabled = true
+      }
     }
 
     return pasteOptions

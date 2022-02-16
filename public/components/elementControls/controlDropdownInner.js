@@ -109,10 +109,7 @@ export default function ControlDropdownInner ({ elementId, isRightClick }) {
   }
 
   // paste action
-  const pasteElContainerFor = cookElement && cookElement.get('containerFor')
-  const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
-
-  if (isPasteAvailable && isAbleToAdd) {
+  if (isAbleToAdd) {
     const copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
     const pasteOptions = ControlHelpers.getPasteOptions(copyData, options)
 
