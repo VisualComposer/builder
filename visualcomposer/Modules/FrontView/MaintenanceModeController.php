@@ -28,16 +28,18 @@ class MaintenanceModeController extends Container implements Module
             100
         );
 
-        $this->wpAddAction('init', 'initStyles');
+        $this->wpAddAction('wp_loaded', 'initStyles');
     }
 
     protected function initStyles()
     {
         if (self::isMaintenanceMode()) {
-            echo '<style id="vcv-addons-maintenance-mode-style">';
-            echo '#wpadminbar .vcv-maintenance-mode-active > .ab-item{color:#fff;background-color: #f44;}';
-            echo '#wpadminbar .vcv-maintenance-active:hover > .ab-item{background-color: #aa1000 !important;}';
-            echo '</style>';
+            $css = '#wpadminbar .vcv-maintenance-mode-active > .ab-item{color:#fff;background-color: #f44;}';
+            $css .= '#wpadminbar .vcv-maintenance-active:hover > .ab-item{background-color: #aa1000 !important;}';
+
+            wp_register_style('vcv:assets:maintenanceMode', false);
+            wp_enqueue_style('vcv:assets:maintenanceMode');
+            wp_add_inline_style('vcv:assets:maintenanceMode', $css);
         }
     }
 
