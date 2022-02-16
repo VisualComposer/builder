@@ -79,16 +79,34 @@ export default function ControlAction (props) {
     controlClasses = controlClasses + ` ${options.classes}`
   }
 
-  return (
-    <span
-      className={controlClasses}
-      onClick={handleClick}
-      onMouseDown={handleMouseDown}
-    >
-      <span className='vcv-ui-outline-control-content' title={title} disabled={options.disabled}>
-        <i className={iconClasses} />
-        {props.inline ? '' : label}
+  if (props.inline) {
+    if (!options.disabled) {
+      return (
+        <span
+          className={controlClasses}
+          onClick={handleClick}
+          onMouseDown={handleMouseDown}
+        >
+          <span className='vcv-ui-outline-control-content' title={title}>
+            <i className={iconClasses} />
+          </span>
+        </span>
+      )
+    } else {
+      return null
+    }
+  } else {
+    return (
+      <span
+        className={controlClasses}
+        onClick={handleClick}
+        onMouseDown={handleMouseDown}
+      >
+        <span className='vcv-ui-outline-control-content' title={title} disabled={options.disabled}>
+          <i className={iconClasses} />
+          {label}
+        </span>
       </span>
-    </span>
-  )
+    )
+  }
 }
