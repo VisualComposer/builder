@@ -5,6 +5,7 @@ export type MixinData = {
   attributeName: string
   propertyName: string
   namePattern?: string
+  valueKey?: string
 }
 
 export type CssMixinsBySettingsType = {
@@ -17,6 +18,7 @@ export function getCssMixinsBySettings (elSettings: { [key: string]: any }): Css
       mixin: string
       property: string
       namePattern?: string
+      valueKey?: string
     }
   } = {}
   for (const key in elSettings) {
@@ -30,18 +32,21 @@ export function getCssMixinsBySettings (elSettings: { [key: string]: any }): Css
     const mixinName: string = foundAttributesWithMixins[attributeName].mixin
     const mixinProperty: string = foundAttributesWithMixins[attributeName].property
     const mixinPropertyNamePattern = foundAttributesWithMixins[attributeName]?.namePattern || undefined
+    const valueKey = foundAttributesWithMixins[attributeName]?.valueKey || undefined
     if (foundMixins[mixinName]) {
       foundMixins[mixinName].push({
         propertyName: mixinProperty,
         attributeName: attributeName,
-        namePattern: mixinPropertyNamePattern
+        namePattern: mixinPropertyNamePattern,
+        valueKey: valueKey
       })
     } else {
       foundMixins[mixinName] = [
         {
           propertyName: mixinProperty,
           attributeName: attributeName,
-          namePattern: mixinPropertyNamePattern
+          namePattern: mixinPropertyNamePattern,
+          valueKey: valueKey
         }
       ]
     }
@@ -88,7 +93,11 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
     let attrSelector = ''
     const attributeName = mixinData.attributeName
     const namePattern = mixinData.namePattern
+    const valueKey = mixinData.valueKey
     let value: string | any = atts[attributeName] || 'empty'
+    if (typeof value === 'object' && value.constructor === Object && valueKey) {
+      value = value[valueKey]
+    }
     value = value + '' // force to string
     if (value !== 'empty' && namePattern) {
       const matches = value.match(new RegExp(namePattern, 'gi'))
