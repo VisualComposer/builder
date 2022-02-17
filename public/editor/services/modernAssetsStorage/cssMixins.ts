@@ -88,11 +88,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
     let attrSelector = ''
     const attributeName = mixinData.attributeName
     const namePattern = mixinData.namePattern
-    const propertyName = mixinData.propertyName
     let value: string | any = atts[attributeName] || 'empty'
-    if (typeof value === 'object' && value.hasOwnProperty(propertyName)) {
-      value = value[propertyName]
-    }
     value = value + '' // force to string
     if (value !== 'empty' && namePattern) {
       const matches = value.match(new RegExp(namePattern, 'gi'))
