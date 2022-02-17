@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { getStorage, getService } from 'vc-cake'
 import Control from './control'
 import ControlAction from './controlAction'
+import CenterControls from './centerControls'
+import { ControlHelpers } from './controlHelpers'
 
 const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
@@ -38,6 +40,7 @@ const getContainerPosition = (data, iframeDocument, controlsContainer) => {
   }
 
   position.width = elementRect.width
+  position.height = elementRect.height
 
   return position
 }
@@ -81,10 +84,17 @@ function ControlItems (props) {
   const { data, visibleControls } = props
   const { vcvDraggableIds, vcvEditableElements } = data
   const controls = []
-  const iterableControls = visibleControls || vcvEditableElements
+  const allControls = [...vcvEditableElements]
+  const iterableControls = visibleControls || allControls
+  const copiedControls = [...iterableControls]
   const localizations = dataManager.get('localizations')
-  iterableControls.forEach((id, i) => {
-    if (i === iterableControls.length - 1 && visibleControls) {
+  const firstElement = ControlHelpers.getVcElement(copiedControls[0])
+  if (firstElement && firstElement.containerFor().length < 1) {
+    copiedControls.splice(0, 1)
+    allControls.splice(0, 1)
+  }
+  copiedControls.forEach((id, i) => {
+    if (i === copiedControls.length - 1 && visibleControls) {
       const treeViewText = localizations ? localizations.treeView : 'Tree View'
       const options = {
         title: treeViewText,
@@ -98,7 +108,7 @@ function ControlItems (props) {
     } else {
       controls.push(<Control id={id} key={`element-control-${id}`} isDraggable={vcvDraggableIds.includes(id)} />)
     }
-    if (i < vcvEditableElements.length - 1) {
+    if (i < allControls.length - 1) {
       controls.push(
         <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
     }
@@ -123,7 +133,7 @@ export default function Controls (props) {
     if (!visibleControls) {
       setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
-  })
+  }, [])
 
   const handleMouseEnter = () => {
     layoutStorage.state('interactWithControls').set({
@@ -159,11 +169,18 @@ export default function Controls (props) {
 
   containerClasses = containerClasses.join(' ')
 
+  let centerControls = null
+  const firstElement = ControlHelpers.getVcElement(vcvEditableElements[0])
+  if (firstElement && firstElement.containerFor().length < 1) {
+    centerControls = <CenterControls id={vcvEditableElements[0]} height={containerPos.height} />
+  }
+
   return (
     <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <nav className='vcv-ui-outline-controls' ref={controls}>
         <ControlItems data={props.data} visibleControls={visibleControls} />
       </nav>
+      {centerControls}
     </div>
   )
 }
