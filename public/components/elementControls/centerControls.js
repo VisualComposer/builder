@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import React   from 'react'
 import ControlDropdownInner from './controlDropdownInner'
 import { ControlHelpers } from './controlHelpers'
 import { getService } from 'vc-cake'
+import MainControl from './mainControl'
 
-export default function CenterControls (props) {
-  const vcElement = ControlHelpers.getVcElement(props.id)
+export default function CenterControls ({ top, height, id, containerPos }) {
+  const vcElement = ControlHelpers.getVcElement(id)
   const title = vcElement.get('customHeaderTitle') || vcElement.get('name')
   const hubElementsService = getService('hubElements')
   const icon = hubElementsService.getElementIcon(vcElement.get('tag'))
-  console.log(vcElement)
 
   if (!vcElement) {
     return null
   }
 
-  let styles = {}
-  if (props.height) {
-    styles = {
-      height: `${props.height}px`
-    }
+  let topPosition = containerPos.realTop + (height / 2) - 20
+  if (topPosition < 2) {
+    topPosition = 2
   }
-  console.log(styles)
+
+  const styles = {
+    top: `${topPosition}px`,
+    left: `${containerPos.left}px`,
+    width: `${containerPos.width}px`
+  }
 
   return (
     <div className='vcv-ui-outline-controls-center' style={{ ...styles }}>
       <div className='vcv-ui-outline-controls-center-inner'>
-        <span className='vcv-ui-outline-control-content'>
-          <img className='vcv-ui-outline-control-icon' src={icon} alt={title} />
-        </span>
-        <ControlDropdownInner elementId={props.id} />
+        <MainControl id={id} title={title} icon={icon} />
+        <ControlDropdownInner elementId={id} />
       </div>
     </div>
   )

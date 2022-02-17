@@ -41,6 +41,7 @@ const getContainerPosition = (data, iframeDocument, controlsContainer) => {
 
   position.width = elementRect.width
   position.height = elementRect.height
+  position.realTop = elementRect.top
 
   return position
 }
@@ -172,15 +173,17 @@ export default function Controls (props) {
   let centerControls = null
   const firstElement = ControlHelpers.getVcElement(vcvEditableElements[0])
   if (firstElement && firstElement.containerFor().length < 1) {
-    centerControls = <CenterControls id={vcvEditableElements[0]} height={containerPos.height} />
+    centerControls = <CenterControls id={vcvEditableElements[0]} height={containerPos.height} top={containerPos.realTop} containerPos={containerPos} />
   }
 
   return (
-    <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <nav className='vcv-ui-outline-controls' ref={controls}>
-        <ControlItems data={props.data} visibleControls={visibleControls} />
-      </nav>
+    <>
+      <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <nav className='vcv-ui-outline-controls' ref={controls}>
+          <ControlItems data={props.data} visibleControls={visibleControls} />
+        </nav>
+      </div>
       {centerControls}
-    </div>
+    </>
   )
 }

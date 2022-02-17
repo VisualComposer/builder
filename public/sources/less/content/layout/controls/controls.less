@@ -360,14 +360,26 @@
 .vcv-ui-outline-controls-center-inner {
   display: flex;
   pointer-events: all;
-  background-color: #6dab3c;
-  border-radius: 5px;
 
   .vcv-ui-outline-control-label {
     display: none;
   }
 
-  .vcv-ui-outline-control:hover {
-    background-color: #5c9133;
+  .vcv-ui-outline-control {
+    background-color: #6dab3c;
+
+    &:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    &:hover {
+      background-color: #5c9133;
+    }
   }
 }
