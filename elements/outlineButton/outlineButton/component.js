@@ -6,7 +6,7 @@ const vcvAPI = vcCake.getService('api')
 export default class OutlineButtonElement extends vcvAPI.elementComponent {
   getColorSelector (colors) {
     const selector = colors.map(color => {
-      return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
+      return [...color.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-') || 'empty'
     })
     return selector.join('--')
   }

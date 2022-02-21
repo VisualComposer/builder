@@ -7,7 +7,7 @@ export default class ButtonElement extends vcvAPI.elementComponent {
   getColorSelector (textColor, backgroundColor) {
     const txtColor = [...textColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
     const bgColor = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
-    return `${bgColor}--${txtColor}`
+    return `${bgColor || 'empty'}--${txtColor || 'empty'}`
   }
 
   render () {
