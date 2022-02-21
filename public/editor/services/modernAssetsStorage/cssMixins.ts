@@ -89,14 +89,18 @@ export type MixinsReduceResult = {
 export type MixinsSelectorResult = string | MixinsReduceResult
 
 export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: object }, returnObjectWithProperties: boolean = false): MixinsSelectorResult {
-  const getSelector = (mixinData: MixinData) => {
-    let attrSelector = ''
-    const {attributeName, namePattern, valueKey} = mixinData
+  const getValue = (atts: { [key: string]: object }, attributeName: string, valueKey: string = '') => {
     let value: string | any = atts[attributeName] || 'empty'
     if (typeof value === 'object' && value.constructor === Object && valueKey) {
       value = value[valueKey]
     }
     value = value + '' // force to string
+    return value
+  }
+  const getSelector = (mixinData: MixinData) => {
+    let attrSelector = ''
+    const {attributeName, namePattern, valueKey} = mixinData
+    const value = getValue(atts, attributeName, valueKey)
     if (value !== 'empty' && namePattern) {
       const matches = value.match(new RegExp(namePattern, 'gi'))
       attrSelector = matches.length ? matches.join('-') : 'empty'
