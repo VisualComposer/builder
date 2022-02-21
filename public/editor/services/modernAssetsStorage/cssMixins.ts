@@ -91,9 +91,7 @@ export type MixinsSelectorResult = string | MixinsReduceResult
 export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: object }, returnObjectWithProperties: boolean = false): MixinsSelectorResult {
   const getSelector = (mixinData: MixinData) => {
     let attrSelector = ''
-    const attributeName = mixinData.attributeName
-    const namePattern = mixinData.namePattern
-    const valueKey = mixinData.valueKey
+    const {attributeName, namePattern, valueKey} = mixinData
     let value: string | any = atts[attributeName] || 'empty'
     if (typeof value === 'object' && value.constructor === Object && valueKey) {
       value = value[valueKey]
