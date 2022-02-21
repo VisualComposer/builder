@@ -23,7 +23,6 @@ a.vce-single-image-inner:focus {
 .vce-single-image-wrapper {
   display: inline-block;
   max-width: 100%;
-  width: 100%;
   overflow: hidden;
   vertical-align: top;
 }
@@ -56,7 +55,6 @@ a.vce-single-image-inner:focus {
 }
 
 .vce-single-image-wrapper figure {
-  width: 100%;
   margin: 0;
 }
 
