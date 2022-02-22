@@ -98,7 +98,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
     return value
   }
   const getSelector = (mixinData: MixinData) => {
-    let attrSelector = ''
+    let attrSelector = 'empty'
     const {attributeName, namePattern, valueKey} = mixinData
     const value = getValue(atts, attributeName, valueKey)
     if (value !== 'empty' && namePattern) {
@@ -108,7 +108,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
     if (attrSelector.indexOf('%')) {
       attrSelector = attrSelector.replace(/%/g, 'percent')
     }
-    return attrSelector !== '' ? attrSelector : 'empty'
+    return attrSelector
   }
   if (returnObjectWithProperties) {
     const result: MixinsReduceResult = mixin.reduce<MixinsReduceResult>((previousValue: MixinsReduceResult, currentValue: MixinData): MixinsReduceResult => {
