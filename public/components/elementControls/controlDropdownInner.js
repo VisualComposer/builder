@@ -8,7 +8,7 @@ const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
 
-export default function ControlDropdownInner ({ elementId, isRightClick }) {
+export default function ControlDropdownInner ({ elementId, isCenterControls }) {
   const vcElement = ControlHelpers.getVcElement(elementId)
   const colorIndex = ControlHelpers.getElementColorIndex(vcElement)
   const options = ControlHelpers.getDropdownOptions(vcElement, colorIndex)
@@ -96,7 +96,7 @@ export default function ControlDropdownInner ({ elementId, isRightClick }) {
     })
   }
 
-  if ((!elementCustomControls || elementCustomControls.copy !== false) && isAbleToAdd) {
+  if ((!elementCustomControls || elementCustomControls.copy !== false) && isAbleToAdd && !isCenterControls) {
     // copy action
     actions.push({
       label: copyText,
@@ -109,7 +109,7 @@ export default function ControlDropdownInner ({ elementId, isRightClick }) {
   }
 
   // paste action
-  if (isAbleToAdd) {
+  if (isAbleToAdd && !isCenterControls) {
     const copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
     const pasteOptions = ControlHelpers.getPasteOptions(copyData, options)
 
@@ -130,15 +130,17 @@ export default function ControlDropdownInner ({ elementId, isRightClick }) {
   }
 
   // edit design options control
-  actions.push({
-    label: designOptionsText,
-    title: `${options.title} ${designOptionsText}`,
-    icon: 'vcv-ui-icon-brush-alt',
-    data: {
-      vcControlEvent: 'edit',
-      vcControlEventOptions: designOptionEvent
-    }
-  })
+  if (!isCenterControls) {
+    actions.push({
+      label: designOptionsText,
+      title: `${options.title} ${designOptionsText}`,
+      icon: 'vcv-ui-icon-brush-alt',
+      data: {
+        vcControlEvent: 'edit',
+        vcControlEventOptions: designOptionEvent
+      }
+    })
+  }
 
   // remove control
   actions.push({

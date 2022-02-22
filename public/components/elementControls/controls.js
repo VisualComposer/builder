@@ -173,7 +173,10 @@ export default function Controls (props) {
   let centerControls = null
   const firstElement = ControlHelpers.getVcElement(vcvEditableElements[0])
   if (firstElement && firstElement.containerFor().length < 1) {
-    centerControls = <CenterControls id={vcvEditableElements[0]} height={containerPos.height} top={containerPos.realTop} containerPos={containerPos} />
+    centerControls = <CenterControls
+      id={vcvEditableElements[0]}
+      containerPos={containerPos}
+    />
   }
 
   return (
