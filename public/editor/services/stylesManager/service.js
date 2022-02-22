@@ -142,7 +142,9 @@ class StylesManager {
 
       // No PostCSS used in local/global css
       if (style.pureCss) {
-        return style.src
+        window.setTimeout(() => {
+          return style.src
+        }, 0)
       }
 
       let use = []
