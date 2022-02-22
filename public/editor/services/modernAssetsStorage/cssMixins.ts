@@ -68,7 +68,7 @@ export function getInnerCssMixinsBySettings (elSettings: { [key: string]: any })
   for (const key in elSettings) {
     if (elSettings[key].type === 'paramsGroup') {
       const groupFieldsSettings = elSettings[key].options.settings
-      const newFoundMixins = getCssMixinsBySettings(groupFieldsSettings)
+      let newFoundMixins = getCssMixinsBySettings(groupFieldsSettings)
       foundMixins = { ...foundMixins, ...newFoundMixins }
     }
   }
@@ -83,7 +83,7 @@ export type MixinsReduceResult = {
 
 export type MixinsSelectorResult = string | MixinsReduceResult
 
-export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: object }, returnObjectWithProperties = false): MixinsSelectorResult {
+export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: object }, returnObjectWithProperties: boolean = false): MixinsSelectorResult {
   const getSelector = (mixinData: MixinData) => {
     let attrSelector = ''
     const attributeName = mixinData.attributeName
