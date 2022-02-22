@@ -68,25 +68,18 @@ body.vcwb-editor-body.vcwb-editor--opacity {
 
 // Control styling for editor page title
 .vcv-title-control {
-  display: none;
+  visibility: hidden;
   position: absolute;
   top: -30px;
   left: 15px;
   width: 32px;
   height: 32px;
+  z-index: 100;
   background-color: #6dab3c;
   color: white;
   border-radius: 5px;
   font-size: 13px;
   cursor: pointer;
-
-  &--active {
-    display: block;
-  }
-
-  &:hover {
-    background-color: #5c9133;
-  }
 
   i {
     position: absolute;
@@ -96,5 +89,13 @@ body.vcwb-editor-body.vcwb-editor--opacity {
     &::before {
       font-size: 1.25em;
     }
+  }
+
+  &--active {
+    visibility: visible;
+  }
+
+  &:hover {
+    background-color: #5c9133;
   }
 }
