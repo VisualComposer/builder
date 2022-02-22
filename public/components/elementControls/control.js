@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { getService, getStorage, setData } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import ControlDropdown from './controlDropdown'
 import { ControlHelpers } from './controlHelpers'
 import MainControl from './mainControl'

@@ -4,34 +4,36 @@ import { getStorage, setData } from 'vc-cake'
 const layoutStorage = getStorage('layout')
 
 let clickState = 'mouseUp'
-let mouseDownTimeout = false
+let mouseDownTimeout: boolean | number | any = false
 
-export default function MainControl ({title, id, icon}) {
-  const startDrag = (e) => {
+interface Props {
+  title: string;
+  id: string;
+  icon: string
+}
+
+const MainControl: React.FC<Props> = ({title, id, icon}) => {
+  const startDrag = (e: React.MouseEvent) => {
     layoutStorage.state('interactWithControls').set({
       type: 'mouseLeave',
       vcElementId: id
     })
-    const layoutContent = document.querySelector('.vcv-layout-content')
+    const layoutContent = document.querySelector('.vcv-layout-content') as HTMLElement
     setData('draggingElement', { id: id, point: { x: e.clientX - layoutContent.offsetLeft, y: e.clientY - layoutContent.offsetTop } })
     window.clearTimeout(mouseDownTimeout)
     mouseDownTimeout = false
   }
 
-  const handleMouseUp = (e) => {
+  const handleMouseUp = (e: React.MouseEvent) => {
     e && e.preventDefault()
     clickState = 'mouseUp'
     window.clearTimeout(mouseDownTimeout)
     mouseDownTimeout = false
   }
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: React.MouseEvent) => {
     e && e.preventDefault()
     clickState = 'mouseDown'
-    // will remove the synthetic event from the pool and allow references to the event to be retained by user code.
-    // because of setTimeout
-    // https://reactjs.org/docs/events.html#event-pooling
-    e.persist()
     mouseDownTimeout = setTimeout(() => {
       if (clickState === 'mouseDown') {
         startDrag(e)
@@ -53,3 +55,5 @@ export default function MainControl ({title, id, icon}) {
     </div>
   )
 }
+
+export default MainControl

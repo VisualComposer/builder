@@ -55,7 +55,10 @@ const getControlsPosition = (data, iframeDocument, controlsContainer) => {
   const controlsList = controlsContainer.current.querySelector('.vcv-ui-outline-controls')
   const controlsListPos = controlsList.getBoundingClientRect()
   const iframeRect = iframe.getBoundingClientRect()
-  return elementRect.left + controlsListPos.width > iframeRect.width
+  return {
+    isControlsRight: elementRect.left + controlsListPos.width > iframeRect.width,
+    controlsListWidth: controlsListPos.width
+  }
 }
 
 const getVisibleControls = (elementIds, controls) => {
@@ -165,7 +168,7 @@ export default function Controls (props) {
 
   let containerClasses = [
     'vcv-ui-outline-controls-container',
-    controlsPos ? 'vcv-ui-controls-o-controls-right' : ''
+    controlsPos.isControlsRight ? 'vcv-ui-controls-o-controls-right' : ''
   ]
 
   containerClasses = containerClasses.join(' ')
@@ -173,10 +176,13 @@ export default function Controls (props) {
   let centerControls = null
   const firstElement = ControlHelpers.getVcElement(vcvEditableElements[0])
   if (firstElement && firstElement.containerFor().length < 1) {
-    centerControls = <CenterControls
-      id={vcvEditableElements[0]}
-      containerPos={containerPos}
-    />
+    centerControls = (
+      <CenterControls
+        id={vcvEditableElements[0]}
+        containerPos={containerPos}
+        controlsListWidth={controlsPos.controlsListWidth}
+      />
+    )
   }
 
   return (

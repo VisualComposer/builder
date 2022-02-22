@@ -152,7 +152,11 @@ export default function ControlDropdownInner ({ elementId, isCenterControls }) {
     }
   })
 
-  return actions.map((actionOptions, i) => {
-    return <ControlAction key={`dropdown-control-${i}`} id={elementId} options={actionOptions} />
-  })
+  return (
+    <>
+      {actions.map((actionOptions, i) => {
+        return <ControlAction key={`dropdown-control-${i}`} id={elementId} options={actionOptions} />
+      })}
+    </>
+  )
 }
