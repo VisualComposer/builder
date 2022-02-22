@@ -67,38 +67,35 @@ body.vcwb-editor-body.vcwb-editor--opacity {
 }
 
 // Control styling for editor page title
-.entry-title {
-  .vcv-title-control {
-    visibility: hidden;
+.vcv-title-control {
+  visibility: hidden;
+  position: absolute;
+  top: -30px;
+  left: 15px;
+  width: 32px;
+  height: 32px;
+  z-index: 100;
+  background-color: #6dab3c;
+  color: white;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+
+  i {
     position: absolute;
-    z-index: 100;
-    top: -30px;
-    left: 15px;
-    width: 32px;
-    height: 32px;
-    background-color: #6dab3c;
-    color: white;
-    border-radius: 5px;
-    font-size: 13px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #5c9133;
-    }
-
-    i {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      &::before {
-        font-size: 1.25em;
-      }
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &::before {
+      font-size: 1.25em;
     }
   }
 
-  &:hover .vcv-title-control {
+  &--active {
     visibility: visible;
   }
-}
 
+  &:hover {
+    background-color: #5c9133;
+  }
+}

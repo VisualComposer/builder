@@ -349,6 +349,12 @@ addStorage('wordpressData', (storage) => {
     title.ondblclick = () => {
       openTitleSettings()
     }
+    title.parentNode.onmouseover = () => {
+      titleControl.classList.add('vcv-title-control--active')
+    }
+    title.parentNode.onmouseleave = () => {
+      titleControl.classList.remove('vcv-title-control--active')
+    }
 
     // Append control elements
     title.parentNode.insertBefore(titleControl, title.nextSibling)
