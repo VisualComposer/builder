@@ -82,4 +82,5 @@ a.vce-single-image-inner:focus {
 
 .vce-single-image-figure-inner {
   display: inline-block;
+  max-width: 100%;
 }

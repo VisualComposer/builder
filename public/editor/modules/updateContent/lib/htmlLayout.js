@@ -1,5 +1,5 @@
 import React from 'react'
-import Element from './element'
+import Element from '../../layout/lib/element'
 import PropTypes from 'prop-types'
 
 export default class HtmlLayout extends React.Component {
