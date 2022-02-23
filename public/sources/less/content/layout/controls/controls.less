@@ -1,4 +1,3 @@
-
 //== Controls
 .vcv-ui-outline-controls-wrapper {
   overflow: hidden;
@@ -6,6 +5,7 @@
   .vcv-ui-outline-control-dropdown-content {
     position: absolute;
   }
+
   .vcv-ui-outline-control-dropdown-active {
     .vcv-ui-outline-control-dropdown-content {
       visibility: visible;
@@ -19,17 +19,21 @@
   position: absolute;
   z-index: @controls-z-index;
   pointer-events: none;
+
   &:hover {
     z-index: @controls-z-index-hover;
   }
+
   > .vcv-ui-outline-controls {
     > * {
       background-color: @controls-background-color-base;
     }
+
     > :first-child {
       border-top-left-radius: @control-border-radius;
       border-bottom-left-radius: @control-border-radius;
     }
+
     > :last-child {
       border-top-right-radius: @control-border-radius;
       border-bottom-right-radius: @control-border-radius;
@@ -49,9 +53,11 @@
   bottom: 100%;
   padding: @controls-outline-size;
   margin-bottom: -1px;
+
   > * {
     flex-grow: 0;
     flex-shrink: 0;
+
     &:hover {
       .vcv-ui-outline-control {
         border-top-left-radius: @control-border-radius;
@@ -66,11 +72,13 @@
     }
   }
 }
+
 .vcv-ui-outline-control-separator {
   color: @controls-text-color-base;
   background-color: @controls-background-color-base;
   position: relative;
   width: 10px;
+
   &::before {
     position: absolute;
     top: 50%;
@@ -80,6 +88,7 @@
     transform: translate(-50%, -50%);
   }
 }
+
 .vcv-ui-outline-control {
   padding: 0;
   overflow: hidden;
@@ -103,15 +112,21 @@
 
 .vcv-ui-outline-control-content {
   white-space: nowrap;
-
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   align-items: center;
+  direction: ltr;
+
   > * {
     flex-grow: 0;
     flex-shrink: 0;
   }
+
+  .vcv-ui-outline-control-label {
+    line-height: 1;
+  }
+
   > .vcv-ui-outline-control-icon {
     width: @control-size - 8px;
     height: @control-size - 8px;
@@ -129,6 +144,12 @@
   width: @control-size;
   height: @control-size;
   text-align: center;
+
+  &.vcv-ui-icon-brush-alt::before,
+  &.vcv-ui-icon-trash::before {
+    font-size: 18px;
+  }
+
   &::before {
     font-size: 20px;
     position: absolute;
@@ -146,6 +167,7 @@
   position: relative;
   line-height: inherit;
   margin: 0;
+
   > * {
     flex-grow: 0;
     flex-shrink: 0;
@@ -188,49 +210,42 @@
   .vcv-ui-outline-control {
     border-radius: @control-border-radius;
     text-align: left;
-    padding-left: @gold-value / 2;
     padding-right: @gold-value;
+
     &:hover {
       background-color: darken(@controls-background-color-base, 7%);
     }
+
     &:not(:first-child):not(:last-child) {
       border-radius: 0;
     }
+
     &:first-child:not(:last-child) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
+
     &:last-child:not(:first-child) {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
   }
+
   .vcv-ui-outline-control-icon {
-    left: -@gold-value/2;
+    margin: 4px 10px 4px 4px;
   }
 }
 
 //== Control Types
-//== base color
-#vcv-ui-outline-controls > .create-type-with-active(base, @controls-text-color-base, @color-base, @control-color-base);
-//== section color
-#vcv-ui-outline-controls > .create-type-with-active(section, @controls-text-color-base, @color-base, @control-color-section);
-//== row color
-#vcv-ui-outline-controls > .create-type-with-active(row, @controls-text-color-base, @color-base, @control-color-row);
-//== column color
-#vcv-ui-outline-controls > .create-type-with-active(column, @controls-text-color-base, @color-base, @control-color-column);
-//== element color
-#vcv-ui-outline-controls > .create-type-with-active(element, @controls-text-color-base, @color-base, @control-color-element);
 
-//== todo: refactor, color is based on react components
-#vcv-ui-outline-controls > .create-type-with-active(index-0, @controls-text-color-base, @color-base, @control-color-row);
-#vcv-ui-outline-controls > .create-type-with-active(index-1, @controls-text-color-base, @color-base, @control-color-column);
-#vcv-ui-outline-controls > .create-type-with-active(index-2, @controls-text-color-base, @color-base, @control-color-element);
+#vcv-ui-outline-controls > .create-type-with-active(index-0, @controls-text-color-base, @color-base, @control-color-row, @controls-background-row-hover);
+#vcv-ui-outline-controls > .create-type-with-active(index-1, @controls-text-color-base, @color-base, @control-color-column, @controls-background-column-hover);
+#vcv-ui-outline-controls > .create-type-with-active(index-2, @controls-text-color-base, @color-base, @control-color-element, @controls-background-element-hover);
 
-#vcv-ui-outline-controls > .create-type-right-click-with-active(index-0, @controls-text-color-base, @control-color-row, @control-color-row);
-#vcv-ui-outline-controls > .create-type-right-click-with-active(index-1, @controls-text-color-base, @control-color-column, @control-color-column);
-#vcv-ui-outline-controls > .create-type-right-click-with-active(index-2, @controls-text-color-base, @control-color-element, @control-color-element);
+#vcv-ui-outline-controls > .create-type-right-click-with-active(index-0, @controls-text-color-base, @control-color-row, @control-color-row, @controls-background-row-hover);
+#vcv-ui-outline-controls > .create-type-right-click-with-active(index-1, @controls-text-color-base, @control-color-column, @control-color-column, @controls-background-column-hover);
+#vcv-ui-outline-controls > .create-type-right-click-with-active(index-2, @controls-text-color-base, @control-color-element, @control-color-element, @controls-background-element-hover);
 
 //== Options
 .vcv-ui-outline-controls-container {
@@ -241,6 +256,7 @@
       left: 0;
     }
   }
+
   //== controls from left side
   &.vcv-ui-controls-o-controls-right {
     .vcv-ui-outline-controls {
@@ -267,6 +283,7 @@
       right: 0;
     }
   }
+
   //== dropdown from top
   &.vcv-ui-outline-control-dropdown-o-drop-up {
     &:hover {
@@ -277,21 +294,25 @@
         border-bottom-right-radius: @control-border-radius;
       }
     }
+
     .vcv-ui-outline-control-dropdown-content {
       .vcv-ui-outline-control {
         &:first-child {
           border-top-left-radius: @control-border-radius;
           border-top-right-radius: @control-border-radius;
         }
+
         &:last-child {
           border-bottom-left-radius: 0;
           border-bottom-right-radius: @control-border-radius;
         }
       }
+
       top: auto;
       bottom: 100%;
       margin: 0; //  0 @controls-space-size 0;
     }
+
     &.vcv-ui-outline-control-dropdown-o-drop-right {
       .vcv-ui-outline-control-dropdown-content {
         .vcv-ui-outline-control {
@@ -304,6 +325,7 @@
     }
   }
 }
+
 .vcv-ui-outline-control-more {
   &:hover {
     background-color: @color-base-active;
@@ -366,7 +388,7 @@
   }
 
   .vcv-ui-outline-control {
-    background-color: #6dab3c;
+    background-color: @controls-background-element;
 
     &:first-child {
       border-top-left-radius: 5px;
@@ -379,7 +401,7 @@
     }
 
     &:hover {
-      background-color: #5c9133;
+      background-color: @controls-background-element-hover;
     }
   }
 }
