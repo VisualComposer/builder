@@ -50,7 +50,6 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth }
       type: 'mouseEnter',
       vcElementId: id
     })
-    layoutStorage.state('userInteractWith').set(id)
   }
 
   const handleMouseLeave = () => {
@@ -58,7 +57,6 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth }
       type: 'mouseLeave',
       vcElementId: id
     })
-    layoutStorage.state('userInteractWith').set(false)
   }
 
   const styles = {
