@@ -330,10 +330,10 @@ addStorage('elements', (storage) => {
       mergeChildrenLayout(data, oldId, false)
     })
   }
-  storage.on('merge', (content) => {
+  storage.on('merge', (content, wrap) => {
     const layoutData = JSON.parse(JSON.stringify(content))
     const editorType = dataManager.get('editorType')
-    mergeChildrenLayout(layoutData, false, editorType === 'popup')
+    mergeChildrenLayout(layoutData, false, editorType === 'popup' || wrap)
     storage.state('document').set(documentManager.children(false), 'merge')
     substituteIds = {}
     updateTimeMachine()
