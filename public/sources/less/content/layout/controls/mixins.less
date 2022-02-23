@@ -32,35 +32,10 @@
       }
     }
   }
-  //== Create type
-  .create-type(@type-name, @text, @background) {
+  .create-type-with-active(@type-name, @text, @background, @activeBackground, @hoverBackground) {
     .vcv-ui-outline-control-type-@{type-name} {
       &.vcv-ui-outline-control {
         color: @text;
-        background-color: @background;
-      }
-      &.vcv-ui-outline-control-dropdown,
-      &.vcv-ui-outline-control-simple {
-        .vcv-ui-outline-control {
-          color: @text;
-          background-color: @background;
-        }
-        .vcv-ui-outline-control-dropdown-content {
-          .vcv-ui-outline-control {
-            &:hover {
-              background-color: darken(@background, 7%);
-            }
-          }
-        }
-      }
-    }
-
-  }
-  .create-type-with-active(@type-name, @text, @background, @activeBackground) {
-    .vcv-ui-outline-control-type-@{type-name} {
-      &.vcv-ui-outline-control {
-        color: @text;
-        // background-color: @background;
         &:hover {
           background-color: @activeBackground;
         }
@@ -72,12 +47,11 @@
         }
         .vcv-ui-outline-control {
           color: @text;
-          // background-color: @background;
         }
         .vcv-ui-outline-control-dropdown-content {
           .vcv-ui-outline-control {
             &:hover {
-              background-color: darken(@activeBackground, 7%);
+              background-color: @hoverBackground;
             }
           }
         }
@@ -85,14 +59,14 @@
     }
   }
 
-  .create-type-right-click-with-active(@type-name, @text, @background, @activeBackground) {
+  .create-type-right-click-with-active(@type-name, @text, @background, @activeBackground, @hoverBackground) {
     .vcv-ui-right-click-menu-dropdown-@{type-name}  {
       background-color: @background;
 
       .vcv-ui-outline-control {
         color: @text;
         &:hover {
-          background-color: darken(@activeBackground, 7%);
+          background-color: @hoverBackground;
         }
       }
     }
