@@ -130,7 +130,7 @@
   height: @control-size;
   text-align: center;
   &::before {
-    font-size: 1.25em; // todo: move to variable
+    font-size: 20px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -347,3 +347,39 @@
   }
 }
 
+.vcv-ui-outline-controls-center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vcv-ui-outline-controls-center-inner {
+  display: flex;
+  pointer-events: all;
+
+  .vcv-ui-outline-control-label {
+    display: none;
+  }
+
+  .vcv-ui-outline-control {
+    background-color: #6dab3c;
+
+    &:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    &:hover {
+      background-color: #5c9133;
+    }
+  }
+}
