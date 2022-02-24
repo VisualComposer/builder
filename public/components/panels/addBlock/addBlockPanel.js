@@ -362,15 +362,7 @@ export default class AddBlockPanel extends React.Component {
       const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter(job => !job.hidden)
       const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
 
-      // Check if element needs a wrapper (eg. container type block templates without wrappers)
-      const rootElements = ['row', 'section']
-      const isRootElement = (element) => rootElements.includes(element?.tag)
-      const hasParent = (element) => element?.parent !== false
-      const wrap = Object.keys(elements).some(key => {
-        return hasParent(elements[key]) && !isRootElement(elements[key])
-      })
-
-      elementsStorage.trigger('merge', elements, wrap)
+      elementsStorage.trigger('merge', elements, true)
 
       const handleJobsChange = (data) => {
         const addedElements = elementsStorage.state('elementAddList').get()
