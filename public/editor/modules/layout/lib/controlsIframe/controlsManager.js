@@ -115,7 +115,7 @@ export default class ControlsManager {
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (data && data.vcvEditableElements.length) {
-      ReactDOM.render(<Controls data={data} iframeDocument={this.iframeDocument} />, this.controlsWrapper)
+      ReactDOM.render(<Controls data={data} iframeDocument={this.iframeDocument} iframeWindow={this.iframeWindow}/>, this.controlsWrapper)
       if (isAbleToAdd) {
         ReactDOM.render(<AppendControl data={data} iframeDocument={this.iframeDocument} />, this.appendControlsWrapper)
       }
