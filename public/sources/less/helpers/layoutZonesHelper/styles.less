@@ -26,13 +26,15 @@
     &:hover {
       background: @zone-overlay-background;
 
-      .vcv-zone-button-container .vcv-zone-button, .vcv-zone-button-container a.vcv-zone-button {
+      .vcv-zone-button-container .vcv-zone-button,
+      .vcv-zone-button-container a.vcv-zone-button {
         opacity: 1;
       }
     }
   }
 
-  .vcv-zone-button-container .vcv-zone-button, .vcv-zone-button-container a.vcv-zone-button {
+  .vcv-zone-button-container .vcv-zone-button,
+  .vcv-zone-button-container a.vcv-zone-button {
     position: -webkit-sticky;
     position: sticky;
     top: @zone-sticky-button-offset;
@@ -44,7 +46,7 @@
     font-size: @zone-button-font-size;
     border: 0;
     border-radius: @zone-button-border-radius;
-    padding: 8px 20px;
+    padding: 8px 16px;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 400;
     margin: 0 5px;
@@ -52,6 +54,9 @@
     text-decoration: none;
     box-shadow: none;
     z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:focus {
       outline: none;
@@ -70,6 +75,7 @@
 
     .vcv-ui-icon {
       margin-right: 14px;
+      font-size: 20px;
     }
   }
 

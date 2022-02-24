@@ -56,7 +56,7 @@ export default function ControlAction (props) {
       }
       workspaceStorage.trigger(event, id, tag, eventOptions)
     }
-    const isControlPermanent = event === 'add' && tag === 'column'
+    const isControlPermanent = (event === 'add' && tag) || event === 'clone'
     layoutStorage.state('interactWithControls').set({
       type: 'controlClick',
       vcElementId: id,
