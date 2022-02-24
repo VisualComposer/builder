@@ -181,6 +181,7 @@ export default function Controls (props) {
         id={vcvEditableElements[0]}
         containerPos={containerPos}
         controlsListWidth={controlsPos.controlsListWidth}
+        iframeWindow={props.iframeWindow}
       />
     )
   }

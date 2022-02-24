@@ -14,10 +14,11 @@ interface Props {
     left: number;
     width: number
   };
-  controlsListWidth: number
+  controlsListWidth: number;
+  iframeWindow: Window
 }
 
-const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth }) => {
+const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, iframeWindow }) => {
   const vcElement = ControlHelpers.getVcElement(id)
   const title = vcElement.get('customHeaderTitle') || vcElement.get('name')
   const hubElementsService = getService('hubElements')
@@ -37,12 +38,18 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth }
   if (!vcElement) {
     return null
   }
+  const screenGap = 2
+  const controlsHeight = 40
+  const centerPosition = containerPos.realTop + (containerPos.height / 2)
+  const bottomPosition = centerPosition + controlsHeight / 2
+  let topPosition = centerPosition - controlsHeight / 2
 
-  let topPosition = containerPos.realTop + (containerPos.height / 2) - 20
-  if (topPosition < 44 && (controlsListWidth > innerLeft)) {
-    topPosition = 44
-  } else if (topPosition < 2) {
-    topPosition = 2
+  if ((topPosition < (controlsHeight + screenGap * 2)) && (controlsListWidth > innerLeft)) {
+    topPosition = controlsHeight + screenGap * 2
+  } else if (topPosition < screenGap) {
+    topPosition = screenGap
+  } else if (bottomPosition > iframeWindow.innerHeight) {
+    topPosition = iframeWindow.innerHeight - controlsHeight - screenGap
   }
 
   const handleMouseEnter = () => {
