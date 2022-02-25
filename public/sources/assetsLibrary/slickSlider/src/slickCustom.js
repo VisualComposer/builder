@@ -1449,7 +1449,7 @@ import './slickCustom.less';
     _.$list[0].addEventListener('touchstart', _.swipeHandler.bind(window, 'start'), supportsPassive ? { passive: true } : false)
     _.$list[0].addEventListener('mousedown', _.swipeHandler.bind(window, 'start'), supportsPassive ? { passive: true } : false)
 
-    _.$list[0].addEventListener('touchmove ', _.swipeHandler.bind(window, 'move'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('touchmove', _.swipeHandler.bind(window, 'move'), supportsPassive ? { passive: true } : false)
     _.$list[0].addEventListener('mousemove', _.swipeHandler.bind(window, 'move'), supportsPassive ? { passive: true } : false)
 
     _.$list[0].addEventListener('mouseup', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
