@@ -1,5 +1,4 @@
-===
-Visual Composer Website Builder, Landing Page Builder, Custom Theme Builder, Maintenance Mode & Coming Soon Pages ===
+=== Visual Composer Website Builder, Landing Page Builder, Custom Theme Builder, Maintenance Mode & Coming Soon Pages ===
 Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,konutis,orkunaybek,mrdollar4444,sqarf,seahunter,alperbulut,slavavc,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
