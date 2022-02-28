@@ -12,8 +12,10 @@ export function bindEditorKeys (document) {
 
   combokeysInstance.stopCallback = function (e, element) {
     const workspaceState = workspaceStorage.state('settings').get()
+    const hasModal = workspaceStorage.state('hasModal').get()
     const closestParent = element.closest('.vcv-layout-bar-content') || element.closest('.vcvhelper.mce-content-body')
-    return (!workspaceState && e.which === 27) || (closestParent && e.which !== 27)
+    const hasOverlay = closestParent || hasModal
+    return (!workspaceState && e.which === 27) || (hasOverlay && e.which !== 27)
   }
   combokeysInstance.bind([ 'command+z', 'ctrl+z' ], (e) => {
     e.preventDefault()
