@@ -77,28 +77,22 @@ export const start = (callback) => {
         style.innerText = `html {
         background: #292929;
         display: flex;
-        justify-content: center;
-        }`
-        style.innerText += 'body {'
-        style.innerText += 'width: 320px;'
-        style.innerText += '}'
+        justify-content: center; }
+        body { width: 320px; background: #fff; }`
         iframeDocument.head.appendChild(style)
       }
       if ((editorType === 'header' || editorType === 'footer')) {
         const style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
-        style.innerText = 'html {'
-        style.innerText += 'display: flex;'
-        style.innerText += 'min-height: 100%;'
-        style.innerText += 'flex-direction: column;'
-        if (editorType === 'header') {
-          style.innerText += 'justify-content: flex-start;'
-        } else {
-          style.innerText += 'justify-content: flex-end;'
-        }
-        style.innerText += 'background: #292929;'
-        style.innerText += 'overflow-x: hidden;'
-        style.innerText += '}'
+        const alignment = editorType === 'header' ? 'flex-start' : 'flex-end'
+        style.innerText = `html {
+        display: flex;
+        min-height: 100%;
+        flex-direction: column;
+        justify-content: ${alignment};
+        background: #292929;
+        overflow-x: hidden;}
+        body { background: #fff; }`
         iframeDocument.head.appendChild(style)
       }
     }
