@@ -1,4 +1,5 @@
-=== Visual Composer Website Builder ===
+===
+Visual Composer Website Builder, Landing Page Builder, Custom Theme Builder, Maintenance Mode & Coming Soon Pages ===
 Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,konutis,orkunaybek,mrdollar4444,sqarf,seahunter,alperbulut,slavavc,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
@@ -8,14 +9,15 @@ Stable tag: 42.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-
-New Visual Composer Website Builder is an easy-to-use drag and drop page builder that gives you the freedom to design and develop websites you want.
+[New] Easy drag and drop page builder that gives the freedom to design WordPress websites, landing pages, custom themes, maintenance sode & coming soon pages.
 
 == Description ==
 
-https://youtu.be/T4c--KVXXbg
+= [New] Visual Composer - all-in-one WordPress Website Builder & Landing Page Builder =
 
-Try free WordPress website builder that gives you the freedom to create websites. A page builder with advanced design features, easy to use interface, and a seamless drag and drop editor powered by React.
+Free WordPress website builder that gives you the freedom to create websites. A page builder with advanced design features, responsive fonts, easy to use interface, and a seamless drag and drop editor powered by React.
+
+https://youtu.be/T4c--KVXXbg
 
 Try new [Visual Composer Website Builder](https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=info&utm_content=try-new-visualcomposer-text-link).
 
@@ -85,7 +87,7 @@ This means that web creators now have all the creative freedom and the topmost c
 
 Customize your Woocommerce website and provide a unique user experience to people when visiting your online store. Highlight your top product and services by creating specific ecommerce landing page with Visual Composer.
 
-= Landingpages Builder =
+= Landing Page Builder =
 
 Whatever is your buisness you can attract more users and customers just creating top performers seo landing page that suits any needs: from ecommerce and lead generation landing page, to event landing page and many many more.
 
