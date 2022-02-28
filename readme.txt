@@ -242,6 +242,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Update: Dashboard menu improved for a better user experience
 - Update: Premium feature notice interface improved for consistency
 - Update: WordPress menu section is enabled by Visual Composer automatically for the FSE themes on WordPress 5.9
+- Update: Slick Slider improved for mobile devices
 - Fix: Addon dependencies work properly
 - Fix: Shortcuts work properly in the editor
 - Fix: User experience improved for notification display
