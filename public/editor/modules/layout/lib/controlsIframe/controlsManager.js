@@ -259,6 +259,8 @@ export default class ControlsManager {
       }
       if (state && state.mode === 'contentEditable') {
         this.frames.hide()
+        this.toggleControls()
+        this.outline.hide()
       }
       this.state.showControls = !state
       this.findElement()
