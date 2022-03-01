@@ -1,21 +1,22 @@
-=== Visual Composer Website Builder ===
+=== Visual Composer Website Builder, Landing Page Builder, Custom Theme Builder, Maintenance Mode & Coming Soon Pages ===
 Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,konutis,orkunaybek,mrdollar4444,sqarf,seahunter,alperbulut,slavavc,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.8.3
-Stable tag: 42.1
+Tested up to: 5.9.1
+Stable tag: 43.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-
-New Visual Composer Website Builder is an easy-to-use drag and drop page builder that gives you the freedom to design and develop websites you want.
+[New] Easy drag and drop page builder that gives the freedom to design WordPress websites, landing pages, custom themes, maintenance sode & coming soon pages.
 
 == Description ==
 
-https://youtu.be/T4c--KVXXbg
+= [New] Visual Composer - all-in-one WordPress Website Builder & Landing Page Builder =
 
-Try free WordPress website builder that gives you the freedom to create websites. A page builder with advanced design features, easy to use interface, and a seamless drag and drop editor powered by React.
+Free WordPress website builder that gives you the freedom to create websites. A page builder with advanced design features, responsive fonts, easy to use interface, and a seamless drag and drop editor powered by React.
+
+https://youtu.be/T4c--KVXXbg
 
 Try new [Visual Composer Website Builder](https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=info&utm_content=try-new-visualcomposer-text-link).
 
@@ -85,7 +86,7 @@ This means that web creators now have all the creative freedom and the topmost c
 
 Customize your Woocommerce website and provide a unique user experience to people when visiting your online store. Highlight your top product and services by creating specific ecommerce landing page with Visual Composer.
 
-= Landingpages Builder =
+= Landing Page Builder =
 
 Whatever is your buisness you can attract more users and customers just creating top performers seo landing page that suits any needs: from ecommerce and lead generation landing page, to event landing page and many many more.
 
@@ -224,6 +225,46 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 43.0 =
+*Release Date - 2022-03-01*
+
+### Free:
+- New: Element controls improved for a better user experience
+- New: Maintenance mode option available in the free version
+- New: Settings link added to the Visual Composer in the WordPress Plugins section
+- New: Plugin activation survey added for better product development
+- New: Link to the Help Center added to the Visual Composer News widget in the WP Dashboard
+- New: Option to create a page added to the Visual Composer News widget in the WP Dashboard
+- New: Performance improvements for the editor
+- Update: New page titles improved for a better user experience
+- Update: Lazy load controls removed in the editor to rely on the WordPress native lazy load
+- Update: Clicking on the Visual Composer logo in the editor opens Add Content Window
+- Update: Dashboard menu improved for a better user experience
+- Update: Premium feature notice interface improved for consistency
+- Update: WordPress menu section is enabled by Visual Composer automatically for the FSE themes on WordPress 5.9
+- Update: Slick Slider improved for mobile devices
+- Fix: Addon dependencies work properly
+- Fix: Shortcuts work properly in the editor
+- Fix: User experience improved for notification display
+- Fix: Autocomplete option removed from the Visual Composer search field in the editor
+- Fix: Additional validation added for Global CSS and JavaScript
+- Fix: Visual Composer General Settings list order improved
+- Fix: Row stretching works properly in the layouts with sidebar
+- Fix: Tooltip for sticky options updated with properly description
+- Fix: Deprecation warnings removed in WP 5.9
+- Fix: Hero Section font colors adjusted for consistency
+- Fix: WPML compatibility improved
+
+### Premium:
+- New: Responsive settings for the Font Manager added
+- New: Visual Composer Layout Builder is compatible with WP Job Manage
+- Fix: Role Manager does not list non-downloaded addons
+- Fix: Dynamic content background images work properly in layouts
+- Fix: Font Manager and Essential Grid compatibility improved
+- Fix: Basic Menu element works properly
+- Fix: CSS Animations work properly in Global templates
+- Fix: Basic menu works properly on iPhone devices
 
 = 42.1 =
 *Release Date - 2022-01-20*

@@ -72,23 +72,35 @@ body.vcwb-editor-body.vcwb-editor--opacity {
   position: absolute;
   top: -30px;
   left: 15px;
-  width: 32px;
-  height: 32px;
+  min-width: 40px;
+  min-height: 40px;
   z-index: 100;
-  background-color: #6dab3c;
-  color: white;
+  background-color: #6dad39;
   border-radius: 5px;
-  font-size: 13px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  padding: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  text-align: center;
 
   i {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    width: 32px;
+    height: 32px;
+    margin: 4px;
+
     &::before {
-      font-size: 1.25em;
+      font-size: 20px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -97,6 +109,6 @@ body.vcwb-editor-body.vcwb-editor--opacity {
   }
 
   &:hover {
-    background-color: #5c9133;
+    background-color: #538826;
   }
 }

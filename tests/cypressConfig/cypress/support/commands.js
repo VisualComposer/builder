@@ -617,7 +617,7 @@
       .clear()
       .type(settings.menuName)
   
-    cy.get('#save_menu_header')
+    cy.get('#save_menu_footer')
       .click()
   
     cy.route('POST', `${Cypress.env('baseUrl')}wp-admin/admin-ajax.php`).as('adminAjax')
@@ -629,7 +629,7 @@
       addMenuItem(item.url, item.title)
     })
   
-    cy.get('#save_menu_header')
+    cy.get('#save_menu_footer')
       .click()
   })
   

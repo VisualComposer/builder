@@ -181,6 +181,7 @@ export default class EditForm extends React.Component {
 
   getEditFormSettingsSections () {
     const isRootElement = this.props.elementAccessPoint.cook().relatedTo('RootElements')
+    const isContainerElement = Boolean(this.props.elementAccessPoint.cook().containerFor().length)
     const localizations = dataManager.get('localizations')
     const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
     const editRowSettingsText = localizations ? localizations.editRowSettingsText : 'Block Template'
@@ -189,7 +190,7 @@ export default class EditForm extends React.Component {
     return (
       <EditFormSection
         isEditFormSettings
-        isRootElement={isRootElement}
+        isRootElement={isRootElement || isContainerElement}
         sectionIndex={0}
         activeTabIndex={0}
         getSectionContentScrollbar={() => { return this.scrollbar }}
