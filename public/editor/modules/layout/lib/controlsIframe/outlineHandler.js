@@ -40,6 +40,9 @@ export default class Outline {
   show (element, id) {
     const vcElement = ControlHelpers.getVcElement(id)
     this.colorIndex = ControlHelpers.getElementColorIndex(vcElement)
+    for (let i = 0; i < 3; i++) {
+      this.outline.classList.remove(`vcv-ui-element-outline-type-index-${i}`)
+    }
     this.outline.classList.add(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
     this.outline.classList.add('vcv-state--visible')
     this.autoUpdatePosition(element)
