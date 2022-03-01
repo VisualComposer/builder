@@ -18,6 +18,7 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use WP_Query;
 
 class EnqueueController extends Container implements Module
 {
@@ -76,14 +77,17 @@ class EnqueueController extends Container implements Module
         );
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     protected function enqueueAssetsFromList($payload, AssetsEnqueue $assetsEnqueueHelper)
     {
-        // NOTE: This is not a feature toggler, it is local env to avoid recursion
+        // NOTE: This is not a feature toggle, it is local env to avoid recursion
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
         VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
-        $printJs = isset($payload['printJs']) ? $payload['printJs'] : true;
+        $printJs = !isset($payload['printJs']) || $payload['printJs'];
         $enqueueList = $assetsEnqueueHelper->getEnqueueList();
         if (!empty($enqueueList)) {
             foreach ($enqueueList as $sourceId) {
@@ -92,7 +96,7 @@ class EnqueueController extends Container implements Module
                 $backup = $wp_query;
                 $backupGlobal = $wp_the_query;
 
-                $tempPostQuery = new \WP_Query(
+                $tempPostQuery = new WP_Query(
                     [
                         'p' => $sourceId,
                         'post_status' => get_post_status($sourceId),
@@ -139,6 +143,9 @@ class EnqueueController extends Container implements Module
         VcvEnv::set('ENQUEUE_INNER_ASSETS', false);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     protected function callNonWordpressActionCallbacks($action)
     {
         global $wp_filter, $wp_current_filter;
@@ -147,7 +154,7 @@ class EnqueueController extends Container implements Module
         ksort($actions);
         // @codingStandardsIgnoreLine
         $wp_current_filter[] = $action;
-        foreach ($actions as $priority => $callbacks) {
+        foreach ($actions as $callbacks) {
             // Run over callbacks
             foreach ($callbacks as $callback) {
                 $closureInfo = $this->getCallReflector($callback['function']);
@@ -205,9 +212,6 @@ class EnqueueController extends Container implements Module
 
     /**
      * @param array $sourceIds // IDs to enqueue resources
-     *
-     * @throws \ReflectionException
-     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function enqueueAssetsVendorListener($sourceIds)
     {
@@ -223,10 +227,26 @@ class EnqueueController extends Container implements Module
         // @codingStandardsIgnoreEnd
 
         $sourceIds = array_unique($sourceIds);
-        foreach ($sourceIds as $sourceId) {
-            if (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
+        $this->enqueueAssetsBySourceList($sourceIds);
+    }
+
+    /**
+     * Process list ids by source stack enqueues.
+     *
+     * @param array $sourceIdList
+     */
+    protected function enqueueAssetsBySourceList($sourceIdList)
+    {
+        if (empty($sourceIdList) || !is_array($sourceIdList)) {
+            return;
+        }
+
+        foreach ($sourceIdList as $sourceId) {
+            $isCurrentIdAlreadyEnqueued = in_array($sourceId, $this->lastEnqueueIdAssetsAll, true);
+            if ($isCurrentIdAlreadyEnqueued) {
                 continue;
             }
+
             $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
             $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
         }
@@ -234,6 +254,7 @@ class EnqueueController extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
      * @throws \ReflectionException
      * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
@@ -245,12 +266,8 @@ class EnqueueController extends Container implements Module
             self::$initialEnqueue = true;
             $this->call('enqueueAssetsFromList');
         }
-        // @codingStandardsIgnoreStart
+        // @codingStandardsIgnoreLine
         global $wp_query;
-        if (is_null(self::$initialPostId)) {
-            $initPostId = get_the_ID();
-        }
-        // @codingStandardsIgnoreEnd
 
         $sourceId = get_the_ID();
         wp_enqueue_style('vcv:assets:front:style');
@@ -265,34 +282,25 @@ class EnqueueController extends Container implements Module
             // To avoid enqueue assets inside preview page
             $this->addEnqueuedId($sourceId);
         } elseif (is_home() || is_archive() || is_category() || is_tag()) {
+            $idList = [];
             // @codingStandardsIgnoreLine
             foreach ($wp_query->posts as $post) {
-                if (in_array($post->ID, $this->lastEnqueueIdAssetsAll, true)) {
-                    continue;
-                }
-                $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
-                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
+                $idList[] = $post->ID;
             }
+
+            $this->enqueueAssetsBySourceList($idList);
         }
         vcevent('vcv:assets:enqueueVendorAssets');
 
         $idList = $assetsHelper->getTemplateIds($sourceId);
-        if (!empty($idList) && is_array($idList)) {
-            foreach ($idList as $sourceId) {
-                if (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
-                    continue;
-                }
-                $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
-                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
-            }
-        }
+        $this->enqueueAssetsBySourceList($idList);
     }
 
     /**
+     * @param \VisualComposer\Helpers\AssetsEnqueue $assetsEnqueueHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param $sourceId
      *
-     * @throws \ReflectionException
      */
     protected function enqueueSourceAssetsBySourceId(
         AssetsEnqueue $assetsEnqueueHelper,
@@ -317,8 +325,6 @@ class EnqueueController extends Container implements Module
         $this->addEnqueuedId($sourceId);
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
-            $version = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
-
             if (strpos($bundleUrl, 'http') !== 0) {
                 if (strpos($bundleUrl, 'assets-bundles') === false) {
                     $bundleUrl = '/assets-bundles/' . $bundleUrl;
