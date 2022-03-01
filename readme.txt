@@ -226,7 +226,7 @@ Yes, we have an awesome online community that you can join to share your experti
 == Changelog ==
 
 = 43.0 =
-*Release Date - 2022-02-15*
+*Release Date - 2022-03-01*
 
 ### Free:
 - New: Element controls improved for a better user experience
