@@ -267,6 +267,9 @@ class EnqueueController extends Container implements Module
         } elseif (is_home() || is_archive() || is_category() || is_tag()) {
             // @codingStandardsIgnoreLine
             foreach ($wp_query->posts as $post) {
+                if (in_array($post->ID, $this->lastEnqueueIdAssetsAll, true)) {
+                    continue;
+                }
                 $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
                 $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
             }
@@ -276,6 +279,9 @@ class EnqueueController extends Container implements Module
         $idList = $assetsHelper->getTemplateIds($sourceId);
         if (!empty($idList) && is_array($idList)) {
             foreach ($idList as $sourceId) {
+                if (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
+                    continue;
+                }
                 $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
                 $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
             }
