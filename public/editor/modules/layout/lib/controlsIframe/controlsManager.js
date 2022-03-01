@@ -181,6 +181,9 @@ export default class ControlsManager {
               return el.dataset.vcvElement
             })
           })
+          layoutStorage.state('interactWithControls').set({
+            type: 'mouseLeave'
+          })
         }
         // set new element
         if (element) {
@@ -191,6 +194,10 @@ export default class ControlsManager {
               return el.dataset.vcvElement
             })
           })
+          layoutStorage.state('interactWithControls').set({
+            type: 'mouseEnter',
+            vcElementId: element.dataset.vcvElement
+          })
           layoutStorage.state('interactWithContent').set({
             type: 'mouseDown',
             vcElementId: element.dataset.vcvElement,
@@ -198,6 +205,30 @@ export default class ControlsManager {
               return el.dataset.vcvElement
             })
           })
+
+          clearInterval(this.hideControlsInterval)
+
+          this.hideControlsInterval = setInterval(() => {
+            layoutStorage.state('interactWithContent').set({
+              type: 'mouseLeave',
+              vcElementId: element.dataset.vcvElement,
+              vcElementsPath: elPath.map((el) => {
+                return el.dataset.vcvElement
+              })
+            })
+            this.state.prevElement = null
+            this.state.prevElementPath = []
+            layoutStorage.state('interactWithContent').set(false)
+            window.setTimeout(() => {
+              layoutStorage.state('interactWithControls').set({
+                type: 'mouseLeave'
+              })
+            }, 400)
+            clearInterval(this.hideControlsInterval)
+            layoutStorage.state('hideControlsInterval').set(false)
+          }, 4600)
+
+          layoutStorage.state('hideControlsInterval').set(this.hideControlsInterval)
         }
 
         this.state.prevElement = element

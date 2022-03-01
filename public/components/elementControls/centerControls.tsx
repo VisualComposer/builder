@@ -53,17 +53,11 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   }
 
   const handleMouseEnter = () => {
-    layoutStorage.state('interactWithControls').set({
-      type: 'mouseEnter',
-      vcElementId: id
-    })
-  }
-
-  const handleMouseLeave = () => {
-    layoutStorage.state('interactWithControls').set({
-      type: 'mouseLeave',
-      vcElementId: id
-    })
+    const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
+    if (hideControlsInterval) {
+      clearInterval(hideControlsInterval)
+      layoutStorage.state('hideControlsInterval').set(false)
+    }
   }
 
   const styles = {
@@ -74,12 +68,10 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   const isCenterControls = true
   return (
     <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className='vcv-ui-outline-controls-center'
       style={{...styles}}
       ref={outerRef}>
-      <div className='vcv-ui-outline-controls-center-inner' ref={innerRef}>
+      <div className='vcv-ui-outline-controls-center-inner' ref={innerRef} onMouseEnter={handleMouseEnter}>
         <MainControl id={id} title={title} icon={icon} />
         <ControlDropdownInner elementId={id} isCenterControls={isCenterControls} />
       </div>

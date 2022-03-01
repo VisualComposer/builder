@@ -144,6 +144,11 @@ export default function Controls (props) {
       type: 'mouseEnterContainer',
       vcElementId: props.data.vcElementId
     })
+    const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
+    if (hideControlsInterval) {
+      clearInterval(hideControlsInterval)
+      layoutStorage.state('hideControlsInterval').set(false)
+    }
   }
 
   const handleMouseLeave = (e) => {

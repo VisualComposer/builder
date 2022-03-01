@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { getStorage } from 'vc-cake'
 import ControlDropdownInner from './controlDropdownInner'
+
+const layoutStorage = getStorage('layout')
 
 const iframe = document.getElementById('vcv-editor-iframe')
 
@@ -34,8 +37,16 @@ export default function ControlDropdown (props) {
     }
   })
 
+  const handleMouseEnter = () => {
+    const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
+    if (hideControlsInterval) {
+      clearInterval(hideControlsInterval)
+      layoutStorage.state('hideControlsInterval').set(false)
+    }
+  }
+
   return (
-    <div className='vcv-ui-outline-control-dropdown-content' ref={dropdown}>
+    <div className='vcv-ui-outline-control-dropdown-content' ref={dropdown} onMouseEnter={handleMouseEnter}>
       <ControlDropdownInner elementId={props.id} />
     </div>
   )
