@@ -220,7 +220,8 @@ addStorage('workspace', (storage) => {
       elementSettings.parent = relatedElement.get('parent')
     }
     const data = cook.get(elementSettings)
-    elementsStorage.trigger('add', data.toJS())
+    const { options = {} } = settings
+    elementsStorage.trigger('add', data.toJS(), true, options)
     let movingID = data.get('id')
     if (settings.action !== 'append' && relatedElement && relatedElement.relatedTo(['RootElements']) && !data.relatedTo(['RootElements'])) {
       movingID = documentManager.getTopParent(movingID)

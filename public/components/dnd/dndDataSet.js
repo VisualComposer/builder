@@ -328,27 +328,26 @@ export default class DndDataSet {
         return
       }
       let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+      if (domElement.isNearHorizontalBoundaries(point, 30) && this.draggingElement.tag !== 'column') {
+        const position = this.placeholder && this.placeholder.redraw(domElement.node, point, {
+          attribute: this.options.isAttribute,
+          afterLastContainerElement: false,
+          allowBeforeAfter: true,
+          allowAppend: false
+        })
+        if (position) {
+          this.point = point
+          this.setPosition(position)
+          this.currentElement = domElement.id
+          this.placeholder.setCurrentElement(domElement.id)
+        }
+        this.elementToColumn = true
+        return
+      }
+      this.elementToColumn = null
       if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
         domElement = this.findElementWithValidParent(parentDOMElement) || domElement
         parentDOMElement = this.getDomElementParent(domElement.parent()) || null
-        this.elementToColumn = null
-
-        if (domElement.isNearHorizontalBoundaries(point, (this.options.boundariesGap * 2.5)) && domElement.tag === 'column') {
-          const position = this.placeholder && this.placeholder.redraw(domElement.node, point, {
-            attribute: this.options.isAttribute,
-            afterLastContainerElement: false,
-            allowBeforeAfter: true,
-            allowAppend: false
-          })
-          if (position) {
-            this.point = point
-            this.setPosition(position)
-            this.currentElement = domElement.id
-            this.placeholder.setCurrentElement(domElement.id)
-          }
-          this.elementToColumn = true
-          return
-        }
       }
       if (this.isDraggingElementParent(domElement)) {
         return
@@ -557,7 +556,8 @@ export default class DndDataSet {
           this.position,
           this.currentElement,
           this.draggingElement,
-          this.options.elementData
+          this.options.elementData,
+          { silent: true }
         )
         if (!this.position) {
           workspaceStorage.state('drag').set({ terminate: true })
@@ -575,7 +575,8 @@ export default class DndDataSet {
             this.position,
             this.currentElement,
             draggingElement,
-            newColumn.toJS()
+            newColumn.toJS(),
+            { silent: true }
           )
           this.position = 'append'
           this.currentElement = newColumn.get('id')
