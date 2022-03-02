@@ -127,7 +127,7 @@ export default class DOMElement {
 
   isNearHorizontalBoundaries (point, gap) {
     const rect = this.node.getBoundingClientRect()
-    return  point.x - rect.left < gap || rect.right - point.x < gap
+    return point.x - rect.left < gap || rect.right - point.x < gap
   }
 
   isNearBoundaries (point, gap) {

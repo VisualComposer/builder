@@ -101,7 +101,7 @@ export default class DndDataSet {
         configurable: false,
         writable: true,
         value: false
-      },      /**
+      }, /**
        * @memberOf! DndDataSet
        */
       elementToColumn: {
@@ -563,9 +563,8 @@ export default class DndDataSet {
           workspaceStorage.state('drag').set({ terminate: true })
         }
       } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
-
         if (this.elementToColumn && this.draggingElement.tag !== 'column') {
-          const newColumn = cook.get({ tag: 'column'})
+          const newColumn = cook.get({ tag: 'column' })
           const currentColumnParent = cook.getById(this.currentElement).get('parent')
           const newElement = document.createElement('div')
           newColumn.set('parent', currentColumnParent)
