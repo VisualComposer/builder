@@ -293,7 +293,10 @@ addStorage('elements', (storage) => {
     } else {
       storage.state('document').set(documentManager.children(false))
     }
-    updateTimeMachine()
+
+    if (!data?.options?.silent) {
+      updateTimeMachine()
+    }
   })
   const mergeChildrenLayout = (data, parent, wrap = false) => {
     const children = Object.keys(data).filter((key) => {
