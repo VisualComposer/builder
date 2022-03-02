@@ -213,7 +213,7 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('move', id, settings)
   })
   storage.on('drop', (id, settings) => {
-    const relatedElement = settings.related ? cook.get(documentManager.get(settings.related)) : false
+    const relatedElement = settings.related && documentManager.get(settings.related) ? cook.get(documentManager.get(settings.related)) : false
     const elementSettings = settings.element
 
     if (relatedElement) {
@@ -226,7 +226,11 @@ addStorage('workspace', (storage) => {
       movingID = documentManager.getTopParent(movingID)
     }
     elementsStorage.trigger('move', movingID, settings)
-    storage.trigger('edit', data.toJS().id, '')
+
+    // Exception for colum on element drop between columns
+    if (data.toJS().tag !== 'column') {
+      storage.trigger('edit', data.toJS().id, '')
+    }
   })
   storage.on('start', () => {
     storage.state('navbarDisabled').set(true)
