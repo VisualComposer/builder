@@ -32,8 +32,10 @@ class UserCapabilities implements Helper
             return false;
         }
         $forPostsId = (int)get_option('page_for_posts');
+        // @codingStandardsIgnoreLine
+        $isArchiveLayout = $post->post_type === 'vcv_layouts';
         $hasAccess = true;
-        if ($forPostsId && $post->ID === $forPostsId) {
+        if ($forPostsId && $post->ID === $forPostsId && !$isArchiveLayout) {
             $hasAccess = false;
         }
         $hasAccess = $hasAccess && current_user_can('edit_post', $sourceId);

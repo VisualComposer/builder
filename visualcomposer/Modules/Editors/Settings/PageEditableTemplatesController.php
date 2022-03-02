@@ -96,8 +96,16 @@ class PageEditableTemplatesController extends Container implements Module
             if ($payload['value'] === 'blank') {
                 $stretched = isset($payload['stretchedContent']) ? $payload['stretchedContent'] : 0;
                 $template = 'blank' . ($stretched ? '-stretched' : '') . '-template.php';
+                $template = vcapp()->path('visualcomposer/resources/views/editor/templates/' . $template);
 
-                return vcapp()->path('visualcomposer/resources/views/editor/templates/' . $template);
+                return vcfilter(
+                    'vcv:editor:settings:blankTemplate',
+                    $template,
+                    [
+                        'payload' => $payload,
+                        'originalTemplate' => $originalTemplate,
+                    ]
+                );
             }
         }
 
