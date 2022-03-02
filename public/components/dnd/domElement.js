@@ -125,6 +125,11 @@ export default class DOMElement {
     return this.id === domElement.id
   }
 
+  isNearHorizontalBoundaries (point, gap) {
+    const rect = this.node.getBoundingClientRect()
+    return  point.x - rect.left < gap || rect.right - point.x < gap
+  }
+
   isNearBoundaries (point, gap) {
     const rect = this.node.getBoundingClientRect()
     return point.y - rect.top < gap || rect.bottom - point.y < gap ||

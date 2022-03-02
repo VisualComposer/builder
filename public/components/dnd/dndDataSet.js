@@ -101,6 +101,14 @@ export default class DndDataSet {
         configurable: false,
         writable: true,
         value: false
+      },      /**
+       * @memberOf! DndDataSet
+       */
+      elementToColumn: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: false
       },
       /**
        * @memberOf! DndDataSet
@@ -323,6 +331,24 @@ export default class DndDataSet {
       if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
         domElement = this.findElementWithValidParent(parentDOMElement) || domElement
         parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+        this.elementToColumn = null
+
+        if (domElement.isNearHorizontalBoundaries(point, (this.options.boundariesGap * 2.5)) && domElement.tag === 'column') {
+          const position = this.placeholder && this.placeholder.redraw(domElement.node, point, {
+            attribute: this.options.isAttribute,
+            afterLastContainerElement: false,
+            allowBeforeAfter: true,
+            allowAppend: false
+          })
+          if (position) {
+            this.point = point
+            this.setPosition(position)
+            this.currentElement = domElement.id
+            this.placeholder.setCurrentElement(domElement.id)
+          }
+          this.elementToColumn = true
+          return
+        }
       }
       if (this.isDraggingElementParent(domElement)) {
         return
@@ -537,6 +563,25 @@ export default class DndDataSet {
           workspaceStorage.state('drag').set({ terminate: true })
         }
       } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
+
+        if (this.elementToColumn && this.draggingElement.tag !== 'column') {
+          const newColumn = cook.get({ tag: 'column'})
+          const currentColumnParent = cook.getById(this.currentElement).get('parent')
+          const newElement = document.createElement('div')
+          newColumn.set('parent', currentColumnParent)
+          const draggingElement = this.createDraggingElementFromTag('column', newElement)
+
+          this.position && this.options.dropCallback(
+            'dropElement',
+            this.position,
+            this.currentElement,
+            draggingElement,
+            newColumn.toJS()
+          )
+          this.position = 'append'
+          this.currentElement = newColumn.get('id')
+        }
+
         this.position && this.options.moveCallback(
           this.draggingElement.id,
           this.position,
@@ -549,6 +594,7 @@ export default class DndDataSet {
     this.position = null
     this.helper = null
     this.startPoint = null
+    this.elementToColumn = null
     if (layoutCustomMode !== 'contentEditable' && layoutCustomMode !== 'columnResizer' && layoutCustomMode !== null) {
       setData('vcv:layoutCustomMode', null)
     }
