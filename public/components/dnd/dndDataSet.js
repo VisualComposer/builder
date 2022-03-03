@@ -318,9 +318,11 @@ export default class DndDataSet {
       this.currentElement = 'vcv-ui-blank-row'
       this.removeHFSActive()
       this.setMouseOverStartBlank()
+      this.elementToColumn = null
     } else if (hfs) {
       hfs.classList.add('vcv-drag-helper-over-hfs')
       this.removeMouseOverStartBlank()
+      this.elementToColumn = null
     } else {
       let domNode = this.findDOMNode(point)
       let domElement = this.getDomElement(domNode)
@@ -328,23 +330,27 @@ export default class DndDataSet {
         return
       }
       let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
-      if (domElement.isNearHorizontalBoundaries(point, 30) && this.draggingElement.tag !== 'column') {
-        const position = this.placeholder && this.placeholder.redraw(domElement.node, point, {
+      if (domElement.isNearHorizontalBoundaries(point, 30) && this.draggingElement.tag !== 'column' && parentDOMElement.tag) {
+        const node = domElement.tag !== 'column' ? parentDOMElement.node : domElement.node
+        const domElementId = domElement.tag !== 'column' ? parentDOMElement.id : domElement.id
+
+        const position = this.placeholder && this.placeholder.redraw(node, point, {
           attribute: this.options.isAttribute,
           afterLastContainerElement: false,
           allowBeforeAfter: true,
           allowAppend: false
         })
+
         if (position) {
           this.point = point
           this.setPosition(position)
-          this.currentElement = domElement.id
-          this.placeholder.setCurrentElement(domElement.id)
+          this.currentElement = domElementId
+          this.placeholder.setCurrentElement(domElementId)
         }
+
         this.elementToColumn = true
         return
       }
-      this.elementToColumn = null
       if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
         domElement = this.findElementWithValidParent(parentDOMElement) || domElement
         parentDOMElement = this.getDomElementParent(domElement.parent()) || null
@@ -433,6 +439,7 @@ export default class DndDataSet {
         this.setPosition(position)
         this.currentElement = domElement.id
         this.placeholder.setCurrentElement(domElement.id)
+        this.elementToColumn = null
       }
     }
   }
@@ -581,7 +588,6 @@ export default class DndDataSet {
           this.position = 'append'
           this.currentElement = newColumn.get('id')
         }
-
         this.position && this.options.moveCallback(
           this.draggingElement.id,
           this.position,
