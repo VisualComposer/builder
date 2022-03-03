@@ -713,14 +713,17 @@ export default class DndDataSet {
     const scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
     const scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
-      e.preventDefault()
-      this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
-    } else {
-      this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
-    }
+    const isResizer = e.target.closest('.vce-column-resizer')
+    if (!isResizer) {
+      if (e.touches && e.touches[0]) {
+        e.preventDefault()
+        this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      } else {
+        this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      }
 
-    this.handleDrag(e)
+      this.handleDrag(e)
+    }
   }
 
   handleDoubleClick (e) {
