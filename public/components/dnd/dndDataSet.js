@@ -329,6 +329,7 @@ export default class DndDataSet {
       if (!domElement) {
         return
       }
+      const isTreeView = domNode.closest('.vcv-ui-tree-layout')
       let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
 
       if (
@@ -336,7 +337,8 @@ export default class DndDataSet {
         this.draggingElement.tag !== 'column' &&
         parentDOMElement.tag &&
         this.draggingElement.id !== parentDOMElement.id &&
-        this.draggingElement.id !== parentDOMElement.parent()
+        this.draggingElement.id !== parentDOMElement.parent() &&
+        !isTreeView
       ) {
         const node = domElement.tag !== 'column' ? parentDOMElement.node : domElement.node
         const domElementId = domElement.tag !== 'column' ? parentDOMElement.id : domElement.id
@@ -382,7 +384,6 @@ export default class DndDataSet {
         domElement.options.containerFor &&
         domElement.options.containerFor.includes('Column')
 
-      const isTreeView = domNode.closest('.vcv-ui-tree-layout')
 
       if (isRow && !isTreeView) {
         const rowRect = domElement.node?.getBoundingClientRect()
