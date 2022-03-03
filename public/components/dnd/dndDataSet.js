@@ -330,7 +330,14 @@ export default class DndDataSet {
         return
       }
       let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
-      if (domElement.isNearHorizontalBoundaries(point, 30) && this.draggingElement.tag !== 'column' && parentDOMElement.tag) {
+
+      if (
+        domElement.isNearHorizontalBoundaries(point, 30) &&
+        this.draggingElement.tag !== 'column' &&
+        parentDOMElement.tag &&
+        this.draggingElement.id !== parentDOMElement.id &&
+        this.draggingElement.id !== parentDOMElement.parent()
+      ) {
         const node = domElement.tag !== 'column' ? parentDOMElement.node : domElement.node
         const domElementId = domElement.tag !== 'column' ? parentDOMElement.id : domElement.id
 
