@@ -384,7 +384,6 @@ export default class DndDataSet {
         domElement.options.containerFor &&
         domElement.options.containerFor.includes('Column')
 
-
       if (isRow && !isTreeView) {
         const rowRect = domElement.node?.getBoundingClientRect()
         const borderGap = 30
