@@ -143,3 +143,4 @@ export default class SettingsPanel extends React.Component {
     )
   }
 }
+
