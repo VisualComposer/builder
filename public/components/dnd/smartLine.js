@@ -107,6 +107,10 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     // show vertical line in layout only
     if (!$element.closest('.vcv-ui-tree-layout').get(0)) {
       isVerticalLine = (prevRect && prevRect.left !== rect.left) || (nextRect && nextRect.left !== rect.left)
+      //show vertical if dropping element into one column row
+      if ($element.hasClass('vce-col') && !prevElement && !nextElement) {
+        isVerticalLine = true
+      }
     }
     // set default line position
     linePoint.x = rect.left
