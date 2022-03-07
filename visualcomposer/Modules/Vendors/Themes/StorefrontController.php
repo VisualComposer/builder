@@ -36,6 +36,31 @@ class StorefrontController extends Container implements Module
             'vcv:themeEditor:before:footer',
             'integrateThemeFooter'
         );
+
+        $this->wpAddFilter(
+            'body_class',
+            'addBodyClass',
+            10,
+            1
+        );
+    }
+
+    /**
+     * Add body class.
+     *
+     * @param array $classList
+     *
+     * @return mixed
+     */
+    protected function addBodyClass($classList)
+    {
+        if (is_array($classList)) {
+            $classList[] = 'site-main';
+        } else {
+            $classList = ['site-main'];
+        }
+
+        return $classList;
     }
 
     /**
