@@ -72,6 +72,6 @@ class AssetUrlReplaceController extends Container implements Module
             $content
         );
 
-        return $content;
+        return vcfilter('vcv:frontView:replaceUrl:content', $content);
     }
 }
