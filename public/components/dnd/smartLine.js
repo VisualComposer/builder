@@ -104,6 +104,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     const nextElement = $element.nextAll('[data-vcv-dnd-element]').get(0)
     const prevRect = prevElement ? prevElement.getBoundingClientRect() : null
     const nextRect = nextElement ? nextElement.getBoundingClientRect() : null
+
     // show vertical line in layout only
     if (!$element.closest('.vcv-ui-tree-layout').get(0)) {
       isVerticalLine = (prevRect && prevRect.left !== rect.left) || (nextRect && nextRect.left !== rect.left)
