@@ -171,12 +171,12 @@ export default class DndManager {
     }
   }
 
-  drop (id, action, related, draggingElement, elementData) {
+  drop (id, action, related, draggingElement, elementData, options) {
     if (id && related) {
       if (related === 'vcv-ui-blank-row') {
         DndManager.handleBlankRowDrop(id, action, elementData)
       } else {
-        workspaceStorage.trigger('drop', id, { action: action, related: related, element: elementData })
+        workspaceStorage.trigger('drop', id, { action, related, element: elementData, options })
       }
     }
   }

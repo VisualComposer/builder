@@ -292,6 +292,10 @@ addStorage('wordpressData', (storage) => {
 
   const workspaceIFrame = workspaceStorage.state('iframe')
   const workspaceContentState = workspaceStorage.state('content')
+  const workspaceSettings = workspaceStorage.state('settings')
+  const workspaceSettingsTab = workspaceStorage.state('settingsTab')
+  const settingsTitleFocus = settingsStorage.state('isTitleFocused')
+
   storage.state('status').onChange((data) => {
     const { status } = data
     if (status === 'loadSuccess') {
@@ -335,12 +339,28 @@ addStorage('wordpressData', (storage) => {
     const editIcon = document.createElement('i')
     editIcon.className = 'vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit'
     titleControl.appendChild(editIcon)
+    title.parentNode.style.position = 'relative'
 
     // Apply events to controls and title
     const openTitleSettings = () => {
-      workspaceStorage.state('settingsTab').set('pageSettings')
-      workspaceContentState.set('settings')
-      settingsStorage.state('isTitleFocused').set(true)
+      const contentState = workspaceContentState.get()
+      const settingsTab = workspaceSettingsTab.get()
+      const isSettingsOpen = contentState && contentState === 'settings'
+      const isPageSettings = settingsTab && settingsTab === 'pageSettings'
+      const focusTitle = () => {
+        workspaceSettingsTab.set('pageSettings')
+        workspaceContentState.set('settings')
+        settingsTitleFocus.set(true)
+      }
+
+      if (isSettingsOpen && isPageSettings) {
+        workspaceSettings.set(false)
+        setTimeout(() => {
+          focusTitle()
+        }, 300)
+      } else {
+        focusTitle()
+      }
     }
 
     titleControl.onclick = () => {

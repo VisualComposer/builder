@@ -318,37 +318,51 @@ export default class DndDataSet {
       this.currentElement = 'vcv-ui-blank-row'
       this.removeHFSActive()
       this.setMouseOverStartBlank()
+      this.elementToColumn = null
     } else if (hfs) {
       hfs.classList.add('vcv-drag-helper-over-hfs')
       this.removeMouseOverStartBlank()
+      this.elementToColumn = null
     } else {
       let domNode = this.findDOMNode(point)
       let domElement = this.getDomElement(domNode)
       if (!domElement) {
         return
       }
+      const isTreeView = domNode.closest('.vcv-ui-tree-layout')
       let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+
+      if (
+        domElement.isNearHorizontalBoundaries(point, 30) &&
+        this.draggingElement.tag !== 'column' &&
+        parentDOMElement.tag &&
+        this.draggingElement.id !== parentDOMElement.id &&
+        this.draggingElement.id !== parentDOMElement.parent() &&
+        !isTreeView
+      ) {
+        const node = domElement.tag !== 'column' ? parentDOMElement.node : domElement.node
+        const domElementId = domElement.tag !== 'column' ? parentDOMElement.id : domElement.id
+
+        const position = this.placeholder && this.placeholder.redraw(node, point, {
+          attribute: this.options.isAttribute,
+          afterLastContainerElement: false,
+          allowBeforeAfter: true,
+          allowAppend: false
+        })
+
+        if (position) {
+          this.point = point
+          this.setPosition(position)
+          this.currentElement = domElementId
+          this.placeholder.setCurrentElement(domElementId)
+        }
+
+        this.elementToColumn = true
+        return
+      }
       if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
         domElement = this.findElementWithValidParent(parentDOMElement) || domElement
         parentDOMElement = this.getDomElementParent(domElement.parent()) || null
-        this.elementToColumn = null
-
-        if (domElement.isNearHorizontalBoundaries(point, (this.options.boundariesGap * 2.5)) && domElement.tag === 'column') {
-          const position = this.placeholder && this.placeholder.redraw(domElement.node, point, {
-            attribute: this.options.isAttribute,
-            afterLastContainerElement: false,
-            allowBeforeAfter: true,
-            allowAppend: false
-          })
-          if (position) {
-            this.point = point
-            this.setPosition(position)
-            this.currentElement = domElement.id
-            this.placeholder.setCurrentElement(domElement.id)
-          }
-          this.elementToColumn = true
-          return
-        }
       }
       if (this.isDraggingElementParent(domElement)) {
         return
@@ -369,8 +383,6 @@ export default class DndDataSet {
       const isRow = domElement.options &&
         domElement.options.containerFor &&
         domElement.options.containerFor.includes('Column')
-
-      const isTreeView = domNode.closest('.vcv-ui-tree-layout')
 
       if (isRow && !isTreeView) {
         const rowRect = domElement.node?.getBoundingClientRect()
@@ -434,6 +446,7 @@ export default class DndDataSet {
         this.setPosition(position)
         this.currentElement = domElement.id
         this.placeholder.setCurrentElement(domElement.id)
+        this.elementToColumn = null
       }
     }
   }
@@ -557,7 +570,8 @@ export default class DndDataSet {
           this.position,
           this.currentElement,
           this.draggingElement,
-          this.options.elementData
+          this.options.elementData,
+          { silent: true }
         )
         if (!this.position) {
           workspaceStorage.state('drag').set({ terminate: true })
@@ -575,12 +589,12 @@ export default class DndDataSet {
             this.position,
             this.currentElement,
             draggingElement,
-            newColumn.toJS()
+            newColumn.toJS(),
+            { silent: true }
           )
           this.position = 'append'
           this.currentElement = newColumn.get('id')
         }
-
         this.position && this.options.moveCallback(
           this.draggingElement.id,
           this.position,
@@ -706,14 +720,17 @@ export default class DndDataSet {
     const scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
     const scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
-      e.preventDefault()
-      this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
-    } else {
-      this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
-    }
+    const isResizer = e.target.closest('.vce-column-resizer')
+    if (!isResizer) {
+      if (e.touches && e.touches[0]) {
+        e.preventDefault()
+        this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      } else {
+        this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      }
 
-    this.handleDrag(e)
+      this.handleDrag(e)
+    }
   }
 
   handleDoubleClick (e) {
