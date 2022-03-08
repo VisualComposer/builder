@@ -59,6 +59,7 @@ export default class Element extends React.Component {
     this.props.api.notify('element:unmount', this.state.element.id)
     elementsStorage.trigger('removeHtmlString', this.state.element.id)
     elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
+    elementsStorage.on('updateAll', (data) => this.dataUpdate(data[this.state.element.id]))
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
     // Clean everything before/after
     if (!this.elementComponentRef || !this.elementComponentRef.current) {
