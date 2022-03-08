@@ -329,8 +329,17 @@ export default class DndDataSet {
       if (!domElement) {
         return
       }
+      const isTreeView = domNode.closest('.vcv-ui-tree-layout')
       let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
-      if (domElement.isNearHorizontalBoundaries(point, 30) && this.draggingElement.tag !== 'column' && parentDOMElement.tag) {
+
+      if (
+        domElement.isNearHorizontalBoundaries(point, 30) &&
+        this.draggingElement.tag !== 'column' &&
+        parentDOMElement.tag &&
+        this.draggingElement.id !== parentDOMElement.id &&
+        this.draggingElement.id !== parentDOMElement.parent() &&
+        !isTreeView
+      ) {
         const node = domElement.tag !== 'column' ? parentDOMElement.node : domElement.node
         const domElementId = domElement.tag !== 'column' ? parentDOMElement.id : domElement.id
 
@@ -374,8 +383,6 @@ export default class DndDataSet {
       const isRow = domElement.options &&
         domElement.options.containerFor &&
         domElement.options.containerFor.includes('Column')
-
-      const isTreeView = domNode.closest('.vcv-ui-tree-layout')
 
       if (isRow && !isTreeView) {
         const rowRect = domElement.node?.getBoundingClientRect()
@@ -713,14 +720,17 @@ export default class DndDataSet {
     const scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
     const scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
-      e.preventDefault()
-      this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
-    } else {
-      this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
-    }
+    const isResizer = e.target.closest('.vce-column-resizer')
+    if (!isResizer) {
+      if (e.touches && e.touches[0]) {
+        e.preventDefault()
+        this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      } else {
+        this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      }
 
-    this.handleDrag(e)
+      this.handleDrag(e)
+    }
   }
 
   handleDoubleClick (e) {
