@@ -19,6 +19,11 @@
   position: absolute;
   z-index: @controls-z-index;
   pointer-events: none;
+  display: none;
+
+  &--is-visible {
+    display: block;
+  }
 
   &:hover {
     z-index: @controls-z-index-hover;
@@ -352,7 +357,7 @@
 }
 
 .vcv-ui-append-control {
-  background-color: @controls-background-color-base;
+  background-color: @controls-append-background;
   color: @text-color-base;
   pointer-events: all;
   padding: @controls-append-element-padding;
@@ -364,7 +369,7 @@
   justify-content: center;
 
   &:hover {
-    background-color: @controls-background-column;
+    background-color: @controls-append-hover-background;
     color: @text-color-base;
   }
 }

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { connect } from 'react-redux'
 import { getService, getStorage } from 'vc-cake'
 
 const cook = getService('cook')
@@ -9,11 +10,11 @@ const dataManager = getService('dataManager')
 const workspaceSettings = workspaceStorage.state('settings')
 const iframe = document.getElementById('vcv-editor-iframe')
 
-function updateAppendContainerPosition (data, iframeDocument, appendControlContainer) {
+function updateAppendContainerPosition (vcElementId, iframeDocument, appendControlContainer) {
   if (!appendControlContainer.current) {
     return false
   }
-  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
   const elementRect = contentElement.getBoundingClientRect()
   const control = appendControlContainer.current.firstElementChild
   let controlPos = 0
@@ -35,19 +36,24 @@ function updateAppendContainerPosition (data, iframeDocument, appendControlConta
   }
 }
 
-export default function AppendControl (props) {
+const AppendControl = ({ data = {}, iframeDocument }) => {
+  const { vcElementsPath, vcElementId } = data
   const controlContainer = useRef()
-  const [containerPos, setContainerPos] = useState(updateAppendContainerPosition(props.data, props.iframeDocument, controlContainer))
+  const [containerPos, setContainerPos] = useState(false)
+
+  const setPositionState = useCallback(() => {
+    if (vcElementId) {
+      setContainerPos(updateAppendContainerPosition(vcElementId, iframeDocument, controlContainer))
+    }
+  }, [iframeDocument, vcElementId])
 
   useEffect(() => {
-    if (!containerPos) {
-      setContainerPos(updateAppendContainerPosition(props.data, props.iframeDocument, controlContainer))
-    }
-  })
+    setPositionState()
+  }, [setPositionState])
 
   const localizations = dataManager.get('localizations')
   const addElementText = localizations ? localizations.addElement : 'Add Element'
-  const elementIds = props.data.vcElementsPath
+  const elementIds = vcElementsPath
   const insertAfterElement = elementIds && elementIds.length ? elementIds[0] : false
   const container = elementIds && elementIds.length > 2 ? elementIds[1] : false
   if (!container || !insertAfterElement) {
@@ -101,3 +107,9 @@ export default function AppendControl (props) {
     </div>
   )
 }
+
+const mapStateToProps = state => ({
+  data: state.controls.appendControlData
+})
+
+export default connect(mapStateToProps)(AppendControl)

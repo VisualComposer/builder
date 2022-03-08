@@ -16,7 +16,7 @@ export default class PostBuilder {
       ' id="vcv-editor-iframe"\n' +
       ' src=""\n' +
       ' frameborder="0" scrolling="auto"></iframe>\n' +
-      '<div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>\n' +
+      '<div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"><div class="vcv-ui-outline-controls-wrapper"></div><div class="vcv-ui-append-control-wrapper"></div></div>\n' +
       '</div></div>'
     this.iframe = document.getElementById('vcv-editor-iframe')
     this.iframe.addEventListener('load', this.renderData.bind(this), {

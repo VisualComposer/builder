@@ -16,6 +16,8 @@ import Notifications from 'public/components/notifications/notifications'
 import Popup from 'public/components/popup/popupContainer'
 import FullPagePopupContainer from 'public/components/popup/fullPagePopupContainer'
 import Helpers from 'public/components/helpers/helpers'
+import Controls from 'public/components/elementControls/controls'
+import AppendControl from 'public/components/elementControls/appendControl'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -52,6 +54,26 @@ vcCake.add('contentLayout', (api) => {
         {dataManager.get('showInitialHelpers') && <Helpers />}
       </Provider>,
       layoutOverlay
+    )
+  }
+  const iframe = document.getElementById('vcv-editor-iframe')
+  const controlsContainer = document.querySelector('.vcv-ui-outline-controls-wrapper')
+  if (controlsContainer) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <Controls iframeDocument={iframe.contentDocument} iframeWindow={iframe.contentWindow} />
+      </Provider>,
+      controlsContainer
+    )
+  }
+
+  const appendControlContainer = document.querySelector('.vcv-ui-append-control-wrapper')
+  if (appendControlContainer) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <AppendControl iframeDocument={iframe.contentDocument} />
+      </Provider>,
+      appendControlContainer
     )
   }
 

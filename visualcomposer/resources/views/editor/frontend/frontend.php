@@ -94,7 +94,10 @@ if (is_array($extraOutput)) {
                             ?>" id="vcv-editor-iframe"
                             frameborder="0" scrolling="auto"></iframe>
                 </div>
-                <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
+                <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay">
+                    <div class="vcv-ui-outline-controls-wrapper"></div>
+                    <div class="vcv-ui-append-control-wrapper"></div>
+                </div>
                 <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
                     <div class="vcv-loading-overlay">
                         <div class="vcv-loading-overlay-inner">
