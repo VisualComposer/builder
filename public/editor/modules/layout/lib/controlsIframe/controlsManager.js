@@ -202,7 +202,8 @@ export default class ControlsManager {
       })
       layoutStorage.state('interactWithControls').set({
         type: 'mouseEnter',
-        vcElementId: element.dataset.vcvElement
+        vcElementId: element.dataset.vcvElement,
+        idSelector: element.id
       })
       layoutStorage.state('interactWithContent').set({
         type: 'mouseDown',
@@ -336,7 +337,11 @@ export default class ControlsManager {
 
     layoutStorage.state('interactWithControls').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
-        const contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+        let selector = `[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`
+        if (data.idSelector) {
+          selector = `#${data.idSelector + selector}`
+        }
+        const contentElement = this.iframeDocument.querySelector(selector)
         if (contentElement) {
           this.outline.show(contentElement, data.vcElementId)
         }
