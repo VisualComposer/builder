@@ -33,6 +33,28 @@ export default function ControlDropdownInner ({ elementId, isCenterControls }) {
   // prepare actions
   const actions = []
 
+  // edit general control
+  actions.push({
+    label: editText,
+    title: `${editText} ${options.title}`,
+    icon: 'vcv-ui-icon-edit',
+    data: {
+      vcControlEvent: 'edit'
+    }
+  })
+
+  // add controls for row
+  if (options.tag === 'row') {
+    actions.push({
+      label: rowLayoutText,
+      icon: 'vcv-ui-icon-row-layout',
+      data: {
+        vcControlEvent: 'edit',
+        vcControlEventOptions: 'layout'
+      }
+    })
+  }
+
   // add element action
   if (options.isContainer) {
     // tabs don't have advanced design options
@@ -58,28 +80,6 @@ export default function ControlDropdownInner ({ elementId, isCenterControls }) {
       data: {
         vcControlEvent: 'add',
         vcControlEventOptions: addElementTag
-      }
-    })
-  }
-
-  // edit general control
-  actions.push({
-    label: editText,
-    title: `${editText} ${options.title}`,
-    icon: 'vcv-ui-icon-edit',
-    data: {
-      vcControlEvent: 'edit'
-    }
-  })
-
-  // add controls for row
-  if (options.tag === 'row') {
-    actions.push({
-      label: rowLayoutText,
-      icon: 'vcv-ui-icon-row-layout',
-      data: {
-        vcControlEvent: 'edit',
-        vcControlEventOptions: 'layout'
       }
     })
   }
