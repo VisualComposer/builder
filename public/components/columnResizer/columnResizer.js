@@ -533,7 +533,8 @@ export default class ColumnResizer extends React.Component {
 
   render () {
     const { leftColPercentage, rightColPercentage, leftColValue, rightColValue, labelPosition } = this.state
-    if (!this.state.isVisible) {
+
+    if (!this.state.isVisible || vcCake.getData('vcv:layoutCustomMode')?.mode === 'dnd') {
       return null
     }
 
