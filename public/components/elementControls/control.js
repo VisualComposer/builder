@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import classNames from 'classnames'
 import { getService, getStorage } from 'vc-cake'
 import ControlDropdown from './controlDropdown'
 import { ControlHelpers } from './controlHelpers'
@@ -10,6 +11,7 @@ const layoutStorage = getStorage('layout')
 export default function Control (props) {
   const [activeDropdown, setActiveDropdown] = useState(false)
   const [hoverClasses, setHoverClasses] = useState([])
+  const [isDropdownActive, setIsDropdownActive] = useState(false)
 
   const vcElement = ControlHelpers.getVcElement(props.id)
   if (!vcElement) {
@@ -20,17 +22,13 @@ export default function Control (props) {
   const icon = hubElementsService.getElementIcon(vcElement.get('tag'))
   const activeClass = 'vcv-ui-outline-control-dropdown-active'
 
-  let controlsClasses = [
-    'vcv-ui-outline-control-dropdown',
-    `vcv-ui-outline-control-type-index-${colorIndex}`,
-    hoverClasses.includes(activeClass) ? activeClass : '',
-    !props.isDraggable && props.isDraggable !== undefined ? 'vcv-ui-outline-control-dropdown-non-draggable' : ''
-  ]
-
-  if (hoverClasses.length) {
-    controlsClasses = [...controlsClasses, ...hoverClasses]
-  }
-  controlsClasses = controlsClasses.join(' ')
+  const controlsClasses = classNames({
+    'vcv-ui-outline-control-dropdown': true,
+    [`vcv-ui-outline-control-type-index-${colorIndex}`]: true,
+    [activeClass]: isDropdownActive,
+    'vcv-ui-outline-control-dropdown-non-draggable': !props.isDraggable && props.isDraggable !== undefined,
+    [[...hoverClasses]]: hoverClasses.length
+  })
 
   const handleMouseEnter = () => {
     setActiveDropdown(!activeDropdown)
@@ -52,10 +50,16 @@ export default function Control (props) {
   }
 
   const handleHover = (classes) => {
-    setHoverClasses([...classes, activeClass])
+    setHoverClasses(classes)
+    setIsDropdownActive(true)
   }
 
-  const controlDropdown = activeDropdown ? <ControlDropdown id={props.id} handleHover={handleHover} /> : null
+  const handleHoverOut = () => {
+    setHoverClasses([])
+    setIsDropdownActive(false)
+  }
+
+  const controlDropdown = activeDropdown ? <ControlDropdown id={props.id} handleHover={handleHover} handleHoverOut={handleHoverOut} /> : null
 
   return (
     <div

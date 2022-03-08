@@ -35,7 +35,13 @@ export default function ControlDropdown (props) {
       setDropdownPos(position)
       props.handleHover(position)
     }
-  })
+  }, [setDropdownPos, dropdownPos, props])
+
+  useEffect(() => {
+    return () => {
+      props.handleHoverOut()
+    }
+  }, [])
 
   const handleMouseEnter = () => {
     const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()

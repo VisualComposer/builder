@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { connect } from 'react-redux'
+import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import Control from './control'
 import ControlAction from './controlAction'
@@ -9,11 +11,11 @@ const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
 const dataManager = getService('dataManager')
 
-const getContainerPosition = (data, iframeDocument, controlsContainer) => {
+const getContainerPosition = (vcElementId, iframeDocument, controlsContainer) => {
   if (!controlsContainer.current) {
     return false
   }
-  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
   const elementRect = contentElement.getBoundingClientRect()
   const controls = controlsContainer.current.firstElementChild
   let controlsHeight = 0
@@ -46,11 +48,11 @@ const getContainerPosition = (data, iframeDocument, controlsContainer) => {
   return position
 }
 
-const getControlsPosition = (data, iframeDocument, controlsContainer) => {
+const getControlsPosition = (vcElementId, iframeDocument, controlsContainer) => {
   if (!controlsContainer.current) {
     return false
   }
-  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
   const elementRect = contentElement.getBoundingClientRect()
   const controlsList = controlsContainer.current.querySelector('.vcv-ui-outline-controls')
   const controlsListPos = controlsList.getBoundingClientRect()
@@ -77,16 +79,16 @@ const getVisibleControls = (elementIds, controls) => {
   if (isWider) {
     const difference = Math.abs(iframeRect.width - controlsRect.width)
     const elementsOverlap = Math.ceil(difference / controlWidth)
-    elementIds.splice(elementIds.length - elementsOverlap)
-    return elementIds
+    const elementIdsCopy = [...elementIds]
+    elementIdsCopy.splice(elementIdsCopy.length - elementsOverlap)
+    return elementIdsCopy
   }
 
   return false
 }
 
 function ControlItems (props) {
-  const { data, visibleControls } = props
-  const { vcvDraggableIds, vcvEditableElements } = data
+  const { visibleControls, vcvDraggableIds, vcvEditableElements } = props
   const controls = []
   const allControls = [...vcvEditableElements]
   const iterableControls = visibleControls || allControls
@@ -121,28 +123,41 @@ function ControlItems (props) {
   return controls.reverse()
 }
 
-export default function Controls (props) {
+const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
   const controlsContainer = useRef()
   const controls = useRef()
-  const { vcvEditableElements } = props.data
-  const [containerPos, setContainerPos] = useState(getContainerPosition(props.data, props.iframeDocument, controlsContainer))
-  const [controlsPos, setControlsPos] = useState(getControlsPosition(props.data, props.iframeDocument, controlsContainer))
+  const { vcvEditableElements, vcElementId, vcvDraggableIds } = data
+
+  const [containerPos, setContainerPos] = useState({
+    top: '',
+    left: '',
+    width: '',
+    height: '',
+    realTop: ''
+  })
+  const [controlsPos, setControlsPos] = useState(false)
   const [visibleControls, setVisibleControls] = useState(false)
 
-  useEffect(() => {
-    if (!containerPos) {
-      setContainerPos(getContainerPosition(props.data, props.iframeDocument, controlsContainer))
+  const setPositionState = useCallback(() => {
+    if (vcElementId) {
+      setContainerPos(getContainerPosition(vcElementId, iframeDocument, controlsContainer))
     }
-    setControlsPos(getControlsPosition(props.data, props.iframeDocument, controlsContainer))
-    if (!visibleControls) {
+    if (vcElementId) {
+      setControlsPos(getControlsPosition(vcElementId, iframeDocument, controlsContainer))
+    }
+    if (vcvEditableElements) {
       setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
-  }, [])
+  }, [vcElementId, iframeDocument, vcvEditableElements])
+
+  useEffect(() => {
+    setPositionState()
+  }, [setPositionState])
 
   const handleMouseEnter = () => {
     layoutStorage.state('interactWithControls').set({
       type: 'mouseEnterContainer',
-      vcElementId: props.data.vcElementId
+      vcElementId: vcElementId
     })
     const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
     if (hideControlsInterval) {
@@ -157,7 +172,7 @@ export default function Controls (props) {
     if (!e.target.closest('.vcv-ui-outline-control-dropdown-content')) {
       layoutStorage.state('interactWithControls').set({
         type: 'mouseLeaveContainer',
-        vcElementId: props.data.vcElementId
+        vcElementId: vcElementId
       })
     }
   }
@@ -165,40 +180,53 @@ export default function Controls (props) {
   let styles = {}
   if (containerPos) {
     styles = {
-      top: `${containerPos.top}px`,
-      left: `${containerPos.left}px`,
-      width: `${containerPos.width}px`
+      top: containerPos.top ? `${containerPos.top}px` : '',
+      left: containerPos.left ? `${containerPos.left}px` : '',
+      width: containerPos.width ? `${containerPos.width}px` : ''
     }
   }
 
-  let containerClasses = [
-    'vcv-ui-outline-controls-container',
-    controlsPos.isControlsRight ? 'vcv-ui-controls-o-controls-right' : ''
-  ]
-
-  containerClasses = containerClasses.join(' ')
+  const containerClasses = classNames({
+    'vcv-ui-outline-controls-container': true,
+    'vcv-ui-controls-o-controls-right': controlsPos?.isControlsRight,
+    'vcv-ui-outline-controls-container--is-visible': vcElementId
+  })
 
   let centerControls = null
-  const firstElement = ControlHelpers.getVcElement(vcvEditableElements[0])
-  if (firstElement && firstElement.containerFor().length < 1) {
-    centerControls = (
-      <CenterControls
-        id={vcvEditableElements[0]}
-        containerPos={containerPos}
-        controlsListWidth={controlsPos.controlsListWidth}
-        iframeWindow={props.iframeWindow}
-      />
-    )
+  if (vcvEditableElements) {
+    const firstElement = ControlHelpers.getVcElement(vcvEditableElements[0])
+    if (firstElement && firstElement.containerFor().length < 1) {
+      centerControls = (
+        <CenterControls
+          id={vcvEditableElements[0]}
+          containerPos={containerPos}
+          controlsListWidth={controlsPos?.controlsListWidth || 0}
+          iframeWindow={iframeWindow}
+        />
+      )
+    }
   }
 
   return (
     <>
       <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <nav className='vcv-ui-outline-controls' ref={controls}>
-          <ControlItems data={props.data} visibleControls={visibleControls} />
+          {vcvEditableElements ? (
+            <ControlItems
+              vcvDraggableIds={vcvDraggableIds}
+              visibleControls={visibleControls}
+              vcvEditableElements={vcvEditableElements}
+            />
+          ) : null}
         </nav>
       </div>
       {centerControls}
     </>
   )
 }
+
+const mapStateToProps = state => ({
+  data: state.controls.controlsData
+})
+
+export default connect(mapStateToProps)(Controls)

@@ -1,10 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import lodash from 'lodash'
 import vcCake from 'vc-cake'
+import store from 'public/editor/stores/store'
+import { controlsDataChanged, appendControlDataChanged } from 'public/editor/stores/controls/slice'
 import OutlineHandler from './outlineHandler'
 import FramesHandler from './framesHandler'
-import Controls from 'public/components/elementControls/controls'
-import AppendControl from 'public/components/elementControls/appendControl'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -31,8 +30,6 @@ export default class ControlsManager {
       prevTarget: null,
       prevElement: null,
       prevElementPath: [],
-      controlsPrevTarget: null,
-      controlsPrevElement: null,
       showOutline: true,
       showFrames: true,
       showControls: true
@@ -50,9 +47,6 @@ export default class ControlsManager {
     this.handleScroll = this.handleScroll.bind(this)
   }
 
-  /**
-   * Setup
-   */
   setup (options) {
     // get system data
     this.iframeContainer = options.iframeContainer
@@ -97,44 +91,43 @@ export default class ControlsManager {
     })
 
     this.subscribeToCurrentIframe()
-    this.createControlsWrapper()
-  }
-
-  createControlsWrapper () {
-    this.controlsWrapper = document.createElement('div')
-    this.controlsWrapper.classList.add('vcv-ui-outline-controls-wrapper')
-    this.iframeOverlay.appendChild(this.controlsWrapper)
-    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
-    if (isAbleToAdd) {
-      this.appendControlsWrapper = document.createElement('div')
-      this.appendControlsWrapper.classList.add('vcv-ui-append-control-wrapper')
-      this.iframeOverlay.appendChild(this.appendControlsWrapper)
-    }
   }
 
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (data && data.vcvEditableElements.length) {
-      ReactDOM.render(<Controls data={data} iframeDocument={this.iframeDocument} iframeWindow={this.iframeWindow} />, this.controlsWrapper)
+      store.dispatch(controlsDataChanged({
+        vcvEditableElements: data.vcvEditableElements,
+        vcElementId: data.vcElementId,
+        vcvDraggableIds: data.vcvDraggableIds
+      }))
       if (isAbleToAdd) {
-        ReactDOM.render(<AppendControl data={data} iframeDocument={this.iframeDocument} />, this.appendControlsWrapper)
+        store.dispatch(appendControlDataChanged({
+          vcElementId: data.vcElementId,
+          vcElementsPath: data.vcElementsPath
+        }))
       }
     } else {
-      ReactDOM.unmountComponentAtNode(this.controlsWrapper)
+      store.dispatch(controlsDataChanged({}))
       if (isAbleToAdd) {
-        ReactDOM.unmountComponentAtNode(this.appendControlsWrapper)
+        store.dispatch(appendControlDataChanged({}))
       }
+      this.state.prevTarget = null
+      this.state.prevElement = null
+      this.state.prevElementPath = []
     }
   }
 
   subscribeToCurrentIframe () {
     // Subscribe to main event to interact with content elements
-    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    const throttleFindElement = lodash.throttle(this.findElement, 20)
+    this.iframeDocument.body.addEventListener('mousemove', throttleFindElement)
     this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
     // show frames on mouseleave, if edit form for row is opened
     this.iframeContainer.addEventListener('mouseleave', this.handleFrameContainerLeave)
     // handle scroll of iframe window
     this.iframeWindow.addEventListener('scroll', this.handleScroll)
+    this.iframeWindow.addEventListener('resize', this.handleScroll)
   }
 
   /**
@@ -152,89 +145,101 @@ export default class ControlsManager {
         target: null
       }
     }
-    if ((e.target !== this.state.prevTarget) || !layoutStorage.state('interactWithContent').get()) {
-      this.state.prevTarget = e.target
-      // get all vcv elements
-      const path = this.getPath(e)
-      const elPath = []
-      path.forEach((el) => {
-        if (el.hasAttribute && (el.hasAttribute('data-vcv-element') || el.hasAttribute('data-vcv-linked-element'))) {
-          elPath.push(el)
-        }
+    const interactState = layoutStorage.state('interactWithContent').get()
+
+    if (e.target === this.state.prevTarget && interactState) {
+      return null
+    }
+
+    const customMode = vcCake.getData('vcv:layoutCustomMode')?.mode
+    if (customMode === 'contentEditable' || customMode === 'dnd' || customMode === 'columnResizerHover' || customMode === 'columnResizer') {
+      return null
+    }
+
+    this.state.prevTarget = e.target
+    // get all vcv elements
+    const path = this.getPath(e)
+    const elPath = []
+    path.forEach((el) => {
+      if (el.hasAttribute && (el.hasAttribute('data-vcv-element') || el.hasAttribute('data-vcv-linked-element'))) {
+        elPath.push(el)
+      }
+    })
+    let element = null
+    if (elPath.length) {
+      element = elPath[0] // first element in path always hovered element
+    }
+    // replace linked element with real element
+    if (element && Object.prototype.hasOwnProperty.call(element.dataset, 'vcvLinkedElement')) {
+      element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
+      elPath[0] = element
+    }
+    if (this.state.prevElement === element) {
+      return null
+    }
+
+    // unset prev element
+    if (this.state.prevElement) {
+      layoutStorage.state('interactWithContent').set({
+        type: 'mouseLeave',
+        vcElementId: this.state.prevElement.dataset.vcvElement,
+        vcElementsPath: this.state.prevElementPath.map((el) => {
+          return el.dataset.vcvElement
+        })
       })
-      let element = null
-      if (elPath.length) {
-        element = elPath[0] // first element in path always hovered element
-      }
-      // replace linked element with real element
-      if (element && Object.prototype.hasOwnProperty.call(element.dataset, 'vcvLinkedElement')) {
-        element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
-        elPath[0] = element
-      }
-      if (this.state.prevElement !== element) {
-        // unset prev element
-        if (this.state.prevElement) {
-          layoutStorage.state('interactWithContent').set({
-            type: 'mouseLeave',
-            vcElementId: this.state.prevElement.dataset.vcvElement,
-            vcElementsPath: this.state.prevElementPath.map((el) => {
-              return el.dataset.vcvElement
-            })
+      layoutStorage.state('interactWithControls').set({
+        type: 'mouseLeave'
+      })
+    }
+    // set new element
+    if (element) {
+      layoutStorage.state('interactWithContent').set({
+        type: 'mouseEnter',
+        vcElementId: element.dataset.vcvElement,
+        vcElementsPath: elPath.map((el) => {
+          return el.dataset.vcvElement
+        })
+      })
+      layoutStorage.state('interactWithControls').set({
+        type: 'mouseEnter',
+        vcElementId: element.dataset.vcvElement,
+        idSelector: element.id
+      })
+      layoutStorage.state('interactWithContent').set({
+        type: 'mouseDown',
+        vcElementId: element.dataset.vcvElement,
+        vcElementsPath: elPath.map((el) => {
+          return el.dataset.vcvElement
+        })
+      })
+
+      clearInterval(this.hideControlsInterval)
+
+      this.hideControlsInterval = setInterval(() => {
+        layoutStorage.state('interactWithContent').set({
+          type: 'mouseLeave',
+          vcElementId: element.dataset.vcvElement,
+          vcElementsPath: elPath.map((el) => {
+            return el.dataset.vcvElement
           })
+        })
+        this.state.prevElement = null
+        this.state.prevElementPath = []
+        layoutStorage.state('interactWithContent').set(false)
+        window.setTimeout(() => {
           layoutStorage.state('interactWithControls').set({
             type: 'mouseLeave'
           })
-        }
-        // set new element
-        if (element) {
-          layoutStorage.state('interactWithContent').set({
-            type: 'mouseEnter',
-            vcElementId: element.dataset.vcvElement,
-            vcElementsPath: elPath.map((el) => {
-              return el.dataset.vcvElement
-            })
-          })
-          layoutStorage.state('interactWithControls').set({
-            type: 'mouseEnter',
-            vcElementId: element.dataset.vcvElement
-          })
-          layoutStorage.state('interactWithContent').set({
-            type: 'mouseDown',
-            vcElementId: element.dataset.vcvElement,
-            vcElementsPath: elPath.map((el) => {
-              return el.dataset.vcvElement
-            })
-          })
+        }, 400)
+        clearInterval(this.hideControlsInterval)
+        layoutStorage.state('hideControlsInterval').set(false)
+      }, 6600)
 
-          clearInterval(this.hideControlsInterval)
-
-          this.hideControlsInterval = setInterval(() => {
-            layoutStorage.state('interactWithContent').set({
-              type: 'mouseLeave',
-              vcElementId: element.dataset.vcvElement,
-              vcElementsPath: elPath.map((el) => {
-                return el.dataset.vcvElement
-              })
-            })
-            this.state.prevElement = null
-            this.state.prevElementPath = []
-            layoutStorage.state('interactWithContent').set(false)
-            window.setTimeout(() => {
-              layoutStorage.state('interactWithControls').set({
-                type: 'mouseLeave'
-              })
-            }, 400)
-            clearInterval(this.hideControlsInterval)
-            layoutStorage.state('hideControlsInterval').set(false)
-          }, 4600)
-
-          layoutStorage.state('hideControlsInterval').set(this.hideControlsInterval)
-        }
-
-        this.state.prevElement = element
-        this.state.prevElementPath = elPath
-      }
+      layoutStorage.state('hideControlsInterval').set(this.hideControlsInterval)
     }
+
+    this.state.prevElement = element
+    this.state.prevElementPath = elPath
   }
 
   /**
@@ -285,11 +290,17 @@ export default class ControlsManager {
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
       this.state.showFrames = !state
-      if (state && state.mode === 'dnd') {
+      if (state?.mode === 'dnd') {
         this.state.showFrames = true
+        this.toggleControls()
+        this.outline.hide()
       }
-      if (state && state.mode === 'contentEditable') {
+      if (state?.mode === 'contentEditable') {
         this.frames.hide()
+        this.toggleControls()
+        this.outline.hide()
+      }
+      if (state?.mode === 'columnResizerHover') {
         this.toggleControls()
         this.outline.hide()
       }
@@ -326,7 +337,11 @@ export default class ControlsManager {
 
     layoutStorage.state('interactWithControls').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
-        const contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+        let selector = `[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`
+        if (data.idSelector) {
+          selector = `#${data.idSelector + selector}`
+        }
+        const contentElement = this.iframeDocument.querySelector(selector)
         if (contentElement) {
           this.outline.show(contentElement, data.vcElementId)
         }
@@ -348,12 +363,7 @@ export default class ControlsManager {
     })
 
     layoutStorage.state('rightClickMenuActive').onChange(() => {
-      const outlineControls = document.querySelector('.vcv-ui-outline-controls-wrapper')
-      ReactDOM.unmountComponentAtNode(outlineControls)
-      if (roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
-        const appendControls = document.querySelector('.vcv-ui-append-control-wrapper')
-        ReactDOM.unmountComponentAtNode(appendControls)
-      }
+      this.toggleControls()
     })
   }
 

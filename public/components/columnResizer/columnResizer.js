@@ -175,6 +175,10 @@ export default class ColumnResizer extends React.Component {
 
   handleResizerState () {
     if (!this.state.dragging) {
+      vcCake.setData('vcv:layoutCustomMode', this.state.isResizerActive ? undefined : {
+        mode: 'columnResizerHover',
+        options: {}
+      })
       this.setState({
         isResizerActive: !this.state.isResizerActive,
         labelPosition: null
