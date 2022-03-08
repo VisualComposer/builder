@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Application;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Framework\Container;
+use WP_Query;
 
 class Assets extends Container implements Helper
 {
@@ -214,5 +215,105 @@ class Assets extends Container implements Helper
         }
 
         return $bundleUrl;
+    }
+
+    /**
+     * Generate (save to fs and update db) post styles bundle.
+     *
+     * @param $response
+     * @param $payload
+     *
+     * @return bool|string URL to generated bundle.
+     * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
+    public function generateSourceCssFile($response, $payload)
+    {
+        $assetsHelper = vchelper('Assets');
+        $fileHelper = vchelper('File');
+        $globalElementsBaseCss = [];
+        $globalElementsMixinsCss = [];
+        $sourceId = $payload['sourceId'];
+        $sourceCss = get_post_meta($sourceId, 'vcvSourceCss', true);
+        $globalElementsCssData = get_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', true);
+
+        $globalElementsAttributesCss = [];
+        if (is_array($globalElementsCssData)) {
+            foreach ($globalElementsCssData as $element) {
+                if (!$element) {
+                    continue;
+                }
+
+                $baseCssHash = wp_hash($element['baseCss']);
+                $mixinsCssHash = wp_hash($element['mixinsCss']);
+                $attributesCssHash = wp_hash($element['attributesCss']);
+                $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                $globalElementsMixinsCss[ $mixinsCssHash ] = $element['mixinsCss'];
+                $globalElementsAttributesCss[ $attributesCssHash ] = $element['attributesCss'];
+            }
+        }
+
+        $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
+        $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
+        $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
+        $sourceCssContent = $globalElementsBaseCssContent . $globalElementsMixinsCssContent
+            . $globalElementsAttributesCssContent . $sourceCss;
+
+        $sourceChecksum = wp_hash($sourceCssContent);
+        $oldSourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
+
+        $sourceCssName = $sourceChecksum . '.source.css';
+
+        $bundleUrl = $assetsHelper->updateBundleFile(
+            $sourceCssContent,
+            $sourceCssName
+        );
+
+        if ($sourceChecksum !== $oldSourceChecksum) {
+            $sourcePath = $assetsHelper->getFilePath($sourceCssName);
+            if ($fileHelper->isFile($sourcePath)) {
+                $this->deleteSourceAssetsFile($sourceId);
+                update_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', $sourceChecksum);
+                update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
+                update_post_meta($sourceId, '_' . VCV_PREFIX . 'globalCssMigrated', 1);
+            }
+        }
+
+        $response['sourceBundleCssFileUrl'] = $bundleUrl;
+
+        return $response;
+    }
+
+    public function deleteSourceAssetsFile($sourceId)
+    {
+        $assetsHelper = vchelper('Assets');
+        $extension = $sourceId . '.source.css';
+        $assetsHelper->deleteAssetsBundles($extension);
+
+        $sourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
+        $checksumArgs = [
+            'meta_key' => '_' . VCV_PREFIX . 'sourceChecksum',
+            'meta_value' => $sourceChecksum,
+            'post_type' => 'any',
+            'post_status' => 'any',
+        ];
+        $checksumQuery = new WP_Query($checksumArgs);
+        //@codingStandardsIgnoreLine
+        $postCount = $checksumQuery->post_count;
+        if ($postCount === 1) { // Do not remove if this post is not match with deleting id
+            $post = $checksumQuery->post; // Fetch the post that is using that checksum
+            $postID = $post->ID;
+            if ($postID !== $sourceId) {
+                return true;
+            } else {
+                $extension = $sourceChecksum . '.source.css';
+                $assetsHelper->deleteAssetsBundles($extension);
+            }
+        } elseif ($postCount < 1) {
+            $extension = $sourceChecksum . '.source.css';
+            $assetsHelper->deleteAssetsBundles($extension);
+        }
+
+        return true;
     }
 }
