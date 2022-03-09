@@ -113,7 +113,6 @@ export default class ControlsManager {
         store.dispatch(appendControlDataChanged({}))
       }
       this.state.prevTarget = null
-      this.state.prevElement = null
       this.state.prevElementPath = []
     }
   }

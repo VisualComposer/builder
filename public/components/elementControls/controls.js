@@ -44,6 +44,7 @@ const getContainerPosition = (vcElementId, iframeDocument, controlsContainer) =>
   position.width = elementRect.width
   position.height = elementRect.height
   position.realTop = elementRect.top
+  position.bottom = elementRect.bottom
 
   return position
 }
@@ -131,6 +132,7 @@ const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
   const [containerPos, setContainerPos] = useState({
     top: '',
     left: '',
+    bottom: '',
     width: '',
     height: '',
     realTop: ''
