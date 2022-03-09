@@ -12,7 +12,8 @@ interface Props {
     realTop: number;
     height: number;
     left: number;
-    width: number
+    width: number;
+    bottom: number;
   };
   controlsListWidth: number;
   iframeWindow: Window
@@ -40,16 +41,16 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   }
   const screenGap = 2
   const controlsHeight = 40
-  const centerPosition = containerPos.realTop + (containerPos.height / 2)
-  const bottomPosition = centerPosition + controlsHeight / 2
-  let topPosition = centerPosition - controlsHeight / 2
 
+
+  const elementTopPos = containerPos.realTop < 0 ? 0 : containerPos.realTop
+  const elementBottomPos = containerPos.bottom > iframeWindow.innerHeight ? iframeWindow.innerHeight : containerPos.bottom
+  const visibleHeight = elementBottomPos - elementTopPos
+
+  const centerPosition = elementTopPos + (visibleHeight / 2)
+  let topPosition = centerPosition - controlsHeight / 2
   if ((topPosition < (controlsHeight + screenGap * 2)) && (controlsListWidth > innerLeft)) {
     topPosition = controlsHeight + screenGap * 2
-  } else if (topPosition < screenGap) {
-    topPosition = screenGap
-  } else if (bottomPosition > iframeWindow.innerHeight) {
-    topPosition = iframeWindow.innerHeight - controlsHeight - screenGap
   }
 
   const handleMouseEnter = () => {
