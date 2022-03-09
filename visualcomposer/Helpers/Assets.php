@@ -58,7 +58,7 @@ class Assets extends Container implements Helper
     /**
      * @param $templatePart
      *
-     * @return bool|mixed
+     * @return int|void
      */
     public function getTemplatePartId($templatePart)
     {
@@ -284,6 +284,13 @@ class Assets extends Container implements Helper
         return $response;
     }
 
+    /**
+     * Delete post styles bundle.
+     *
+     * @param int $sourceId
+     *
+     * @return bool
+     */
     public function deleteSourceAssetsFile($sourceId)
     {
         $assetsHelper = vchelper('Assets');
@@ -315,5 +322,61 @@ class Assets extends Container implements Helper
         }
 
         return true;
+    }
+
+    /**
+     * Replace assets url placeholder with real url.
+     * We use placeholder in post content to differentiate VC assets.
+     *
+     * @param string $content
+     * @param string $assetUrl
+     * @param string $prefix we use it to differentiate some special cases placeholders
+     *
+     * @return array|string|string[]
+     */
+    public function replaceAssetsUrl($content, $assetUrl, $prefix = '')
+    {
+        if ($prefix) {
+            $prefix .= '-';
+        }
+
+        return str_replace(
+            [
+                '[' . $prefix . 'vcvAssetsUploadUrl]',
+                'http://|!|' . $prefix . 'vcvAssetsUploadUrl|!|',
+                'https://|!|' . $prefix . 'vcvAssetsUploadUrl|!|',
+                '|!|' . $prefix . 'vcvAssetsUploadUrl|!|',
+            ],
+            $assetUrl,
+            $content
+        );
+    }
+
+    /**
+     * Replace uploads url placeholder with real url.
+     * We use placeholder in post content to differentiate VC uploads.
+     *
+     * @param string $content
+     * @param string $uploadUrl
+     * @param string $prefix we use it to differentiate some special cases placeholders
+     *
+     * @return array|string|string[]
+     */
+    public function replaceUploadsUrl($content, $uploadUrl, $prefix = '')
+    {
+        if ($prefix) {
+            $prefix .= '-';
+        }
+
+        return str_replace(
+            [
+                '[' . $prefix . 'vcvUploadUrl]',
+                'http://|!|' . $prefix . 'vcvUploadUrl|!|',
+                'https://|!|' . $prefix . 'vcvUploadUrl|!|',
+                '|!|' . $prefix . 'vcvUploadUrl|!|',
+            ],
+            $uploadUrl,
+            $content
+        );
     }
 }
