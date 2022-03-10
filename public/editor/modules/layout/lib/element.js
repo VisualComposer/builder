@@ -32,8 +32,7 @@ export default class Element extends React.Component {
     this.getEditorProps = this.getEditorProps.bind(this)
     this.elementComponentRef = React.createRef()
     this.state = {
-      element: props.element,
-      currentContent: null
+      element: props.element
     }
   }
 
@@ -69,7 +68,10 @@ export default class Element extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (!isEqual(prevProps.element, this.props.element)) {
+    // TODO: Need to refactor all state management (editor.js, htmlLayout.js, element.js)
+    // TODO: We could use REDUX for elementsStorage.state('document')
+    // It is not correct to update state from props and in element itself 
+    if (!isEqual(this.props.element, this.state.element) && isEqual(prevState.element, this.state.element)) {
       if (!isEqual(prevState.element, this.props.element)) {
         assetsStorage.trigger('updateElement', prevState.element.id)
       }
