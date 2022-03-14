@@ -540,6 +540,25 @@ export default class DndDataSet {
     })
   }
 
+  columnDrop () {
+    const newColumn = cook.get({ tag: 'column' })
+    const currentColumnParent = cook.getById(this.currentElement).get('parent')
+    const newElement = document.createElement('div')
+    newColumn.set('parent', currentColumnParent)
+    const draggingElement = this.createDraggingElementFromTag('column', newElement)
+
+    this.position && this.options.dropCallback(
+      'dropElement',
+      this.position,
+      this.currentElement,
+      draggingElement,
+      newColumn.toJS(),
+      { silent: true }
+    )
+    this.position = 'append'
+    this.currentElement = newColumn.get('id')
+  }
+
   end () {
     const dragEndedAt = (new Date()).getTime()
     const dragStartedAt = this.dragStartedAt
@@ -565,6 +584,9 @@ export default class DndDataSet {
     // prevent quick multiple click
     if (dragEndedAt - dragStartedAt > 250) {
       if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
+        if (this.elementToColumn) {
+          this.columnDrop()
+        }
         this.position && this.options.dropCallback(
           this.draggingElement.id,
           this.position,
@@ -578,22 +600,7 @@ export default class DndDataSet {
         }
       } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
         if (this.elementToColumn && this.draggingElement.tag !== 'column') {
-          const newColumn = cook.get({ tag: 'column' })
-          const currentColumnParent = cook.getById(this.currentElement).get('parent')
-          const newElement = document.createElement('div')
-          newColumn.set('parent', currentColumnParent)
-          const draggingElement = this.createDraggingElementFromTag('column', newElement)
-
-          this.position && this.options.dropCallback(
-            'dropElement',
-            this.position,
-            this.currentElement,
-            draggingElement,
-            newColumn.toJS(),
-            { silent: true }
-          )
-          this.position = 'append'
-          this.currentElement = newColumn.get('id')
+          this.columnDrop()
         }
         this.position && this.options.moveCallback(
           this.draggingElement.id,
