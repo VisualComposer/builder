@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\FrontView;
+namespace VisualComposer\Modules\Vendors;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -15,34 +15,37 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
- * Class AssetUrlReplaceController
- * @package VisualComposer\Modules\FrontView
+ * Backward compatibility with One User Avatar plugin.
+ *
+ * @see https://wordpress.org/plugins/one-user-avatar/
  */
-class AssetUrlReplaceController extends Container implements Module
+class OneUserAvatar extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
 
-    /**
-     * AssetUrlReplaceController constructor.
-     */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::replaceUrls */
-        $this->addFilter('vcv:frontend:content vcv:frontend:content:encode', 'replaceUrls');
-        $this->wpAddFilter('the_content', 'replaceUrls', 100);
-        $this->wpAddFilter('the_editor_content', 'replaceUrls', 100);
+        $this->wpAddAction('plugins_loaded', 'initialize');
+    }
+
+    protected function initialize()
+    {
+        if (!class_exists('One_User_Avatar')) {
+            return;
+        }
+
+        $this->addFilter('vcv:addon:dynamicFields:parseResponse:before', 'replaceAssetsUrls');
     }
 
     /**
-     * Replace urls placeholders
+     * Replace assets url placeholder
      *
-     * @param $content
-     * @param \VisualComposer\Helpers\Assets $assetsHelper
+     * @param string $content
      *
-     * @return mixed
+     * @return string
      */
-    protected function replaceUrls($content, Assets $assetsHelper)
+    protected function replaceAssetsUrls($content, Assets $assetsHelper)
     {
         $assetUrl = $assetsHelper->getAssetUrl();
         $uploadDir = wp_upload_dir();
