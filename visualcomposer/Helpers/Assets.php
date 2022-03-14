@@ -56,6 +56,8 @@ class Assets extends Container implements Helper
     }
 
     /**
+     * Get id of template part.
+     *
      * @param $templatePart
      *
      * @return int|void
