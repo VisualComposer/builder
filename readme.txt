@@ -1822,3 +1822,4 @@ Yes, we have an awesome online community that you can join to share your experti
 * Update: plugin activation process
 * Update: extension bundle split download
 * Fix: global CSS duplication
+
