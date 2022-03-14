@@ -5,6 +5,7 @@ import { getService, getStorage } from 'vc-cake'
 import MainControl from './mainControl'
 
 const layoutStorage = getStorage('layout')
+const iframe = document.getElementById('vcv-editor-iframe')
 
 interface Props {
   id: string;
@@ -27,12 +28,17 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   const innerRef = useRef<HTMLHeadingElement>(null)
   const outerRef = useRef<HTMLHeadingElement>(null)
   const [innerLeft, setInnerLeft] = useState(60) // in most cases left position will be bigger than base control width
+  const [display, setDisplay] = useState('flex')
 
   useEffect(() => {
     const innerRefLeft = innerRef?.current?.getBoundingClientRect()?.left
     const outerRefLeft = outerRef?.current?.getBoundingClientRect()?.left
+    const iframeRect = iframe && iframe.getBoundingClientRect()
     if (innerRefLeft && outerRefLeft) {
       setInnerLeft(innerRefLeft - outerRefLeft)
+    }
+    if (innerRefLeft && iframeRect && innerRefLeft < iframeRect.left) {
+      setDisplay('block')
     }
   }, [controlsListWidth])
 
@@ -64,7 +70,8 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   const styles = {
     top: `${topPosition}px`,
     left: `${containerPos.left}px`,
-    width: `${containerPos.width}px`
+    width: `${containerPos.width}px`,
+    display: display
   }
   const isCenterControls = true
   return (
