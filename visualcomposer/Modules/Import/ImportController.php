@@ -125,29 +125,8 @@ class ImportController extends Container implements Module
         $uploadDir = wp_upload_dir();
         $uploadUrl = $this->changeBaseUploadDirToImportBase(set_url_scheme($uploadDir['baseurl']));
 
-        // Assets Url
-        $content = str_replace(
-            [
-                '[wp-import-vcvAssetsUploadUrl]',
-                'http://|!|wp-import-vcvAssetsUploadUrl|!|',
-                'https://|!|wp-import-vcvAssetsUploadUrl|!|',
-                '|!|wp-import-vcvAssetsUploadUrl|!|',
-            ],
-            $assetUrl,
-            $content
-        );
-
-        // Upload Url
-        $content = str_replace(
-            [
-                '[wp-import-vcvUploadUrl]',
-                'http://|!|wp-import-vcvUploadUrl|!|',
-                'https://|!|wp-import-vcvUploadUrl|!|',
-                '|!|wp-import-vcvUploadUrl|!|',
-            ],
-            $uploadUrl,
-            $content
-        );
+        $content = $assetsHelper->replaceAssetsUrl($content, $assetUrl, 'wp-import');
+        $content = $assetsHelper->replaceUploadsUrl($content, $uploadUrl, 'wp-import');
 
         return $content;
     }
