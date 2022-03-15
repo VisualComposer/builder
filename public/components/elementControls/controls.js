@@ -8,6 +8,7 @@ import CenterControls from './centerControls'
 import { ControlHelpers } from './controlHelpers'
 
 const layoutStorage = getStorage('layout')
+const elementsStorage = getStorage('elements')
 const iframe = document.getElementById('vcv-editor-iframe')
 const dataManager = getService('dataManager')
 
@@ -139,6 +140,7 @@ const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
   })
   const [controlsPos, setControlsPos] = useState(false)
   const [visibleControls, setVisibleControls] = useState(false)
+  const [visibleElement, setVisibleElement] = useState(vcElementId)
 
   const setPositionState = useCallback(() => {
     if (vcElementId) {
@@ -152,8 +154,21 @@ const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
     }
   }, [vcElementId, iframeDocument, vcvEditableElements])
 
+  const handleElementRemove = useCallback((data) => {
+    if (vcvEditableElements.includes(data)) {
+      setVisibleElement(false)
+    }
+  }, [vcElementId])
+
   useEffect(() => {
+    if (vcElementId) {
+      setVisibleElement(vcElementId)
+    }
     setPositionState()
+    elementsStorage.on('remove', handleElementRemove)
+    return () => {
+      elementsStorage.off('remove', handleElementRemove)
+    }
   }, [setPositionState])
 
   const handleMouseEnter = () => {
@@ -191,7 +206,7 @@ const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
   const containerClasses = classNames({
     'vcv-ui-outline-controls-container': true,
     'vcv-ui-controls-o-controls-right': controlsPos?.isControlsRight,
-    'vcv-ui-outline-controls-container--is-visible': vcElementId
+    'vcv-ui-outline-controls-container--is-visible': vcElementId && vcvEditableElements && vcvEditableElements.includes(visibleElement)
   })
 
   let centerControls = null
