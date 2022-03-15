@@ -3,10 +3,34 @@ import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
+import CourseList from './courseList'
+import course1 from '../../sources/images/courseImages/Youtube-get-started-1.png'
+import course2 from '../../sources/images/courseImages/Youtube-get-started-2.png'
+import course3 from '../../sources/images/courseImages/Youtube-get-started-3.png'
+
 import { getResponse } from 'public/tools/response'
 
 const dataProcessorService = vcCake.getService('dataProcessor')
 const dataManager = vcCake.getService('dataManager')
+const localizations = dataManager.get('localizations')
+
+const courseList = [
+  {
+    img: course1,
+    title: localizations.course1,
+    duration: localizations.courseDuration1
+  },
+  {
+    img: course2,
+    title: localizations.course2,
+    duration: localizations.courseDuration2
+  },
+  {
+    img: course3,
+    title: localizations.course3,
+    duration: localizations.courseDuration3
+  },
+]
 
 export default class VideoScreen extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -70,6 +94,8 @@ export default class VideoScreen extends React.Component {
     const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.'
     const createNewText = dataManager.get('createNewText')
     const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Try The Tutorial Template'
+    const utm = dataManager.get('utm')
+    const courseUrl = utm['get-started-course']
 
     let createNewButton = null
     let takeTutorialButton = null
@@ -108,14 +134,17 @@ export default class VideoScreen extends React.Component {
           {takeTutorialButton}
         </div>
         {this.getDoMoreText()}
-        <div className='vcv-activation-video-container'>
-          <div className='vcv-activation-video'>
-            <iframe
-              className='vcv-activation-video-iframe'
-              src='https://www.youtube.com/embed/YxvsO21te5Q?rel=0'
-              frameBorder='0'
-            />
+        <div className='vcv-course-container'>
+          <div className='vcv-activation-video-container'>
+            <div className='vcv-activation-video'>
+              <iframe
+                className='vcv-activation-video-iframe'
+                src='https://www.youtube.com/embed/YxvsO21te5Q?rel=0'
+                frameBorder='0'
+              />
+            </div>
           </div>
+          <CourseList list={courseList} url={courseUrl}/>
         </div>
       </div>
     )
