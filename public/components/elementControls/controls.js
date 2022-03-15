@@ -16,7 +16,6 @@ const getContainerPosition = (vcElementId, iframeDocument, controlsContainer) =>
   if (!controlsContainer.current) {
     return false
   }
-  console.log('iframeDocument', iframeDocument)
   const contentElement = iframeDocument.querySelector(`[data-vcv-element="${vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
   const elementRect = contentElement.getBoundingClientRect()
   const controls = controlsContainer.current.firstElementChild
