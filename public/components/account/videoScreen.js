@@ -29,7 +29,7 @@ const courseList = [
     img: course3,
     title: localizations.course3,
     duration: localizations.courseDuration3
-  },
+  }
 ]
 
 export default class VideoScreen extends React.Component {
@@ -144,7 +144,7 @@ export default class VideoScreen extends React.Component {
               />
             </div>
           </div>
-          <CourseList list={courseList} url={courseUrl}/>
+          <CourseList list={courseList} url={courseUrl} />
         </div>
       </div>
     )
