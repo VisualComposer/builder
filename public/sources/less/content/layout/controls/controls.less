@@ -382,6 +382,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.vcv-ui-controls-o-controls-left {
+    display: block;
+  }
+  &.vcv-ui-controls-o-controls-right {
+    .vcv-ui-outline-controls-center-inner {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: auto;
+    }
+  }
 }
 
 .vcv-ui-outline-controls-center-inner {
