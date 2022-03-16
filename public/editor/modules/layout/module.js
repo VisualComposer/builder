@@ -56,12 +56,11 @@ vcCake.add('contentLayout', (api) => {
       layoutOverlay
     )
   }
-  const iframe = document.getElementById('vcv-editor-iframe')
   const controlsContainer = document.querySelector('.vcv-ui-outline-controls-wrapper')
   if (controlsContainer) {
     ReactDOM.render(
       <Provider store={store}>
-        <Controls iframeDocument={iframe.contentDocument} iframeWindow={iframe.contentWindow} />
+        <Controls />
       </Provider>,
       controlsContainer
     )
@@ -71,7 +70,7 @@ vcCake.add('contentLayout', (api) => {
   if (appendControlContainer) {
     ReactDOM.render(
       <Provider store={store}>
-        <AppendControl iframeDocument={iframe.contentDocument} />
+        <AppendControl />
       </Provider>,
       appendControlContainer
     )
