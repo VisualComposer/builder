@@ -37,7 +37,7 @@ function updateAppendContainerPosition (vcElementId, iframeDocument, appendContr
   }
 }
 
-const AppendControl = ({ data = {}, }) => {
+const AppendControl = ({ data = {} }) => {
   const { vcElementsPath, vcElementId } = data
   const controlContainer = useRef()
   const [containerPos, setContainerPos] = useState(false)
