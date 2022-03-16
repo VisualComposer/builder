@@ -9,6 +9,7 @@ import { ControlHelpers } from './controlHelpers'
 
 const layoutStorage = getStorage('layout')
 const elementsStorage = getStorage('elements')
+const settingsStorage = getStorage('settings')
 const iframe = document.getElementById('vcv-editor-iframe')
 const dataManager = getService('dataManager')
 
@@ -125,7 +126,7 @@ function ControlItems (props) {
   return controls.reverse()
 }
 
-const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
+const Controls = ({ data = {} }) => {
   const controlsContainer = useRef()
   const controls = useRef()
   const { vcvEditableElements, vcElementId, vcvDraggableIds } = data
@@ -141,18 +142,19 @@ const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
   const [controlsPos, setControlsPos] = useState(false)
   const [visibleControls, setVisibleControls] = useState(false)
   const [visibleElement, setVisibleElement] = useState(vcElementId)
+  const [iframeElement, setIframeElement] = useState(document.getElementById('vcv-editor-iframe'))
 
   const setPositionState = useCallback(() => {
     if (vcElementId) {
-      setContainerPos(getContainerPosition(vcElementId, iframeDocument, controlsContainer))
+      setContainerPos(getContainerPosition(vcElementId, iframeElement.contentDocument, controlsContainer))
     }
     if (vcElementId) {
-      setControlsPos(getControlsPosition(vcElementId, iframeDocument, controlsContainer))
+      setControlsPos(getControlsPosition(vcElementId, iframeElement.contentDocument, controlsContainer))
     }
     if (vcvEditableElements) {
       setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
-  }, [vcElementId, iframeDocument, vcvEditableElements])
+  }, [vcElementId, vcvEditableElements])
 
   const handleElementRemove = useCallback((data) => {
     if (vcvEditableElements.includes(data)) {
@@ -160,14 +162,20 @@ const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
     }
   }, [vcElementId])
 
+  const handleSettingsChange = useCallback(() => {
+    setIframeElement(document.getElementById('vcv-editor-iframe'))
+  })
+
   useEffect(() => {
     if (vcElementId) {
       setVisibleElement(vcElementId)
     }
     setPositionState()
     elementsStorage.on('remove', handleElementRemove)
+    settingsStorage.state('pageTemplate').onChange(handleSettingsChange)
     return () => {
       elementsStorage.off('remove', handleElementRemove)
+      settingsStorage.state('pageTemplate').ignoreChange(handleSettingsChange)
     }
   }, [setPositionState])
 
@@ -218,7 +226,7 @@ const Controls = ({ data = {}, iframeWindow, iframeDocument }) => {
           id={vcvEditableElements[0]}
           containerPos={containerPos}
           controlsListWidth={controlsPos?.controlsListWidth || 0}
-          iframeWindow={iframeWindow}
+          iframeWindow={iframe.contentWindow}
         />
       )
     }
