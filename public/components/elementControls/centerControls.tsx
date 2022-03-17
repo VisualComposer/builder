@@ -3,8 +3,10 @@ import ControlDropdownInner from './controlDropdownInner'
 import { ControlHelpers } from './controlHelpers'
 import { getService, getStorage } from 'vc-cake'
 import MainControl from './mainControl'
+import classNames from "classnames";
 
 const layoutStorage = getStorage('layout')
+const iframe = document.getElementById('vcv-editor-iframe')
 
 interface Props {
   id: string;
@@ -27,12 +29,22 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   const innerRef = useRef<HTMLHeadingElement>(null)
   const outerRef = useRef<HTMLHeadingElement>(null)
   const [innerLeft, setInnerLeft] = useState(60) // in most cases left position will be bigger than base control width
+  const [isControlsLeft, setIsControlsLeft] = useState(false)
+  const [isControlsRight, setIsControlsRight] = useState(false)
 
   useEffect(() => {
     const innerRefLeft = innerRef?.current?.getBoundingClientRect()?.left
+    const innerRefRight = innerRef?.current?.getBoundingClientRect()?.right
     const outerRefLeft = outerRef?.current?.getBoundingClientRect()?.left
+    const iframeRect = iframe && iframe.getBoundingClientRect()
     if (innerRefLeft && outerRefLeft) {
       setInnerLeft(innerRefLeft - outerRefLeft)
+    }
+    if (innerRefLeft && iframeRect && innerRefLeft < iframeRect.left) {
+      setIsControlsLeft(true)
+    }
+    if (innerRefRight && iframeRect && innerRefRight > iframeRect.right) {
+      setIsControlsRight(true)
     }
   }, [controlsListWidth])
 
@@ -67,9 +79,15 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
     width: `${containerPos.width}px`
   }
   const isCenterControls = true
+
+  const controlClasses = classNames({
+    'vcv-ui-outline-controls-center': true,
+    'vcv-ui-controls-o-controls-right': isControlsRight,
+    'vcv-ui-controls-o-controls-left': isControlsLeft
+  })
   return (
     <div
-      className='vcv-ui-outline-controls-center'
+      className={controlClasses}
       style={{...styles}}
       ref={outerRef}>
       <div className='vcv-ui-outline-controls-center-inner' ref={innerRef} onMouseEnter={handleMouseEnter}>

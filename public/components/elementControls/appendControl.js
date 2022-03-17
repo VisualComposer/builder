@@ -6,6 +6,7 @@ const cook = getService('cook')
 const documentManager = getService('document')
 const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
+const settingsStorage = getStorage('settings')
 
 const workspaceSettings = workspaceStorage.state('settings')
 const iframe = document.getElementById('vcv-editor-iframe')
@@ -36,19 +37,28 @@ function updateAppendContainerPosition (vcElementId, iframeDocument, appendContr
   }
 }
 
-const AppendControl = ({ data = {}, iframeDocument }) => {
+const AppendControl = ({ data = {} }) => {
   const { vcElementsPath, vcElementId } = data
   const controlContainer = useRef()
   const [containerPos, setContainerPos] = useState(false)
+  const [iframeElement, setIframeElement] = useState(document.getElementById('vcv-editor-iframe'))
 
   const setPositionState = useCallback(() => {
     if (vcElementId) {
-      setContainerPos(updateAppendContainerPosition(vcElementId, iframeDocument, controlContainer))
+      setContainerPos(updateAppendContainerPosition(vcElementId, iframeElement.contentDocument, controlContainer))
     }
-  }, [iframeDocument, vcElementId])
+  }, [vcElementId])
+
+  const handleSettingsChange = useCallback(() => {
+    setIframeElement(document.getElementById('vcv-editor-iframe'))
+  })
 
   useEffect(() => {
     setPositionState()
+    settingsStorage.state('pageTemplate').onChange(handleSettingsChange)
+    return () => {
+      settingsStorage.state('pageTemplate').ignoreChange(handleSettingsChange)
+    }
   }, [setPositionState])
 
   const localizations = dataManager.get('localizations')

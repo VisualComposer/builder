@@ -10,33 +10,30 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class PreviewDataController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Assets\PreviewDataController::setData */
-        $this->addFilter(
-            'vcv:dataAjax:setData',
-            'setData'
+        $this->wpAddFilter(
+            'save_post',
+            'setPreviewMetaData',
+            10,
+            1
         );
     }
 
-    protected function setData($response, $payload, Frontend $frontendHelper)
-    {
-        if ($frontendHelper->isPreview()) {
-            $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
-            $this->updatePreviewLocalAssets($sourceId);
-            $this->updatePreviewGlobalAssets($sourceId);
-        }
-
-        return $response;
-    }
-
+    /**
+     * Update preview local assets metadata.
+     *
+     * @param int $previewId
+     */
     protected function updatePreviewLocalAssets($previewId)
     {
         $requestHelper = vchelper('Request');
@@ -54,6 +51,11 @@ class PreviewDataController extends Container implements Module
         );
     }
 
+    /**
+     * Update preview global assets metadata.
+     *
+     * @param int $sourceId
+     */
     protected function updatePreviewGlobalAssets($sourceId)
     {
         $requestHelper = vchelper('Request');
@@ -71,5 +73,29 @@ class PreviewDataController extends Container implements Module
             '_' . VCV_PREFIX . 'previewGlobalElementsCss',
             $requestHelper->input('vcv-global-css-compiled', '')
         );
+    }
+
+    /**
+     * Set preview metadata.
+     *
+     * @param int $postId
+     *
+     * @return mixed
+     * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
+    protected function setPreviewMetaData($postId)
+    {
+        $post = get_post($postId);
+
+        // @codingStandardsIgnoreLine
+        if ($post->post_type !== 'revision') {
+            return $postId;
+        }
+
+        $this->call('updatePreviewGlobalAssets', ['sourceId' => $postId]);
+        $this->call('updatePreviewLocalAssets', ['sourceId' => $postId]);
+
+        return $postId;
     }
 }
