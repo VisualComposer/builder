@@ -4,9 +4,9 @@ import classNames from 'classnames'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
 import CourseList from './courseList'
-import course1 from '../../sources/images/courseImages/Youtube-get-started-1.png'
-import course2 from '../../sources/images/courseImages/Youtube-get-started-2.png'
-import course3 from '../../sources/images/courseImages/Youtube-get-started-3.png'
+import course1 from 'public/sources/images/courseImages/youtube-get-started-1.png'
+import course2 from 'public/sources/images/courseImages/youtube-get-started-2.png'
+import course3 from 'public/sources/images/courseImages/youtube-get-started-3.png'
 
 import { getResponse } from 'public/tools/response'
 
@@ -56,8 +56,8 @@ export default class VideoScreen extends React.Component {
       const activateHereText = VideoScreen.localizations ? VideoScreen.localizations.activateHere : 'Activate here'
       const goPremiumText = VideoScreen.localizations ? VideoScreen.localizations.goPremiumLcFirst : 'go Premium'
 
-      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%1s', `<a href="${dataManager.get('goPremiumUrl')}&vcv-ref=gettingstarted">${activateHereText}</a>`)
-      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%2s', `<a href="${dataManager.get('utm').gettingstarted}" target="_blank" rel="noopener noreferrer">${goPremiumText}</a>`)
+      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%1s', `<a href='${dataManager.get('goPremiumUrl')}&vcv-ref=gettingstarted'>${activateHereText}</a>`)
+      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%2s', `<a href='${dataManager.get('utm').gettingstarted}' target='_blank' rel='noopener noreferrer'>${goPremiumText}</a>`)
 
       return (
         <p className='vcv-activation-description' dangerouslySetInnerHTML={{ __html: alreadyHaveLicenseText }} />
@@ -96,6 +96,7 @@ export default class VideoScreen extends React.Component {
     const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Try The Tutorial Template'
     const utm = dataManager.get('utm')
     const courseUrl = utm['get-started-course']
+    const courseButtonText = VideoScreen.localizations ? VideoScreen.localizations.courseButtonText : 'View full course (4 videos)'
 
     let createNewButton = null
     let takeTutorialButton = null
@@ -144,7 +145,7 @@ export default class VideoScreen extends React.Component {
               />
             </div>
           </div>
-          <CourseList list={courseList} url={courseUrl} />
+          <CourseList list={courseList} url={courseUrl} buttonText={courseButtonText} />
         </div>
       </div>
     )
