@@ -172,7 +172,7 @@ class EnqueueController extends Container implements Module
                 $fileName = $closureInfo->getFileName();
 
                 if (strpos($fileName, WPINC) !== false || strpos($fileName, 'wp-admin') !== false) {
-                    continue; // Skip wordpress callback
+                    continue; // Skip WordPress callback
                 }
 
                 // Call the callback
@@ -255,13 +255,12 @@ class EnqueueController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
      * @throws \ReflectionException
      * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
-    protected function enqueueAssets(Frontend $frontendHelper, Assets $assetsHelper)
+    protected function enqueueAssets(Assets $assetsHelper)
     {
         // Needed to keep proper ordering for layout styles rendering (background images)
         if (is_null(self::$initialEnqueue)) {
