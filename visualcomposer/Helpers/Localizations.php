@@ -2018,6 +2018,10 @@ class Localizations extends Container implements Helper
                 '1:08',
                 'visualcomposer'
             ),
+            'courseButtonText' => __(
+                'View full course (4 videos)',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
