@@ -247,6 +247,8 @@ class EnqueueController extends Container implements Module
                 continue;
             }
 
+            $this->lastEnqueueIdAssetsAll[] = $sourceId;
+
             $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
             $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
         }
@@ -273,15 +275,8 @@ class EnqueueController extends Container implements Module
         wp_enqueue_style('vcv:assets:front:style');
         wp_enqueue_script('vcv:assets:runtime:script');
         wp_enqueue_script('vcv:assets:front:script');
-        if (
-            $frontendHelper->isPreview()
-            && (
-                !empty($this->lastEnqueueIdAssetsAll) || (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true))
-            )
-        ) {
-            // To avoid enqueue assets inside preview page
-            $this->addEnqueuedId($sourceId);
-        } elseif (is_home() || is_archive() || is_category() || is_tag()) {
+
+        if (is_home() || is_archive() || is_category() || is_tag()) {
             $idList = [];
             // @codingStandardsIgnoreLine
             foreach ($wp_query->posts as $post) {
@@ -322,7 +317,6 @@ class EnqueueController extends Container implements Module
             wp_add_inline_style(VCV_PREFIX . 'globalElementsCss', $optionsHelper->get('globalElementsCss'));
         }
 
-        $this->addEnqueuedId($sourceId);
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
             if (strpos($bundleUrl, 'http') !== 0) {
@@ -374,18 +368,7 @@ class EnqueueController extends Container implements Module
         if (!$sourceId) {
             $sourceId = get_the_ID();
         }
-        $this->addEnqueuedId($sourceId);
 
         $assetsEnqueueHelper->enqueueAssets($sourceId);
-    }
-
-    /**
-     * @param $sourceId
-     */
-    protected function addEnqueuedId($sourceId)
-    {
-        if (!in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
-            $this->lastEnqueueIdAssetsAll[] = $sourceId;
-        }
     }
 }
