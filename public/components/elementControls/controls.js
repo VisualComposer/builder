@@ -149,8 +149,6 @@ const Controls = ({ data = {} }) => {
   const setPositionState = useCallback(() => {
     if (vcElementId) {
       setContainerPos(getContainerPosition(vcElementId, iframeElement.contentDocument, controlsContainer))
-    }
-    if (vcElementId) {
       setControlsPos(getControlsPosition(vcElementId, iframeElement.contentDocument, controlsContainer))
     }
     if (vcvEditableElements) {
@@ -172,12 +170,17 @@ const Controls = ({ data = {} }) => {
     if (vcElementId) {
       setVisibleElement(vcElementId)
     }
-    setPositionState()
+    // Timeout is required because in the getControlsPosition function sometimes
+    // the .vcv-ui-outline-controls element has no size, thus failing to calculate proper position.
+    const timeout = setTimeout(() => {
+      setPositionState()
+    }, 0)
     elementsStorage.on('remove', handleElementRemove)
     settingsStorage.state('pageTemplate').onChange(handleSettingsChange)
     return () => {
       elementsStorage.off('remove', handleElementRemove)
       settingsStorage.state('pageTemplate').ignoreChange(handleSettingsChange)
+      clearTimeout(timeout)
     }
   }, [setPositionState])
 

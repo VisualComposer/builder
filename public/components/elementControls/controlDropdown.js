@@ -4,21 +4,21 @@ import ControlDropdownInner from './controlDropdownInner'
 
 const layoutStorage = getStorage('layout')
 
-const iframe = document.getElementById('vcv-editor-iframe')
+const layoutContent = document.querySelector('.vcv-layout-content')
 
 const getControlDropdownPosition = (control) => {
   if (!control.current) {
     return false
   }
-  const iframeRect = iframe.getBoundingClientRect()
+  const layoutContentRect = layoutContent.getBoundingClientRect()
   const dropdownPos = control.current.getBoundingClientRect()
   const position = []
   // drop up
-  if (dropdownPos.top + dropdownPos.height > iframeRect.top + iframeRect.height) {
+  if (dropdownPos.top + dropdownPos.height > layoutContentRect.top + layoutContentRect.height) {
     position.push('vcv-ui-outline-control-dropdown-o-drop-up')
   }
   // drop right
-  if (dropdownPos.left + dropdownPos.width > iframeRect.left + iframeRect.width) {
+  if (dropdownPos.left + dropdownPos.width > layoutContentRect.left + layoutContentRect.width) {
     position.push('vcv-ui-outline-control-dropdown-o-drop-right')
   }
 
