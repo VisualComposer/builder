@@ -30,6 +30,8 @@ const getContainerPosition = (vcElementId, iframeDocument, controlsContainer) =>
   if (position.top - controlsHeight < 0) {
     controlsContainer.current.classList.add('vcv-ui-controls-o-inset')
     position.top = controlsHeight
+  } else if (position.top === 0 && controlsHeight === 0) {
+    position.top = 43
   } else {
     controlsContainer.current.classList.remove('vcv-ui-controls-o-inset')
   }
