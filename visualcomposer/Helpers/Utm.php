@@ -54,6 +54,7 @@ class Utm implements Helper
 
             // Getting Started
             'gettingstarted' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=gettingstarted&utm_campaign=gopremium&utm_content=go-premium-text',
+            'get-started-course' => 'https://help.visualcomposer.com/get-started-course/?utm_source=' . $source . '&utm_medium=getstarted-vcdashboard&utm_content=playlist',
 
             // VC Dashboard Direct URLs
             'vcdashboard-help' => 'https://help.visualcomposer.com/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=info&utm_content=help-menu',
