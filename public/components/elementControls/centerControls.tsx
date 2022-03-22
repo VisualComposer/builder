@@ -41,19 +41,19 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
       const outerRefLeft = outerRef?.current?.getBoundingClientRect()?.left
       const iframeRect = iframe && iframe.getBoundingClientRect()
       if (innerRefLeft && outerRefLeft) {
-          setInnerLeft(innerRefLeft - outerRefLeft)
+        setInnerLeft(innerRefLeft - outerRefLeft)
       }
       if (innerRefLeft && iframeRect && innerRefLeft < iframeRect.left) {
-          setIsControlsLeft(true)
+        setIsControlsLeft(true)
       }
       if (innerRefRight && iframeRect && innerRefRight > iframeRect.right) {
-          setIsControlsRight(true)
+        setIsControlsRight(true)
       }
-    }, 10)
+    }, 0)
     return () => {
       clearTimeout(timeout)
     }
-  }, [controlsListWidth])
+  })
 
   if (!vcElement) {
     return null
