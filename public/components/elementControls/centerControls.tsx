@@ -33,27 +33,33 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   const [isControlsRight, setIsControlsRight] = useState(false)
 
   useEffect(() => {
-    const innerRefLeft = innerRef?.current?.getBoundingClientRect()?.left
-    const innerRefRight = innerRef?.current?.getBoundingClientRect()?.right
-    const outerRefLeft = outerRef?.current?.getBoundingClientRect()?.left
-    const iframeRect = iframe && iframe.getBoundingClientRect()
-    if (innerRefLeft && outerRefLeft) {
-      setInnerLeft(innerRefLeft - outerRefLeft)
+    // Timeout is required because sometimes the ref elements has no size,
+    // thus failing to calculate proper position.
+    const timeout = setTimeout(() => {
+      const innerRefLeft = innerRef?.current?.getBoundingClientRect()?.left
+      const innerRefRight = innerRef?.current?.getBoundingClientRect()?.right
+      const outerRefLeft = outerRef?.current?.getBoundingClientRect()?.left
+      const iframeRect = iframe && iframe.getBoundingClientRect()
+      if (innerRefLeft && outerRefLeft) {
+        setInnerLeft(innerRefLeft - outerRefLeft)
+      }
+      if (innerRefLeft && iframeRect && innerRefLeft < iframeRect.left) {
+        setIsControlsLeft(true)
+      }
+      if (innerRefRight && iframeRect && innerRefRight > iframeRect.right) {
+        setIsControlsRight(true)
+      }
+    }, 0)
+    return () => {
+      clearTimeout(timeout)
     }
-    if (innerRefLeft && iframeRect && innerRefLeft < iframeRect.left) {
-      setIsControlsLeft(true)
-    }
-    if (innerRefRight && iframeRect && innerRefRight > iframeRect.right) {
-      setIsControlsRight(true)
-    }
-  }, [controlsListWidth])
+  })
 
   if (!vcElement) {
     return null
   }
   const screenGap = 2
   const controlsHeight = 40
-
 
   const elementTopPos = containerPos.realTop < 0 ? 0 : containerPos.realTop
   const elementBottomPos = containerPos.bottom > iframeWindow.innerHeight ? iframeWindow.innerHeight : containerPos.bottom

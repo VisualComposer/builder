@@ -1,4 +1,14 @@
 //== Controls
+
+.vcv-layout-iframe-container[data-vcv-device='mobile-portrait'],
+.vcv-layout-iframe-container[data-vcv-device='mobile-landscape'],
+.vcv-layout-iframe-container[data-vcv-device='tablet-portrait'],
+.vcv-layout-iframe-container[data-vcv-device='tablet-landscape'] {
+  .vcv-ui-outline-controls-wrapper {
+    overflow: unset; // dropdown required to go outside device frames
+  }
+}
+
 .vcv-ui-outline-controls-wrapper {
   overflow: hidden;
 
