@@ -7,6 +7,7 @@ import ThankYouScreen from './thankYouScreen'
 import { log as logError, send as sendErrorReport } from './logger'
 import VideoScreen from './videoScreen'
 import { getService } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 import ActivationSurvey from './activationSurvey'
 
 const ActivationSectionContext = React.createContext()
@@ -132,7 +133,7 @@ export default class ActivationSectionProvider extends React.Component {
       'vcv-hub-action': action,
       'vcv-nonce': dataManager.get('nonce')
     }).then((responseData) => {
-      const json = JSON.parse(responseData)
+      const json = getResponse(responseData)
 
       if (json && json.status) {
         if (this.state.activeAssetsAction === cnt - 1) {

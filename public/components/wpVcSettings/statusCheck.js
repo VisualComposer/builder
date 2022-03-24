@@ -1,4 +1,5 @@
 import { getService } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 
 const dataManager = getService('dataManager')
 const $ = window.jQuery
@@ -55,9 +56,9 @@ export const checkStatus = () => {
     'vcv-nonce': dataManager.get('nonce'),
     'vcv-check-payload': generateFakeData()
   }).then((responseData) => {
-    responseData = JSON.parse(responseData)
+    const json = getResponse(responseData)
 
-    if (responseData.status) {
+    if (json.status) {
       setStatus('success')
     } else {
       setStatus('fail')
