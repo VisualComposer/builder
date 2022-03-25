@@ -12,7 +12,7 @@ addStorage('insights', (storage) => {
       currentLevel = 'critical'
     } else if (currentLevel !== 'critical' && data.state === 'warning') {
       currentLevel = 'warning'
-    } else if (currentLevel !== 'critical' && currentLevel !== 'warning' && data.state === 'success') {
+    } else if ((currentLevel !== 'critical' || currentLevel !== 'warning') && data.state === 'success') {
       currentLevel = 'success'
     }
     storage.state('currentLevel').set(currentLevel)
