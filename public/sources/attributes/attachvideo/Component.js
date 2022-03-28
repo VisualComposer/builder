@@ -53,9 +53,6 @@ export default class AttachVideo extends Attribute {
         type: 'video',
         query: false
       },
-      button: {
-        text: 'Add video'
-      },
       multiple: this.props.options.multiple ? 'add' : false
     })
     // Create a callback when the uploader is called
