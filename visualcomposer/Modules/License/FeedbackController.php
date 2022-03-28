@@ -103,7 +103,7 @@ class FeedbackController extends Container implements Module
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
-     * @return array
+     * @return bool
      */
     protected function deactivationSubmitForm(Request $requestHelper, Url $urlHelper, License $licenseHelper, Options $optionsHelper)
     {
@@ -132,7 +132,7 @@ class FeedbackController extends Container implements Module
             ]
         );
 
-        return ['status' => true];
+        return true;
     }
 
     /**

@@ -34,7 +34,8 @@ class SystemStatusController extends Container implements Module
     }
 
     /**
-     * This check can only be triggered from frontend, as the idea is to pass A LOT OF DATA, and let server handle it
+     * This check can only be triggered from frontend.
+     * As the idea is to pass A LOT OF DATA, and let server handle it.
      *
      * @param $response
      * @param $payload
@@ -42,19 +43,13 @@ class SystemStatusController extends Container implements Module
      *
      * @return mixed
      */
-    protected function checkPayloadProcessing($response, $payload, Request $requestHelper)
+    protected function checkPayloadProcessing(Request $requestHelper)
     {
-        if (!is_array($response)) {
-            $response = [
-                'status' => false,
-            ];
-        }
         $checkPayload = $requestHelper->input('vcv-check-payload');
-        if (
-            is_array($checkPayload)
-            && isset($checkPayload['toTest']['toTest2']['toTest3'])
-        ) {
-            $response['status'] = $checkPayload['toTest']['toTest2']['toTest3'] === 1;
+
+        $response = [];
+        if (isset($checkPayload['toTest']['toTest2']['toTest3'])) {
+            $response['status'] = $checkPayload['toTest']['toTest2']['toTest3'] === '1';
         }
 
         return $response;
