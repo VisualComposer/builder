@@ -8,16 +8,19 @@ addStorage('insights', (storage) => {
       return
     }
     let currentLevel = storage.state('currentLevel').get()
+    const insights = storage.state('insights').get() || {}
+    const insightsKeys = Object.keys(insights)
+    const errors = insightsKeys.filter(k => insights[k].state === 'critical' || insights[k].state === 'warning')
+
     if (data.state === 'critical') {
       currentLevel = 'critical'
     } else if (currentLevel !== 'critical' && data.state === 'warning') {
       currentLevel = 'warning'
-    } else if ((currentLevel !== 'critical' || currentLevel !== 'warning') && data.state === 'success') {
+    } else if (!errors.length && data.state === 'success') {
       currentLevel = 'success'
     }
     storage.state('currentLevel').set(currentLevel)
 
-    const insights = storage.state('insights').get() || {}
     const typeData = data.type // typeContentArea
 
     if (!insights[typeData]) {
