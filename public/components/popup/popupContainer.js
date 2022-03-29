@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
 import VotePopup from './popups/votePopup'
@@ -6,107 +6,84 @@ import ReviewPopup from './popups/reviewPopup'
 import DataCollectionPopup from './popups/dataCollectionPopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
+import { connect } from 'react-redux'
+import { allPopupsHidden } from 'public/editor/stores/editorPopup/slice'
 
-const editorPopupStorage = getStorage('editorPopup')
 const elementsStorage = getStorage('elements')
 
-export default class PopupContainer extends React.Component {
-  constructor (props) {
-    super(props)
+const PopupContainer = ({ activePopup, allPopupsHidden }) => {
+  const [actionClicked, setActionClicked] = useState(false)
 
-    const activePopup = editorPopupStorage.state('activePopup').get()
-
-    this.state = {
-      actionClicked: false,
-      popupVisible: false,
-      activePopup: activePopup
+  useEffect(() => {
+    elementsStorage.state('document').onChange(handleDocumentChange)
+    return () => {
+      elementsStorage.state('document').ignoreChange(handleDocumentChange)
     }
+  }, [])
 
-    this.handleCloseClick = this.handleCloseClick.bind(this)
-    this.handlePrimaryButtonClick = this.handlePrimaryButtonClick.bind(this)
-    this.handleDocumentChange = this.handleDocumentChange.bind(this)
-    this.handlePopupChange = this.handlePopupChange.bind(this)
-  }
-
-  componentDidMount () {
-    elementsStorage.state('document').onChange(this.handleDocumentChange)
-    editorPopupStorage.state('activePopup').onChange(this.handlePopupChange)
-  }
-
-  componentWillUnmount () {
-    elementsStorage.state('document').ignoreChange(this.handleDocumentChange)
-    editorPopupStorage.state('activePopup').onChange(this.handlePopupChange)
-  }
-
-  handleDocumentChange (data) {
+  const handleDocumentChange = (data) => {
     if (data && data.length) {
       window.setTimeout(() => {
-        this.setState({
-          popupVisible: !!this.state.activePopup
-        })
-        elementsStorage.state('document').ignoreChange(this.handleDocumentChange)
-      }, this.state.activePopup === 'pricingPopup' ? 20000 : 500)
+        elementsStorage.state('document').ignoreChange(handleDocumentChange)
+      }, activePopup === 'pricingPopup' ? 20000 : 500)
     }
   }
 
-  handlePopupChange (activePopup) {
-    this.setState({
-      activePopup: activePopup,
-      popupVisible: !!activePopup
-    })
-  }
-
-  handleCloseClick () {
-    this.setState({ popupVisible: false })
+  const handleCloseClick = () => {
     window.setTimeout(() => {
-      editorPopupStorage.trigger('hideAll')
+      allPopupsHidden()
     }, 500)
   }
 
-  handlePrimaryButtonClick () {
-    this.setState({ actionClicked: true })
+  const handlePrimaryButtonClick = () => {
+    setActionClicked(true)
     window.setTimeout(() => {
-      this.setState({
-        actionClicked: false,
-        popupVisible: false
-      })
-      editorPopupStorage.trigger('hideAll')
+      setActionClicked(false)
+      allPopupsHidden()
     }, 500)
   }
 
-  render () {
-    const { activePopup, actionClicked, popupVisible } = this.state
-    const popupClasses = classNames({
-      'vcv-layout-popup': true,
-      'vcv-layout-popup--visible': popupVisible,
-      'vcv-layout-popup--action-clicked': actionClicked,
-      'vcv-layout-popup--pricing-popup': activePopup === 'pricingPopup'
-    })
+  const popupClasses = classNames({
+    'vcv-layout-popup': true,
+    'vcv-layout-popup--visible': !!activePopup,
+    'vcv-layout-popup--action-clicked': actionClicked,
+    'vcv-layout-popup--pricing-popup': activePopup === 'pricingPopup'
+  })
 
-    const popupProps = {
-      onClose: this.handleCloseClick,
-      onPrimaryButtonClick: this.handlePrimaryButtonClick
-    }
-    let activePopupHtml = null
+  const popupProps = {
+    onClose: handleCloseClick,
+    onPrimaryButtonClick: handlePrimaryButtonClick
+  }
 
-    if (activePopup === 'votePopup') {
-      activePopupHtml = <VotePopup {...popupProps} />
-    } else if (activePopup === 'reviewPopup') {
-      activePopupHtml = <ReviewPopup {...popupProps} />
-    } else if (activePopup === 'dataCollectionPopup') {
-      activePopupHtml = <DataCollectionPopup {...popupProps} />
-    } else if (activePopup === 'premiumPromoPopup') {
-      activePopupHtml = <PremiumPromoPopup {...popupProps} />
-    } else if (activePopup === 'pricingPopup') {
-      activePopupHtml = <PricingPopup {...popupProps} />
-    }
+  let activePopupHtml = null
 
-    return (
-      <div className={popupClasses}>
-        <div className='vcv-layout-popup-container'>
-          {activePopupHtml}
-        </div>
+  if (activePopup === 'votePopup') {
+    activePopupHtml = <VotePopup {...popupProps} />
+  } else if (activePopup === 'reviewPopup') {
+    activePopupHtml = <ReviewPopup {...popupProps} />
+  } else if (activePopup === 'dataCollectionPopup') {
+    activePopupHtml = <DataCollectionPopup {...popupProps} />
+  } else if (activePopup === 'premiumPromoPopup') {
+    activePopupHtml = <PremiumPromoPopup {...popupProps} />
+  } else if (activePopup === 'pricingPopup') {
+    activePopupHtml = <PricingPopup {...popupProps} />
+  }
+
+  return (
+    <div className={popupClasses}>
+      <div className='vcv-layout-popup-container'>
+        {activePopupHtml}
       </div>
-    )
-  }
+    </div>
+  )
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  allPopupsHidden: () => dispatch(allPopupsHidden())
+})
+
+const mapStateToProps = state => ({
+  activePopup: state.editorPopup.activePopup
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopupContainer)
