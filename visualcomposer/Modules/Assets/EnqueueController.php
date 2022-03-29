@@ -260,7 +260,7 @@ class EnqueueController extends Container implements Module
      * @throws \ReflectionException
      * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
-    protected function enqueueAssets(Assets $assetsHelper)
+    protected function enqueueAssets(Assets $assetsHelper, Frontend $frontendHelper)
     {
         // Needed to keep proper ordering for layout styles rendering (background images)
         if (is_null(self::$initialEnqueue)) {
@@ -270,12 +270,13 @@ class EnqueueController extends Container implements Module
         // @codingStandardsIgnoreLine
         global $wp_query;
 
-        $sourceId = get_the_ID();
-        wp_enqueue_style('vcv:assets:front:style');
-        wp_enqueue_script('vcv:assets:runtime:script');
-        wp_enqueue_script('vcv:assets:front:script');
+        if ($frontendHelper->isVcvFrontend()) {
+            wp_enqueue_style('vcv:assets:front:style');
+            wp_enqueue_script('vcv:assets:runtime:script');
+            wp_enqueue_script('vcv:assets:front:script');
+        }
 
-        if (is_home() || is_archive() || is_category() || is_tag()) {
+        if (is_home() || is_archive()) {
             $idList = [];
             // @codingStandardsIgnoreLine
             foreach ($wp_query->posts as $post) {
@@ -286,6 +287,7 @@ class EnqueueController extends Container implements Module
         }
         vcevent('vcv:assets:enqueueVendorAssets');
 
+        $sourceId = get_the_ID();
         $idList = $assetsHelper->getTemplateIds($sourceId);
         $this->enqueueAssetsBySourceList($idList);
     }
