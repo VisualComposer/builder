@@ -1,4 +1,5 @@
 import './init.less'
+import { getService } from 'vc-cake'
 
 const pluginsPageContainer = document.querySelector('.wp-list-table.plugins')
 
@@ -23,7 +24,6 @@ export const deactivationFeedbackPopup = () => {
   let closeButton = null
   let submitButton = null
   let skipAndSubmitButton = null
-  const $ = window.jQuery
 
   const deactivationReasons = {
     'no-longer-need': {
@@ -148,16 +148,17 @@ export const deactivationFeedbackPopup = () => {
       extraFeedbackValue = extraFeedback.value
     }
 
-    $.ajax(window.vcvAdminAjaxUrl,
-      {
-        dataType: 'json',
-        data: {
-          'vcv-action': 'license:deactivation:submit:adminNonce',
-          'vcv-reason': reason,
-          'vcv-extra-feedback': extraFeedbackValue,
-          'vcv-nonce': window.vcvNonce
-        }
-      }).done(handlePluginDeactivation).fail(handlePluginDeactivation)
+    const dataProcessor = getService('dataProcessor')
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'license:deactivation:submit:adminNonce',
+      'vcv-reason': reason,
+      'vcv-extra-feedback': extraFeedbackValue,
+      'vcv-nonce': window.vcvNonce
+    }).then(() => {
+      handlePluginDeactivation()
+    }, () => {
+      handlePluginDeactivation()
+    })
   }
 
   if (visualComposerDeactivateButton) {

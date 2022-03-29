@@ -1,7 +1,7 @@
 import { getService } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 
 const dataManager = getService('dataManager')
-const utils = getService('utils')
 const $ = window.jQuery
 const $checkContainer = $('#vcv-large-content-status')
 
@@ -49,36 +49,21 @@ export const checkStatus = () => {
   if (!$checkContainer.length) {
     return
   }
-  const encodedString = utils.compressData({
+
+  const dataProcessor = getService('dataProcessor')
+  dataProcessor.appAdminServerRequest({
     'vcv-action': 'settings:systemStatus:checkPayloadProcessing:adminNonce',
     'vcv-nonce': dataManager.get('nonce'),
     'vcv-check-payload': generateFakeData()
-  })
-  const data = {
-    'vcv-zip': encodedString
-  }
+  }).then((responseData) => {
+    const json = getResponse(responseData)
 
-  const adminAjaxUrl = dataManager.get('adminAjaxUrl')
-  $.ajax(adminAjaxUrl, {
-    type: 'POST',
-    dataType: 'json',
-    async: true,
-    data: data
-  }).done((json) => {
-    if (json && json.status) {
+    if (json.status) {
       setStatus('success')
     } else {
       setStatus('fail')
     }
-  }).fail((jqxhr, textStatus, error) => {
+  }, () => {
     setStatus('fail')
-    try {
-      const responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
-      if (responseJson && responseJson.message) {
-        console.warn(responseJson.message)
-      }
-    } catch (e) {
-      console.warn(e)
-    }
   })
 }

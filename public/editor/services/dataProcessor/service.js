@@ -14,9 +14,14 @@ const Service = {
           // Instantiates the XMLHttpRequest
           const request = new window.XMLHttpRequest()
           request.open(method, url)
-          contentType && request.setRequestHeader('Content-type', contentType)
+          if (contentType && env('VCV_JS_SAVE_ZIP')) {
+            request.setRequestHeader('Content-type', 'application/octet-stream')
+            request.setRequestHeader('Content-Transfer-Encoding', 'binary')
+          } else if (contentType) {
+            request.setRequestHeader('Content-type', contentType)
+          }
           try {
-            request.send(args ? window.jQuery.param(args) : '')
+            request.send(env('VCV_JS_SAVE_ZIP') ? args : (args ? window.jQuery.param(args) : ''))
           } catch (e) {
             reject(this.statusText)
           }
@@ -75,10 +80,7 @@ const Service = {
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      const encodedString = utils.compressData(args)
-      args = {
-        'vcv-zip': encodedString
-      }
+      args = utils.compressData(args)
     }
 
     return this.http(url).post(args)
@@ -92,10 +94,7 @@ const Service = {
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      const encodedString = utils.compressData(args)
-      args = {
-        'vcv-zip': encodedString
-      }
+      args = utils.compressData(args)
     }
 
     return this.http(url).post(args)

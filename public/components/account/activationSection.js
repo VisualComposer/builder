@@ -5,12 +5,11 @@ import PostUpdater from './postUpdate'
 import OopsScreenController from './oopsScreenController'
 import ThankYouScreen from './thankYouScreen'
 import { log as logError, send as sendErrorReport } from './logger'
-import { getResponse } from '../../tools/response'
 import VideoScreen from './videoScreen'
 import { getService } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 import ActivationSurvey from './activationSurvey'
 
-const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -129,15 +128,13 @@ export default class ActivationSectionProvider extends React.Component {
     const action = this.state.assetsActions[this.state.activeAssetsAction]
     this.setState({ error: null })
 
-    $.ajax(dataManager.get('updateProcessActionUrl'),
-      {
-        dataType: 'json',
-        data: {
-          'vcv-hub-action': action,
-          'vcv-nonce': dataManager.get('nonce')
-        }
-      }
-    ).done((json) => {
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'hub:action:adminNonce',
+      'vcv-hub-action': action,
+      'vcv-nonce': dataManager.get('nonce')
+    }).then((responseData) => {
+      const json = getResponse(responseData)
+
       if (json && json.status) {
         if (this.state.activeAssetsAction === cnt - 1) {
           this.setState({ assetsActionsDone: true })
@@ -164,49 +161,42 @@ export default class ActivationSectionProvider extends React.Component {
           errorReportAction: this.sendErrorReport
         })
       }
-    }).fail((jqxhr, textStatus, error) => {
+    }, (error) => {
       logError('Failed Update Action', {
         code: 'doAction-2',
         codeNum: '000005',
         action: action,
-        jqxhr: jqxhr,
-        textStatus: textStatus,
         error: error
       })
 
       try {
-        const responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
         this.setError({
-          message: responseJson && responseJson.message ? responseJson.message : '',
+          message: error,
           errorAction: this.doAction,
           errorReportAction: this.sendErrorReport
         })
       } catch (e) {
-        const Str = jqxhr.responseText
         try {
-          const json = getResponse(Str)
-          if (json && json.status) {
-            if (this.state.activeAssetsAction === cnt - 1) {
-              this.setState({ assetsActionsDone: true })
-              if (this.state.postUpdateActions && this.state.postUpdateActions.length) {
-                this.doPostUpdate()
-              } else {
-                this.doneActions()
-              }
+          if (this.state.activeAssetsAction === cnt - 1) {
+            this.setState({ assetsActionsDone: true })
+            if (this.state.postUpdateActions && this.state.postUpdateActions.length) {
+              this.doPostUpdate()
             } else {
-              this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 })
-              this.doAction()
+              this.doneActions()
             }
-            return
+          } else {
+            this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 })
+            this.doAction()
           }
+          return
         } catch (pe) {
-          console.warn('Actions failed', pe, jqxhr.responseText)
+          console.warn('Actions failed', pe)
         }
         this.setError({
           errorAction: this.doAction,
           errorReportAction: this.sendErrorReport
         })
-        console.warn('Update action failed', e, jqxhr.responseText)
+        console.warn('Update action failed', e)
       }
     })
   }
