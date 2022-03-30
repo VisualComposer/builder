@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VcvEnv;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
@@ -129,6 +130,73 @@ class Frontend implements Helper
                 && $requestHelper->input('wp-preview') === 'dopreview');
     }
 
+    /**
+     * Check if current frontend page has vcv implementation.
+     *
+     * The page pass for vcv when it's editable with our editor or overridden by our theme builder layout.
+     * And has at least one vcv element on it.
+     * In case it is an archive, at least one of the posts in the archive was editable with vcv editor.
+     * Any page that has popup we consider as vcv page too.
+     *
+     * @return bool
+     */
+    public function isVcvFrontend()
+    {
+        $isVcvFrontend = true;
+        if ($this->isPageEditable()) {
+            return $isVcvFrontend;
+        }
+
+        if (is_singular()) {
+            if (!$this->isVcvPost(get_the_ID())) {
+                $isVcvFrontend = false;
+            }
+        } else {
+            // @codingStandardsIgnoreLine
+            global $wp_query;
+            // @codingStandardsIgnoreLine
+            $postList = empty($wp_query->posts) ? [] : $wp_query->posts;
+            foreach ($postList as $post) {
+                // if at least one post is vcv post then current archive page considerable as vcv page.
+                if ($this->isVcvPost($post->ID)) {
+                    $isVcvFrontend = true;
+                    break;
+                }
+
+                $isVcvFrontend = false;
+            }
+        }
+
+        return vcfilter('vcv:helpers:frontend:isVcvFrontend', $isVcvFrontend);
+    }
+
+    /**
+     * Check if post is Vcv post.
+     *
+     * The post pass for vcv when it's editable with our editor.
+     * And has at least one vcv element on it.
+     *
+     * @param $postId
+     *
+     * @return bool
+     */
+    public function isVcvPost($postId)
+    {
+        $isVcvPost = true;
+        $content = get_post_meta($postId, VCV_PREFIX . 'pageContent', true);
+        // post is not editable with vcv editor
+        if (empty($content)) {
+            $isVcvPost = false;
+        }
+        $decoded = json_decode(rawurldecode($content), true);
+        if (empty($decoded['elements'])) {
+            // post don't have any vcv elements
+            $isVcvPost = false;
+        }
+
+        return $isVcvPost;
+    }
+
     public function renderContent($sourceId)
     {
         // @codingStandardsIgnoreLine
@@ -145,8 +213,8 @@ class Frontend implements Helper
         );
         vcevent('vcv:frontend:renderContent', $sourceId); // Used in Reset check
 
-        $previousDynamicContent = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
-        \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
+        $previousDynamicContent = VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
+        VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
         vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
 
         // @codingStandardsIgnoreLine
@@ -181,14 +249,14 @@ class Frontend implements Helper
             $sourceContent
         );
         $sourceContent = vcfilter('vcv:frontend:content', $sourceContent);
-        \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
+        VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
 
         return $sourceContent;
     }
 
     public function getCurrentBlockId()
     {
-        $currentBlockId = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
+        $currentBlockId = VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
         if (empty($currentBlockId)) {
             $currentBlockId = get_the_ID();
         }
