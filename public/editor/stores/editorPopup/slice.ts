@@ -3,7 +3,17 @@ import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
 
-const getActivePopup = (popupData) => {
+interface Popup {
+    visible: boolean,
+    priority: number,
+    voteValue?: any
+}
+
+export interface Popups {
+    [key:string]: Popup,
+}
+
+const getActivePopup = (popupData: Popups): string => {
   const popupDataByPriority = []
   for (const popupName in popupData) {
     if (Object.prototype.hasOwnProperty.call(popupData, popupName)) {
@@ -11,10 +21,10 @@ const getActivePopup = (popupData) => {
     }
   }
 
-  popupDataByPriority.sort((a, b) => a.priority - b.priority)
+  popupDataByPriority.sort((a, b) => a.popupData.priority - b.popupData.priority)
   const firstVisible = popupDataByPriority.findIndex((item) => item.popupData.visible)
 
-  let activePopup = null
+  let activePopup = ''
   if (firstVisible >= 0 && popupDataByPriority[firstVisible]) {
     activePopup = popupDataByPriority[firstVisible].popupName
   }
@@ -52,21 +62,24 @@ const slice = createSlice({
   reducers: {
     popupShown: (data, action) => {
       const popupName = action.payload
-      if (popupName && data.popups[popupName]) {
-        data.popups[popupName].visible = true
+      const popups: Popups = data.popups
+      if (popupName && popups[popupName]) {
+          popups[popupName].visible = true
       }
       data.activePopup = getActivePopup(data.popups)
     },
     popupHidden: (data, action) => {
       const popupName = action.payload
-      if (popupName && data.popups[popupName]) {
-        data.popups[popupName].visible = false
+      const popups: Popups = data.popups
+      if (popupName && popups[popupName]) {
+          popups[popupName].visible = false
       }
       data.activePopup = getActivePopup(data.popups)
     },
-    allPopupsHidden: (data, action) => {
-      Object.keys(data.popups).forEach((popupName) => {
-        data[popupName].visible = false
+    allPopupsHidden: (data) => {
+        const popups: Popups = data.popups
+        Object.keys(data.popups).forEach((popupName) => {
+        popups[popupName].visible = false
       })
       data.activePopup = getActivePopup(data.popups)
     },

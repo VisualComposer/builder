@@ -2,7 +2,9 @@ import React from 'react'
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
-import { popupShown, popupsSet } from 'public/editor/stores/editorPopup/slice'
+import { popupShown, popupsSet, Popups } from '../../../editor/stores/editorPopup/slice'
+import {AppStateType} from "../../../editor/stores/reducer";
+import { Dispatch } from 'redux';
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -13,9 +15,16 @@ const veryDisappointed = localizations ? localizations.veryDisappointed : 'Very 
 const somewhatDisappointed = localizations ? localizations.somewhatDisappointed : 'Somewhat disappointed'
 const disappointed = localizations ? localizations.disappointed : 'Not disappointed (it really isn’t that useful)'
 
-const VotePopup = (props) => {
+
+type Props = {
+    popups: Popups,
+    onPrimaryButtonClick: () => void,
+    onClose: () => void
+}
+
+const VotePopup: React.FC<Props> = (props) => {
   const handlePrimaryButtonClick = () => {
-    const checkedInput = document.querySelector('input.vcv-layout-popup-checkbox:checked')
+    const checkedInput: HTMLInputElement | null = document.querySelector('input.vcv-layout-popup-checkbox:checked')
     if (!checkedInput) {
       return
     }
@@ -82,12 +91,12 @@ const VotePopup = (props) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  popupShown: (data) => dispatch(popupShown(data)),
-  popupsSet: (data) => dispatch(popupsSet(data))
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  popupShown: (data: string) => dispatch(popupShown(data)),
+  popupsSet: (data: any) => dispatch(popupsSet(data))
 })
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state:AppStateType) => ({
   popups: state.editorPopup.popups
 })
 

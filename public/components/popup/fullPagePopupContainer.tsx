@@ -1,13 +1,21 @@
 import React from 'react'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
-import PremiumTeaser from 'public/components/premiumTeasers/component'
+import PremiumTeaser from '../../components/premiumTeasers/component'
 import { connect } from 'react-redux'
-import { activeFullPopupSet } from 'public/editor/stores/editorPopup/slice'
+import { activeFullPopupSet } from '../../editor/stores/editorPopup/slice'
+import {AppStateType} from "../../editor/stores/reducer";
+import { Dispatch } from 'redux';
 
 const dataManager = getService('dataManager')
 
-const FullPagePopupContainer = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }) => {
+type Props = {
+    activeFullPopupSet: (activeFullPopup:string | boolean) => void,
+    fullScreenPopupData: any
+    activeFullPopup: string
+}
+
+const FullPagePopupContainer: React.FC<Props> = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }) => {
   const handleCloseClick = () => {
     window.setTimeout(() => {
       activeFullPopupSet(false)
@@ -19,8 +27,9 @@ const FullPagePopupContainer = ({ activeFullPopupSet, fullScreenPopupData, activ
     popupData.primaryButtonClick && popupData.primaryButtonClick()
   }
 
-  const handleOutsideClick = (event) => {
-    if (event.target.classList.contains('vcv-layout-popup--full-page')) {
+  const handleOutsideClick = (event: React.MouseEvent) => {
+      const target = event.target as HTMLDivElement
+      if (target.classList?.contains('vcv-layout-popup--full-page')) {
       handleCloseClick()
     }
   }
@@ -53,13 +62,13 @@ const FullPagePopupContainer = ({ activeFullPopupSet, fullScreenPopupData, activ
   )
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   activeFullPopup: state.editorPopup.activeFullPopup,
   fullScreenPopupData: state.editorPopup.fullScreenPopupData
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  activeFullPopupSet: (data) => dispatch(activeFullPopupSet(data))
+const mapDispatchToProps = (dispatch:Dispatch) => ({
+  activeFullPopupSet: (data:any) => dispatch(activeFullPopupSet(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullPagePopupContainer)

@@ -7,11 +7,18 @@ import DataCollectionPopup from './popups/dataCollectionPopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
 import { connect } from 'react-redux'
-import { allPopupsHidden } from 'public/editor/stores/editorPopup/slice'
+import { allPopupsHidden } from '../../editor/stores/editorPopup/slice'
+import {AppStateType} from "../../editor/stores/reducer";
+import { Dispatch } from 'redux';
 
 const elementsStorage = getStorage('elements')
 
-const PopupContainer = ({ activePopup, allPopupsHidden }) => {
+type Props = {
+    activePopup: string,
+    allPopupsHidden: () => void
+}
+
+const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden }) => {
   const [actionClicked, setActionClicked] = useState(false)
 
   useEffect(() => {
@@ -21,7 +28,7 @@ const PopupContainer = ({ activePopup, allPopupsHidden }) => {
     }
   }, [])
 
-  const handleDocumentChange = (data) => {
+  const handleDocumentChange = (data:[]) => {
     if (data && data.length) {
       window.setTimeout(() => {
         elementsStorage.state('document').ignoreChange(handleDocumentChange)
@@ -78,11 +85,11 @@ const PopupContainer = ({ activePopup, allPopupsHidden }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   allPopupsHidden: () => dispatch(allPopupsHidden())
 })
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: AppStateType) => ({
   activePopup: state.editorPopup.activePopup
 })
 
