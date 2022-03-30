@@ -201,6 +201,9 @@
         "prefer-single"
       ],
       "import/no-webpack-loader-syntax": "off"
+    },
+    "env": {
+        "browser": true
     }
   },
   "_analyzeDependencies": {

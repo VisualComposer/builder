@@ -4,10 +4,6 @@ import classNames from 'classnames'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
 import CourseList from './courseList'
-import course1 from 'public/sources/images/courseImages/youtube-get-started-1.png'
-import course2 from 'public/sources/images/courseImages/youtube-get-started-2.png'
-import course3 from 'public/sources/images/courseImages/youtube-get-started-3.png'
-
 import { getResponse } from 'public/tools/response'
 
 const dataProcessorService = vcCake.getService('dataProcessor')
@@ -16,17 +12,17 @@ const localizations = dataManager.get('localizations')
 
 const courseList = [
   {
-    img: course1,
+    img: 'https://cdn.hub.visualcomposer.com/plugin-assets/create-a-new-page-video.png',
     title: localizations.course1,
     duration: localizations.courseDuration1
   },
   {
-    img: course2,
+    img: 'https://cdn.hub.visualcomposer.com/plugin-assets/add-elements-video.png',
     title: localizations.course2,
     duration: localizations.courseDuration2
   },
   {
-    img: course3,
+    img: 'https://cdn.hub.visualcomposer.com/plugin-assets/quick-actions-video.png',
     title: localizations.course3,
     duration: localizations.courseDuration3
   }

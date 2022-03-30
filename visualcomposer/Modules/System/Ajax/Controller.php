@@ -181,10 +181,8 @@ class Controller extends Container implements Module
 
     protected function parseRequest(Request $requestHelper, Logger $loggerHelper)
     {
-        if ($requestHelper->exists('vcv-zip')) {
-            $zip = $requestHelper->input('vcv-zip');
-            $basedecoded = base64_decode($zip);
-            $newAllJson = zlib_decode($basedecoded);
+        if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/octet-stream') {
+            $newAllJson = zlib_decode(file_get_contents('php://input'));
             $newArgs = json_decode($newAllJson, true);
             $all = $requestHelper->all();
             $new = array_merge($all, $newArgs);

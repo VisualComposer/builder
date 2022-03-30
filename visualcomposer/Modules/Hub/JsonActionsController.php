@@ -56,7 +56,7 @@ class JsonActionsController extends Container implements Module
         $previousActionVersion = $this->optionsHelper->get('hubAction:' . $actionName, '0');
         $elementTag = str_replace('element/', '', $actionName);
 
-        // FIX: For cases when hubElements wasnt updated but hubAction already exists
+        // FIX: For cases when hubElements wasn't updated but hubAction already exists
         if ($strHelper->contains($actionName, 'element/')) {
             $elements = vchelper('HubElements')->getElements();
 

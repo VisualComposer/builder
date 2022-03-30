@@ -487,12 +487,12 @@ export default class InsightsChecks {
       this.isColorContrastInProgress = true
     }
 
-    if (workspaceStorageState === 'messages' && !this.isColorContrastInProgress) {
+    if (!this.isColorContrastInProgress) {
       triggerCheckContrast()
     }
 
     workspaceStorage.state('content').onChange(debounce((value) => {
-      if (value === 'messages' && !this.isColorContrastInProgress) {
+      if (!this.isColorContrastInProgress) {
         triggerCheckContrast()
       }
     }), 250)
