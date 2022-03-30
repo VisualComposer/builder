@@ -78,9 +78,9 @@ class PostUpdateAction extends Container implements Module
         if ($requestHelper->exists('vcv-source-id')) {
             $this->removePostFromUpdatesList((int)$requestHelper->input('vcv-source-id'));
 
-            return ['status' => true];
+            return true;
         }
 
-        return ['status' => false];
+        return false;
     }
 }

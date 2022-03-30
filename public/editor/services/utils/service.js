@@ -66,26 +66,12 @@ const API = {
   compressData (data) {
     const binaryStringBuffer = deflate(JSON.stringify(data))
 
-    function _arrayBufferToBase64 (buffer) {
-      let binary = ''
-      const bytes = new Uint8Array(buffer)
-      const len = bytes.byteLength
-      for (let i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i])
-      }
-
-      return base64.encode(binary)
-    }
-
-    const encodedString = _arrayBufferToBase64(binaryStringBuffer)
-
-    return encodedString
+    return new Blob([new Uint8Array(binaryStringBuffer)], { type: 'application/octet-stream' })
   },
   ajax: (data, successCallback, failureCallback) => {
     const dataManager = getService('dataManager')
     const request = new window.XMLHttpRequest()
     request.open('POST', dataManager.get('adminAjaxUrl'), true)
-    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.onload = (response) => {
       if (request.status >= 200 && request.status < 400) {
         successCallback(request)
@@ -102,13 +88,14 @@ const API = {
     }
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      const encodedString = API.compressData(data)
-      data = {
-        'vcv-zip': encodedString
-      }
+      request.setRequestHeader('Content-type', 'application/octet-stream')
+      request.setRequestHeader('Content-Transfer-Encoding', 'binary')
+      data = API.compressData(data)
+    } else {
+      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     }
 
-    request.send(window.jQuery.param(data))
+    request.send(env('VCV_JS_SAVE_ZIP') ? data : window.jQuery.param(data))
 
     return request
   },
