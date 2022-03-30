@@ -142,11 +142,8 @@ class Frontend implements Helper
      */
     public function isVcvFrontend()
     {
-        $requestHelper = vchelper('Request');
-        $isEditor = !empty($requestHelper->input('vcv-editable')) && $requestHelper->input('vcv-editable');
-
         $isVcvFrontend = true;
-        if ($isEditor) {
+        if ($this->isPageEditable()) {
             return $isVcvFrontend;
         }
 
