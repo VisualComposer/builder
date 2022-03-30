@@ -1994,6 +1994,34 @@ class Localizations extends Container implements Helper
                 'I am creating a site for my friend or family',
                 'visualcomposer'
             ),
+            'course1' => __(
+                'How to create a new page',
+                'visualcomposer'
+            ),
+            'courseDuration1' => __(
+                '1:57',
+                'visualcomposer'
+            ),
+            'course2' => __(
+                'Add elements to your page',
+                'visualcomposer'
+            ),
+            'courseDuration2' => __(
+                '2:36',
+                'visualcomposer'
+            ),
+            'course3' => __(
+                'Learn quick actions',
+                'visualcomposer'
+            ),
+            'courseDuration3' => __(
+                '1:08',
+                'visualcomposer'
+            ),
+            'courseButtonText' => __(
+                'View full course (4 videos)',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

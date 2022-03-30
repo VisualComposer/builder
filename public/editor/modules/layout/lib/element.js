@@ -32,10 +32,21 @@ export default class Element extends React.Component {
     this.getEditorProps = this.getEditorProps.bind(this)
     this.elementComponentRef = React.createRef()
     this.state = {
-      element: props.element,
-      currentContent: null
+      element: props.element
     }
   }
+
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    // TODO: Need to refactor all state management (editor.js, htmlLayout.js, element.js)
+    // TODO: We could use REDUX for elementsStorage.state('document')
+    // It is not correct to update state from props and in element itself
+    if (!isEqual(this.state.element, nextProps.element)) {
+      assetsStorage.trigger('updateElement', this.state.element.id)
+    }
+    this.setState({ element: nextProps.element })
+  }
+  /* eslint-enable */
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
@@ -68,13 +79,7 @@ export default class Element extends React.Component {
     cleanComments(el, this.state.element.id)
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    if (!isEqual(prevProps.element, this.props.element)) {
-      if (!isEqual(prevState.element, this.props.element)) {
-        assetsStorage.trigger('updateElement', prevState.element.id)
-      }
-      this.setState({ element: this.props.element })
-    }
+  componentDidUpdate () {
     this.props.api.notify('element:didUpdate', this.props.element.id)
     if (this.elementComponentRef.current) {
       const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current)
