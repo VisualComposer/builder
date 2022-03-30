@@ -307,9 +307,10 @@
     const titleRegex = new RegExp(`^${title}$`, 'gi')
     cy.get('.vcv-ui-form-group-heading-wrapper')
       .contains(titleRegex)
+      .parent()
       .then(($field) => {
         cy.wrap($field)
-          .next()
+          .find('select')
           .select(value)
       })
   })
@@ -644,4 +645,23 @@
         .should('be.visible')
         .then(cy.wrap);
   })
+
+    /** Set value for rank input
+   *
+   * @param title [string]
+   * @param value [integer]
+   */
+  
+     Cypress.Commands.add('setRank', (title, value) => {
+      return cy.get('.vcv-ui-form-group-heading')
+        .contains(title)
+        .parent()
+        .parent()
+        .then(($field) => {
+          cy.wrap($field)
+            .find('.vcv-ui-form-range-input')
+            .clear()
+            .type(value)
+        })
+    })
   
