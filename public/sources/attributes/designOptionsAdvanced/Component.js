@@ -16,13 +16,20 @@ import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
 import Tooltip from '../../../components/tooltip/tooltip'
+import {
+  defaultState,
+  deviceDefaults,
+  getCustomDevices,
+  getCustomDevicesKeys,
+  getUpdatedValues,
+  getUpdatedState
+} from './helpers'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const documentService = getService('document')
-const { getBlockRegexp } = getService('utils')
-const blockRegexp = getBlockRegexp()
+
 const { getDynamicValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
 
 export default class DesignOptionsAdvanced extends Attribute {
@@ -30,214 +37,6 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   static defaultProps = {
     fieldType: 'designOptionsAdvanced'
-  }
-
-  /**
-   * Attribute Mixins
-   */
-  static attributeMixins = {
-    boxModelMixin: {
-      src: require('raw-loader!./cssMixins/boxModel.pcss'),
-      variables: {
-        device: {
-          value: false
-        },
-        margin: {
-          value: false
-        },
-        padding: {
-          value: false
-        },
-        borderWidth: {
-          value: false
-        },
-        borderRadius: {
-          value: false
-        },
-        borderBottomLeftRadius: {
-          value: false
-        },
-        borderBottomRightRadius: {
-          value: false
-        },
-        borderBottomWidth: {
-          value: false
-        },
-        borderLeftWidth: {
-          value: false
-        },
-        borderRightWidth: {
-          value: false
-        },
-        borderTopLeftRadius: {
-          value: false
-        },
-        borderTopRightRadius: {
-          value: false
-        },
-        borderTopWidth: {
-          value: false
-        },
-        marginBottom: {
-          value: false
-        },
-        marginLeft: {
-          value: false
-        },
-        marginRight: {
-          value: false
-        },
-        marginTop: {
-          value: false
-        },
-        paddingBottom: {
-          value: false
-        },
-        paddingLeft: {
-          value: false
-        },
-        paddingRight: {
-          value: false
-        },
-        paddingTop: {
-          value: false
-        },
-        borderStyle: {
-          value: false
-        },
-        borderTopStyle: {
-          value: false
-        },
-        borderRightStyle: {
-          value: false
-        },
-        borderBottomStyle: {
-          value: false
-        },
-        borderLeftStyle: {
-          value: false
-        },
-        borderColor: {
-          value: false
-        },
-        borderTopColor: {
-          value: false
-        },
-        borderRightColor: {
-          value: false
-        },
-        borderBottomColor: {
-          value: false
-        },
-        borderLeftColor: {
-          value: false
-        }
-      }
-    },
-    visibilityMixin: {
-      src: require('raw-loader!./cssMixins/visibility.pcss'),
-      variables: {
-        device: {
-          value: 'all'
-        }
-      }
-    },
-    backgroundColorMixin: {
-      src: require('raw-loader!./cssMixins/backgroundColor.pcss'),
-      variables: {
-        device: {
-          value: 'all'
-        },
-        backgroundColor: {
-          value: false
-        }
-      }
-    },
-    gradientMixin: {
-      src: require('raw-loader!./cssMixins/gradientColor.pcss'),
-      variables: {
-        device: {
-          value: 'all'
-        },
-        startColor: {
-          value: 'rgba(0, 0, 0, 0)'
-        },
-        endColor: {
-          value: 'rgba(0, 0, 0, 0)'
-        },
-        angle: {
-          value: 0
-        }
-      }
-    },
-    radialGradientMixin: {
-      src: require('raw-loader!./cssMixins/radialGradientColor.pcss'),
-      variables: {
-        device: {
-          value: 'all'
-        },
-        startColor: {
-          value: 'rgba(0, 0, 0, 0)'
-        },
-        endColor: {
-          value: 'rgba(0, 0, 0, 0)'
-        }
-      }
-    },
-    dividerMixin: {
-      src: require('raw-loader!./cssMixins/divider.pcss'),
-      variables: {
-        device: {
-          value: 'all'
-        }
-      }
-    },
-    animationDelayMixin: {
-      src: require('raw-loader!./cssMixins/animationDelay.pcss'),
-      variables: {
-        device: {
-          value: 'all'
-        },
-        animationDelay: {
-          value: false
-        }
-      }
-    }
-  }
-
-  /**
-   * Default state values
-   */
-  static deviceDefaults = {
-    backgroundType: 'imagesSimple',
-    borderStyle: 'solid',
-    backgroundStyle: 'cover',
-    backgroundPosition: 'center-top',
-    backgroundZoom: 50,
-    backgroundZoomSpeed: 30,
-    backgroundZoomReverse: false,
-    gradientAngle: 45,
-    sliderEffect: 'slide',
-    dividerFlipHorizontal: 'horizontally-left',
-    dividerFlipVertical: 'vertically-down',
-    dividerPosition: 'top',
-    dividerBackgroundType: 'color',
-    dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-zigzag', iconSet: 'all' },
-    dividerShapeNew: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
-    gradientStartColor: 'rgba(226, 135, 135, 0.5)',
-    gradientEndColor: 'rgba(93, 55, 216, 0.5)',
-    dividerBackgroundColor: '#6567df',
-    dividerBackgroundGradientStartColor: 'rgb(226, 135, 135)',
-    dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)',
-    dividerBackgroundGradientAngle: 0
-  }
-
-  static defaultState = {
-    currentDevice: 'all',
-    devices: {},
-    attributeMixins: {},
-    defaultStyles: null,
-    lazyLoad: true
   }
 
   constructor (props) {
@@ -278,9 +77,6 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
   }
 
-  /**
-   * Set component's default state for lazy load option
-   */
   setDefaultState () {
     const { devices } = this.state
     const newState = lodash.defaultsDeep({}, this.state)
@@ -299,501 +95,36 @@ export default class DesignOptionsAdvanced extends Attribute {
 
     if (!isLazyLoadSet.isValueExists && isLazyLoadSet.isImageSet) {
       Object.keys(devices).forEach((device) => {
-        newState.devices[device].lazyLoad = DesignOptionsAdvanced.defaultState.lazyLoad
+        newState.devices[device].lazyLoad = defaultState.lazyLoad
       })
       this.updateValue(newState, 'lazyLoad')
     }
   }
 
-  /**
-   * Prepare data for setState
-   * @param props
-   * @returns {{value: *}}
-   */
   updateState (props) {
-    let newState = {}
-    // data came from props if there is set value
-    if (props.value) {
-      newState = this.parseValue(props.value)
-    } else {
-      // data came from state update
-      newState = lodash.defaultsDeep({}, props, DesignOptionsAdvanced.defaultState)
-    }
-    return newState
-  }
-
-  /**
-   * Parse value data and set states based on it
-   * @param value
-   * @returns {*}
-   */
-  parseValue (value) {
-    // set default values
-    const newState = lodash.defaultsDeep({}, DesignOptionsAdvanced.defaultState)
-    // get devices data
-    const devices = this.getCustomDevicesKeys()
-    // set current device
-    if (!lodash.isEmpty(value.device)) {
-      newState.currentDevice = Object.keys(value.device).shift()
-    }
-    // update devices values
-    devices.push('all')
-    devices.forEach((device) => {
-      newState.devices[device] = lodash.defaultsDeep({}, DesignOptionsAdvanced.deviceDefaults)
-      if (value.device && value.device[device]) {
-        newState.devices[device] = lodash.defaultsDeep({}, value.device[device], newState.devices[device])
-      }
-    })
-
-    return newState
+    return getUpdatedState(props)
   }
 
   static addPixelToNumber (number) {
     return /^\d+$/.test(number) ? `${number}px` : number
   }
 
-  /**
-   * Update value
-   * @param newState
-   */
   updateValue (newState, fieldKey) {
-    const newValue = {}
-    const newMixins = {}
-
     // prepare data for state
     newState = this.updateState(newState)
-    // save only needed data
-    let checkDevices = []
-    if (newState.currentDevice === 'all') {
-      checkDevices.push('all')
-    } else {
-      checkDevices = checkDevices.concat(this.getCustomDevicesKeys())
-    }
-    checkDevices.forEach((device) => {
-      if (!lodash.isEmpty(newState.devices[device])) {
-        // set default values
-        if (!newState.devices[device].backgroundType) {
-          newState.devices[device].backgroundType = DesignOptionsAdvanced.deviceDefaults.backgroundType
-        }
-        if (!newState.devices[device].borderStyle) {
-          newState.devices[device].borderStyle = DesignOptionsAdvanced.deviceDefaults.borderStyle
-        }
-        if (!newState.devices[device].backgroundStyle) {
-          newState.devices[device].backgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
-        }
-        if (!newState.devices[device].backgroundPosition) {
-          newState.devices[device].backgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
-        }
-        if (typeof newState.devices[device].gradientAngle === 'undefined') {
-          newState.devices[device].gradientAngle = DesignOptionsAdvanced.deviceDefaults.gradientAngle
-        }
-        if (!newState.devices[device].dividerBackgroundStyle) {
-          newState.devices[device].dividerBackgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
-        }
-        if (!newState.devices[device].dividerBackgroundPosition) {
-          newState.devices[device].dividerBackgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
-        }
 
-        // values
-        newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
-        // remove all values if display is provided
-        if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
-          Object.keys(newValue[device]).forEach((style) => {
-            if (style !== 'display') {
-              delete newValue[device][style]
-            }
-          })
-        } else {
-          // Image type backgrounds
-          const imgTypeBackgrounds = [
-            'imagesSimple',
-            'backgroundZoom',
-            'imagesSlideshow'
-          ]
-          if (imgTypeBackgrounds.indexOf(newState.devices[device].backgroundType) === -1) {
-            // not image type background selected
-            delete newValue[device].images
-            delete newValue[device].backgroundStyle
-            delete newValue[device].backgroundPosition
-            delete newValue[device].backgroundZoom
-            delete newValue[device].backgroundZoomSpeed
-            delete newValue[device].backgroundZoomReverse
-          } else if (!Object.prototype.hasOwnProperty.call(newValue[device], 'images')) {
-            // images are empty
-            delete newValue[device].images
-            delete newValue[device].backgroundType
-            delete newValue[device].backgroundStyle
-            delete newValue[device].sliderTimeout
-            delete newValue[device].sliderDirection
-            delete newValue[device].sliderEffect
-            delete newValue[device].backgroundPosition
-            delete newValue[device].backgroundZoom
-            delete newValue[device].backgroundZoomSpeed
-            delete newValue[device].backgroundZoomReverse
-          } else {
-            const images = newValue[device].images
-            const isArray = images ? images.constructor === Array : false
-            const imageValue = images && images.urls && images.urls[0] ? images.urls[0].full : false
-            const isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
-
-            if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
-              delete newValue[device].images
-              delete newValue[device].backgroundType
-              delete newValue[device].backgroundStyle
-              delete newValue[device].sliderTimeout
-              delete newValue[device].sliderDirection
-              delete newValue[device].sliderEffect
-              delete newValue[device].backgroundPosition
-              delete newValue[device].backgroundZoom
-              delete newValue[device].backgroundZoomSpeed
-              delete newValue[device].backgroundZoomReverse
-            }
-          }
-
-          if (newValue[device].images) {
-            if (newValue[device].lazyLoad === undefined) {
-              newValue[device].lazyLoad = true
-            }
-          } else {
-            if (newValue[device].lazyLoad !== undefined) {
-              delete newValue[device].lazyLoad
-            }
-          }
-
-          // Embed video bg
-          const embedVideoTypeBackgrounds = [
-            'videoEmbed'
-          ]
-
-          if (embedVideoTypeBackgrounds.indexOf(newState.devices[device].backgroundType) === -1) {
-            // not image type background selected
-            delete newValue[device].videoEmbed
-          } else {
-            if (Object.prototype.hasOwnProperty.call(newValue[device], 'videoEmbed')) {
-              const videos = newValue[device].videoEmbed
-              const isArray = videos.constructor === Array
-              if ((isArray && videos.length === 0) || (!isArray && (!videos.urls || videos.urls.length === 0))) {
-                delete newValue[device].videoEmbed
-                delete newValue[device].backgroundType
-              }
-            } else {
-              delete newValue[device].videoEmbed
-              delete newValue[device].backgroundType
-            }
-          }
-
-          // slider timeout is empty
-          if (newValue[device].sliderTimeout === '' || newValue[device].backgroundType !== 'imagesSlideshow') {
-            delete newValue[device].sliderTimeout
-          }
-          if (newValue[device].sliderEffect === '' || newValue[device].backgroundType !== 'imagesSlideshow') {
-            delete newValue[device].sliderEffect
-          }
-          if (newValue[device].sliderDirection === '' || newValue[device].backgroundType !== 'imagesSlideshow' || newValue[device].sliderEffect !== 'carousel') {
-            delete newValue[device].sliderDirection
-          }
-
-          // youtube video is empty
-          if (newValue[device].backgroundType === 'videoYoutube') {
-            if (!newValue[device].videoYoutube) {
-              delete newValue[device].videoYoutube
-              delete newValue[device].backgroundType
-            }
-          } else {
-            delete newValue[device].videoYoutube
-          }
-
-          // vimeo video is empty
-          if (newValue[device].backgroundType === 'videoVimeo') {
-            if (!newValue[device].videoVimeo) {
-              delete newValue[device].videoVimeo
-              delete newValue[device].backgroundType
-            }
-          } else {
-            delete newValue[device].videoVimeo
-          }
-
-          // gradient stat color is empty
-          if (newValue[device].gradientStartColor === '') {
-            delete newValue[device].gradientStartColor
-          }
-
-          // gradient end color is empty
-          if (newValue[device].gradientEndColor === '') {
-            delete newValue[device].gradientEndColor
-          }
-
-          // gradient angle is not set
-          if (!newValue[device].gradientOverlay && !newValue[device].gradientType === 'linear') {
-            delete newValue[device].gradientAngle
-            delete newValue[device].gradientEndColor
-            delete newValue[device].gradientStartColor
-            delete newValue[device].gradientOverlay
-          } else if (!newValue[device].gradientStartColor && !newValue[device].gradientEndColor) {
-            delete newValue[device].gradientOverlay
-            delete newValue[device].gradientAngle
-          }
-
-          // background color is empty
-          if (newValue[device].backgroundColor === '') {
-            delete newValue[device].backgroundColor
-          }
-
-          // animation is not set
-          if (newValue[device].animation === '') {
-            delete newValue[device].animation
-            delete newValue[device].animationDelay
-          }
-          if (newValue[device].animationDelay === '') {
-            delete newValue[device].animationDelay
-          }
-
-          // border is empty
-          if (newValue[device].borderColor === '') {
-            delete newValue[device].borderColor
-          }
-          if (newValue[device].borderStyle === '') {
-            delete newValue[device].borderStyle
-          }
-          if (!newValue[device].boxModel || !(newValue[device].boxModel.borderBottomWidth || newValue[device].boxModel.borderLeftWidth || newValue[device].boxModel.borderRightWidth || newValue[device].boxModel.borderTopWidth || newValue[device].boxModel.borderWidth)) {
-            delete newValue[device].borderStyle
-            delete newValue[device].borderColor
-          }
-
-          if (newState.devices[device].dividerBackgroundType !== 'image' && newState.devices[device].dividerBackgroundType !== 'videoEmbed') {
-            delete newValue[device].dividerBackgroundImage
-            delete newValue[device].dividerBackgroundStyle
-            delete newValue[device].dividerBackgroundPosition
-            delete newValue[device].dividerVideoEmbed
-          }
-
-          if (newState.devices[device].dividerBackgroundType === 'image') {
-            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerBackgroundImage')) {
-              const dividerImages = newValue[device].dividerBackgroundImage
-              const isArray = dividerImages.constructor === Array
-              if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
-                delete newValue[device].dividerBackgroundStyle
-                delete newValue[device].dividerBackgroundPosition
-                delete newValue[device].dividerVideoEmbed
-              }
-            } else {
-              delete newValue[device].dividerBackgroundStyle
-              delete newValue[device].dividerBackgroundPosition
-              delete newValue[device].dividerVideoEmbed
-            }
-          }
-
-          if (newState.devices[device].dividerBackgroundType === 'videoEmbed') {
-            delete newValue[device].dividerBackgroundStyle
-
-            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerVideoEmbed')) {
-              const dividerVideos = newValue[device].dividerVideoEmbed
-              const isArray = dividerVideos.constructor === Array
-
-              if ((isArray && dividerVideos.length === 0) || (!isArray && (!dividerVideos.urls || dividerVideos.urls.length === 0))) {
-                delete newValue[device].dividerBackgroundPosition
-                delete newValue[device].dividerBackgroundImage
-              }
-            } else {
-              delete newValue[device].dividerBackgroundPosition
-              delete newValue[device].dividerBackgroundImage
-            }
-          }
-        }
-        device = DesignOptionsAdvanced.getMixins(newValue, device, newMixins)
-
-        // remove device from list if it's empty
-        if (!Object.keys(newValue[device]).length) {
-          delete newValue[device]
-        }
-      }
-    })
+    const {newValue, newMixins} = getUpdatedValues(newState)
 
     this.setFieldValue(newValue, newMixins, fieldKey)
     this.setState(newState)
   }
 
-  static getAnimationDelayMixin (newValue, device, newMixins) {
-    if (Object.prototype.hasOwnProperty.call(newValue[device], 'animationDelay')) {
-      const value = newValue[device].animationDelay
-      if (!lodash.isEmpty(value)) {
-        // update mixin
-        const mixinName = `animationDelayMixin:${device}`
-        newMixins[mixinName] = {}
-        newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.animationDelayMixin)
-
-        newMixins[mixinName].variables.animationDelay = {
-          value: value
-        }
-
-        const selector = `vce-o-animate-delay--${value}`
-        newMixins[mixinName].variables.selector = {
-          value: device === 'all' ? selector : selector + `-${device}`
-        }
-
-        // devices
-        newMixins[mixinName].variables.device = {
-          value: device
-        }
-      }
-    }
-  }
-
-  static getMixins (newValue, device, newMixins) {
-    // mixins
-    if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
-      newMixins[`visibilityMixin:${device}`] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
-      newMixins[`visibilityMixin:${device}`].variables = {
-        device: {
-          value: device
-        }
-      }
-    } else {
-      // boxModelMixin
-      if (Object.prototype.hasOwnProperty.call(newValue[device], 'boxModel')) {
-        const value = newValue[device].boxModel
-        if (!lodash.isEmpty(value)) {
-          // update mixin
-          const mixinName = `boxModelMixin:${device}`
-          newMixins[mixinName] = {}
-          newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.boxModelMixin)
-          const syncData = {
-            borderWidth: [{ key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' }],
-            borderTopWidth: [{ key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' }],
-            borderRightWidth: [{ key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' }],
-            borderBottomWidth: [{ key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' }],
-            borderLeftWidth: [{ key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' }]
-          }
-          for (const property in value) {
-            newMixins[mixinName].variables[property] = {
-              value: this.addPixelToNumber(value[property])
-            }
-            if (syncData[property]) {
-              syncData[property].forEach((syncProp) => {
-                const propVal = newValue[device][syncProp.value] || false
-                newMixins[mixinName].variables[syncProp.key] = {
-                  value: DesignOptionsAdvanced.addPixelToNumber(propVal)
-                }
-              })
-            }
-          }
-          // devices
-          newMixins[mixinName].variables.device = {
-            value: device
-          }
-        }
-      }
-      // backgroundMixin
-      if (newValue[device] && newValue[device].backgroundColor) {
-        const mixinName = `backgroundColorMixin:${device}`
-        newMixins[mixinName] = {}
-        newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.backgroundColorMixin)
-        newMixins[mixinName].variables.backgroundColor = {
-          value: newValue[device].backgroundColor
-        }
-        newMixins[mixinName].variables.device = {
-          value: device
-        }
-      }
-      // gradientMixin
-      if (newValue[device] && newValue[device].gradientOverlay) {
-        const mixinName = `gradientMixin:${device}`
-        newMixins[mixinName] = {}
-        if (newValue[device].gradientType === 'radial') {
-          newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.radialGradientMixin)
-        } else {
-          newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
-          newMixins[mixinName].variables.angle = {
-            value: newValue[device].gradientAngle || 0
-          }
-        }
-        if (newValue[device].gradientStartColor) {
-          newMixins[mixinName].variables.startColor = {
-            value: newValue[device].gradientStartColor
-          }
-        }
-        if (newValue[device].gradientEndColor) {
-          newMixins[mixinName].variables.endColor = {
-            value: newValue[device].gradientEndColor
-          }
-        }
-        newMixins[mixinName].variables.device = {
-          value: device
-        }
-      }
-
-      // dividerMixin
-      if (newValue[device] && newValue[device].divider && (newValue[device].dividerBackgroundType === 'image' || newValue[device].dividerBackgroundType === 'videoEmbed')) {
-        const mixinName = `dividerMixin:${device}`
-        newMixins[mixinName] = {}
-        newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
-
-        newMixins[mixinName].variables.device = {
-          value: device
-        }
-      }
-
-      // animationDelayMixin
-      DesignOptionsAdvanced.getAnimationDelayMixin(newValue, device, newMixins)
-    }
-    return device
-  }
-
-  /**
-   * Flush field value to updater
-   * @param value
-   * @param mixins
-   */
   setFieldValue (value, mixins, innerFieldKey) {
     const { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
     }, innerFieldKey)
-  }
-
-  /**
-   * Get custom devices
-   * @returns Array
-   */
-  getCustomDevices () {
-    return [
-      {
-        label: 'Desktop',
-        value: 'xl',
-        icon: 'vcv-ui-icon-desktop'
-      },
-      {
-        label: 'Tablet Landscape',
-        value: 'lg',
-        icon: 'vcv-ui-icon-tablet-landscape'
-      },
-      {
-        label: 'Tablet Portrait',
-        value: 'md',
-        icon: 'vcv-ui-icon-tablet-portrait'
-      },
-      {
-        label: 'Mobile Landscape',
-        value: 'sm',
-        icon: 'vcv-ui-icon-mobile-landscape'
-      },
-      {
-        label: 'Mobile Portrait',
-        value: 'xs',
-        icon: 'vcv-ui-icon-mobile-portrait'
-      }
-    ]
-  }
-
-  /**
-   * Get custom devices keys
-   * @returns {Array}
-   */
-  getCustomDevicesKeys () {
-    return this.getCustomDevices().map((device) => {
-      return device.value
-    })
   }
 
   /**
@@ -810,7 +141,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           api={this.props.api}
           fieldKey='currentDevice'
           options={{
-            customDevices: this.getCustomDevices()
+            customDevices: getCustomDevices()
           }}
           updater={this.devicesChangeHandler}
           value={this.state.currentDevice}
@@ -828,11 +159,11 @@ export default class DesignOptionsAdvanced extends Attribute {
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property
-      newState.devices.all = lodash.defaultsDeep({}, newState.devices[this.getCustomDevicesKeys().shift()])
+      newState.devices.all = lodash.defaultsDeep({}, newState.devices[getCustomDevicesKeys().shift()])
       delete newState.devices.all.display
     } else if (this.state.currentDevice === 'all') {
       // clone data to custom devices from all
-      this.getCustomDevicesKeys().forEach((device) => {
+      getCustomDevicesKeys().forEach((device) => {
         newState.devices[device] = lodash.defaultsDeep({}, newState.devices.all)
       })
     }
@@ -979,7 +310,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    const value = this.state.devices[this.state.currentDevice].backgroundType || DesignOptionsAdvanced.deviceDefaults.backgroundType
+    const value = this.state.devices[this.state.currentDevice].backgroundType || deviceDefaults.backgroundType
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1287,7 +618,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    const value = deviceData.backgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+    const value = deviceData.backgroundStyle || deviceDefaults.backgroundStyle
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1374,7 +705,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    const value = deviceData.backgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+    const value = deviceData.backgroundPosition || deviceDefaults.backgroundPosition
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1412,7 +743,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       max: 100,
       measurement: '%'
     }
-    const value = deviceData.backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
+    const value = deviceData.backgroundZoom || deviceDefaults.backgroundZoom
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1448,7 +779,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     const options = {
       min: 1
     }
-    const value = deviceData.backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
+    const value = deviceData.backgroundZoomSpeed || deviceDefaults.backgroundZoomSpeed
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1481,7 +812,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    const value = deviceData.backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
+    const value = deviceData.backgroundZoomReverse || deviceDefaults.backgroundZoomReverse
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -1592,7 +923,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    const value = this.state.devices[this.state.currentDevice].gradientStartColor || DesignOptionsAdvanced.deviceDefaults.gradientStartColor
+    const value = this.state.devices[this.state.currentDevice].gradientStartColor || ''
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1603,7 +934,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           fieldKey='gradientStartColor'
           updater={this.valueChangeHandler}
           value={value}
-          defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientStartColor}
+          defaultValue={deviceDefaults.gradientStartColor}
         />
       </div>
     )
@@ -1618,7 +949,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    const value = this.state.devices[this.state.currentDevice].gradientEndColor || DesignOptionsAdvanced.deviceDefaults.gradientEndColor
+    const value = this.state.devices[this.state.currentDevice].gradientEndColor || ''
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1629,7 +960,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           fieldKey='gradientEndColor'
           updater={this.valueChangeHandler}
           value={value}
-          defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientEndColor}
+          defaultValue={deviceDefaults.gradientEndColor}
         />
       </div>
     )
@@ -1668,7 +999,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    const value = this.state.devices[this.state.currentDevice].borderStyle || DesignOptionsAdvanced.deviceDefaults.borderStyle
+    const value = this.state.devices[this.state.currentDevice].borderStyle || deviceDefaults.borderStyle
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -1808,7 +1139,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    const value = this.state.devices[this.state.currentDevice].sliderEffect || DesignOptionsAdvanced.deviceDefaults.sliderEffect
+    const value = this.state.devices[this.state.currentDevice].sliderEffect || deviceDefaults.sliderEffect
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
