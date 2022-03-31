@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
-import globalStoreInstance from 'public/editor/stores/globalStoreInstance'
+
 export const setupCake = () => {
+  const globalStoreInstance = require('public/editor/stores/globalStoreInstance')
   vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
@@ -15,7 +16,6 @@ export const setupCake = () => {
     require('../../editor/stores/hub/hubElementsStorage')
     require('../../editor/stores/hub/hubTemplatesStorage')
     require('../../editor/stores/hub/hubAddonsStorage')
-    require('../../editor/stores/sharedAssets/storage')
     require('../../editor/stores/history/historyStorage')
     require('../../editor/stores/settingsStorage')
     require('../../editor/stores/attributes/attributesStorage')
@@ -31,8 +31,6 @@ export const setupCake = () => {
     hubTemplatesStorage.trigger('start')
     const hubAddonsStorage = vcCake.getStorage('hubAddons')
     hubAddonsStorage.trigger('start')
-    const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
-    sharedAssetsStorage.trigger('start')
     const settingsStorage = vcCake.getStorage('settings')
     settingsStorage.trigger('start')
     const attributesStorage = vcCake.getStorage('attributes')
