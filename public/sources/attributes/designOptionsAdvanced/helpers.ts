@@ -623,8 +623,6 @@ const getBoxModelMixin = (newValue: { [index: string]: Options }, device: string
           value: 'borderColor'
         }]
       }
-      console.log(newValue)
-      // console.log(newValue[device])
 
       Object.keys(value).forEach((property) => {
         boxModelMixin.variables[property] = {

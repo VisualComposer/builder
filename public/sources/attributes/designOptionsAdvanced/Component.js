@@ -113,7 +113,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     // prepare data for state
     newState = this.updateState(newState)
 
-    const {newValue, newMixins} = getUpdatedValues(newState)
+    const { newValue, newMixins } = getUpdatedValues(newState)
 
     this.setFieldValue(newValue, newMixins, fieldKey)
     this.setState(newState)
