@@ -262,18 +262,18 @@ const ElementResize: React.FC<Props> = (props) => {
           onMouseOver={handleMouseOver}
         >
           <div className='vce-column-resizer-label vce-column-resizer-label-left vce-add-column-container'>
-            <span
-              className='vce-column-resizer-label-percentage vce-add-column'
-              title='Add column before'
-              onMouseDown={(event) => {
-                handlePlusClick(event, 'before')
-              }}
-            >
-              <i className='vcv-ui-icon vcv-ui-icon-add' />
-            </span>
+            <span className='vce-column-resizer-label-percentage'>{leftDistance}px</span>
           </div>
           <div className='vce-column-resizer-label vce-column-resizer-label-right' title='Margin'>
-            <span className='vce-column-resizer-label-percentage'>{leftDistance}px</span>
+           <span
+             className='vce-column-resizer-label-percentage vce-add-column'
+             title='Add column before'
+             onMouseDown={(event) => {
+               handlePlusClick(event, 'before')
+             }}
+           >
+             <i className='vcv-ui-icon vcv-ui-icon-add' />
+           </span>
           </div>
         </div>
       </div>
@@ -290,9 +290,6 @@ const ElementResize: React.FC<Props> = (props) => {
           onMouseOver={handleMouseOver}
         >
           <div className='vce-column-resizer-label vce-column-resizer-label-left' title='Margin'>
-            <span className='vce-column-resizer-label-percentage'>{rightDistance}px</span>
-          </div>
-          <div className='vce-column-resizer-label vce-column-resizer-label-right vce-add-column-container'>
             <span
               className='vce-column-resizer-label-percentage vce-add-column'
               title='Add column after'
@@ -302,6 +299,9 @@ const ElementResize: React.FC<Props> = (props) => {
             >
               <i className='vcv-ui-icon vcv-ui-icon-add' />
             </span>
+          </div>
+          <div className='vce-column-resizer-label vce-column-resizer-label-right vce-add-column-container'>
+            <span className='vce-column-resizer-label-percentage'>{rightDistance}px</span>
           </div>
         </div>
       </div>
