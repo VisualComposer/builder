@@ -432,3 +432,55 @@
     }
   }
 }
+
+.vcv-ui-element-resize-control-wrapper {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.vce-column-resizer.vce-column-resizer--side {
+  position: absolute;
+  z-index: 1130;
+  pointer-events: none;
+  cursor: col-resize;
+  opacity: 1;
+  visibility: visible;
+
+  .vce-column-resizer-handler:first-child {
+    left: -5px;
+  }
+
+  .vce-column-resizer-handler:last-child {
+    right: -5px;
+  }
+
+  .vce-column-resizer-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    pointer-events: auto;
+    top: 0;
+    width: 10px;
+    height: 100%;
+
+    &:before {
+      display: none;
+    }
+  }
+
+  .vce-add-column {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    padding: 8px 15px 8px 8px;
+    cursor: pointer;
+  }
+}
+

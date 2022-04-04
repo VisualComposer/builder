@@ -1,7 +1,7 @@
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
 import store from 'public/editor/stores/store'
-import { controlsDataChanged, appendControlDataChanged } from 'public/editor/stores/controls/slice'
+import { controlsDataChanged, appendControlDataChanged, resizeControlDataChanged } from 'public/editor/stores/controls/slice'
 import OutlineHandler from './outlineHandler'
 import FramesHandler from './framesHandler'
 
@@ -95,7 +95,7 @@ export default class ControlsManager {
 
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
-    if (data && data.vcvEditableElements.length) {
+    if (data?.vcvEditableElements?.length) {
       store.dispatch(controlsDataChanged({
         vcvEditableElements: data.vcvEditableElements,
         vcElementId: data.vcElementId,
@@ -114,6 +114,30 @@ export default class ControlsManager {
       }
       this.state.prevTarget = null
       this.state.prevElementPath = []
+    }
+  }
+
+  toggleElementResize (data) {
+    const customMode = vcCake.getData('vcv:layoutCustomMode')?.mode
+    if (customMode === 'elementResize') {
+      return null
+    }
+    if (data?.vcvEditableElements?.length) {
+      let rowId = null
+      for (let i = 0; i < data.vcvEditableElements.length; i++) {
+        const cookElement = cook.getById(data.vcvEditableElements[i])
+        if (cookElement.get('tag') === 'row') {
+          rowId = data.vcvEditableElements[i]
+          break
+        }
+      }
+      if (rowId) {
+        store.dispatch(resizeControlDataChanged({
+          vcElementContainerId: rowId
+        }))
+      }
+    } else {
+      store.dispatch(resizeControlDataChanged({}))
     }
   }
 
@@ -151,7 +175,7 @@ export default class ControlsManager {
     }
 
     const customMode = vcCake.getData('vcv:layoutCustomMode')?.mode
-    if (customMode === 'contentEditable' || customMode === 'dnd' || customMode === 'columnResizerHover' || customMode === 'columnResizer') {
+    if (customMode === 'contentEditable' || customMode === 'dnd' || customMode === 'columnResizerHover' || customMode === 'columnResizer' || customMode === 'elementResize') {
       return null
     }
 
@@ -292,14 +316,19 @@ export default class ControlsManager {
       if (state?.mode === 'dnd') {
         this.state.showFrames = true
         this.toggleControls()
+        this.toggleElementResize()
         this.outline.hide()
-      }
-      if (state?.mode === 'contentEditable') {
+      } else if (state?.mode === 'contentEditable') {
         this.frames.hide()
         this.toggleControls()
+        this.toggleElementResize()
         this.outline.hide()
-      }
-      if (state?.mode === 'columnResizerHover') {
+      } else if (state?.mode === 'columnResizerHover') {
+        this.toggleControls()
+        this.outline.hide()
+      } else if (state?.mode === 'elementResize') {
+        this.frames.hide()  // First - hide old frames
+        this.state.showFrames = true
         this.toggleControls()
         this.outline.hide()
       }
@@ -378,6 +407,7 @@ export default class ControlsManager {
     this.closingControlsInterval = setInterval(() => {
       if (this.closingControls) {
         this.toggleControls()
+        this.toggleElementResize()
         if (this.state.showFrames) {
           this.frames.hide()
         }
@@ -412,6 +442,7 @@ export default class ControlsManager {
           }
 
           this.toggleControls()
+          this.toggleElementResize()
           if (this.state.showFrames) {
             this.frames.hide()
           }
@@ -447,9 +478,10 @@ export default class ControlsManager {
         if (this.state.showFrames) {
           this.showFrames(data)
         }
+        this.toggleElementResize(data)
       }
       if (data && data.type === 'mouseLeave') {
-        this.handleControlsMouseLeave(data.vcElementId)
+        this.handleControlsMouseLeave(data)
       }
     })
   }
@@ -481,6 +513,7 @@ export default class ControlsManager {
       this.outline.hide()
       this.frames.hide()
       this.toggleControls()
+      this.toggleElementResize()
     }
 
     window.clearTimeout(this.isScrolling)
