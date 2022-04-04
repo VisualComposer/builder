@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react'
 import {connect} from 'react-redux'
 import vcCake from 'vc-cake'
+import {updateDesignOptionsBoxModel} from '../../sources/attributes/designOptionsAdvanced/helpers'
 
 const cook = vcCake.getService('cook')
 const documentService = vcCake.getService('document')
@@ -72,6 +73,22 @@ function addNewColumn(action: string, vcElementContainerId: string) {
   }
 }
 
+function getDistanceValues(rowElement: HTMLElement | null | undefined) {
+  let left = 0
+  let right = 0
+
+  if (rowElement) {
+    const initialStyles = window.getComputedStyle(rowElement)
+    left = parseInt(initialStyles.getPropertyValue('margin-left'))
+    right = parseInt(initialStyles.getPropertyValue('margin-right'))
+  }
+
+  return {
+    leftDistance: left,
+    rightDistance: right
+  }
+}
+
 const ElementResize: React.FC<Props> = (props) => {
   const {vcElementContainerId} = props.resizeControlData
   const [isResizing, setResizing] = useState(false)
@@ -79,7 +96,10 @@ const ElementResize: React.FC<Props> = (props) => {
   const [containerPos, setContainerPos] = useState(initialContainerPos)
   const iframeElement = document.getElementById('vcv-editor-iframe') as HTMLIFrameElement
   const [iframe, setIframe] = useState(iframeElement)
-  const rowElement = iframeElement?.contentDocument?.getElementById(`el-${vcElementContainerId}`)
+  const rowElement: HTMLElement | null | undefined = iframeElement?.contentDocument?.getElementById(`el-${vcElementContainerId}`)
+  const distances = getDistanceValues(rowElement)
+  const [leftDistance, setLeftDistance] = useState(distances.leftDistance)
+  const [rightDistance, setRightDistance] = useState(distances.rightDistance)
   const [row, setRow] = useState(rowElement)
   const [resizerSide, setResizerSide] = useState('')
   const [resizerPosition, setResizerPosition] = useState({})
@@ -110,6 +130,11 @@ const ElementResize: React.FC<Props> = (props) => {
       if (vcElementContainerId) {
         const position: ContainerPos = updateContainerPosition(iframe, vcElementContainerId)
         setContainerPos(position)
+        if (isLeft) {
+          setLeftDistance(Math.round(distance))
+        } else {
+          setRightDistance(Math.round(distance))
+        }
         row.style[isLeft ? 'marginLeft' : 'marginRight'] = `${Math.round(distance)}px`
         setResizeLabelsPosition(e)
       }
@@ -120,20 +145,35 @@ const ElementResize: React.FC<Props> = (props) => {
     iframe.style.pointerEvents = ''
     iframe.style.userSelect = ''
     document.body.style.userSelect = ''
+    const fieldProperty = resizerSide === 'left' ? 'marginLeft' : 'marginRight'
+    const fieldValue = resizerSide === 'left' ? leftDistance : rightDistance
+    if (vcElementContainerId) {
+      updateDesignOptionsBoxModel(vcElementContainerId, fieldProperty, `${fieldValue}px`)
+    }
+    window.setTimeout(() => {
+      if (row) {
+        row.style.marginLeft = ''
+        row.style.marginRight = ''
+      }
+    }, 150)
+
     setResizerSide('')
     setResizing(false)
     vcCake.setData('vcv:layoutCustomMode', false)
     vcCake.setData('vcv:layoutColumnResize', null)
-  }, [])
+  }, [row, iframe, leftDistance, rightDistance, vcElementContainerId, resizerSide])
 
   useEffect(() => {
     if (vcElementContainerId) {
       const iframeElement = document.getElementById('vcv-editor-iframe') as HTMLIFrameElement
-      const position:ContainerPos = updateContainerPosition(iframeElement, vcElementContainerId)
+      const position: ContainerPos = updateContainerPosition(iframeElement, vcElementContainerId)
       setContainerPos(position)
-      const rowElement = iframe?.contentDocument?.getElementById(`el-${vcElementContainerId}`)
+      const rowElement: HTMLElement | null | undefined = iframe?.contentDocument?.getElementById(`el-${vcElementContainerId}`)
       setRow(rowElement)
       setIframe(iframeElement)
+      const distances = getDistanceValues(rowElement)
+      setLeftDistance(distances.leftDistance)
+      setRightDistance(distances.rightDistance)
     }
   }, [vcElementContainerId, iframe])
 
@@ -169,7 +209,9 @@ const ElementResize: React.FC<Props> = (props) => {
     })
     vcCake.setData('vcv:layoutColumnResize', vcElementContainerId)
     setResizeLabelsPosition(event)
+  }
 
+  const handleMouseOver = () => {
     const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
     if (hideControlsInterval) {
       clearInterval(hideControlsInterval)
@@ -180,6 +222,9 @@ const ElementResize: React.FC<Props> = (props) => {
   const handlePlusClick = (event: React.MouseEvent<HTMLElement>, action: string) => {
     event.stopPropagation()
     addNewColumn(action, vcElementContainerId)
+    window.setTimeout(() => {
+      vcCake.setData('vcv:layoutColumnResize', vcElementContainerId)
+    }, 50)
   }
 
   let styles = {}
@@ -211,20 +256,24 @@ const ElementResize: React.FC<Props> = (props) => {
           handleMouseDown(event, 'left')
         }}
       >
-        <div className='vce-column-resizer-label-container vce-column-resizer-label--side' style={leftLabelStyles}>
+        <div
+          className='vce-column-resizer-label-container vce-column-resizer-label--side'
+          style={leftLabelStyles}
+          onMouseOver={handleMouseOver}
+        >
           <div className='vce-column-resizer-label vce-column-resizer-label-left vce-add-column-container'>
             <span
               className='vce-column-resizer-label-percentage vce-add-column'
               title='Add column before'
-              onClick={(event) => {
+              onMouseDown={(event) => {
                 handlePlusClick(event, 'before')
               }}
             >
               <i className='vcv-ui-icon vcv-ui-icon-add' />
             </span>
           </div>
-          <div className='vce-column-resizer-label vce-column-resizer-label-right'>
-            <span className='vce-column-resizer-label-percentage'>50%</span>
+          <div className='vce-column-resizer-label vce-column-resizer-label-right' title='Margin'>
+            <span className='vce-column-resizer-label-percentage'>{leftDistance}px</span>
           </div>
         </div>
       </div>
@@ -235,15 +284,19 @@ const ElementResize: React.FC<Props> = (props) => {
           handleMouseDown(event, 'right')
         }}
       >
-        <div className='vce-column-resizer-label-container vce-column-resizer-label--side' style={rightLabelStyles}>
-          <div className='vce-column-resizer-label vce-column-resizer-label-left'>
-            <span className='vce-column-resizer-label-percentage'>50%</span>
+        <div
+          className='vce-column-resizer-label-container vce-column-resizer-label--side'
+          style={rightLabelStyles}
+          onMouseOver={handleMouseOver}
+        >
+          <div className='vce-column-resizer-label vce-column-resizer-label-left' title='Margin'>
+            <span className='vce-column-resizer-label-percentage'>{rightDistance}px</span>
           </div>
           <div className='vce-column-resizer-label vce-column-resizer-label-right vce-add-column-container'>
             <span
               className='vce-column-resizer-label-percentage vce-add-column'
               title='Add column after'
-              onClick={(event) => {
+              onMouseDown={(event) => {
                 handlePlusClick(event, 'after')
               }}
             >
