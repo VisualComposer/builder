@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { connect } from 'react-redux'
+import React, {useState, useEffect, useCallback, useRef} from 'react'
+import {connect} from 'react-redux'
 import vcCake from 'vc-cake'
 
 const cook = vcCake.getService('cook')
@@ -7,14 +7,34 @@ const documentService = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
 
-function updateContainerPosition (vcElementId, iframe) {
+const initialContainerPos: ContainerPos = {
+  top: 0,
+  left: 0,
+  width: 0,
+  height: 0
+}
+
+interface Props {
+  resizeControlData: {
+    vcElementContainerId?: string
+  }
+}
+
+interface ContainerPos {
+  top: number,
+  left: number,
+  width: number,
+  height: number
+}
+
+function updateContainerPosition(iframe: HTMLIFrameElement, vcElementId: string) {
   const iframeDocument = iframe?.contentDocument
-  if (!iframeDocument) {
-    return false
+  if (!iframeDocument || !vcElementId) {
+    return initialContainerPos
   }
   const contentElement = iframeDocument.querySelector(`[data-vcv-element="${vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
   if (!contentElement) {
-    return false
+    return initialContainerPos
   }
   const elementRect = contentElement.getBoundingClientRect()
 
@@ -33,9 +53,9 @@ function updateContainerPosition (vcElementId, iframe) {
   }
 }
 
-function addNewColumn (action, iframeDocument, vcElementContainerId) {
+function addNewColumn(action: string, vcElementContainerId: string) {
   const columns = documentService.children(vcElementContainerId)
-  const related = action === 'before' ? columns[0].id : columns[columns.length-1].id
+  const related = action === 'before' ? columns[0].id : columns[columns.length - 1].id
   const colSettings = {
     tag: 'column',
     parent: vcElementContainerId
@@ -44,7 +64,7 @@ function addNewColumn (action, iframeDocument, vcElementContainerId) {
   const options = {
     action: action,
     related: related,
-    options: { silent: true }
+    options: {silent: true}
   }
   elementsStorage.trigger('add', columnData.toJS(), true, {})
   if (action === 'before') {
@@ -52,47 +72,49 @@ function addNewColumn (action, iframeDocument, vcElementContainerId) {
   }
 }
 
-const ElementResize = ({ data = {} }) => {
-  const { vcElementContainerId } = data
-  const helper = useRef(null)
-  const leftResizer = useRef(null)
-  const rightResizer = useRef(null)
+const ElementResize: React.FC<Props> = (props) => {
+  const {vcElementContainerId} = props.resizeControlData
   const [isResizing, setResizing] = useState(false)
-  const [containerPos, setContainerPos] = useState(false)
-  const iframeElement = document.getElementById('vcv-editor-iframe')
+
+  const [containerPos, setContainerPos] = useState(initialContainerPos)
+  const iframeElement = document.getElementById('vcv-editor-iframe') as HTMLIFrameElement
   const [iframe, setIframe] = useState(iframeElement)
-  const [row, setRow] = useState(iframe?.contentDocument?.getElementById(`el-${vcElementContainerId}`))
+  const rowElement = iframeElement?.contentDocument?.getElementById(`el-${vcElementContainerId}`)
+  const [row, setRow] = useState(rowElement)
   const [resizerSide, setResizerSide] = useState('')
   const [resizerPosition, setResizerPosition] = useState({})
 
   const setResizeLabelsPosition = useCallback((e) => {
-    const resizer = resizerSide === 'left' ? leftResizer : rightResizer
-    const resizerHeight = resizer.current.getBoundingClientRect().height
-    const labelPosition = e.clientY - helper.current.getBoundingClientRect().top - (resizerHeight / 2)
-    setResizerPosition({
-      position: 'absolute',
-      top: `${labelPosition}px`
-    })
-  })
+    const resizerHeight = 29
+    if (containerPos.top) {
+      const labelPosition = e.clientY - containerPos.top - (resizerHeight / 2)
+      setResizerPosition({
+        position: 'absolute',
+        top: `${labelPosition}px`
+      })
+    }
+
+  }, [containerPos])
 
   const handleMouseMove = useCallback((e) => {
-    if (row) {
+    if (row?.parentElement) {
       const isLeft = resizerSide === 'left'
       const iframeOffset = iframe.getBoundingClientRect().left
       const bounding = row.parentElement.getBoundingClientRect()
-      let distance = isLeft ? (e.clientX - bounding.x - iframeOffset) :  (e.clientX - (bounding.x + bounding.width) - iframeOffset) * -1
+      let distance = isLeft ? (e.clientX - bounding.x - iframeOffset) : (e.clientX - (bounding.x + bounding.width) - iframeOffset) * -1
 
       // Snap to grid
       if (distance > -5 && distance < 5) {
         distance = 0
       }
-
-      setContainerPos(updateContainerPosition(vcElementContainerId, iframe))
-      row.style[isLeft ? 'marginLeft' : 'marginRight'] = `${Math.round(distance)}px`
-      setResizeLabelsPosition(e)
-
+      if (vcElementContainerId) {
+        const position: ContainerPos = updateContainerPosition(iframe, vcElementContainerId)
+        setContainerPos(position)
+        row.style[isLeft ? 'marginLeft' : 'marginRight'] = `${Math.round(distance)}px`
+        setResizeLabelsPosition(e)
+      }
     }
-  }, [row, resizerSide, vcElementContainerId]);
+  }, [row, resizerSide, vcElementContainerId, setResizeLabelsPosition, iframe])
 
   const handleMouseUp = useCallback(() => {
     iframe.style.pointerEvents = ''
@@ -106,8 +128,9 @@ const ElementResize = ({ data = {} }) => {
 
   useEffect(() => {
     if (vcElementContainerId) {
-      const iframeElement = document.getElementById('vcv-editor-iframe')
-      setContainerPos(updateContainerPosition(vcElementContainerId, iframeElement))
+      const iframeElement = document.getElementById('vcv-editor-iframe') as HTMLIFrameElement
+      const position:ContainerPos = updateContainerPosition(iframeElement, vcElementContainerId)
+      setContainerPos(position)
       const rowElement = iframe?.contentDocument?.getElementById(`el-${vcElementContainerId}`)
       setRow(rowElement)
       setIframe(iframeElement)
@@ -132,7 +155,7 @@ const ElementResize = ({ data = {} }) => {
     return null
   }
 
-  const handleMouseDown = (side) => {
+  const handleMouseDown = (event: React.MouseEvent<HTMLElement>, side: string) => {
     iframe.style.pointerEvents = 'none'
     iframe.style.userSelect = 'none'
     document.body.style.userSelect = 'none'
@@ -145,6 +168,7 @@ const ElementResize = ({ data = {} }) => {
       options: {}
     })
     vcCake.setData('vcv:layoutColumnResize', vcElementContainerId)
+    setResizeLabelsPosition(event)
 
     const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
     if (hideControlsInterval) {
@@ -153,13 +177,13 @@ const ElementResize = ({ data = {} }) => {
     }
   }
 
-  const handlePlusClick = (event, action) => {
+  const handlePlusClick = (event: React.MouseEvent<HTMLElement>, action: string) => {
     event.stopPropagation()
-    addNewColumn(action, iframe?.contentDocument, vcElementContainerId)
+    addNewColumn(action, vcElementContainerId)
   }
 
   let styles = {}
-  if (containerPos) {
+  if (containerPos.height && containerPos.width) {
     styles = {
       top: `${containerPos.top}px`,
       left: `${containerPos.left}px`,
@@ -180,18 +204,21 @@ const ElementResize = ({ data = {} }) => {
   }
 
   return (
-    <div className='vce-column-resizer vce-column-resizer--side vcvhelper' style={{ ...styles }} ref={helper}>
-
+    <div className='vce-column-resizer vce-column-resizer--side' style={{...styles}}>
       <div
         className='vce-column-resizer-handler'
-        onMouseDown={() => { handleMouseDown('left') }}
+        onMouseDown={(event) => {
+          handleMouseDown(event, 'left')
+        }}
       >
-        <div className='vce-column-resizer-label-container vce-column-resizer-label--side' style={leftLabelStyles} ref={leftResizer}>
+        <div className='vce-column-resizer-label-container vce-column-resizer-label--side' style={leftLabelStyles}>
           <div className='vce-column-resizer-label vce-column-resizer-label-left vce-add-column-container'>
             <span
               className='vce-column-resizer-label-percentage vce-add-column'
               title='Add column before'
-              onClick={(event) => { handlePlusClick(event, 'before') }}
+              onClick={(event) => {
+                handlePlusClick(event, 'before')
+              }}
             >
               <i className='vcv-ui-icon vcv-ui-icon-add' />
             </span>
@@ -204,9 +231,11 @@ const ElementResize = ({ data = {} }) => {
 
       <div
         className='vce-column-resizer-handler'
-        onMouseDown={() => { handleMouseDown('right') }}
+        onMouseDown={(event) => {
+          handleMouseDown(event, 'right')
+        }}
       >
-        <div className='vce-column-resizer-label-container vce-column-resizer-label--side' style={rightLabelStyles} ref={rightResizer}>
+        <div className='vce-column-resizer-label-container vce-column-resizer-label--side' style={rightLabelStyles}>
           <div className='vce-column-resizer-label vce-column-resizer-label-left'>
             <span className='vce-column-resizer-label-percentage'>50%</span>
           </div>
@@ -214,20 +243,21 @@ const ElementResize = ({ data = {} }) => {
             <span
               className='vce-column-resizer-label-percentage vce-add-column'
               title='Add column after'
-              onClick={(event) => { handlePlusClick(event, 'after') }}
+              onClick={(event) => {
+                handlePlusClick(event, 'after')
+              }}
             >
               <i className='vcv-ui-icon vcv-ui-icon-add' />
             </span>
           </div>
         </div>
       </div>
-
     </div>
   )
 }
 
-const mapStateToProps = state => ({
-  data: state.controls.resizeControlData
+const mapStateToProps = (state: { controls: Props }) => ({
+  resizeControlData: state.controls.resizeControlData
 })
 
 export default connect(mapStateToProps)(ElementResize)
