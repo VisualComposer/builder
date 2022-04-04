@@ -69,7 +69,7 @@ class Localizations extends Container implements Helper
             'tabletPortrait' => __('Tablet Portrait', 'visualcomposer'),
             'mobileLandscape' => __('Mobile Landscape', 'visualcomposer'),
             'mobilePortrait' => __('Mobile Portrait', 'visualcomposer'),
-            'settings' => __('Settings', 'visualcomposer'),
+            'options' => __('Options', 'visualcomposer'),
             'update' => __('Update', 'visualcomposer'),
             'menu' => __('Menu', 'visualcomposer'),
             'viewPage' => __('View Page', 'visualcomposer'),
@@ -1310,8 +1310,8 @@ class Localizations extends Container implements Helper
                 'Insights',
                 'visualcomposer'
             ),
-            'onPageSettings' => __(
-                'On-Page Settings',
+            'onPageOptions' => __(
+                'On-Page Options',
                 'visualcomposer'
             ),
             'publishingOptions' => __(
@@ -1355,9 +1355,9 @@ class Localizations extends Container implements Helper
                 . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, addons, stock images, and more.',
                 'visualcomposer'
             ),
-            'changeSettingsOfYourPageOrPost' => __(
+            'changeOptionsOfYourPageOrPost' => __(
                 'Change <a href="https://help.visualcomposer.com/docs/getting-started/dashboard-settings/?utm_source=' . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.',
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">options of your page or post</a>, modify the layout, control popups, add custom CSS, and JavaScript.',
                 'visualcomposer'
             ),
             'previewSaveAndPublish' => __(
@@ -1472,7 +1472,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'pageSettings' => __(
-                'Page Settings',
+                'Page Options',
                 'visualcomposer'
             ),
             'pageDesignOptionsDescription' => __(
