@@ -30,35 +30,40 @@ const getActivePopup = (popupData: Popups): string => {
   }
   return activePopup
 }
-const slice = createSlice({
-  name: 'editorPopup',
-  initialState: {
+
+const initialState = {
     popups: {
-      votePopup: {
-        visible: dataManager?.get('showFeedbackForm'),
-        priority: 1
-      },
-      reviewPopup: {
-        visible: false,
-        priority: 2
-      },
-      dataCollectionPopup: {
-        visible: dataManager?.get('showDataCollectionPopup'),
-        priority: 3
-      },
-      pricingPopup: {
-        visible: !!dataManager?.get('showPricingPopup'),
-        priority: 4
-      },
-      premiumPromoPopup: {
-        visible: dataManager?.get('showPremiumPromoPopup'),
-        priority: 5
-      }
+        votePopup: {
+            visible: dataManager?.get('showFeedbackForm'),
+            priority: 1
+        },
+        reviewPopup: {
+            visible: false,
+            priority: 2
+        },
+        dataCollectionPopup: {
+            visible: dataManager?.get('showDataCollectionPopup'),
+            priority: 3
+        },
+        pricingPopup: {
+            visible: !!dataManager?.get('showPricingPopup'),
+            priority: 4
+        },
+        premiumPromoPopup: {
+            visible: dataManager?.get('showPremiumPromoPopup'),
+            priority: 5
+        }
     },
     fullScreenPopupData: {},
     activeFullPopup: '',
     activePopup: ''
-  },
+}
+
+initialState.activePopup = getActivePopup(initialState.popups)
+
+const slice = createSlice({
+  name: 'editorPopup',
+  initialState,
   reducers: {
     popupShown: (data, action) => {
       const popupName = action.payload
