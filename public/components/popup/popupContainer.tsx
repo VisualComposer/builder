@@ -8,7 +8,7 @@ import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
 import { connect } from 'react-redux'
 import { allPopupsHidden } from '../../editor/stores/editorPopup/slice'
-import {AppStateType} from "../../editor/stores/reducer";
+import { AppStateType } from "../../editor/stores/reducer"
 import { Dispatch } from 'redux';
 
 const elementsStorage = getStorage('elements')

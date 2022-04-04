@@ -4,8 +4,8 @@ import { getService } from 'vc-cake'
 import PremiumTeaser from '../../components/premiumTeasers/component'
 import { connect } from 'react-redux'
 import { activeFullPopupSet } from '../../editor/stores/editorPopup/slice'
-import {AppStateType} from "../../editor/stores/reducer";
-import { Dispatch } from 'redux';
+import { AppStateType } from "../../editor/stores/reducer"
+import { Dispatch } from 'redux'
 
 const dataManager = getService('dataManager')
 
