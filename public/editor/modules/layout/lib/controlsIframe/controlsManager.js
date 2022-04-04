@@ -327,7 +327,7 @@ export default class ControlsManager {
         this.toggleControls()
         this.outline.hide()
       } else if (state?.mode === 'elementResize') {
-        this.frames.hide()  // First - hide old frames
+        this.frames.hide() // First - hide old frames
         this.state.showFrames = true
         this.toggleControls()
         this.outline.hide()
