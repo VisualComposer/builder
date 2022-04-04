@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import {getService} from 'vc-cake'
+import {getService, getStorage} from 'vc-cake'
 
 const {getBlockRegexp} = getService('utils')
 const blockRegexp = getBlockRegexp()
@@ -618,7 +618,7 @@ const getBoxModelMixin = (newValue: { [index: string]: Options }, device: string
           key: 'borderBottomColor',
           value: 'borderColor'
         }],
-          borderLeftWidth: [{key: 'borderLeftStyle', value: 'borderStyle'}, {
+        borderLeftWidth: [{key: 'borderLeftStyle', value: 'borderStyle'}, {
           key: 'borderLeftColor',
           value: 'borderColor'
         }]
@@ -708,4 +708,62 @@ const getMixins = (newValue: { [index: string]: Options }, device: string) => {
     returnMixins = {...boxModelMixin, ...backgroundMixin, ...gradientMixin, ...animationMixin}
   }
   return returnMixins
+}
+
+// This method is used for updating design options box model values from outside (when DO panel is not even opened)
+export const updateDesignOptionsBoxModel = (id: string, fieldProperty: string, fieldValue: string) => {
+  const documentService = getService('document')
+  const elementsStorage = getStorage('elements')
+
+  const deviceViewports: { [index: string]: any } = {
+    xs: 0,
+    sm: 544,
+    md: 768,
+    lg: 992,
+    xl: 1200
+  }
+
+  const getCurrentDevice = () => {
+    const iframeElement = document?.querySelector('#vcv-editor-iframe') as HTMLIFrameElement
+    const iframeDocument = iframeElement?.contentWindow
+    const clientWidth = iframeDocument?.document?.documentElement?.clientWidth
+    if (!clientWidth) {
+      return 'xl'
+    }
+    const windowWidth = Math.max(clientWidth, iframeDocument.innerWidth || 0)
+    let current = null
+
+    Object.keys(deviceViewports).forEach((device: string) => {
+      const viewport = deviceViewports[device]
+
+      if (windowWidth >= viewport) {
+        current = device
+      }
+    })
+
+    return currentDevice
+  }
+
+  const element = documentService.get(id)
+
+  let value = element?.designOptionsAdvanced?.device
+
+  let currentDevice = 'all'
+  if (value && Object.prototype.hasOwnProperty.call(value, 'xl')) {
+    currentDevice = getCurrentDevice()
+  }
+
+  if (!value || !value[currentDevice]) {
+    value = {[currentDevice]: {boxModel: {}}}
+  } else if (!value[currentDevice].boxModel) {
+    value[currentDevice].boxModel = {}
+  }
+
+  value[currentDevice].boxModel[fieldProperty] = fieldValue
+
+  const {newValue, newMixins} = getUpdatedValues({currentDevice: currentDevice, devices: value})
+
+  element.designOptionsAdvanced = {attributeMixins: newMixins, device: newValue}
+
+  elementsStorage.trigger('update', id, element)
 }
