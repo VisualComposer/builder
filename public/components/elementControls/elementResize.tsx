@@ -204,6 +204,9 @@ const ElementResize: React.FC<Props> = (props) => {
   }
 
   const handleMouseDown = (event: React.MouseEvent<HTMLElement>, side: string) => {
+    if (event.nativeEvent.which !== 1) {
+      return
+    }
     iframe.style.pointerEvents = 'none'
     iframe.style.userSelect = 'none'
     document.body.style.userSelect = 'none'

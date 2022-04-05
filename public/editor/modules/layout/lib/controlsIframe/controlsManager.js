@@ -379,6 +379,7 @@ export default class ControlsManager {
       }
       if (data && data.type === 'controlClick' && !data.vcControlIsPermanent) {
         this.toggleControls()
+        this.toggleElementResize()
         this.outline.hide()
         this.frames.hide()
       }
@@ -392,6 +393,7 @@ export default class ControlsManager {
 
     layoutStorage.state('rightClickMenuActive').onChange(() => {
       this.toggleControls()
+      this.toggleElementResize()
     })
   }
 
