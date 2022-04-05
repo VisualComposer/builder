@@ -57,6 +57,9 @@ export default class PageSettingsTitle extends Attribute {
     }
     this.setState(newVar)
     settingsStorage.state('pageTitle').set(newValue)
+    const postData = settingsStorage.state('postData').get()
+    postData.post_title = newValue
+    settingsStorage.state('postData').set(postData)
   }
 
   updatePageTitle (title) {
