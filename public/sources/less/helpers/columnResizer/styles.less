@@ -69,7 +69,8 @@
     box-shadow: 0 5px @vcv-color-white, 0 -5px @vcv-color-white;
   }
 
-  &.vce-column-resizer-label-container--active {
+  &.vce-column-resizer-label-container--active,
+  &.vce-column-resizer-label--side:hover {
     .vce-column-resizer-label {
       width: 45px;
       opacity: 1;
@@ -101,6 +102,7 @@
   background: rgba(0, 0, 0, 0.3);
   transition: width @vcv-transition-duration @vcv-transition-timing-function,
   background @vcv-transition-duration @vcv-transition-timing-function;
+  overflow: hidden;
 
   &.vce-column-resizer-label-left {
     right: 0;
