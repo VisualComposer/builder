@@ -95,7 +95,7 @@ class PostData implements Helper
         }
 
         // @codingStandardsIgnoreLine
-        if ($post->post_title == __('Auto Draft')) {
+        if ($post->post_title === __('Auto Draft')) {
             // @codingStandardsIgnoreLine
             $post->post_title = sprintf('%s #%s', __('Visual Composer', 'visualcomposer'), $post->ID);
         }
