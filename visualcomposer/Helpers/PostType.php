@@ -199,7 +199,7 @@ class PostType implements Helper
             && post_type_exists($queryPost->post_type)
         ) {
             $post = $queryPost;
-            if ($post->post_title == __('Auto Draft')) {
+            if ($post->post_title === __('Auto Draft')) {
                 $post->post_title = sprintf('%s #%s', __('Visual Composer', 'visualcomposer'), $post->ID);
             }
             setup_postdata($post);
