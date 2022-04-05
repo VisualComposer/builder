@@ -232,6 +232,9 @@ const ElementResize: React.FC<Props> = (props) => {
 
   const handlePlusClick = (event: React.MouseEvent<HTMLElement>, action: string) => {
     event.stopPropagation()
+    if (event.nativeEvent.which !== 1) {
+      return
+    }
     addNewColumn(action, vcElementContainerId)
     window.setTimeout(() => {
       vcCake.setData('vcv:layoutColumnResize', vcElementContainerId)
