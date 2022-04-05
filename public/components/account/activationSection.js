@@ -80,6 +80,7 @@ export default class ActivationSectionProvider extends React.Component {
       assetsActions: assetsActions,
       postUpdateActions: postUpdateActions,
       activeAssetsAction: 0,
+      activeAdditionalAction: 0,
       activePostUpdate: 0,
       error: null,
       showSkipPostButton: false,
@@ -134,8 +135,11 @@ export default class ActivationSectionProvider extends React.Component {
       'vcv-nonce': dataManager.get('nonce')
     }).then((responseData) => {
       const json = getResponse(responseData)
-
       if (json && json.status) {
+        if (json.additionalActionList) {
+          this.processAdditionalAction(json.additionalActionList)
+        }
+
         if (this.state.activeAssetsAction === cnt - 1) {
           this.setState({ assetsActionsDone: true })
           if (this.state.postUpdateActions && this.state.postUpdateActions.length) {
@@ -201,6 +205,23 @@ export default class ActivationSectionProvider extends React.Component {
     })
   }
 
+  // for some heavy processes on a backend we need additional ajax action query
+  // to keep ajax alive and avoid server execution timeout
+  processAdditionalAction (additionalActionList) {
+    this.setState({ activeAdditionalAction: Object.keys(additionalActionList).length })
+
+    for (const [id, path] of Object.entries(additionalActionList)) {
+      dataProcessor.appAdminServerRequest({
+        'vcv-action': 'hub:update:attachment:meta:adminNonce',
+        'vcv-attachment-id': id,
+        'vcv-attachment-path': path,
+        'vcv-nonce': dataManager.get('nonce')
+      }).then((responseData) => {
+        this.setState({ activeAdditionalAction: this.state.activeAdditionalAction - 1 })
+      })
+    }
+  }
+
   doPostUpdate () {
     const postUpdater = new PostUpdater(dataManager.get('updateGlobalVariablesUrl'), dataManager.get('updateVendorUrl'), dataManager.get('updateWPBundleUrl'))
     this.setState({ error: null })
@@ -238,7 +259,7 @@ export default class ActivationSectionProvider extends React.Component {
     const licenseType = dataManager.get('licenseType')
 
     if (shouldDoUpdate) {
-      if (this.state.isLoadingFinished) {
+      if (this.state.isLoadingFinished && !this.state.activeAdditionalAction) {
         this.redirect()
       } else {
         return <LoadingScreen />
