@@ -85,7 +85,7 @@ export default class DndManager {
         vcCake.onDataChange('dropNewElement', this.apiDnD.addNew)
         workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
         vcCake.onDataChange('vcv:layoutCustomMode', (data) => {
-          if (data && (data.mode === 'contentEditable' || data.mode === 'columnResizer' || data.mode === 'headerDrop')) {
+          if (data && (data.mode === 'contentEditable' || data.mode === 'columnResizer' || data.mode === 'headerDrop' || data.mode === 'elementResize')) {
             this.items.option('disabled', true)
             this.items.handleDragEnd()
           } else {

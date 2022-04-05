@@ -2022,6 +2022,18 @@ class Localizations extends Container implements Helper
                 'View full course (4 videos)',
                 'visualcomposer'
             ),
+            'addColumnBefore' => __(
+                'Add column before',
+                'visualcomposer'
+            ),
+            'addColumnAfter' => __(
+                'Add column after',
+                'visualcomposer'
+            ),
+            'rowMargin' => __(
+                'Row margin',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
