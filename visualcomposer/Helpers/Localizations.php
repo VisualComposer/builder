@@ -2030,8 +2030,8 @@ class Localizations extends Container implements Helper
                 'Add column after',
                 'visualcomposer'
             ),
-            'margin' => __(
-                'Margin',
+            'rowMargin' => __(
+                'Row margin',
                 'visualcomposer'
             ),
         ];

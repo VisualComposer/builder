@@ -258,12 +258,12 @@ const ElementResize: React.FC<Props> = (props) => {
 
   const columnBeforeText = localizations.addColumnBefore || 'Add column before'
   const columnAfterText = localizations.addColumnAfter || 'Add column after'
-  const marginText = localizations.margin || 'Margin'
+  const marginText = localizations.rowMargin || 'Row margin'
 
   return (
     <div className='vce-column-resizer vce-column-resizer--side' style={{...styles}}>
       <div
-        className='vce-column-resizer-handler'
+        className='vce-column-resizer-handler vce-element-resize--left'
         onMouseDown={(event) => {
           handleMouseDown(event, 'left')
         }}
@@ -274,9 +274,9 @@ const ElementResize: React.FC<Props> = (props) => {
           onMouseOver={handleMouseOver}
         >
           <div className='vce-column-resizer-label vce-column-resizer-label-left vce-add-column-container'>
-            <span className='vce-column-resizer-label-percentage'>{leftDistance}px</span>
+            <span className='vce-column-resizer-label-percentage' title={marginText}>{leftDistance}px</span>
           </div>
-          <div className='vce-column-resizer-label vce-column-resizer-label-right' title={marginText}>
+          <div className='vce-column-resizer-label vce-column-resizer-label-right'>
            <span
              className='vce-column-resizer-label-percentage vce-add-column'
              title={columnBeforeText}
@@ -291,7 +291,7 @@ const ElementResize: React.FC<Props> = (props) => {
       </div>
 
       <div
-        className='vce-column-resizer-handler'
+        className='vce-column-resizer-handler vce-element-resize--right'
         onMouseDown={(event) => {
           handleMouseDown(event, 'right')
         }}
@@ -301,7 +301,7 @@ const ElementResize: React.FC<Props> = (props) => {
           style={rightLabelStyles}
           onMouseOver={handleMouseOver}
         >
-          <div className='vce-column-resizer-label vce-column-resizer-label-left' title={marginText}>
+          <div className='vce-column-resizer-label vce-column-resizer-label-left'>
             <span
               className='vce-column-resizer-label-percentage vce-add-column'
               title={columnAfterText}
@@ -313,7 +313,7 @@ const ElementResize: React.FC<Props> = (props) => {
             </span>
           </div>
           <div className='vce-column-resizer-label vce-column-resizer-label-right vce-add-column-container'>
-            <span className='vce-column-resizer-label-percentage'>{rightDistance}px</span>
+            <span className='vce-column-resizer-label-percentage' title={marginText}>{rightDistance}px</span>
           </div>
         </div>
       </div>
