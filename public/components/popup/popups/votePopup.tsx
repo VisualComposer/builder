@@ -3,8 +3,8 @@ import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
 import { popupShown, popupsSet, Popups } from '../../../editor/stores/editorPopup/slice'
-import {AppStateType} from "../../../editor/stores/reducer";
-import { Dispatch } from 'redux';
+import { AppStateType } from "../../../editor/stores/reducer"
+import { Dispatch } from 'redux'
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -35,7 +35,8 @@ const VotePopup: React.FC<Props> = (props) => {
     })
 
     // Set vote value in storage so we can use it in the review popup
-    const popupState = props.popups || {}
+    const popupState = JSON.parse(JSON.stringify(props.popups)) || {}
+      Object.preventExtensions(popupState);
     if (popupState.votePopup) {
       popupState.votePopup.voteValue = checkedInput.value
     }
