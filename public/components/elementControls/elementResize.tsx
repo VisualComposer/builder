@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {connect} from 'react-redux'
 import vcCake from 'vc-cake'
 import {updateDesignOptionsBoxModel} from '../../sources/attributes/designOptionsAdvanced/helpers'
@@ -7,6 +7,9 @@ const cook = vcCake.getService('cook')
 const documentService = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
+const dataManager = vcCake.getService('dataManager')
+
+const localizations = dataManager.get('localizations')
 
 const initialContainerPos: ContainerPos = {
   top: 0,
@@ -127,6 +130,11 @@ const ElementResize: React.FC<Props> = (props) => {
       if (distance > -5 && distance < 5) {
         distance = 0
       }
+
+      const bothDistances = distance + (isLeft ? rightDistance : leftDistance)
+      if (50 + bothDistances > bounding.width) { // don't allow to make smaller than 50px
+        distance = isLeft ? leftDistance : rightDistance
+      }
       if (vcElementContainerId) {
         const position: ContainerPos = updateContainerPosition(iframe, vcElementContainerId)
         setContainerPos(position)
@@ -139,7 +147,7 @@ const ElementResize: React.FC<Props> = (props) => {
         setResizeLabelsPosition(e)
       }
     }
-  }, [row, resizerSide, vcElementContainerId, setResizeLabelsPosition, iframe])
+  }, [row, resizerSide, vcElementContainerId, setResizeLabelsPosition, iframe, leftDistance, rightDistance])
 
   const handleMouseUp = useCallback(() => {
     iframe.style.pointerEvents = ''
@@ -248,6 +256,10 @@ const ElementResize: React.FC<Props> = (props) => {
     }
   }
 
+  const columnBeforeText = localizations.addColumnBefore || 'Add column before'
+  const columnAfterText = localizations.addColumnAfter || 'Add column after'
+  const marginText = localizations.margin || 'Margin'
+
   return (
     <div className='vce-column-resizer vce-column-resizer--side' style={{...styles}}>
       <div
@@ -264,10 +276,10 @@ const ElementResize: React.FC<Props> = (props) => {
           <div className='vce-column-resizer-label vce-column-resizer-label-left vce-add-column-container'>
             <span className='vce-column-resizer-label-percentage'>{leftDistance}px</span>
           </div>
-          <div className='vce-column-resizer-label vce-column-resizer-label-right' title='Margin'>
+          <div className='vce-column-resizer-label vce-column-resizer-label-right' title={marginText}>
            <span
              className='vce-column-resizer-label-percentage vce-add-column'
-             title='Add column before'
+             title={columnBeforeText}
              onMouseDown={(event) => {
                handlePlusClick(event, 'before')
              }}
@@ -289,10 +301,10 @@ const ElementResize: React.FC<Props> = (props) => {
           style={rightLabelStyles}
           onMouseOver={handleMouseOver}
         >
-          <div className='vce-column-resizer-label vce-column-resizer-label-left' title='Margin'>
+          <div className='vce-column-resizer-label vce-column-resizer-label-left' title={marginText}>
             <span
               className='vce-column-resizer-label-percentage vce-add-column'
-              title='Add column after'
+              title={columnAfterText}
               onMouseDown={(event) => {
                 handlePlusClick(event, 'after')
               }}
