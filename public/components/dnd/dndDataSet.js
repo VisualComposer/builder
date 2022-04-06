@@ -615,7 +615,7 @@ export default class DndDataSet {
     this.helper = null
     this.startPoint = null
     this.elementToColumn = null
-    if (layoutCustomMode !== 'contentEditable' && layoutCustomMode !== 'columnResizer' && layoutCustomMode !== null) {
+    if (layoutCustomMode !== 'contentEditable' && layoutCustomMode !== 'columnResizer' && layoutCustomMode !== null && layoutCustomMode !== 'elementResize') {
       setData('vcv:layoutCustomMode', null)
     }
     // Set callback on dragEnd

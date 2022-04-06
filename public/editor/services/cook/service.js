@@ -464,7 +464,7 @@ const API = {
 
     return count
   },
-  visualizeAttributes: (element, api = false, props = false, isNested = false) => {
+  visualizeAttributes: (element, api = false, props = false, isNested = false, raw = false) => {
     const atts = props ? props.atts : element.getAll(false)
     const id = props ? props.id : atts.id
     const layoutAtts = {}
@@ -536,7 +536,7 @@ const API = {
               }
             }
 
-            const newLinkValue = API.visualizeAttributes(urlElement, false, linkProps)
+            const newLinkValue = API.visualizeAttributes(urlElement, false, linkProps, false, raw)
 
             if (value.link) {
               value.link = newLinkValue.url
@@ -575,7 +575,7 @@ const API = {
             fieldType: typeName,
             fieldOptions: options
           },
-          false,
+          raw,
           { element: atts }
         )
 
@@ -639,7 +639,7 @@ const API = {
         attrValue.forEach((value, i) => {
           paramsGroupProps.atts = value
           paramsGroupProps.index = i
-          fieldValue.value[i] = API.visualizeAttributes(element, api, paramsGroupProps, isNested)
+          fieldValue.value[i] = API.visualizeAttributes(element, api, paramsGroupProps, isNested, raw)
         })
         layoutAtts[fieldKey] = fieldValue
       } else if ((typeName === 'htmleditor' && (!options || !options.inline)) || (isNested && options && options.inline)) {
