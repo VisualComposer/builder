@@ -335,7 +335,8 @@ const API = {
           })
         }
       }
-      API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+      // we need temp commit it due to VC-2758
+      // API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
       // NOTE: Issue with slick-slider elements, need to find out the way to write comments after dom was modified by element js (slick slider)
     },
     updateViewPageRenderComments: (ref, id, cookElement, inner) => {
@@ -353,6 +354,9 @@ const API = {
         id: id,
         tag: tag
       })
+      // due to VC-2758 we need consider to change format to these commit to something not unique like
+      // <!-- wp:vcwb-view-page-render/element ${atts} -->
+      // then we can add it to exception for 'excerpt_allowed_blocks' wp filer
       el.insertAdjacentHTML('beforebegin', `<!-- wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
       el.insertAdjacentHTML('afterend', `<!-- /wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
     },
