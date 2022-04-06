@@ -157,14 +157,15 @@ const Controls = ({ data = {} }) => {
   }, [vcElementId, vcvEditableElements])
 
   const handleElementRemove = useCallback((data) => {
-    if (vcvEditableElements.includes(data)) {
+    if (vcvEditableElements && vcvEditableElements.includes(data)) {
       setVisibleElement(false)
     }
   }, [vcElementId])
 
+  // Dependencies are empty because it reacts only on storage state change
   const handleSettingsChange = useCallback(() => {
     setIframeElement(document.getElementById('vcv-editor-iframe'))
-  })
+  }, [])
 
   useEffect(() => {
     if (vcElementId) {

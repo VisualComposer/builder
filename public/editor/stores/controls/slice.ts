@@ -4,7 +4,8 @@ const slice = createSlice({
   name: 'controls',
   initialState: {
     controlsData: {},
-    appendControlData: {}
+    appendControlData: {},
+    resizeControlData: {}
   },
   reducers: {
     controlsDataChanged: (data, action) => {
@@ -12,9 +13,16 @@ const slice = createSlice({
     },
     appendControlDataChanged: (data, action) => {
       data.appendControlData = action.payload
+    },
+    resizeControlDataChanged: (data, action) => {
+      data.resizeControlData = action.payload
     }
   }
 })
 
-export const { controlsDataChanged, appendControlDataChanged } = slice.actions
+export const {
+  controlsDataChanged,
+  appendControlDataChanged,
+  resizeControlDataChanged
+} = slice.actions
 export default slice.reducer
