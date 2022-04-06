@@ -117,7 +117,7 @@ describe('Editor controls', function () {
 
         // Press Shift + S, check if settings tab opens
         cy.get('body').trigger('keydown', { shiftKey: true, keyCode: 83, which: 83 })
-        cy.get('.vcv-ui-panel-heading').contains('Settings')
+        cy.get('.vcv-ui-panel-heading').contains('Options')
 
 
         // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
