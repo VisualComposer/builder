@@ -91,6 +91,7 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
     'vcv-ui-controls-o-controls-right': isControlsRight,
     'vcv-ui-controls-o-controls-left': isControlsLeft
   })
+  const isRightClick = false
   return (
     <div
       className={controlClasses}
@@ -98,7 +99,7 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
       ref={outerRef}>
       <div className='vcv-ui-outline-controls-center-inner' ref={innerRef} onMouseEnter={handleMouseEnter}>
         <MainControl id={id} title={title} icon={icon} />
-        <ControlDropdownInner elementId={id} isCenterControls={isCenterControls} />
+        <ControlDropdownInner elementId={id} isCenterControls={isCenterControls} isRightClick={isRightClick} />
       </div>
     </div>
   )
