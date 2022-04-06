@@ -49,9 +49,10 @@ const AppendControl = ({ data = {} }) => {
     }
   }, [vcElementId])
 
+  // Dependencies are empty because it reacts only on storage state change
   const handleSettingsChange = useCallback(() => {
     setIframeElement(document.getElementById('vcv-editor-iframe'))
-  })
+  }, [])
 
   useEffect(() => {
     setPositionState()
