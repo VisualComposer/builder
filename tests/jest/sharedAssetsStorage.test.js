@@ -1,5 +1,7 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
+import store from '../../public/editor/stores/store'
+import { assetsAdded } from '../../public/editor/stores/sharedAssets/slice'
 
 // Skip test with xdescribe (replace to describe later)
 describe('Test sharesAssetsStorage', () => {
@@ -20,13 +22,12 @@ describe('Test sharesAssetsStorage', () => {
   window = global
   // Services & Storages
   require('../../public/editor/services/dataManager/service.js')
-  require('../../public/editor/stores/sharedAssets/storage')
-  const sharesAssetsStorage = vcCake.getStorage('sharedAssets')
+  const globalStoreInstance = require('../../editor/stores/globalStoreInstance')
+  vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('debug', true)
   vcCake.start(() => {
     test('sharesAssetsStorage start', () => {
-      sharesAssetsStorage.trigger('start')
-      const storageState = sharesAssetsStorage.state('sharedAssets').get()
+      const storageState = store.getState().sharedAssets.sharedAssets
       const globalAssets = global.VCV_GET_SHARED_ASSETS()
       expect(storageState).toEqual(globalAssets)
     })
@@ -38,8 +39,8 @@ describe('Test sharesAssetsStorage', () => {
         'dependencies': [],
         'jsBundle': ''
       }
-      sharesAssetsStorage.trigger('add', assetToAdd)
-      const storageState = sharesAssetsStorage.state('sharedAssets').get()
+      store.dispatch(assetsAdded(assetToAdd))
+      const storageState = store.getState().sharedAssets.sharedAssets
       expect(assetToAdd).toEqual(storageState[ assetToAdd.name ])
     })
   })
