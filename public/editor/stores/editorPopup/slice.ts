@@ -4,13 +4,13 @@ import { getService } from 'vc-cake'
 const dataManager = getService('dataManager')
 
 interface Popup {
-    visible: boolean,
-    priority: number,
-    voteValue?: any
+  visible: boolean,
+  priority: number,
+  voteValue?: any
 }
 
 export interface Popups {
-    [key:string]: Popup,
+  [key:string]: Popup,
 }
 
 const getActivePopup = (popupData: Popups): string => {
@@ -32,31 +32,32 @@ const getActivePopup = (popupData: Popups): string => {
 }
 
 const initialState = {
-    popups: {
-        votePopup: {
-            visible: dataManager?.get('showFeedbackForm'),
-            priority: 1
-        },
-        reviewPopup: {
-            visible: false,
-            priority: 2
-        },
-        dataCollectionPopup: {
-            visible: dataManager?.get('showDataCollectionPopup'),
-            priority: 3
-        },
-        pricingPopup: {
-            visible: !!dataManager?.get('showPricingPopup'),
-            priority: 4
-        },
-        premiumPromoPopup: {
-            visible: dataManager?.get('showPremiumPromoPopup'),
-            priority: 5
-        }
+  popups: {
+    votePopup: {
+      visible: true,
+      priority: 1
     },
-    fullScreenPopupData: {},
-    activeFullPopup: '',
-    activePopup: ''
+    reviewPopup: {
+      visible: false,
+      priority: 2
+    },
+    dataCollectionPopup: {
+      visible: dataManager?.get('showDataCollectionPopup'),
+      priority: 3
+    },
+    pricingPopup: {
+      visible: !!dataManager?.get('showPricingPopup'),
+      priority: 4
+    },
+    premiumPromoPopup: {
+      visible: dataManager?.get('showPremiumPromoPopup'),
+      priority: 5
+    }
+  },
+  fullScreenPopupData: {},
+  activeFullPopup: '',
+  activePopup: '',
+  isPopupVisible: false
 }
 
 initialState.activePopup = getActivePopup(initialState.popups)
@@ -69,22 +70,25 @@ const slice = createSlice({
       const popupName = action.payload
       const popups: Popups = data.popups
       if (popupName && popups[popupName]) {
-          popups[popupName].visible = true
+        popups[popupName].visible = true
       }
       data.activePopup = getActivePopup(data.popups)
+    },
+    popupVisibilitySet: (data, action) => {
+      data.isPopupVisible = action.payload
     },
     popupHidden: (data, action) => {
       const popupName = action.payload
       const popups: Popups = data.popups
       if (popupName && popups[popupName]) {
-          popups[popupName].visible = false
+        popups[popupName].visible = false
       }
       data.activePopup = getActivePopup(data.popups)
     },
     allPopupsHidden: (data) => {
-        const popups: Popups = data.popups
-        Object.keys(data.popups).forEach((popupName) => {
-        popups[popupName].visible = false
+      const popups: Popups = data.popups
+      Object.keys(data.popups).forEach((popupName) => {
+      popups[popupName].visible = false
       })
       data.activePopup = getActivePopup(data.popups)
     },
@@ -101,5 +105,5 @@ const slice = createSlice({
   }
 })
 
-export const { popupShown, popupHidden, allPopupsHidden, popupsSet, activeFullPopupSet, fullScreenPopupDataSet } = slice.actions
+export const { popupShown, popupHidden, allPopupsHidden, popupVisibilitySet, popupsSet, activeFullPopupSet, fullScreenPopupDataSet } = slice.actions
 export default slice.reducer

@@ -7,30 +7,30 @@ import DataCollectionPopup from './popups/dataCollectionPopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
 import { connect } from 'react-redux'
-import { allPopupsHidden } from '../../editor/stores/editorPopup/slice'
+import { allPopupsHidden, popupVisibilitySet } from '../../editor/stores/editorPopup/slice'
 import { AppStateType } from "../../editor/stores/reducer"
 import { Dispatch } from 'redux'
 
 const elementsStorage = getStorage('elements')
 
 type Props = {
-    activePopup: string,
-    allPopupsHidden: () => void
+  activePopup: string,
+  allPopupsHidden: () => void,
+  isPopupVisible: boolean,
+  popupVisibilitySet: (status:boolean) => void,
 }
 
-const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden }) => {
+const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopupVisible, popupVisibilitySet }) => {
   const [actionClicked, setActionClicked] = useState(false)
-  const [popupVisible, setPopupVisible] = useState(false)
 
-  const handleDocumentChange =  useCallback((data:[]) => {
+  const handleDocumentChange = useCallback((data:[]) => {
     if (data && data.length) {
       window.setTimeout(() => {
-        setPopupVisible(!!activePopup);
+        popupVisibilitySet(!!activePopup)
         elementsStorage.state('document').ignoreChange(handleDocumentChange)
       }, activePopup === 'pricingPopup' ? 20000 : 500)
     }
-  }, []);
-
+  }, [activePopup]);
 
   useEffect(() => {
     elementsStorage.state('document').onChange(handleDocumentChange)
@@ -41,7 +41,7 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden }) => {
 
 
   const handleCloseClick = () => {
-      setPopupVisible(false);
+      popupVisibilitySet(false)
       window.setTimeout(() => {
       allPopupsHidden()
     }, 500)
@@ -51,14 +51,14 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden }) => {
     setActionClicked(true)
     window.setTimeout(() => {
       setActionClicked(false)
-        setPopupVisible(false);
+        popupVisibilitySet(false);
         allPopupsHidden()
     }, 500)
   }
 
   const popupClasses = classNames({
     'vcv-layout-popup': true,
-    'vcv-layout-popup--visible': popupVisible,
+    'vcv-layout-popup--visible': isPopupVisible,
     'vcv-layout-popup--action-clicked': actionClicked,
     'vcv-layout-popup--pricing-popup': activePopup === 'pricingPopup'
   })
@@ -92,11 +92,13 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden }) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  allPopupsHidden: () => dispatch(allPopupsHidden())
+  allPopupsHidden: () => dispatch(allPopupsHidden()),
+  popupVisibilitySet: (data:boolean) => dispatch(popupVisibilitySet(data))
 })
 
 const mapStateToProps = (state: AppStateType) => ({
-  activePopup: state.editorPopup.activePopup
+  activePopup: state.editorPopup.activePopup,
+  isPopupVisible: state.editorPopup.isPopupVisible
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PopupContainer)

@@ -10,9 +10,9 @@ import { Dispatch } from 'redux'
 const dataManager = getService('dataManager')
 
 type Props = {
-    activeFullPopupSet: (activeFullPopup:string | boolean) => void,
-    fullScreenPopupData: any
-    activeFullPopup: string
+  activeFullPopupSet: (activeFullPopup:string | boolean) => void,
+  fullScreenPopupData: any
+  activeFullPopup: string
 }
 
 const FullPagePopupContainer: React.FC<Props> = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }) => {
@@ -28,8 +28,8 @@ const FullPagePopupContainer: React.FC<Props> = ({ activeFullPopupSet, fullScree
   }
 
   const handleOutsideClick = (event: React.MouseEvent) => {
-      const target = event.target as HTMLDivElement
-      if (target.classList?.contains('vcv-layout-popup--full-page')) {
+    const target = event.target as HTMLDivElement
+    if (target.classList?.contains('vcv-layout-popup--full-page')) {
       handleCloseClick()
     }
   }

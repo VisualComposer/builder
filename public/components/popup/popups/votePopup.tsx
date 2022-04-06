@@ -2,7 +2,7 @@ import React from 'react'
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
-import { popupShown, popupsSet, Popups } from '../../../editor/stores/editorPopup/slice'
+import {popupShown, popupsSet, Popups, popupVisibilitySet} from '../../../editor/stores/editorPopup/slice'
 import { AppStateType } from "../../../editor/stores/reducer"
 import { Dispatch } from 'redux'
 
@@ -15,13 +15,13 @@ const veryDisappointed = localizations ? localizations.veryDisappointed : 'Very 
 const somewhatDisappointed = localizations ? localizations.somewhatDisappointed : 'Somewhat disappointed'
 const disappointed = localizations ? localizations.disappointed : 'Not disappointed (it really isn’t that useful)'
 
-
 type Props = {
-    popups: Popups,
-    onPrimaryButtonClick: () => void,
-    onClose: () => void,
-    popupShown: any,
-    popupsSet: any
+  popups: Popups,
+  onPrimaryButtonClick: () => void,
+  onClose: () => void,
+  popupShown: any,
+  popupsSet: any,
+  popupVisibilitySet: (status: boolean) => void
 }
 
 const VotePopup: React.FC<Props> = (props) => {
@@ -46,6 +46,7 @@ const VotePopup: React.FC<Props> = (props) => {
 
     // Show review popup
     const visibilityTimeout = setTimeout(() => {
+      props.popupVisibilitySet(true)
       props.popupShown('reviewPopup')
 
       window.clearTimeout(visibilityTimeout)
@@ -96,7 +97,8 @@ const VotePopup: React.FC<Props> = (props) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   popupShown: (data: string) => dispatch(popupShown(data)),
-  popupsSet: (data: any) => dispatch(popupsSet(data))
+  popupsSet: (data: any) => dispatch(popupsSet(data)),
+  popupVisibilitySet: (data:boolean) => dispatch(popupVisibilitySet(data))
 })
 
 const mapStateToProps = (state:AppStateType) => ({
