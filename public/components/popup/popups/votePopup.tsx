@@ -19,7 +19,9 @@ const disappointed = localizations ? localizations.disappointed : 'Not disappoin
 type Props = {
     popups: Popups,
     onPrimaryButtonClick: () => void,
-    onClose: () => void
+    onClose: () => void,
+    popupShown: any,
+    popupsSet: any
 }
 
 const VotePopup: React.FC<Props> = (props) => {
@@ -40,11 +42,11 @@ const VotePopup: React.FC<Props> = (props) => {
     if (popupState.votePopup) {
       popupState.votePopup.voteValue = checkedInput.value
     }
-    popupsSet(popupState)
+    props.popupsSet(popupState)
 
     // Show review popup
     const visibilityTimeout = setTimeout(() => {
-      popupShown('reviewPopup')
+      props.popupShown('reviewPopup')
 
       window.clearTimeout(visibilityTimeout)
     }, 2000)

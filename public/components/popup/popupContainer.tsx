@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
 import VotePopup from './popups/votePopup'
@@ -20,24 +20,29 @@ type Props = {
 
 const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden }) => {
   const [actionClicked, setActionClicked] = useState(false)
+  const [popupVisible, setPopupVisible] = useState(false)
+
+  const handleDocumentChange =  useCallback((data:[]) => {
+    if (data && data.length) {
+      window.setTimeout(() => {
+        setPopupVisible(!!activePopup);
+        elementsStorage.state('document').ignoreChange(handleDocumentChange)
+      }, activePopup === 'pricingPopup' ? 20000 : 500)
+    }
+  }, []);
+
 
   useEffect(() => {
     elementsStorage.state('document').onChange(handleDocumentChange)
     return () => {
       elementsStorage.state('document').ignoreChange(handleDocumentChange)
     }
-  }, [])
+  }, [handleDocumentChange])
 
-  const handleDocumentChange = (data:[]) => {
-    if (data && data.length) {
-      window.setTimeout(() => {
-        elementsStorage.state('document').ignoreChange(handleDocumentChange)
-      }, activePopup === 'pricingPopup' ? 20000 : 500)
-    }
-  }
 
   const handleCloseClick = () => {
-    window.setTimeout(() => {
+      setPopupVisible(false);
+      window.setTimeout(() => {
       allPopupsHidden()
     }, 500)
   }
@@ -46,13 +51,14 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden }) => {
     setActionClicked(true)
     window.setTimeout(() => {
       setActionClicked(false)
-      allPopupsHidden()
+        setPopupVisible(false);
+        allPopupsHidden()
     }, 500)
   }
 
   const popupClasses = classNames({
     'vcv-layout-popup': true,
-    'vcv-layout-popup--visible': !!activePopup,
+    'vcv-layout-popup--visible': popupVisible,
     'vcv-layout-popup--action-clicked': actionClicked,
     'vcv-layout-popup--pricing-popup': activePopup === 'pricingPopup'
   })
