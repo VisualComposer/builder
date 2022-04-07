@@ -8,6 +8,7 @@ const slice = createSlice({
     resizeControlData: {},
     columnResizeData: {},
     columnResizerDraggingId: null,
+    rowHoverId: null,
     outlineData: {}
   },
   reducers: {
@@ -26,6 +27,9 @@ const slice = createSlice({
     columnResizerDraggingIdChanged: (data, action) => {
       data.columnResizerDraggingId = action.payload
     },
+    rowHoverIdChanged: (data, action) => {
+      data.rowHoverId = action.payload
+    },
     outlineDataChanged: (data, action) => {
       data.outlineData = action.payload
     }
@@ -38,6 +42,7 @@ export const {
   resizeControlDataChanged,
   columnResizeDataChanged,
   columnResizerDraggingIdChanged,
-  outlineDataChanged
+  outlineDataChanged,
+  rowHoverIdChanged
 } = slice.actions
 export default slice.reducer

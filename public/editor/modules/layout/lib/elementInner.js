@@ -1,17 +1,16 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef } from 'react'
 import { connect } from 'react-redux'
+import { rowHoverIdChanged } from '../../../stores/controls/slice'
 
 const ElementInner = forwardRef((props, ref) => {
-  const [isResizerVisible, setResizerVisible] = useState(false)
-
   const handleMouseOver = (event) => {
     event.stopPropagation()
-    setResizerVisible(true)
+    props.rowHoverIdChanged(props.id)
   }
 
   const handleMouseLeave = (event) => {
     event.stopPropagation()
-    setResizerVisible(false)
+    props.rowHoverIdChanged(null)
   }
 
   const customEditorProps = { ...props.editor }
@@ -19,6 +18,7 @@ const ElementInner = forwardRef((props, ref) => {
   const hoverData = props.columnResizeData
   const isColResizerHovered = hoverData?.mode === 'columnResizerHover' && hoverData?.id === props.id
   const isColDragging = props.columnResizerDraggingId === props.id
+  const isResizerVisible = props.rowHoverId === props.id
 
   if (isResizerVisible || isColDragging) {
     customEditorProps['data-vcv-resizer-visible'] = true
@@ -47,7 +47,12 @@ ElementInner.displayName = 'ElementInner'
 
 const mapStateToProps = (state) => ({
   columnResizeData: state.controls.columnResizeData,
-  columnResizerDraggingId: state.controls.columnResizerDraggingId
+  columnResizerDraggingId: state.controls.columnResizerDraggingId,
+  rowHoverId: state.controls.rowHoverId
 })
 
-export default connect(mapStateToProps, null, null, { forwardRef: true })(ElementInner)
+const mapDispatchToProps = (dispatch) => ({
+  rowHoverIdChanged: (data) => dispatch(rowHoverIdChanged(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(ElementInner)
