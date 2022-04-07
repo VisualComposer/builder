@@ -275,6 +275,7 @@ class ColumnResizer extends React.PureComponent {
         leftColValue: null,
         rightColValue: null,
         leftColPercentage: colSizes.leftCol,
+        isLabelsActive: true,
         rightColPercentage: colSizes.rightCol
       })
       layoutStorage.state('resizeColumns').set(true)
