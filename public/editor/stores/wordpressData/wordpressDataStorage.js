@@ -117,7 +117,7 @@ addStorage('wordpressData', (storage) => {
       } else if (responseData.data) {
         let data = { elements: {} }
         try {
-          data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
+          data = JSON.parse(responseData.data && responseData.data !== 'null' ? decodeURIComponent(responseData.data) : '{}')
         } catch (e) {
           console.warn('Failed to parse page elements', e)
           data = { elements: {} }
