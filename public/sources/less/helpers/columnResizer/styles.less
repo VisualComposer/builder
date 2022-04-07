@@ -1,12 +1,22 @@
-.vcv-state--show-resizer .vce-column-resizer,
-.vce-column-resizer.vce-column-resizer--active {
-  opacity: 1;
-  visibility: visible;
+// Applies only when hovered on row -> show resizers
+[data-vcv-resizer-visible="true"] > .vce-row-content {
+  > .vce-column-resizer {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-.vce-column-resizer.vce-column-resizer--hidden {
-  opacity: 0;
-  visibility: hidden;
+// Applies only when hovered on column or row resizers -> show column borders
+[data-vcv-resizer-hovered="true"] > .vce-row-content {
+  > .vce-col::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: @outline-frame-width @outline-frame-style @outline-frame-color;
+  }
 }
 
 .vce-column-resizer {
