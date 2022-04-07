@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
+import { columnResizeDataChanged } from '../../editor/stores/controls/slice'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import Layout from 'public/sources/attributes/rowLayout/Component'
@@ -10,7 +12,7 @@ const layoutStorage = vcCake.getStorage('layout')
 const documentService = vcCake.getService('document')
 let previousLayoutCustomMode = false
 
-export default class ColumnResizer extends React.Component {
+class ColumnResizer extends React.PureComponent {
   static defaultGridPercentage = [20, 25, 33.33, 50, 66.66, 75]
 
   static deviceViewports = {
@@ -55,7 +57,8 @@ export default class ColumnResizer extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleLabelState = this.handleLabelState.bind(this)
-    this.handleResizerState = this.handleResizerState.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
     this.setVisibility = debounce(this.setVisibility.bind(this), 50)
   }
@@ -89,7 +92,8 @@ export default class ColumnResizer extends React.Component {
       iframeDocument.addEventListener('mouseup', this.handleMouseUp)
       vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
     } else if (!this.state.dragging && prevState.dragging) {
-      const newLayoutMode = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
+      const setPrevMode = previousLayoutCustomMode === 'contentEditable' || previousLayoutCustomMode === 'columnResizerHover'
+      const newLayoutMode = setPrevMode ? previousLayoutCustomMode : null
       data = {
         mode: newLayoutMode,
         options: {}
@@ -173,17 +177,18 @@ export default class ColumnResizer extends React.Component {
     }
   }
 
-  handleResizerState () {
-    if (!this.state.dragging) {
-      vcCake.setData('vcv:layoutCustomMode', this.state.isResizerActive ? undefined : {
-        mode: 'columnResizerHover',
-        options: {}
-      })
-      this.setState({
-        isResizerActive: !this.state.isResizerActive,
-        labelPosition: null
-      })
-    }
+  handleMouseEnter () {
+    this.props.columnResizeDataChanged({
+      mode: 'columnResizerHover',
+      id: this.props.rowId
+    })
+    this.setState({
+      labelPosition: null
+    })
+  }
+
+  handleMouseLeave () {
+    this.props.columnResizeDataChanged({})
   }
 
   getRowData (e) {
@@ -556,16 +561,14 @@ export default class ColumnResizer extends React.Component {
 
     const columnResizerClasses = classNames({
       'vce-column-resizer': true,
-      vcvhelper: true,
-      'vce-column-resizer--active': this.state.isResizerActive,
-      'vce-column-resizer--hidden': !this.state.isResizerVisible || vcCake.getData('vcv:layoutCustomMode')?.mode === 'dnd'
+      vcvhelper: true
     })
 
     return (
       <div
         className={columnResizerClasses}
-        onMouseOver={this.handleResizerState}
-        onMouseOut={this.handleResizerState}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         ref={this.resizerRef}
       >
         <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
@@ -586,3 +589,9 @@ export default class ColumnResizer extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  columnResizeDataChanged: (data) => dispatch(columnResizeDataChanged(data))
+})
+
+export default connect(null, mapDispatchToProps)(ColumnResizer)

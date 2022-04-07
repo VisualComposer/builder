@@ -1,8 +1,12 @@
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
 import store from 'public/editor/stores/store'
-import { controlsDataChanged, appendControlDataChanged, resizeControlDataChanged } from 'public/editor/stores/controls/slice'
-import OutlineHandler from './outlineHandler'
+import {
+  controlsDataChanged,
+  appendControlDataChanged,
+  resizeControlDataChanged,
+  outlineDataChanged
+} from 'public/editor/stores/controls/slice'
 import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
@@ -78,15 +82,6 @@ export default class ControlsManager {
         writable: false,
         enumerable: false,
         configurable: false
-      },
-      /**
-       * @memberOf! OutlineManager
-       */
-      outline: {
-        value: new OutlineHandler(systemData),
-        writable: false,
-        enumerable: false,
-        configurable: false
       }
     })
 
@@ -138,6 +133,17 @@ export default class ControlsManager {
       }
     } else {
       store.dispatch(resizeControlDataChanged({}))
+    }
+  }
+
+  toggleOutlines (selector, id) {
+    if (selector) {
+      store.dispatch(outlineDataChanged({
+        selector: selector,
+        id: id
+      }))
+    } else {
+      store.dispatch(outlineDataChanged({}))
     }
   }
 
@@ -317,20 +323,22 @@ export default class ControlsManager {
         this.state.showFrames = true
         this.toggleControls()
         this.toggleElementResize()
-        this.outline.hide()
+        this.toggleOutlines()
       } else if (state?.mode === 'contentEditable') {
         this.frames.hide()
         this.toggleControls()
         this.toggleElementResize()
-        this.outline.hide()
+        this.toggleOutlines()
       } else if (state?.mode === 'columnResizerHover') {
+        this.frames.hide()
         this.toggleControls()
-        this.outline.hide()
+        this.toggleOutlines()
+        this.toggleElementResize()
       } else if (state?.mode === 'elementResize') {
         this.frames.hide() // First - hide old frames
         this.state.showFrames = true
         this.toggleControls()
-        this.outline.hide()
+        this.toggleOutlines()
       }
       this.state.showControls = !state
       this.findElement()
@@ -338,11 +346,7 @@ export default class ControlsManager {
 
     // check column resize
     vcCake.onDataChange('vcv:layoutColumnResize', (rowId) => {
-      if (rowId) {
-        this.showChildrenFrames(rowId)
-      } else {
-        this.frames.hide()
-      }
+      this.frames.hide()
     })
 
     elementsStorage.state('elementAdd').onChange((data) => {
@@ -354,7 +358,7 @@ export default class ControlsManager {
     // check remove element
     this.api.on('element:unmount', () => {
       this.findElement()
-      this.outline.hide()
+      this.toggleOutlines()
     })
 
     // Interact with content
@@ -369,18 +373,15 @@ export default class ControlsManager {
         if (data.idSelector) {
           selector = `#${data.idSelector + selector}`
         }
-        const contentElement = this.iframeDocument.querySelector(selector)
-        if (contentElement) {
-          this.outline.show(contentElement, data.vcElementId)
-        }
+        this.toggleOutlines(selector, data.vcElementId)
       }
       if (data && data.type === 'mouseLeave') {
-        this.outline.hide()
+        this.toggleOutlines()
       }
       if (data && data.type === 'controlClick' && !data.vcControlIsPermanent) {
         this.toggleControls()
         this.toggleElementResize()
-        this.outline.hide()
+        this.toggleOutlines()
         this.frames.hide()
       }
       if (data && data.type === 'mouseEnterContainer') {
@@ -492,18 +493,12 @@ export default class ControlsManager {
    * Interact with tree
    */
   interactWithTree () {
-    workspaceStorage.state('userInteractWith').onChange((id = false) => {
-      if (id && this.state.showOutline) {
-        if (typeof id !== 'string') {
-          this.outline.show(id)
-        } else {
-          const element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
-          if (element) {
-            this.outline.show(element, id)
-          }
-        }
+    workspaceStorage.state('userInteractWith').onChange((id = false, selector = null) => {
+      if ((id || selector) && this.state.showOutline) {
+        const querySelector = id ? `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])` : selector
+        this.toggleOutlines(querySelector, id)
       } else {
-        this.outline.hide()
+        this.toggleOutlines()
       }
     })
   }
@@ -512,7 +507,7 @@ export default class ControlsManager {
     const contentState = layoutStorage.state('interactWithContent')
     if (!contentState.get() || !contentState.get().type || contentState.get().type !== 'scrolling') {
       contentState.set({ type: 'scrolling' })
-      this.outline.hide()
+      this.toggleOutlines()
       this.frames.hide()
       this.toggleControls()
       this.toggleElementResize()
@@ -538,16 +533,9 @@ export default class ControlsManager {
       // Current element will always be 0 indexed
       if (index === 0) {
         elementTag = documentElement.tag
-        if (elementTag === 'row' || elementTag === 'column') {
-          const topParentId = documentService.getTopParent(id)
-          const descendantElements = documentService.getDescendants(topParentId)
-          Object.keys(descendantElements).forEach((element) => {
-            if (descendantElements[element].tag === 'row') {
-              elementsToShow.push(element)
-            }
-          })
-        }
-      } else if (elementTag !== 'column') {
+      }
+      // Show frames for all except columns
+      if (documentElement.tag !== 'column') {
         elementsToShow.push(documentElement.id)
       }
     })
@@ -565,20 +553,20 @@ export default class ControlsManager {
    * Show frames on elements children
    */
   showChildrenFrames (parentId) {
-    const documentService = vcCake.getService('document')
-    let elementsToShow = []
-    const children = documentService.children(parentId)
-    children.forEach((child) => {
-      elementsToShow.push(child.id)
-    })
-    elementsToShow = elementsToShow.map((id) => {
-      const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
-      return this.iframeDocument.querySelector(selector)
-    })
-    elementsToShow = elementsToShow.filter((el) => {
-      return el
-    })
-    this.frames.show({ path: elementsToShow })
+    // const documentService = vcCake.getService('document')
+    // let elementsToShow = []
+    // const children = documentService.children(parentId)
+    // children.forEach((child) => {
+    //   elementsToShow.push(child.id)
+    // })
+    // elementsToShow = elementsToShow.map((id) => {
+    //   const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+    //   return this.iframeDocument.querySelector(selector)
+    // })
+    // elementsToShow = elementsToShow.filter((el) => {
+    //   return el
+    // })
+    // this.frames.show({ path: elementsToShow })
   }
 
   /**
@@ -657,7 +645,6 @@ export default class ControlsManager {
     this.iframeWindow = DOMNodes.iframeWindow
     this.iframeDocument = DOMNodes.iframeDocument
     this.frames.updateIframeVariables(DOMNodes)
-    this.outline.updateIframeVariables(DOMNodes)
     this.subscribeToCurrentIframe()
   }
 }
