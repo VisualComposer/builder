@@ -117,7 +117,7 @@ export default class SettingsPanel extends React.Component {
   }
 
   render () {
-    const settingsText = localizations ? localizations.settings : 'Settings'
+    const settingsText = localizations ? localizations.options : 'Options'
 
     const settingsPanelClasses = classNames({
       'vcv-ui-tree-view-content': true,
