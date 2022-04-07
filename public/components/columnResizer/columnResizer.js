@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { columnResizeDataChanged } from '../../editor/stores/controls/slice'
+import { columnResizeDataChanged, columnResizerDraggingIdChanged } from '../../editor/stores/controls/slice'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import Layout from 'public/sources/attributes/rowLayout/Component'
@@ -87,6 +87,7 @@ class ColumnResizer extends React.PureComponent {
         mode: 'columnResizer',
         options: {}
       }
+      this.props.columnResizerDraggingIdChanged(this.props.rowId)
       vcCake.setData('vcv:layoutCustomMode', data)
       iframeDocument.addEventListener('mousemove', this.handleMouseMove)
       iframeDocument.addEventListener('mouseup', this.handleMouseUp)
@@ -98,6 +99,7 @@ class ColumnResizer extends React.PureComponent {
         mode: newLayoutMode,
         options: {}
       }
+      this.props.columnResizerDraggingIdChanged(null)
       vcCake.setData('vcv:layoutCustomMode', newLayoutMode ? data : null)
       vcCake.setData('vcv:layoutColumnResize', null)
       iframeDocument.removeEventListener('mousemove', this.handleMouseMove)
@@ -128,10 +130,12 @@ class ColumnResizer extends React.PureComponent {
   }
 
   handleLabelState (e) {
-    const newState = {
-      isLabelsActive: !this.state.isLabelsActive
+    if (this.state.dragging) {
+      return
     }
+    const newState = {}
     if (e.type === 'mouseenter') {
+      newState.isLabelsActive = true
       const Event = new window.MouseEvent('mouseenter', {
         clientX: e.currentTarget.getBoundingClientRect().x
       })
@@ -161,6 +165,7 @@ class ColumnResizer extends React.PureComponent {
       newState.leftColPercentage = colSizes.leftCol
       newState.rightColPercentage = colSizes.rightCol
     } else {
+      newState.isLabelsActive = false
       window.setTimeout(() => {
         newState.leftColValue = null
         newState.rightColValue = null
@@ -178,6 +183,9 @@ class ColumnResizer extends React.PureComponent {
   }
 
   handleMouseEnter () {
+    if (this.state.dragging) {
+      return
+    }
     this.props.columnResizeDataChanged({
       mode: 'columnResizerHover',
       id: this.props.rowId
@@ -188,6 +196,9 @@ class ColumnResizer extends React.PureComponent {
   }
 
   handleMouseLeave () {
+    if (this.state.dragging) {
+      return
+    }
     this.props.columnResizeDataChanged({})
   }
 
@@ -591,7 +602,8 @@ class ColumnResizer extends React.PureComponent {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  columnResizeDataChanged: (data) => dispatch(columnResizeDataChanged(data))
+  columnResizeDataChanged: (data) => dispatch(columnResizeDataChanged(data)),
+  columnResizerDraggingIdChanged: (data) => dispatch(columnResizerDraggingIdChanged(data))
 })
 
 export default connect(null, mapDispatchToProps)(ColumnResizer)
