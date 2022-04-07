@@ -10,7 +10,7 @@ import { debounce } from 'lodash'
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
 const documentService = vcCake.getService('document')
-let previousLayoutCustomMode = false
+let previousLayoutCustomMode = ''
 
 class ColumnResizer extends React.PureComponent {
   static defaultGridPercentage = [20, 25, 33.33, 50, 66.66, 75]
@@ -320,7 +320,7 @@ class ColumnResizer extends React.PureComponent {
   }
 
   handleMouseUp () {
-    this.setState({ dragging: false })
+    this.setState({ dragging: false, labelPosition: null })
     this.removeWrapBlockers()
     this.rebuildRowLayout()
     setTimeout(() => {
