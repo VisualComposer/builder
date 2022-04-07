@@ -18,12 +18,13 @@ const ElementInner = forwardRef((props, ref) => {
 
   const hoverData = props.columnResizeData
   const isColResizerHovered = hoverData?.mode === 'columnResizerHover' && hoverData?.id === props.id
+  const isColDragging = props.columnResizerDraggingId === props.id
 
-  if (isResizerVisible) {
+  if (isResizerVisible || isColDragging) {
     customEditorProps['data-vcv-resizer-visible'] = true
   }
 
-  if (isColResizerHovered) {
+  if (isColResizerHovered || isColDragging) {
     customEditorProps['data-vcv-resizer-hovered'] = true
   }
 
@@ -45,7 +46,8 @@ const ElementInner = forwardRef((props, ref) => {
 ElementInner.displayName = 'ElementInner'
 
 const mapStateToProps = (state) => ({
-  columnResizeData: state.controls.columnResizeData
+  columnResizeData: state.controls.columnResizeData,
+  columnResizerDraggingId: state.controls.columnResizerDraggingId
 })
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(ElementInner)
