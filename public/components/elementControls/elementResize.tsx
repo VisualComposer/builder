@@ -177,6 +177,7 @@ const ElementResize: React.FC<Props> = (props) => {
     setResizing(false)
     vcCake.setData('vcv:layoutCustomMode', false)
     vcCake.setData('vcv:layoutColumnResize', null)
+    layoutStorage.state('interactWithContent').set(false)
   }, [row, iframe, leftDistance, rightDistance, vcElementContainerId, resizerSide])
 
   useEffect(() => {

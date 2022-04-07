@@ -167,7 +167,6 @@ export default class ControlsManager {
     if (layoutStorage.state('rightClickMenuActive').get() === true) {
       return null
     }
-
     // need to run all events, so creating fake event
     if (!e) {
       e = {
@@ -202,6 +201,9 @@ export default class ControlsManager {
     if (element && Object.prototype.hasOwnProperty.call(element.dataset, 'vcvLinkedElement')) {
       element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
       elPath[0] = element
+    }
+    if (element === null) {
+      this.toggleElementResize()
     }
     if (this.state.prevElement === element) {
       return null
