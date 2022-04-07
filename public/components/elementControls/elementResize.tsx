@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {connect} from 'react-redux'
+import {Dispatch} from 'redux'
 import vcCake from 'vc-cake'
 import {updateDesignOptionsBoxModel} from '../../sources/attributes/designOptionsAdvanced/helpers'
 import {columnResizeDataChanged} from '../../editor/stores/controls/slice'
@@ -23,6 +24,12 @@ interface Props {
   resizeControlData: {
     vcElementContainerId?: string
   }
+  columnResizeDataChanged: (data: ColumnData) => void
+}
+
+interface ColumnData {
+  mode?: string,
+  id?: string
 }
 
 interface ContainerPos {
@@ -343,8 +350,8 @@ const mapStateToProps = (state: { controls: Props }) => ({
   resizeControlData: state.controls.resizeControlData
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  columnResizeDataChanged: (data) => dispatch(columnResizeDataChanged(data))
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  columnResizeDataChanged: (data: ColumnData) => dispatch(columnResizeDataChanged(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ElementResize)
