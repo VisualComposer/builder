@@ -553,20 +553,20 @@ export default class ControlsManager {
    * Show frames on elements children
    */
   showChildrenFrames (parentId) {
-    // const documentService = vcCake.getService('document')
-    // let elementsToShow = []
-    // const children = documentService.children(parentId)
-    // children.forEach((child) => {
-    //   elementsToShow.push(child.id)
-    // })
-    // elementsToShow = elementsToShow.map((id) => {
-    //   const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
-    //   return this.iframeDocument.querySelector(selector)
-    // })
-    // elementsToShow = elementsToShow.filter((el) => {
-    //   return el
-    // })
-    // this.frames.show({ path: elementsToShow })
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    const children = documentService.children(parentId)
+    children.forEach((child) => {
+      elementsToShow.push(child.id)
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+      return this.iframeDocument.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.frames.show({ path: elementsToShow })
   }
 
   /**
@@ -627,13 +627,12 @@ export default class ControlsManager {
    */
   handleFrameContainerLeave () {
     const data = workspaceStorage.state('settings').get()
-    // TODO: Check accessPoint?
-    if (data && data.element) {
-      if (data.element.tag === 'row') {
-        this.editFormId = data.element.id
+    if (data && data.elementAccessPoint) {
+      if (data.elementAccessPoint.tag === 'row') {
+        this.editFormId = data.elementAccessPoint.id
         this.showChildrenFramesWithDelay(this.editFormId)
-      } else if (data.element.tag === 'column') {
-        this.editFormId = data.element.id
+      } else if (data.elementAccessPoint.tag === 'column') {
+        this.editFormId = data.elementAccessPoint.id
         this.showFramesOnOneElement(this.editFormId)
       }
     }
