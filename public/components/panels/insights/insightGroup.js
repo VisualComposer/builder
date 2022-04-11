@@ -4,6 +4,22 @@ import { getStorage, env } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
 
+const generateQuerySelector = function (el) {
+  if (el.tagName.toLowerCase() === 'html') {
+    return 'HTML'
+  }
+
+  let str = el.tagName
+  str += (el.id !== '') ? '#' + el.id : ''
+  if (el.className) {
+    const classes = el.className.split(/\s/)
+    for (let i = 0; i < classes.length; i++) {
+      str += '.' + classes[i]
+    }
+  }
+  return generateQuerySelector(el.parentNode) + ' > ' + str
+}
+
 export default class InsightsGroup extends React.Component {
   constructor (props) {
     super(props)
@@ -18,7 +34,8 @@ export default class InsightsGroup extends React.Component {
 
   handleMouseEnter (domNode) {
     if (domNode) {
-      workspaceStorage.state('userInteractWith').set(domNode)
+      const selector = generateQuerySelector(domNode)
+      workspaceStorage.state('userInteractWith').set(false, selector)
     }
   }
 

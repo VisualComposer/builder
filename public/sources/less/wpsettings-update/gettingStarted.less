@@ -141,18 +141,27 @@
   }
 }
 
-@media only screen and (min-width: 782px) {
-  .vcv-activation-survey {
-    .vcv-ui-modal-overlay {
-      padding-left: 36px;
-    }
-  }
-}
-
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 783px) {
   .vcv-activation-survey {
     .vcv-ui-modal-overlay {
       padding-left: 160px;
+    }
+  }
+
+  body.folded {
+    .vcv-activation-survey {
+      .vcv-ui-modal-overlay {
+        padding-left: 36px;
+      }
+    }
+  }
+}
+@media only screen and (min-width: 783px) and (max-width: 960px) {
+  body.auto-fold {
+    .vcv-activation-survey {
+      .vcv-ui-modal-overlay {
+        padding-left: 36px;
+      }
     }
   }
 }
