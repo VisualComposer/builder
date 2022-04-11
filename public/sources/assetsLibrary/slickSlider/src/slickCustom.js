@@ -350,7 +350,7 @@ import './slickCustom.less';
 
     if (asNavFor !== null && typeof asNavFor === 'object') {
       asNavFor.each(function () {
-        var target = $(this).slick('getSlick');
+        var target = $(this).vcSlick('getSlick');
         if (!target.unslicked) {
           target.slideHandler(index, true);
         }
@@ -2598,7 +2598,7 @@ import './slickCustom.less';
     if (_.options.asNavFor) {
 
       navTarget = _.getNavTarget();
-      navTarget = navTarget.slick('getSlick');
+      navTarget = navTarget.vcSlick('getSlick');
 
       if (navTarget.slideCount <= navTarget.options.slidesToShow) {
         navTarget.setSlideClasses(_.currentSlide);
