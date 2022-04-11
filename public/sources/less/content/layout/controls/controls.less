@@ -468,10 +468,6 @@
     top: 0;
     width: 10px;
     height: 100%;
-
-    &:before {
-      display: none;
-    }
   }
 
   .vce-add-column {
@@ -523,4 +519,34 @@
 .vce-column-resizer-label-left .vce-add-column {
   left: 0;
   padding: 8px 5px 8px 12px;
+}
+
+.vce-column-resizer--no-resize {
+  .vce-add-column {
+    pointer-events: auto;
+  }
+
+  .vce-column-resizer-label-container {
+    &:before {
+      display: none;
+    }
+  }
+
+  .vce-column-resizer-label-percentage {
+    opacity: 1;
+  }
+
+  &.vce-column-resizer--side .vce-column-resizer-handler {
+    pointer-events: none;
+  }
+
+  .vce-element-resize--left .vce-column-resizer-label-left,
+  .vce-element-resize--right .vce-column-resizer-label-right {
+    display: none;
+  }
+
+  .vce-element-resize--left .vce-column-resizer-label--side .vce-column-resizer-label-right,
+  .vce-element-resize--right .vce-column-resizer-label--side .vce-column-resizer-label-left {
+    width: 35px;
+  }
 }
