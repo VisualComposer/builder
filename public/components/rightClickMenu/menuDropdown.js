@@ -75,7 +75,7 @@ export default class MenuDropdown extends React.Component {
     return (
       <div className='vcv-ui-right-click-menu-container' style={styles}>
         <div className={dropdownClasses} ref={this.rightClickDropdown}>
-          <ControlDropdownInner elementId={this.props.id} isRightClick={isRightClick} />
+          <ControlDropdownInner elementId={this.props.id} isCenterControls={false} isRightClick={isRightClick} />
         </div>
       </div>
     )

@@ -1,8 +1,12 @@
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
 import store from 'public/editor/stores/store'
-import { controlsDataChanged, appendControlDataChanged } from 'public/editor/stores/controls/slice'
-import OutlineHandler from './outlineHandler'
+import {
+  controlsDataChanged,
+  appendControlDataChanged,
+  resizeControlDataChanged,
+  outlineDataChanged
+} from 'public/editor/stores/controls/slice'
 import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
@@ -78,15 +82,6 @@ export default class ControlsManager {
         writable: false,
         enumerable: false,
         configurable: false
-      },
-      /**
-       * @memberOf! OutlineManager
-       */
-      outline: {
-        value: new OutlineHandler(systemData),
-        writable: false,
-        enumerable: false,
-        configurable: false
       }
     })
 
@@ -95,7 +90,7 @@ export default class ControlsManager {
 
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
-    if (data && data.vcvEditableElements.length) {
+    if (data?.vcvEditableElements?.length) {
       store.dispatch(controlsDataChanged({
         vcvEditableElements: data.vcvEditableElements,
         vcElementId: data.vcElementId,
@@ -114,6 +109,41 @@ export default class ControlsManager {
       }
       this.state.prevTarget = null
       this.state.prevElementPath = []
+    }
+  }
+
+  toggleElementResize (data) {
+    const customMode = vcCake.getData('vcv:layoutCustomMode')?.mode
+    if (customMode === 'elementResize') {
+      return null
+    }
+    if (data?.vcvEditableElements?.length) {
+      let rowId = null
+      for (let i = 0; i < data.vcvEditableElements.length; i++) {
+        const cookElement = cook.getById(data.vcvEditableElements[i])
+        if (cookElement.get('tag') === 'row') {
+          rowId = data.vcvEditableElements[i]
+          break
+        }
+      }
+      if (rowId) {
+        store.dispatch(resizeControlDataChanged({
+          vcElementContainerId: rowId
+        }))
+      }
+    } else {
+      store.dispatch(resizeControlDataChanged({}))
+    }
+  }
+
+  toggleOutlines (selector, id) {
+    if (selector) {
+      store.dispatch(outlineDataChanged({
+        selector: selector,
+        id: id
+      }))
+    } else {
+      store.dispatch(outlineDataChanged({}))
     }
   }
 
@@ -137,7 +167,6 @@ export default class ControlsManager {
     if (layoutStorage.state('rightClickMenuActive').get() === true) {
       return null
     }
-
     // need to run all events, so creating fake event
     if (!e) {
       e = {
@@ -151,7 +180,7 @@ export default class ControlsManager {
     }
 
     const customMode = vcCake.getData('vcv:layoutCustomMode')?.mode
-    if (customMode === 'contentEditable' || customMode === 'dnd' || customMode === 'columnResizerHover' || customMode === 'columnResizer') {
+    if (customMode === 'contentEditable' || customMode === 'dnd' || customMode === 'columnResizerHover' || customMode === 'columnResizer' || customMode === 'elementResize') {
       return null
     }
 
@@ -172,6 +201,9 @@ export default class ControlsManager {
     if (element && Object.prototype.hasOwnProperty.call(element.dataset, 'vcvLinkedElement')) {
       element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
       elPath[0] = element
+    }
+    if (element === null) {
+      this.toggleElementResize()
     }
     if (this.state.prevElement === element) {
       return null
@@ -292,16 +324,23 @@ export default class ControlsManager {
       if (state?.mode === 'dnd') {
         this.state.showFrames = true
         this.toggleControls()
-        this.outline.hide()
-      }
-      if (state?.mode === 'contentEditable') {
+        this.toggleElementResize()
+        this.toggleOutlines()
+      } else if (state?.mode === 'contentEditable') {
         this.frames.hide()
         this.toggleControls()
-        this.outline.hide()
-      }
-      if (state?.mode === 'columnResizerHover') {
+        this.toggleElementResize()
+        this.toggleOutlines()
+      } else if (state?.mode === 'columnResizerHover') {
+        this.frames.hide()
         this.toggleControls()
-        this.outline.hide()
+        this.toggleOutlines()
+        this.toggleElementResize()
+      } else if (state?.mode === 'elementResize') {
+        this.frames.hide() // First - hide old frames
+        this.state.showFrames = true
+        this.toggleControls()
+        this.toggleOutlines()
       }
       this.state.showControls = !state
       this.findElement()
@@ -309,11 +348,7 @@ export default class ControlsManager {
 
     // check column resize
     vcCake.onDataChange('vcv:layoutColumnResize', (rowId) => {
-      if (rowId) {
-        this.showChildrenFrames(rowId)
-      } else {
-        this.frames.hide()
-      }
+      this.frames.hide()
     })
 
     elementsStorage.state('elementAdd').onChange((data) => {
@@ -325,7 +360,7 @@ export default class ControlsManager {
     // check remove element
     this.api.on('element:unmount', () => {
       this.findElement()
-      this.outline.hide()
+      this.toggleOutlines()
     })
 
     // Interact with content
@@ -340,17 +375,15 @@ export default class ControlsManager {
         if (data.idSelector) {
           selector = `#${data.idSelector + selector}`
         }
-        const contentElement = this.iframeDocument.querySelector(selector)
-        if (contentElement) {
-          this.outline.show(contentElement, data.vcElementId)
-        }
+        this.toggleOutlines(selector, data.vcElementId)
       }
       if (data && data.type === 'mouseLeave') {
-        this.outline.hide()
+        this.toggleOutlines()
       }
       if (data && data.type === 'controlClick' && !data.vcControlIsPermanent) {
         this.toggleControls()
-        this.outline.hide()
+        this.toggleElementResize()
+        this.toggleOutlines()
         this.frames.hide()
       }
       if (data && data.type === 'mouseEnterContainer') {
@@ -363,6 +396,7 @@ export default class ControlsManager {
 
     layoutStorage.state('rightClickMenuActive').onChange(() => {
       this.toggleControls()
+      this.toggleElementResize()
     })
   }
 
@@ -378,6 +412,7 @@ export default class ControlsManager {
     this.closingControlsInterval = setInterval(() => {
       if (this.closingControls) {
         this.toggleControls()
+        this.toggleElementResize()
         if (this.state.showFrames) {
           this.frames.hide()
         }
@@ -412,6 +447,7 @@ export default class ControlsManager {
           }
 
           this.toggleControls()
+          this.toggleElementResize()
           if (this.state.showFrames) {
             this.frames.hide()
           }
@@ -447,9 +483,10 @@ export default class ControlsManager {
         if (this.state.showFrames) {
           this.showFrames(data)
         }
+        this.toggleElementResize(data)
       }
       if (data && data.type === 'mouseLeave') {
-        this.handleControlsMouseLeave(data.vcElementId)
+        this.handleControlsMouseLeave(data)
       }
     })
   }
@@ -458,18 +495,12 @@ export default class ControlsManager {
    * Interact with tree
    */
   interactWithTree () {
-    workspaceStorage.state('userInteractWith').onChange((id = false) => {
-      if (id && this.state.showOutline) {
-        if (typeof id !== 'string') {
-          this.outline.show(id)
-        } else {
-          const element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
-          if (element) {
-            this.outline.show(element, id)
-          }
-        }
+    workspaceStorage.state('userInteractWith').onChange((id = false, selector = null) => {
+      if ((id || selector) && this.state.showOutline) {
+        const querySelector = id ? `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])` : selector
+        this.toggleOutlines(querySelector, id)
       } else {
-        this.outline.hide()
+        this.toggleOutlines()
       }
     })
   }
@@ -478,9 +509,10 @@ export default class ControlsManager {
     const contentState = layoutStorage.state('interactWithContent')
     if (!contentState.get() || !contentState.get().type || contentState.get().type !== 'scrolling') {
       contentState.set({ type: 'scrolling' })
-      this.outline.hide()
+      this.toggleOutlines()
       this.frames.hide()
       this.toggleControls()
+      this.toggleElementResize()
     }
 
     window.clearTimeout(this.isScrolling)
@@ -503,16 +535,9 @@ export default class ControlsManager {
       // Current element will always be 0 indexed
       if (index === 0) {
         elementTag = documentElement.tag
-        if (elementTag === 'row' || elementTag === 'column') {
-          const topParentId = documentService.getTopParent(id)
-          const descendantElements = documentService.getDescendants(topParentId)
-          Object.keys(descendantElements).forEach((element) => {
-            if (descendantElements[element].tag === 'row') {
-              elementsToShow.push(element)
-            }
-          })
-        }
-      } else if (elementTag !== 'column') {
+      }
+      // Show frames for all except columns
+      if (documentElement.tag !== 'column') {
         elementsToShow.push(documentElement.id)
       }
     })
@@ -604,13 +629,12 @@ export default class ControlsManager {
    */
   handleFrameContainerLeave () {
     const data = workspaceStorage.state('settings').get()
-    // TODO: Check accessPoint?
-    if (data && data.element) {
-      if (data.element.tag === 'row') {
-        this.editFormId = data.element.id
+    if (data && data.elementAccessPoint) {
+      if (data.elementAccessPoint.tag === 'row') {
+        this.editFormId = data.elementAccessPoint.id
         this.showChildrenFramesWithDelay(this.editFormId)
-      } else if (data.element.tag === 'column') {
-        this.editFormId = data.element.id
+      } else if (data.elementAccessPoint.tag === 'column') {
+        this.editFormId = data.elementAccessPoint.id
         this.showFramesOnOneElement(this.editFormId)
       }
     }
@@ -622,7 +646,6 @@ export default class ControlsManager {
     this.iframeWindow = DOMNodes.iframeWindow
     this.iframeDocument = DOMNodes.iframeDocument
     this.frames.updateIframeVariables(DOMNodes)
-    this.outline.updateIframeVariables(DOMNodes)
     this.subscribeToCurrentIframe()
   }
 }
