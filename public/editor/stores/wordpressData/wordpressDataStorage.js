@@ -117,13 +117,13 @@ addStorage('wordpressData', (storage) => {
       } else if (responseData.data) {
         let data = { elements: {} }
         try {
-          data = JSON.parse(responseData.data && responseData.data !== 'null' ? decodeURIComponent(responseData.data) : '{}')
+          data = JSON.parse(responseData.data && responseData.data !== 'null' ? decodeURIComponent(responseData.data) : data)
         } catch (e) {
           console.warn('Failed to parse page elements', e)
           data = { elements: {} }
         }
         elementsStorage.trigger('reset', utils.fixCorruptedElements(data.elements) || {})
-        if (!data.elements) {
+        if (Object.keys(data.elements).length === 0) {
           empty = true
         }
       } else {
