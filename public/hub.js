@@ -39,7 +39,6 @@ export const setupCake = () => {
     // require('./editor/stores/attributes/attributesStorage')
     // require('./editor/stores/wordpressData/wordpressDataStorage')
     require('./editor/stores/elements/elementSettings')
-    require('./editor/stores/editorPopup/storage')
     // require('./editor/stores/popup/storage')
     // require('./editor/stores/elementsLoader/elementsLoaderStorage')
     const hubElementsStorage = vcCake.getStorage('hubElements')

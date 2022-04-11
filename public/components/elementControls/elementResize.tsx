@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react'
+import classNames from 'classnames'
 import {connect} from 'react-redux'
 import {Dispatch} from 'redux'
 import vcCake from 'vc-cake'
@@ -117,7 +118,7 @@ const ElementResize: React.FC<Props> = (props) => {
 
   const setResizeLabelsPosition = useCallback((e) => {
     const resizerHeight = 29
-    if (containerPos.top) {
+    if (containerPos.top !== undefined) {
       const labelPosition = e.clientY - containerPos.top - (resizerHeight / 2)
       setResizerPosition({
         position: 'absolute',
@@ -284,8 +285,13 @@ const ElementResize: React.FC<Props> = (props) => {
   const columnAfterText = localizations.addColumnAfter || 'Add column after'
   const marginText = localizations.rowMargin || 'Row margin'
 
+  const resizerClasses = classNames({
+    'vce-column-resizer vce-column-resizer--side': true,
+    'vce-column-resizer--no-resize': !!row?.getAttribute('data-vce-full-width')
+  })
+
   return (
-    <div className='vce-column-resizer vce-column-resizer--side' style={{...styles}}>
+    <div className={resizerClasses} style={{...styles}}>
       <div
         className='vce-column-resizer-handler vce-element-resize--left'
         onMouseDown={(event) => {

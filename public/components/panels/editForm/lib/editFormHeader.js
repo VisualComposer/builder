@@ -4,6 +4,7 @@ import { getService, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { fullScreenPopupDataSet, activeFullPopupSet } from 'public/editor/stores/editorPopup/slice'
 
 const dataManager = getService('dataManager')
 const hubElementsService = getService('hubElements')
@@ -12,7 +13,6 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const documentManager = getService('document')
 const hubStorage = getStorage('hubAddons')
-const editorPopupStorage = getStorage('editorPopup')
 const hubAddonsStorage = getStorage('hubAddons')
 const roleManager = getService('roleManager')
 
@@ -215,8 +215,8 @@ export default class EditFormHeader extends React.Component {
           time: 8000
         }))
       } else {
-        editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-        editorPopupStorage.state('activeFullPopup').set('premium-teaser')
+        store.dispatch(fullScreenPopupDataSet(fullScreenPopupData))
+        store.dispatch(activeFullPopupSet('premium-teaser'))
       }
     }
   }
