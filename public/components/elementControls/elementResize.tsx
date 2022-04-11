@@ -1,7 +1,9 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {connect} from 'react-redux'
+import {Dispatch} from 'redux'
 import vcCake from 'vc-cake'
 import {updateDesignOptionsBoxModel} from '../../sources/attributes/designOptionsAdvanced/helpers'
+import {columnResizeDataChanged} from '../../editor/stores/controls/slice'
 
 const cook = vcCake.getService('cook')
 const documentService = vcCake.getService('document')
@@ -22,6 +24,12 @@ interface Props {
   resizeControlData: {
     vcElementContainerId?: string
   }
+  columnResizeDataChanged: (data: ColumnData) => void
+}
+
+interface ColumnData {
+  mode?: string,
+  id?: string
 }
 
 interface ContainerPos {
@@ -169,6 +177,7 @@ const ElementResize: React.FC<Props> = (props) => {
     setResizing(false)
     vcCake.setData('vcv:layoutCustomMode', false)
     vcCake.setData('vcv:layoutColumnResize', null)
+    layoutStorage.state('interactWithContent').set(false)
   }, [row, iframe, leftDistance, rightDistance, vcElementContainerId, resizerSide])
 
   useEffect(() => {
@@ -222,12 +231,21 @@ const ElementResize: React.FC<Props> = (props) => {
     setResizeLabelsPosition(event)
   }
 
-  const handleMouseOver = () => {
+  const handleMouseEnter = () => {
+    props.columnResizeDataChanged({
+      mode: 'columnResizerHover',
+      id: vcElementContainerId
+    })
+
     const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
     if (hideControlsInterval) {
       clearInterval(hideControlsInterval)
       layoutStorage.state('hideControlsInterval').set(false)
     }
+  }
+
+  const handleMouseLeave = () => {
+    props.columnResizeDataChanged({})
   }
 
   const handlePlusClick = (event: React.MouseEvent<HTMLElement>, action: string) => {
@@ -273,11 +291,12 @@ const ElementResize: React.FC<Props> = (props) => {
         onMouseDown={(event) => {
           handleMouseDown(event, 'left')
         }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <div
           className='vce-column-resizer-label-container vce-column-resizer-label--side'
           style={leftLabelStyles}
-          onMouseOver={handleMouseOver}
         >
           <div className='vce-column-resizer-label vce-column-resizer-label-left vce-add-column-container'>
             <span className='vce-column-resizer-label-percentage' title={marginText}>{leftDistance}px</span>
@@ -301,11 +320,12 @@ const ElementResize: React.FC<Props> = (props) => {
         onMouseDown={(event) => {
           handleMouseDown(event, 'right')
         }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <div
           className='vce-column-resizer-label-container vce-column-resizer-label--side'
           style={rightLabelStyles}
-          onMouseOver={handleMouseOver}
         >
           <div className='vce-column-resizer-label vce-column-resizer-label-left'>
             <span
@@ -331,4 +351,8 @@ const mapStateToProps = (state: { controls: Props }) => ({
   resizeControlData: state.controls.resizeControlData
 })
 
-export default connect(mapStateToProps)(ElementResize)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  columnResizeDataChanged: (data: ColumnData) => dispatch(columnResizeDataChanged(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ElementResize)
