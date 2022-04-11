@@ -11,6 +11,8 @@ import GiphyContainer from '../../stockMedia/giphyContainer'
 import UnsplashContainer from '../../stockMedia/unsplashContainer'
 import Notifications from '../../notifications/notifications'
 import TermsBox from '../../termsBox/component'
+import store from 'public/editor/stores/store'
+import { fullScreenPopupDataSet, activeFullPopupSet } from 'public/editor/stores/editorPopup/slice'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const cook = vcCake.getService('cook')
@@ -21,7 +23,6 @@ const hubAddonsStorage = vcCake.getStorage('hubAddons')
 const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
-const editorPopupStorage = vcCake.getStorage('editorPopup')
 const hubElementsService = vcCake.getService('hubElements')
 const workspaceContentState = workspaceStorage.state('content')
 const settingsStorage = vcCake.getStorage('settings')
@@ -482,8 +483,8 @@ export default class HubContainer extends React.Component {
       isPremiumActivated: isPremiumActivated,
       url: url
     }
-    editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-    editorPopupStorage.state('activeFullPopup').set('premium-teaser')
+    store.dispatch(fullScreenPopupDataSet(fullScreenPopupData))
+    store.dispatch(activeFullPopupSet('premium-teaser'))
   }
 
   getUtmMedium () {
