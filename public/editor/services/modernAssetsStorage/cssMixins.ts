@@ -105,6 +105,9 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
       const matches = value.match(new RegExp(namePattern, 'gi'))
       attrSelector = matches.length ? matches.join('-') : 'empty'
     }
+    if (value !== 'empty' && !namePattern) {
+      attrSelector = value
+    }
     if (attrSelector.indexOf('%')) {
       attrSelector = attrSelector.replace(/%/g, 'percent')
     }
