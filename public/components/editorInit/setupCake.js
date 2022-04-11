@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
-import globalStoreInstance from 'public/editor/stores/globalStoreInstance'
+
 export const setupCake = () => {
+  const globalStoreInstance = require('../../editor/stores/globalStoreInstance')
   vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
@@ -22,7 +23,6 @@ export const setupCake = () => {
     require('../../editor/stores/wordpressData/wordpressDataStorage')
     require('../../editor/stores/elements/elementSettings')
     require('../../editor/stores/popup/storage')
-    require('../../editor/stores/editorPopup/storage')
     // require('./editor/stores/elementsLoader/elementsLoaderStorage')
     require('../../editor/stores/insights/storage')
     const hubElementsStorage = vcCake.getStorage('hubElements')

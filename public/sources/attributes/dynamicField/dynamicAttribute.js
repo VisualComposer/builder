@@ -2,12 +2,13 @@ import React from 'react'
 import { env, getService, getStorage } from 'vc-cake'
 import DynamicPopup from './dynamicPopup'
 import classNames from 'classnames'
+import store from 'public/editor/stores/store'
+import { fullScreenPopupDataSet, activeFullPopupSet } from 'public/editor/stores/editorPopup/slice'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
-const editorPopupStorage = getStorage('editorPopup')
 
 export default class DynamicAttribute extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -301,8 +302,8 @@ export default class DynamicAttribute extends React.Component {
         popupData.description = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremium : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium.'
       }
 
-      editorPopupStorage.state('fullScreenPopupData').set(popupData)
-      editorPopupStorage.state('activeFullPopup').set('premium-teaser')
+      store.dispatch(fullScreenPopupDataSet(popupData))
+      store.dispatch(activeFullPopupSet('premium-teaser'))
     }
   }
 

@@ -14,11 +14,11 @@ import FullPopup from 'public/components/popup/fullPagePopupContainer'
 
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
-import globalStoreInstance from 'public/editor/stores/globalStoreInstance'
 
 const dataManager = vcCake.getService('dataManager')
 
 export const setupCake = () => {
+  const globalStoreInstance = require('public/editor/stores/globalStoreInstance')
   vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
@@ -39,7 +39,6 @@ export const setupCake = () => {
     // require('./editor/stores/attributes/attributesStorage')
     // require('./editor/stores/wordpressData/wordpressDataStorage')
     require('./editor/stores/elements/elementSettings')
-    require('./editor/stores/editorPopup/storage')
     // require('./editor/stores/popup/storage')
     // require('./editor/stores/elementsLoader/elementsLoaderStorage')
     const hubElementsStorage = vcCake.getStorage('hubElements')
