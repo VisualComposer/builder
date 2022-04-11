@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import lodash from 'lodash'
 import { getStorage, getService, env } from 'vc-cake'
 import classNames from 'classnames'
-import { notificationAdded } from 'public/editor/stores/notifications/slice'
 import { connect } from 'react-redux'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { activeFullPopupSet, fullScreenPopupDataSet } from 'public/editor/stores/editorPopup/slice'
 
 const dataProcessor = getService('dataProcessor')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const dataManager = getService('dataManager')
-const editorPopupStorage = getStorage('editorPopup')
 const workspaceStorage = getStorage('workspace')
 
 class StockMediaResultsPanel extends React.Component {
@@ -397,8 +397,8 @@ class StockMediaResultsPanel extends React.Component {
       isPremiumActivated: isPremiumActivated,
       url: utmLink.replace('{medium}', utmMedium)
     }
-    editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-    editorPopupStorage.state('activeFullPopup').set('premium-teaser')
+    this.props.fullScreenPopupDataSet(fullScreenPopupData)
+    this.props.activeFullPopupSet('premium-teaser')
   }
 
   getItems () {
@@ -549,7 +549,9 @@ class StockMediaResultsPanel extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addNotification: (data) => dispatch(notificationAdded(data))
+  addNotification: (data) => dispatch(notificationAdded(data)),
+  activeFullPopupSet: (data) => dispatch(activeFullPopupSet(data)),
+  fullScreenPopupDataSet: (data) => dispatch(fullScreenPopupDataSet(data))
 })
 
 const mapStateToProps = state => ({

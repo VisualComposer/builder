@@ -15,11 +15,9 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
       <nav
         className="vcv-ui-navbar vcv-ui-navbar-hide-labels"
       >
-        <a
-          className="vcv-ui-navbar-logo"
-          href="undefined"
-          rel="noopener noreferrer"
-          target="_blank"
+        <span
+          className="vcv-ui-navbar-logo vcv-ui-navbar-control"
+          onClick={[Function]}
           title="Visual Composer Website Builder"
         >
           <span
@@ -27,7 +25,7 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
           >
             Visual Composer Website Builder
           </span>
-        </a>
+        </span>
         <span
           className="vcv-ui-navbar-control"
           data-vcv-guide-helper="plus-control"
@@ -333,16 +331,14 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
             <div
               className="vcv-ui-navbar-controls-set"
             >
-              <span
+              <a
                 className="vcv-ui-navbar-control"
-                data-backend-editor="backendEditor"
                 data-vcv-controls="backToWP"
-                onClick={[Function]}
               >
                 <span
                   className="vcv-ui-navbar-control-content"
                 />
-              </span>
+              </a>
             </div>
           </dd>
         </dl>
