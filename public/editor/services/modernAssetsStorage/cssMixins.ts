@@ -101,7 +101,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
     let attrSelector = 'empty'
     const {attributeName, namePattern, valueKey} = mixinData
     const value = getValue(atts, attributeName, valueKey)
-    if (value !== 'empty' && namePattern) {
+    if (value !== 'empty') {
       if (namePattern) {
         const matches = value.match(new RegExp(namePattern, 'gi'))
         attrSelector = matches.length ? matches.join('-') : 'empty'
