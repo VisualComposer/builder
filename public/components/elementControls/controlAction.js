@@ -60,7 +60,7 @@ export default function ControlAction (props) {
     layoutStorage.state('interactWithControls').set({
       type: 'controlClick',
       vcElementId: id,
-      vcControlIsPermanent: isControlPermanent
+      vcControlIsPermanent: isControlPermanent && !props.isRightClick
     })
   }
 

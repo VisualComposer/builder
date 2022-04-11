@@ -18,6 +18,8 @@ import FullPagePopupContainer from 'public/components/popup/fullPagePopupContain
 import Helpers from 'public/components/helpers/helpers'
 import Controls from 'public/components/elementControls/controls'
 import AppendControl from 'public/components/elementControls/appendControl'
+import ElementResizeControl from 'public/components/elementControls/elementResize'
+import Outlines from 'public/components/elementControls/outlines'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -73,6 +75,26 @@ vcCake.add('contentLayout', (api) => {
         <AppendControl />
       </Provider>,
       appendControlContainer
+    )
+  }
+
+  const elementResizeContainer = document.querySelector('.vcv-ui-element-resize-control-wrapper')
+  if (elementResizeContainer) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <ElementResizeControl />
+      </Provider>,
+      elementResizeContainer
+    )
+  }
+
+  const outlineContainer = document.querySelector('.vcv-ui-element-outline-container')
+  if (outlineContainer) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <Outlines />
+      </Provider>,
+      outlineContainer
     )
   }
 

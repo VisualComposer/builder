@@ -55,7 +55,7 @@ export default class SettingsButtonControl extends NavbarContent {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const name = localizations ? localizations.settings : 'Settings'
+    const name = localizations ? localizations.options : 'Options'
     const title = SettingsButtonControl.isMacLike ? name + ' (⇧S)' : name + ' (Shift + S)'
     const controls = workspaceSettingControls.get()
     const controlsArray = Object.keys(controls).map(key => controls[key])

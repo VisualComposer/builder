@@ -128,7 +128,7 @@ function ControlItems (props) {
   return controls.reverse()
 }
 
-const Controls = ({ data = {} }) => {
+const Controls = ({ data = {}, columnResizeData }) => {
   const controlsContainer = useRef()
   const controls = useRef()
   const { vcvEditableElements, vcElementId, vcvDraggableIds } = data
@@ -157,14 +157,15 @@ const Controls = ({ data = {} }) => {
   }, [vcElementId, vcvEditableElements])
 
   const handleElementRemove = useCallback((data) => {
-    if (vcvEditableElements.includes(data)) {
+    if (vcvEditableElements && vcvEditableElements.includes(data)) {
       setVisibleElement(false)
     }
   }, [vcElementId])
 
+  // Dependencies are empty because it reacts only on storage state change
   const handleSettingsChange = useCallback(() => {
     setIframeElement(document.getElementById('vcv-editor-iframe'))
-  })
+  }, [])
 
   useEffect(() => {
     if (vcElementId) {
@@ -216,14 +217,15 @@ const Controls = ({ data = {} }) => {
     }
   }
 
+  const isVisible = vcElementId && vcvEditableElements && vcvEditableElements.includes(visibleElement) && !columnResizeData?.mode
   const containerClasses = classNames({
     'vcv-ui-outline-controls-container': true,
     'vcv-ui-controls-o-controls-right': controlsPos?.isControlsRight,
-    'vcv-ui-outline-controls-container--is-visible': vcElementId && vcvEditableElements && vcvEditableElements.includes(visibleElement)
+    'vcv-ui-outline-controls-container--is-visible': isVisible
   })
 
   let centerControls = null
-  if (vcvEditableElements) {
+  if (vcvEditableElements && isVisible) {
     const firstElement = ControlHelpers.getVcElement(vcvEditableElements[0])
     if (firstElement && firstElement.containerFor().length < 1) {
       centerControls = (
@@ -256,7 +258,8 @@ const Controls = ({ data = {} }) => {
 }
 
 const mapStateToProps = state => ({
-  data: state.controls.controlsData
+  data: state.controls.controlsData,
+  columnResizeData: state.controls.columnResizeData
 })
 
 export default connect(mapStateToProps)(Controls)
