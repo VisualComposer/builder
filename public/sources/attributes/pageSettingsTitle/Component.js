@@ -1,7 +1,9 @@
 import React from 'react'
 import { getStorage, getService, env } from 'vc-cake'
 import Attribute from '../attribute'
+import { getResponse } from 'public/tools/response'
 
+const dataProcessor = getService('dataProcessor')
 const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
 
@@ -59,7 +61,37 @@ export default class PageSettingsTitle extends Attribute {
     settingsStorage.state('pageTitle').set(newValue)
     const postData = settingsStorage.state('postData').get()
     postData.post_title = newValue
+
+    if (postData.post_type.toLowerCase() === 'page' && dataManager.get('postData').status === 'auto-draft') {
+      dataProcessor.appAllDone().then(() => {
+        dataProcessor.appAdminServerRequest(
+          {
+            'vcv-action': 'settings:parseSlug:adminNonce',
+            'vcv-post-name': newValue,
+            'vcv-page-title': settingsStorage.state('pageTitle').get()
+          }
+        ).then(
+          this.loadSuccess.bind(this),
+          this.loadFailed.bind(this)
+        )
+      })
+    }
+
     settingsStorage.state('postData').set(postData)
+  }
+
+  loadSuccess (request) {
+    const responseData = getResponse(request)
+    if (responseData && responseData.permalinkHtml) {
+      settingsStorage.state('permalinkHtml').set(responseData.permalinkHtml)
+    }
+  }
+
+  loadFailed (request) {
+    const responseData = getResponse(request)
+    if (env('VCV_DEBUG')) {
+      console.warn(responseData)
+    }
   }
 
   updatePageTitle (title) {
