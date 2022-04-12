@@ -1,9 +1,9 @@
 import vcCake from 'vc-cake'
+import store from 'public/editor/stores/store'
 
 const API = {
   getAssetsLibraryFiles: (library) => {
-    const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
-    const sharedAssets = sharedAssetsStorage.state('sharedAssets').get()
+    const sharedAssets = store.getState().sharedAssets.sharedAssets
     const data = typeof library === 'string' ? sharedAssets[library] : sharedAssets[library.name]
     const files = {
       cssBundles: [],
