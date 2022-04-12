@@ -1,11 +1,11 @@
-.vce-google-maps {
-  /*min-height: 100%;*/
-}
-
 .vce-google-maps-wrapper {
   display: inline-block;
   vertical-align: top;
   max-width: 100%;
+}
+
+.vce-google-maps-inner {
+  position: relative;
 }
 
 .vce-google-maps-proportional {
