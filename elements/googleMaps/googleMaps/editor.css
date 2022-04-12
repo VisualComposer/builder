@@ -1,7 +1,3 @@
-[data-vcv-element-disable-interaction="true"] .vce-google-maps-inner {
-  position: relative;
-}
-
 [data-vcv-element-disable-interaction="true"] .vce-google-maps-inner::after {
   content: "";
   position: absolute;
