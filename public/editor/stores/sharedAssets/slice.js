@@ -10,7 +10,9 @@ const slice = createSlice({
   },
   reducers: {
     assetsAdded: (data, action) => {
-      data.sharedAssets[action.payload.name] = action.payload
+      const assetName = action.payload.name
+      delete action.payload.name
+      data.sharedAssets[assetName] = action.payload
     }
   }
 })
