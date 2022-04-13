@@ -2,6 +2,7 @@ import React from 'react'
 import { getStorage, getService, env } from 'vc-cake'
 import Attribute from '../attribute'
 import { getResponse } from 'public/tools/response'
+import { debounce } from 'lodash'
 
 const dataProcessor = getService('dataProcessor')
 const settingsStorage = getStorage('settings')
@@ -23,6 +24,7 @@ export default class PageSettingsTitle extends Attribute {
     }
     this.handleChangeTitle = this.handleChangeTitle.bind(this)
     this.handleChangeUpdateTitleToggle = this.handleChangeUpdateTitleToggle.bind(this)
+    this.delayedUrlSlugUpdate = debounce(this.updateUrlSlug, 500)
 
     this.updatePageTitle = this.updatePageTitle.bind(this)
     this.toggleFocusTitle = this.toggleFocusTitle.bind(this)
@@ -62,6 +64,15 @@ export default class PageSettingsTitle extends Attribute {
     const postData = settingsStorage.state('postData').get()
     postData.post_title = newValue
 
+    this.delayedUrlSlugUpdate(newValue)
+
+    settingsStorage.state('postData').set(postData)
+  }
+
+  updateUrlSlug (newValue) {
+    const postData = settingsStorage.state('postData').get()
+    postData.post_title = newValue
+
     if (postData.post_type.toLowerCase() === 'page' && dataManager.get('postData').status === 'auto-draft') {
       dataProcessor.appAllDone().then(() => {
         dataProcessor.appAdminServerRequest(
@@ -76,8 +87,6 @@ export default class PageSettingsTitle extends Attribute {
         )
       })
     }
-
-    settingsStorage.state('postData').set(postData)
   }
 
   loadSuccess (request) {
