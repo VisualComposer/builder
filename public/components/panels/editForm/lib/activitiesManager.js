@@ -26,11 +26,13 @@ export default class ActivitiesManager extends React.Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    this.mount = {}
-    this.stack = {}
-    this.mountStack = {}
-    this.initialStack = {}
-    this.listeners = this.initListeners(nextProps.elementAccessPoint.cook(), nextProps)
+    if (!lodash.isEqual(nextProps, this.props)) {
+      this.mount = {}
+      this.stack = {}
+      this.mountStack = {}
+      this.initialStack = {}
+      this.listeners = this.initListeners(nextProps.elementAccessPoint.cook(), nextProps)
+    }
     return true
   }
 
