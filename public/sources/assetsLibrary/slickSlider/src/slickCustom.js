@@ -2601,7 +2601,7 @@ import './slickCustom.less';
     if (_.options.asNavFor) {
 
       navTarget = _.getNavTarget();
-      navTarget = navTarget.slick('getSlick');
+      navTarget = navTarget.vcSlick('getSlick');
 
       if (navTarget.slideCount <= navTarget.options.slidesToShow) {
         navTarget.setSlideClasses(_.currentSlide);
