@@ -143,39 +143,8 @@
     }
   }
 
-  //== Detached
-  &.vcv-layout-dock--detached {
-    .vcv-layout {
-      //flex-direction: row;
-    }
-    .vcv-layout-bar {
-      flex-direction: column;
-      position: fixed;
-    }
-    .vcv-layout-bar-content {
-      flex-direction: column;
-    }
-    .vcv-layout-bar-content-start {
-      flex-grow: 0;
-    }
-    .vcv-layout-bar-content-all {
-      flex-grow: 1;
-    }
-    .vcv-layout-bar {
-      &:not(.vcv-ui-content-end--visible) {
-        .vcv-layout-bar-content-start {
-          flex-grow: 1;
-        }
-      }
-    }
-    .vcv-layout-header {
-      height: 0;
-    }
-  }
-
   //== Behaviour
-  &.vcv-layout-dock--top,
-  &.vcv-layout-dock--bottom {
+  &.vcv-layout-dock--top {
     .vcv-layout-bar {
       width: auto !important;
       height: auto !important;
@@ -197,8 +166,7 @@
       }
     }
   }
-  &.vcv-layout-dock--left,
-  &.vcv-layout-dock--right {
+  &.vcv-layout-dock--left {
     .vcv-layout-bar {
       width: auto !important;
       height: auto !important;
@@ -212,14 +180,7 @@
       width: 100% !important;
     }
   }
-  &.vcv-layout-dock--detached {
-    .vcv-layout-bar-content-start, .vcv-layout-bar-content-all {
-      width: 100% !important;
-    }
-    .vcv-layout-bar-content {
-      width: auto !important;
-    }
-  }
+
   //vcv-layout-bar
 
   //== Default sizes
@@ -244,15 +205,6 @@
     width: @editor-layout-content-all-width;
     min-height: @editor-layout-content-all-min-height;
     min-width: @editor-layout-content-all-min-width;
-  }
-  &.vcv-layout-dock--detached {
-    .vcv-layout-bar {
-      width: @editor-layout-content-width;
-      min-width: @editor-layout-content-min-width;
-    }
-    .vcv-layout-bar-content {
-      min-height: @editor-layout-content-start-min-height + @editor-layout-content-end-min-height;
-    }
   }
   @media (max-width: (@editor-layout-content-start-min-width + @editor-layout-content-end-min-width)) {
     .vcv-ui-content-start--visible.vcv-ui-content-end--visible {

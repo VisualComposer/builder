@@ -111,6 +111,7 @@ add('wordpressWorkspace', (api) => {
         <StartBlankPanel unmountStartBlank={removeStartBlank} />,
         iframeContent
       )
+      workspaceStorage.state('navbarDisabled').set(false)
     }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
@@ -162,6 +163,8 @@ add('wordpressWorkspace', (api) => {
         }
         removeStartBlank()
         isBlank = false
+      } else {
+        workspaceStorage.state('navbarDisabled').set(false)
       }
       settingsStorage.state('skipBlank').set(false)
     })

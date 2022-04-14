@@ -6,7 +6,6 @@ import Resizer from '../resizer/resizer'
 import { bindEditorKeys } from 'public/tools/comboKeys'
 
 const workspaceStorage = getStorage('workspace')
-const workspaceStorageNavbarBoundingRectState = workspaceStorage.state('navbarBoundingRect')
 
 export default class Workspace extends React.Component {
   static propTypes = {
@@ -25,7 +24,6 @@ export default class Workspace extends React.Component {
       isNavbarDisabled: true
     }
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleNavbarStateChange = this.handleNavbarStateChange.bind(this)
   }
 
@@ -55,26 +53,6 @@ export default class Workspace extends React.Component {
     }
   }
 
-  handleMouseUp () {
-    const dragState = workspaceStorage.state('drag').get()
-    if (dragState && Object.prototype.hasOwnProperty.call(dragState, 'active') && dragState.active) {
-      workspaceStorage.state('drag').set({ active: false })
-    }
-  }
-
-  resizeCallback = (e) => {
-    if (e && e.direction) {
-      const rect = workspaceStorageNavbarBoundingRectState
-      if (e.direction === 'top') {
-        rect.resizeTop = e.offsetY
-        rect.set(rect)
-      } else if (e.direction === 'left') {
-        rect.resizeLeft = e.offsetX
-        rect.set(rect)
-      }
-    }
-  }
-
   render () {
     const { hasContent, stickyBar } = this.props
     const layoutClasses = ClassNames({
@@ -86,7 +64,7 @@ export default class Workspace extends React.Component {
 
     return (
       <div
-        className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp} ref={(workspace) => {
+        className={layoutClasses} style={stickyBar} ref={(workspace) => {
           if (workspace && workspace.ownerDocument) {
             this.document = workspace.ownerDocument
           }
@@ -94,71 +72,6 @@ export default class Workspace extends React.Component {
       >
         <div className='vcv-layout-bar-overlay' />
         {this.props.children}
-        <Resizer params={{
-          resizeTop: true,
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-top',
-          callback: this.resizeCallback
-        }}
-        />
-        <Resizer params={{
-          resizeBottom: true,
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom',
-          callback: this.resizeCallback
-        }}
-        />
-        <Resizer params={{
-          resizeLeft: true,
-          resizeTop: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-top',
-          callback: this.resizeCallback
-        }}
-        />
-        <Resizer params={{
-          resizeLeft: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left',
-          callback: this.resizeCallback
-        }}
-        />
-        <Resizer params={{
-          resizeLeft: true,
-          resizeBottom: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-bottom',
-          callback: this.resizeCallback
-        }}
-        />
-
-        <Resizer params={{
-          resizeRight: true,
-          resizeTop: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-top',
-          callback: this.resizeCallback
-        }}
-        />
-        <Resizer params={{
-          resizeRight: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right',
-          callback: this.resizeCallback
-        }}
-        />
-        <Resizer params={{
-          resizeRight: true,
-          resizeBottom: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-bottom',
-          callback: this.resizeCallback
-        }}
-        />
       </div>
     )
   }
