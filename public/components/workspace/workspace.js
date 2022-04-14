@@ -2,7 +2,6 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { getStorage, onDataChange, ignoreDataChange } from 'vc-cake'
 import PropTypes from 'prop-types'
-import Resizer from '../resizer/resizer'
 import { bindEditorKeys } from 'public/tools/comboKeys'
 
 const workspaceStorage = getStorage('workspace')
