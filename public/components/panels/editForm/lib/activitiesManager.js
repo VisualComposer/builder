@@ -26,7 +26,7 @@ export default class ActivitiesManager extends React.Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    if (!lodash.isEqual(nextProps, this.props)) {
+    if (!lodash.isEqual(nextProps.id, this.props.id)) {
       this.mount = {}
       this.stack = {}
       this.mountStack = {}
