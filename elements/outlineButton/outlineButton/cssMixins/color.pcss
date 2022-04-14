@@ -1,8 +1,8 @@
-.vce-button {
+.vce-button.vce-button {
   &--style-outline--color-$selector {
     a&,
     button& {
-      &, &:not(:hover):not(:active) {
+      &, &:not(:hover):not(:active):not(:focus) {
         color: $color;
       }
       &:hover {
@@ -19,7 +19,7 @@
   &--style-outline-animated-slidein--color-$selector {
     a&,
     button& {
-      &, &:not(:hover):not(:active) {
+      &, &:not(:hover):not(:active):not(:focus) {
         color: $color;
       }
       &:hover {

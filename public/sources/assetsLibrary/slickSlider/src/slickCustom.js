@@ -165,6 +165,9 @@ import './slickCustom.less';
       _.selectHandler = $.proxy(_.selectHandler, _);
       _.setPosition = $.proxy(_.setPosition, _);
       _.swipeHandler = $.proxy(_.swipeHandler, _);
+      _.swipeHandlerStart = $.proxy(_.swipeHandlerStart, _);
+      _.swipeHandlerMove = $.proxy(_.swipeHandlerMove, _);
+      _.swipeHandlerEnd = $.proxy(_.swipeHandlerEnd, _);
       _.dragHandler = $.proxy(_.dragHandler, _);
       _.keyHandler = $.proxy(_.keyHandler, _);
 
@@ -769,20 +772,20 @@ import './slickCustom.less';
       }
     }
 
-    if (_.$list) {
-      document.removeEventListener('touchstart', _.swipeHandler, true)
-      document.removeEventListener('mousedown', _.swipeHandler, true)
+    if (_.$list && _.$list[0]) {
+      _.$list[0].removeEventListener('touchstart', _.swipeHandlerStart);
+      _.$list[0].removeEventListener('mousedown', _.swipeHandlerStart);
 
-      document.removeEventListener('touchmove', _.swipeHandler, true)
-      document.removeEventListener('mousemove', _.swipeHandler, true)
+      _.$list[0].removeEventListener('touchmove', _.swipeHandlerMove);
+      _.$list[0].removeEventListener('mousemove', _.swipeHandlerMove);
 
-      document.removeEventListener('touchend', _.swipeHandler, true)
-      document.removeEventListener('mouseup', _.swipeHandler, true)
+      _.$list[0].removeEventListener('touchend', _.swipeHandlerEnd);
+      _.$list[0].removeEventListener('mouseup', _.swipeHandlerEnd);
 
-      document.removeEventListener('touchcancel', _.swipeHandler, true)
-      document.removeEventListener('mouseleave', _.swipeHandler, true)
+      _.$list[0].removeEventListener('touchcancel', _.swipeHandlerEnd);
+      _.$list[0].removeEventListener('mouseleave', _.swipeHandlerEnd);
 
-      document.removeEventListener('click', _.clickHandler, true)
+      _.$list[0].removeEventListener('click', _.clickHandler)
     }
 
     $(document).off(_.visibilityChange, _.visibility);
@@ -1446,17 +1449,17 @@ import './slickCustom.less';
       console.warn('Passive event handling warn e: ', e)
     }
 
-    _.$list[0].addEventListener('touchstart', _.swipeHandler.bind(window, 'start'), supportsPassive ? { passive: true } : false)
-    _.$list[0].addEventListener('mousedown', _.swipeHandler.bind(window, 'start'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('touchstart', _.swipeHandlerStart, supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('mousedown', _.swipeHandlerStart, supportsPassive ? { passive: true } : false)
 
-    _.$list[0].addEventListener('touchmove', _.swipeHandler.bind(window, 'move'), supportsPassive ? { passive: true } : false)
-    _.$list[0].addEventListener('mousemove', _.swipeHandler.bind(window, 'move'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('touchmove', _.swipeHandlerMove, supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('mousemove', _.swipeHandlerMove, supportsPassive ? { passive: true } : false)
 
-    _.$list[0].addEventListener('mouseup', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
-    _.$list[0].addEventListener('touchend', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('mouseup', _.swipeHandlerEnd, supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('touchend', _.swipeHandlerEnd, supportsPassive ? { passive: true } : false)
 
-    _.$list[0].addEventListener('touchcancel', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
-    _.$list[0].addEventListener('mouseleave', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('touchcancel', _.swipeHandlerEnd, supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('mouseleave', _.swipeHandlerEnd, supportsPassive ? { passive: true } : false)
 
     _.$list[0].addEventListener('click', _.clickHandler, supportsPassive ? {passive: true} : false)
 
@@ -2770,8 +2773,22 @@ import './slickCustom.less';
 
   };
 
-  Slick.prototype.swipeHandler = function (action, event) {
+  Slick.prototype.swipeHandlerStart = function (event) {
+    var _ = this;
+    _.swipeHandler('start', event);
+  };
 
+  Slick.prototype.swipeHandlerMove = function (event) {
+    var _ = this;
+    _.swipeHandler('move', event);
+  };
+
+  Slick.prototype.swipeHandlerEnd = function (event) {
+    var _ = this;
+    _.swipeHandler('end', event);
+  };
+
+  Slick.prototype.swipeHandler = function (action, event) {
     var _ = this;
 
     if ((_.options.swipe === false) || ('ontouchend' in document && _.options.swipe === false)) {
