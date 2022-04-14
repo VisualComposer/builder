@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
-import lodash from 'lodash'
 import { getRealSize } from './tools'
 import { Scrollbars } from 'react-custom-scrollbars'
 import MobileDetect from 'mobile-detect'
