@@ -157,7 +157,7 @@ class WpmlController extends Container implements Module
         if ($pageContentIndex !== false) {
             $pageContent = json_decode(
             // @codingStandardsIgnoreLine
-                rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data_translated)),
+                rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data)),
                 true
             );
             $elements = $job->elements;
