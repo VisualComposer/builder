@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use SitePress;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
@@ -28,120 +29,139 @@ class WpmlController extends Container implements Module
 
     protected function initialize(Request $requestHelper)
     {
-        if (defined('ICL_SITEPRESS_VERSION')) {
-            $this->localizationsHelper = vchelper('Localizations');
-
-            $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
-            $this->addFilter('vcv:frontend:url', 'addLangToLink');
-            $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
-            $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
-            $this->addFilter('vcv:linkSelector:url', 'addLanguageDetails');
-            $this->wpAddAction(
-                'save_post',
-                'insertTrid'
-            );
-            $this->wpAddAction('admin_print_scripts', 'outputWpml');
-            if (class_exists('\SitePress')) {
-                /** @see \VisualComposer\Modules\Vendors\WpmlController::disableGutenberg */
-                $this->wpAddAction(
-                    'current_screen',
-                    'disableGutenberg',
-                    11
-                );
-            }
-            if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
-                global $sitepress;
-                remove_action(
-                    'wp_loaded',
-                    [
-                        $sitepress,
-                        'maybe_set_this_lang',
-                    ]
-                );
-            }
-
-            $this->wpAddFilter(
-                'wpml_tm_translation_job_data',
-                'prepareTranslationJobData',
-                11,
-                2
-            );
-
-            $this->wpAddFilter(
-                'wpml_tm_job_fields',
-                'completeTranslationJobSaving',
-                11,
-                2
-            );
-
-            $this->wpAddAction(
-                'wpml_translation_job_saved',
-                function ($newPostId) {
-                    $optionsHelper = vchelper('Options');
-                    $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
-                    if (!is_array($updatePosts)) {
-                        $updatePosts = [];
-                    }
-                    $updatePosts[] = $newPostId;
-                    // Mark post as pending for update
-                    $optionsHelper->set('hubAction:updatePosts', array_unique($updatePosts));
-                    $optionsHelper->set('bundleUpdateRequired', 1);
-                }
-            );
-
-            $this->wpAddAction('admin_notices', 'createNotice');
+        if (!defined('ICL_SITEPRESS_VERSION')) {
+            return;
         }
+
+        $this->localizationsHelper = vchelper('Localizations');
+
+        $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
+        $this->addFilter('vcv:frontend:url', 'addLangToLink');
+        $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
+        $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
+        $this->addFilter('vcv:linkSelector:url', 'addLanguageDetails');
+        $this->wpAddAction(
+            'save_post',
+            'insertTrid'
+        );
+        $this->wpAddAction('admin_print_scripts', 'outputWpml');
+        if (class_exists('\SitePress')) {
+            /** @see \VisualComposer\Modules\Vendors\WpmlController::disableGutenberg */
+            $this->wpAddAction(
+                'current_screen',
+                'disableGutenberg',
+                11
+            );
+        }
+        if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
+            global $sitepress;
+            remove_action(
+                'wp_loaded',
+                [
+                    $sitepress,
+                    'maybe_set_this_lang',
+                ]
+            );
+        }
+
+        $this->wpAddFilter(
+            'wpml_tm_translation_job_data',
+            'prepareTranslationJobData',
+            11,
+            2
+        );
+
+        $this->wpAddFilter(
+            'wpml_tm_job_fields',
+            'completeTranslationJobSaving',
+            11,
+            2
+        );
+
+        $this->wpAddAction(
+            'wpml_translation_job_saved',
+            function ($newPostId) {
+                $optionsHelper = vchelper('Options');
+                $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
+                if (!is_array($updatePosts)) {
+                    $updatePosts = [];
+                }
+                $updatePosts[] = $newPostId;
+                // Mark post as pending for update
+                $optionsHelper->set('hubAction:updatePosts', array_unique($updatePosts));
+                $optionsHelper->set('bundleUpdateRequired', 1);
+            }
+        );
+
+        $this->wpAddAction('admin_notices', 'createNotice');
     }
 
-    protected function prepareTranslationJobData($package, $post)
+    /**
+     * Add our editor vcv-pageContent meta to translation package.
+     *
+     * @param array $package
+     *
+     * @return array
+     */
+    protected function prepareTranslationJobData($package)
     {
-        if (isset($package['contents'])) {
-            $fields = $package['contents'];
+        if (!isset($package['contents'])) {
+            return $package;
+        }
 
-            foreach ($fields as $fieldKey => $field) {
-                if ($fieldKey === 'field-vcv-pageContent-0') {
-                    // Make the magic
-                    $pageContent = json_decode(rawurldecode(base64_decode($field['data'])), true);
+        $fields = $package['contents'];
 
-                    $translations = [];
-                    foreach ($pageContent['elements'] as $elementId => $valueElement) {
-                        $translations = array_merge(
-                            $translations,
-                            $this->getTranslations($valueElement, [$elementId])
-                        );
-                    }
+        foreach ($fields as $fieldKey => $field) {
+            if ($fieldKey === 'field-vcv-pageContent-0') {
+                // Make the magic
+                $pageContent = json_decode(rawurldecode(base64_decode($field['data'])), true);
 
-                    // Create new sub-list of pageContent inner fields as separate fields for xcliff file
-                    if (!empty($translations)) {
-                        foreach ($translations as $translation) {
-                            // we have 'path' and 'value'
-                            $key = implode('.', $translation['path']);
-                            $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0' ] = [
-                                'translate' => 1,
-                                'data' => base64_encode($translation['value']),
-                                'format' => 'base64',
-                            ];
-                            $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-name' ] = [
-                                'translate' => 0,
-                                'data' => 'vcv-pageContentField--' . $key,
-                            ];
-                            $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-type' ] = [
-                                'translate' => 0,
-                                'data' => 'custom_field',
-                            ];
-                        }
-                    }
-                    // Remove 'body' as it not needed
-                    if ($fieldKey === 'body') {
-                        unset($package['contents'][ $fieldKey ]);
+                $translations = [];
+                foreach ($pageContent['elements'] as $elementId => $valueElement) {
+                    $translations = array_merge(
+                        $translations,
+                        $this->getTranslations($valueElement, [$elementId])
+                    );
+                }
+
+                // Create new sub-list of pageContent inner fields as separate fields for xcliff file
+                if (!empty($translations)) {
+                    foreach ($translations as $translation) {
+                        // we have 'path' and 'value'
+                        $key = implode('.', $translation['path']);
+                        $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0' ] = [
+                            'translate' => 1,
+                            'data' => base64_encode($translation['value']),
+                            'format' => 'base64',
+                        ];
+                        $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-name' ] = [
+                            'translate' => 0,
+                            'data' => 'vcv-pageContentField--' . $key,
+                        ];
+                        $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-type' ] = [
+                            'translate' => 0,
+                            'data' => 'custom_field',
+                        ];
                     }
                 }
+            }
+            // Remove 'body' as it not needed
+            if ($fieldKey === 'body') {
+                unset($package['contents'][ $fieldKey ]);
             }
         }
 
         return $package;
     }
 
+    /**
+     * Translate our vcv-pageContent editor meta.
+     *
+     * @param $fields
+     * @param $job
+     *
+     * @return mixed
+     */
     protected function completeTranslationJobSaving($fields, $job)
     {
         // update JOB->elements (obj by reference)
@@ -154,48 +174,49 @@ class WpmlController extends Container implements Module
         );
 
         // We have vcv-pageContent field continue translation
-        if ($pageContentIndex !== false) {
-            $pageContent = json_decode(
-            // @codingStandardsIgnoreLine
-                rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data)),
-                true
-            );
-            $elements = $job->elements;
-            foreach ($elements as $index => $field) {
-                if (
-                    // @codingStandardsIgnoreLine
-                    $field->field_finished && isset($field->field_type)
-                    && strpos(
-                    // @codingStandardsIgnoreLine
-                        $field->field_type,
-                        'field-vcv-pageContentField--'
-                    ) !== false
-                ) {
-                    // @codingStandardsIgnoreLine
-                    if (substr($field->field_type, -2) === '-0') {
-                        // actual field with value
-                        $path = 'elements.';
-                        $path .= substr(
-                        // @codingStandardsIgnoreLine
-                            str_replace('field-vcv-pageContentField--', '', $field->field_type),
-                            0,
-                            -2
-                        );
-                        // @codingStandardsIgnoreLine
-                        $value = base64_decode($field->field_data_translated);
-
-                        $dataHelper->set($pageContent, $path, $value);
-                    }
-                    unset($job->elements[ $index ]);
-                }
-            }
-
-            // Encode back updated translation
-            // @codingStandardsIgnoreLine
-            $job->elements[ $pageContentIndex ]->field_data_translated = base64_encode(
-                rawurlencode(json_encode($pageContent))
-            );
+        if ($pageContentIndex === false) {
+            return $fields;
         }
+
+        $pageContent = json_decode(
+            // @codingStandardsIgnoreLine
+            rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data)),
+            true
+        );
+        $elements = $job->elements;
+        foreach ($elements as $index => $field) {
+            // @codingStandardsIgnoreLine
+            $isFieldPostContent = isset($field->field_type) &&
+                // @codingStandardsIgnoreLine
+                strpos($field->field_type, 'field-vcv-pageContentField--') !== false;
+
+            // @codingStandardsIgnoreLine
+            if ( !$field->field_finished ||  !$isFieldPostContent) {
+                continue;
+            }
+            // @codingStandardsIgnoreLine
+            if (substr($field->field_type, -2) === '-0') {
+                // actual field with value
+                $path = 'elements.';
+                $path .= substr(
+                // @codingStandardsIgnoreLine
+                    str_replace('field-vcv-pageContentField--', '', $field->field_type),
+                    0,
+                    -2
+                );
+                // @codingStandardsIgnoreLine
+                $value = base64_decode($field->field_data_translated);
+
+                $dataHelper->set($pageContent, $path, $value);
+            }
+            unset($job->elements[ $index ]);
+        }
+
+        // Encode back updated translation
+        // @codingStandardsIgnoreLine
+        $job->elements[ $pageContentIndex ]->field_data_translated = base64_encode(
+            rawurlencode(json_encode($pageContent))
+        );
 
         return $fields;
     }
@@ -264,7 +285,7 @@ class WpmlController extends Container implements Module
             && !$requestHelper->exists('vcv-set-editor')
         ) {
             $trid = intval($requestHelper->input('trid'));
-            $sourceElementId = \SitePress::get_original_element_id_by_trid($trid);
+            $sourceElementId = SitePress::get_original_element_id_by_trid($trid);
             if ($sourceElementId) {
                 $isVc = get_post_meta($sourceElementId, VCV_PREFIX . 'pageContent', true);
                 if (!empty($isVc)) {
@@ -322,7 +343,7 @@ class WpmlController extends Container implements Module
         return $url;
     }
 
-    protected function insertTrid($id, $post, Request $requestHelper)
+    protected function insertTrid($id, Request $requestHelper)
     {
         $trid = $requestHelper->input('trid');
         if ($trid) {
