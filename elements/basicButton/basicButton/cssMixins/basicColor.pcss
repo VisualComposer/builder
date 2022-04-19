@@ -9,17 +9,13 @@
       background-color: $background;
     }
   }
-    &:hover {
+    &:hover,
+    &:focus {
       @if $color != false {
         color: $color;
       }
       @if $background != false {
         background-color: color($background shade(10%));
-      }
-    }
-    &:focus {
-      @if $color != false {
-        color: $color;
       }
     }
   }
