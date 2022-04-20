@@ -25,6 +25,7 @@ jobs:
           channel: visual-composer
           event: fail
           template: basic_fail_1
+          branch_pattern: master
   php-codestyle:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
@@ -40,6 +41,7 @@ jobs:
           channel: visual-composer
           event: fail
           template: basic_fail_1
+          branch_pattern: master
   php-tests:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
@@ -84,6 +86,7 @@ jobs:
           channel: visual-composer
           event: fail
           template: basic_fail_1
+          branch_pattern: master
   end-2-end-tests-chrome:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
@@ -317,6 +320,7 @@ jobs:
           channel: visual-composer
           event: fail
           template: basic_fail_1
+          branch_pattern: master
   js-stores-tests:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
@@ -340,6 +344,7 @@ jobs:
           channel: visual-composer
           event: fail
           template: basic_fail_1
+          branch_pattern: master
 workflows:
   version: 2
   codestyle:
