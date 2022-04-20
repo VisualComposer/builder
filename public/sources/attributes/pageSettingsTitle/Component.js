@@ -101,7 +101,6 @@ export default class PageSettingsTitle extends Attribute {
     if (env('VCV_DEBUG')) {
       console.warn(responseData)
     }
-
   }
 
   updatePageTitle (title) {
