@@ -90,6 +90,8 @@ class WpmlController extends Container implements Module
             );
 
             $this->wpAddAction('admin_notices', 'createNotice');
+
+            $this->wpAddFilter('posts_where', 'postsWhereFilter', 5, 1);
         }
     }
 
@@ -375,5 +377,24 @@ class WpmlController extends Container implements Module
                 'type' => 'constant',
             ]
         );
+    }
+
+    /**
+     * Add missing request parameters.
+     *
+     * @param string $where
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @return mixed
+     */
+    protected function postsWhereFilter($where, Request $requestHelper)
+    {
+        global $post;
+
+        if (!empty($post->ID)) {
+            $_REQUEST['post_id'] = $post->ID;
+        }
+
+        return $where;
     }
 }
