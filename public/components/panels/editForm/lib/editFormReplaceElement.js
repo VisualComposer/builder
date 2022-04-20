@@ -26,7 +26,8 @@ export default class EditFormReplaceElement extends React.Component {
     })
     const currentElementAttributes = [
       ...editFormTabSettings,
-      'parent'
+      'parent',
+      'order'
     ]
     const replaceElementMergeData = {
       tag
