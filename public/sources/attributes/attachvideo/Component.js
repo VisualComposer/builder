@@ -39,6 +39,8 @@ export default class AttachVideo extends Attribute {
     this.handleSortEnd = this.handleSortEnd.bind(this)
     this.handleDrop = this.handleDrop.bind(this)
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
+
+    this.initMediaGlobals()
   }
 
   componentDidMount () {
