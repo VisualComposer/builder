@@ -73,6 +73,7 @@ export default class AttachImage extends Attribute {
       url: props.options.url
     }
 
+    this.initMediaGlobals()
     this.init()
   }
 
