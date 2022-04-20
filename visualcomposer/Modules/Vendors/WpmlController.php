@@ -8,7 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use SitePress;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
@@ -285,7 +284,7 @@ class WpmlController extends Container implements Module
             && !$requestHelper->exists('vcv-set-editor')
         ) {
             $trid = intval($requestHelper->input('trid'));
-            $sourceElementId = SitePress::get_original_element_id_by_trid($trid);
+            $sourceElementId = \SitePress::get_original_element_id_by_trid($trid);
             if ($sourceElementId) {
                 $isVc = get_post_meta($sourceElementId, VCV_PREFIX . 'pageContent', true);
                 if (!empty($isVc)) {
