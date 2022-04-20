@@ -64,8 +64,6 @@ export default class PageSettingsTitle extends Attribute {
     const postData = settingsStorage.state('postData').get()
     postData.post_title = newValue
 
-    settingsStorage.state('postData').set(postData)
-
     this.delayedUrlSlugUpdate(newValue)
 
     settingsStorage.state('postData').set(postData)
@@ -103,7 +101,7 @@ export default class PageSettingsTitle extends Attribute {
     if (env('VCV_DEBUG')) {
       console.warn(responseData)
     }
->>>>>>> master
+
   }
 
   updatePageTitle (title) {
