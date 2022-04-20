@@ -42,8 +42,11 @@ const api = {
       id: id,
       parent: data.parent || false
     }
-    if (!options || !options.insertAfter) {
+    if (!options || (!options.insertAfter && !options.insertInstead)) {
       objectData.order = dataStore.getLastOrderIndex(data.parent || false)
+    }
+    if (options && options.insertInstead && data.order) {
+      objectData.order = data.order
     }
     const obj = Immutable.Map(data).mergeDeep(objectData)
     dataStore.data = dataStore.data.set(id, obj)
