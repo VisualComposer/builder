@@ -26,7 +26,9 @@ export default class ActivitiesManager extends React.Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    if (!lodash.isEqual(nextProps.id, this.props.id)) {
+    const isEqualId = lodash.isEqual(nextProps.elementAccessPoint.id, this.props.elementAccessPoint.id)
+    const isEqualNestedId = lodash.isEqual(nextProps?.options?.parentElementAccessPoint?.id, this.props?.options?.parentElementAccessPoint?.id)
+    if (!isEqualId || !isEqualNestedId) {
       this.mount = {}
       this.stack = {}
       this.mountStack = {}
