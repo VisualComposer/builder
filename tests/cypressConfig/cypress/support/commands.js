@@ -538,11 +538,15 @@
     cy.get('.vcv-ui-edit-form-section-header')
       .contains(settings.sectionName)
       .next()
-      .find('.vcv-ui-replace-element-block .vcv-ui-form-button')
       .click()
   
     cy.get('.vcv-ui-replace-element-block .vcv-ui-item-list-item')
       .contains(settings.elementName)
+      .click()
+
+    cy.get('.vcv-ui-edit-form-section-header')
+      .contains(settings.sectionName)
+      .next()
       .click()
   })
   
