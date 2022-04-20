@@ -432,6 +432,7 @@
     const titleRegex = new RegExp(`^${title}$`, 'gi')
     cy.get('.vcv-ui-form-group-heading')
       .contains(titleRegex)
+      .parent()
       .then(($field) => {
         cy.wrap($field)
           .next('div')
