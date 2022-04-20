@@ -432,3 +432,121 @@
     }
   }
 }
+
+.vcv-ui-element-resize-control-wrapper {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.vce-column-resizer.vce-column-resizer--side {
+  position: absolute;
+  z-index: 1025;
+  pointer-events: none;
+  cursor: col-resize;
+  opacity: 1;
+  visibility: visible;
+
+  .vce-column-resizer-handler:first-child {
+    left: -5px;
+  }
+
+  .vce-column-resizer-handler:last-child {
+    right: -5px;
+  }
+
+  .vce-column-resizer-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    pointer-events: auto;
+    top: 0;
+    width: 10px;
+    height: 100%;
+  }
+
+  .vce-add-column {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    cursor: pointer;
+  }
+}
+
+.vce-element-resize--left {
+  .vce-column-resizer-label--side:hover {
+    .vce-column-resizer-label-left {
+      width: 50px;
+    }
+    .vce-column-resizer-label-right {
+      width: 35px;
+    }
+  }
+}
+
+.vce-element-resize--right {
+  .vce-column-resizer-label--side:hover {
+    .vce-column-resizer-label-left {
+      width: 35px;
+    }
+    .vce-column-resizer-label-right {
+      width: 50px;
+    }
+  }
+}
+
+.vce-column-resizer-label--side:hover {
+  .vce-column-resizer-label {
+    opacity: 1;
+    background: #283AA5;
+  }
+
+  .vce-column-resizer-label-percentage {
+    opacity: 1;
+  }
+}
+
+.vce-column-resizer-label-right .vce-add-column {
+  right: 0;
+  padding: 8px 12px 8px 5px;
+}
+
+.vce-column-resizer-label-left .vce-add-column {
+  left: 0;
+  padding: 8px 5px 8px 12px;
+}
+
+.vce-column-resizer--no-resize {
+  .vce-add-column {
+    pointer-events: auto;
+  }
+
+  .vce-column-resizer-label-container {
+    &:before {
+      display: none;
+    }
+  }
+
+  .vce-column-resizer-label-percentage {
+    opacity: 1;
+  }
+
+  &.vce-column-resizer--side .vce-column-resizer-handler {
+    pointer-events: none;
+  }
+
+  .vce-element-resize--left .vce-column-resizer-label-left,
+  .vce-element-resize--right .vce-column-resizer-label-right {
+    display: none;
+  }
+
+  .vce-element-resize--left .vce-column-resizer-label--side .vce-column-resizer-label-right,
+  .vce-element-resize--right .vce-column-resizer-label--side .vce-column-resizer-label-left {
+    width: 35px;
+  }
+}

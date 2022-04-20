@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
+import { columnResizeDataChanged, columnResizerDraggingIdChanged } from '../../editor/stores/controls/slice'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import Layout from 'public/sources/attributes/rowLayout/Component'
@@ -8,9 +10,9 @@ import { debounce } from 'lodash'
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
 const documentService = vcCake.getService('document')
-let previousLayoutCustomMode = false
+let previousLayoutCustomMode = ''
 
-export default class ColumnResizer extends React.Component {
+class ColumnResizer extends React.PureComponent {
   static defaultGridPercentage = [20, 25, 33.33, 50, 66.66, 75]
 
   static deviceViewports = {
@@ -55,7 +57,8 @@ export default class ColumnResizer extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleLabelState = this.handleLabelState.bind(this)
-    this.handleResizerState = this.handleResizerState.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
     this.setVisibility = debounce(this.setVisibility.bind(this), 50)
   }
@@ -84,16 +87,19 @@ export default class ColumnResizer extends React.Component {
         mode: 'columnResizer',
         options: {}
       }
+      this.props.columnResizerDraggingIdChanged(this.props.rowId)
       vcCake.setData('vcv:layoutCustomMode', data)
       iframeDocument.addEventListener('mousemove', this.handleMouseMove)
       iframeDocument.addEventListener('mouseup', this.handleMouseUp)
       vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
     } else if (!this.state.dragging && prevState.dragging) {
-      const newLayoutMode = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
+      const setPrevMode = previousLayoutCustomMode === 'contentEditable' || previousLayoutCustomMode === 'columnResizerHover'
+      const newLayoutMode = setPrevMode ? previousLayoutCustomMode : null
       data = {
         mode: newLayoutMode,
         options: {}
       }
+      this.props.columnResizerDraggingIdChanged(null)
       vcCake.setData('vcv:layoutCustomMode', newLayoutMode ? data : null)
       vcCake.setData('vcv:layoutColumnResize', null)
       iframeDocument.removeEventListener('mousemove', this.handleMouseMove)
@@ -124,10 +130,12 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleLabelState (e) {
-    const newState = {
-      isLabelsActive: !this.state.isLabelsActive
+    if (this.state.dragging) {
+      return
     }
+    const newState = {}
     if (e.type === 'mouseenter') {
+      newState.isLabelsActive = true
       const Event = new window.MouseEvent('mouseenter', {
         clientX: e.currentTarget.getBoundingClientRect().x
       })
@@ -157,6 +165,7 @@ export default class ColumnResizer extends React.Component {
       newState.leftColPercentage = colSizes.leftCol
       newState.rightColPercentage = colSizes.rightCol
     } else {
+      newState.isLabelsActive = false
       window.setTimeout(() => {
         newState.leftColValue = null
         newState.rightColValue = null
@@ -173,17 +182,24 @@ export default class ColumnResizer extends React.Component {
     }
   }
 
-  handleResizerState () {
-    if (!this.state.dragging) {
-      vcCake.setData('vcv:layoutCustomMode', this.state.isResizerActive ? undefined : {
-        mode: 'columnResizerHover',
-        options: {}
-      })
-      this.setState({
-        isResizerActive: !this.state.isResizerActive,
-        labelPosition: null
-      })
+  handleMouseEnter () {
+    if (this.state.dragging) {
+      return
     }
+    this.props.columnResizeDataChanged({
+      mode: 'columnResizerHover',
+      id: this.props.rowId
+    })
+    this.setState({
+      labelPosition: null
+    })
+  }
+
+  handleMouseLeave () {
+    if (this.state.dragging) {
+      return
+    }
+    this.props.columnResizeDataChanged({})
   }
 
   getRowData (e) {
@@ -259,6 +275,7 @@ export default class ColumnResizer extends React.Component {
         leftColValue: null,
         rightColValue: null,
         leftColPercentage: colSizes.leftCol,
+        isLabelsActive: true,
         rightColPercentage: colSizes.rightCol
       })
       layoutStorage.state('resizeColumns').set(true)
@@ -315,7 +332,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleMouseUp () {
-    this.setState({ dragging: false })
+    this.setState({ dragging: false, labelPosition: null })
     this.removeWrapBlockers()
     this.rebuildRowLayout()
     setTimeout(() => {
@@ -556,16 +573,14 @@ export default class ColumnResizer extends React.Component {
 
     const columnResizerClasses = classNames({
       'vce-column-resizer': true,
-      vcvhelper: true,
-      'vce-column-resizer--active': this.state.isResizerActive,
-      'vce-column-resizer--hidden': !this.state.isResizerVisible || vcCake.getData('vcv:layoutCustomMode')?.mode === 'dnd'
+      vcvhelper: true
     })
 
     return (
       <div
         className={columnResizerClasses}
-        onMouseOver={this.handleResizerState}
-        onMouseOut={this.handleResizerState}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         ref={this.resizerRef}
       >
         <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
@@ -586,3 +601,10 @@ export default class ColumnResizer extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  columnResizeDataChanged: (data) => dispatch(columnResizeDataChanged(data)),
+  columnResizerDraggingIdChanged: (data) => dispatch(columnResizerDraggingIdChanged(data))
+})
+
+export default connect(null, mapDispatchToProps)(ColumnResizer)

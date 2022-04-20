@@ -37,7 +37,7 @@ function updateAppendContainerPosition (vcElementId, iframeDocument, appendContr
   }
 }
 
-const AppendControl = ({ data = {} }) => {
+const AppendControl = ({ data = {}, columnResizeData }) => {
   const { vcElementsPath, vcElementId } = data
   const controlContainer = useRef()
   const [containerPos, setContainerPos] = useState(false)
@@ -61,6 +61,10 @@ const AppendControl = ({ data = {} }) => {
       settingsStorage.state('pageTemplate').ignoreChange(handleSettingsChange)
     }
   }, [setPositionState])
+
+  if (columnResizeData.mode) {
+    return null
+  }
 
   const localizations = dataManager.get('localizations')
   const addElementText = localizations ? localizations.addElement : 'Add Element'
@@ -120,7 +124,8 @@ const AppendControl = ({ data = {} }) => {
 }
 
 const mapStateToProps = state => ({
-  data: state.controls.appendControlData
+  data: state.controls.appendControlData,
+  columnResizeData: state.controls.columnResizeData
 })
 
 export default connect(mapStateToProps)(AppendControl)

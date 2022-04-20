@@ -6,6 +6,7 @@ import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import { isEqual, defer, cloneDeep } from 'lodash'
 import PropTypes from 'prop-types'
 import EmptyCommentElementWrapper from './emptyCommentElementWrapper.tsx'
+import ElementInner from './elementInner'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -111,7 +112,8 @@ export default class Element extends React.Component {
   getContent (content) {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
-    const elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
+    const currentElementId = currentElement.get('id')
+    const elementsList = DocumentData.children(currentElementId).map((childElement) => {
       const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
         if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) || !this.state.element.metaIsElementLocked) {
@@ -119,13 +121,14 @@ export default class Element extends React.Component {
             <ColumnResizer
               key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
               api={this.props.api}
+              rowId={currentElementId}
             />
           )
         }
       }
       return elements
     })
-    const visibleElementsList = DocumentData.children(currentElement.get('id')).filter(childElement => childElement.hidden !== true)
+    const visibleElementsList = DocumentData.children(currentElementId).filter(childElement => childElement.hidden !== true)
     if (visibleElementsList.length) {
       returnData = elementsList
     } else {
@@ -133,7 +136,7 @@ export default class Element extends React.Component {
         if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && currentElement.get('metaIsElementLocked')) {
           returnData = <EmptyCommentElementWrapper />
         } else {
-          returnData = <EmptyCommentElementWrapper><ContentControls api={this.props.api} id={currentElement.get('id')} /></EmptyCommentElementWrapper>
+          returnData = <EmptyCommentElementWrapper><ContentControls api={this.props.api} id={currentElementId} /></EmptyCommentElementWrapper>
         }
       } else {
         returnData = content || <EmptyCommentElementWrapper />
@@ -177,8 +180,10 @@ export default class Element extends React.Component {
     const editor = this.getEditorProps(id, cookElement)
     const rawAtts = cloneDeep(cookElement.getAll(false))
 
+    const ElementComponent = this.props.element.tag === 'row' ? ElementInner : ContentComponent
     return (
-      <ContentComponent
+      <ElementComponent
+        contentComponent={ContentComponent}
         ref={this.elementComponentRef}
         id={id}
         key={'vcvLayoutContentComponent' + id}
@@ -190,7 +195,7 @@ export default class Element extends React.Component {
         {...other}
       >
         {this.getContent()}
-      </ContentComponent>
+      </ElementComponent>
     )
   }
 }

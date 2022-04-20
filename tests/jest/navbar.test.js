@@ -2,7 +2,6 @@
 import vcCake from 'vc-cake'
 import { Provider } from 'react-redux'
 import '../../public/variables'
-import store from 'public/editor/stores/store'
 // Services & Storages
 import '../../public/editor/services/utils/service.js'
 import '../../public/editor/services/dataManager/service.js'
@@ -17,6 +16,7 @@ import '../../public/config/wp-attributes'
 import '../../public/editor/stores/elements/elementsStorage'
 import '../../public/editor/stores/elements/elementSettings'
 import '../../public/editor/modules/elementLimit/module'
+import store from 'public/editor/stores/store'
 
 // React and Enzyme
 import React from 'react'

@@ -5,6 +5,7 @@ import lodash from 'lodash'
 import CustomLayoutDropdown from './customLayoutDropdown'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { fullScreenPopupDataSet, activeFullPopupSet } from 'public/editor/stores/editorPopup/slice'
 
 const settingsStorage = getStorage('settings')
 const enabledVcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
@@ -12,7 +13,6 @@ const allAvailableVcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL && window.VC
 const themeTemplates = window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME && window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME()
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
-const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
 const themeBuilder = env('VCV_FT_JS_THEME_BUILDER_CUSTOM_LAYOUTS')
@@ -95,8 +95,8 @@ export default class TemplateLayoutIcons extends React.Component {
           time: 8000
         }))
       } else {
-        editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-        editorPopupStorage.state('activeFullPopup').set('premium-teaser')
+        store.dispatch(fullScreenPopupDataSet(fullScreenPopupData))
+        store.dispatch(activeFullPopupSet('premium-teaser'))
       }
       return
     }

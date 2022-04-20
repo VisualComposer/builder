@@ -2,6 +2,7 @@ import { addStorage, getService, getStorage } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { assetsAdded } from 'public/editor/stores/sharedAssets/slice'
 
 const getCategory = (tag, categories) => {
   return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
@@ -10,7 +11,6 @@ const getCategory = (tag, categories) => {
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const utils = getService('utils')
-  const sharedAssetsStorage = getStorage('sharedAssets')
   const hubElementsStorage = getStorage('hubElements')
   const dataManager = getService('dataManager')
 
@@ -82,7 +82,7 @@ addStorage('hubTemplates', (storage) => {
                     assetData.cssSubsetBundles[key] = jsonResponse.sharedAssetsUrl + assetData.cssSubsetBundles[key]
                   })
                 }
-                sharedAssetsStorage.trigger('add', assetData)
+                store.dispatch(assetsAdded(assetData))
                 hubElementsStorage.trigger('addCssAssetInEditor', assetData)
               })
             }
