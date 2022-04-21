@@ -39,7 +39,7 @@ export default class PanelsContainer extends React.Component {
 
     innerAPI.mount('panel:editElement', () => {
       const settings = workspace.state('settings').get() || {}
-      const id = settings.elementAccessPoint && settings.elementAccessPoint.id
+      const id = settings && settings.id
       return <EditFormPanel key={`panels-container-editElement-${id}`} />
     })
   }

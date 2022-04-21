@@ -71,7 +71,7 @@ export default class ParamsGroupAttribute extends Attribute {
     }
     const options = {
       nestedAttr: true,
-      parentElementAccessPoint: this.props.elementAccessPoint,
+      parentElementId: this.props.elementAccessPoint.id,
       activeParamGroup: groupData,
       activeParamGroupTitle: groupTitle,
       activeParamGroupIndex: index,

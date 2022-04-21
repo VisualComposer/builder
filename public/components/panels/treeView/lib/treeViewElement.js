@@ -181,10 +181,8 @@ export default class TreeViewElement extends React.Component {
     }
     const options = {}
     if (this.props.isAttribute) {
-      const elementAccessPointService = getService('elementAccessPoint')
-      const elementAccessPoint = elementAccessPointService.getInstance(this.state.element.parent)
       options.child = true
-      options.parentElementAccessPoint = elementAccessPoint
+      options.parentElementId = this.state.element.parent
       options.parentElementOptions = {}
     }
     workspaceStorage.trigger('edit', this.state.element.id, tab, options)
