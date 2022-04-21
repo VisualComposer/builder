@@ -164,10 +164,14 @@ class Controller extends Container implements Module
         Request $requestHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
+        vcevent('vc:editors:dataAjax:before:setData', $payload);
+
         if (!isset($payload['sourceId'])) {
             return ['status' => false]; // sourceId must be provided
         }
         $sourceId = $payload['sourceId'];
+
+
         list($accessCheck, $sourceId) = $this->checkSourceId($sourceId);
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
@@ -193,6 +197,8 @@ class Controller extends Container implements Module
             $response = [];
         }
         $response['status'] = false;
+
+        vcevent('vc:editors:dataAjax:after:setData', $payload);
 
         return $response;
     }
