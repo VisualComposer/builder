@@ -8,14 +8,11 @@ export default class RawJs extends vcvAPI.elementComponent {
     this.props.editor && this.updateJsScript(this.props.atts.rawJs)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (this.props.atts.rawJs !== nextProps.atts.rawJs) {
-      this.props.editor && this.updateJsScript(nextProps.atts.rawJs)
+  componentDidUpdate (prevProps) {
+    if (prevProps.atts.rawJs !== this.props.atts.rawJs) {
+      this.props.editor && this.updateJsScript(this.props.atts.rawJs)
     }
   }
-
-  /* eslint-enable */
 
   updateJsScript (rawJs) {
     const component = this.refs.rawJsWrapper
