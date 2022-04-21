@@ -62,7 +62,7 @@ addStorage('history', (storage) => {
     checkUndoRedo()
   })
   workspaceStorage.state('settings').onChange((data) => {
-    if (data && data.action === 'edit' && data.elementAccessPoint.id) {
+    if (data && data.action === 'edit' && data.id) {
       inited = false
       lockedReason = 'edit'
     } else if (!inited) {

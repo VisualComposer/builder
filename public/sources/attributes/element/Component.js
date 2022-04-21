@@ -332,7 +332,7 @@ export default class ElementAttribute extends Attribute {
     }
 
     const workspaceSettings = vcCake.getStorage('workspace').state('settings').get()
-    const editableElement = workspaceSettings && workspaceSettings.elementAccessPoint ? workspaceSettings.elementAccessPoint.id : false
+    const editableElement = workspaceSettings.id ? workspaceSettings.id : false
     const currentElement = this.props.elementAccessPoint.id
 
     const attributeElementFieldWrapper = (
