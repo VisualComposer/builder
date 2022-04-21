@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import { isEqual } from 'lodash'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -8,20 +9,19 @@ export default class TwitterButton extends vcvAPI.elementComponent {
     this.insertTwitterJs(this.props.atts)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    let { shareText, tweetAccount, tweetButtonSize, buttonType, username, showUsername, hashtagTopic, tweetText } = this.props.atts
-    let elementKey = `customProps:${this.props.id}-${buttonType}-${shareText}-${tweetAccount}-${tweetButtonSize}-${username}-${showUsername}-${hashtagTopic}-${tweetText}`
+  componentDidUpdate (prevProps) {
+    if (!isEqual(this.props.atts, prevProps.atts)) {
+      const { shareText, tweetAccount, tweetButtonSize, buttonType, username, showUsername, hashtagTopic, tweetText } = prevProps.atts
+      const elementKey = `customProps:${prevProps.id}-${buttonType}-${shareText}-${tweetAccount}-${tweetButtonSize}-${username}-${showUsername}-${hashtagTopic}-${tweetText}`
 
-    let nextAtts = nextProps.atts
-    let nextElementKey = `customProps:${nextProps.id}-${nextAtts.buttonType}-${nextAtts.shareText}-${nextAtts.tweetAccount}-${nextAtts.tweetButtonSize}-${nextAtts.username}-${nextAtts.showUsername}-${nextAtts.hashtagTopic}-${nextAtts.tweetText}`
+      const nextAtts = this.props.atts
+      const nextElementKey = `customProps:${this.props.id}-${nextAtts.buttonType}-${nextAtts.shareText}-${nextAtts.tweetAccount}-${nextAtts.tweetButtonSize}-${nextAtts.username}-${nextAtts.showUsername}-${nextAtts.hashtagTopic}-${nextAtts.tweetText}`
 
-    if (elementKey !== nextElementKey) {
-      this.insertTwitterJs(nextProps.atts)
+      if (elementKey !== nextElementKey) {
+        this.insertTwitterJs(this.props.atts)
+      }
     }
   }
-
-  /* eslint-enable */
 
   insertTwitterJs (props) {
     const tag = this.createElementTag(props)
