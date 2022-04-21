@@ -214,7 +214,7 @@ addStorage('elements', (storage) => {
       storage.trigger('remove', parent.id)
       // close editForm if deleted element is opened in edit form
       const settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'edit' && settings.elementAccessPoint && (parent.id === settings.elementAccessPoint.id)) {
+      if (settings && settings.action === 'edit' && settings.id && (parent.id === settings.id)) {
         workspaceStorage.state('settings').set(false)
       }
       parent = parent.parent ? documentManager.get(parent.parent) : false
@@ -367,7 +367,9 @@ addStorage('elements', (storage) => {
 
     elementData = recursiveElementsRebuild(cookElement)
     const data = documentManager.create(elementData, {
-      insertAfter: false
+      insertAfter: false,
+      // used to insert element with same order in parent
+      insertInstead: true
     })
     createdElements.push(data.id)
 

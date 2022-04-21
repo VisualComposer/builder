@@ -197,6 +197,7 @@ export default class InsightsChecks {
         const elementId = InsightsChecks.getElementId(image)
         const position = InsightsChecks.getNodePosition(image)
         allImagesHasAlt = false
+        const domNodeSelector = utils.generateQuerySelector(image)
         insightsStorage.trigger('add', {
           state: 'critical',
           type: `altMissing${position}`,
@@ -205,7 +206,7 @@ export default class InsightsChecks {
           groupDescription: description,
           description: 'Alt attribute is empty %s'.replace('%s', elementId ? `(${cookService.getById(elementId).getName()})` : '').trim(),
           elementID: elementId,
-          domNode: image
+          domNodeSelector: domNodeSelector
         })
       }
     })
@@ -225,9 +226,10 @@ export default class InsightsChecks {
     const images = env('iframe').document.body.querySelectorAll('img')
     const promises: Promise<void>[] = []
     images.forEach((image: HTMLImageElement) => {
+      const domNodeSelector = utils.generateQuerySelector(image)
       // Skip checking for our images
       if (image.src.indexOf('cdn.hub.visualcomposer.com') === -1) {
-        promises.push(this.getImageSize(image.src, image))
+        promises.push(this.getImageSize(image.src, image, '', domNodeSelector))
       }
     })
     return promises
@@ -236,6 +238,7 @@ export default class InsightsChecks {
   checkForBgImageSize () {
     type BgImage = {
       src: string,
+      domNodeSelector: string,
       domNode: HTMLElement
     }
 
@@ -247,8 +250,9 @@ export default class InsightsChecks {
           const prop = window.getComputedStyle(node, null)
             .getPropertyValue('background-image')
           const match = srcChecker.exec(prop)
+          const domNodeSelector = utils.generateQuerySelector(node)
           if (match) {
-            collection.add({ src: match[1], domNode: node })
+            collection.add({ src: match[1], domNode: node, domNodeSelector: domNodeSelector })
           }
           return collection
         }, new Set())
@@ -258,7 +262,7 @@ export default class InsightsChecks {
     const bgImages: BgImage[] = getBgImages(env('iframe').document)
     const promises: Promise<void>[] = []
     bgImages.forEach((data: BgImage) => {
-      promises.push(this.getImageSize(data.src, data.domNode, 'background'))
+      promises.push(this.getImageSize(data.src, data.domNode, 'background', data.domNodeSelector))
     })
 
     return promises
@@ -281,7 +285,7 @@ export default class InsightsChecks {
     }
   }
 
-  async getImageSize (src: string, domNode: HTMLElement, type = '') {
+  async getImageSize (src: string, domNode: HTMLElement, type = '', domNodeSelector: string) {
     const imageSizeBytes: number = await InsightsChecks.getImageSizeRequest(src)
     if (imageSizeBytes && imageSizeBytes >= 1024 * 1024) {
       const imageSizeBigTitle = type === 'background' ? this.localizations.insightsBgImageSizeBigTitle : this.localizations.insightsImageSizeBigTitle
@@ -299,7 +303,7 @@ export default class InsightsChecks {
         groupDescription: description,
         description: 'Image size is' + ` ${imageSizeInMB.toFixed(2)} MB`,
         elementID: elementId,
-        domNode: domNode
+        domNodeSelector: domNodeSelector
       })
     } else if (imageSizeBytes && imageSizeBytes >= 500 * 1024) {
       const imageSizeBigTitle = type === 'background' ? this.localizations.insightsBgImageSizeBigTitle : this.localizations.insightsImageSizeBigTitle
@@ -316,7 +320,7 @@ export default class InsightsChecks {
         groupDescription: description,
         description: 'Image size is' + ` ${imageSizeBytes / 1024} KB`,
         elementID: elementId,
-        domNode: domNode
+        domNodeSelector: domNodeSelector
       })
     }
   }
@@ -373,6 +377,7 @@ export default class InsightsChecks {
 
     paragraphs.forEach((paragraph: HTMLElement) => {
       const paragraphLength = paragraph.innerText.split(' ').length
+      const domNodeSelector = utils.generateQuerySelector(paragraph)
       if (paragraphLength > 200) {
         const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
         const groupDescription = this.localizations.insightsParagraphLengthDescription200
@@ -387,7 +392,7 @@ export default class InsightsChecks {
           groupDescription: groupDescription,
           description: `${description} ${paragraphLength}`,
           elementID: elementId,
-          domNode: paragraph
+          domNodeSelector: domNodeSelector
         })
       } else if (paragraphLength > 150 && paragraphLength < 200) {
         const elementId = InsightsChecks.getElementId(paragraph)
@@ -403,7 +408,7 @@ export default class InsightsChecks {
           groupDescription: groupDescription,
           description: `${description} ${paragraphLength}`,
           elementID: elementId,
-          domNode: paragraph
+          domNodeSelector: domNodeSelector
         })
       }
     })
@@ -546,7 +551,7 @@ export default class InsightsChecks {
             groupDescription: string
             description: string
             elementID: string
-            domNode: HTMLElement
+            domNodeSelector: string
             groupedItems: boolean
           }
           const notificationItems: NotificationItem[] = []
@@ -565,6 +570,7 @@ export default class InsightsChecks {
               let elementID = idSelector.slice(3)
               let cookElement = cookService.getById(elementID)
               const domNode = iframe.document.querySelector(`#${idSelector}`)
+              const domNodeSelector = utils.generateQuerySelector(domNode)
               const isSameElementIndex = notificationItems.findIndex(item => item.elementID === elementID)
 
               if (!cookElement) {
@@ -587,7 +593,7 @@ export default class InsightsChecks {
                     groupDescription: this.localizations.colorContrastDescriptionWarn.replace('{link}', 'https://dequeuniversity.com/rules/axe/4.3/color-contrast?application=axeAPI'),
                     description: itemMessage,
                     elementID: elementID,
-                    domNode: domNode,
+                    domNodeSelector: domNodeSelector,
                     groupedItems: true
                   })
                 }

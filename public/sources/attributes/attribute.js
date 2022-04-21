@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
-import { getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class Attribute extends React.Component {
   static propTypes = {
@@ -131,6 +133,12 @@ export default class Attribute extends React.Component {
     const newState = lodash.defaultsDeep({}, this.state)
     newState.devices[newState.currentDevice][fieldKey] = value
     this.updateValue(newState, fieldKey)
+  }
+
+  initMediaGlobals () {
+    window.wp.media.model.settings.post.id = dataManager.get('sourceID')
+    window.wp.media.model.settings.post.nonce = dataManager.get('nonce')
+    window.wp.media.model.settings.post.featuredImageId = dataManager.get('featuredImage')
   }
 
   render () {
