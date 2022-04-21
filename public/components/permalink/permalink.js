@@ -87,7 +87,7 @@ export default class Permalink extends React.Component {
     const range = document.createRange()
     const documentFragment = range.createContextualFragment(permalinkHtml)
     const editButtons = documentFragment.querySelector('#edit-slug-buttons')
-    const full = documentFragment.querySelector('#editable-post-name-full')
+    const editablePostNameHtml = documentFragment.querySelector('#editable-post-name-full')
 
     if (editButtons) {
       const url = documentFragment.querySelector('#sample-permalink a')
@@ -97,7 +97,7 @@ export default class Permalink extends React.Component {
         baseUrlFirst: childNodes && childNodes[0] && childNodes[0].textContent,
         baseUrlLast: childNodes && childNodes[2] && childNodes[2].textContent,
         permalink: childNodes && childNodes[1] && childNodes[1].innerHTML,
-        permalinkFull: full && full.innerHTML,
+        permalinkFull: editablePostNameHtml && editablePostNameHtml.innerHTML,
         value: childNodes && childNodes[1] && childNodes[1].innerHTML
       }
     } else {

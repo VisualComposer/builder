@@ -94,12 +94,13 @@ button.vce-button--style-outline .vce-button--style-outline-text {
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
 }
-a.vce-button--style-outline:hover,
-button.vce-button--style-outline:hover,
-a.vce-button--style-outline:focus,
-button.vce-button--style-outline:focus {
+.vce-button--style-outline-wrapper a.vce-button.vce-button--style-outline:hover,
+.vce-button--style-outline-wrapper button.vce-button.vce-button--style-outline:hover,
+.vce-button--style-outline-wrapper a.vce-button.vce-button--style-outline:focus,
+.vce-button--style-outline-wrapper button.vce-button.vce-button--style-outline:focus {
   text-decoration: none;
   outline: none;
+  background: none;
 }
 a.vce-button--style-outline::before,
 button.vce-button--style-outline::before,
@@ -212,12 +213,13 @@ a.vce-button--style-outline-animated:hover,
 a.vce-button--style-outline-animated-slidein:hover,
 button.vce-button--style-outline-animated:hover,
 button.vce-button--style-outline-animated-slidein:hover,
-a.vce-button--style-outline-animated:focus,
-a.vce-button--style-outline-animated-slidein:focus,
-button.vce-button--style-outline-animated:focus,
-button.vce-button--style-outline-animated-slidein:focus {
+.vce-button--style-outline-wrapper a.vce-button.vce-button--style-outline-animated:focus,
+.vce-button--style-outline-wrapper a.vce-button.vce-button--style-outline-animated-slidein:focus,
+.vce-button--style-outline-wrapper button.vce-button.vce-button--style-outline-animated:focus,
+.vce-button--style-outline-wrapper button.vce-button.vce-button--style-outline-animated-slidein:focus {
   text-decoration: none;
   outline: none;
+  background: none;
 }
 a.vce-button--style-outline-animated::before,
 a.vce-button--style-outline-animated-slidein::before,

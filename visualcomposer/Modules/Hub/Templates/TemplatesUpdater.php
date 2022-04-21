@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\Templates;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\WpMedia;
 use WP_Query;
@@ -25,12 +26,18 @@ class TemplatesUpdater extends Container implements Module
 
     protected $templatePostType;
 
-    /** @noinspection PhpMissingParentConstructorInspection */
+    public static $needAttachmentMetadataList = [];
+
     public function __construct()
     {
         $this->addFilter(
             'vcv:hub:download:bundle vcv:hub:download:bundle:template/* vcv:hub:download:bundle:predefinedTemplate/*',
             'updateTemplate'
+        );
+
+        $this->addFilter(
+            'vcv:ajax:hub:update:attachment:meta:adminNonce',
+            'updateAttachmentMeta'
         );
     }
 
@@ -163,6 +170,7 @@ class TemplatesUpdater extends Container implements Module
 
         $this->updatePostMetas($templateId, $template, $type, $payload, $templateElements);
 
+        $response['additionalActionList'] = self::$needAttachmentMetadataList;
         $response['templates'][] = [
             'id' => $templateId,
             'tag' => $payload['actionData']['action'],
@@ -504,20 +512,7 @@ class TemplatesUpdater extends Container implements Module
                 get_the_ID()
             );
 
-            if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
-                wp_generate_attachment_metadata(
-                    $attachment,
-                    $imageNewUrl
-                );
-            } else {
-                wp_update_attachment_metadata(
-                    $attachment,
-                    wp_generate_attachment_metadata(
-                        $attachment,
-                        $imageNewUrl
-                    )
-                );
-            }
+            self::$needAttachmentMetadataList[$attachment] = $imageNewUrl;
 
             $this->importedImages[ $imageUrl ] = [
                 'id' => $attachment,
@@ -526,5 +521,35 @@ class TemplatesUpdater extends Container implements Module
         }
 
         return $this->importedImages[ $imageUrl ];
+    }
+
+    /**
+     * Update attachment meta and generate sizes.
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @return bool[]
+     */
+    protected function updateAttachmentMeta(Request $requestHelper)
+    {
+        $attachmentId = $requestHelper->input('vcv-attachment-id');
+        $attachmentPath = $requestHelper->input('vcv-attachment-path');
+
+        if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
+            wp_generate_attachment_metadata(
+                $attachmentId,
+                $attachmentPath
+            );
+        } else {
+            wp_update_attachment_metadata(
+                $attachmentId,
+                wp_generate_attachment_metadata(
+                    $attachmentId,
+                    $attachmentPath
+                )
+            );
+        }
+
+        return ['status' => true];
     }
 }

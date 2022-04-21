@@ -367,7 +367,9 @@ addStorage('elements', (storage) => {
 
     elementData = recursiveElementsRebuild(cookElement)
     const data = documentManager.create(elementData, {
-      insertAfter: false
+      insertAfter: false,
+      // used to insert element with same order in parent
+      insertInstead: true
     })
     createdElements.push(data.id)
 

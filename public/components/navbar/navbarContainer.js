@@ -38,7 +38,7 @@ export default class NavbarContainer extends React.Component {
 
     return (
       <NavbarWrapper wrapperRef={this.props.wrapperRef}>
-        <Navbar draggable getNavbarPosition={this.props.getNavbarPosition}>
+        <Navbar getNavbarPosition={this.props.getNavbarPosition}>
           <GoPremiumControl visibility='save' />
           <Logo visibility='pinned' editor='frontend' />
           {addContentButton}

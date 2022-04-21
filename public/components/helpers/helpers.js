@@ -14,7 +14,7 @@ const quickActions = localizations ? localizations.quickActions : 'Quick Actions
 const insights = localizations ? localizations.insights : 'Insights'
 const responsiveView = localizations ? localizations.responsiveView : 'Responsive View'
 const addPremiumElement = localizations ? localizations.addPremiumElement : 'Visual Composer Hub'
-const onPageSettings = localizations ? localizations.onPageSettings : 'On-Page Settings'
+const onPageOptions = localizations ? localizations.onPageOptions : 'On-Page Options'
 const publishingOptions = localizations ? localizations.publishingOptions : 'Publishing Options'
 const thisIsYourContentLibrary = localizations.thisIsYourContentLibrary
 const useElementControls = localizations.useElementControls
@@ -22,7 +22,7 @@ const useQuickActions = localizations.useQuickActions
 const validateYourPage = localizations.validateYourPage
 const checkHowYourPageLooksOnDifferentDevices = localizations.checkHowYourPageLooksOnDifferentDevices
 const accessVisualComposerHub = localizations.accessVisualComposerHub
-const changeSettingsOfYourPageOrPost = localizations.changeSettingsOfYourPageOrPost
+const changeOptionsOfYourPageOrPost = localizations.changeOptionsOfYourPageOrPost
 const previewSaveAndPublish = localizations ? localizations.previewSaveAndPublish : 'Preview, save, and publish your content.'
 
 export default class Helpers extends React.Component {
@@ -124,8 +124,8 @@ export default class Helpers extends React.Component {
         }]
       },
       'settings-control': {
-        heading: onPageSettings,
-        description: changeSettingsOfYourPageOrPost,
+        heading: onPageOptions,
+        description: changeOptionsOfYourPageOrPost,
         step: 7,
         position: {
           horizontal: 'top'

@@ -42,7 +42,7 @@ describe('Editor controls', function () {
 
       // 5. Open Settings panel
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="settings-control"]').click()
-      cy.get('.vcv-ui-panel-heading-text').contains('Settings')
+      cy.get('.vcv-ui-panel-heading-text').contains('Options')
 
       cy.contains('.vcv-ui-form-group-heading', 'Title')
         .then(($field) => {

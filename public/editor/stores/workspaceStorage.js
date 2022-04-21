@@ -343,10 +343,6 @@ addStorage('workspace', (storage) => {
   storage.on('unlockAll', () => {
     updateDocumentLockState(false)
   })
-  storage.state('navbarBoundingRect').set({
-    resizeTop: 0,
-    resizeLeft: 0
-  })
   storage.on('removeFromDownloading', (tag) => {
     let downloadingItems = storage.state('downloadingItems').get() || []
     downloadingItems = downloadingItems.filter(downloadingTag => downloadingTag !== tag)
