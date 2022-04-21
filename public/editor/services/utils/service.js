@@ -334,6 +334,21 @@ const API = {
     }
 
     return false
+  },
+  generateQuerySelector (el) {
+    if (el.tagName.toLowerCase() === 'html') {
+      return 'HTML'
+    }
+
+    let str = el.tagName
+    str += (el.id !== '') ? '#' + el.id : ''
+    if (el.className && typeof el.className === 'string') {
+      const classes = el.className.split(/\s/)
+      for (let i = 0; i < classes.length; i++) {
+        str += '.' + classes[i]
+      }
+    }
+    return API.generateQuerySelector(el.parentNode) + ' > ' + str
   }
 }
 addService('utils', API)
