@@ -92,14 +92,15 @@ class Controller extends Container implements Module
     protected function checkSourceId($sourceId)
     {
         $accessCheck = true;
-        if (!is_numeric($sourceId)) {
-            $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $sourceId);
-            if (is_array($sourceId) && $sourceId['status'] === true) {
-                if (isset($sourceId['accessCheck'])) {
-                    $accessCheck = $sourceId['accessCheck'];
-                }
-                $sourceId = $sourceId['sourceId'];
+        if (is_numeric($sourceId)) {
+            return [$accessCheck, $sourceId];
+        }
+
+        if (is_array($sourceId) && $sourceId['status'] === true) {
+            if (isset($sourceId['accessCheck'])) {
+                $accessCheck = $sourceId['accessCheck'];
             }
+            $sourceId = $sourceId['sourceId'];
         }
 
         return [$accessCheck, $sourceId];
@@ -164,13 +165,11 @@ class Controller extends Container implements Module
         Request $requestHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
-        vcevent('vc:editors:dataAjax:before:setData', $payload);
-
         if (!isset($payload['sourceId'])) {
             return ['status' => false]; // sourceId must be provided
         }
-        $sourceId = $payload['sourceId'];
 
+        $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $payload['sourceId']);
 
         list($accessCheck, $sourceId) = $this->checkSourceId($sourceId);
         if ($requestHelper->input('vcv-ready') !== '1') {
@@ -197,8 +196,6 @@ class Controller extends Container implements Module
             $response = [];
         }
         $response['status'] = false;
-
-        vcevent('vc:editors:dataAjax:after:setData', $payload);
 
         return $response;
     }

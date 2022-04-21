@@ -94,7 +94,7 @@ class WpmlController extends Container implements Module
 
         $this->wpAddAction('admin_notices', 'createNotice');
 
-        $this->addEvent('vc:editors:dataAjax:before:setData', 'changeLanguageWhileUpdate');
+        $this->addFilter('vcv:dataAjax:setData:sourceId', 'changeLanguageWhileUpdate', -1);
     }
 
     /**
@@ -404,10 +404,14 @@ class WpmlController extends Container implements Module
      *
      * @param int $postId
      *
-     * @return void
+     * @return int
      */
     protected function changeLanguageWhileUpdate($postId)
     {
+        if (!is_numeric($postId)) {
+            return $postId;
+        }
+
         global $wpdb;
 
         $sql = sprintf("SELECT language_code FROM %sicl_translations WHERE element_id = %s", $wpdb->prefix, $postId);
@@ -418,5 +422,7 @@ class WpmlController extends Container implements Module
             $_POST['post_ID'] = $postId;
             $_POST['icl_post_language'] = $result[0]->language_code;
         }
+
+        return $postId;
     }
 }
