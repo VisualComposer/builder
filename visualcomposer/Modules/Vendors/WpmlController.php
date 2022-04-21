@@ -93,6 +93,8 @@ class WpmlController extends Container implements Module
         );
 
         $this->wpAddAction('admin_notices', 'createNotice');
+
+        $this->addEvent('vc:editors:dataAjax:before:setData', 'changeLanguageWhileUpdate');
     }
 
     /**
@@ -395,5 +397,26 @@ class WpmlController extends Container implements Module
                 'type' => 'constant',
             ]
         );
+    }
+
+    /**
+     * While post update we need set post land appropriate to current updating post.
+     *
+     * @param int $postId
+     *
+     * @return void
+     */
+    protected function changeLanguageWhileUpdate($postId)
+    {
+        global $wpdb;
+
+        $sql = sprintf("SELECT language_code FROM %sicl_translations WHERE element_id = %s", $wpdb->prefix, $postId);
+
+        $result = $wpdb->get_results($sql);
+
+        if (!empty($result[0]->language_code)) {
+            $_POST['post_ID'] = $postId;
+            $_POST['icl_post_language'] = $result[0]->language_code;
+        }
     }
 }
