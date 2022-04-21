@@ -41,17 +41,9 @@ addStorage('workspace', (storage) => {
     if (!id) {
       return
     }
-    const elementAccessPointService = getService('elementAccessPoint')
-    let elementAccessPoint = elementAccessPointService.getInstance(id)
-
-    if (options && options.nestedAttr) {
-      // Trigger edit inside nestedAttr
-      elementAccessPoint = options.parentElementAccessPoint
-    }
-
     storage.state('settings').set({
       action: 'edit',
-      elementAccessPoint: elementAccessPoint,
+      id: id,
       activeTab: activeTab,
       options: options
     })
@@ -61,8 +53,8 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('remove', id)
 
     // Close editForm if edit form is opened and element doesnt exist anymore
-    if (settings && settings.action === 'edit' && settings.elementAccessPoint) {
-      if (!documentManager.get(settings.elementAccessPoint.id)) {
+    if (settings && settings.action === 'edit' && settings.id) {
+      if (!documentManager.get(settings.id)) {
         storage.state('settings').set(false)
       }
     }
