@@ -10,12 +10,12 @@ export default class EditFormPanel extends React.Component {
     super(props)
 
     const workSpaceSettings = workspace.state('settings').get()
-    const elementAccessPoint = workSpaceSettings.id ? elementAccessPointService.getInstance(workSpaceSettings.id) : null
+    const elementAccessPoint = workSpaceSettings?.id ? elementAccessPointService.getInstance(workSpaceSettings.id) : null
 
     this.state = {
       elementAccessPoint: elementAccessPoint,
-      activeTabId: workSpaceSettings && workSpaceSettings.activeTab ? workSpaceSettings.activeTab : '',
-      options: workSpaceSettings && workSpaceSettings.options ? workSpaceSettings.options : {}
+      activeTabId: workSpaceSettings?.activeTab ? workSpaceSettings.activeTab : '',
+      options: workSpaceSettings?.options ? workSpaceSettings.options : {}
     }
 
     this.handleWorkSpaceSettingsChange = this.handleWorkSpaceSettingsChange.bind(this)
