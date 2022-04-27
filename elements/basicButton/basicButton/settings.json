@@ -183,13 +183,6 @@
       "Buttons"
     ]
   },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
-    "value": [
-      "animate"
-    ]
-  },
   "alignment": {
     "type": "buttonGroup",
     "access": "public",
@@ -256,20 +249,6 @@
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
-  },
-  "metaBackendLabels": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      {
-        "value": [
-          "buttonText",
-          "buttonUrl",
-          "background",
-          "shape"
-        ]
-      }
-    ]
   },
   "metaCustomId": {
     "type": "customId",

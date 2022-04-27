@@ -629,12 +629,14 @@ export default class ControlsManager {
    */
   handleFrameContainerLeave () {
     const data = workspaceStorage.state('settings').get()
-    if (data && data.elementAccessPoint) {
-      if (data.elementAccessPoint.tag === 'row') {
-        this.editFormId = data.elementAccessPoint.id
+    if (data?.id) {
+      const documentService = vcCake.getService('document')
+      const documentElement = documentService.get(data.id)
+      if (documentElement.tag === 'row') {
+        this.editFormId = data.id
         this.showChildrenFramesWithDelay(this.editFormId)
-      } else if (data.elementAccessPoint.tag === 'column') {
-        this.editFormId = data.elementAccessPoint.id
+      } else if (documentElement.tag === 'column') {
+        this.editFormId = data.id
         this.showFramesOnOneElement(this.editFormId)
       }
     }

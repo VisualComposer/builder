@@ -247,13 +247,6 @@
       "Buttons"
     ]
   },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
-    "value": [
-      "animate"
-    ]
-  },
   "alignment": {
     "type": "buttonGroup",
     "access": "public",
@@ -342,20 +335,6 @@
         }
       ]
     }
-  },
-  "metaBackendLabels": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      {
-        "value": [
-          "buttonText",
-          "buttonUrl",
-          "shape",
-          "borderColor"
-        ]
-      }
-    ]
   },
   "metaCustomId": {
     "type": "customId",

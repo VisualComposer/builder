@@ -1,18 +1,21 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import ActivitiesManager from './activitiesManager'
 
 const workspace = getStorage('workspace')
+const elementAccessPointService = getService('elementAccessPoint')
 
 export default class EditFormPanel extends React.Component {
   constructor (props) {
     super(props)
 
     const workSpaceSettings = workspace.state('settings').get()
+    const elementAccessPoint = workSpaceSettings?.id ? elementAccessPointService.getInstance(workSpaceSettings.id) : null
+
     this.state = {
-      elementAccessPoint: workSpaceSettings && workSpaceSettings.elementAccessPoint,
-      activeTabId: workSpaceSettings && workSpaceSettings.activeTab ? workSpaceSettings.activeTab : '',
-      options: workSpaceSettings && workSpaceSettings.options ? workSpaceSettings.options : {}
+      elementAccessPoint: elementAccessPoint,
+      activeTabId: workSpaceSettings?.activeTab ? workSpaceSettings.activeTab : '',
+      options: workSpaceSettings?.options ? workSpaceSettings.options : {}
     }
 
     this.handleWorkSpaceSettingsChange = this.handleWorkSpaceSettingsChange.bind(this)
@@ -27,9 +30,9 @@ export default class EditFormPanel extends React.Component {
   }
 
   handleWorkSpaceSettingsChange (settings) {
-    if (settings && settings.elementAccessPoint) {
+    if (settings?.id) {
       this.setState({
-        elementAccessPoint: settings.elementAccessPoint,
+        elementAccessPoint: elementAccessPointService.getInstance(settings.id),
         activeTabId: settings.activeTab || '',
         options: settings.options || {}
       })
