@@ -56,7 +56,7 @@ const MessagesPanel = ({ seenMessages, notifications, currentLevel }) => {
   })
 
   useEffect(() => {
-    handleLevelChange(controls)
+    handleLevelChange()
     workspaceContentState.onChange(handleSetVisibility)
     workspaceMessagesTabState.onChange(handleSetActiveSection)
     return () => {
@@ -66,7 +66,7 @@ const MessagesPanel = ({ seenMessages, notifications, currentLevel }) => {
   }, [])
 
   useEffect(() => {
-    handleLevelChange(currentLevel)
+    handleLevelChange()
   }, [currentLevel])
 
   useEffect(() => {
