@@ -95,11 +95,12 @@ const slice = createSlice({
         moveDownAfter(state, options.insertAfter, 1)
       }
     },
-    reset: (state, action) => {
-      Object.keys(action.payload).map((id) => {
-        action.payload[id].order = parseInt(action.payload[id].order)
-      })
+    reset: (state: State, action) => {
       state.documentData = action.payload
+
+      Object.keys(state.documentData).map((id) => {
+        state.documentData[id].order = parseInt(action.payload[id].order)
+      })
     },
     update: (state: State, action) => {
       const id = action.payload[0]
