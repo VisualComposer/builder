@@ -49,7 +49,7 @@ describe('Test elementsStorage', () => {
     test('ElementsStorage clone textBlock', () => {
       elementsStorage.trigger('clone', id)
       const textBlocks = documentManager.filter((data) => {
-        return data.get('tag') === 'textBlock'
+        return data.tag === 'textBlock'
       })
       expect(textBlocks.length).toBe(2)
     })
@@ -69,7 +69,7 @@ describe('Test elementsStorage', () => {
     test('ElementsStorage remove textBlock', () => {
       elementsStorage.trigger('remove', id)
       const textBlocks = documentManager.filter((data) => {
-        return data.get('tag') === 'textBlock'
+        return data.tag === 'textBlock'
       })
       expect(textBlocks.length).toBe(1)
     })
