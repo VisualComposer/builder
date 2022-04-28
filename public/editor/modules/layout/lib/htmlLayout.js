@@ -71,13 +71,9 @@ export default class HtmlLayout extends React.Component {
     let elementsList
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (this.props.data.length) {
-      elementsList = this.props.data.map((element, index) => {
-        let getBlankRowPlaceholder = null
-        if (index === 0 && editorType === 'popup' && isAbleToAdd) {
-          getBlankRowPlaceholder = this.getBlankRowPlaceholder
-        }
+      elementsList = this.props.data.map((element) => {
         return (
-          <Element element={element} key={'element-wrapper-' + element.id} api={this.props.api} getBlankRowPlaceholder={getBlankRowPlaceholder} />
+          <Element element={element} key={'element-wrapper-' + element.id} api={this.props.api} />
         )
       })
     }
