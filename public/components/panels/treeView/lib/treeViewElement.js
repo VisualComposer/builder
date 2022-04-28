@@ -8,7 +8,6 @@ import { isEqual } from 'lodash'
 
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
-const documentManger = getService('document')
 const utils = getService('utils')
 const cook = getService('cook')
 const hubElementsService = getService('hubElements')
@@ -408,7 +407,7 @@ export default class TreeViewElement extends React.Component {
     const treeChildProps = {}
     let dragControl = null
 
-    const innerChildren = documentManger.children(this.state.element.id)
+    const innerChildren = documentManager.children(this.state.element.id)
     const childHtml = this.getContent(innerChildren)
     this.state.hasChild = !!innerChildren.length
 
