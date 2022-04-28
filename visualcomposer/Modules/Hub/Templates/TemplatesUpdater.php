@@ -512,7 +512,27 @@ class TemplatesUpdater extends Container implements Module
                 get_the_ID()
             );
 
-            self::$needAttachmentMetadataList[$attachment] = $imageNewUrl;
+            $requestHelper = vchelper('Request');
+            // update template
+            if (!empty($requestHelper->input('vcv-action'))) {
+                self::$needAttachmentMetadataList[$attachment] = $imageNewUrl;
+                //download template
+            } else {
+                if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
+                    wp_generate_attachment_metadata(
+                        $attachment,
+                        $imageNewUrl
+                    );
+                } else {
+                    wp_update_attachment_metadata(
+                        $attachment,
+                        wp_generate_attachment_metadata(
+                            $attachment,
+                            $imageNewUrl
+                        )
+                    );
+                }
+            }
 
             $this->importedImages[ $imageUrl ] = [
                 'id' => $attachment,
