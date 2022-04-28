@@ -145,7 +145,6 @@
     "enzyme-to-json": "3.6.2",
     "event-emitter": "0.3.5",
     "form-serialize": "0.7.2",
-    "immutable": "4.0.0",
     "mobile-detect": "1.4.5",
     "node-object-hash": "2.3.10",
     "react-addons-shallow-compare": "15.6.3",
