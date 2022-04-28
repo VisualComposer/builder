@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Insights, InsightsItem } from "../../../editor/stores/insights/types";
 
-const seenMessages = JSON.parse(window.localStorage.getItem('vcv-seen-messages') || '')
+const localSeenMessages: string | null = window.localStorage.getItem('vcv-seen-messages')
+const seenMessages = typeof localSeenMessages === 'string' ?   JSON.parse(localSeenMessages) : []
 const initialState = {
   insights: {},
   notifications: [],
-  seenMessages: seenMessages || [],
+  seenMessages: seenMessages,
   currentLevel: '',
 }
 
