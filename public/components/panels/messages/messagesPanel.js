@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import Scrollbar from 'public/components/scrollbar/scrollbar'
@@ -6,22 +6,21 @@ import PanelNavigation from '../panelNavigation'
 import DefaultInsights from '../insights/defaultInsights'
 import NotificationsPanel from '../notifications/notificationsPanel'
 import innerAPI from '../../api/innerAPI'
+import { connect } from 'react-redux'
 
-const insightsStorage = getStorage('insights')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 const workspaceMessagesTabState = workspaceStorage.state('messagesTab')
 const workspaceMessagesControls = workspaceStorage.state('messagesControls')
-const currentInsightsLevel = insightsStorage.state('currentLevel')
 
 const isUnseenMessages = (allMessages, seenMessages) => {
   const unseenMessages = allMessages.filter(n => !seenMessages.includes(n))
   return !!unseenMessages.length
 }
 
-const controls = innerAPI.applyFilter('insightPanelsData', {
+const initControls = innerAPI.applyFilter('insightPanelsData', {
   insights: {
     index: 0,
     type: 'insights',
@@ -36,102 +35,98 @@ const controls = innerAPI.applyFilter('insightPanelsData', {
   }
 })
 
-workspaceMessagesControls.set({ ...controls })
+workspaceMessagesControls.set({ ...initControls })
 
-export default class MessagesPanel extends React.Component {
-  constructor (props) {
-    super(props)
+const MessagesPanel = ({ seenMessages, notifications, currentLevel }) => {
+  const notificationIds = notifications.map(item => item.ID)
+  if (isUnseenMessages(notificationIds, seenMessages)) {
+    initControls.notifications.level = 'critical'
+  }
 
-    const notificationIds = insightsStorage.state('notifications').get().map(item => item.ID)
-    if (isUnseenMessages(notificationIds, insightsStorage.state('seenMessages').get())) {
-      controls.notifications.level = 'critical'
+  const [controls, setControls] = useState(initControls)
+  const [activeSection, setActiveSection] = useState(workspaceMessagesTabState.get() ? workspaceMessagesTabState.get() : 'insights')
+  const [isVisible, setIsVisible] = useState(workspaceContentState.get() === 'messages')
+
+  innerAPI.mount('panelMessages:insights', () => {
+    return <DefaultInsights key='panel-insights-default' />
+  })
+
+  innerAPI.mount('panelMessages:notifications', () => {
+    return <NotificationsPanel key='panel-notifications' />
+  })
+
+  useEffect(() => {
+    handleLevelChange(controls)
+    workspaceContentState.onChange(handleSetVisibility)
+    workspaceMessagesTabState.onChange(handleSetActiveSection)
+    return () => {
+      workspaceContentState.ignoreChange(handleSetVisibility)
+      workspaceMessagesTabState.ignoreChange(handleSetActiveSection)
     }
+  }, [])
 
-    this.state = {
-      controls: controls,
-      activeSection: workspaceMessagesTabState.get() ? workspaceMessagesTabState.get() : 'insights',
-      isVisible: workspaceContentState.get() === 'messages'
-    }
+  useEffect(() => {
+    handleLevelChange(currentLevel)
+  }, [currentLevel])
 
-    innerAPI.mount('panelMessages:insights', () => {
-      return <DefaultInsights key='panel-insights-default' />
-    })
+  useEffect(() => {
+    handleSeenMessagesChange(seenMessages)
+  }, [seenMessages])
 
-    innerAPI.mount('panelMessages:notifications', () => {
-      return <NotificationsPanel key='panel-notifications' />
-    })
-
-    this.setActiveSection = this.setActiveSection.bind(this)
-    this.setVisibility = this.setVisibility.bind(this)
-    this.handleLevelChange = this.handleLevelChange.bind(this)
-    this.handleSeenMessagesChange = this.handleSeenMessagesChange.bind(this)
-  }
-
-  componentDidMount () {
-    this.handleLevelChange(controls)
-    currentInsightsLevel.onChange(this.handleLevelChange)
-    insightsStorage.state('seenMessages').onChange(this.handleSeenMessagesChange)
-    workspaceContentState.onChange(this.setVisibility)
-    workspaceMessagesTabState.onChange(this.setActiveSection)
-  }
-
-  componentWillUnmount () {
-    workspaceContentState.ignoreChange(this.setVisibility)
-    workspaceMessagesTabState.ignoreChange(this.setActiveSection)
-    currentInsightsLevel.ignoreChange(this.handleLevelChange)
-    insightsStorage.state('seenMessages').ignoreChange(this.handleSeenMessagesChange)
-  }
-
-  handleSeenMessagesChange (newSeenState) {
-    const newControls = { ...this.state.controls }
-    const notificationIds = insightsStorage.state('notifications').get().map(item => item.ID)
+  const handleSeenMessagesChange = (newSeenState) => {
+    const newControls = { ...controls }
+    const notificationIds = notifications.map(item => item.ID)
     if (isUnseenMessages(notificationIds, newSeenState)) {
-      controls.notifications.level = 'critical'
+      newControls.notifications.level = 'critical'
     } else {
-      delete controls.notifications.level
+      delete newControls.notifications.level
     }
-    this.setState({ newControls })
+    setControls(newControls)
   }
 
-  setActiveSection (type) {
-    this.setState({ activeSection: type })
+  const handleSetActiveSection = (type) => {
+    setActiveSection(type)
   }
 
-  setVisibility (activePanel) {
-    this.setState({
-      isVisible: activePanel === 'messages'
-    })
+  const handleSetVisibility = (activePanel) => {
+    setIsVisible(activePanel === 'messages')
   }
 
-  handleLevelChange (data) {
-    const newControls = { ...this.state.controls }
-    controls.insights.level = currentInsightsLevel.get()
-    this.setState({ newControls })
+  const handleLevelChange = () => {
+    const newControls = { ...controls }
+    newControls.insights.level = currentLevel
+    setControls(newControls)
   }
 
-  render () {
-    const title = localizations ? localizations.insightsAndNotifications : 'Insights & Notifications'
-    const panelClasses = classNames({
-      'vcv-ui-tree-view-content': true,
-      'vcv-ui-tree-view-content--full-width': true,
-      'vcv-ui-state--hidden': !this.state.isVisible
-    })
+  const title = localizations ? localizations.insightsAndNotifications : 'Insights & Notifications'
+  const panelClasses = classNames({
+    'vcv-ui-tree-view-content': true,
+    'vcv-ui-tree-view-content--full-width': true,
+    'vcv-ui-state--hidden': !isVisible
+  })
 
-    return (
-      <div className={panelClasses} data-vcv-disable-on-demo>
-        <div className='vcv-ui-panel-heading'>
-          <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-bell' />
-          <span className='vcv-ui-panel-heading-text'>
-            {title}
-          </span>
-        </div>
-        <PanelNavigation controls={this.state.controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
-        <div className='vcv-ui-tree-content-section'>
-          <Scrollbar>
-            {innerAPI.pick(`panelMessages:${this.state.controls[this.state.activeSection].type}`, null)}
-          </Scrollbar>
-        </div>
+  return (
+    <div className={panelClasses} data-vcv-disable-on-demo>
+      <div className='vcv-ui-panel-heading'>
+        <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-bell' />
+        <span className='vcv-ui-panel-heading-text'>
+          {title}
+        </span>
       </div>
-    )
-  }
+      <PanelNavigation controls={controls} activeSection={activeSection} setActiveSection={handleSetActiveSection} />
+      <div className='vcv-ui-tree-content-section'>
+        <Scrollbar>
+          {innerAPI.pick(`panelMessages:${controls[activeSection].type}`, null)}
+        </Scrollbar>
+      </div>
+    </div>
+  )
 }
+
+const mapStateToProps = (state) => ({
+  seenMessages: state.insights.seenMessages,
+  notifications: state.insights.notifications,
+  currentLevel: state.insights.currentLevel
+})
+
+export default connect(mapStateToProps)(MessagesPanel)

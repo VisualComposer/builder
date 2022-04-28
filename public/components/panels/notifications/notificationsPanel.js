@@ -1,14 +1,13 @@
 import React from 'react'
 import NotificationItem from './notificationItem'
-import { getStorage } from 'vc-cake'
+import { seenMessagesSet } from '../../../editor/stores/insights/slice'
+import { connect } from 'react-redux'
 
-const insightsStorage = getStorage('insights')
-
-export default class NotificationsPanel extends React.Component {
+class NotificationsPanel extends React.Component {
   constructor (props) {
     super(props)
 
-    this.notificationData = insightsStorage.state('notifications').get()
+    this.notificationData = this.props.notifications
 
     this.notificationIds = this.notificationData.map(item => item.ID)
 
@@ -16,7 +15,7 @@ export default class NotificationsPanel extends React.Component {
   }
 
   componentWillUnmount () {
-    insightsStorage.state('seenMessages').set(this.notificationIds || [])
+    this.props.seenMessagesSet(this.notificationIds || [])
   }
 
   render () {
@@ -39,3 +38,13 @@ export default class NotificationsPanel extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  notifications: state.insights.notifications
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  seenMessagesSet: (data) => dispatch(seenMessagesSet(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationsPanel)

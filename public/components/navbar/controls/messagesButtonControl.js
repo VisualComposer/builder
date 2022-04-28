@@ -4,37 +4,29 @@ import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
 import innerAPI from 'public/components/api/innerAPI'
 import MessagesPanel from 'public/components/panels/messages/messagesPanel'
+import { connect } from 'react-redux'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 const workspaceSettings = workspaceStorage.state('settings')
 const workspaceMessagesTabState = workspaceStorage.state('messagesTab')
 const workspaceMessagesControls = workspaceStorage.state('messagesControls')
-const insightsStorage = getStorage('insights')
 const dataManager = getService('dataManager')
 
-const isUnseenMessages = (allMessages, seenMessages) => {
+const checkIsUnseenMessages = (allMessages, seenMessages) => {
   const unseenMessages = allMessages.filter(n => !seenMessages.includes(n))
   return !!unseenMessages.length
 }
 
-export default class MessagesButtonControl extends NavbarContent {
+class MessagesButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
-    const notificationIds = insightsStorage.state('notifications').get().map(item => item.ID)
     this.state = {
       isActive: workspaceContentState.get() === 'messages',
-      showWarning: false, // !!assetsStorage.getCustomCss()
-      insightData: insightsStorage.state('insights').get() || [],
-      isUnseenMessages: isUnseenMessages(notificationIds, insightsStorage.state('seenMessages').get())
+      showWarning: false // !!assetsStorage.getCustomCss()
     }
     this.handleTabClick = this.handleTabClick.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
-    this.handleInsightsChange = this.handleInsightsChange.bind(this)
-    this.handleSeenMessagesChange = this.handleSeenMessagesChange.bind(this)
-    this.handleMessagesChange = this.handleMessagesChange.bind(this)
-
-    insightsStorage.state('insights').onChange(this.handleInsightsChange)
   }
 
   /* eslint-enable */
@@ -44,37 +36,11 @@ export default class MessagesButtonControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
-    insightsStorage.state('seenMessages').onChange(this.handleSeenMessagesChange)
-    insightsStorage.state('notifications').onChange(this.handleMessagesChange)
-
     innerAPI.mount('panel:messages', () => <MessagesPanel key='panels-container-messages' />)
   }
 
   componentWillUnmount () {
     workspaceContentState.ignoreChange(this.setActiveState)
-    insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
-    insightsStorage.state('seenMessages').ignoreChange(this.handleSeenMessagesChange)
-    insightsStorage.state('notifications').ignoreChange(this.handleMessagesChange)
-  }
-
-  handleSeenMessagesChange (newSeenState) {
-    const notificationIds = insightsStorage.state('notifications').get().map(item => item.ID)
-    this.setState({
-      isUnseenMessages: isUnseenMessages(notificationIds, newSeenState)
-    })
-  }
-
-  handleMessagesChange (newSeenState) {
-    const notificationIds = newSeenState.map(item => item.ID)
-    this.setState({
-      isUnseenMessages: isUnseenMessages(notificationIds, insightsStorage.state('seenMessages').get())
-    })
-  }
-
-  handleInsightsChange (data) {
-    this.setState({
-      insightData: data
-    })
   }
 
   handleTabClick (e, type) {
@@ -95,7 +61,6 @@ export default class MessagesButtonControl extends NavbarContent {
     const name = localizations ? localizations.insightsAndNotifications : 'Insights & Notifications'
     const controls = workspaceMessagesControls.get()
     const controlsArray = Object.keys(controls).map(key => controls[key])
-    const currentLevel = insightsStorage.state('currentLevel').get()
 
     const containerClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
@@ -105,7 +70,7 @@ export default class MessagesButtonControl extends NavbarContent {
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--active': this.state.isActive,
-      'vcv-ui-badge--error': currentLevel === 'critical' || currentLevel === 'warning' || this.state.isUnseenMessages,
+      'vcv-ui-badge--error': this.props.currentLevel === 'critical' || this.props.currentLevel === 'warning' || this.props.isUnseenMessages,
       'vcv-ui-navbar-dropdown-trigger': true
     })
 
@@ -168,3 +133,14 @@ export default class MessagesButtonControl extends NavbarContent {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  isUnseenMessages: () => {
+    const notificationIds = state.insights.notifications.map(item => item.ID)
+    return checkIsUnseenMessages(notificationIds, state.insights.seenMessages)
+  },
+  insights: state.insights.insights,
+  currentLevel: state.insights.currentLevel
+})
+
+export default connect(mapStateToProps)(MessagesButtonControl)

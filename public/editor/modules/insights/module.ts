@@ -2,8 +2,9 @@
 import {getStorage, env, add} from 'vc-cake'
 import {debounce} from 'lodash'
 import InsightsChecks from './lib/InsightsChecks'
+import store from '../../stores/store'
+import { insightsReset } from '../../stores/insights/slice'
 
-const insightsStorage = getStorage('insights')
 const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -18,7 +19,7 @@ add('insights', () => {
         return // editor reload
       }
       // clear previous <Insights>
-      insightsStorage.trigger('reset')
+      store.dispatch(insightsReset())
       insightsChecksInstance.isImagesSizeLarge = false
 
       // Do all checks
