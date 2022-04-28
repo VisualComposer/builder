@@ -1,6 +1,7 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
 
+import '../../public/editor/services/dataManager/service.js'
 import '../../public/editor/services/utils/service.js'
 import '../../public/editor/services/document/service.js'
 
