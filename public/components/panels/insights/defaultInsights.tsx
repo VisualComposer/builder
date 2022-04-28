@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getService } from 'vc-cake'
 import InsightGroup from './insightGroup'
-import vcLogo from 'public/sources/images/brandLogo/vcLogo.raw'
 import Dropdown from '../../../sources/attributes/dropdown/Component'
 import { connect } from 'react-redux'
 import { Insights, InsightsTypeControl } from "../../../editor/stores/insights/types";
 import { AppStateType } from "../../../editor/stores/reducer"
 
+const vcLogo = require("../../../sources/images/brandLogo/vcLogo.raw") as string;
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
