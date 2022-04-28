@@ -202,7 +202,7 @@ class Elements implements Helper
 
     public function getElementPath($path = '')
     {
-        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+        if ($this->isDevElements()) {
             if (preg_match('/devElements\//', $path)) {
                 return $path;
             }
@@ -226,7 +226,7 @@ class Elements implements Helper
             return $path;
         }
 
-        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+        if ($this->isDevElements()) {
             return VCV_PLUGIN_URL . 'devElements/' . $path;
         }
 
@@ -268,5 +268,20 @@ class Elements implements Helper
 
         // @codingStandardsIgnoreLine
         return $vcvPosts->found_posts > 0;
+    }
+
+    /**
+     * Conditional check if dev elements version is activated.
+     *
+     * @return bool
+     */
+    public function isDevElements()
+    {
+        $isDevElements = false;
+        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+            $isDevElements = true;
+        }
+
+        return apply_filters('vcv:helpers:hub:isDevAddons', $isDevElements);
     }
 }

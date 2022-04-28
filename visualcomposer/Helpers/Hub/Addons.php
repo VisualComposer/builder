@@ -85,13 +85,36 @@ class Addons implements Helper
         $value = preg_replace('/([^:])(\/{2,})/', '$1/', $value);
     }
 
+    /**
+     * Get path to addons folder.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
     public function getAddonPath($key = '')
     {
-        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
-            return VCV_PLUGIN_DIR_PATH . 'devAddons/' . ltrim($key, '\\/');
+        $path = VCV_PLUGIN_ASSETS_DIR_PATH . '/addons/' . ltrim($key, '\\/');
+        if ($this->isDevAddons()) {
+            $path =  VCV_PLUGIN_DIR_PATH . 'devAddons/' . ltrim($key, '\\/');
         }
 
-        return VCV_PLUGIN_ASSETS_DIR_PATH . '/addons/' . ltrim($key, '\\/');
+        return apply_filters('vcv:helpers:hub:getAddonPath', $path, $key);
+    }
+
+    /**
+     * Conditional check if dev addon version is activated.
+     *
+     * @return bool
+     */
+    public function isDevAddons()
+    {
+        $isDevAddons = false;
+        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+            $isDevAddons = true;
+        }
+
+        return apply_filters('vcv:helpers:hub:isDevAddons', $isDevAddons);
     }
 
     public function checkAbsUrl($url)
@@ -105,7 +128,7 @@ class Addons implements Helper
             return true;
         }
 
-        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+        if ($this->isDevAddons()) {
             if (preg_match('/devAddons\//', $url)) {
                 return true;
             }
@@ -118,12 +141,14 @@ class Addons implements Helper
 
     public function getAddonUrl($urlPart = '')
     {
-        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+        if ($this->isDevAddons()) {
             if ($this->checkAbsUrl($urlPart)) {
                 return $urlPart;
             }
 
-            return VCV_PLUGIN_URL . 'devAddons/' . $urlPart;
+            $url = VCV_PLUGIN_URL . 'devAddons/' . $urlPart;
+
+            return apply_filters('vcv:modules:development:deAddons:getAddonUrl', $url, $urlPart);
         }
         $assetsHelper = vchelper('Assets');
 
@@ -131,16 +156,39 @@ class Addons implements Helper
     }
 
     /**
+     * Add addon bundle script to footer.
+     *
+     * @param array $response
+     * @param string $addonName
+     * @param string $addonTag
+     * @param string $scriptName
+     *
+     * @return mixed
+     */
+    public function addFooterBundleScriptAddon($response, $addonName, $addonTag, $scriptName = 'element.bundle.js')
+    {
+        return array_merge(
+            (array) $response,
+            [
+                sprintf(
+                    '<script id="vcv-script-%s-fe-bundle" type="text/javascript" src="%s"></script>',
+                    $addonName,
+                    $this->getAddonUrl($addonTag . '/public/dist/' . $scriptName . '?v=' . VCV_VERSION)
+                ),
+            ]
+        );
+    }
+
+    /**
      * @param $addonKey
      *
-     * @return false|string
+     * @return string
      */
     public function getAddonRealPath($addonKey)
     {
         $addonPath = $this->getAddonPath($addonKey);
-        $addonRealPath = $addonPath . '/' . $addonKey . '/';
 
-        return $addonRealPath;
+        return $addonPath . '/' . $addonKey . '/';
     }
 
     public function getAddonPhpFiles($addonKey, $addon)

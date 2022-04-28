@@ -20,14 +20,15 @@ class ElementsUpdater extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+        $elementsHelper = vchelper('HubElements');
+        if (!$elementsHelper->isDevElements()) {
             $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:element/*', 'updateElements');
         }
     }
 
     protected function updateElements($response, $payload, HubElements $elementsHelper)
     {
-        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+        if ($elementsHelper->isDevElements()) {
             return ['status' => true];
         }
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
