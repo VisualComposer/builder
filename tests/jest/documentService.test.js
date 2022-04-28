@@ -104,12 +104,6 @@ describe('Test documentService', () => {
     const updatedElement = documentManager.get(elementData.id)
     expect(updatedElementData).toStrictEqual(updatedElement)
   })
-  test('Expect element to be cloned', () => {
-    documentManager.clone(elementData.id)
-    Object.keys(documentManager.all()).forEach((key) => {
-      console.log(key, documentManager.all()[key]);
-    });
-  })
   test('Expect deleted element to not be available', () => {
     documentManager.delete(elementData.id)
     expect(documentManager.get(elementData.id)).toBe(null)
