@@ -8,14 +8,11 @@ export default class RawHtmlElement extends vcvAPI.elementComponent {
     this.props.editor && this.updateHtml(this.props.atts.rawHtml)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (this.props.atts.rawHtml !== nextProps.atts.rawHtml) {
-      this.props.editor && this.updateHtml(nextProps.atts.rawHtml)
+  componentDidUpdate (prevProps) {
+    if (prevProps.atts.rawHtml !== this.props.atts.rawHtml) {
+      this.props.editor && this.updateHtml(this.props.atts.rawHtml)
     }
   }
-
-  /* eslint-enable */
 
   updateHtml (rawJs) {
     const component = this.refs.rawHtmlWrapper

@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import { isEqual } from 'lodash'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -22,34 +23,33 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    let { gridUrl, tweetCount } = this.props.atts
-    if (!tweetCount) {
-      tweetCount = this.tweetCount
-    }
-    let elementKey = `customProps:${this.props.id}-${gridUrl}-${tweetCount}`
+  componentDidUpdate (prevProps) {
+    if (!isEqual(prevProps.atts, this.props.atts)) {
+      let { gridUrl, tweetCount } = prevProps.atts
+      if (!tweetCount) {
+        tweetCount = this.tweetCount
+      }
+      const elementKey = `customProps:${prevProps.id}-${gridUrl}-${tweetCount}`
 
-    let nextAtts = nextProps.atts
+      const nextAtts = this.props.atts
 
-    if (!nextAtts.tweetCount) {
-      nextAtts.tweetCount = this.tweetCount
-    }
-    if (nextAtts.width) {
-      this.checkCustomSize(nextAtts.width)
-    } else {
-      this.setState({
-        size: null
-      })
-    }
-    let nextElementKey = `customProps:${nextProps.id}-${nextAtts.gridUrl}-${nextAtts.tweetCount}`
+      if (!nextAtts.tweetCount) {
+        nextAtts.tweetCount = this.tweetCount
+      }
+      if (nextAtts.width) {
+        this.checkCustomSize(nextAtts.width)
+      } else {
+        this.setState({
+          size: null
+        })
+      }
+      const nextElementKey = `customProps:${this.props.id}-${nextAtts.gridUrl}-${nextAtts.tweetCount}`
 
-    if (nextAtts.gridUrl && elementKey !== nextElementKey) {
-      this.insertTwitter(nextAtts.gridUrl, nextAtts.tweetCount)
+      if (nextAtts.gridUrl && elementKey !== nextElementKey) {
+        this.insertTwitter(nextAtts.gridUrl, nextAtts.tweetCount)
+      }
     }
   }
-
-  /* eslint-enable */
 
   loadJSONP (url, callback, context) {
     const name = '_jsonp_twitterGrid_' + TwitterGrid.unique++
