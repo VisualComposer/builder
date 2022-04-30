@@ -37,7 +37,7 @@ class TemplatesUpdater extends Container implements Module
 
         $this->addFilter(
             'vcv:ajax:hub:update:attachment:meta:adminNonce',
-            'updateAttachmentMeta'
+            'updateAttachment'
         );
     }
 
@@ -506,32 +506,19 @@ class TemplatesUpdater extends Container implements Module
                 'post_status' => 'inherit',
             ];
 
-            $attachment = wp_insert_attachment(
+            $attachmentId = wp_insert_attachment(
                 $attachment,
                 $wpUploadDir['path'] . '/' . basename($localMediaPath),
                 get_the_ID()
             );
 
             $requestHelper = vchelper('Request');
-            // update template
+            // update template action
             if (!empty($requestHelper->input('vcv-action'))) {
-                self::$needAttachmentMetadataList[$attachment] = $imageNewUrl;
-                //download template
+                self::$needAttachmentMetadataList[$attachmentId] = $imageNewUrl;
+            // download template action
             } else {
-                if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
-                    wp_generate_attachment_metadata(
-                        $attachment,
-                        $imageNewUrl
-                    );
-                } else {
-                    wp_update_attachment_metadata(
-                        $attachment,
-                        wp_generate_attachment_metadata(
-                            $attachment,
-                            $imageNewUrl
-                        )
-                    );
-                }
+                $this->updateAttachmentMeta($attachmentId, $imageNewUrl);
             }
 
             $this->importedImages[ $imageUrl ] = [
@@ -544,17 +531,28 @@ class TemplatesUpdater extends Container implements Module
     }
 
     /**
-     * Update attachment meta and generate sizes.
+     * Update attachment.
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return bool[]
      */
-    protected function updateAttachmentMeta(Request $requestHelper)
+    protected function updateAttachment(Request $requestHelper)
     {
         $attachmentId = $requestHelper->input('vcv-attachment-id');
         $attachmentPath = $requestHelper->input('vcv-attachment-path');
 
+        $this->updateAttachmentMeta($attachmentId, $attachmentPath);
+
+        return ['status' => true];
+    }
+
+    /**
+     * Update attachment meta and generate sizes.
+     *
+     */
+    protected function updateAttachmentMeta($attachmentId, $attachmentPath)
+    {
         if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
             wp_generate_attachment_metadata(
                 $attachmentId,
@@ -569,7 +567,5 @@ class TemplatesUpdater extends Container implements Module
                 )
             );
         }
-
-        return ['status' => true];
     }
 }
