@@ -3,8 +3,8 @@ Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,konutis,or
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.9.1
-Stable tag: 43.0
+Tested up to: 5.9.3
+Stable tag: 44.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -225,6 +225,58 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 44.0 =
+*Release Date - 2022-04-28*
+
+### Free:
+- New: Element controls in the editor updated for better user experience
+- New: No CSS or JavaScript from the editor is loaded on the empty page where Visual Composer is not used
+- New: An option to create column by dragging an element on the border of the row added
+- New: An option to stretch and shrink row via row resize controls added
+- New: Edit page title controls added for better user experience
+- Update: Paste After option added to the right-click menu
+- Update: A new row resize controls are added for better user experience
+- Update: Getting Started page updated with learning materials for new users
+- Update: OnPage Settings renamed into Options
+- Update: Compatibility with WPML improved up to the latest version
+- Update: Navigation bar sections can be opened in the new tab
+- Fix: Slug controls work properly
+- Fix: Element edit window works properly when element is removed
+- Fix: Simple Image Slider element works properly
+- Fix: Template updating process works properly
+- Fix: Editor controls work properly
+- Fix: PCSS mixins work properly
+- Fix: Plugin activation survey is displayed properly
+- Fix: Post options are working properly
+- Fix: Empty Space element works properly
+- Fix: Visual Composer Insights works properly when analyzing contrast ratio
+- Fix: Editor shortcuts work properly
+- Fix: Navigation bar works properly
+- Fix: Author photo works properly with One User Avatar plugin
+- Fix: Dropdown attribute works properly on Safari
+- Fix: Elements work properly after changing width of the rows
+- Fix: Attribute fields are updating properly for the Google Heading element
+- Fix: Media Library buttons work properly in the editor
+- Fix: Substitute Element option works properly
+- Fix: Visual Composer work properly with Ninja Forms plugin
+- Fix: Buttons work properly on focus state
+
+### Premium:
+- Fix: Content Slider element works properly
+- Fix: WooCommerce Products element works properly
+- Fix: Import/Export works properly
+- Fix: Post Archive works properly on the homepage
+- Fix: Classic Tabs and their element presets works properly
+- Fix: Layout Builder works properly with the Storefront theme
+- Fix: Slick Slider library updated for Visual Composer
+- Fix: Logo Slider works properly
+- Fix: WooCommerce shortcodes work properly in the editor
+- Fix: Locked element can not be edited with the right-click controls
+- Fix: Layout is displaying properly on the 404 page
+- Fix: Flip Box element works properly
+- Fix: Buttons have proper styling in the Storefront theme
+- Fix: Pricing Table elements work properly
 
 = 43.0 =
 *Release Date - 2022-03-01*

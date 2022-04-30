@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import { isEqual } from 'lodash'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -16,13 +17,13 @@ export default class ImageGallery extends vcvAPI.elementComponent {
     this.prepareImage(this.props.atts.image)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.imageSources = []
-    this.imageOrder = {}
-    this.prepareImage(nextProps.atts.image)
+  componentDidUpdate (prevProps) {
+    if (!isEqual(this.props.atts.image, prevProps.atts.image) || this.props.atts.image.length !== this.state.imgSrc.length) {
+      this.imageSources = []
+      this.imageOrder = {}
+      this.prepareImage(this.props.atts.image)
+    }
   }
-  /* eslint-enable */
 
   prepareImage (image) {
     if (image.length && typeof image[0] === 'object') {
@@ -39,11 +40,7 @@ export default class ImageGallery extends vcvAPI.elementComponent {
     }
     const imgArr = []
     image.forEach((img) => {
-      if (image && image.id) {
-        imgArr.push({ imgSrc: this.getImageUrl(img) })
-      } else {
-        imgArr.push({ imgSrc: this.getImageUrl(img) })
-      }
+      imgArr.push({ imgSrc: this.getImageUrl(img) })
     })
     this.setImgSrcState(imgArr)
   }

@@ -8,14 +8,11 @@ export default class PinterestPinit extends vcvAPI.elementComponent {
     this.insertHtml(this.props.atts)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (this.props.atts.type !== nextProps.atts.type) {
-      this.insertHtml(nextProps.atts)
+  componentDidUpdate (prevProps) {
+    if (prevProps.atts.type !== this.props.atts.type) {
+      this.insertHtml(this.props.atts)
     }
   }
-
-  /* eslint-enable */
 
   insertHtml (props) {
     const button = this.createHtml(props)
