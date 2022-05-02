@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import { isEqual } from 'lodash'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -22,33 +23,32 @@ export default class TwitterTimeline extends vcvAPI.elementComponent {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    let { timelineUrl, tweetCount, tweetTheme } = this.props.atts
-    if (!tweetCount) {
-      tweetCount = this.tweetCount
-    }
-    let elementKey = `customProps:${this.props.id}-${timelineUrl}-${tweetCount}-${tweetTheme}`
+  componentDidUpdate (prevProps) {
+    if (!isEqual(prevProps.atts, this.props.atts)) {
+      let { timelineUrl, tweetCount, tweetTheme } = prevProps.atts
+      if (!tweetCount) {
+        tweetCount = this.tweetCount
+      }
+      const elementKey = `customProps:${prevProps.id}-${timelineUrl}-${tweetCount}-${tweetTheme}`
 
-    let nextAtts = nextProps.atts
-    if (!nextAtts.tweetCount) {
-      nextAtts.tweetCount = this.tweetCount
-    }
-    if (nextAtts.width) {
-      this.checkCustomSize(nextAtts.width)
-    } else {
-      this.setState({
-        size: null
-      })
-    }
-    let nextElementKey = `customProps:${nextProps.id}-${nextAtts.timelineUrl}-${nextAtts.tweetCount}-${nextAtts.tweetTheme}`
+      const nextAtts = this.props.atts
+      if (!nextAtts.tweetCount) {
+        nextAtts.tweetCount = this.tweetCount
+      }
+      if (nextAtts.width) {
+        this.checkCustomSize(nextAtts.width)
+      } else {
+        this.setState({
+          size: null
+        })
+      }
+      const nextElementKey = `customProps:${this.props.id}-${nextAtts.timelineUrl}-${nextAtts.tweetCount}-${nextAtts.tweetTheme}`
 
-    if (nextAtts.timelineUrl && elementKey !== nextElementKey) {
-      this.insertTwitter(nextAtts.timelineUrl, nextAtts.tweetCount, nextAtts.tweetTheme)
+      if (nextAtts.timelineUrl && elementKey !== nextElementKey) {
+        this.insertTwitter(nextAtts.timelineUrl, nextAtts.tweetCount, nextAtts.tweetTheme)
+      }
     }
   }
-
-  /* eslint-enable */
 
   loadJSONP (url, callback, context) {
     const name = '_jsonp_twitterTimeline_' + TwitterTimeline.unique++
