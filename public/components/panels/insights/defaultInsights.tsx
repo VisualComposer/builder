@@ -55,20 +55,9 @@ const DefaultInsights = ({insights}: Props) => {
     return insightsControls
   }
 
-  const [activeSection, setActiveSection] = useState('all')
-  const [currentControls, setCurrentControls] = useState(getCurrentControls(insights))
-  const [insightData, setInsightData] = useState(insights || {})
+  const currentControls = getCurrentControls(insights)
 
-  useEffect(() => {
-    handleInsightsChange(insights)
-  }, [insights])
-
-  const setActiveSectionHandler = (fieldKey: string, type: string) => {
-    const currentControl = Object.keys(currentControls).find(control => control === type)
-    setActiveSection(currentControl || 'all')
-  }
-
-  const handleInsightsChange = (data: Insights) => {
+  const sortInsightData = (data: Insights) => {
     let sortedData = data
     // Sorting insights by criticality
     if (Object.keys(data).length) {
@@ -76,12 +65,16 @@ const DefaultInsights = ({insights}: Props) => {
         Object.entries(data).sort(([, a], [, b]) => insightsTypeControls[a.state].index - insightsTypeControls[b.state].index)
       )
     }
-    const sortedCurrentControls = getCurrentControls(sortedData)
-    const currentActiveSection = Object.keys(currentControls).find(control => control === activeSection)
+    return sortedData
+  }
 
-    setInsightData(sortedData || {})
-    setCurrentControls(sortedCurrentControls)
-    setActiveSection(currentActiveSection || 'all')
+  const insightData = sortInsightData(insights)
+
+  const [activeSection, setActiveSection] = useState('all')
+
+  const setActiveSectionHandler = (fieldKey: string, type: string) => {
+    const currentControl = Object.keys(currentControls).find(control => control === type)
+    setActiveSection(currentControl || 'all')
   }
 
   const getInsightsHTML = (insightData: Insights) => {
