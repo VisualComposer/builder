@@ -3,9 +3,10 @@ import SaveController from './lib/saveController'
 import { getResponse } from 'public/tools/response'
 import Permalink from 'public/components/permalink/permalink'
 import MobileDetect from 'mobile-detect'
-import innerAPI from '../../../components/api/innerAPI'
+import innerAPI from 'public/components/api/innerAPI'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { notificationsSet } from 'public/editor/stores/insights/slice'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
@@ -21,7 +22,6 @@ addStorage('wordpressData', (storage) => {
   const popupStorage = getStorage('popup')
   const cacheStorage = getStorage('cache')
   const localizations = dataManager.get('localizations')
-  const insightsStorage = getStorage('insights')
   const utils = getService('utils')
 
   storage.on('start', () => {
@@ -187,7 +187,7 @@ addStorage('wordpressData', (storage) => {
         const messagesByType = allMessages.filter((item) => {
           return item.notification_type.indexOf(licenseType) >= 0 && !isMessageOld(item.notification_duedate)
         })
-        insightsStorage.state('notifications').set(messagesByType)
+        store.dispatch(notificationsSet(messagesByType))
       }
       if (responseData.templates && !Array.isArray(responseData.templates)) {
         hubTemplatesStorage.state('templates').set(responseData.templates)

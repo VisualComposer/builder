@@ -22,7 +22,6 @@ export const setupCake = () => {
     require('../../editor/stores/elements/elementSettings')
     require('../../editor/stores/popup/storage')
     // require('./editor/stores/elementsLoader/elementsLoaderStorage')
-    require('../../editor/stores/insights/storage')
     const hubElementsStorage = vcCake.getStorage('hubElements')
     hubElementsStorage.trigger('start')
     const hubTemplatesStorage = vcCake.getStorage('hubTemplates')

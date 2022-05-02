@@ -1,29 +1,27 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import NotificationItem from './notificationItem'
 import { getStorage } from 'vc-cake'
+import { seenMessagesSet } from 'public/editor/stores/insights/slice'
 
-const insightsStorage = getStorage('insights')
-
-export default class NotificationsPanel extends React.Component {
+class NotificationsPanel extends React.Component {
   constructor (props) {
     super(props)
 
-    this.notificationData = insightsStorage.state('notifications').get()
-
-    this.notificationIds = this.notificationData.map(item => item.ID)
+    this.notificationIds = props.notifications.map(item => item.ID)
 
     window.localStorage.setItem('vcv-seen-messages', JSON.stringify(this.notificationIds))
   }
 
   componentWillUnmount () {
-    insightsStorage.state('seenMessages').set(this.notificationIds || [])
+    this.props.seenMessagesSet(this.notificationIds || [])
   }
 
   render () {
     return (
       <div className='vcv-ui-tree-content-section'>
         <div className='vcv-notifications vcv-ui-tree-content-section-inner'>
-          {this.notificationData.map((item) => {
+          {this.props.notifications.map((item) => {
             return (
               <NotificationItem
                 key={`messages-notification-item-${item.ID}`}
@@ -39,3 +37,13 @@ export default class NotificationsPanel extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  notifications: state.insights.notifications
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  seenMessagesSet: (data) => dispatch(seenMessagesSet(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationsPanel)
