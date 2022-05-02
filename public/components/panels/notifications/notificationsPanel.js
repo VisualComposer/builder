@@ -8,7 +8,6 @@ class NotificationsPanel extends React.Component {
     super(props)
 
     this.notificationIds = props.notifications.map(item => item.ID)
-
     window.localStorage.setItem('vcv-seen-messages', JSON.stringify(this.notificationIds))
   }
 
