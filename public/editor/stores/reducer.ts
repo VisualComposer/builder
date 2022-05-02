@@ -5,13 +5,15 @@ import controlsReducer from './controls/slice'
 import editorPopupReducer from './editorPopup/slice'
 import sharedAssetsReducer from './sharedAssets/slice'
 import documentReducer from './document/slice'
+import insightsReducer from './insights/slice'
 
 const rootReducer = combineReducers({
   notifications: notificationsReducer,
   controls: controlsReducer,
   editorPopup: editorPopupReducer,
   sharedAssets: sharedAssetsReducer,
-  document: documentReducer
+  document: documentReducer,
+  insights: insightsReducer
 })
 
 type RootReducerType = typeof rootReducer;
