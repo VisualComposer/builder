@@ -109,6 +109,7 @@ class Bundle implements Helper
     public function unzipDownloadedBundle($bundle)
     {
         $fileHelper = vchelper('File');
+
         $result = $fileHelper->unzip($bundle, $this->getTempBundleFolder(), true);
 
         return $result;

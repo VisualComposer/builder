@@ -118,46 +118,14 @@ class TemplatesUpdater extends Container implements Module
         );
         unset($template['data']);
 
-        $savedTemplates = new WP_Query(
-            [
-                'post_type' => $this->templatePostType,
-                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'trash'],
-                'meta_query' => [
-                    [
-                        'key' => '_' . VCV_PREFIX . 'id',
-                        'value' => $template['id'],
-                        'compare' => '=',
-                    ],
-                    [
-                        'key' => '_' . VCV_PREFIX . 'type',
-                        'value' => 'custom',
-                        'compare' => '!=',
-                    ],
-                ],
-            ]
+        $templateHelper = vchelper('HubTemplates');
+
+        $templateId = $templateHelper->insertNewTemplate(
+            $template,
+            $this->templatePostType,
+            $payload['actionData']['data']['name']
         );
 
-        if (!$savedTemplates->have_posts()) {
-            $templateId = wp_insert_post(
-                [
-                    'post_title' => $template['name'],
-                    'post_type' => $this->templatePostType,
-                    'post_status' => 'publish',
-                ]
-            );
-        } else {
-            $savedTemplates->the_post();
-            $templateId = get_the_ID();
-            wp_reset_postdata();
-            wp_update_post(
-                [
-                    'ID' => $templateId,
-                    'post_title' => $payload['actionData']['data']['name'],
-                    'post_type' => $this->templatePostType,
-                    'post_status' => 'publish',
-                ]
-            );
-        }
         $template['description'] = $payload['actionData']['data']['description'];
         $template['thumbnail'] = $templateMeta['thumbnail'];
         $template['preview'] = $templateMeta['preview'];
@@ -168,7 +136,14 @@ class TemplatesUpdater extends Container implements Module
             $type = 'hub';
         }
 
-        $this->updatePostMetas($templateId, $template, $type, $payload, $templateElements);
+        $templateHelper->updateTemplateMetas(
+            $templateId,
+            $template,
+            $type,
+            $payload['actionData']['action'],
+            $templateElements,
+            $this->templatePostType
+        );
 
         $response['additionalActionList'] = self::$needAttachmentMetadataList;
         $response['templates'][] = [
@@ -188,44 +163,6 @@ class TemplatesUpdater extends Container implements Module
         ];
 
         return $response;
-    }
-
-    /**
-     * Update post metas for template
-     *
-     * @param $templateId
-     * @param $template
-     * @param $type
-     * @param $payload
-     * @param $templateElements
-     */
-    protected function updatePostMetas($templateId, $template, $type, $payload, $templateElements)
-    {
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'description', $template['description']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $type);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'bundle', $payload['actionData']['action']);
-        update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
-
-        if ($this->templatePostType === 'vcv_tutorials') {
-            if (isset($template['postMeta']['vcvSourceCss'][0])) {
-                update_post_meta(
-                    $templateId,
-                    'vcvSourceCss',
-                    $template['postMeta']['vcvSourceCss'][0]
-                );
-            }
-
-            if (isset($template['postMeta']['vcvSettingsSourceCustomCss'][0])) {
-                update_post_meta(
-                    $templateId,
-                    'vcvSettingsSourceCustomCss',
-                    $template['postMeta']['vcvSettingsSourceCustomCss'][0]
-                );
-            }
-        }
     }
 
     /**

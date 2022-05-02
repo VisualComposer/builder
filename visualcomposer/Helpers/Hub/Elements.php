@@ -282,6 +282,6 @@ class Elements implements Helper
             $isDevElements = true;
         }
 
-        return apply_filters('vcv:helpers:hub:isDevAddons', $isDevElements);
+        return apply_filters('vcv:helpers:hub:isDevElements', $isDevElements);
     }
 }
