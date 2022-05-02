@@ -17,16 +17,13 @@ export default class FacebookLike extends vcvAPI.elementComponent {
     this.insertHtml(this.props.atts)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    let { layout, size } = this.props.atts
+  componentDidUpdate (prevProps) {
+    const { layout, size } = this.props.atts
 
-    if (layout !== nextProps.atts.layout || size !== nextProps.atts.size) {
-      this.insertHtml(nextProps.atts)
+    if (prevProps.atts.layout !== layout || prevProps.atts.size !== size) {
+      this.insertHtml(this.props.atts)
     }
   }
-
-  /* eslint-enable */
 
   componentWillUnmount () {
     window.clearTimeout(this.checkVisibilityTimer)

@@ -16,15 +16,12 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.width !== nextProps.atts.width || this.props.atts.height !== nextProps.atts.height)) {
-      this.setCustomSize(nextProps.atts, this.getDefaultSize(nextProps.atts.embed))
-      this.appendMap(nextProps.atts.embed)
+  componentDidUpdate (prevProps) {
+    if (this.props.atts.embed && (prevProps.atts.embed !== this.props.atts.embed || prevProps.atts.width !== this.props.atts.width || prevProps.atts.height !== this.props.atts.height)) {
+      this.setCustomSize(this.props.atts, this.getDefaultSize(this.props.atts.embed))
+      this.appendMap(this.props.atts.embed)
     }
   }
-
-  /* eslint-enable */
 
   getSizeFromEmbed (embed) {
     const size = {}
