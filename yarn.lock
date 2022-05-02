@@ -8716,10 +8716,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vc-cake@0.9.0, vc-cake@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/vc-cake/-/vc-cake-1.0.2.tgz#ee760dbc801b79e0afdcb66f1328ba1e01c1cd01"
-  integrity sha512-buiQkmjZxvoIpuED/3SblVxyJWDjzH1Cr900B42U3Py777O8b3OmZ7Sqiq8znb4AtK235CsEsiN9Ermez3XB1A==
+vc-cake@0.9.0, vc-cake@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vc-cake/-/vc-cake-1.1.0.tgz#ca238a0dd2da8f2a748248e409da863cf3b82dea"
+  integrity sha512-eQbf3vIqxL4QaYAcZ/E+hqM2IanERmkmjkMMXdCKwGTfzxJ5+3IobGHB1GIEpwX+Xp6FEfPLh4Ll3A5mXhmgtA==
   dependencies:
     immutable "4.0.0"
     lodash "4.17.21"

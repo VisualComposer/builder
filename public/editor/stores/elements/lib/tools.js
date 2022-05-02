@@ -1,8 +1,9 @@
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 const elementsStorage = vcCake.getStorage('elements')
+const documentManager = vcCake.getService('document')
 
-export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
+export const rebuildRawLayout = (id, data = {}) => {
   const elements = []
   const columns = documentManager.children(id)
   const newColumns = []
