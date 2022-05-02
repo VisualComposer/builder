@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import NotificationItem from './notificationItem'
-import { getStorage } from 'vc-cake'
 import { seenMessagesSet } from 'public/editor/stores/insights/slice'
 
 class NotificationsPanel extends React.Component {
