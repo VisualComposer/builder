@@ -61,7 +61,7 @@ class MessagesButtonControl extends NavbarContent {
     const name = localizations ? localizations.insightsAndNotifications : 'Insights & Notifications'
     const controls = workspaceMessagesControls.get()
     const controlsArray = Object.keys(controls).map(key => controls[key])
-    const {currentLevel, isUnseenMessages} = this.props
+    const { currentLevel, isUnseenMessages } = this.props
 
     const containerClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
