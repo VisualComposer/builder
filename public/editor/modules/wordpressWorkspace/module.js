@@ -150,7 +150,8 @@ add('wordpressWorkspace', (api) => {
       if (data.length === 0) {
         const showBlank = editorType !== 'default'
         // Show the start ui only in initial loading for custom types
-        if (showBlank && typeof settingsStorage.state('skipBlank').get() === 'undefined') {
+        const skipState = settingsStorage.state('skipBlank').get()
+        if (showBlank && skipState === null) {
           addStartBlank()
           isBlank = true
         } else {
