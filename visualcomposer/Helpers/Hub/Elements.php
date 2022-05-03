@@ -217,7 +217,9 @@ class Elements implements Helper
             return $path;
         }
 
-        return VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($path, '\\/');
+        $elementPath = VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($path, '\\/');
+
+        return apply_filters('vcv:helpers:hub:elements:getElementPath', $elementPath, $path);
     }
 
     public function getElementUrl($path = '')

@@ -17,7 +17,7 @@ class Templates implements Helper
     {
         $bundleFolder = VCV_PLUGIN_ASSETS_DIR_PATH . '/templates';
 
-//        $bundleFolder = apply_filters('vcv:helpers:hub:getTemplatePath', $bundleFolder);
+        $bundleFolder = apply_filters('vcv:helpers:hub:templates:getTemplatesPath', $bundleFolder);
 
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
@@ -31,8 +31,6 @@ class Templates implements Helper
         $assetsHelper = vchelper('Assets');
 
         $bundleFolder = $assetsHelper->getAssetUrl('/templates');
-
-//        $bundleFolder = apply_filters('vcv:helpers:hub:getTemplateUrl', $bundleFolder);
 
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
