@@ -11,7 +11,7 @@ import Tags from '../postTags/component'
 import Categories from '../categories/component'
 
 import { getService } from 'vc-cake'
-import AccordionPanel from '../../accordionPanel'
+import AccordionPanel from 'public/components/uiHelpers/accordionPanel/accordionPanel'
 
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
