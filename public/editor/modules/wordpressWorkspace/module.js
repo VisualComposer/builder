@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
 import StartBlankPanel from 'public/components/startBlankFunctional/startBlankPanel'
+import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
@@ -113,6 +114,17 @@ add('wordpressWorkspace', (api) => {
       )
       workspaceStorage.state('navbarDisabled').set(false)
     }
+    const removeBlankIntro = () => {
+      ReactDOM.unmountComponentAtNode(iframeContent)
+      workspaceStorage.state('navbarDisabled').set(false)
+    }
+    const addBlankIntro = () => {
+      ReactDOM.render(
+        <BlankPageIntro unmountBlankPage={removeBlankIntro} />,
+        iframeContent
+      )
+      workspaceStorage.state('navbarDisabled').set(true)
+    }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
       workspaceStorage.state('navbarDisabled').set(false)
@@ -127,23 +139,23 @@ add('wordpressWorkspace', (api) => {
     const editorType = dataManager.get('editorType')
 
     // Once ajax is done, and app is ready trigger add element panel opening
-    workspaceStorage.state('app').onChange((status) => {
-      if (status === 'started') {
-        const elements = elementsStorage.state('document').get()
-        if (!elements.length && editorType === 'default') {
-          if (!roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
-            return
-          }
-          const settings = {
-            action: 'add',
-            element: {},
-            tag: '',
-            options: {}
-          }
-          workspaceStorage.state('settings').set(settings)
-        }
-      }
-    })
+    // workspaceStorage.state('app').onChange((status) => {
+    //   if (status === 'started') {
+    //     const elements = elementsStorage.state('document').get()
+    //     if (!elements.length && editorType === 'default') {
+    //       if (!roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
+    //         return
+    //       }
+    //       const settings = {
+    //         action: 'add',
+    //         element: {},
+    //         tag: '',
+    //         options: {}
+    //       }
+    //       workspaceStorage.state('settings').set(settings)
+    //     }
+    //   }
+    // })
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
@@ -153,6 +165,8 @@ add('wordpressWorkspace', (api) => {
         if (showBlank && typeof settingsStorage.state('skipBlank').get() === 'undefined') {
           addStartBlank()
           isBlank = true
+        } else if (editorType === 'default') {
+          addBlankIntro()
         } else {
           removeOverlay()
         }
