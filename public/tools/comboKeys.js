@@ -13,9 +13,20 @@ export function bindEditorKeys (document) {
   combokeysInstance.stopCallback = function (e, element) {
     const workspaceState = workspaceStorage.state('settings').get()
     const hasModal = workspaceStorage.state('hasModal').get()
-    const closestParent = element.closest('.vcv-layout-bar-content') || element.closest('.vcvhelper.mce-content-body')
-    const hasOverlay = closestParent || hasModal
-    return (!workspaceState && e.which === 27) || (hasOverlay && e.which !== 27)
+
+    if (!workspaceState && e.which === 27) { // Skip panel closing when panels is not opened
+      return true
+    }
+
+    if (hasModal) { // Skip any action when modal is opened (no panel opening and closing)
+      return true
+    }
+
+    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.hasAttribute('contenteditable')) { // Skip any action when focus on input types
+      return true
+    }
+
+    return false
   }
   combokeysInstance.bind([ 'command+z', 'ctrl+z' ], (e) => {
     e.preventDefault()
@@ -60,9 +71,6 @@ export function bindEditorKeys (document) {
   })
   combokeysInstance.bind('esc', (e) => {
     e.preventDefault()
-    if(workspaceStorage.state('hasModal')?.get()){
-      return
-    }
     workspaceStorage.state('settings').set(false)
   }, 'keyup')
   combokeysInstance.bind('shift+s', (e) => {
