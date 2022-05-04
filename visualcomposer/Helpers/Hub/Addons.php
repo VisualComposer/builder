@@ -99,10 +99,6 @@ class Addons implements Helper
             $path = VCV_PLUGIN_DIR_PATH . 'devAddons/' . ltrim($key, '\\/');
         }
 
-        ob_start();
-        var_dump( apply_filters('vcv:helpers:hub:addons:getAddonPath', $path, $key) );
-        $imp_to_file = ob_get_clean();
-        file_put_contents('/var/www/html/test.html', $imp_to_file, FILE_APPEND);
         return apply_filters('vcv:helpers:hub:addons:getAddonPath', $path, $key);
     }
 
