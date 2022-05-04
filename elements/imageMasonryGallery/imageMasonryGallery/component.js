@@ -18,17 +18,12 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
   }
 
   componentDidUpdate () {
-    vcCake.env('iframe') && vcCake.env('iframe').vcv.trigger('ready')
-  }
-
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
     this.currentImg = 0
     this.data = []
     this.loadingIndex++
-    this.prepareImages(nextProps.atts, true)
+    this.prepareImages(this.props.atts, true)
+    vcCake.env('iframe') && vcCake.env('iframe').vcv.trigger('ready')
   }
-  /* eslint-enable */
 
   prepareImages (atts, clearColumns = false) {
     const { image } = atts

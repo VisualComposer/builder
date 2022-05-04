@@ -26,14 +26,11 @@ export default class FlickrImage extends vcvAPI.elementComponent {
     window.removeEventListener('resize', this.handleResize)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (this.props.atts.flickrUrl !== nextProps.atts.flickrUrl || this.props.atts.width !== nextProps.atts.width) {
-      this.insertFlickr(nextProps.atts.flickrUrl)
+  componentDidUpdate (prevProps) {
+    if (prevProps.atts.flickrUrl !== this.props.atts.flickrUrl || prevProps.atts.width !== this.props.atts.width) {
+      this.insertFlickr(this.props.atts.flickrUrl)
     }
   }
-
-  /* eslint-enable */
 
   handleResize () {
     this.insertFlickr(this.props.atts.flickrUrl)
