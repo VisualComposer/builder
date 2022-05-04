@@ -1,6 +1,8 @@
 # Visual Composer Website Builder circleci config file
 
-version: 2
+version: 2.1
+orbs:
+  slack: circleci/slack@4.10.1
 jobs:
   js-codestyle:
     docker:
@@ -19,6 +21,10 @@ jobs:
           key: v1-node-codestyle-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+      - slack/notify:
+          channel: visual-composer
+          event: fail
+          template: basic_fail_1
   php-codestyle:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
@@ -30,6 +36,10 @@ jobs:
       - run:
           name: PHPGrep check
           command: ci/phpgrep-lint.sh visualcomposer/ ci/patterns.txt
+      - slack/notify:
+          channel: visual-composer
+          event: fail
+          template: basic_fail_1
   php-tests:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
@@ -70,6 +80,10 @@ jobs:
       - run: php tools/php-composer/cli.php
       - run: php -d 'zend_extension=xdebug.so' ci/phpunit-9.0.0.phar --configuration=ci/phpunit-all-coverage.xml
       - run: php ci/coverage-test.php
+      - slack/notify:
+          channel: visual-composer
+          event: fail
+          template: basic_fail_1
   end-2-end-tests-chrome:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
@@ -299,6 +313,10 @@ jobs:
           path: ./tests/cypressPipeline/cypress/videos
       - store_artifacts:
           path: ./tests/cypressPipeline/cypress/screenshots
+      - slack/notify:
+          channel: visual-composer
+          event: fail
+          template: basic_fail_1
   js-stores-tests:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
@@ -318,14 +336,24 @@ jobs:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+      - slack/notify:
+          channel: visual-composer
+          event: fail
+          template: basic_fail_1
 workflows:
   version: 2
   codestyle:
     jobs:
-      - js-codestyle
-      - php-codestyle
+      - js-codestyle:
+          context: slack-secrets
+      - php-codestyle:
+          context: slack-secrets
   tests:
     jobs:
-      - php-tests
-      - js-stores-tests
-      - end-2-end-tests-pipeline
+      - php-tests:
+          context: slack-secrets
+      - js-stores-tests:
+          context: slack-secrets
+      - end-2-end-tests-pipeline:
+          context: slack-secrets
+
