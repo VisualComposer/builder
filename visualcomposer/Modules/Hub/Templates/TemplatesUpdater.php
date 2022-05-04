@@ -213,7 +213,6 @@ class TemplatesUpdater extends Container implements Module
         $fileHelper = vchelper('File');
         $hubTemplatesHelper = vchelper('HubTemplates');
         $urlHelper = vchelper('Url');
-        $assetsHelper = vchelper('Assets');
 
         if ($urlHelper->isUrl($url)) {
             $imageFile = $fileHelper->download($url);
@@ -228,9 +227,7 @@ class TemplatesUpdater extends Container implements Module
                 }
 
                 if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
-                    return $assetsHelper->getAssetUrl(
-                        'templates/' . $template['id'] . '/' . $localImagePath
-                    );
+                    return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $localImagePath);
                 }
             } else {
                 return false;

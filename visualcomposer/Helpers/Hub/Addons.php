@@ -147,12 +147,12 @@ class Addons implements Helper
             }
 
             $url = VCV_PLUGIN_URL . 'devAddons/' . $urlPart;
-
-            return apply_filters('vcv:helpers:hub:addons:getAddonUrl', $url, $urlPart);
+        } else {
+            $assetsHelper = vchelper('Assets');
+            $url = $assetsHelper->getAssetUrl('/addons/' . ltrim($urlPart, '\\/'));
         }
-        $assetsHelper = vchelper('Assets');
 
-        return $assetsHelper->getAssetUrl('/addons/' . ltrim($urlPart, '\\/'));
+        return apply_filters('vcv:helpers:hub:addons:getAddonUrl', $url, $urlPart);
     }
 
     /**

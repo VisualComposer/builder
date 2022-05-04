@@ -32,6 +32,8 @@ class Templates implements Helper
 
         $bundleFolder = $assetsHelper->getAssetUrl('/templates');
 
+        $bundleFolder = apply_filters('vcv:helpers:hub:templates:getTemplatesUrl', $bundleFolder);
+
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }
@@ -59,27 +61,6 @@ class Templates implements Helper
         }
 
         return $templates;
-    }
-
-    public function activateTemplates($templateList)
-    {
-        $templatesHelper = vchelper('HubTemplates');
-        foreach ($templateList as $templateId => $templateData) {
-            $postId = $templatesHelper->insertNewTemplate(
-                $templateData,
-                'vcv_templates',
-                $templateData['post']['post_title']
-            );
-
-            $templatesHelper->updateTemplateMetas(
-                $postId,
-                $templateData,
-                'predefined',
-                'predefinedTemplate/photographyPortfolio',
-                $templateData['data'],
-                'vcv_templates'
-            );
-        }
     }
 
     /**

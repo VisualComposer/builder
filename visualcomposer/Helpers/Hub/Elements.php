@@ -242,8 +242,9 @@ class Elements implements Helper
         }
 
         $assetsHelper = vchelper('Assets');
+        $url = $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
 
-        return $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
+        return apply_filters('vcv:helpers:hub:elements:getElementUrl', $url, $path);
     }
 
     /**
