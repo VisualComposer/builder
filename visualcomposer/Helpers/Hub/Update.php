@@ -47,7 +47,7 @@ class Update implements Helper
 
         $updateList = ['actions' => $requiredActions, 'posts' => $postsActions];
 
-        return  apply_filters('vcv:helpers:hub:getRequiredActions', $updateList);
+        return apply_filters('vcv:helpers:hub:getRequiredActions', $updateList);
     }
 
     public function createPostUpdateObjects(array $posts)

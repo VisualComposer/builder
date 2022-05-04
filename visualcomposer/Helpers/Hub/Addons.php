@@ -96,7 +96,7 @@ class Addons implements Helper
     {
         $path = VCV_PLUGIN_ASSETS_DIR_PATH . '/addons/' . ltrim($key, '\\/');
         if ($this->isDevAddons()) {
-            $path =  VCV_PLUGIN_DIR_PATH . 'devAddons/' . ltrim($key, '\\/');
+            $path = VCV_PLUGIN_DIR_PATH . 'devAddons/' . ltrim($key, '\\/');
         }
 
         return apply_filters('vcv:helpers:hub:addons:getAddonPath', $path, $key);
@@ -168,7 +168,7 @@ class Addons implements Helper
     public function addFooterBundleScriptAddon($response, $addonName, $addonTag, $scriptName = 'element.bundle.js')
     {
         return array_merge(
-            (array) $response,
+            (array)$response,
             [
                 sprintf(
                     '<script id="vcv-script-%s-fe-bundle" type="text/javascript" src="%s"></script>',
