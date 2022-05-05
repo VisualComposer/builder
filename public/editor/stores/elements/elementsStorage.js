@@ -200,7 +200,7 @@ addStorage('elements', (storage) => {
       updateTimeMachine(source || 'elements')
     }
   })
-  storage.on('remove', (id, options) => {
+  storage.on('remove', (id, options = {}) => {
     const element = documentManager.get(id)
     if (!element) {
       return
