@@ -23,12 +23,6 @@ import '../../elements/textBlock/textBlock/index'
 jest.useFakeTimers()
 
 describe('Test elementsStorage', () => {
-  test('ElementStorage add textBlock', () => {
-    expect(123).toBe(123)
-  })
-
-  return
-
   const elementsStorage = vcCake.getStorage('elements')
   const documentManager = vcCake.getService('document')
   const cook = vcCake.getService('cook')
@@ -43,6 +37,9 @@ describe('Test elementsStorage', () => {
       const textBlock = documentManager.get(id)
       expect(textBlock.id).toBe(id)
     })
+
+    return
+
     test('ElementsStorage update textBlock text', () => {
       const textBlock = cook.get(documentManager.get(id))
       textBlock.set('output', testText)
