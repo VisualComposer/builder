@@ -109,7 +109,7 @@ With the Visual Composer Role Manager, you can set up and control access to any 
 
 = Font Manager =
 
-The [Visual Composer Font Manager] (https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-text) is a built-in addon for customizing the fonts, sizes, and styles of your headings, paragraphs, and blockquotes. You can also change link color options like underlines or hovering effects to make them stand out from the regular text.
+The [Visual Composer Font Manager] (https://visualcomposer.com/blog/font-manager/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=font-manager-text) is a built-in addon for customizing the fonts, sizes, and styles of your headings, paragraphs, and blockquotes. You can also change link color options like underlines or hovering effects to make them stand out from the regular text.
 
 For a more customized experience, you can change the letter spacing and line-height as well as margins. You may also capitalize, lowercase, and uppercase letters.
 
