@@ -16,7 +16,9 @@ export default class UrlDropdownInput extends React.Component {
     'http://',
     'https://',
     'mailto:',
-    'tel:'
+    'tel:',
+    'geo:',
+    'waze:'
   ]
 
   inputTimeout = 0
