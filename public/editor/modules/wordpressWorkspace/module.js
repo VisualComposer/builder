@@ -15,7 +15,6 @@ const assetsStorage = getStorage('assets')
 const settingsStorage = getStorage('settings')
 const utils = getService('utils')
 const dataManager = getService('dataManager')
-const roleManager = getService('roleManager')
 
 add('wordpressWorkspace', (api) => {
   api.reply('start', () => {
@@ -137,25 +136,6 @@ add('wordpressWorkspace', (api) => {
     let documentElements
     let isBlank = true
     const editorType = dataManager.get('editorType')
-
-    // Once ajax is done, and app is ready trigger add element panel opening
-    // workspaceStorage.state('app').onChange((status) => {
-    //   if (status === 'started') {
-    //     const elements = elementsStorage.state('document').get()
-    //     if (!elements.length && editorType === 'default') {
-    //       if (!roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
-    //         return
-    //       }
-    //       const settings = {
-    //         action: 'add',
-    //         element: {},
-    //         tag: '',
-    //         options: {}
-    //       }
-    //       workspaceStorage.state('settings').set(settings)
-    //     }
-    //   }
-    // })
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
