@@ -28,9 +28,7 @@
       display: none;
     }
   }
-}
 
-.blank-page-container {
   .vcv-ui-form-input {
     width: 100%;
     border: 1px solid @blank-page-intro-field-border-color;
@@ -42,6 +40,30 @@
     font-weight: 500;
     height: @blank-page-intro-settings-button-size;
     padding: 15px;
+  }
+
+  .vcv-ui-edit-form-section.vcv-ui-edit-form-section--closed .vcv-ui-icon-chevron-thick {
+    transform: rotate(180deg);
+  }
+
+  .vcv-ui-edit-form-section-header {
+    color: @blank-page-intro-settings-section-header-color;
+    background-color: transparent;
+    border-top: none;
+    border-bottom: @blank-page-intro-settings-accordion-border;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .07);
+    }
+
+    .vcv-ui-icon-chevron-thick {
+      font-size: 9px;
+      color: @blank-page-intro-settings-section-header-color;
+    }
+  }
+
+  .vcv-ui-edit-form-section-content {
+    border-bottom: @blank-page-intro-settings-accordion-border;
   }
 }
 
@@ -82,9 +104,39 @@
   bottom: 0;
   right: -@blank-page-intro-sidebar-width;
   width: @blank-page-intro-sidebar-width;
-  background: #fff;
+  background-color: @blank-page-intro-settings-bg-color;
   overflow-y: auto;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15)
 }
+
+.blank-page-settings-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 16px;
+  color: #fff;
+  background-color: @blank-page-intro-settings-header-bg-color;
+  font-size: 18px;
+
+  .vcv-ui-icon-close-thin {
+    color: inherit;
+  }
+
+  .vcv-ui-icon-cog {
+    margin-right: 13px;
+  }
+}
+
+.blank-page-settings-title,
+.vcv-ui-edit-form-section-header-title {
+  flex: 1 0 auto;
+  margin-right: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+}
+
+
 
 .blank-page-form {
   display: flex;
@@ -104,6 +156,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+
+  .vcv-ui-icon-chevron-thick {
+    font-size: 9px;
+    color: @blank-page-intro-icons-color;
+  }
 }
 
 .template-group-label {
@@ -135,7 +192,7 @@
 
 .template-thumbnail {
   height: 180px;
-  background-color: #C6CBD4;
+  background-color: @blank-page-intro-icons-color;
 }
 
 .template-info {

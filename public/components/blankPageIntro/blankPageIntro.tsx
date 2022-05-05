@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, {useRef, useState, useEffect} from 'react'
 import classNames from 'classnames'
-import { getStorage } from 'vc-cake'
+import {getStorage} from 'vc-cake'
 import Sidebar from './lib/sidebar'
 // @ts-ignore
 import Tooltip from 'public/components/tooltip/tooltip'
@@ -10,10 +10,10 @@ import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Compo
 const workspaceStorage = getStorage('workspace')
 
 interface Props {
-  unmountBlankPage: any
+    unmountBlankPage: any
 }
 
-const BlankPageIntro:React.FC<Props> = ({ unmountBlankPage }) => {
+const BlankPageIntro: React.FC<Props> = ({unmountBlankPage}) => {
     const [isSidebarOpened, setIsSidebarOpened] = useState(false)
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -32,10 +32,6 @@ const BlankPageIntro:React.FC<Props> = ({ unmountBlankPage }) => {
         setIsSidebarOpened(!isSidebarOpened)
     }
 
-    const handleTitleChange = () => {
-        console.log('change Title')
-    }
-    const pageTitle = 'Page Title ...'
     const blankPageClasses = classNames({
         'blank-page-container': true,
         'blank-page-settings--active': isSidebarOpened

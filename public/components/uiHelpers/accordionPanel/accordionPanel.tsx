@@ -6,10 +6,11 @@ import Tooltip from 'public/components/tooltip/tooltip'
 interface Props {
   children: any,
   sectionTitle: string,
-  tooltipText: string
+  tooltipText: string,
+  isChevron: boolean
 }
 
-const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText}) => {
+const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText, isChevron = false}) => {
   const [isActive, setIsActive] = useState(true)
 
   const handleClickToggleSection = (e: React.MouseEvent) => {
@@ -33,6 +34,7 @@ const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText}) 
       </Tooltip>
     )
   }
+  const chevron = isChevron ? <i className='vcv-ui-icon vcv-ui-icon-chevron-thick' /> : null
 
   return (
     <div className={sectionClasses}>
@@ -41,6 +43,7 @@ const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText}) 
           {sectionTitle}
         </span>
         {tooltip}
+        {chevron}
       </div>
       <div className='vcv-ui-edit-form-section-content'>
         {children}
