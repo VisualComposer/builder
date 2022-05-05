@@ -200,7 +200,7 @@ addStorage('elements', (storage) => {
       updateTimeMachine(source || 'elements')
     }
   })
-  storage.on('remove', (id) => {
+  storage.on('remove', (id, options) => {
     const element = documentManager.get(id)
     if (!element) {
       return
@@ -230,7 +230,9 @@ addStorage('elements', (storage) => {
     } else {
       storage.state('document').set(documentManager.children(false))
     }
-    updateTimeMachine()
+    if (!options.silent) {
+      updateTimeMachine()
+    }
   })
   storage.on('clone', (id) => {
     const breakBeforeClone = storage.action('beforeClone', id)
