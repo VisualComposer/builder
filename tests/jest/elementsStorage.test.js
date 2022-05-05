@@ -43,13 +43,11 @@ describe('Test elementsStorage', () => {
       textBlock.set('output', testText)
       const data = textBlock.toJS()
       elementsStorage.trigger('update', id, data)
-      jest.runAllTimers()
+      // jest.runAllTimers()
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
     })
 
-    return
-    
     test('ElementsStorage clone textBlock', () => {
       elementsStorage.trigger('clone', id)
       const textBlocks = documentManager.filter((data) => {
