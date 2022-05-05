@@ -20,7 +20,7 @@ import '../../elements/row/row/index'
 import '../../elements/column/column/index'
 import '../../elements/textBlock/textBlock/index'
 
-// jest.useFakeTimers()
+jest.useFakeTimers()
 
 describe('Test elementsStorage', () => {
   const elementsStorage = vcCake.getStorage('elements')
@@ -43,7 +43,7 @@ describe('Test elementsStorage', () => {
       textBlock.set('output', testText)
       const data = textBlock.toJS()
       elementsStorage.trigger('update', id, data)
-      // jest.runAllTimers()
+      jest.runAllTimers()
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
     })
