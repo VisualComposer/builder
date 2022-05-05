@@ -38,8 +38,6 @@ describe('Test elementsStorage', () => {
       expect(textBlock.id).toBe(id)
     })
 
-    return
-
     test('ElementsStorage update textBlock text', () => {
       const textBlock = cook.get(documentManager.get(id))
       textBlock.set('output', testText)
@@ -49,6 +47,9 @@ describe('Test elementsStorage', () => {
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
     })
+
+    return
+    
     test('ElementsStorage clone textBlock', () => {
       elementsStorage.trigger('clone', id)
       const textBlocks = documentManager.filter((data) => {
