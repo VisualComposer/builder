@@ -19,7 +19,6 @@ addStorage('wordpressData', (storage) => {
   const documentManager = getService('document')
   const dataManager = getService('dataManager')
   const wordpressDataStorage = getStorage('wordpressData')
-  const popupStorage = getStorage('popup')
   const cacheStorage = getStorage('cache')
   const localizations = dataManager.get('localizations')
   const utils = getService('utils')
