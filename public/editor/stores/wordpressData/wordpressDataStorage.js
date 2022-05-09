@@ -195,9 +195,6 @@ addStorage('wordpressData', (storage) => {
       if (responseData.templatesGroupsSorted) {
         hubTemplatesStorage.state('templatesGroupsSorted').set(responseData.templatesGroupsSorted)
       }
-      if (responseData.popups) {
-        popupStorage.state('popups').set(responseData.popups)
-      }
       if (responseData.settingsPopup) {
         settingsStorage.state('settingsPopup').set(responseData.settingsPopup)
       }
