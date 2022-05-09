@@ -2034,6 +2034,18 @@ class Localizations extends Container implements Helper
                 'Row margin',
                 'visualcomposer'
             ),
+            'layout' => __(
+                'Layout',
+                'visualcomposer'
+            ),
+            'content' => __(
+                'Content',
+                'visualcomposer'
+            ),
+            'toggleSection' => __(
+                'Toggle section',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
