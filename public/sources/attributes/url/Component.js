@@ -12,12 +12,10 @@ import { getResponse } from 'public/tools/response'
 import { getService, getStorage } from 'vc-cake'
 import Tooltip from 'public/components/tooltip/tooltip'
 import DynamicPopupContent from 'public/sources/attributes/dynamicField/dynamicPopupContent'
-import { popupAddInProgressSet } from 'public/editor/stores/popup/slice'
 
 const dataManager = getService('dataManager')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
-const popupStorage = getStorage('popup')
 const hubStorage = getStorage('hubAddons')
 const settingsStorage = getStorage('settings')
 
