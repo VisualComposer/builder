@@ -302,7 +302,6 @@ jobs:
   js-stores-tests:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
-    parallelism: 4
     steps:
       - checkout
       - restore_cache:
