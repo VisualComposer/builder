@@ -129,7 +129,7 @@ export default class ContentEditableComponent extends React.Component {
       const workspaceStorageState = workspaceStorage.state('settings').get()
 
       if (workspaceStorageState && workspaceStorageState.action === 'edit') {
-        const isSameElement = workspaceStorageState.elementAccessPoint && workspaceStorageState.elementAccessPoint.id === this.props.id
+        const isSameElement = workspaceStorageState.id === this.props.id
         if (isSameElement) {
           const options = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options : ''
           const activeTab = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options.activeTab : ''

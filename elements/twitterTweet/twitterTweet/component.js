@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import { isEqual } from 'lodash'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -17,27 +18,26 @@ export default class TwitterTweet extends vcvAPI.elementComponent {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    let { tweetUrl, tweetTheme } = this.props.atts
-    let elementKey = `customProps:${this.props.id}-${tweetUrl}-${tweetTheme}`
+  componentDidUpdate (prevProps) {
+    if (!isEqual(this.props.atts, prevProps.atts)) {
+      const { tweetUrl, tweetTheme } = prevProps.atts
+      const elementKey = `customProps:${prevProps.id}-${tweetUrl}-${tweetTheme}`
 
-    let nextAtts = nextProps.atts
-    if (nextAtts.width) {
-      this.checkCustomSize(nextAtts.width)
-    } else {
-      this.setState({
-        size: null
-      })
-    }
-    let nextElementKey = `customProps:${nextProps.id}-${nextAtts.tweetUrl}-${nextAtts.tweetTheme}`
+      const nextAtts = this.props.atts
+      if (nextAtts.width) {
+        this.checkCustomSize(nextAtts.width)
+      } else {
+        this.setState({
+          size: null
+        })
+      }
+      const nextElementKey = `customProps:${this.props.id}-${nextAtts.tweetUrl}-${nextAtts.tweetTheme}`
 
-    if (nextAtts.tweetUrl && elementKey !== nextElementKey) {
-      this.insertTwitter(nextAtts.tweetUrl, nextAtts.tweetTheme)
+      if (nextAtts.tweetUrl && elementKey !== nextElementKey) {
+        this.insertTwitter(nextAtts.tweetUrl, nextAtts.tweetTheme)
+      }
     }
   }
-
-  /* eslint-enable */
 
   loadJSONP (url, callback, context) {
     const name = '_jsonp_twitterTweet_' + TwitterTweet.unique++

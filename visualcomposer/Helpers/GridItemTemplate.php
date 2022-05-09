@@ -27,7 +27,7 @@ class GridItemTemplate extends Container implements Helper
      */
     public function parseTemplate($template, $post)
     {
-        $template = preg_replace_callback(
+        return preg_replace_callback(
             $this->templateRegexp,
             function ($matches) use ($post) {
                 /** @see \VisualComposer\Helpers\GridItemTemplate::templateCallback */
@@ -41,19 +41,18 @@ class GridItemTemplate extends Container implements Helper
             },
             $template
         );
-
-        return $template;
     }
 
     /**
      * @param $matches
      * @param \WP_Post $post
      *
-     * @return array|null|string
+     * @return string
      */
     protected function templateCallback($matches, $post)
     {
         list($fullMatch, $key, $value) = array_pad($matches, 3, null);
+
         $result = '';
         if ($key) {
             $result = vcfilter(
@@ -68,6 +67,6 @@ class GridItemTemplate extends Container implements Helper
             );
         }
 
-        return $result;
+        return $result ?: '';
     }
 }

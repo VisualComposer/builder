@@ -1,6 +1,7 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
 
+import '../../public/editor/services/dataManager/service.js'
 import '../../public/editor/services/utils/service.js'
 import '../../public/editor/services/document/service.js'
 
@@ -102,12 +103,6 @@ describe('Test documentService', () => {
     newAttributes.shape = 'square'
     const updatedElement = documentManager.get(elementData.id)
     expect(updatedElementData).toStrictEqual(updatedElement)
-  })
-  test('Expect element to be cloned', () => {
-    documentManager.clone(elementData.id)
-    Object.keys(documentManager.all()).forEach((key) => {
-      console.log(key, documentManager.all()[key]);
-    });
   })
   test('Expect deleted element to not be available', () => {
     documentManager.delete(elementData.id)

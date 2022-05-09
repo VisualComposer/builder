@@ -37,6 +37,7 @@ describe('Test elementsStorage', () => {
       const textBlock = documentManager.get(id)
       expect(textBlock.id).toBe(id)
     })
+
     test('ElementsStorage update textBlock text', () => {
       const textBlock = cook.get(documentManager.get(id))
       textBlock.set('output', testText)
@@ -46,10 +47,11 @@ describe('Test elementsStorage', () => {
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
     })
+
     test('ElementsStorage clone textBlock', () => {
       elementsStorage.trigger('clone', id)
       const textBlocks = documentManager.filter((data) => {
-        return data.get('tag') === 'textBlock'
+        return data.tag === 'textBlock'
       })
       expect(textBlocks.length).toBe(2)
     })
@@ -69,7 +71,7 @@ describe('Test elementsStorage', () => {
     test('ElementsStorage remove textBlock', () => {
       elementsStorage.trigger('remove', id)
       const textBlocks = documentManager.filter((data) => {
-        return data.get('tag') === 'textBlock'
+        return data.tag === 'textBlock'
       })
       expect(textBlocks.length).toBe(1)
     })

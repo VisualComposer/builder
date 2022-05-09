@@ -15,6 +15,7 @@ const documentManager = getService('document')
 const hubStorage = getStorage('hubAddons')
 const hubAddonsStorage = getStorage('hubAddons')
 const roleManager = getService('roleManager')
+const elementAccessPointService = getService('elementAccessPoint')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -140,16 +141,17 @@ export default class EditFormHeader extends React.Component {
   }
 
   handleClickGoBack () {
-    let { parentElementAccessPoint: accessPoint, options } = this.props.options
+    const { parentElementId, options } = this.props.options
     // If multiple nesting used we can goBack only to ROOT
     if (this.props.isEditFormSettingsOpened) {
       this.props.handleEditFormSettingsToggle()
     } else if (this.props.isElementReplaceOpened) {
       this.props.handleReplaceElementToggle()
     } else {
+      let accessPoint = elementAccessPointService.getInstance(parentElementId)
       while (accessPoint.inner) {
-        if (accessPoint.parentElementAccessPoint) {
-          accessPoint = accessPoint.parentElementAccessPoint
+        if (accessPoint.parentElementId) {
+          accessPoint = elementAccessPointService.getInstance(parentElementId)
         } else {
           break
         }

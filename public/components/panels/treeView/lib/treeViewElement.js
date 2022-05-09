@@ -8,7 +8,6 @@ import { isEqual } from 'lodash'
 
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
-const documentManger = getService('document')
 const utils = getService('utils')
 const cook = getService('cook')
 const hubElementsService = getService('hubElements')
@@ -181,10 +180,8 @@ export default class TreeViewElement extends React.Component {
     }
     const options = {}
     if (this.props.isAttribute) {
-      const elementAccessPointService = getService('elementAccessPoint')
-      const elementAccessPoint = elementAccessPointService.getInstance(this.state.element.parent)
       options.child = true
-      options.parentElementAccessPoint = elementAccessPoint
+      options.parentElementId = this.state.element.parent
       options.parentElementOptions = {}
     }
     workspaceStorage.trigger('edit', this.state.element.id, tab, options)
@@ -410,7 +407,7 @@ export default class TreeViewElement extends React.Component {
     const treeChildProps = {}
     let dragControl = null
 
-    const innerChildren = documentManger.children(this.state.element.id)
+    const innerChildren = documentManager.children(this.state.element.id)
     const childHtml = this.getContent(innerChildren)
     this.state.hasChild = !!innerChildren.length
 

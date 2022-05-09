@@ -88,7 +88,6 @@ addStorage('elements', (storage) => {
     innerAPI.dispatch('layoutChange', layoutData)
   })
   storage.on('add', (elementData, wrap = true, options = {}) => {
-    const createdElements = []
     const cookElement = cook.get(elementData)
     if (!cookElement) {
       return
@@ -126,10 +125,21 @@ addStorage('elements', (storage) => {
       }
     }
 
+    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+      if (elementData.tag === 'row') {
+        if (elementData.layout && elementData.layout.layoutData && (Object.prototype.hasOwnProperty.call(elementData.layout.layoutData, 'all') || Object.prototype.hasOwnProperty.call(elementData.layout.layoutData, 'xs'))) {
+          rebuildRawLayout(elementData.id, { layout: elementData.layout.layoutData })
+          elementData.layout.layoutData = undefined
+          wrap = false // Skip initChildren adding
+        } else {
+          rebuildRawLayout(elementData.id)
+        }
+      }
+    }
+
     const data = documentManager.create(elementData, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
     })
-    createdElements.push(data.id)
 
     const initChildren = cookElement.get('initChildren')
 
@@ -146,19 +156,8 @@ addStorage('elements', (storage) => {
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (data.tag === 'column') {
         const rowElement = documentManager.get(data.parent)
-        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
         storage.trigger('update', rowElement.id, rowElement, '', options)
-      }
-    }
-
-    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
-      if (data.tag === 'row') {
-        if (data.layout && data.layout.layoutData && (Object.prototype.hasOwnProperty.call(data.layout.layoutData, 'all') || Object.prototype.hasOwnProperty.call(data.layout.layoutData, 'xs'))) {
-          rebuildRawLayout(data.id, { layout: data.layout.layoutData }, documentManager)
-          data.layout.layoutData = undefined
-        } else {
-          rebuildRawLayout(data.id, {}, documentManager)
-        }
       }
     }
 
@@ -184,7 +183,7 @@ addStorage('elements', (storage) => {
     }
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (element.tag === 'row' && element.layout && element.layout.layoutData && (Object.prototype.hasOwnProperty.call(element.layout.layoutData, 'all') || Object.prototype.hasOwnProperty.call(element.layout.layoutData, 'xs'))) {
-        rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
+        rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking })
         element.layout.layoutData = undefined
       }
     }
@@ -201,7 +200,7 @@ addStorage('elements', (storage) => {
       updateTimeMachine(source || 'elements')
     }
   })
-  storage.on('remove', (id) => {
+  storage.on('remove', (id, options = {}) => {
     const element = documentManager.get(id)
     if (!element) {
       return
@@ -214,24 +213,26 @@ addStorage('elements', (storage) => {
       storage.trigger('remove', parent.id)
       // close editForm if deleted element is opened in edit form
       const settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'edit' && settings.elementAccessPoint && (parent.id === settings.elementAccessPoint.id)) {
+      if (settings && settings.action === 'edit' && settings.id && (parent.id === settings.id)) {
         workspaceStorage.state('settings').set(false)
       }
       parent = parent.parent ? documentManager.get(parent.parent) : false
     } else if (element.tag === 'column') {
       const rowElement = documentManager.get(parent.id)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
-        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
       }
       storage.trigger('update', rowElement.id, documentManager.get(parent.id))
     }
-    storage.state(`element:${id}`).delete()
+
     if (parent && element.tag !== 'column') {
       storage.trigger(`element:${parent.id}`, parent)
     } else {
       storage.state('document').set(documentManager.children(false))
     }
-    updateTimeMachine()
+    if (!options.silent) {
+      updateTimeMachine()
+    }
   })
   storage.on('clone', (id) => {
     const breakBeforeClone = storage.action('beforeClone', id)
@@ -242,7 +243,7 @@ addStorage('elements', (storage) => {
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (dolly.tag === 'column') {
         const rowElement = documentManager.get(dolly.parent)
-        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
         storage.trigger('update', rowElement.id, rowElement)
       }
     }
@@ -268,13 +269,13 @@ addStorage('elements', (storage) => {
       // rebuild previous column
       const rowElement = documentManager.get(element.parent)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
-        rebuildRawLayout(element.parent, { disableStacking: rowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(element.parent, { disableStacking: rowElement.layout.disableStacking })
       }
       // rebuild next column
       const newElement = documentManager.get(id)
       const newRowElement = documentManager.get(newElement.parent)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
-        rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout && newRowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout && newRowElement.layout.disableStacking })
       }
     }
     const updatedElement = documentManager.get(id)
@@ -400,7 +401,6 @@ addStorage('elements', (storage) => {
     }
 
     documentManager.delete(id)
-    storage.state(`element:${id}`).delete()
 
     if (!options.silent) {
       storage.state('elementReplace').set({ id, data })
