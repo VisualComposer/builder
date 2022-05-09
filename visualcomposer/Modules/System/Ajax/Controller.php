@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Nonce;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -179,14 +180,36 @@ class Controller extends Container implements Module
         vcvdie($response); // DO NOT USE WP_DIE because it can be overwritten by 3rd and cause plugin issues.
     }
 
-    protected function parseRequest(Request $requestHelper, Logger $loggerHelper)
+    protected function parseRequest(Request $requestHelper, Logger $loggerHelper, Options $optionsHelper)
     {
-        if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/octet-stream') {
-            $newAllJson = zlib_decode(file_get_contents('php://input'));
-            $newArgs = json_decode($newAllJson, true);
-            $all = $requestHelper->all();
-            $new = array_merge($all, $newArgs);
-            $requestHelper->setData($new);
+        // our dev env has false
+        if (\VcvEnv::get('VCV_JS_SAVE_ZIP')) {
+            $isBinary = isset($_SERVER['CONTENT_TYPE']) &&
+                $_SERVER['CONTENT_TYPE'] === 'application/octet-stream';
+
+            // for default case we use binary content for ajax as it most lightweight.
+            if ($isBinary) {
+                $zip = file_get_contents('php://input');
+                $newAllJson = zlib_decode($zip);
+                $newArgs = json_decode($newAllJson, true);
+                $contentZipType = $optionsHelper->get('content:zip:type', '');
+
+                if (!empty($newArgs['vcv-check-content-zip-type']) || $contentZipType === 'binary') {
+                    $all = $requestHelper->all();
+                    $new = array_merge($all, $newArgs);
+                    $requestHelper->setData($new);
+                }
+            // we need it for a cases when user server environment do not support binary content.
+            } elseif ($requestHelper->exists('vcv-zip')) {
+                $zip = $requestHelper->input('vcv-zip');
+
+                $basedecoded = base64_decode($zip);
+                $newAllJson = zlib_decode($basedecoded);
+                $newArgs = json_decode($newAllJson, true);
+                $all = $requestHelper->all();
+                $new = array_merge($all, $newArgs);
+                $requestHelper->setData($new);
+            }
         }
 
         // Require an action parameter.
