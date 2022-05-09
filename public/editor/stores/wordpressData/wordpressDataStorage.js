@@ -386,7 +386,7 @@ addStorage('wordpressData', (storage) => {
       return
     }
     const current = settingsStorage.state('pageTitle').get()
-    if (typeof current === 'undefined') {
+    if (typeof current === 'undefined' || current === null) {
       return
     }
     const disabled = settingsStorage.state('pageTitleDisabled').get()
