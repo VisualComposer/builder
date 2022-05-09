@@ -55,7 +55,8 @@ export default Object.assign({}, config, {
           'layout',
           'wordpressWorkspace',
           'insights',
-          'elementLimit'
+          'elementLimit',
+          'popups'
         ],
         services: [
           'dataManager',
