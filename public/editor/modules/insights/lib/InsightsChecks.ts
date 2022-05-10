@@ -302,7 +302,7 @@ export default class InsightsChecks {
         thumbnail: src,
         title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
         groupDescription: description,
-        description: 'Image size is' + ` ${imageSizeInMB.toFixed(2)} MB`,
+        description: 'Image size is' + ` ${imageSizeInMB.toFixed(1)} MB`,
         elementID: elementId,
         domNodeSelector: domNodeSelector
       }))
@@ -319,7 +319,7 @@ export default class InsightsChecks {
         thumbnail: src,
         title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
         groupDescription: description,
-        description: 'Image size is' + ` ${imageSizeBytes / 1024} KB`,
+        description: 'Image size is' + ` ${(imageSizeBytes / 1024).toFixed(1)} KB`,
         elementID: elementId,
         domNodeSelector: domNodeSelector
       }))
