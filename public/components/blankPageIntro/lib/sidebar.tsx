@@ -1,11 +1,25 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { getService } from 'vc-cake'
 // @ts-ignore
 import AccordionPanel from 'public/components/uiHelpers/accordionPanel/accordionPanel'
 // @ts-ignore
 import Permalink from 'public/components/permalink/permalink'
-import ParentPage from "../../panels/settings/lib/parentPage/component";
-import FeaturedImage from "../../panels/settings/lib/featuredImage/component";
+// @ts-ignore
+import ParentPage from 'public/components/panels/settings/lib/parentPage/component'
+// @ts-ignore
+import FeaturedImage from 'public/components/panels/settings/lib/featuredImage/component'
+// @ts-ignore
+import Categories from 'public/components/panels/settings/lib/categories/component'
+// @ts-ignore
+import Tags from 'public/components/panels/settings/lib/postTags/component'
+// @ts-ignore
+import Excerpt from 'public/components/panels/settings/lib/excerpt/component'
+// @ts-ignore
+import Discussion from 'public/components/panels/settings/lib/discussion/component'
+// @ts-ignore
+import Author from 'public/components/panels/settings/lib/author/component'
+// @ts-ignore
+import Scrollbar from 'public/components/scrollbar/scrollbar'
 
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
@@ -15,20 +29,23 @@ interface Props {
 }
 
 const Sidebar: React.FC<Props> = ({toggleSettings}) => {
+  const scrollbarsRef = useRef(null)
   const postSettings:any = []
   const closeButtonText:string = localizations.close || 'Close'
 
   if (dataManager.get('editorType') === 'default') {
     const generalText = localizations.general || 'General'
 
+    const parentPage = dataManager.get('pageList') ? <ParentPage /> : null
     postSettings.push(
       <AccordionPanel
         key='general'
         sectionTitle={generalText}
         isChevron={true}
+        classes='general-section'
       >
         <Permalink />
-        <ParentPage />
+        {parentPage}
       </AccordionPanel>
     )
   }
@@ -40,8 +57,82 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
         key='featuredImage'
         sectionTitle={featuredImage}
         isChevron={true}
+        classes='featured-image-section'
       >
         <FeaturedImage />
+      </AccordionPanel>
+    )
+  }
+
+  if (dataManager.get('categories')) {
+    const categoriesTitle = localizations.categories || 'Categories'
+    const categoriesDescription = localizations.categoriesDescription || 'Manage post categories or add a new category.'
+
+    postSettings.push(
+      <AccordionPanel
+        key='categories'
+        sectionTitle={categoriesTitle}
+        tooltipText={categoriesDescription}
+        isChevron={true}
+      >
+        <Categories />
+      </AccordionPanel>
+    )
+  }
+
+  if (dataManager.get('tags')) {
+    const tagsText = localizations.tags || 'Tags'
+    const tagsDescription = localizations.manageTagsAssociatedWithThePost || 'Manage tags associated with the post.'
+    postSettings.push(
+      <AccordionPanel
+        key='tags'
+        sectionTitle={tagsText}
+        tooltipText={tagsDescription}
+        isChevron={true}
+      >
+        <Tags />
+      </AccordionPanel>
+    )
+  }
+
+  if (typeof dataManager.get('excerpt') !== 'undefined') {
+    const settingName = localizations.excerpt || 'Excerpt'
+    const excerptsAreOptional = localizations.excerptsAreOptional || 'Excerpts are optional hand-crafted summaries of your content.'
+
+    postSettings.push(
+      <AccordionPanel
+        key='excerpt'
+        sectionTitle={settingName}
+        tooltipText={excerptsAreOptional}
+        isChevron={true}
+      >
+        <Excerpt />
+      </AccordionPanel>
+    )
+  }
+
+  if (dataManager.get('commentStatus') || dataManager.get('pingStatus')) {
+    const settingName = localizations.discussion || 'Discussion'
+    postSettings.push(
+      <AccordionPanel
+        key='discussion'
+        sectionTitle={settingName}
+        isChevron={true}
+      >
+        <Discussion />
+      </AccordionPanel>
+    )
+  }
+
+  if (dataManager.get('authorList')) {
+    const authorTitle = localizations.author || 'Author'
+    postSettings.push(
+      <AccordionPanel
+        key='author'
+        sectionTitle={authorTitle}
+        isChevron={true}
+      >
+        <Author />
       </AccordionPanel>
     )
   }
@@ -59,7 +150,9 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
             onClick={toggleSettings}
         />
       </header>
-      {postSettings}
+      <Scrollbar ref={scrollbarsRef}>
+        {postSettings}
+      </Scrollbar>
     </aside>
   )
 }
