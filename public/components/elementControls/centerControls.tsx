@@ -70,6 +70,8 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   if ((topPosition < (controlsHeight + screenGap * 2)) && (controlsListWidth > innerLeft)) {
     topPosition = controlsHeight + screenGap * 2
   }
+  // If element height is too small to center the controls
+  topPosition = visibleHeight < 75 ? topPosition - 20 : topPosition
 
   const handleMouseEnter = () => {
     const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()
