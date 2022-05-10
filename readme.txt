@@ -109,7 +109,7 @@ With the Visual Composer Role Manager, you can set up and control access to any 
 
 = Font Manager =
 
-The [Visual Composer Font Manager] (https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-text) is a built-in addon for customizing the fonts, sizes, and styles of your headings, paragraphs, and blockquotes. You can also change link color options like underlines or hovering effects to make them stand out from the regular text.
+The [Visual Composer Font Manager](https://visualcomposer.com/blog/font-manager/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=font-manager-text) is a built-in addon for customizing the fonts, sizes, and styles of your headings, paragraphs, and blockquotes. You can also change link color options like underlines or hovering effects to make them stand out from the regular text.
 
 For a more customized experience, you can change the letter spacing and line-height as well as margins. You may also capitalize, lowercase, and uppercase letters.
 
@@ -212,10 +212,6 @@ Yes! The free page builder version comes with a blank page layout option that al
 = Is Visual Composer a page builder or website builder? =
 
 It is both! Visual Composer’s free version works like a page builder where you have full control over the content area defined by your WordPress theme. Want to design a full site including headers and footers? Choose Visual Composer premium as it allows you to go beyond the content area and create a full site just like you want it.
-
-= Do you have an online community? =
-
-Yes, we have an awesome online community that you can join to share your expertise, connect with power-users and the Visual Composer core team – slack.visualcomposer.com
 
 == Screenshots ==
 1. A friendly, intuitive website builder that gives you design freedom and tools to create a beautiful site.
