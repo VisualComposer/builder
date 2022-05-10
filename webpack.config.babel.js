@@ -62,7 +62,8 @@ export default {
           'layout',
           'wordpressWorkspace',
           'insights',
-          'elementLimit'
+          'elementLimit',
+          'popups'
         ],
         services: [
           'dataManager',

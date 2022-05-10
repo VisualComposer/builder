@@ -213,10 +213,6 @@ Yes! The free page builder version comes with a blank page layout option that al
 
 It is both! Visual Composer’s free version works like a page builder where you have full control over the content area defined by your WordPress theme. Want to design a full site including headers and footers? Choose Visual Composer premium as it allows you to go beyond the content area and create a full site just like you want it.
 
-= Do you have an online community? =
-
-Yes, we have an awesome online community that you can join to share your expertise, connect with power-users and the Visual Composer core team – slack.visualcomposer.com
-
 == Screenshots ==
 1. A friendly, intuitive website builder that gives you design freedom and tools to create a beautiful site.
 2. Create any layouts fast and easy with the pixel perfect Visual Composer builder. It helps you structure content in a way that’s exactly how it should be!

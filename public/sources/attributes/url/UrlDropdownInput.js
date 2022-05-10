@@ -79,7 +79,7 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   extractProtocol (value) {
-    const protocolRegExp = new RegExp(/^https?:\/\/|mailto:|tel:/)
+    const protocolRegExp = new RegExp(/^https?:\/\/|mailto:|tel:|waze:|geo:/)
     const match = value.match(protocolRegExp)
     if (match) {
       return {
