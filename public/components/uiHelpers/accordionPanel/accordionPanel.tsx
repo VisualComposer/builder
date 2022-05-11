@@ -7,10 +7,11 @@ interface Props {
   children: any,
   sectionTitle: string,
   tooltipText: string,
-  isChevron: boolean
+  isChevron: boolean,
+  classes: string
 }
 
-const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText, isChevron = false}) => {
+const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText, isChevron = false, classes}) => {
   const [isActive, setIsActive] = useState(true)
 
   const handleClickToggleSection = (e: React.MouseEvent) => {
@@ -20,11 +21,15 @@ const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText, i
     }
   }
 
-  const sectionClasses = classNames({
+  let sectionClasses = classNames({
     'vcv-ui-edit-form-section': true,
     'vcv-ui-edit-form-section--opened': isActive,
-    'vcv-ui-edit-form-section--closed': !isActive
+    'vcv-ui-edit-form-section--closed': !isActive,
   })
+
+  if (classes) {
+    sectionClasses += ` ${classes}`
+  }
 
   let tooltip = null
   if (tooltipText) {

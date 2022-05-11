@@ -2046,6 +2046,26 @@ class Localizations extends Container implements Helper
                 'Toggle section',
                 'visualcomposer'
             ),
+            'blankPageNonCapitalized' => __(
+                'Blank page',
+                'visualcomposer'
+            ),
+            'defaultLayout' => __(
+                'Default layout',
+                'visualcomposer'
+            ),
+            'customLayout' => __(
+                'Custom layout',
+                'visualcomposer'
+            ),
+            'noContent' => __(
+                'No content',
+                'visualcomposer'
+            ),
+            'myTemplate' => __(
+                'My template',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

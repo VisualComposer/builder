@@ -257,6 +257,9 @@
 }
 
 .template-thumbnail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1 0 auto;
   border-top-left-radius: @blank-page-intro-item-border-radius;
   border-top-right-radius: @blank-page-intro-item-border-radius;
@@ -328,4 +331,13 @@
     color: @vcv-color-white;
     text-decoration: none;
   }
+}
+
+.template-info .vcv-ui-form-group-heading,
+.template-info .vcv-ui-form-helper {
+  display: none;
+}
+
+.template-info .vcv-ui-form-group {
+  margin: 0;
 }

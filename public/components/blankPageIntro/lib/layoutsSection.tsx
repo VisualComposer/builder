@@ -4,6 +4,7 @@ import { getService } from 'vc-cake'
 // @ts-ignore
 import Tooltip from 'public/components/tooltip/tooltip'
 import LayoutItem from './layoutItem'
+import LayoutsData from './layoutsData/index'
 
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
@@ -14,7 +15,8 @@ interface Props {
 
 const LayoutsSection: React.FC<Props> = ({sectionType}) => {
   const [isSectionOpened, setIsSectionOpened] = useState(true)
-  let layoutsData:any = []
+  const [activeItem, setActiveItem] = useState(0)
+  let layoutsData:any = LayoutsData[sectionType] // TODO: fix error
   let sectionLabel
   let tooltipText
 
@@ -22,34 +24,31 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
     setIsSectionOpened(!isSectionOpened)
   }
 
+  const handleClick = (index:number) => {
+    setActiveItem(index)
+  }
+
   if (sectionType === 'layout') {
+    console.log('LayoutIcons', LayoutsData);
     sectionLabel = localizations.layout || 'Layout'
     tooltipText = 'Layout fafdsfa'
-    layoutsData = [
-      {
-        type: 'default',
-        label: 'Default layout'
-      },
-      {
-        type: 'blank',
-        label: 'Blank layout'
-      },
-      {
-        type: 'custom',
-        label: 'Custom layout'
-      },
-    ]
   } else {
     sectionLabel = localizations.content || 'Content'
     tooltipText = 'Content fsdasfr'
     // TODO: Get template data from backend
-    layoutsData = []
+    // layoutsData = []
   }
 
   const getItems = () => {
     return layoutsData.map((item:any, i:number) => {
-      const isSelectable = sectionType === 'content'
-        return <LayoutItem key={`item-${i}`} itemData={item} isSelectable={isSelectable} />
+      const isActive = i === activeItem
+      return <LayoutItem
+          key={`item-${i}`}
+          index={i}
+          itemData={item}
+          handleClick={handleClick}
+          isActive={isActive}
+      />
     })
   }
 
@@ -76,7 +75,7 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
         />
       </div>
       <div className='template-items-section'>
-          {getItems()}
+        {getItems()}
       </div>
     </div>
   )

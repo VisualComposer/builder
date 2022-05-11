@@ -1,31 +1,37 @@
-import React, { useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
-import { getService } from 'vc-cake'
+// import { getService } from 'vc-cake'
 // @ts-ignore
 import Tooltip from 'public/components/tooltip/tooltip'
+// @ts-ignore
+import CustomLayoutDropdown from 'public/sources/attributes/pageSettingsLayouts/lib/customLayoutDropdown'
 
-const dataManager = getService('dataManager')
-const localizations = dataManager.get('localizations')
+// const dataManager = getService('dataManager')
+// const localizations = dataManager.get('localizations')
 
 interface Props {
-  isSelectable: boolean,
-  itemData: any
+  itemData: any,
+  handleClick: any,
+  isActive: boolean,
+  index: number
 }
 
-const LayoutItem: React.FC<Props> = ({isSelectable, itemData}) => {
-  const [isSelected, setIsSelected] = useState(false)
-
+const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
   const handleItemClick = () => {
-    setIsSelected(!isSelected)
+    handleClick(index)
   }
+  const icon:any = itemData?.icon?.default() || null
 
   const itemClasses = classNames({
     'template-item': true,
-    'template-item--selected': isSelected
+    'template-item--selected': isActive
   })
+
   let item = (
     <div className={itemClasses} onClick={handleItemClick}>
-      <div className='template-thumbnail' />
+      <div className='template-thumbnail'>
+        {icon}
+      </div>
       <div className='template-info'>
         <span className='template-label'>{itemData.label}</span>
         <Tooltip />
@@ -33,15 +39,22 @@ const LayoutItem: React.FC<Props> = ({isSelectable, itemData}) => {
       </div>
     </div>
   )
-  if (isSelectable) {
+
+  if (itemData.type === 'custom') {
     item = (
-      <div className='template-item'>
-        <div className='template-thumbnail' />
-        <div className='template-info'>
+      <div className={itemClasses} onClick={handleItemClick}>
+        <div className='template-thumbnail'>
+            {icon}
+        </div>
+        <div className='template-info template-info--select'>
           <span className='template-label'>{itemData.label}</span>
-          <select>
-            <option value='Select a layout'>Select a layout</option>
-          </select>
+          <CustomLayoutDropdown
+              onTemplateChange={() => {}}
+              current={{value: ''}}
+          />
+          {/*<select className='vcv-ui-form-dropdown template-select'>*/}
+          {/*  <option value='Select a layout'>Select a layout</option>*/}
+          {/*</select>*/}
         </div>
       </div>
     )
