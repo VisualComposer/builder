@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { getService } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 // @ts-ignore
 import AccordionPanel from 'public/components/uiHelpers/accordionPanel/accordionPanel'
 // @ts-ignore
@@ -21,6 +21,7 @@ import Author from 'public/components/panels/settings/lib/author/component'
 // @ts-ignore
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 
+const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
@@ -31,7 +32,9 @@ interface Props {
 const Sidebar: React.FC<Props> = ({toggleSettings}) => {
   const scrollbarsRef = useRef(null)
   const postSettings:any = []
-  const closeButtonText:string = localizations.close || 'Close'
+  const closeButtonText = localizations.close || 'Close'
+  const url = new URL(window.location.href)
+  const postOptionsText = url.searchParams.get('post_type') === 'page' ? localizations.pageSettings || 'Page Options' : localizations.postOptions || 'Post Options'
 
   if (dataManager.get('editorType') === 'default') {
     const generalText = localizations.general || 'General'
@@ -141,7 +144,7 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
     <aside className='blank-page-settings'>
       <header className='blank-page-settings-header'>
         <i className='vcv-ui-icon vcv-ui-icon-cog' />
-        <span className='blank-page-settings-title'>Post Options</span>
+        <span className='blank-page-settings-title'>{postOptionsText}</span>
         <button
             className='blank-button vcv-ui-icon vcv-ui-icon-close-thin'
             aria-label={closeButtonText}
