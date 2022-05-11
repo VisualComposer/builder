@@ -14,7 +14,11 @@ import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
 import { updateHtmlWithServer, renderInlineHtml } from 'public/tools/updateHtmlWithServer'
-import { getCssMixinsData, getInnerCssMixinsData, getMixinsSelector } from 'public/editor/services/modernAssetsStorage/cssMixins'
+import {
+  getCssMixinsData,
+  getInnerCssMixinsData,
+  getMixinsSelector
+} from 'public/editor/services/modernAssetsStorage/cssMixins'
 import { spinnerHtml } from 'public/tools/spinnerHtml'
 
 const assetsStorage = getStorage('assets')
@@ -112,12 +116,19 @@ export default class ElementComponent extends React.Component {
     const scriptHtml = `<script type="text/javascript">${tagString}</script>`
     helper.classList.add('vcvhelper')
     helper.setAttribute('data-vcvs-html', `${scriptHtml}`)
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    const escapedString = escape(tagString)
-    script.text = `try{
-      eval(unescape('${escapedString}'))
-    } catch(e) {console.warn(e);}`
+    let script = null
+    if (scriptHtml.includes('document.write')) {
+      script = document.createElement('span')
+      script.innerHTML = 'This script cannot be rendered in the editor because document.write is used in your code. However, it will work on the public and preview page.'
+    } else {
+      script = document.createElement('script')
+      script.type = 'text/javascript'
+      const escapedString = escape(tagString)
+      script.text = `try{
+        eval(unescape('${escapedString}'))
+      } catch(e) {console.warn(e);}`
+    }
+
     helper.appendChild(script)
     elementWrapper.appendChild(helper)
   }
