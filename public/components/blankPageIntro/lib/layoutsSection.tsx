@@ -29,7 +29,7 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
   }
 
   if (sectionType === 'layout') {
-    console.log('LayoutIcons', LayoutsData);
+    // console.log('LayoutIcons', LayoutsData);
     sectionLabel = localizations.layout || 'Layout'
     tooltipText = 'Layout fafdsfa'
   } else {

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { getService, getStorage } from 'vc-cake'
+import { getService } from 'vc-cake'
 // @ts-ignore
 import AccordionPanel from 'public/components/uiHelpers/accordionPanel/accordionPanel'
 // @ts-ignore
@@ -21,7 +21,6 @@ import Author from 'public/components/panels/settings/lib/author/component'
 // @ts-ignore
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 
-const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
@@ -146,11 +145,11 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
         <i className='vcv-ui-icon vcv-ui-icon-cog' />
         <span className='blank-page-settings-title'>{postOptionsText}</span>
         <button
-            className='blank-button vcv-ui-icon vcv-ui-icon-close-thin'
-            aria-label={closeButtonText}
-            title={closeButtonText}
-            type='button'
-            onClick={toggleSettings}
+          className='blank-button vcv-ui-icon vcv-ui-icon-close-thin'
+          aria-label={closeButtonText}
+          title={closeButtonText}
+          type='button'
+          onClick={toggleSettings}
         />
       </header>
       <Scrollbar ref={scrollbarsRef}>

@@ -6,19 +6,25 @@ const localizations = dataManager.get('localizations')
 const LayoutsData = {
     'layout': [
         {
-            type: 'default',
+            type: 'vc-custom-layout',
+            value: 'default',
             icon: require('./defaultIcon'),
-            label: localizations.defaultLayout || 'Default layout'
+            label: localizations.defaultLayout || 'Default layout',
+            control: 'button'
         },
         {
-            type: 'blank',
+            type: 'vc',
+            value: 'blank',
             icon: require('./blankIcon'),
-            label: localizations.blankPageNonCapitalized || 'Blank page'
+            label: localizations.blankPageNonCapitalized || 'Blank page',
+            control: 'button'
         },
         {
-            type: 'custom',
+            type: 'vc-theme',
+            value: 'custom',
             icon: require('./customIcon'),
-            label: localizations.customLayout || 'Custom layout'
+            label: localizations.customLayout || 'Custom layout',
+            control: 'dropdown'
         }
     ],
     'content': [

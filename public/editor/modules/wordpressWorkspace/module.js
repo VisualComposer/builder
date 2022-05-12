@@ -116,6 +116,7 @@ add('wordpressWorkspace', (api) => {
     const removeBlankIntro = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
       workspaceStorage.state('navbarDisabled').set(false)
+      isBlankPageIntro = false
     }
     const addBlankIntro = () => {
       ReactDOM.render(
@@ -135,6 +136,7 @@ add('wordpressWorkspace', (api) => {
     }
     let documentElements
     let isBlank = true
+    let isBlankPageIntro = true
     const editorType = dataManager.get('editorType')
 
     elementsStorage.state('document').onChange((data, elements) => {
@@ -145,8 +147,9 @@ add('wordpressWorkspace', (api) => {
         if (showBlank && typeof settingsStorage.state('skipBlank').get() === 'undefined') {
           addStartBlank()
           isBlank = true
-        } else if (editorType === 'default') {
+        } else if (isBlankPageIntro && editorType === 'default') {
           addBlankIntro()
+          isBlankPageIntro = true
         } else {
           removeOverlay()
         }

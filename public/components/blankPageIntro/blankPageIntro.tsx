@@ -4,22 +4,19 @@ import { getStorage, getService } from 'vc-cake'
 import Sidebar from './lib/sidebar'
 import LayoutsSection from './lib/layoutsSection'
 // @ts-ignore
-import Tooltip from 'public/components/tooltip/tooltip'
-// @ts-ignore
 import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Component'
 // @ts-ignore
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 
 const workspaceStorage = getStorage('workspace')
-const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
 interface Props {
-    unmountBlankPage: any
+  unmountBlankPage: any
 }
 
-const BlankPageIntro: React.FC<Props> = ({unmountBlankPage}) => {
+const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false)
   const scrollbarsRef = useRef(null)
 
@@ -80,3 +77,16 @@ const BlankPageIntro: React.FC<Props> = ({unmountBlankPage}) => {
 }
 
 export default BlankPageIntro
+
+/**
+ * TODO:
+ * 1. Handle layout apply when selected in dropdown (x)
+ * 2. Dropdown for Content My templates (what are they?)
+ * 3. Focus State for fields
+ * 4. Handle Blank Page intro render on iframe reload (x)
+ * 5. Check mobile view
+ * 6. Style attributes
+ * 7. Check Free version view
+ * 8. Render hub content layouts
+ * 9. Check other editors (HFS, Popup, Layout)
+ */
