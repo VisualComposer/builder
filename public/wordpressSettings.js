@@ -3,7 +3,7 @@ import 'public/editor/services/dataManager/service'
 import 'public/editor/services/utils/service'
 import 'public/editor/services/dataProcessor/service'
 import { hoverTooltip } from './components/wpVcSettings/helpTooltips'
-import { checkStatus } from './components/wpVcSettings/statusCheck'
+import { checkStatus, checkContentZipType } from './components/wpVcSettings/statusCheck'
 import { initEditors } from './components/wpVcSettings/editors'
 import { hfSectionToggle } from './components/wpVcSettings/hfSectionToggle'
 import { dropdownEditLink } from './components/wpVcSettings/dropdownEditLink'
@@ -49,6 +49,7 @@ export default function importJS (currentSection) {
     initEditors()
   } else if (currentSection === 'vcv-system-status') {
     checkStatus()
+    checkContentZipType()
     hoverTooltip()
   } else if (currentSection === 'vcv-headers-footers') {
     hfSectionToggle()

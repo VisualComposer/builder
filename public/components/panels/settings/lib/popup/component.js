@@ -117,8 +117,25 @@ export default class Popup extends React.Component {
     settingsStorage.state('settingsPopup').set(popupData)
   }
 
+  getPopupSelectText (value) {
+    const localizations = dataManager.get('localizations')
+    const globalUrl = 'vcvCreatevcv_popups'
+    const createNewUrl = window[globalUrl] ? window[globalUrl] : ''
+
+    if (isNaN(value)) {
+      const text = localizations ? localizations.createPopup : '<a href="{link}" target="_blank">Create</a> a new popup.'
+      return text.replace('{link}', createNewUrl)
+    } else {
+      let editLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
+      editLink += `post.php?post=${value}&action=edit`
+      const text = localizations ? localizations.editPopup : '<a href="{editLink}" target="_blank">Edit</a> this popup or <a href="{createLink}" target="_blank">create</a> a new one.'
+      return text.replace('{editLink}', editLink).replace('{createLink}', createNewUrl)
+    }
+  }
+
   renderExistingPosts (type) {
     const none = localizations ? localizations.none : 'None'
+    const chooseHFSText = this.getPopupSelectText(this.state[type].id)
     const items = []
     let globalOption = null
     if (type !== 'popupOnElementId') {
@@ -137,15 +154,18 @@ export default class Popup extends React.Component {
     })
 
     return (
-      <select
-        className='vcv-ui-form-dropdown'
-        value={this.state[type].id}
-        onChange={this.handleSelectChange.bind(this, type)}
-      >
-        {globalOption}
-        <option value='none'>{none}</option>
-        {items}
-      </select>
+      <>
+        <select
+          className='vcv-ui-form-dropdown'
+          value={this.state[type].id}
+          onChange={this.handleSelectChange.bind(this, type)}
+        >
+          {globalOption}
+          <option value='none'>{none}</option>
+          {items}
+        </select>
+        <p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: chooseHFSText }} />
+      </>
     )
   }
 

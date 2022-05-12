@@ -6,6 +6,7 @@ import editorPopupReducer from './editorPopup/slice'
 import sharedAssetsReducer from './sharedAssets/slice'
 import documentReducer from './document/slice'
 import insightsReducer from './insights/slice'
+import popupsReducer from './popup/slice'
 
 const rootReducer = combineReducers({
   notifications: notificationsReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   editorPopup: editorPopupReducer,
   sharedAssets: sharedAssetsReducer,
   document: documentReducer,
-  insights: insightsReducer
+  insights: insightsReducer,
+  popups: popupsReducer
 })
 
 type RootReducerType = typeof rootReducer;

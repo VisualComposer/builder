@@ -18,6 +18,8 @@ export default class Field extends React.Component {
 
   constructor (props) {
     super(props)
+    this.attributeComponentRef = React.createRef()
+    this.fieldAttributeWrapperRef = React.createRef()
     let value = props.elementAccessPoint.cook().toJS()[props.fieldKey]
     if (props.options && props.options.nestedAttr) {
       value = props.options.activeParamGroup[props.fieldKey]
@@ -38,8 +40,8 @@ export default class Field extends React.Component {
     this.props.elementAccessPoint.onAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldMount(this.props.fieldKey, {
       refWrapperComponent: this,
-      refWrapper: this.refs.fieldAttributeWrapper,
-      refAttributeComponent: this.refs.attributeComponent
+      refWrapper: this.fieldAttributeWrapperRef.current,
+      refAttributeComponent: this.attributeComponentRef.current
     }, 'field')
   }
 
@@ -188,13 +190,13 @@ export default class Field extends React.Component {
           const newValue = getDynamicValue(defaultDynamicFieldKey)
           return newValue
         }}
-        ref='attributeComponent'
+        ref={this.attributeComponentRef}
         setLoadingState={this.setLoadingState}
       />
     )
 
     return (
-      <div ref='fieldAttributeWrapper' className={classes}>
+      <div ref={this.fieldAttributeWrapperRef} className={classes}>
         <div className={groupClasses} key={`form-group-field-${element.id}-${fieldKey}`}>
           {label}
           {fieldComponent}
