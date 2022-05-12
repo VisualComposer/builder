@@ -66,7 +66,8 @@
       "@typescript-eslint/no-var-requires": "off",
       "import/no-unresolved": "off",
       "import/no-webpack-loader-syntax": "off",
-      "react/prop-types": 0
+      "react/prop-types": 0,
+      "semi": ["error", "never"]
     },
     "ignorePatterns": [
       "**/*.babel.js",
@@ -79,7 +80,6 @@
       "devAddons/_tests/*",
       "_infrastructure/*",
       "devElements/_tests/*",
-      "public/sources/*",
       "public/config/*",
       "public/dist/*",
       "tests/*",
