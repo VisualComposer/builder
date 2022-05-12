@@ -38,7 +38,7 @@ const VotePopup: React.FC<Props> = (props) => {
 
     // Set vote value in storage so we can use it in the review popup
     const popupState = JSON.parse(JSON.stringify(props.popups)) || {}
-      Object.preventExtensions(popupState)
+    Object.preventExtensions(popupState)
     if (popupState.votePopup) {
       popupState.votePopup.voteValue = checkedInput.value
     }

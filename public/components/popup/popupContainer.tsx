@@ -41,8 +41,8 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
 
 
   const handleCloseClick = () => {
-      popupVisibilitySet(false)
-      window.setTimeout(() => {
+    popupVisibilitySet(false)
+    window.setTimeout(() => {
       allPopupsHidden()
     }, 500)
   }
@@ -51,8 +51,8 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
     setActionClicked(true)
     window.setTimeout(() => {
       setActionClicked(false)
-        popupVisibilitySet(false)
-        allPopupsHidden()
+      popupVisibilitySet(false)
+      allPopupsHidden()
     }, 500)
   }
 

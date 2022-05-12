@@ -12,15 +12,15 @@ const AssignLayoutControl: React.FC = () => {
   const assignUrl = adminLink + 'admin.php?page=vcv-headers-footers'
 
   return (
-      <div className='vcv-ui-navbar-controls-set'>
-          <a
-            className='vcv-ui-navbar-control'
-            href={assignUrl}
-            title={assignLayoutTitle}
-          >
-            {assignLayoutTitle}
-          </a>
-      </div>
+    <div className='vcv-ui-navbar-controls-set'>
+      <a
+        className='vcv-ui-navbar-control'
+        href={assignUrl}
+        title={assignLayoutTitle}
+      >
+        {assignLayoutTitle}
+      </a>
+    </div>
   )
 }
 

@@ -68,7 +68,8 @@
       "import/no-webpack-loader-syntax": "off",
       "react/prop-types": 0,
       "semi": ["error", "never"],
-      "quotes": ["error", "single"]
+      "quotes": ["error", "single"],
+      "indent": ["error", 2]
     },
     "ignorePatterns": [
       "**/*.babel.js",

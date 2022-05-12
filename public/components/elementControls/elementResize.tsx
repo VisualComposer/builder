@@ -308,15 +308,15 @@ const ElementResize: React.FC<Props> = (props) => {
             <span className='vce-column-resizer-label-percentage' title={marginText}>{leftDistance}px</span>
           </div>
           <div className='vce-column-resizer-label vce-column-resizer-label-right'>
-           <span
-             className='vce-column-resizer-label-percentage vce-add-column'
-             title={columnBeforeText}
-             onMouseDown={(event) => {
-               handlePlusClick(event, 'before')
-             }}
-           >
-             <i className='vcv-ui-icon vcv-ui-icon-add' />
-           </span>
+            <span
+              className='vce-column-resizer-label-percentage vce-add-column'
+              title={columnBeforeText}
+              onMouseDown={(event) => {
+                handlePlusClick(event, 'before')
+              }}
+            >
+              <i className='vcv-ui-icon vcv-ui-icon-add' />
+            </span>
           </div>
         </div>
       </div>

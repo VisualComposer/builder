@@ -88,7 +88,7 @@ const slice = createSlice({
     allPopupsHidden: (data) => {
       const popups: Popups = data.popups
       Object.keys(data.popups).forEach((popupName) => {
-      popups[popupName].visible = false
+        popups[popupName].visible = false
       })
       data.activePopup = getActivePopup(data.popups)
     },

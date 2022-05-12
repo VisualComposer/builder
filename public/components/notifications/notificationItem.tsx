@@ -66,18 +66,18 @@ const NotificationItem: React.FC<Props> = (props) => {
   })
 
   return (!props.data.showCloseButton ?
-      <div className={classes} onClick={handleClickHideNotification}>
-        {textHtml}
-      </div> : <div className={classes}>
-        {textHtml}
-        <div
-          className='vcv-layout-notifications-close'
-          title={localizations ? localizations.close : 'Close'}
-          onClick={handleClickHideNotification}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
-        </div>
+    <div className={classes} onClick={handleClickHideNotification}>
+      {textHtml}
+    </div> : <div className={classes}>
+      {textHtml}
+      <div
+        className='vcv-layout-notifications-close'
+        title={localizations ? localizations.close : 'Close'}
+        onClick={handleClickHideNotification}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
       </div>
+    </div>
   )
 }
 
