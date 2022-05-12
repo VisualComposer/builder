@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 import {Insights, InsightsItem} from './types'
 
 const localSeenMessages: string | null = window.localStorage.getItem('vcv-seen-messages')

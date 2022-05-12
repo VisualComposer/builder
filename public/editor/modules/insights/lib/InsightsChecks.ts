@@ -496,7 +496,7 @@ export default class InsightsChecks {
       triggerCheckContrast()
     }
 
-    workspaceStorage.state('content').onChange(debounce((value) => {
+    workspaceStorage.state('content').onChange(debounce(() => {
       if (!this.isColorContrastInProgress) {
         triggerCheckContrast()
       }

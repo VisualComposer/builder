@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { Dispatch } from 'redux' // eslint-disable-line
 import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
 import VotePopup from './popups/votePopup'
@@ -8,8 +9,7 @@ import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
 import { connect } from 'react-redux'
 import { allPopupsHidden, popupVisibilitySet } from '../../editor/stores/editorPopup/slice'
-import { AppStateType } from "../../editor/stores/reducer"
-import { Dispatch } from 'redux'
+import { AppStateType } from '../../editor/stores/reducer'
 
 const elementsStorage = getStorage('elements')
 
@@ -30,7 +30,7 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
         elementsStorage.state('document').ignoreChange(handleDocumentChange)
       }, activePopup === 'pricingPopup' ? 20000 : 500)
     }
-  }, [activePopup]);
+  }, [popupVisibilitySet, activePopup])
 
   useEffect(() => {
     elementsStorage.state('document').onChange(handleDocumentChange)
@@ -51,7 +51,7 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
     setActionClicked(true)
     window.setTimeout(() => {
       setActionClicked(false)
-        popupVisibilitySet(false);
+        popupVisibilitySet(false)
         allPopupsHidden()
     }, 500)
   }

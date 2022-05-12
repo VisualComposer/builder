@@ -19,7 +19,7 @@ interface Options {
   sliderEffect: string,
   gradientStartColor: string,
   gradientEndColor: string,
-  animationDelay: any,
+  animationDelay: string | boolean,
   boxModel: { [index: string]: any }
 }
 
@@ -731,7 +731,7 @@ export const updateDesignOptionsBoxModel = (id: string, fieldProperty: string, f
       return 'xl'
     }
     const windowWidth = Math.max(clientWidth, iframeDocument.innerWidth || 0)
-    let current = null
+    let current = 'xl'
 
     Object.keys(deviceViewports).forEach((device: string) => {
       const viewport = deviceViewports[device]
@@ -741,7 +741,7 @@ export const updateDesignOptionsBoxModel = (id: string, fieldProperty: string, f
       }
     })
 
-    return currentDevice
+    return current
   }
 
   const element = documentService.get(id)

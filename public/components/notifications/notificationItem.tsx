@@ -24,15 +24,15 @@ const NotificationItem: React.FC<Props> = (props) => {
   const localizations = dataManager.get('localizations')
   const [hidden, setHidden] = useState<boolean>(false)
   let textHtml
-  const timerRef = useRef(0);
+  const timerRef = useRef(0)
 
   useEffect(() => {
     if (props.data.time !== -1) {
       timerRef.current = window.setTimeout(() => {
         handleClickHideNotification()
         return () => {
-          clearTimeout(timerRef.current);
-        };
+          clearTimeout(timerRef.current)
+        }
       }, props.data.time)
     }
   }, [props.data])
@@ -44,9 +44,9 @@ const NotificationItem: React.FC<Props> = (props) => {
   const handleClickHideNotification = () => {
     setHidden(true)
     setTimeout(() => {
-      clearTimeout(timerRef.current);
+      clearTimeout(timerRef.current)
       store.dispatch(notificationRemoved(props.data.id))
-    }, 600);
+    }, 600)
   }
 
   if (props.data.html) {

@@ -3,7 +3,7 @@ import ControlDropdownInner from './controlDropdownInner'
 import { ControlHelpers } from './controlHelpers'
 import { getService, getStorage } from 'vc-cake'
 import MainControl from './mainControl'
-import classNames from "classnames";
+import classNames from 'classnames'
 
 const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')

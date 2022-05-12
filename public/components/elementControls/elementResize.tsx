@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import classNames from 'classnames'
 import {connect} from 'react-redux'
-import {Dispatch} from 'redux'
+import {Dispatch} from 'redux' // eslint-disable-line
 import vcCake from 'vc-cake'
 import {updateDesignOptionsBoxModel} from '../../sources/attributes/designOptionsAdvanced/helpers'
 import {columnResizeDataChanged} from '../../editor/stores/controls/slice'
