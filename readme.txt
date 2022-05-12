@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.9.3
-Stable tag: 44.0
+Stable tag: 44.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -225,6 +225,26 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 44.1 =
+*Release Date - 2022-05-12*
+
+### Free:
+- Fix: Template image sizes are properly defined in the Media Library
+- Fix: Delete buttons works properly in the Tree View
+- Fix: Esc key works properly in the custom CSS and JavaScript
+- Fix: Disabling page title works properly in the Weaver Xtreme theme
+
+### Premium:
+- New: Option to disable popup background overlay and enable page scroll
+- Update: Popup builder bottom placeholders removed for cleaner user experience
+- Update: "Edit layout" option added to the layout dropdown in the Page Options
+- Fix: Typewriter elements works properly
+- Fix: Post Slider block works properly
+- Fix: News Post Grid element works properly in Safari
+- Fix: Visual Composer works properly with the ACF Pro gallery fields
+- Fix: Dynamically added links work properly when triggering popups
+- Fix: Dynamic fields work properly with the post excerpt
 
 = 44.0 =
 *Release Date - 2022-04-28*
