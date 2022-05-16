@@ -38,8 +38,6 @@ describe('Test elementsStorage', () => {
       expect(textBlock.id).toBe(id)
     })
 
-    return null
-
     test('ElementsStorage update textBlock text', () => {
       const textBlock = cook.get(documentManager.get(id))
       textBlock.set('output', testText)
