@@ -314,10 +314,7 @@ jobs:
       - run: n 14
       - run: yarn install
       - run: yarn build
-      - run:
-          command: |
-          yarn test -u circleci tests split --split-by=timings
-      - run: yarn test -u
+      - run: yarn test -u circleci tests split --split-by=timings
       - save_cache:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
