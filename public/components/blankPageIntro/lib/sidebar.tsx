@@ -76,6 +76,7 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
         sectionTitle={categoriesTitle}
         tooltipText={categoriesDescription}
         isChevron={true}
+        classes='categories-section'
       >
         <Categories />
       </AccordionPanel>
@@ -91,6 +92,7 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
         sectionTitle={tagsText}
         tooltipText={tagsDescription}
         isChevron={true}
+        classes='tags-section'
       >
         <Tags />
       </AccordionPanel>
@@ -107,6 +109,7 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
         sectionTitle={settingName}
         tooltipText={excerptsAreOptional}
         isChevron={true}
+        classes='excerpt-section'
       >
         <Excerpt />
       </AccordionPanel>
@@ -120,6 +123,7 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
         key='discussion'
         sectionTitle={settingName}
         isChevron={true}
+        classes='discussion-section'
       >
         <Discussion />
       </AccordionPanel>
@@ -133,6 +137,7 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
         key='author'
         sectionTitle={authorTitle}
         isChevron={true}
+        classes='author-section'
       >
         <Author />
       </AccordionPanel>

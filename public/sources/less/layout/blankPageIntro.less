@@ -38,26 +38,33 @@
     transform: rotate(180deg);
   }
 
+  .vcv-ui-edit-form-section.vcv-ui-edit-form-section--closed .vcv-ui-edit-form-section-header {
+    border-bottom: @blank-page-intro-settings-accordion-border;
+  }
+
   .vcv-ui-edit-form-section-header {
     color: @blank-page-intro-settings-section-header-color;
     background-color: transparent;
     border-top: none;
-    border-bottom: @blank-page-intro-settings-accordion-border;
 
     &:hover {
-      background-color: rgba(0, 0, 0, .07);
+      background-color: transparent;
+      .vcv-ui-icon-chevron-thick {
+        color: @blank-page-intro-settings-section-header-color;
+      }
     }
 
     .vcv-ui-icon-chevron-thick {
       font-size: 9px;
-      color: @blank-page-intro-settings-section-header-color;
+      color: @blank-page-intro-icons-color;
       margin-left: auto;
+      transition: color .2s ease-in-out;
     }
   }
 
   .vcv-ui-edit-form-section-content {
     border-bottom: @blank-page-intro-settings-accordion-border;
-    padding: 20px;
+    padding: 0 20px 20px;
   }
 
   .vcv-tooltip-container .vcv-ui-icon-question {
@@ -144,6 +151,10 @@
   width: @blank-page-intro-sidebar-width;
   background-color: @blank-page-intro-settings-bg-color;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15)
+}
+
+.blank-page-settings > .vcv-ui-scroll {
+  height: calc(100% - 60px) !important; // full height - header, to override inline styles
 }
 
 .blank-page-settings-header {
