@@ -263,9 +263,6 @@ export default class EditFormSection extends React.Component {
   }
 
   onSaveSuccess () {
-    this.setState({
-      name: ''
-    })
     const blockSaved = EditFormSection.localizations.blockSaved || 'The block has been successfully saved.'
     this.displaySuccess(blockSaved)
   }
@@ -283,7 +280,7 @@ export default class EditFormSection extends React.Component {
   }
 
   displaySuccess (successText) {
-    this.setState({ showSpinner: false })
+    this.setState({ showSpinner: false, name: '' })
     store.dispatch(notificationAdded({
       text: successText,
       time: 5000
