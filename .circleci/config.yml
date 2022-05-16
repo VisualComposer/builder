@@ -313,7 +313,7 @@ jobs:
       - run: n 14
       - run: yarn install
       - run: yarn build
-      - run: yarn test -u --forceExit
+      - run: yarn test -u -v $(go list ./... | circleci tests split)
       - save_cache:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
