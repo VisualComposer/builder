@@ -61,42 +61,20 @@ class Bundle implements Helper
         return $downloadUrl;
     }
 
-    public function getElementDownloadUrl($requestedData = [])
+    /**
+     * Get download url for plugin assets (elements, templates, addons etc)
+     *
+     * @param string $type (element, template, addons etc)
+     * @param array $requestedData
+     *
+     * @return string
+     */
+    public function getAssetDownloadUrl($type, $requestedData = [])
     {
         $urlHelper = vchelper('Url');
         $downloadUrl = $urlHelper->query(
             sprintf(
-                '%s/download/element?plugin=%s',
-                rtrim(vcvenv('VCV_HUB_URL'), '\//'),
-                VCV_VERSION
-            ),
-            $requestedData
-        );
-
-        return $downloadUrl;
-    }
-
-    public function getAddonDownloadUrl($requestedData = [])
-    {
-        $urlHelper = vchelper('Url');
-        $downloadUrl = $urlHelper->query(
-            sprintf(
-                '%s/download/addon?plugin=%s',
-                rtrim(vcvenv('VCV_HUB_URL'), '\//'),
-                VCV_VERSION
-            ),
-            $requestedData
-        );
-
-        return $downloadUrl;
-    }
-
-    public function getTemplateDownloadUrl($requestedData = [])
-    {
-        $urlHelper = vchelper('Url');
-        $downloadUrl = $urlHelper->query(
-            sprintf(
-                '%s/download/template?plugin=%s',
+                '%s/download/' . $type . '?plugin=%s',
                 rtrim(vcvenv('VCV_HUB_URL'), '\//'),
                 VCV_VERSION
             ),

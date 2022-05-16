@@ -239,4 +239,33 @@ class Addons implements Helper
     {
         return ['maintenanceMode'];
     }
+
+    /**
+     * Collect all addon's data from their bundle manifests to the list.
+     *
+     * @param array $manifests
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function readManifests(array $manifests)
+    {
+        $addons = [];
+        foreach ($manifests as $manifestPath) {
+            $manifest = json_decode(file_get_contents($manifestPath), true);
+            $dirname = dirname($manifestPath);
+            $tag = basename($dirname);
+            if (isset($manifest['addons'])) {
+                if (isset($manifest['addons'], $manifest['addons'][ $tag ], $manifest['addons'][ $tag ]['phpFiles'])) {
+                    if ($this->isDevAddons()) {
+                        unset($manifest['addons'][ $tag ]['phpFiles']); // Don't save if load dynamically
+                    }
+                }
+                $addons[ $tag ] = $manifest['addons'][ $tag ];
+            }
+        }
+        unset($manifest, $manifestPath, $tag, $dirname);
+
+        return $addons;
+    }
 }

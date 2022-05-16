@@ -104,12 +104,12 @@ class Templates implements Helper
      *
      * @return false|int|\WP_Error
      */
-    public function insertNewTemplate($template, $templatePostType, $name)
+    public function insertNewTemplate($templateId, $templatePostType, $name)
     {
-        $savedTemplates = $this->getTemplateById($template['id'], $templatePostType);
+        $savedTemplates = $this->getTemplateById($templateId, $templatePostType);
 
         if (!$savedTemplates->have_posts()) {
-            $templateId = wp_insert_post(
+            $postId = wp_insert_post(
                 [
                     'post_title' => $name,
                     'post_type' => $templatePostType,
@@ -118,11 +118,11 @@ class Templates implements Helper
             );
         } else {
             $savedTemplates->the_post();
-            $templateId = get_the_ID();
+            $postId = get_the_ID();
             wp_reset_postdata();
             wp_update_post(
                 [
-                    'ID' => $templateId,
+                    'ID' => $postId,
                     'post_title' => $name,
                     'post_type' => $templatePostType,
                     'post_status' => 'publish',
@@ -130,7 +130,7 @@ class Templates implements Helper
             );
         }
 
-        return $templateId;
+        return $postId;
     }
 
     /**
@@ -170,5 +170,90 @@ class Templates implements Helper
                 );
             }
         }
+    }
+
+    /**
+     * @param $template
+     *
+     * @return mixed
+     */
+    public function processTemplateMetaImages($template)
+    {
+        $wpMediaHelper = vchelper('WpMedia');
+        $urlHelper = vchelper('Url');
+        if ($wpMediaHelper->checkIsImage($template['preview'])) {
+            $url = $template['preview'];
+            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
+                $url = '[publicPath]' . $url;
+            }
+
+            $preview = $this->processSimple($url, $template);
+            if ($preview) {
+                $template['preview'] = $preview;
+            }
+        }
+
+        if ($wpMediaHelper->checkIsImage($template['thumbnail'])) {
+            $url = $template['thumbnail'];
+            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
+                $url = '[publicPath]' . $url;
+            }
+
+            $thumbnail = $this->processSimple($url, $template);
+            if ($thumbnail) {
+                $template['thumbnail'] = $thumbnail;
+            }
+        }
+
+        return $template;
+    }
+
+    /**
+     * @param $url
+     * @param $template
+     * @param string $prefix
+     *
+     * @return bool|mixed|string
+     */
+    public function processSimple($url, $template, $prefix = '')
+    {
+        $fileHelper = vchelper('File');
+        $hubTemplatesHelper = vchelper('HubTemplates');
+        $urlHelper = vchelper('Url');
+
+        if ($urlHelper->isUrl($url)) {
+            $imageFile = $fileHelper->download($url);
+            $localImagePath = strtolower($prefix . '' . basename($url));
+            if (!vcIsBadResponse($imageFile)) {
+                $templatePath = $hubTemplatesHelper->getTemplatesPath($template['id']);
+                $fileHelper->createDirectory(
+                    $templatePath
+                );
+                if (!file_exists($templatePath)) {
+                    return false;
+                }
+
+                if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
+                    return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $localImagePath);
+                }
+            } else {
+                return false;
+            }
+        } else {
+            // File located locally
+            if (strpos($url, '[publicPath]') !== false) {
+                $url = str_replace('[publicPath]', '', $url);
+
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
+            }
+
+            if (strpos($url, 'assets/elements/') !== false) {
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
+            }
+
+            return $url; // it is local file url (default file)
+        }
+
+        return false;
     }
 }

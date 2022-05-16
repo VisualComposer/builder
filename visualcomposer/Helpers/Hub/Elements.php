@@ -287,4 +287,56 @@ class Elements implements Helper
 
         return apply_filters('vcv:helpers:hub:isDevElements', $isDevElements);
     }
+
+    /**
+     * Collect all element's data from their bundle manifests to the list.
+     *
+     * @param array $manifests
+     * @param string $pathToElementFolder
+     * @param string $urlToElementFolder
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function readManifests(array $manifests, $pathToElementFolder, $urlToElementFolder)
+    {
+        $elements = [];
+        $urlHelper = vchelper('Url');
+        $vcapp = vcapp();
+        foreach ($manifests as $manifestPath) {
+            $manifest = json_decode(file_get_contents($manifestPath), true);
+            $dirname = dirname($manifestPath);
+            $tag = basename($dirname);
+            if (!isset($manifest['elements'], $manifest['elements'][ $tag ])) {
+                throw new \Exception('Element manifest must SET "TAG":' . $manifestPath);
+            }
+            $element = $manifest['elements'][ $tag ];
+            $element['bundlePath'] = $urlToElementFolder . $tag . '/public/dist/element.bundle.js';
+            $element['elementPath'] = $urlToElementFolder . $tag . '/' . $tag . '/';
+            $element['elementRealPath'] = $pathToElementFolder . '/' . $tag . '/' . $tag . '/';
+            $element['assetsPath'] = $urlToElementFolder . $tag . '/' . $tag . '/public/';
+            $element['phpFiles'] = [];
+            if (isset($manifest['elements'], $manifest['elements'][ $tag ], $manifest['elements'][ $tag ]['phpFiles'])) {
+                $files = $manifest['elements'][ $tag ]['phpFiles'];
+                foreach ($files as $index => $filePath) {
+                    $manifest['elements'][ $tag ]['phpFiles'][ $index ] = rtrim($element['elementRealPath'], '\\/') . '/' . $filePath;
+                }
+                unset($index, $filePath);
+                $element['phpFiles'] = $manifest['elements'][ $tag ]['phpFiles'];
+            }
+            $element = json_decode(
+                str_replace(
+                    '[publicPath]',
+                    $urlToElementFolder . $tag . '/' . $tag . '/public',
+                    json_encode($element)
+                ),
+                true
+            );
+
+            $elements[ $tag ] = $element;
+        }
+        unset($manifest, $manifestPath, $tag, $dirname);
+
+        return $elements;
+    }
 }

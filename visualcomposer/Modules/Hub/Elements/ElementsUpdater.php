@@ -46,11 +46,13 @@ class ElementsUpdater extends Container implements Module
 
         $fileHelper = vchelper('File');
         $fileHelper->createDirectory($hubHelper->getElementPath());
+
         $elementsDiffer->onUpdate(
             [$hubHelper, 'updateElement']
         )->set(
             $bundleJson['elements']
         );
+
         $elements = $elementsDiffer->get();
         $hubHelper->setElements($elements);
         if (!isset($response['elements']) || !is_array($response['elements'])) {

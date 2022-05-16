@@ -44,68 +44,46 @@ class TemplatesUpdater extends Container implements Module
     protected function updateTemplate(
         $response,
         $payload,
-        File $fileHelper,
         Templates $hubTemplatesHelper,
         WpMedia $wpMediaHelper,
         EditorTemplates $editorTemplatesHelper
     ) {
-        $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
-        if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
+        $template = isset($payload['archive']) ? $payload['archive'] : false;
+
+        if (vcIsBadResponse($response) || !$template || is_wp_error($template)) {
             return ['status' => false];
         }
 
-        /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
-        if (!isset($response['templates']) || empty($response['templates'])) {
-            $response['templates'] = [];
-        }
-
-        $createDirResult = $fileHelper->createDirectory(
-            $hubTemplatesHelper->getTemplatesPath()
-        );
-        if (vcIsBadResponse($createDirResult) && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath())) {
-            return false;
-        }
-        $template = $bundleJson;
         $template['id'] = $payload['actionData']['data']['id'];
-        // File is locally available
-        $hubTemplatesBundleHelper = vchelper('HubBundle');
-        $hubTemplatesBundleHelper->setTempBundleFolder(
-            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['actionData']['action'])
-        );
-        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
-        if (is_dir($tempTemplatePath)) {
-            // We have local assets for template, so we need to copy them to real templates folder
-            $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
-            if (
-                vcIsBadResponse($createDirResult)
-                && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath($template['id']))
-            ) {
-                return false;
-            }
-            $copyDirResult = $fileHelper->copyDirectory(
-                $tempTemplatePath,
-                $hubTemplatesHelper->getTemplatesPath($template['id'])
-            );
-            if (vcIsBadResponse($copyDirResult)) {
-                return false;
-            }
+
+        $success = $this->processTemplateDirectories($template, $payload);
+
+        if (!$success) {
+            return false;
         }
 
         $this->templatePostType = isset($payload['actionData']['action']) && $payload['actionData']['action'] === 'template/tutorial' ? 'vcv_tutorials' : 'vcv_templates';
         $template['name'] = $this->templatePostType === 'vcv_tutorials' ? 'Tutorial Page' : $payload['actionData']['data']['name'];
         $templateElements = $template['data'];
-        $templateMeta = $this->processTemplateMetaImages(
+
+        $templateMeta = $hubTemplatesHelper->processTemplateMetaImages(
             [
                 'id' => $template['id'],
                 'preview' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['preview'],
                 'thumbnail' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['thumbnail'],
             ]
         );
+
+        $template['description'] = $payload['actionData']['data']['description'];
+        $template['thumbnail'] = $templateMeta['thumbnail'];
+        $template['preview'] = $templateMeta['preview'];
+
         if ($this->templatePostType !== 'vcv_tutorials') {
             $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
             $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
             $templateElements = $this->processDesignOptions($templateElements, $template);
         }
+
         // Check if menu source is exist or not
         $templateElements = $this->isMenuExist($templateElements);
         $templateElements = json_decode(
@@ -119,16 +97,11 @@ class TemplatesUpdater extends Container implements Module
         unset($template['data']);
 
         $templateHelper = vchelper('HubTemplates');
-
         $templateId = $templateHelper->insertNewTemplate(
-            $template,
+            $template['id'],
             $this->templatePostType,
             $payload['actionData']['data']['name']
         );
-
-        $template['description'] = $payload['actionData']['data']['description'];
-        $template['thumbnail'] = $templateMeta['thumbnail'];
-        $template['preview'] = $templateMeta['preview'];
 
         if (isset($payload['actionData']['data']['type'])) {
             $type = $payload['actionData']['data']['type'];
@@ -144,6 +117,11 @@ class TemplatesUpdater extends Container implements Module
             $templateElements,
             $this->templatePostType
         );
+
+        /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
+        if (!isset($response['templates']) || empty($response['templates'])) {
+            $response['templates'] = [];
+        }
 
         $response['additionalActionList'] = self::$needAttachmentMetadataList;
         $response['templates'][] = [
@@ -162,92 +140,8 @@ class TemplatesUpdater extends Container implements Module
             'type' => $type,
         ];
 
+
         return $response;
-    }
-
-    /**
-     * @param $template
-     *
-     * @return mixed
-     */
-    protected function processTemplateMetaImages($template)
-    {
-        $wpMediaHelper = vchelper('WpMedia');
-        $urlHelper = vchelper('Url');
-        if ($wpMediaHelper->checkIsImage($template['preview'])) {
-            $url = $template['preview'];
-            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
-                $url = '[publicPath]' . $url;
-            }
-
-            $preview = $this->processSimple($url, $template);
-            if ($preview) {
-                $template['preview'] = $preview;
-            }
-        }
-
-        if ($wpMediaHelper->checkIsImage($template['thumbnail'])) {
-            $url = $template['thumbnail'];
-            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
-                $url = '[publicPath]' . $url;
-            }
-
-            $thumbnail = $this->processSimple($url, $template);
-            if ($thumbnail) {
-                $template['thumbnail'] = $thumbnail;
-            }
-        }
-
-        return $template;
-    }
-
-    /**
-     * @param $url
-     * @param $template
-     * @param string $prefix
-     *
-     * @return bool|mixed|string
-     */
-    protected function processSimple($url, $template, $prefix = '')
-    {
-        $fileHelper = vchelper('File');
-        $hubTemplatesHelper = vchelper('HubTemplates');
-        $urlHelper = vchelper('Url');
-
-        if ($urlHelper->isUrl($url)) {
-            $imageFile = $fileHelper->download($url);
-            $localImagePath = strtolower($prefix . '' . basename($url));
-            if (!vcIsBadResponse($imageFile)) {
-                $templatePath = $hubTemplatesHelper->getTemplatesPath($template['id']);
-                $fileHelper->createDirectory(
-                    $templatePath
-                );
-                if (!file_exists($templatePath)) {
-                    return false;
-                }
-
-                if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
-                    return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $localImagePath);
-                }
-            } else {
-                return false;
-            }
-        } else {
-            // File located locally
-            if (strpos($url, '[publicPath]') !== false) {
-                $url = str_replace('[publicPath]', '', $url);
-
-                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
-            }
-
-            if (strpos($url, 'assets/elements/') !== false) {
-                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
-            }
-
-            return $url; // it is local file url (default file)
-        }
-
-        return false;
     }
 
     /**
@@ -269,12 +163,13 @@ class TemplatesUpdater extends Container implements Module
                 $images => $images,
             ];
         }
+        $templatesHelper = vchelper('HubTemplates');
         if (!empty($images) && is_array($images)) {
             foreach ($images as $key => $image) {
                 if (is_string($image)) {
-                    $newMediaData = $this->processSimple($image, $template, $prefix . $key . '-');
+                    $newMediaData = $templatesHelper->processSimple($image, $template, $prefix . $key . '-');
                 } else {
-                    $newMediaData = $this->processSimple($image['full'], $template, $prefix . $key . '-');
+                    $newMediaData = $templatesHelper->processSimple($image['full'], $template, $prefix . $key . '-');
                 }
                 if ($newMediaData) {
                     $attachment = $this->addImageToMediaLibrary($newMediaData);
@@ -389,7 +284,8 @@ class TemplatesUpdater extends Container implements Module
                     );
                 } else {
                     // it is simple url
-                    $imageData = $this->processSimple(
+                    $templatesHelper = vchelper('HubTemplates');
+                    $imageData = $templatesHelper->processSimple(
                         $media['url'],
                         $template,
                         $element['elementId'] . '-' . $media['key'] . '-'
@@ -450,7 +346,7 @@ class TemplatesUpdater extends Container implements Module
             // update template action
             if (!empty($requestHelper->input('vcv-action'))) {
                 self::$needAttachmentMetadataList[$attachmentId] = $imageNewUrl;
-            // download template action
+                // download template action
             } else {
                 $this->updateAttachmentMeta($attachmentId, $imageNewUrl);
             }
@@ -501,5 +397,52 @@ class TemplatesUpdater extends Container implements Module
                 )
             );
         }
+    }
+
+    /**
+     * Process creating template access directories.
+     *
+     * @param array $template
+     * @param array $payload
+     *
+     * @return bool
+     */
+    protected function processTemplateDirectories($template, $payload)
+    {
+        $hubTemplatesHelper = vchelper('HubTemplates');
+        $fileHelper = vchelper('File');
+        $hubTemplatesBundleHelper = vchelper('HubBundle');
+
+        $createDirResult = $fileHelper->createDirectory(
+            $hubTemplatesHelper->getTemplatesPath()
+        );
+        if (vcIsBadResponse($createDirResult) && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath())) {
+            return false;
+        }
+
+        // File is locally available
+        $hubTemplatesBundleHelper->setTempBundleFolder(
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['actionData']['action'])
+        );
+        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
+        if (is_dir($tempTemplatePath)) {
+            // We have local assets for template, so we need to copy them to real templates folder
+            $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
+            if (
+                vcIsBadResponse($createDirResult)
+                && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath($template['id']))
+            ) {
+                return false;
+            }
+            $copyDirResult = $fileHelper->copyDirectory(
+                $tempTemplatePath,
+                $hubTemplatesHelper->getTemplatesPath($template['id'])
+            );
+            if (vcIsBadResponse($copyDirResult)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

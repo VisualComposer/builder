@@ -128,7 +128,9 @@ class ElementDownloadController extends Container implements Module
     protected function sendRequestJson($bundle, $token)
     {
         $hubBundleHelper = vchelper('HubBundle');
-        $url = $hubBundleHelper->getElementDownloadUrl(['token' => $token, 'bundle' => $bundle]);
+        $urlParam = ['token' => $token, 'bundle' => $bundle];
+        $url = $hubBundleHelper->getAssetDownloadUrl('element', $urlParam);
+
         $response = wp_remote_get(
             $url,
             [
