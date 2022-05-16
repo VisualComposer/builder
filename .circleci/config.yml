@@ -317,7 +317,7 @@ jobs:
       - run:
           command: |
           TESTFILES=$(circleci tests split --split-by=timings)
-          yarn test $TESTFILES
+          yarn test -u $TESTFILES
       - run: yarn test -u
       - save_cache:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
