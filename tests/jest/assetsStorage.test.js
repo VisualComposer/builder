@@ -43,6 +43,10 @@ describe('Test assetsStorage', () => {
   const buttonText = 'Hello World'
   let assetsOptions = {}
 
+  expect(123).toBe(123)
+
+  return
+
   vcCake.env('VCV_DEBUG', true)
   vcCake.start(() => {
     test('ElementStorage add Basic Button', () => {
