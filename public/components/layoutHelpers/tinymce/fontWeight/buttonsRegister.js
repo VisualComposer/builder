@@ -36,6 +36,14 @@ var ButtonsRegister = function (editor, window) {
       activeFont = googleFontState && googleFontState.data && googleFontState.data.value
     }
     let options = []
+    const defaultOption = {
+      text: 'Default',
+      value: JSON.stringify({
+        weight: 'inherit',
+        style: 'inherit'
+      }),
+      textStyle: 'font-weight:inherit'
+    }
 
     if (activeFont && !activeFont.defaultFont) { // Google fonts
       activeFont.variants.forEach((item) => {
@@ -68,6 +76,8 @@ var ButtonsRegister = function (editor, window) {
       ]
     }
 
+    options = [defaultOption, ...options]
+
     return options
   }
 
@@ -96,10 +106,11 @@ var ButtonsRegister = function (editor, window) {
     const getFontWeight = () => {
       const node = getSelectionStart(editor)
       if (node) {
+        const isDefault = node.style.fontWeight === 'inherit'
         const styles = window.getComputedStyle(node)
         const { fontWeight, fontStyle } = styles
 
-        return { weight: fontWeight, style: fontStyle }
+        return { weight: isDefault ? 'inherit' : fontWeight, style: isDefault ? 'inherit' : fontStyle }
       }
 
       return ''

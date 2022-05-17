@@ -313,7 +313,7 @@ jobs:
       - run: n 14
       - run: yarn install
       - run: yarn build
-      - run: yarn test -u
+      - run: yarn test -u --forceExit
       - save_cache:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:

@@ -415,6 +415,9 @@
    */
   function getStickyContainer(element) {
     let container = getClosest(element, element.sticky.stickyContainer);
+    if (element.sticky.stickyContainer && !container) {
+      container = getClosest(element, '[data-vcv-layout-zone]');
+    }
 
     if (!container) {
       container = this.body;

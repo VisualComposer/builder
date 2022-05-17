@@ -2,8 +2,9 @@
 import { env, getService, getStorage } from 'vc-cake'
 import { debounce, memoize } from 'lodash'
 import { AxePlugin, AxeResults, NodeResult } from '../axe'
+import store from '../../../stores/store'
+import {insightsAdded, insightsRemoved} from '../../../stores/insights/slice'
 
-const insightsStorage = getStorage('insights')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const cookService = getService('cook')
@@ -43,33 +44,33 @@ export default class InsightsChecks {
     const insightsTitleGood = this.localizations.insightsTitleGood
 
     if (pageTitleLength > 100) {
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'critical',
         type: 'titleLength',
         title: insightsTitleTooLong,
         groupDescription: insightsTitleTooLong100
-      })
+      }))
     } else if (pageTitleLength > 61) {
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'warning',
         type: 'titleLength',
         title: insightsTitleTooLong,
         groupDescription: insightsTitleTooLong60
-      })
+      }))
     } else if (pageTitleLength > 9) {
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'success',
         type: 'titleLength',
         title: insightsTitleGood,
         groupDescription: `Your page title consists of ${pageTitleLength} characters which is optimal title size.`
-      })
+      }))
     } else if (pageTitleLength >= 0) {
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'warning',
         type: 'titleLength',
         title: insightsTitleTooShort,
         groupDescription: insightsTitleTooShortDescription
-      })
+      }))
     }
   }
 
@@ -81,12 +82,12 @@ export default class InsightsChecks {
     if (metas && metas.length) {
       metas.forEach((meta) => {
         if (meta.content.includes('noindex')) {
-          insightsStorage.trigger('add', {
+          store.dispatch(insightsAdded({
             state: 'warning',
             type: 'noIndex',
             title: noIndexMetaTag,
             groupDescription: noIndexMetaTagDescription
-          })
+          }))
         }
       })
     }
@@ -112,21 +113,21 @@ export default class InsightsChecks {
     })
 
     if (!inboundLinks.length) {
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'warning',
         type: 'noInboundLinks',
         title: noInboundLinks,
         groupDescription: noInboundLinksDescription
-      })
+      }))
     }
 
     if (!outboundLinks.length) {
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'warning',
         type: 'noOutboundLinks',
         title: noOutboundLinks,
         groupDescription: noOutboundLinksDescription
-      })
+      }))
     }
   }
 
@@ -145,30 +146,30 @@ export default class InsightsChecks {
     if (visibleHeadings === 0) {
       const h1MissingTitle = this.localizations.insightsH1MissingTitle
       const h1MissingDescription = this.localizations.insightsH1MissingDescription
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'critical',
         type: 'noH1',
         title: h1MissingTitle,
         groupDescription: h1MissingDescription
-      })
+      }))
     } else if (visibleHeadings === 1) {
       const insightsH1ExistsTitle = this.localizations.insightsH1ExistsTitle
       const insightsH1ExistsDescription = this.localizations.insightsH1ExistsDescription
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'success',
         type: 'existH1',
         title: insightsH1ExistsTitle,
         groupDescription: insightsH1ExistsDescription
-      })
+      }))
     } else {
       const insightsMultipleH1Title = this.localizations.insightsMultipleH1Title
       const insightsMultipleH1Description = this.localizations.insightsMultipleH1Description
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'critical',
         type: 'multipleH1',
         title: insightsMultipleH1Title,
         groupDescription: insightsMultipleH1Description
-      })
+      }))
     }
   }
 
@@ -176,12 +177,12 @@ export default class InsightsChecks {
     const elements = getStorage('elements').state('document').get() || []
     if (!elements.length) {
       // There are no elements on a page
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'critical',
         type: 'noElementsOnPage',
         title: this.localizations.insightsNoContentOnPageTitle,
         groupDescription: this.localizations.insightsNoContentOnPageDescription
-      })
+      }))
       return true
     }
     return false
@@ -198,7 +199,7 @@ export default class InsightsChecks {
         const position = InsightsChecks.getNodePosition(image)
         allImagesHasAlt = false
         const domNodeSelector = utils.generateQuerySelector(image)
-        insightsStorage.trigger('add', {
+        store.dispatch(insightsAdded({
           state: 'critical',
           type: `altMissing${position}`,
           thumbnail: image.src,
@@ -207,18 +208,18 @@ export default class InsightsChecks {
           description: 'Alt attribute is empty %s'.replace('%s', elementId ? `(${cookService.getById(elementId).getName()})` : '').trim(),
           elementID: elementId,
           domNodeSelector: domNodeSelector
-        })
+        }))
       }
     })
     if (images.length && allImagesHasAlt) {
       const altExistsTitle = this.localizations.insightsImageAltAttributeExistsTitle
       const altExistsDescription = this.localizations.insightsImageAltAttributeExistsDescription
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded( {
         state: 'success',
         type: 'altExists',
         title: altExistsTitle,
         groupDescription: altExistsDescription
-      })
+      }))
     }
   }
 
@@ -276,12 +277,12 @@ export default class InsightsChecks {
     if (promises.length && !this.isImagesSizeLarge) {
       const imageSizeProperTitle = this.localizations.insightsImagesSizeProperTitle
       const imageSizeProperDescription = this.localizations.insightsImagesSizeProperDescription
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'success',
         type: 'imgSizeProper',
         title: imageSizeProperTitle,
         groupDescription: imageSizeProperDescription
-      })
+      }))
     }
   }
 
@@ -295,16 +296,16 @@ export default class InsightsChecks {
       const imageSizeInMB = imageSizeBytes / 1024 / 1024
       description = description.replace('%s', '1 MB')
       this.isImagesSizeLarge = true
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'critical',
         type: `imgSize1MB${position}`,
         thumbnail: src,
         title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
         groupDescription: description,
-        description: 'Image size is' + ` ${imageSizeInMB.toFixed(2)} MB`,
+        description: 'Image size is' + ` ${imageSizeInMB.toFixed(1)} MB`,
         elementID: elementId,
         domNodeSelector: domNodeSelector
-      })
+      }))
     } else if (imageSizeBytes && imageSizeBytes >= 500 * 1024) {
       const imageSizeBigTitle = type === 'background' ? this.localizations.insightsBgImageSizeBigTitle : this.localizations.insightsImageSizeBigTitle
       let description = this.localizations.insightsImageSizeBigDescription
@@ -312,16 +313,16 @@ export default class InsightsChecks {
       const elementId = InsightsChecks.getElementId(domNode)
       description = description.replace('%s', '500 KB')
       this.isImagesSizeLarge = true
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'warning',
         type: `imgSize500KB${position}`,
         thumbnail: src,
         title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
         groupDescription: description,
-        description: 'Image size is' + ` ${imageSizeBytes / 1024} KB`,
+        description: 'Image size is' + ` ${(imageSizeBytes / 1024).toFixed(1)} KB`,
         elementID: elementId,
         domNodeSelector: domNodeSelector
-      })
+      }))
     }
   }
 
@@ -385,7 +386,7 @@ export default class InsightsChecks {
         const elementId = InsightsChecks.getElementId(paragraph)
         const position = InsightsChecks.getNodePosition(paragraph)
         isParagraphSizeLarge = true
-        insightsStorage.trigger('add', {
+        store.dispatch(insightsAdded({
           state: 'critical',
           type: `paragraphLengthLarge${position}`,
           title: position !== 'Content' ? `${position}: ${insightsParagraphLengthTitle}` : insightsParagraphLengthTitle,
@@ -393,7 +394,7 @@ export default class InsightsChecks {
           description: `${description} ${paragraphLength}`,
           elementID: elementId,
           domNodeSelector: domNodeSelector
-        })
+        }))
       } else if (paragraphLength > 150 && paragraphLength < 200) {
         const elementId = InsightsChecks.getElementId(paragraph)
         const position = InsightsChecks.getNodePosition(paragraph)
@@ -401,7 +402,7 @@ export default class InsightsChecks {
         const groupDescription = this.localizations.insightsParagraphLengthDescription150
         const description = this.localizations.insightsParagraphLengthDescription
         isParagraphSizeLarge = true
-        insightsStorage.trigger('add', {
+        store.dispatch(insightsAdded({
           state: 'warning',
           type: `paragraphLengthMedium${position}`,
           title: position !== 'Content' ? `${position}: ${insightsParagraphLengthTitle}` : insightsParagraphLengthTitle,
@@ -409,19 +410,19 @@ export default class InsightsChecks {
           description: `${description} ${paragraphLength}`,
           elementID: elementId,
           domNodeSelector: domNodeSelector
-        })
+        }))
       }
     })
 
     if (paragraphs.length && !isParagraphSizeLarge) {
       const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
       const groupDescription = this.localizations.insightsParagraphLengthDescriptionOk
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'success',
         type: 'paragraphSizeProper',
         title: insightsParagraphLengthTitle,
         groupDescription: groupDescription
-      })
+      }))
     }
   }
 
@@ -435,20 +436,20 @@ export default class InsightsChecks {
 
       if (layoutHTML && contentLength < 300) {
         groupDescription = this.localizations.insightsContentLengthDescription300
-        insightsStorage.trigger('add', {
+        store.dispatch(insightsAdded({
           state: 'critical',
           type: 'contentSize300',
           title: insightsParagraphLengthTitle,
           groupDescription: groupDescription.replace('%length', contentLength)
-        })
+        }))
       } else if (layoutHTML) {
         groupDescription = this.localizations.insightsContentLengthDescriptionOk
-        insightsStorage.trigger('add', {
+        store.dispatch(insightsAdded({
           state: 'success',
           type: 'contentSizeProper',
           title: insightsParagraphLengthTitle,
           groupDescription: groupDescription.replace('%length', contentLength)
-        })
+        }))
       }
     }
   }
@@ -459,35 +460,34 @@ export default class InsightsChecks {
     if (!window.dataLayer && !window.GoogleAnalyticsObject && !window.ga && !gaNodes.length) {
       const insightsGAMissingTitle = this.localizations.insightsGAMissingTitle
       const insightsGAMissingDescription = this.localizations.insightsGAMissingDescription
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'warning',
         type: 'googleAnalytics',
         title: insightsGAMissingTitle,
         groupDescription: insightsGAMissingDescription
-      })
+      }))
     } else {
       const insightsGAMissingTitleOK = this.localizations.insightsGAMissingTitleOK
       const insightsGAMissingDescriptionOK = this.localizations.insightsGAMissingDescriptionOK
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsAdded({
         state: 'success',
         type: 'googleAnalytics',
         title: insightsGAMissingTitleOK,
         groupDescription: insightsGAMissingDescriptionOK
-      })
+      }))
     }
   }
 
   contrast () {
-    const workspaceStorageState = workspaceStorage.state('content').get()
     const triggerCheckContrast = () => {
-      insightsStorage.trigger('remove', 'colorContrast')
-      insightsStorage.trigger('add', {
+      store.dispatch(insightsRemoved('colorContrast'))
+      store.dispatch(insightsAdded({
         state: 'warning',
         type: 'colorContrast',
         title: this.localizations.contrastRatio,
         groupDescription: this.localizations.contrastCheckInProgress,
         loading: true
-      })
+      }))
       this.checkContrast()
       this.isColorContrastInProgress = true
     }
@@ -600,17 +600,17 @@ export default class InsightsChecks {
               }
             }
           })
-          insightsStorage.trigger('remove', 'colorContrast')
+          store.dispatch(insightsRemoved('colorContrast'))
           const reversedNotifications = notificationItems.reverse()
-          reversedNotifications.forEach(item => insightsStorage.trigger('add', item))
+          reversedNotifications.forEach(item => store.dispatch(insightsAdded(item)))
         } else {
-          insightsStorage.trigger('remove', 'colorContrast')
-          insightsStorage.trigger('add', {
+          store.dispatch(insightsRemoved('colorContrast'))
+          store.dispatch(insightsAdded({
             state: 'success',
             type: 'colorContrast',
             title: this.localizations.colorContrastTitleOK,
             groupDescription: this.localizations.colorContrastDescriptionOK.replace('{link}', 'https://dequeuniversity.com/rules/axe/4.3/color-contrast?application=axeAPI')
-          })
+          }))
         }
         this.isColorContrastInProgress = false
       })

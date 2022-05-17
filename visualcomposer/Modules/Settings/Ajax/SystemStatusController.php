@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -31,14 +32,18 @@ class SystemStatusController extends Container implements Module
             'vcv:ajax:settings:systemStatus:checkPayloadProcessing:adminNonce',
             'checkPayloadProcessing'
         );
+        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::checkContentZipType */
+        $this->addFilter(
+            'vcv:ajax:settings:systemStatus:checkContentZipType:adminNonce',
+            'checkContentZipType'
+        );
+        $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
     }
 
     /**
      * This check can only be triggered from frontend.
      * As the idea is to pass A LOT OF DATA, and let server handle it.
      *
-     * @param $response
-     * @param $payload
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return mixed
@@ -48,10 +53,48 @@ class SystemStatusController extends Container implements Module
         $checkPayload = $requestHelper->input('vcv-check-payload');
 
         $response = [];
+
         if (isset($checkPayload['toTest']['toTest2']['toTest3'])) {
-            $response['status'] = $checkPayload['toTest']['toTest2']['toTest3'] === '1';
+            $response['status'] = $checkPayload['toTest']['toTest2']['toTest3'] == 1;
         }
 
         return $response;
+    }
+
+    /**
+     * Set option that determine data we use for our ajax requests.
+     * By default, we use base64 but in cases when server support it we use just binary data.
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @return mixed
+     */
+    protected function checkContentZipType(Request $requestHelper, Options $optionsHelper)
+    {
+        $check = $requestHelper->input('vcv-check-content-zip-type');
+
+        if ($check) {
+            $optionsHelper->set('content:zip:type', 'binary');
+        }
+
+        return false;
+    }
+
+    /**
+     * Add frontend variables.
+     *
+     * @param array $variables
+     *
+     * @return array
+     */
+    protected function addVariables($variables, Options $optionsHelper)
+    {
+        $variables[] = [
+            'key' => 'VCV_CONTENT_ZIP_TYPE',
+            'value' => $optionsHelper->get('content:zip:type', ''),
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 }

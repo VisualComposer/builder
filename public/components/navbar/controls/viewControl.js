@@ -185,6 +185,7 @@ export default class ViewControl extends NavbarContent {
 
   handleResetClick () {
     workspaceStorage.state('settings').set(false)
+    settingsStorage.state('pageDesignOptions').set(false)
 
     window.setTimeout(() => {
       historyStorage.state('canUndo').get() && historyStorage.trigger('reset')

@@ -1,9 +1,9 @@
 const ButtonsRegister = function (editor, window) {
   const getFontSizeItems = function () {
-    const fontSizeFormats = '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 42pt 48pt 56pt 64pt 80pt 96pt'
+    const fontSizeFormats = 'Default 8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 42pt 48pt 56pt 64pt 80pt 96pt'
     return fontSizeFormats.split(' ').map((item) => {
       let text = item
-      let value = item
+      let value = item === 'Default' ? 'inherit' : item
       const values = item.split('=')
       if (values.length > 1) {
         text = values[0]
