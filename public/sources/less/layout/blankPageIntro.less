@@ -145,6 +145,7 @@
 
 .blank-page-settings {
   position: fixed;
+  z-index: 1;
   top: 0;
   bottom: 0;
   right: -@blank-page-intro-sidebar-width;
@@ -351,4 +352,19 @@
 
 .template-info .vcv-ui-form-group {
   margin: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .blank-page-settings {
+    right: -100%;
+    bottom: 50px; // height of the button
+    width: calc(100% - 60px); // full width - navabr width
+  }
+
+  .blank-page-submit-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
 }
