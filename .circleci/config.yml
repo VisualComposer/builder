@@ -302,7 +302,6 @@ jobs:
   js-stores-tests:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
-    parallelism: 4
     steps:
       - checkout
       - restore_cache:
@@ -314,7 +313,7 @@ jobs:
       - run: n 14
       - run: yarn install
       - run: yarn build
-      - run: yarn test -u circleci tests split --split-by=timings
+      - run: yarn test -u
       - save_cache:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
