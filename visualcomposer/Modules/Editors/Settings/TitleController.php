@@ -33,9 +33,23 @@ class TitleController extends Container implements Module
             'titleRemove'
         );
 
-        //remove the filer before menu title render
+        /**
+         * Remove the filter before menu title render
+         *
+         * `the_title` filter also used for menu items. If we "disable the page title"
+         * it also will be removed from the menu (not menu item itself, only text).
+         *
+         * Special case: fallback_cb should be treated separately. By default, WordPress uses
+         * {@see \wp_page_menu()} as a fallback_cb, which triggers {@see \wp_list_pages()}.
+         *
+         * @see \wp_nav_menu()
+         */
         $this->wpAddFilter(
-            'wp_nav_menu_args',
+            'wp_nav_menu_objects',
+            'removeTitleFilter'
+        );
+        $this->wpAddFilter(
+            'wp_list_pages_excludes',
             'removeTitleFilter'
         );
 
@@ -44,6 +58,11 @@ class TitleController extends Container implements Module
             'wp_nav_menu_items',
             'addTitleFilter'
         );
+        $this->wpAddFilter(
+            'wp_list_pages',
+            'addTitleFilter'
+        );
+
         $this->addFilter('vcv:dataAjax:getData', 'outputTitle');
         $this->addFilter('vcv:dataAjax:setData', 'setPageTitle');
     }
