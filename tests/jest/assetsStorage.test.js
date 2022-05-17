@@ -42,9 +42,9 @@ describe('Test assetsStorage', () => {
   const buttonColor = 'rgb(11, 90, 224)'
   const buttonText = 'Hello World'
   let assetsOptions = {}
-
-  expect(123).toBe(123)
-
+  test('assets test test', () => {
+    expect(123).toBe(123)
+  })
   return
 
   vcCake.env('VCV_DEBUG', true)
