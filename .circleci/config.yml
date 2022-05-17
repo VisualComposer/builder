@@ -310,10 +310,10 @@ jobs:
             - v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-
             - v1-node-js-stores-tests-{{ arch }}-
       - run: npm install -g n
-      - run: n 14
+      - run: n 16
       - run: yarn install
       - run: yarn build
-      - run: yarn test
+      - run: yarn test -u
       - save_cache:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
