@@ -32,12 +32,6 @@ describe('Test elementsStorage', () => {
 
   vcCake.env('VCV_DEBUG', true)
   vcCake.start(() => {
-    test('ElementStorage test', () => {
-      expect(123).toBe(123)
-    })
-
-    return null
-
     test('ElementStorage add textBlock', () => {
       elementsStorage.trigger('add', { tag: 'textBlock', id: id })
       const textBlock = documentManager.get(id)
