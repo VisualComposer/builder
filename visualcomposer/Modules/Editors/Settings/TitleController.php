@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
 
 /**
  * Class TitleController
+ *
  * @package VisualComposer\Modules\Editors\Settings
  */
 class TitleController extends Container implements Module
