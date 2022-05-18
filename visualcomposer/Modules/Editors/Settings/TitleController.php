@@ -42,6 +42,7 @@ class TitleController extends Container implements Module
          * Special case: fallback_cb should be treated separately. By default, WordPress uses
          * {@see \wp_page_menu()} as a fallback_cb, which triggers {@see \wp_list_pages()}.
          *
+         *
          * @see \wp_nav_menu()
          */
         $this->wpAddFilter(
