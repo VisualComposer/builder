@@ -232,7 +232,8 @@
       .contains(titleRegex)
       .then(($field) => {
         cy.wrap($field)
-          .next()
+          .parent()
+          .find('.vcv-ui-form-input')
           .clear()
           .type(value)
       })
