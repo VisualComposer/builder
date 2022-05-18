@@ -30,12 +30,14 @@ const LayoutsData = {
     'content': [
         {
             type: 'noContent',
-            label: localizations.noContent || 'No content'
+            label: localizations.noContent || 'No content',
+            control: 'button'
         },
         {
             type: 'myTemplate',
             icon: require('./myTemplateIcon'),
-            label: localizations.myTemplate || 'My template'
+            label: localizations.myTemplate || 'My template',
+            control: 'dropdown'
         }
     ]
 }

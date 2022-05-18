@@ -147,8 +147,10 @@ add('wordpressWorkspace', (api) => {
         if (showBlank && typeof settingsStorage.state('skipBlank').get() === 'undefined') {
           addStartBlank()
           isBlank = true
+          isBlankPageIntro = false
         } else if (isBlankPageIntro && editorType === 'default') {
           addBlankIntro()
+          isBlank = false
           isBlankPageIntro = true
         } else {
           removeOverlay()

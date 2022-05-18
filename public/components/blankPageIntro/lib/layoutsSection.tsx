@@ -35,7 +35,9 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
   } else {
     sectionLabel = localizations.content || 'Content'
     tooltipText = 'Content fsdasfr'
-    // TODO: Get template data from backend
+      console.log('LayoutIcons', LayoutsData);
+    // TODO: Get template data from VCV_HUB_GET_TEMPLATES_TEASER with specific propert
+    //  and join with layoutsData
     // layoutsData = []
   }
 

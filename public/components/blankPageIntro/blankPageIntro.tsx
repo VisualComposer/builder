@@ -81,10 +81,10 @@ export default BlankPageIntro
 /**
  * TODO:
  * 1. Handle layout apply when selected in dropdown (x)
- * 2. Dropdown for Content My templates (all user saved templates)
+ * 2. Dropdown for Content My templates (all user saved templates) (x)
  * 3. Style focus state for fields (x)
  * 4. Handle Blank Page intro render on iframe reload (x)
- * 5. Style mobile view
+ * 5. Style mobile view (x)
  * 6. Style attributes (x)
  * 7. Check Free version view (show badges, disable clicks on premium layouts)
  * 8. Render hub content layouts
