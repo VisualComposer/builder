@@ -242,6 +242,7 @@
 }
 
 .template-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: @blank-page-intro-item-border-radius;
@@ -251,6 +252,10 @@
   &:hover {
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
   }
+}
+
+.template-item--disabled {
+  pointer-events: none;
 }
 
 .template-item--selected {
@@ -352,6 +357,18 @@
 
 .template-info .vcv-ui-form-group {
   margin: 0;
+}
+
+.item-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: @vcv-color-juicy-yellow;
+  color: #fff;
+  padding: 4px 11px;
+  border-radius: 50px;
+  font-size: 12px;
+  line-height: 20px;
 }
 
 @media screen and (max-width: 600px) {

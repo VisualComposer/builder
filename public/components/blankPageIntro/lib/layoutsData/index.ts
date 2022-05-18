@@ -24,7 +24,8 @@ const LayoutsData = {
             value: 'custom',
             icon: require('./customIcon'),
             label: localizations.customLayout || 'Custom layout',
-            control: 'dropdown'
+            control: 'dropdown',
+            contentType: 'premium'
         }
     ],
     'content': [

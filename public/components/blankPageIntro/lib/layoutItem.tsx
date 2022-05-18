@@ -217,28 +217,19 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     }
   }
 
+  const isSelect = itemData.type === 'vc-theme' || itemData.type === 'myTemplate'
   const icon:any = itemData?.icon?.default() || null
+  const isPremiumActivated = dataManager.get('isPremiumActivated')
+  const isPremiumContent = !isPremiumActivated && (itemData?.contentType === 'premium')
+  const premiumBagde = isPremiumContent ? <span className='item-badge'>{localizations.premium || 'Premium'}</span> : null
 
-  const itemClasses = classNames({
-    'template-item': true,
-    'template-item--selected': isActive
-  })
+  let tooltip:any = <Tooltip />
+  let dropdown:any = null
+  let checkedIcon:any = <i className='vcv-ui-icon vcv-ui-icon-checked-circle' />
 
-  let item = (
-    <div className={itemClasses} onClick={handleItemClick}>
-      <div className='template-thumbnail'>
-        {icon}
-      </div>
-      <div className='template-info'>
-        <span className='template-label'>{itemData.label}</span>
-        <Tooltip />
-        <i className='vcv-ui-icon vcv-ui-icon-checked-circle' />
-      </div>
-    </div>
-  )
-
-  if (itemData.type === 'vc-theme' || itemData.type === 'myTemplate') {
-    let dropdown = null
+  if (isSelect) {
+    tooltip = null
+    checkedIcon = null
     if (itemData.type === 'vc-theme') {
       let hfsLayouts:any = allAvailableVcLayouts.find((layout:any) => layout.type === 'vc-theme').values
       hfsLayouts = hfsLayouts.map((layout:any) => {
@@ -262,19 +253,32 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         updater={handleTemplateChange}
       />)
     }
-    item = (
-      <div className={itemClasses} onClick={handleItemClick}>
-        <div className='template-thumbnail'>
-          {icon}
-        </div>
-        <div className='template-info template-info--select'>
-          <span className='template-label'>{itemData.label}</span>
-          {dropdown}
-        </div>
-      </div>
-    )
   }
-  return item
+
+  const itemClasses = classNames({
+    'template-item': true,
+    'template-item--selected': isActive,
+    'template-item--disabled': isPremiumContent
+  })
+  const infoClasses = classNames({
+    'template-info': true,
+    'template-info--select': isSelect
+  })
+
+  return (
+    <div className={itemClasses} onClick={handleItemClick}>
+      {premiumBagde}
+      <div className='template-thumbnail'>
+        {icon}
+      </div>
+      <div className={infoClasses}>
+        <span className='template-label'>{itemData.label}</span>
+          {dropdown}
+          {tooltip}
+          {checkedIcon}
+      </div>
+    </div>
+  )
 }
 
 export default LayoutItem
