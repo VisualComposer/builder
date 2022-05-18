@@ -1,0 +1,53 @@
+{
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/no-unresolved": "off",
+    "import/no-webpack-loader-syntax": "off",
+    "react/prop-types": 0,
+    "semi": ["error", "never"],
+    "quotes": ["error", "single"]
+  },
+  "ignorePatterns": [
+    "**/*.babel.js",
+    "**/*.bundle.js",
+    "**/*.spec.js",
+    "**/*.min.js",
+    "public/editor/modules/insights/axe.d.ts",
+    "**/commands.js",
+    "elements/*/public/*",
+    "devAddons/_tests/*",
+    "_infrastructure/*",
+    "devElements/_tests/*",
+    "public/config/*",
+    "public/dist/*",
+    "tests/*",
+    "tools/*",
+    "public/config/",
+    "public/sources/assetsLibrary/*"
+  ],
+  "root": true
+}
