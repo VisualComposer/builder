@@ -49,7 +49,7 @@ export default class Element {
     this.storages.elements.on(`element:${this.id}`, callback)
   }
 
-  onAttributeChange (fieldKey, callback) {
+  onAttributeChange () {
     // return // temporary disable
     // this.storages.elements.on(`element:${this.id}:attribute:${fieldKey}`, callback)
   }
@@ -58,7 +58,7 @@ export default class Element {
     this.storages.elements.off(`element:${this.id}`, callback)
   }
 
-  ignoreAttributeChange (fieldKey, callback) {
+  ignoreAttributeChange () {
     // return // temporary disable
     // this.storages.elements.off(`element:${this.id}:attribute:${fieldKey}`, callback)
   }
