@@ -202,7 +202,7 @@ class Elements implements Helper
 
     public function getElementPath($path = '')
     {
-        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+        if ($this->isDevElements()) {
             if (preg_match('/devElements\//', $path)) {
                 return $path;
             }
@@ -217,7 +217,9 @@ class Elements implements Helper
             return $path;
         }
 
-        return VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($path, '\\/');
+        $elementPath = VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($path, '\\/');
+
+        return apply_filters('vcv:helpers:hub:elements:getElementPath', $elementPath, $path);
     }
 
     public function getElementUrl($path = '')
@@ -226,7 +228,7 @@ class Elements implements Helper
             return $path;
         }
 
-        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+        if ($this->isDevElements()) {
             return VCV_PLUGIN_URL . 'devElements/' . $path;
         }
 
@@ -240,8 +242,9 @@ class Elements implements Helper
         }
 
         $assetsHelper = vchelper('Assets');
+        $url = $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
 
-        return $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
+        return apply_filters('vcv:helpers:hub:elements:getElementUrl', $url, $path);
     }
 
     /**
@@ -268,5 +271,72 @@ class Elements implements Helper
 
         // @codingStandardsIgnoreLine
         return $vcvPosts->found_posts > 0;
+    }
+
+    /**
+     * Conditional check if dev elements version is activated.
+     *
+     * @return bool
+     */
+    public function isDevElements()
+    {
+        $isDevElements = false;
+        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+            $isDevElements = true;
+        }
+
+        return apply_filters('vcv:helpers:hub:isDevElements', $isDevElements);
+    }
+
+    /**
+     * Collect all element's data from their bundle manifests to the list.
+     *
+     * @param array $manifests
+     * @param string $pathToElementFolder
+     * @param string $urlToElementFolder
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function readManifests(array $manifests, $pathToElementFolder, $urlToElementFolder)
+    {
+        $elements = [];
+        $urlHelper = vchelper('Url');
+        $vcapp = vcapp();
+        foreach ($manifests as $manifestPath) {
+            $manifest = json_decode(file_get_contents($manifestPath), true);
+            $dirname = dirname($manifestPath);
+            $tag = basename($dirname);
+            if (!isset($manifest['elements'], $manifest['elements'][ $tag ])) {
+                throw new \Exception('Element manifest must SET "TAG":' . $manifestPath);
+            }
+            $element = $manifest['elements'][ $tag ];
+            $element['bundlePath'] = $urlToElementFolder . $tag . '/public/dist/element.bundle.js';
+            $element['elementPath'] = $urlToElementFolder . $tag . '/' . $tag . '/';
+            $element['elementRealPath'] = $pathToElementFolder . '/' . $tag . '/' . $tag . '/';
+            $element['assetsPath'] = $urlToElementFolder . $tag . '/' . $tag . '/public/';
+            $element['phpFiles'] = [];
+            if (isset($manifest['elements'], $manifest['elements'][ $tag ], $manifest['elements'][ $tag ]['phpFiles'])) {
+                $files = $manifest['elements'][ $tag ]['phpFiles'];
+                foreach ($files as $index => $filePath) {
+                    $manifest['elements'][ $tag ]['phpFiles'][ $index ] = rtrim($element['elementRealPath'], '\\/') . '/' . $filePath;
+                }
+                unset($index, $filePath);
+                $element['phpFiles'] = $manifest['elements'][ $tag ]['phpFiles'];
+            }
+            $element = json_decode(
+                str_replace(
+                    '[publicPath]',
+                    $urlToElementFolder . $tag . '/' . $tag . '/public',
+                    json_encode($element)
+                ),
+                true
+            );
+
+            $elements[ $tag ] = $element;
+        }
+        unset($manifest, $manifestPath, $tag, $dirname);
+
+        return $elements;
     }
 }

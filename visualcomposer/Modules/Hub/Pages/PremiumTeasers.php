@@ -248,6 +248,7 @@ class PremiumTeasers extends Container implements Module
                     $dataHelper = vchelper('Data');
                     $haveUpdates = false;
                     $currentUserAccess = vchelper('AccessCurrentUser');
+
                     foreach ($this->dashboardSections as $section) {
                         // Addon installed, skip teaser
                         if (array_key_exists($section['premiumActionBundle'], $addons)) {

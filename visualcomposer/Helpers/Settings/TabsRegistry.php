@@ -66,7 +66,7 @@ class TabsRegistry extends Container implements Helper
             }
         }
 
-        $this->menuTree = vcfilter('vcv:helpers:settings:menuTree', $this->menuTree);
+        $this->menuTree = apply_filters('vcv:helpers:settings:menuTree', $this->menuTree);
 
         $this->dataHelper = vchelper('Data');
     }
