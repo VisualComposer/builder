@@ -310,7 +310,7 @@ export default class BoxShadow extends Attribute {
       return null
     }
 
-    const getFields = getBoxShadowEffects(hover).map((effect, i) => {
+    return getBoxShadowEffects(hover).map((effect,) => {
       let field
       if (effect.attributeType === 'range') {
         field = (
@@ -341,8 +341,6 @@ export default class BoxShadow extends Attribute {
         </div>
       )
     })
-
-    return getFields
   }
 
   render () {

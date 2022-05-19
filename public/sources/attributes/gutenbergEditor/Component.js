@@ -1,5 +1,4 @@
 import React from 'react'
-// import classnames from 'classnames'
 import Attribute from '../attribute'
 import GutenbergModal from './lib/gutenbergModal'
 import { iframeControlStyles } from './lib/iframeControlStyles'
@@ -55,7 +54,7 @@ export default class GutenbergEditorComponent extends Attribute {
     if (!wpData) {
       const localizations = dataManager.get('localizations')
 
-      const alertNotice = localizations ? localizations.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Check the Gutenberg plugin."
+      const alertNotice = localizations ? localizations.gutenbergDoesntWorkProperly : 'Gutenberg plugin doesn\'t work properly. Check the Gutenberg plugin.'
       window.alert(alertNotice)
       this.closeEditor()
     }
@@ -84,7 +83,9 @@ export default class GutenbergEditorComponent extends Attribute {
     editor.lockPostSaving()
     postEdit.closeGeneralSidebar()
     if (!!editor.autosave && typeof editor.autosave === 'function') {
-      editor.autosave = () => {}
+      editor.autosave = () => {
+        // do nothing
+      }
     }
     const originalOpenGeneralSidebar = postEdit.openGeneralSidebar
     postEdit.openGeneralSidebar = function (block) {

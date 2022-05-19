@@ -19,9 +19,14 @@ function setWheelSettings (contentWindow) {
   let supportsPassive = false
   try {
     contentWindow.addEventListener('test', null, Object.defineProperty({}, 'passive', {
-      get: function () { supportsPassive = true; }
+      get: function () {
+        supportsPassive = true
+        return true
+      }
     }))
-  } catch (e) {}
+  } catch (e) {
+    // do nothing
+  }
 
   wheelOpt = supportsPassive ? { passive: false } : false
   wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel'
