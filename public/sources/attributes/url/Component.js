@@ -1,5 +1,6 @@
 import React from 'react'
 import lodash from 'lodash'
+import { connect } from 'react-redux'
 import Modal from 'public/components/modal/modal'
 import Attribute from '../attribute'
 import String from '../string/Component'
@@ -15,7 +16,6 @@ import DynamicPopupContent from 'public/sources/attributes/dynamicField/dynamicP
 const dataManager = getService('dataManager')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
-const popupStorage = getStorage('popup')
 const hubStorage = getStorage('hubAddons')
 const settingsStorage = getStorage('settings')
 
@@ -45,7 +45,7 @@ const pagePopups = {
   }
 }
 
-export default class Url extends Attribute {
+class Url extends Attribute {
   static defaultProps = {
     fieldType: 'url'
   }
@@ -66,7 +66,6 @@ export default class Url extends Attribute {
     this.handleContentChange = this.handleContentChange.bind(this)
     this.setPagePosts = this.setPagePosts.bind(this)
     this.setPopupPosts = this.setPopupPosts.bind(this)
-    this.handlePopupHtmlLoad = this.handlePopupHtmlLoad.bind(this)
     this.onCurrentPostFieldChange = this.onCurrentPostFieldChange.bind(this)
     this.onSourceIdChange = this.onSourceIdChange.bind(this)
     this.onShowAutocompleteChange = this.onShowAutocompleteChange.bind(this)
@@ -75,6 +74,19 @@ export default class Url extends Attribute {
   componentWillUnmount () {
     if (this.postRequest) {
       this.postRequest.abort()
+    }
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.isSaveInProgress) {
+      if (!this.props.isPopupAddInProgress && this.props.isPopupAddInProgress !== prevProps.isPopupAddInProgress) {
+        this.setState({
+          isSaveInProgress: false
+        })
+        window.setTimeout(() => {
+          this.handleClose()
+        }, 1)
+      }
     }
   }
 
@@ -222,7 +234,6 @@ export default class Url extends Attribute {
       unsavedValue: {},
       isSaveInProgress: false
     })
-    popupStorage.state('popupAddInProgress').ignoreChange(this.handlePopupHtmlLoad)
     if (this.state.value.type === 'popup') {
       this.loadPosts('', this.popupAction, this.setPopupPosts)
     } else {
@@ -248,7 +259,6 @@ export default class Url extends Attribute {
       this.setState({
         isSaveInProgress: true
       })
-      popupStorage.state('popupAddInProgress').onChange(this.handlePopupHtmlLoad)
     } else {
       window.setTimeout(() => {
         this.handleClose()
@@ -261,7 +271,6 @@ export default class Url extends Attribute {
       this.setState({
         isSaveInProgress: false
       })
-      popupStorage.state('popupAddInProgress').ignoreChange(this.handlePopupHtmlLoad)
       window.setTimeout(() => {
         this.handleClose()
       }, 1)
@@ -416,7 +425,8 @@ export default class Url extends Attribute {
       }
     }
 
-    let dynamicOption = <option value='dynamic-content' disabled={!isAddonAvailable.dynamicFields}>{dynamicContent}</option>
+    let dynamicOption =
+      <option value='dynamic-content' disabled={!isAddonAvailable.dynamicFields}>{dynamicContent}</option>
     // Remove dynamic option for multiple image URL
     if (this.props.fieldType === 'url' && this.props.options && this.props.options.multiple) {
       dynamicOption = null
@@ -708,3 +718,9 @@ export default class Url extends Attribute {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  isPopupAddInProgress: state.popups.isPopupAddInProgress
+})
+
+export default connect(mapStateToProps, null, null, { forwardRef: true })(Url)

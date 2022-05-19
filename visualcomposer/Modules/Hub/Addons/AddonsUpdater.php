@@ -25,7 +25,7 @@ class AddonsUpdater extends Container implements Module
 
     protected function updateAddons($response, $payload, HubAddons $addonsHelper)
     {
-        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+        if ($addonsHelper->isDevAddons()) {
             return ['status' => true];
         }
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;

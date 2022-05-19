@@ -1,5 +1,5 @@
 import { getService, addService, env } from 'vc-cake'
-import { deflate } from 'pako/lib/deflate'
+import { deflate } from 'pako'
 import base64 from 'base-64'
 
 // compute once, optimization for recalculate styles
@@ -65,8 +65,22 @@ const API = {
   },
   compressData (data) {
     const binaryStringBuffer = deflate(JSON.stringify(data))
+    const dataManager = getService('dataManager')
 
-    return new Blob([new Uint8Array(binaryStringBuffer)], { type: 'application/octet-stream' })
+    if (data['vcv-check-content-zip-type'] || dataManager.get('contentZipType') === 'binary') {
+      data = new Blob([new Uint8Array(binaryStringBuffer)], { type: 'application/octet-stream' })
+    } else {
+      let binary = ''
+      const bytes = new Uint8Array(binaryStringBuffer)
+      const len = bytes.byteLength
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i])
+      }
+
+      data = base64.encode(binary)
+    }
+
+    return data
   },
   ajax: (data, successCallback, failureCallback) => {
     const dataManager = getService('dataManager')
@@ -87,15 +101,29 @@ const API = {
       }
     }
 
-    if (env('VCV_JS_SAVE_ZIP')) {
-      request.setRequestHeader('Content-type', 'application/octet-stream')
-      request.setRequestHeader('Content-Transfer-Encoding', 'binary')
-      data = API.compressData(data)
-    } else {
+    let sendArgs = window.jQuery.param(data)
+
+    if (env('VCV_JS_SAVE_ZIP') === false) {
       request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    } else {
+      const utils = getService('utils')
+      const compressed = utils.compressData(data)
+
+      if (compressed instanceof Blob) {
+        request.setRequestHeader('Content-type', 'application/octet-stream')
+        request.setRequestHeader('Content-Transfer-Encoding', 'binary')
+        sendArgs = compressed
+      } else {
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+
+        data = {
+          'vcv-zip': compressed
+        }
+        sendArgs = window.jQuery.param(data)
+      }
     }
 
-    request.send(env('VCV_JS_SAVE_ZIP') ? data : window.jQuery.param(data))
+    request.send(sendArgs)
 
     return request
   },

@@ -1739,6 +1739,24 @@ class Localizations extends Container implements Helper
                 '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
+            'createPopup' => sprintf(
+                __(
+                    '%sCreate%s a new popup.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'editPopup' => sprintf(
+                __(
+                    '%sEdit%s this popup or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
             'restrictedText' => __(
                 'Restricted',
                 'visualcomposer'

@@ -9,19 +9,37 @@ const Service = {
       // Method that performs the ajax request
       ajax: function (method, url, args, contentType) {
         // Creating a promise
-
         const promise = new Promise(function (resolve, reject) {
           // Instantiates the XMLHttpRequest
           const request = new window.XMLHttpRequest()
           request.open(method, url)
-          if (contentType && env('VCV_JS_SAVE_ZIP')) {
-            request.setRequestHeader('Content-type', 'application/octet-stream')
-            request.setRequestHeader('Content-Transfer-Encoding', 'binary')
-          } else if (contentType) {
+
+          let sendArgs = ''
+          if (env('VCV_JS_SAVE_ZIP') === false) {
             request.setRequestHeader('Content-type', contentType)
+
+            if (args) {
+              sendArgs = window.jQuery.param(args)
+            }
+          } else {
+            if (args instanceof Blob) {
+              request.setRequestHeader('Content-type', 'application/octet-stream')
+              request.setRequestHeader('Content-Transfer-Encoding', 'binary')
+            } else {
+              request.setRequestHeader('Content-type', contentType)
+            }
+
+            if (args) {
+              if (args instanceof Blob) {
+                sendArgs = args
+              } else {
+                sendArgs = window.jQuery.param(args)
+              }
+            }
           }
+
           try {
-            request.send(env('VCV_JS_SAVE_ZIP') ? args : (args ? window.jQuery.param(args) : ''))
+            request.send(sendArgs)
           } catch (e) {
             reject(this.statusText)
           }
@@ -72,29 +90,29 @@ const Service = {
     }
   },
   appServerRequest (args) {
-    const dataManager = getService('dataManager')
-    const url = dataManager.get('ajaxUrl')
-    args = Object.assign({
-      'vcv-nonce': dataManager.get('nonce'),
-      'vcv-source-id': dataManager.get('sourceID')
-    }, args)
-
-    if (env('VCV_JS_SAVE_ZIP')) {
-      args = utils.compressData(args)
-    }
-
-    return this.http(url).post(args)
+    return this.getServerRequest('ajaxUrl', args)
   },
   appAdminServerRequest (args) {
+    return this.getServerRequest('adminAjaxUrl', args)
+  },
+  getServerRequest (type, args) {
     const dataManager = getService('dataManager')
-    const url = dataManager.get('adminAjaxUrl')
+    const url = dataManager.get(type)
     args = Object.assign({
       'vcv-nonce': dataManager.get('nonce'),
       'vcv-source-id': dataManager.get('sourceID')
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      args = utils.compressData(args)
+      const compressData = utils.compressData(args)
+
+      if (compressData instanceof Blob) {
+        args = compressData
+      } else {
+        args = {
+          'vcv-zip': compressData
+        }
+      }
     }
 
     return this.http(url).post(args)

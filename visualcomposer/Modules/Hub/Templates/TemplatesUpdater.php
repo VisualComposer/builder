@@ -37,75 +37,53 @@ class TemplatesUpdater extends Container implements Module
 
         $this->addFilter(
             'vcv:ajax:hub:update:attachment:meta:adminNonce',
-            'updateAttachmentMeta'
+            'updateAttachment'
         );
     }
 
     protected function updateTemplate(
         $response,
         $payload,
-        File $fileHelper,
         Templates $hubTemplatesHelper,
         WpMedia $wpMediaHelper,
         EditorTemplates $editorTemplatesHelper
     ) {
-        $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
-        if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
+        $template = isset($payload['archive']) ? $payload['archive'] : false;
+
+        if (vcIsBadResponse($response) || !$template || is_wp_error($template)) {
             return ['status' => false];
         }
 
-        /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
-        if (!isset($response['templates']) || empty($response['templates'])) {
-            $response['templates'] = [];
-        }
-
-        $createDirResult = $fileHelper->createDirectory(
-            $hubTemplatesHelper->getTemplatesPath()
-        );
-        if (vcIsBadResponse($createDirResult) && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath())) {
-            return false;
-        }
-        $template = $bundleJson;
         $template['id'] = $payload['actionData']['data']['id'];
-        // File is locally available
-        $hubTemplatesBundleHelper = vchelper('HubBundle');
-        $hubTemplatesBundleHelper->setTempBundleFolder(
-            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['actionData']['action'])
-        );
-        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
-        if (is_dir($tempTemplatePath)) {
-            // We have local assets for template, so we need to copy them to real templates folder
-            $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
-            if (
-                vcIsBadResponse($createDirResult)
-                && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath($template['id']))
-            ) {
-                return false;
-            }
-            $copyDirResult = $fileHelper->copyDirectory(
-                $tempTemplatePath,
-                $hubTemplatesHelper->getTemplatesPath($template['id'])
-            );
-            if (vcIsBadResponse($copyDirResult)) {
-                return false;
-            }
+
+        $success = $this->processTemplateDirectories($template, $payload);
+
+        if (!$success) {
+            return false;
         }
 
         $this->templatePostType = isset($payload['actionData']['action']) && $payload['actionData']['action'] === 'template/tutorial' ? 'vcv_tutorials' : 'vcv_templates';
         $template['name'] = $this->templatePostType === 'vcv_tutorials' ? 'Tutorial Page' : $payload['actionData']['data']['name'];
         $templateElements = $template['data'];
-        $templateMeta = $this->processTemplateMetaImages(
+
+        $templateMeta = $hubTemplatesHelper->processTemplateMetaImages(
             [
                 'id' => $template['id'],
                 'preview' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['preview'],
                 'thumbnail' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['thumbnail'],
             ]
         );
+
+        $template['description'] = $payload['actionData']['data']['description'];
+        $template['thumbnail'] = $templateMeta['thumbnail'];
+        $template['preview'] = $templateMeta['preview'];
+
         if ($this->templatePostType !== 'vcv_tutorials') {
             $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
             $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
             $templateElements = $this->processDesignOptions($templateElements, $template);
         }
+
         // Check if menu source is exist or not
         $templateElements = $this->isMenuExist($templateElements);
         $templateElements = json_decode(
@@ -118,49 +96,12 @@ class TemplatesUpdater extends Container implements Module
         );
         unset($template['data']);
 
-        $savedTemplates = new WP_Query(
-            [
-                'post_type' => $this->templatePostType,
-                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'trash'],
-                'meta_query' => [
-                    [
-                        'key' => '_' . VCV_PREFIX . 'id',
-                        'value' => $template['id'],
-                        'compare' => '=',
-                    ],
-                    [
-                        'key' => '_' . VCV_PREFIX . 'type',
-                        'value' => 'custom',
-                        'compare' => '!=',
-                    ],
-                ],
-            ]
+        $templateHelper = vchelper('HubTemplates');
+        $templateId = $templateHelper->insertNewTemplate(
+            $template['id'],
+            $this->templatePostType,
+            $payload['actionData']['data']['name']
         );
-
-        if (!$savedTemplates->have_posts()) {
-            $templateId = wp_insert_post(
-                [
-                    'post_title' => $template['name'],
-                    'post_type' => $this->templatePostType,
-                    'post_status' => 'publish',
-                ]
-            );
-        } else {
-            $savedTemplates->the_post();
-            $templateId = get_the_ID();
-            wp_reset_postdata();
-            wp_update_post(
-                [
-                    'ID' => $templateId,
-                    'post_title' => $payload['actionData']['data']['name'],
-                    'post_type' => $this->templatePostType,
-                    'post_status' => 'publish',
-                ]
-            );
-        }
-        $template['description'] = $payload['actionData']['data']['description'];
-        $template['thumbnail'] = $templateMeta['thumbnail'];
-        $template['preview'] = $templateMeta['preview'];
 
         if (isset($payload['actionData']['data']['type'])) {
             $type = $payload['actionData']['data']['type'];
@@ -168,7 +109,19 @@ class TemplatesUpdater extends Container implements Module
             $type = 'hub';
         }
 
-        $this->updatePostMetas($templateId, $template, $type, $payload, $templateElements);
+        $templateHelper->updateTemplateMetas(
+            $templateId,
+            $template,
+            $type,
+            $payload['actionData']['action'],
+            $templateElements,
+            $this->templatePostType
+        );
+
+        /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
+        if (!isset($response['templates']) || empty($response['templates'])) {
+            $response['templates'] = [];
+        }
 
         $response['additionalActionList'] = self::$needAttachmentMetadataList;
         $response['templates'][] = [
@@ -187,133 +140,8 @@ class TemplatesUpdater extends Container implements Module
             'type' => $type,
         ];
 
+
         return $response;
-    }
-
-    /**
-     * Update post metas for template
-     *
-     * @param $templateId
-     * @param $template
-     * @param $type
-     * @param $payload
-     * @param $templateElements
-     */
-    protected function updatePostMetas($templateId, $template, $type, $payload, $templateElements)
-    {
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'description', $template['description']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $type);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'bundle', $payload['actionData']['action']);
-        update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
-
-        if ($this->templatePostType === 'vcv_tutorials') {
-            if (isset($template['postMeta']['vcvSourceCss'][0])) {
-                update_post_meta(
-                    $templateId,
-                    'vcvSourceCss',
-                    $template['postMeta']['vcvSourceCss'][0]
-                );
-            }
-
-            if (isset($template['postMeta']['vcvSettingsSourceCustomCss'][0])) {
-                update_post_meta(
-                    $templateId,
-                    'vcvSettingsSourceCustomCss',
-                    $template['postMeta']['vcvSettingsSourceCustomCss'][0]
-                );
-            }
-        }
-    }
-
-    /**
-     * @param $template
-     *
-     * @return mixed
-     */
-    protected function processTemplateMetaImages($template)
-    {
-        $wpMediaHelper = vchelper('WpMedia');
-        $urlHelper = vchelper('Url');
-        if ($wpMediaHelper->checkIsImage($template['preview'])) {
-            $url = $template['preview'];
-            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
-                $url = '[publicPath]' . $url;
-            }
-
-            $preview = $this->processSimple($url, $template);
-            if ($preview) {
-                $template['preview'] = $preview;
-            }
-        }
-
-        if ($wpMediaHelper->checkIsImage($template['thumbnail'])) {
-            $url = $template['thumbnail'];
-            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
-                $url = '[publicPath]' . $url;
-            }
-
-            $thumbnail = $this->processSimple($url, $template);
-            if ($thumbnail) {
-                $template['thumbnail'] = $thumbnail;
-            }
-        }
-
-        return $template;
-    }
-
-    /**
-     * @param $url
-     * @param $template
-     * @param string $prefix
-     *
-     * @return bool|mixed|string
-     */
-    protected function processSimple($url, $template, $prefix = '')
-    {
-        $fileHelper = vchelper('File');
-        $hubTemplatesHelper = vchelper('HubTemplates');
-        $urlHelper = vchelper('Url');
-        $assetsHelper = vchelper('Assets');
-
-        if ($urlHelper->isUrl($url)) {
-            $imageFile = $fileHelper->download($url);
-            $localImagePath = strtolower($prefix . '' . basename($url));
-            if (!vcIsBadResponse($imageFile)) {
-                $templatePath = $hubTemplatesHelper->getTemplatesPath($template['id']);
-                $fileHelper->createDirectory(
-                    $templatePath
-                );
-                if (!file_exists($templatePath)) {
-                    return false;
-                }
-
-                if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
-                    return $assetsHelper->getAssetUrl(
-                        'templates/' . $template['id'] . '/' . $localImagePath
-                    );
-                }
-            } else {
-                return false;
-            }
-        } else {
-            // File located locally
-            if (strpos($url, '[publicPath]') !== false) {
-                $url = str_replace('[publicPath]', '', $url);
-
-                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
-            }
-
-            if (strpos($url, 'assets/elements/') !== false) {
-                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
-            }
-
-            return $url; // it is local file url (default file)
-        }
-
-        return false;
     }
 
     /**
@@ -335,12 +163,13 @@ class TemplatesUpdater extends Container implements Module
                 $images => $images,
             ];
         }
+        $templatesHelper = vchelper('HubTemplates');
         if (!empty($images) && is_array($images)) {
             foreach ($images as $key => $image) {
                 if (is_string($image)) {
-                    $newMediaData = $this->processSimple($image, $template, $prefix . $key . '-');
+                    $newMediaData = $templatesHelper->processSimple($image, $template, $prefix . $key . '-');
                 } else {
-                    $newMediaData = $this->processSimple($image['full'], $template, $prefix . $key . '-');
+                    $newMediaData = $templatesHelper->processSimple($image['full'], $template, $prefix . $key . '-');
                 }
                 if ($newMediaData) {
                     $attachment = $this->addImageToMediaLibrary($newMediaData);
@@ -455,7 +284,8 @@ class TemplatesUpdater extends Container implements Module
                     );
                 } else {
                     // it is simple url
-                    $imageData = $this->processSimple(
+                    $templatesHelper = vchelper('HubTemplates');
+                    $imageData = $templatesHelper->processSimple(
                         $media['url'],
                         $template,
                         $element['elementId'] . '-' . $media['key'] . '-'
@@ -506,13 +336,20 @@ class TemplatesUpdater extends Container implements Module
                 'post_status' => 'inherit',
             ];
 
-            $attachment = wp_insert_attachment(
+            $attachmentId = wp_insert_attachment(
                 $attachment,
                 $wpUploadDir['path'] . '/' . basename($localMediaPath),
                 get_the_ID()
             );
 
-            self::$needAttachmentMetadataList[$attachment] = $imageNewUrl;
+            $requestHelper = vchelper('Request');
+            // update template action
+            if (!empty($requestHelper->input('vcv-action'))) {
+                self::$needAttachmentMetadataList[$attachmentId] = $imageNewUrl;
+                // download template action
+            } else {
+                $this->updateAttachmentMeta($attachmentId, $imageNewUrl);
+            }
 
             $this->importedImages[ $imageUrl ] = [
                 'id' => $attachment,
@@ -524,17 +361,28 @@ class TemplatesUpdater extends Container implements Module
     }
 
     /**
-     * Update attachment meta and generate sizes.
+     * Update attachment.
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return bool[]
      */
-    protected function updateAttachmentMeta(Request $requestHelper)
+    protected function updateAttachment(Request $requestHelper)
     {
         $attachmentId = $requestHelper->input('vcv-attachment-id');
         $attachmentPath = $requestHelper->input('vcv-attachment-path');
 
+        $this->updateAttachmentMeta($attachmentId, $attachmentPath);
+
+        return ['status' => true];
+    }
+
+    /**
+     * Update attachment meta and generate sizes.
+     *
+     */
+    protected function updateAttachmentMeta($attachmentId, $attachmentPath)
+    {
         if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
             wp_generate_attachment_metadata(
                 $attachmentId,
@@ -549,7 +397,52 @@ class TemplatesUpdater extends Container implements Module
                 )
             );
         }
+    }
 
-        return ['status' => true];
+    /**
+     * Process creating template access directories.
+     *
+     * @param array $template
+     * @param array $payload
+     *
+     * @return bool
+     */
+    protected function processTemplateDirectories($template, $payload)
+    {
+        $hubTemplatesHelper = vchelper('HubTemplates');
+        $fileHelper = vchelper('File');
+        $hubTemplatesBundleHelper = vchelper('HubBundle');
+
+        $createDirResult = $fileHelper->createDirectory(
+            $hubTemplatesHelper->getTemplatesPath()
+        );
+        if (vcIsBadResponse($createDirResult) && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath())) {
+            return false;
+        }
+
+        // File is locally available
+        $hubTemplatesBundleHelper->setTempBundleFolder(
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['actionData']['action'])
+        );
+        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
+        if (is_dir($tempTemplatePath)) {
+            // We have local assets for template, so we need to copy them to real templates folder
+            $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
+            if (
+                vcIsBadResponse($createDirResult)
+                && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath($template['id']))
+            ) {
+                return false;
+            }
+            $copyDirResult = $fileHelper->copyDirectory(
+                $tempTemplatePath,
+                $hubTemplatesHelper->getTemplatesPath($template['id'])
+            );
+            if (vcIsBadResponse($copyDirResult)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -73,12 +73,5 @@ describe('Test assetsStorage', () => {
       expect(buttonWrapper.prop('atts').color).toBe(buttonColor)
       expect(button.text()).toBe(buttonText)
     })
-    test('Assets Storage update Basic Button color assets', () => {
-      // const options = {
-      //   changedAttribute: 'color'
-      // }
-      assetsStorage.trigger('updateElement', id, assetsOptions)
-      // console.log('assetsStorage jobs',assetsStorage.state('jobs').get())
-    })
   })
 })

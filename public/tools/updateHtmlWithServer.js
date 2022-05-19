@@ -20,8 +20,12 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
       const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
       headerDom.context = document
       shortcodeAssetsStorage.trigger('add', { type: 'header', ref: ref, shadowDom: headerDom, ignoreCache: true }, () => {
+        let newShortCodeContent = shortcodeContent
+        if (shortcodeContent.includes('document.write')) {
+          newShortCodeContent = 'This script cannot be rendered in the editor because document.write is used in your code. However, it will work on the public and preview page.'
+        }
         // Once Header assets is added continue with shortcodeContent
-        const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+        const shortcodeDom = window.jQuery('<div>' + newShortCodeContent + '</div>', document)
         shortcodeDom.context = document
         shortcodeAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, shadowDom: shortcodeDom, ignoreCache: true }, () => {
           // Once Element Content Assets is added continue with footerContent

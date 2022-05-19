@@ -7,11 +7,11 @@ const capitalT = '{shift}T'
 describe('Editor controls', function () {
     it('Checks different keyboard shortcuts', function () {
         cy.createPage()
-       
+
         cy.get('#add-content-search').should('have.focus')
 
         // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
-        
+
         // Add elements search input
         cy.get('#add-content-search[placeholder="Search for content elements"]')
             .type(capitalA)
@@ -71,7 +71,7 @@ describe('Editor controls', function () {
             .should('have.focus')
 
         //* element settings -> preset name
-        
+
         //it requires premium, so we can't test it now
 
         // cy.get('.vcv-ui-edit-form-header-control[title="Element Settings"]').click()
@@ -140,6 +140,7 @@ describe('Editor controls', function () {
             .first()
             .click()
             .clear()
+            .blur()
 
         // Press Esc, check if the sidebar closes
         cy.get('.vcv-layout-bar.vcv-ui-content-all--visible')

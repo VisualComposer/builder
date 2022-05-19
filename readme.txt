@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.9.3
-Stable tag: 44.0
+Stable tag: 44.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -109,7 +109,7 @@ With the Visual Composer Role Manager, you can set up and control access to any 
 
 = Font Manager =
 
-The [Visual Composer Font Manager] (https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-text) is a built-in addon for customizing the fonts, sizes, and styles of your headings, paragraphs, and blockquotes. You can also change link color options like underlines or hovering effects to make them stand out from the regular text.
+The [Visual Composer Font Manager](https://visualcomposer.com/blog/font-manager/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=font-manager-text) is a built-in addon for customizing the fonts, sizes, and styles of your headings, paragraphs, and blockquotes. You can also change link color options like underlines or hovering effects to make them stand out from the regular text.
 
 For a more customized experience, you can change the letter spacing and line-height as well as margins. You may also capitalize, lowercase, and uppercase letters.
 
@@ -213,10 +213,6 @@ Yes! The free page builder version comes with a blank page layout option that al
 
 It is both! Visual Composer’s free version works like a page builder where you have full control over the content area defined by your WordPress theme. Want to design a full site including headers and footers? Choose Visual Composer premium as it allows you to go beyond the content area and create a full site just like you want it.
 
-= Do you have an online community? =
-
-Yes, we have an awesome online community that you can join to share your expertise, connect with power-users and the Visual Composer core team – slack.visualcomposer.com
-
 == Screenshots ==
 1. A friendly, intuitive website builder that gives you design freedom and tools to create a beautiful site.
 2. Create any layouts fast and easy with the pixel perfect Visual Composer builder. It helps you structure content in a way that’s exactly how it should be!
@@ -225,6 +221,26 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 44.1 =
+*Release Date - 2022-05-12*
+
+### Free:
+- Fix: Template image sizes are properly defined in the Media Library
+- Fix: Delete buttons works properly in the Tree View
+- Fix: Esc key works properly in the custom CSS and JavaScript
+- Fix: Disabling page title works properly in the Weaver Xtreme theme
+
+### Premium:
+- New: Option to disable popup background overlay and enable page scroll
+- Update: Popup builder bottom placeholders removed for cleaner user experience
+- Update: "Edit layout" option added to the layout dropdown in the Page Options
+- Fix: Typewriter elements works properly
+- Fix: Post Slider block works properly
+- Fix: News Post Grid element works properly in Safari
+- Fix: Visual Composer works properly with the ACF Pro gallery fields
+- Fix: Dynamically added links work properly when triggering popups
+- Fix: Dynamic fields work properly with the post excerpt
 
 = 44.0 =
 *Release Date - 2022-04-28*
