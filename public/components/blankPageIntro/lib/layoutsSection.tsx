@@ -29,27 +29,24 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
   }
 
   if (sectionType === 'layout') {
-    // console.log('LayoutIcons', LayoutsData);
     sectionLabel = localizations.layout || 'Layout'
     tooltipText = 'Layout fafdsfa'
-  } else {
+  } else if (sectionType === 'content') {
     sectionLabel = localizations.content || 'Content'
     tooltipText = 'Content fsdasfr'
-      console.log('LayoutIcons', LayoutsData);
-    // TODO: Get template data from VCV_HUB_GET_TEMPLATES_TEASER with specific propert
-    //  and join with layoutsData
-    // layoutsData = []
+    const hubTemplates = dataManager.get('hubGetTemplatesTeaser').filter((template:any) => template.isPageIntro)
+      layoutsData = layoutsData.concat(hubTemplates)
   }
 
   const getItems = () => {
     return layoutsData.map((item:any, i:number) => {
       const isActive = i === activeItem
       return <LayoutItem
-          key={`item-${i}`}
-          index={i}
-          itemData={item}
-          handleClick={handleClick}
-          isActive={isActive}
+        key={`item-${i}`}
+        index={i}
+        itemData={item}
+        handleClick={handleClick}
+        isActive={isActive}
       />
     })
   }

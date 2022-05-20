@@ -20,6 +20,7 @@ const assetsStorage = getStorage('assets')
 const elementsStorage = getStorage('elements')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
+const hubTemplatesStorage = getStorage('hubTemplates')
 const localizations = dataManager.get('localizations')
 const workspaceSettings = workspaceStorage.state('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
@@ -50,6 +51,7 @@ const userTemplates:any = window.vcvGlobalTemplatesList
 
 const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
   const [dropdownValue, setDropdownValue] = useState({value: ''})
+  const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
 
   const handleItemClick = () => {
     handleClick(index)
@@ -60,6 +62,15 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         stretchedContent: false
       }
       updateTemplate(data)
+    }
+    if (itemData.isPageIntro) {
+      let templates = hubTemplates
+      if (Object.keys(hubTemplates).length === 0) {
+        templates = hubTemplatesStorage.state('templates').get()
+        setHubTemplates(templates)
+      }
+      const template = templates[itemData.templateType].templates.find((item:any) => item.bundle === itemData.bundle)
+      handleTemplateChange(itemData.templateType, template.id)
     }
   }
 
@@ -223,7 +234,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   const isPremiumContent = !isPremiumActivated && (itemData?.contentType === 'premium')
   const premiumBagde = isPremiumContent ? <span className='item-badge'>{localizations.premium || 'Premium'}</span> : null
 
-  let tooltip:any = <Tooltip />
+  let tooltip:any = itemData.description && <Tooltip>{itemData.description}</Tooltip>
   let dropdown:any = null
   let checkedIcon:any = <i className='vcv-ui-icon vcv-ui-icon-checked-circle' />
 
@@ -264,15 +275,21 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     'template-info': true,
     'template-info--select': isSelect
   })
+  const styles = {
+    backgroundImage: ''
+  }
+  if (itemData.isPageIntro) {
+    styles.backgroundImage = `url(${itemData.introPageImageUrl})`
+  }
 
   return (
     <div className={itemClasses} onClick={handleItemClick}>
       {premiumBagde}
-      <div className='template-thumbnail'>
+      <div className='template-thumbnail' style={styles}>
         {icon}
       </div>
       <div className={infoClasses}>
-        <span className='template-label'>{itemData.label}</span>
+        <span className='template-label'>{itemData.label || itemData.name}</span>
           {dropdown}
           {tooltip}
           {checkedIcon}
