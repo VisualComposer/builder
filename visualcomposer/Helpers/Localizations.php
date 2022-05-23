@@ -2084,6 +2084,34 @@ class Localizations extends Container implements Helper
                 'My template',
                 'visualcomposer'
             ),
+            'layoutsDescription' => __(
+                'Selecting a layout for the page, post, custom post type or layout is required.',
+                'visualcomposer'
+            ),
+            'defaultLayoutDescription' => __(
+                'The theme default layout.',
+                'visualcomposer'
+            ),
+            'blankLayoutDescription' => __(
+                'A layout without a header, footer and sidebar.',
+                'visualcomposer'
+            ),
+            'singularLayoutDescription' => __(
+                'Build a layout around the defined content area (ex. header, footer, sidebar).',
+                'visualcomposer'
+            ),
+            'archiveLayoutDescription' => __(
+                'Build a layout with a post grid.',
+                'visualcomposer'
+            ),
+            'contentSectionDescription' => __(
+                'Pre-select content or start with a blank content area.',
+                'visualcomposer'
+            ),
+            'noContentDescription' => __(
+                'The blank content template.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -10,14 +10,16 @@ const LayoutsData = {
             value: 'default',
             icon: require('./defaultIcon'),
             label: localizations.defaultLayout || 'Default layout',
-            control: 'button'
+            control: 'button',
+            description: localizations.defaultLayoutDescription || 'The theme default layout.'
         },
         {
             type: 'vc',
             value: 'blank',
             icon: require('./blankIcon'),
             label: localizations.blankPageNonCapitalized || 'Blank page',
-            control: 'button'
+            control: 'button',
+            description: localizations.blankLayoutDescription || 'A layout without a header, footer and sidebar.'
         },
         {
             type: 'vc-theme',
@@ -32,7 +34,8 @@ const LayoutsData = {
         {
             type: 'noContent',
             label: localizations.noContent || 'No content',
-            control: 'button'
+            control: 'button',
+            description: localizations.noContentDescription || 'The blank content template.'
         },
         {
             type: 'myTemplate',

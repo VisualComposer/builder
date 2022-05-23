@@ -30,10 +30,10 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
 
   if (sectionType === 'layout') {
     sectionLabel = localizations.layout || 'Layout'
-    tooltipText = 'Layout fafdsfa'
+    tooltipText = localizations.layoutsDescription || 'Selecting a layout for the page, post, custom post type or layout is required.'
   } else if (sectionType === 'content') {
     sectionLabel = localizations.content || 'Content'
-    tooltipText = 'Content fsdasfr'
+    tooltipText = localizations.contentSectionDescription || 'Pre-select content or start with a blank content area.'
     const hubTemplates = dataManager.get('hubGetTemplatesTeaser').filter((template:any) => template.isPageIntro)
       layoutsData = layoutsData.concat(hubTemplates)
   }
