@@ -40,6 +40,7 @@ export default class ElementControl extends React.Component {
 
   constructor (props) {
     super(props)
+    this.itemRef = React.createRef()
     this.state = {
       previewVisible: false,
       previewStyle: {},
@@ -603,7 +604,7 @@ export default class ElementControl extends React.Component {
     }
 
     return (
-      <div className={listItemClasses}>
+      <div className={listItemClasses} ref={this.itemRef}>
         <span
           className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? this.handleMouseEnterShowPreview : null}

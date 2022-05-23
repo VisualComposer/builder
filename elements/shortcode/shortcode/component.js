@@ -7,7 +7,7 @@ const vcvAPI = vcCake.getService('api')
 export default class ShortcodeElement extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
-    this.vcvhelper = React.createRef();
+    this.vcvhelper = React.createRef()
 
     this.delayedShortcodeUpdate = lodash.debounce(this.updateShortcodeElement, 500)
   }

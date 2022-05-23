@@ -26,6 +26,7 @@ const getControlDropdownPosition = (control) => {
 }
 
 export default function ControlDropdown (props) {
+  const {handleHoverOut} = props
   const dropdown = useRef()
   const [dropdownPos, setDropdownPos] = useState(false)
 
@@ -39,9 +40,9 @@ export default function ControlDropdown (props) {
 
   useEffect(() => {
     return () => {
-      props.handleHoverOut()
+      handleHoverOut()
     }
-  }, [])
+  }, [handleHoverOut])
 
   const handleMouseEnter = () => {
     const hideControlsInterval = layoutStorage.state('hideControlsInterval').get()

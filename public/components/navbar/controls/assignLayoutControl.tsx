@@ -4,7 +4,9 @@ import { getService } from 'vc-cake'
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
-declare const window: any
+declare global {
+  interface Window { vcvWpAdminUrl: string; }
+}
 
 const AssignLayoutControl: React.FC = () => {
   const assignLayoutTitle = localizations ? localizations.assignLayout : 'Assign Layout to...'

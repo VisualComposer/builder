@@ -85,8 +85,9 @@ export default class TemplatePreview extends React.Component {
   }
 
   updatePreviewPosition () {
+    /* eslint-disable */
     const element = ReactDOM.findDOMNode(this)
-
+    /* eslint-enable */
     let container
     if (element.closest === undefined) {
       container = this.getClosest(element, '.vcv-ui-item-list')

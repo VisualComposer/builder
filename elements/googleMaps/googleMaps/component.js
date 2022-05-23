@@ -9,6 +9,11 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
     height: '450'
   }
 
+  constructor(props) {
+    super(props)
+    this.mapInner = React.createRef()
+  }
+
   componentDidMount () {
     if (this.props.atts.embed) {
       this.setCustomSize(this.props.atts, this.getDefaultSize(this.props.atts.embed))
@@ -89,7 +94,7 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
   }
 
   appendMap (tagString = '') {
-    const component = this.refs.mapInner
+    const component = this.mapInner.current
     component.innerHTML = tagString
   }
 
@@ -141,7 +146,7 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
     return (
       <div {...customProps} className={classes} {...editor}>
         <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
-          <div className={innerClasses} {...innerProps} ref='mapInner' />
+          <div className={innerClasses} {...innerProps} ref={this.mapInner} />
         </div>
       </div>
     )
