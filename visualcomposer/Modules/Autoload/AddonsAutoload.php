@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VcvEnv;
 use VisualComposer\Framework\Autoload;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Application as ApplicationVc;
@@ -62,9 +63,10 @@ class AddonsAutoload extends Autoload implements Module
             'modules' => [],
         ];
         $optionsHelper = vchelper('Options');
-        $allCached = \VcvEnv::get('VCV_DEBUG') ? [] : $optionsHelper->getTransient('addons:autoload:all');
 
-        if (!empty($allCached)) {
+        $allCached = VcvEnv::get('VCV_DEBUG') ? [] : $optionsHelper->getTransient('addons:autoload:all');
+
+        if (!empty($allCached['modules'])) {
             return $allCached;
         }
         foreach ($hubHelper->getAddons(true) as $key => $addon) {
