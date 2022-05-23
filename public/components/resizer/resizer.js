@@ -25,8 +25,13 @@ class Resizer extends React.Component {
     })
   }
 
+  constructor(props) {
+    super(props)
+    this.resizerRef = React.createRef()
+  }
+
   componentDidMount () {
-    window.jQuery(this.refs.resizer)
+    window.jQuery(this.resizerRef.current)
       .on('mousedown.vcv-resizer', this.bindDrag)
       .on('touchstart.vcv-resizer', this.bindDrag)
       .on('dragstart.vcv-resizer', (e) => {
@@ -43,7 +48,7 @@ class Resizer extends React.Component {
 
   componentWillUnmount () {
     this.stopResize()
-    window.jQuery(this.refs.resizer).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
+    window.jQuery(this.resizerRef.current).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
     this.state.resizerOptions.$overlay.remove()
   }
 
@@ -185,7 +190,7 @@ class Resizer extends React.Component {
 
   render () {
     return (
-      <div ref='resizer' className={this.state.resizerOptions.resizerClasses} />
+      <div ref={this.resizerRef} className={this.state.resizerOptions.resizerClasses} />
     )
   }
 }

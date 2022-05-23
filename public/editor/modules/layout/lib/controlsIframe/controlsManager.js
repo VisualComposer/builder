@@ -347,7 +347,7 @@ export default class ControlsManager {
     })
 
     // check column resize
-    vcCake.onDataChange('vcv:layoutColumnResize', (rowId) => {
+    vcCake.onDataChange('vcv:layoutColumnResize', () => {
       this.frames.hide()
     })
 

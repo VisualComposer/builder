@@ -1,4 +1,4 @@
-const ButtonsRegister = function (editor, window) {
+const ButtonsRegister = function (editor) {
   const getFontSizeItems = function () {
     const fontSizeFormats = 'Default 8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 42pt 48pt 56pt 64pt 80pt 96pt'
     return fontSizeFormats.split(' ').map((item) => {
@@ -40,8 +40,8 @@ const ButtonsRegister = function (editor, window) {
     }
 
     return function () {
-      const self = this
-      editor.on('init nodeChange', (e) => {
+      const self = this // eslint-disable-line
+      editor.on('init nodeChange', () => {
         let pt, precision, match
         const px = editor.queryCommandValue('FontSize')
         if (px) {

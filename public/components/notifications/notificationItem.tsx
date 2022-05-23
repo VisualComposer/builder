@@ -1,6 +1,6 @@
 // @ts-ignore
 import { notificationRemoved } from 'public/editor/stores/notifications/slice'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 // @ts-ignore
 import store from 'public/editor/stores/store'
 // @ts-ignore
@@ -26,6 +26,14 @@ const NotificationItem: React.FC<Props> = (props) => {
   let textHtml
   const timerRef = useRef(0)
 
+  const handleClickHideNotification = useCallback(() => {
+    setHidden(true)
+    setTimeout(() => {
+      clearTimeout(timerRef.current)
+      store.dispatch(notificationRemoved(props.data.id))
+    }, 600)
+  }, [props.data.id])
+
   useEffect(() => {
     if (props.data.time !== -1) {
       timerRef.current = window.setTimeout(() => {
@@ -35,18 +43,10 @@ const NotificationItem: React.FC<Props> = (props) => {
         }
       }, props.data.time)
     }
-  }, [props.data])
+  }, [props.data, handleClickHideNotification])
 
   if (!props.data.text) {
     return null
-  }
-
-  const handleClickHideNotification = () => {
-    setHidden(true)
-    setTimeout(() => {
-      clearTimeout(timerRef.current)
-      store.dispatch(notificationRemoved(props.data.id))
-    }, 600)
   }
 
   if (props.data.html) {

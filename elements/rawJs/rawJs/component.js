@@ -4,6 +4,11 @@ import { getService } from 'vc-cake'
 const vcvAPI = getService('api')
 
 export default class RawJs extends vcvAPI.elementComponent {
+  constructor(props) {
+    super(props)
+    this.rawJsWrapper = React.createRef()
+  }
+
   componentDidMount () {
     this.props.editor && this.updateJsScript(this.props.atts.rawJs)
   }
@@ -15,7 +20,7 @@ export default class RawJs extends vcvAPI.elementComponent {
   }
 
   updateJsScript (rawJs) {
-    const component = this.refs.rawJsWrapper
+    const component = this.rawJsWrapper.current
     this.updateInlineScript(component, rawJs)
   }
 
@@ -37,7 +42,7 @@ export default class RawJs extends vcvAPI.elementComponent {
 
     return (
       <div className={classes} {...editor} {...customProps}>
-        <div className={wrapperClasses} id={'el-' + id} {...doAll} ref='rawJsWrapper' />
+        <div className={wrapperClasses} id={'el-' + id} {...doAll} ref={this.rawJsWrapper} />
       </div>
     )
   }

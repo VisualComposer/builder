@@ -13,7 +13,7 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
       window.removeEventListener('keyup', handleHideOnOuterClick)
       workspaceStorage.state('hasModal').set(false)
     }
-  }, [])
+  }, [handleHideOnOuterClick])
 
   useEffect(() => {
     workspaceStorage.state('hasModal').set(show)
@@ -37,7 +37,7 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
       (event.type === 'keyup' && event.which === 27)) {
       onClose(event)
     }
-  }, [])
+  }, [innerClick, closeOnOuterClick, onClose])
 
   if (!show) {
     return null

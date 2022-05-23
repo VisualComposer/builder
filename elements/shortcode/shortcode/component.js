@@ -7,16 +7,17 @@ const vcvAPI = vcCake.getService('api')
 export default class ShortcodeElement extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
+    this.vcvhelper = React.createRef();
 
     this.delayedShortcodeUpdate = lodash.debounce(this.updateShortcodeElement, 500)
   }
 
   componentDidMount () {
-    super.updateShortcodeToHtml(this.props.atts.shortcode, this.refs.vcvhelper)
+    super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
   }
 
   updateShortcodeElement () {
-    super.updateShortcodeToHtml(this.props.atts.shortcode, this.refs.vcvhelper)
+    super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
   }
 
   componentDidUpdate (props) {
@@ -45,7 +46,7 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
     return (
       <div className={shortcodeClasses} {...editor} {...customProps}>
         <div className={wrapperClasses} id={'el-' + id} {...doAll}>
-          <div className='vcvhelper' ref='vcvhelper' data-vcvs-html={shortcode} />
+          <div className='vcvhelper' ref={this.vcvhelper} data-vcvs-html={shortcode} />
         </div>
       </div>
     )

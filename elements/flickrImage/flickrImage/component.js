@@ -13,6 +13,7 @@ export default class FlickrImage extends vcvAPI.elementComponent {
 
   constructor (props) {
     super(props)
+    this.flickerInner = React.createRef()
     const _ = require('lodash')
     this.handleResize = _.debounce(this.handleResize.bind(this), 200)
   }
@@ -85,9 +86,9 @@ export default class FlickrImage extends vcvAPI.elementComponent {
   }
 
   appendFlickr (tagString = '') {
-    this.refs.flickerInner.innerHTML = ''
+    this.flickerInner.current.innerHTML = ''
     window.setTimeout(() => {
-      this.updateInlineHtml(this.refs.flickerInner, tagString)
+      this.updateInlineHtml(this.flickerInner.current, tagString)
     }, 0)
   }
 
@@ -152,7 +153,7 @@ export default class FlickrImage extends vcvAPI.elementComponent {
     return (
       <div {...customProps} className={classes} {...editor}>
         <div id={'el-' + id} className={wrapperClasses} {...doAll}>
-          <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
+          <div className={innerClasses} {...innerCustomProps} ref={this.flickerInner} />
           {content}
         </div>
       </div>

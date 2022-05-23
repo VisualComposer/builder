@@ -177,7 +177,7 @@ export default class BlankRowPlaceholder extends React.Component {
    * @param element
    * @param tab
    */
-  handleElementControlWithForm (element, tab = '') {
+  handleElementControlWithForm (element = '') {
     elementsStorage.trigger('add', element)
     this.addedId = element.id
 
@@ -276,7 +276,7 @@ export default class BlankRowPlaceholder extends React.Component {
    * @param index
    * @return object
    */
-  getControlProps (control, index) {
+  getControlProps (control) {
     return {
       control: control,
       handleClick: this.handleClick

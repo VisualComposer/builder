@@ -4,6 +4,11 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class RawHtmlElement extends vcvAPI.elementComponent {
+  constructor(props) {
+    super(props)
+    this.rawHtmlWrapper = React.createRef()
+  }
+
   componentDidMount () {
     this.props.editor && this.updateHtml(this.props.atts.rawHtml)
   }
@@ -15,7 +20,7 @@ export default class RawHtmlElement extends vcvAPI.elementComponent {
   }
 
   updateHtml (rawJs) {
-    const component = this.refs.rawHtmlWrapper
+    const component = this.rawHtmlWrapper.current
     this.updateInlineHtml(component, rawJs)
   }
 
@@ -36,7 +41,7 @@ export default class RawHtmlElement extends vcvAPI.elementComponent {
 
     return (
       <div className={classes} {...editor} {...customProps}>
-        <div className={wrapperClasses} id={'el-' + id} {...doAll} ref='rawHtmlWrapper' />
+        <div className={wrapperClasses} id={'el-' + id} {...doAll} ref={this.rawHtmlWrapper} />
       </div>
     )
   }

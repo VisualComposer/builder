@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { ControlHelpers } from './controlHelpers'
@@ -29,28 +29,28 @@ const Outlines = (props) => {
     setPosition(getPosition(el))
   }, [selector, iframe])
 
-  let outlineTimeout = null
-
-  const stopAutoUpdatePosition = () => {
-    if (outlineTimeout) {
-      window.clearInterval(outlineTimeout)
-      outlineTimeout = null
-    }
-  }
-
-  const updatePosition = () => {
+  const updatePosition = useCallback(() => {
     setPosition(getPosition(element))
-  }
-
-  const autoUpdatePosition = () => {
-    stopAutoUpdatePosition()
-    if (!outlineTimeout) {
-      updatePosition()
-      outlineTimeout = window.setInterval(updatePosition, 16)
-    }
-  }
+  }, [element])
 
   useEffect(() => {
+    let outlineTimeout = null
+
+    const stopAutoUpdatePosition = () => {
+      if (outlineTimeout) {
+        window.clearInterval(outlineTimeout)
+        outlineTimeout = null
+      }
+    }
+
+    const autoUpdatePosition = () => {
+      stopAutoUpdatePosition()
+      if (!outlineTimeout) {
+        updatePosition()
+        outlineTimeout = window.setInterval(updatePosition, 16)
+      }
+    }
+
     if (element) {
       autoUpdatePosition()
     } else {
@@ -59,7 +59,7 @@ const Outlines = (props) => {
     return () => {
       stopAutoUpdatePosition()
     }
-  }, [element])
+  }, [updatePosition, element])
 
   if (!element || props.columnResizeData?.mode) {
     return null
