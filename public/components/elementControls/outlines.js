@@ -29,35 +29,13 @@ const Outlines = (props) => {
     setPosition(getPosition(el))
   }, [selector, iframe])
 
-  const updatePosition = useCallback(() => {
+  const updatePosition = () => {
     setPosition(getPosition(element))
-  }, [element])
+  }
 
   useEffect(() => {
-    let outlineTimeout = null
-
-    const stopAutoUpdatePosition = () => {
-      if (outlineTimeout) {
-        window.clearInterval(outlineTimeout)
-        outlineTimeout = null
-      }
-    }
-
-    const autoUpdatePosition = () => {
-      stopAutoUpdatePosition()
-      if (!outlineTimeout) {
-        updatePosition()
-        outlineTimeout = window.setInterval(updatePosition, 16)
-      }
-    }
-
     if (element) {
-      autoUpdatePosition()
-    } else {
-      stopAutoUpdatePosition()
-    }
-    return () => {
-      stopAutoUpdatePosition()
+      updatePosition()
     }
   }, [updatePosition, element])
 
