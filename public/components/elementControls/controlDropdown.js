@@ -26,7 +26,7 @@ const getControlDropdownPosition = (control) => {
 }
 
 export default function ControlDropdown (props) {
-  const {handleHoverOut} = props
+  const { handleHoverOut } = props
   const dropdown = useRef()
   const [dropdownPos, setDropdownPos] = useState(false)
 

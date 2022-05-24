@@ -39,7 +39,6 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
     }
   }, [handleDocumentChange])
 
-
   const handleCloseClick = () => {
     popupVisibilitySet(false)
     window.setTimeout(() => {

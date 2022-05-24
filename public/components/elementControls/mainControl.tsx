@@ -1,5 +1,5 @@
 import React from 'react'
-import {getStorage, setData} from 'vc-cake'
+import { getStorage, setData } from 'vc-cake'
 
 const layoutStorage = getStorage('layout')
 
@@ -12,7 +12,7 @@ interface Props {
   icon: string
 }
 
-const MainControl: React.FC<Props> = ({title, id, icon}) => {
+const MainControl: React.FC<Props> = ({ title, id, icon }) => {
   const startDrag = (e: React.MouseEvent) => {
     layoutStorage.state('interactWithControls').set({
       type: 'mouseLeave',
@@ -21,7 +21,7 @@ const MainControl: React.FC<Props> = ({title, id, icon}) => {
     const layoutContent = document.querySelector('.vcv-layout-content') as HTMLElement
     setData('draggingElement', {
       id: id,
-      point: {x: e.clientX - layoutContent.offsetLeft, y: e.clientY - layoutContent.offsetTop}
+      point: { x: e.clientX - layoutContent.offsetLeft, y: e.clientY - layoutContent.offsetTop }
     })
     window.clearTimeout(mouseDownTimeout)
   }

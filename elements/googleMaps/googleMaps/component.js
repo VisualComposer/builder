@@ -9,7 +9,7 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
     height: '450'
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.mapInner = React.createRef()
   }

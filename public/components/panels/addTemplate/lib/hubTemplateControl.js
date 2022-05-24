@@ -20,7 +20,7 @@ export default class HubTemplateControl extends React.Component {
     preview: PropTypes.string,
     thumbnail: PropTypes.string,
     handleApplyTemplate: PropTypes.func.isRequired,
-    handleRemoveTemplate: PropTypes.func.isRequired,
+    handleRemoveTemplate: PropTypes.func.isRequired
   }
 
   constructor (props) {

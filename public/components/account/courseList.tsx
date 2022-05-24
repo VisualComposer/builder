@@ -10,7 +10,7 @@ interface Props {
     buttonText: string;
 }
 
-const CourseList: React.FC<Props> = ({list, url, buttonText}) => {
+const CourseList: React.FC<Props> = ({ list, url, buttonText }) => {
   return (
     <div className='vcv-course-list'>
       {

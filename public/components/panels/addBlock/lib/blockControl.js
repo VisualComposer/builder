@@ -53,7 +53,7 @@ export default class BlockControl extends React.Component {
     const props = {
       ...this.props,
       handleApplyBlock: this.handleApplyBlock,
-      handleRemoveBlock: this.handleRemoveBlock,
+      handleRemoveBlock: this.handleRemoveBlock
     }
     return <HubBlockControl {...props} />
   }

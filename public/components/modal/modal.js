@@ -7,6 +7,19 @@ const workspaceStorage = getStorage('workspace')
 const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
   const [innerClick, setInnerClick] = useState(false)
 
+  const handleHideOnOuterClick = useCallback(event => {
+    setInnerClick(false)
+
+    if (closeOnOuterClick === false || innerClick) {
+      return
+    }
+
+    if ((event.target.dataset.modal && onClose instanceof Function) ||
+      (event.type === 'keyup' && event.which === 27)) {
+      onClose(event)
+    }
+  }, [innerClick, closeOnOuterClick, onClose])
+
   useEffect(() => {
     window.addEventListener('keyup', handleHideOnOuterClick)
     return () => {
@@ -25,19 +38,6 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
       setInnerClick(true)
     }
   }, [])
-
-  const handleHideOnOuterClick = useCallback(event => {
-    setInnerClick(false)
-
-    if (closeOnOuterClick === false || innerClick) {
-      return
-    }
-
-    if ((event.target.dataset.modal && onClose instanceof Function) ||
-      (event.type === 'keyup' && event.which === 27)) {
-      onClose(event)
-    }
-  }, [innerClick, closeOnOuterClick, onClose])
 
   if (!show) {
     return null

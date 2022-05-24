@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
-import {connect} from 'react-redux'
-import {getService} from 'vc-cake'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { getService } from 'vc-cake'
 import InsightGroup from './insightGroup'
 import Dropdown from '../../../sources/attributes/dropdown/Component'
-import {Insights, InsightsTypeControl} from '../../../editor/stores/insights/types'
+import { Insights, InsightsTypeControl } from '../../../editor/stores/insights/types'
 import { AppStateType } from '../../../editor/stores/reducer'
 
 const vcLogo = require('../../../sources/images/brandLogo/vcLogo.raw') as string
@@ -37,8 +37,7 @@ type Props = {
   insights: Insights
 }
 
-const DefaultInsights = ({insights}: Props) => {
-
+const DefaultInsights = ({ insights }: Props) => {
   const getCurrentControls = (insightData: Insights) => {
     const insightsControls: InsightsTypeControl = Object.assign({}, insightsTypeControls)
     let successNotifications = false
@@ -107,7 +106,7 @@ const DefaultInsights = ({insights}: Props) => {
         <div className='vcv-insight-no-issues'>
           <span
             className=''
-            dangerouslySetInnerHTML={{__html: vcLogo}}
+            dangerouslySetInnerHTML={{ __html: vcLogo }}
           />
           <h2 className='vcv-no-issues-heading'>{insightsNoIssuesFoundTitle}</h2>
           <span className='vcv-insight-description'>{insightsNoIssuesFoundDescription}</span>
@@ -144,7 +143,6 @@ const DefaultInsights = ({insights}: Props) => {
     </>
   )
 }
-
 
 const mapStateToProps = (state: AppStateType) => ({
   insights: state.insights.insights

@@ -4,7 +4,7 @@ interface EmptyCommentElementWrapperProps {
   children?: React.ReactNode
 }
 
-export default function EmptyCommentElementWrapper({ children }: EmptyCommentElementWrapperProps) {
+export default function EmptyCommentElementWrapper ({ children }: EmptyCommentElementWrapperProps) {
   const ref = React.useRef<HTMLDivElement>(null)
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class PinterestPinit extends vcvAPI.elementComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.pinterestInner = React.createRef()
   }

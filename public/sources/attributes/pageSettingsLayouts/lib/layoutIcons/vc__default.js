@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function DefaultIcon({ classes }) {
+export default function DefaultIcon ({ classes }) {
   return (
     <svg width='100px' height='100px' viewBox='0 0 102 102' version='1.1' xmlns='http://www.w3.org/2000/svg'>
       <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>

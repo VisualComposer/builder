@@ -20,7 +20,7 @@ export default class HubBlockControl extends React.Component {
     preview: PropTypes.string,
     thumbnail: PropTypes.string,
     handleApplyBlock: PropTypes.func.isRequired,
-    handleRemoveBlock: PropTypes.func.isRequired,
+    handleRemoveBlock: PropTypes.func.isRequired
   }
 
   constructor (props) {

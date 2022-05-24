@@ -3,7 +3,7 @@ import { Dispatch } from 'redux' // eslint-disable-line
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
-import {popupShown, popupsSet, Popups, popupVisibilitySet} from '../../../editor/stores/editorPopup/slice'
+import { popupShown, popupsSet, Popups, popupVisibilitySet } from '../../../editor/stores/editorPopup/slice'
 import { AppStateType } from '../../../editor/stores/reducer'
 
 const dataManager = getService('dataManager')

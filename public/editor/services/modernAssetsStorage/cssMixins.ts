@@ -99,7 +99,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
   }
   const getSelector = (mixinData: MixinData) => {
     let attrSelector = 'empty'
-    const {attributeName, namePattern, valueKey} = mixinData
+    const { attributeName, namePattern, valueKey } = mixinData
     const value = getValue(atts, attributeName, valueKey)
     if (value !== 'empty') {
       if (namePattern) {

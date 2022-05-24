@@ -4,7 +4,7 @@ import { getService } from 'vc-cake'
 const vcvAPI = getService('api')
 
 export default class WpWidgetsCustom extends vcvAPI.elementComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.vcvhelper = React.createRef()
   }

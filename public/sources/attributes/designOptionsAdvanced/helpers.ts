@@ -1,7 +1,7 @@
 import lodash from 'lodash'
-import {getService, getStorage} from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 
-const {getBlockRegexp} = getService('utils')
+const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 
 interface Options {
@@ -538,7 +538,7 @@ export const getUpdatedValues = (newState: ComponentState) => {
         }
       }
       const deviceMixins = getMixins(newValue, device)
-      newMixins = {...newMixins, ...deviceMixins}
+      newMixins = { ...newMixins, ...deviceMixins }
 
       // remove device from list if it's empty
       if (!Object.keys(newValue[device]).length) {
@@ -547,7 +547,7 @@ export const getUpdatedValues = (newState: ComponentState) => {
     }
   })
 
-  return {newValue, newMixins}
+  return { newValue, newMixins }
 }
 
 const addPixelToNumber = (number: any) => { // eslint-disable-line
@@ -563,14 +563,14 @@ const getAnimationDelayMixin = (newValue: { [index: string]: Options }, device: 
       const mixinName = `animationDelayMixin:${device}`
       const animationMixin: Mixin = lodash.defaultsDeep({}, attributeMixins.animationDelayMixin)
 
-      animationMixin.variables.animationDelay = {value: value}
+      animationMixin.variables.animationDelay = { value: value }
 
       const selector = `vce-o-animate-delay--${value}`
       animationMixin.variables.selector = {
         value: device === 'all' ? selector : selector + `-${device}`
       }
 
-      animationMixin.variables.device = {value: device}
+      animationMixin.variables.device = { value: device }
 
       returnMixins[mixinName] = animationMixin
     }
@@ -605,8 +605,8 @@ const getBoxModelMixin = (newValue: { [index: string]: Options }, device: string
       const mixinName = `boxModelMixin:${device}`
       const boxModelMixin: Mixin = lodash.defaultsDeep({}, attributeMixins.boxModelMixin)
       const syncData: { [index: string]: { key: string, value: string }[] } = {
-        borderWidth: [{key: 'borderStyle', value: 'borderStyle'}, {key: 'borderColor', value: 'borderColor'}],
-        borderTopWidth: [{key: 'borderTopStyle', value: 'borderStyle'}, {key: 'borderTopColor', value: 'borderColor'}],
+        borderWidth: [{ key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' }],
+        borderTopWidth: [{ key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' }],
         borderRightWidth: [{
           key: 'borderRightStyle',
           value: 'borderStyle'
@@ -614,11 +614,11 @@ const getBoxModelMixin = (newValue: { [index: string]: Options }, device: string
           key: 'borderRightColor',
           value: 'borderColor'
         }],
-        borderBottomWidth: [{key: 'borderBottomStyle', value: 'borderStyle'}, {
+        borderBottomWidth: [{ key: 'borderBottomStyle', value: 'borderStyle' }, {
           key: 'borderBottomColor',
           value: 'borderColor'
         }],
-        borderLeftWidth: [{key: 'borderLeftStyle', value: 'borderStyle'}, {
+        borderLeftWidth: [{ key: 'borderLeftStyle', value: 'borderStyle' }, {
           key: 'borderLeftColor',
           value: 'borderColor'
         }]
@@ -698,14 +698,14 @@ const getMixins = (newValue: { [index: string]: Options }, device: string) => {
   let returnMixins: Mixins = {}
   if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
     const visibilityMixin = getVisibilityMixin(newValue, device)
-    returnMixins = {...visibilityMixin}
+    returnMixins = { ...visibilityMixin }
   } else {
     const boxModelMixin = getBoxModelMixin(newValue, device)
     const backgroundMixin = getBackgroundMixin(newValue, device)
     const gradientMixin = getGradientMixin(newValue, device)
     const animationMixin = getAnimationDelayMixin(newValue, device)
 
-    returnMixins = {...boxModelMixin, ...backgroundMixin, ...gradientMixin, ...animationMixin}
+    returnMixins = { ...boxModelMixin, ...backgroundMixin, ...gradientMixin, ...animationMixin }
   }
   return returnMixins
 }
@@ -754,16 +754,16 @@ export const updateDesignOptionsBoxModel = (id: string, fieldProperty: string, f
   }
 
   if (!value || !value[currentDevice]) {
-    value = {[currentDevice]: {boxModel: {}}}
+    value = { [currentDevice]: { boxModel: {} } }
   } else if (!value[currentDevice].boxModel) {
     value[currentDevice].boxModel = {}
   }
 
   value[currentDevice].boxModel[fieldProperty] = fieldValue
 
-  const {newValue, newMixins} = getUpdatedValues({currentDevice: currentDevice, devices: value})
+  const { newValue, newMixins } = getUpdatedValues({ currentDevice: currentDevice, devices: value })
 
-  element.designOptionsAdvanced = {attributeMixins: newMixins, device: newValue}
+  element.designOptionsAdvanced = { attributeMixins: newMixins, device: newValue }
 
   elementsStorage.trigger('update', id, element)
 }

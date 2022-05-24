@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
-import {Insights, InsightsItem} from './types'
+import { Insights, InsightsItem } from './types'
 
 const localSeenMessages: string | null = window.localStorage.getItem('vcv-seen-messages')
 const seenMessages = typeof localSeenMessages === 'string' ? JSON.parse(localSeenMessages) : []
@@ -69,5 +69,5 @@ const slice = createSlice({
   }
 })
 
-export const {insightsAdded, insightsRemoved, insightsReset, seenMessagesSet, notificationsSet} = slice.actions
+export const { insightsAdded, insightsRemoved, insightsReset, seenMessagesSet, notificationsSet } = slice.actions
 export default slice.reducer

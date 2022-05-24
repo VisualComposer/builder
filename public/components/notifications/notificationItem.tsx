@@ -65,8 +65,8 @@ const NotificationItem: React.FC<Props> = (props) => {
     'vcv-layout-notifications-type--disabled': hidden
   })
 
-  return (!props.data.showCloseButton ?
-    <div className={classes} onClick={handleClickHideNotification}>
+  return (!props.data.showCloseButton
+    ? <div className={classes} onClick={handleClickHideNotification}>
       {textHtml}
     </div> : <div className={classes}>
       {textHtml}

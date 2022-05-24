@@ -95,7 +95,7 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
   return (
     <div
       className={controlClasses}
-      style={{...styles}}
+      style={{ ...styles }}
       ref={outerRef}>
       <div className='vcv-ui-outline-controls-center-inner' ref={innerRef} onMouseEnter={handleMouseEnter}>
         <MainControl id={id} title={title} icon={icon} />

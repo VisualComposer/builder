@@ -3,7 +3,7 @@ import { env, getService, getStorage } from 'vc-cake'
 import { debounce, memoize } from 'lodash'
 import { AxePlugin, AxeResults, NodeResult } from '../axe'
 import store from '../../../stores/store'
-import {insightsAdded, insightsRemoved} from '../../../stores/insights/slice'
+import { insightsAdded, insightsRemoved } from '../../../stores/insights/slice'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -214,7 +214,7 @@ export default class InsightsChecks {
     if (images.length && allImagesHasAlt) {
       const altExistsTitle = this.localizations.insightsImageAltAttributeExistsTitle
       const altExistsDescription = this.localizations.insightsImageAltAttributeExistsDescription
-      store.dispatch(insightsAdded( {
+      store.dispatch(insightsAdded({
         state: 'success',
         type: 'altExists',
         title: altExistsTitle,
