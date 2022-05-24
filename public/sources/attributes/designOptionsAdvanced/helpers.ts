@@ -345,7 +345,7 @@ export const getUpdatedValues = (newState: ComponentState) => {
   let newMixins = {}
 
   // save only needed data
-  let checkDevices = new Array<string>()
+  let checkDevices: string[] = []
   if (newState.currentDevice === 'all') {
     checkDevices.push('all')
   } else {

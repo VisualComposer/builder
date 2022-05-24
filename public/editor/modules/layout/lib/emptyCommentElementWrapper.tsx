@@ -1,3 +1,4 @@
+/* global NodeListOf, ChildNode */
 import React, { useEffect } from 'react'
 
 interface EmptyCommentElementWrapperProps {
@@ -17,7 +18,7 @@ export default function EmptyCommentElementWrapper ({ children }: EmptyCommentEl
     return () => {
       if (ref && current && current.parentNode) {
         // for each siblings clear comments
-        const siblings: NodeListOf<ChildNode> = current.parentNode.childNodes
+        const siblings: NodeListOf<ChildNode> = current.parentNode.childNodes // global firestore
         for (let i = 0; i < siblings.length; i++) {
           // if comment contains emptyCommentElementWrapper text
           if (siblings[i].nodeType === document.COMMENT_NODE && siblings[i]?.textContent?.includes('empty-comment-element-wrapper')) {
