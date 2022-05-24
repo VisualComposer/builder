@@ -1,4 +1,3 @@
-import lodash from 'lodash'
 import vcCake from 'vc-cake'
 import store from 'public/editor/stores/store'
 import {
@@ -149,8 +148,7 @@ export default class ControlsManager {
 
   subscribeToCurrentIframe () {
     // Subscribe to main event to interact with content elements
-    const throttleFindElement = lodash.throttle(this.findElement, 20)
-    this.iframeDocument.body.addEventListener('mousemove', throttleFindElement)
+    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
     this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
     // show frames on mouseleave, if edit form for row is opened
     this.iframeContainer.addEventListener('mouseleave', this.handleFrameContainerLeave)
