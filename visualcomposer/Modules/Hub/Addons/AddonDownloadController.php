@@ -70,7 +70,8 @@ class AddonDownloadController extends Container implements Module
     protected function sendRequestJson($bundle, $token)
     {
         $hubBundleHelper = vchelper('HubBundle');
-        $url = $hubBundleHelper->getAddonDownloadUrl(['token' => $token, 'bundle' => $bundle]);
+        $urlParam = ['token' => $token, 'bundle' => $bundle];
+        $url = $hubBundleHelper->getAssetDownloadUrl('addon', $urlParam);
         $response = wp_remote_get(
             $url,
             [

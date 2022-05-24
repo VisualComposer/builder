@@ -36,6 +36,7 @@ class JsonActionsController extends Container implements Module
         Logger $loggerHelper,
         Str $strHelper
     ) {
+        $isRequireUpdate = apply_filters('vcv:modules:hub:ajaxProcessAction:processRequire', false);
         if (empty($response)) {
             $response = [
                 'status' => true,
@@ -71,7 +72,7 @@ class JsonActionsController extends Container implements Module
 
             return $response;
         }
-        if ($newActionVersion === $previousActionVersion) {
+        if (!$isRequireUpdate && $newActionVersion === $previousActionVersion) {
             sleep(5); // Just to avoid collisions
 
             return $response;

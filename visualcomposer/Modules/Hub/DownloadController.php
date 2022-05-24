@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\Hub\Actions\ActionBundle;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -33,34 +34,42 @@ class DownloadController extends Container implements Module
         }
     }
 
-    protected function processAction($response, $payload, Filters $filterHelper)
+    protected function processAction($response, $payload, Filters $filterHelper, ActionBundle $hubHelper)
     {
-        if (!vcIsBadResponse($response) && $payload['data']) {
-            $hubHelper = vchelper('HubActionsActionBundle');
-            /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
-            $hubHelper->setTempBundleFolder(
-                VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['action'])
+        if (vcIsBadResponse($response) || ! $payload['data']) {
+            return $response;
+        }
+
+        $archive = $hubHelper->requestBundleDownload($payload['data']['url']);
+        if (vcIsBadResponse($archive)) {
+            return false;
+        }
+
+        // just in case if it still exists
+        $hubHelper->removeTempBundleFolder();
+
+        $result = $hubHelper->fillTempBundleFolder($payload['action'], $archive);
+
+        if (vcIsBadResponse($result)) {
+            $archive = false;
+        } else {
+            $archive = $this->readBundleJson($archive, $payload);
+        }
+
+        $response['status'] = $archive !== false;
+        if ($archive) {
+            $response = $filterHelper->fire(
+                'vcv:hub:download:bundle:' . $payload['action'],
+                $response,
+                ['archive' => $archive, 'actionData' => $payload],
+                true
             );
-            $hubHelper->removeTempBundleFolder();
-            $archive = $hubHelper->requestBundleDownload($payload['data']['url']);
-            if (!vcIsBadResponse($archive)) {
-                $archive = $this->readBundleJson($archive, $payload);
-                $response['status'] = $archive !== false;
-                if ($archive) {
-                    $response = $filterHelper->fire(
-                        'vcv:hub:download:bundle:' . $payload['action'],
-                        $response,
-                        ['archive' => $archive, 'actionData' => $payload],
-                        true
-                    );
-                }
-            } else {
-                return false;
-            }
-            $removeResult = $hubHelper->removeTempBundleFolder();
-            if (vcIsBadResponse($removeResult)) {
-                return false;
-            }
+        }
+
+        $removeResult = $hubHelper->removeTempBundleFolder();
+
+        if (vcIsBadResponse($removeResult)) {
+            return false;
         }
 
         return $response;
@@ -70,12 +79,6 @@ class DownloadController extends Container implements Module
     {
         $hubHelper = vchelper('HubActionsActionBundle');
         $loggerHelper = vchelper('Logger');
-
-        /** @var \VisualComposer\Helpers\Hub\Bundle $hubHelper */
-        $result = $hubHelper->unzipDownloadedBundle($archive);
-        if (vcIsBadResponse($result)) {
-            return false;
-        }
 
         if (isset($payload['checksum']) && !empty($payload['checksum'])) {
             $mdOriginalFile = md5_file($archive);
