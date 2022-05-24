@@ -19,8 +19,8 @@ type Props = {
   popups: Popups,
   onPrimaryButtonClick: () => void,
   onClose: () => void,
-  popupShown: any,
-  popupsSet: any,
+  popupShown: any, // eslint-disable-line
+  popupsSet: any, // eslint-disable-line
   popupVisibilitySet: (status: boolean) => void
 }
 
@@ -97,7 +97,7 @@ const VotePopup: React.FC<Props> = (props) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   popupShown: (data: string) => dispatch(popupShown(data)),
-  popupsSet: (data: any) => dispatch(popupsSet(data)),
+  popupsSet: (data: any) => dispatch(popupsSet(data)), // eslint-disable-line
   popupVisibilitySet: (data:boolean) => dispatch(popupVisibilitySet(data))
 })
 

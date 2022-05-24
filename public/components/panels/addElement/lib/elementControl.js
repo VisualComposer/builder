@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import Helper from '../../../dnd/helper'
 import DOMElement from '../../../dnd/domElement'
@@ -125,8 +124,8 @@ export default class ElementControl extends React.Component {
     return null
   }
 
-  handleUpdatePreviewPosition () {
-    const element = ReactDOM.findDOMNode(this)
+  handleUpdatePreviewPosition (currentRef) {
+    const element = currentRef || this.itemRef.current
 
     let container
     if (element.closest === undefined) {
@@ -517,7 +516,9 @@ export default class ElementControl extends React.Component {
       previewBox = (
         <figure className='vcv-ui-item-preview-container' style={previewStyle}>
           {thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
-          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} onLoad={this.handleUpdatePreviewPosition} />
+          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} onLoad={() => {
+            this.handleUpdatePreviewPosition()
+          }} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
               {element.metaDescription}

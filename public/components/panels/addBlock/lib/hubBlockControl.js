@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { getService, getStorage } from 'vc-cake'
@@ -73,7 +72,7 @@ export default class HubBlockControl extends React.Component {
   }
 
   handleUpdatePreviewPosition () {
-    const element = ReactDOM.findDOMNode(this)
+    const element = this.itemRef.current
     let container
     if (element.closest === undefined) {
       container = this.getClosest(element, '.vcv-ui-item-list')

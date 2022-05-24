@@ -313,7 +313,7 @@ const API = {
       if (!ref || !cookElement) {
         return
       }
-      const el = ReactDOM.findDOMNode(ref)
+      const el = ReactDOM.findDOMNode(ref) // eslint-disable-line
 
       // Clean all comments before/after element dom ref
       API.dynamicFields.cleanComments(el, id)
@@ -343,7 +343,7 @@ const API = {
       if (!ref || !cookElement) {
         return
       }
-      const el = ReactDOM.findDOMNode(ref)
+      const el = ReactDOM.findDOMNode(ref) // eslint-disable-line
       // Clean all comments before/after element dom ref
       const tag = cookElement.get('tag')
       if (['contentSlide', 'pageableTab'].indexOf(tag) !== -1) {

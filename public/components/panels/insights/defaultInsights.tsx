@@ -78,7 +78,7 @@ const DefaultInsights = ({insights}: Props) => {
   }
 
   const getInsightsHTML = (insightData: Insights) => {
-    let insightsHTML: any = Object.keys(insightData).map((type, index) => {
+    let insightsHTML: any = Object.keys(insightData).map((type, index) => { // eslint-disable-line
       const insightGroup = insightData[type]
 
       if (activeSection === 'all' || activeSection === insightGroup.state) {
@@ -94,7 +94,7 @@ const DefaultInsights = ({insights}: Props) => {
 
     if (!insightsHTML.length) {
       insightsHTML = <span className='vcv-ui-insights-spinner vcv-vcv-ui-icon vcv-ui-wp-spinner' />
-    } else if (insightsHTML.filter((item: any) => item === undefined).length === Object.keys(insightData).length) {
+    } else if (insightsHTML.filter((item: any) => item === undefined).length === Object.keys(insightData).length) { // eslint-disable-line
       let insightsNoIssuesFoundTitle, insightsNoIssuesFoundDescription
       if (activeSection === 'critical') {
         insightsNoIssuesFoundTitle = localizations.insightsNoCriticalIssuesFoundTitle ? localizations.insightsNoCriticalIssuesFoundTitle : 'No Critical Issues Found'

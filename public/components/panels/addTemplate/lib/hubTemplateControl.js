@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { getService, getStorage } from 'vc-cake'
@@ -26,6 +25,7 @@ export default class HubTemplateControl extends React.Component {
 
   constructor (props) {
     super(props)
+    this.itemRef = React.createRef()
     this.state = {
       previewVisible: false,
       previewStyle: {}
@@ -70,7 +70,7 @@ export default class HubTemplateControl extends React.Component {
   }
 
   handleUpdatePreviewPosition () {
-    const element = ReactDOM.findDOMNode(this)
+    const element = this.itemRef.current
 
     let container
     if (element.closest === undefined) {
@@ -215,7 +215,7 @@ export default class HubTemplateControl extends React.Component {
     }
 
     return (
-      <div className='vcv-ui-item-list-item'>
+      <div className='vcv-ui-item-list-item' ref={this.itemRef}>
         <span
           className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? this.showPreview : null}

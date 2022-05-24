@@ -11,7 +11,7 @@ const dataManager = getService('dataManager')
 
 type Props = {
   activeFullPopupSet: (activeFullPopup:string | boolean) => void,
-  fullScreenPopupData: any
+  fullScreenPopupData: any // eslint-disable-line
   activeFullPopup: string
 }
 
@@ -68,7 +68,7 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 const mapDispatchToProps = (dispatch:Dispatch) => ({
-  activeFullPopupSet: (data:any) => dispatch(activeFullPopupSet(data))
+  activeFullPopupSet: (data:any) => dispatch(activeFullPopupSet(data)) // eslint-disable-line
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullPagePopupContainer)

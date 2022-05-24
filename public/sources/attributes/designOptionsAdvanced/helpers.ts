@@ -20,7 +20,7 @@ interface Options {
   gradientStartColor: string,
   gradientEndColor: string,
   animationDelay: string | boolean,
-  boxModel: { [index: string]: any }
+  boxModel: { [index: string]: any } // eslint-disable-line
 }
 
 interface DeviceObject {
@@ -45,7 +45,7 @@ interface ComponentState {
 
 interface Mixin {
   variables: {
-    [index: string]: any,
+    [index: string]: any, // eslint-disable-line
     selector: {
       value: string
     },
@@ -53,7 +53,7 @@ interface Mixin {
       value: string
     },
     animationDelay: {
-      value: any
+      value: any // eslint-disable-line
     }
     angle: {
       value: number
@@ -341,7 +341,7 @@ export const getUpdatedState = (props: { value: FieldValue }) => {
 }
 
 export const getUpdatedValues = (newState: ComponentState) => {
-  const newValue: { [index: string]: any } = {}
+  const newValue: { [index: string]: any } = {} // eslint-disable-line
   let newMixins = {}
 
   // save only needed data
@@ -550,7 +550,7 @@ export const getUpdatedValues = (newState: ComponentState) => {
   return {newValue, newMixins}
 }
 
-const addPixelToNumber = (number: any) => {
+const addPixelToNumber = (number: any) => { // eslint-disable-line
   return /^\d+$/.test(number) ? `${number}px` : number
 }
 
@@ -599,7 +599,7 @@ const getBackgroundMixin = (newValue: { [index: string]: Options }, device: stri
 const getBoxModelMixin = (newValue: { [index: string]: Options }, device: string) => {
   const returnMixins: { [index: string]: Mixin } = {}
   if (Object.prototype.hasOwnProperty.call(newValue[device], 'boxModel')) {
-    const value: { [index: string]: any } = newValue[device].boxModel
+    const value: { [index: string]: any } = newValue[device].boxModel // eslint-disable-line
 
     if (!lodash.isEmpty(value)) {
       const mixinName = `boxModelMixin:${device}`
@@ -715,7 +715,7 @@ export const updateDesignOptionsBoxModel = (id: string, fieldProperty: string, f
   const documentService = getService('document')
   const elementsStorage = getStorage('elements')
 
-  const deviceViewports: { [index: string]: any } = {
+  const deviceViewports: { [index: string]: any } = { // eslint-disable-line
     xs: 0,
     sm: 544,
     md: 768,

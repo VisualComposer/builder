@@ -6,7 +6,7 @@ const dataManager = getService('dataManager')
 interface Popup {
   visible: boolean,
   priority: number,
-  voteValue?: any
+  voteValue?: any // eslint-disable-line
 }
 
 export interface Popups {
