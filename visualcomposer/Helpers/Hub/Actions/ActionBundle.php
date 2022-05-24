@@ -21,4 +21,36 @@ class ActionBundle extends Bundle implements Helper
 
         return $downloadedArchive;
     }
+
+    /**
+     * Fill temp bundle folder with archive bundle data.
+     *
+     * @param string $actionName
+     * @param array $archive
+     *
+     * @return bool|true|\WP_Error
+     */
+    public function fillTempBundleFolder($actionName, $archive, $type = '')
+    {
+        $tempPath = $this->getBundleTempFolderPath($actionName, $type);
+
+        $this->setTempBundleFolder($tempPath);
+
+        return $this->unzipDownloadedBundle($archive);
+    }
+
+    /**
+     * Get get path to bundle temp folder.
+     *
+     * @param $actionName
+     * @param $type
+     *
+     * @return string
+     */
+    public function getBundleTempFolderPath($actionName, $type)
+    {
+        $tempPath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $actionName);
+
+        return apply_filters('vcv:helpers:hub:actions:fillTempBundleFolder:path', $tempPath, $actionName, $type);
+    }
 }

@@ -8,9 +8,8 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
   <div
     id="vc-navbar-container"
   >
-    
     <div
-      className="vcv-ui-navbar-container vcv-ui-navbar-is-detached"
+      className="vcv-ui-navbar-container"
     >
       <nav
         className="vcv-ui-navbar vcv-ui-navbar-hide-labels"
@@ -406,7 +405,6 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
         </dl>
         <div
           className="vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer"
-          onMouseDown={[Function]}
         />
       </nav>
     </div>
