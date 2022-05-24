@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { ControlHelpers } from './controlHelpers'
@@ -29,15 +29,11 @@ const Outlines = (props) => {
     setPosition(getPosition(el))
   }, [selector, iframe])
 
-  const updatePosition = () => {
-    setPosition(getPosition(element))
-  }
-
   useEffect(() => {
     if (element) {
-      updatePosition()
+      setPosition(getPosition(element))
     }
-  }, [updatePosition, element])
+  }, [element])
 
   if (!element || props.columnResizeData?.mode) {
     return null
