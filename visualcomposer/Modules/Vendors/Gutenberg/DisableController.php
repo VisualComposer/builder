@@ -86,13 +86,14 @@ class DisableController extends Container implements Module
             ($savedEditor === 'gutenberg' && $isEnabled)
             || $requestHelper->exists('classic-editor__forget')
             || (
-                $isEnabled && $requestHelper->input('vcv-set-editor') === 'gutenberg'
-                && !$requestHelper->exists(
-                    'classic-editor'
-                )
+                $isEnabled
+                && $requestHelper->input('vcv-set-editor') === 'gutenberg'
+                && !$requestHelper->exists('classic-editor')
             )
             || (
-                $isEnabled && !$requestHelper->exists('classic-editor')
+                $isEnabled
+                && $savedEditor !== 'classic'
+                && !$requestHelper->exists('classic-editor')
                 && !$gutenbergHelper->isVisualComposerPage($sourceId)
             )
         ) {
@@ -114,10 +115,13 @@ class DisableController extends Container implements Module
     protected function setEditor(Request $requestHelper)
     {
         if ($requestHelper->exists(VCV_PREFIX . 'set-editor')) {
-            /**
-             * @var \WP_Post $post
-             */
-            $post = get_post(get_the_ID());
+            $sourceId = get_the_ID();
+            if (!$sourceId) {
+                $sourceId = $requestHelper->input('post');
+            }
+
+            /** @var \WP_Post $post */
+            $post = get_post($sourceId);
             $editor = $requestHelper->input(VCV_PREFIX . 'set-editor');
             if ($post && $editor) {
                 update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $editor);
