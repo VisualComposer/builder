@@ -4,14 +4,19 @@ import { getService } from 'vc-cake'
 const vcvAPI = getService('api')
 
 export default class WpWidgetsCustom extends vcvAPI.elementComponent {
+  constructor (props) {
+    super(props)
+    this.vcvhelper = React.createRef()
+  }
+
   componentDidMount () {
-    super.updateShortcodeToHtml(WpWidgetsCustom.getShortcode(this.props.atts), this.refs.vcvhelper)
+    super.updateShortcodeToHtml(WpWidgetsCustom.getShortcode(this.props.atts), this.vcvhelper.current)
   }
 
   componentDidUpdate (props) {
     // update only if shortcode field did change
     if (WpWidgetsCustom.getShortcode(this.props.atts) !== WpWidgetsCustom.getShortcode(props.atts)) {
-      super.updateShortcodeToHtml(WpWidgetsCustom.getShortcode(this.props.atts), this.refs.vcvhelper)
+      super.updateShortcodeToHtml(WpWidgetsCustom.getShortcode(this.props.atts), this.vcvhelper.current)
     }
   }
 
@@ -48,7 +53,7 @@ export default class WpWidgetsCustom extends vcvAPI.elementComponent {
     return (
       <div className={containerClasses.join(' ')} {...customProps} {...editor}>
         <div className='vce vce-widgets-wrapper' id={'el-' + id} {...doAll}>
-          <div className='vcvhelper' ref='vcvhelper' data-vcvs-html={WpWidgetsCustom.getShortcode(this.props.atts)} />
+          <div className='vcvhelper' ref={this.vcvhelper} data-vcvs-html={WpWidgetsCustom.getShortcode(this.props.atts)} />
         </div>
       </div>
     )

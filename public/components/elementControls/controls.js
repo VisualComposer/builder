@@ -154,13 +154,13 @@ const Controls = ({ data = {}, columnResizeData }) => {
     if (vcvEditableElements) {
       setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
-  }, [vcElementId, vcvEditableElements])
+  }, [iframeElement, vcElementId, vcvEditableElements])
 
   const handleElementRemove = useCallback((data) => {
     if (vcvEditableElements && vcvEditableElements.includes(data)) {
       setVisibleElement(false)
     }
-  }, [vcElementId])
+  }, [vcvEditableElements])
 
   // Dependencies are empty because it reacts only on storage state change
   const handleSettingsChange = useCallback(() => {
@@ -183,7 +183,7 @@ const Controls = ({ data = {}, columnResizeData }) => {
       settingsStorage.state('pageTemplate').ignoreChange(handleSettingsChange)
       clearTimeout(timeout)
     }
-  }, [setPositionState])
+  }, [vcElementId, handleElementRemove, handleSettingsChange, setPositionState])
 
   const handleMouseEnter = () => {
     layoutStorage.state('interactWithControls').set({

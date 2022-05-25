@@ -64,7 +64,7 @@ SmartLine.prototype.clearStyle = function () {
 SmartLine.prototype.getVcvIdFromElement = function (element) {
   return element.dataset.vcvDndElement || null
 }
-SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
+SmartLine.prototype.redraw = function (element, point, settings = []) {
   let position = false
   const $element = window.jQuery(element)
   const defaultLiteSize = 2

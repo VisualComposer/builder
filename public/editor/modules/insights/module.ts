@@ -1,9 +1,9 @@
 // @ts-ignore
-import {getStorage, env, add} from 'vc-cake'
-import {debounce} from 'lodash'
+import { getStorage, env, add } from 'vc-cake'
+import { debounce } from 'lodash'
 import InsightsChecks from './lib/InsightsChecks'
 import store from '../../stores/store'
-import {insightsReset} from '../../stores/insights/slice'
+import { insightsReset } from '../../stores/insights/slice'
 
 const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
@@ -40,7 +40,7 @@ add('insights', () => {
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
     settingsStorage.state('pageTitle').onChange(runChecksCallback)
-    workspaceStorage.state('iframe').onChange(({type}: { type: string }) => {
+    workspaceStorage.state('iframe').onChange(({ type }: { type: string }) => {
       if (type === 'loaded') {
         runChecksCallback()
       }

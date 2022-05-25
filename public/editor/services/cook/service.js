@@ -313,7 +313,7 @@ const API = {
       if (!ref || !cookElement) {
         return
       }
-      const el = ReactDOM.findDOMNode(ref)
+      const el = ReactDOM.findDOMNode(ref) // eslint-disable-line
 
       // Clean all comments before/after element dom ref
       API.dynamicFields.cleanComments(el, id)
@@ -339,11 +339,11 @@ const API = {
       // API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
       // NOTE: Issue with slick-slider elements, need to find out the way to write comments after dom was modified by element js (slick slider)
     },
-    updateViewPageRenderComments: (ref, id, cookElement, inner) => {
+    updateViewPageRenderComments: (ref, id, cookElement) => {
       if (!ref || !cookElement) {
         return
       }
-      const el = ReactDOM.findDOMNode(ref)
+      const el = ReactDOM.findDOMNode(ref) // eslint-disable-line
       // Clean all comments before/after element dom ref
       const tag = cookElement.get('tag')
       if (['contentSlide', 'pageableTab'].indexOf(tag) !== -1) {

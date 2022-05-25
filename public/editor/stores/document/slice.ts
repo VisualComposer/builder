@@ -2,16 +2,16 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getService } from 'vc-cake'
 import lodash from 'lodash'
 
-interface State {
-  documentData: {
-    [key: string]: ElementData
-  }
-}
-
 interface ElementData {
   id: string,
   parent?: string,
   order: number
+}
+
+interface State {
+  documentData: {
+    [key: string]: ElementData
+  }
 }
 
 const createKey = getService('utils').createKey

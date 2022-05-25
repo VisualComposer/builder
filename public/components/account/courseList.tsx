@@ -10,7 +10,7 @@ interface Props {
     buttonText: string;
 }
 
-const CourseList: React.FC<Props> = ({list, url, buttonText}) => {
+const CourseList: React.FC<Props> = ({ list, url, buttonText }) => {
   return (
     <div className='vcv-course-list'>
       {
@@ -18,14 +18,14 @@ const CourseList: React.FC<Props> = ({list, url, buttonText}) => {
           <a href={url} target='_blank' rel='noopener noreferrer' key={`course-${index}`} className='vcv-course-item'>
             <img src={item.img} alt={item.title} className='vcv-course-image'/>
             <div className='vcv-course-text'>
-                <p className='vcv-course-title'>{item.title}</p>
-                <p className='vcv-course-duration'>{item.duration}</p>
+              <p className='vcv-course-title'>{item.title}</p>
+              <p className='vcv-course-duration'>{item.duration}</p>
             </div>
           </a>
         )
       }
       <a href={url} target='_blank' rel='noopener noreferrer' className='vcv-course-button'>
-          {buttonText}
+        {buttonText}
       </a>
     </div>
   )

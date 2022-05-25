@@ -32,7 +32,7 @@ class Suggestions extends React.Component {
     }
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (prevProps.index !== this.props.index) {
       const activeItem = this.suggestionBox.current.querySelector('.vc-tags--suggestion.is-active')
       const scrollContainer = this.suggestionBox.current.querySelector('.vcv-ui-scroll-content')

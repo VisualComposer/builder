@@ -77,7 +77,7 @@ class Url extends Attribute {
     }
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate (prevProps) {
     if (this.state.isSaveInProgress) {
       if (!this.props.isPopupAddInProgress && this.props.isPopupAddInProgress !== prevProps.isPopupAddInProgress) {
         this.setState({

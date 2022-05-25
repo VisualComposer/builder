@@ -236,7 +236,7 @@ addStorage('workspace', (storage) => {
       options: {}
     })
   })
-  storage.on('hide', (id, options) => {
+  storage.on('hide', (id) => {
     if (!id) {
       return
     }

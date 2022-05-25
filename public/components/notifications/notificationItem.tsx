@@ -1,6 +1,6 @@
 // @ts-ignore
 import { notificationRemoved } from 'public/editor/stores/notifications/slice'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 // @ts-ignore
 import store from 'public/editor/stores/store'
 // @ts-ignore
@@ -24,29 +24,29 @@ const NotificationItem: React.FC<Props> = (props) => {
   const localizations = dataManager.get('localizations')
   const [hidden, setHidden] = useState<boolean>(false)
   let textHtml
-  const timerRef = useRef(0);
+  const timerRef = useRef(0)
+
+  const handleClickHideNotification = useCallback(() => {
+    setHidden(true)
+    setTimeout(() => {
+      clearTimeout(timerRef.current)
+      store.dispatch(notificationRemoved(props.data.id))
+    }, 600)
+  }, [props.data.id])
 
   useEffect(() => {
     if (props.data.time !== -1) {
       timerRef.current = window.setTimeout(() => {
         handleClickHideNotification()
         return () => {
-          clearTimeout(timerRef.current);
-        };
+          clearTimeout(timerRef.current)
+        }
       }, props.data.time)
     }
-  }, [props.data])
+  }, [props.data, handleClickHideNotification])
 
   if (!props.data.text) {
     return null
-  }
-
-  const handleClickHideNotification = () => {
-    setHidden(true)
-    setTimeout(() => {
-      clearTimeout(timerRef.current);
-      store.dispatch(notificationRemoved(props.data.id))
-    }, 600);
   }
 
   if (props.data.html) {
@@ -65,19 +65,19 @@ const NotificationItem: React.FC<Props> = (props) => {
     'vcv-layout-notifications-type--disabled': hidden
   })
 
-  return (!props.data.showCloseButton ?
-      <div className={classes} onClick={handleClickHideNotification}>
-        {textHtml}
-      </div> : <div className={classes}>
-        {textHtml}
-        <div
-          className='vcv-layout-notifications-close'
-          title={localizations ? localizations.close : 'Close'}
-          onClick={handleClickHideNotification}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
-        </div>
+  return (!props.data.showCloseButton
+    ? <div className={classes} onClick={handleClickHideNotification}>
+      {textHtml}
+    </div> : <div className={classes}>
+      {textHtml}
+      <div
+        className='vcv-layout-notifications-close'
+        title={localizations ? localizations.close : 'Close'}
+        onClick={handleClickHideNotification}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
       </div>
+    </div>
   )
 }
 

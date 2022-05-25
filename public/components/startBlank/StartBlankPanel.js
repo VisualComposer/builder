@@ -25,7 +25,9 @@ export default class startBlank extends React.Component {
   }
 
   componentDidMount () {
+    /* eslint-disable */
     ReactDOM.findDOMNode(this).classList.add('vcv-ui-state--visible')
+    /* eslint-enable */
   }
 
   handleMouseUp () {

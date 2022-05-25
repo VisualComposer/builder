@@ -1,4 +1,5 @@
 import { addStorage } from 'vc-cake'
 
-addStorage('layout', (storage) => {
+addStorage('layout', () => {
+  // do nothing
 })

@@ -8,6 +8,7 @@ export default class FacebookLike extends vcvAPI.elementComponent {
 
   constructor (props) {
     super(props)
+    this.facebookLikeInner = React.createRef()
     this.state = {
       status: ''
     }
@@ -32,7 +33,7 @@ export default class FacebookLike extends vcvAPI.elementComponent {
 
   insertHtml (atts) {
     const html = this.createHtml(atts)
-    const wrapper = this.refs.facebookLikeInner
+    const wrapper = this.facebookLikeInner.current
     this.updateInlineHtml(wrapper, html)
     this.reloadScript()
     this.setPlaceholder()
@@ -45,7 +46,7 @@ export default class FacebookLike extends vcvAPI.elementComponent {
     }
     const helper = document.createElement('div')
     helper.className = 'vcvhelper vce-facebook-like-placeholder'
-    this.refs.facebookLikeInner.appendChild(helper)
+    this.facebookLikeInner.current.appendChild(helper)
     const helperSelector = this.getDomNode().querySelector('.vce-facebook-like-placeholder')
 
     likeBtn.style.position = 'absolute'
@@ -166,7 +167,7 @@ export default class FacebookLike extends vcvAPI.elementComponent {
 
     return (
       <div {...customProps} className={classes} {...editor}>
-        <div className={innerClasses} ref='facebookLikeInner' id={'el-' + id} {...doAll}>Facebook Like</div>
+        <div className={innerClasses} ref={this.facebookLikeInner} id={'el-' + id} {...doAll}>Facebook Like</div>
       </div>
     )
   }

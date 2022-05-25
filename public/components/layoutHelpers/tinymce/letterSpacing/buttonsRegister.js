@@ -1,4 +1,4 @@
-const ButtonsRegister = function (editor, window) {
+const ButtonsRegister = function (editor) {
   const getLetterSpacingItems = function () {
     const fontSizeFormats = 'Default 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px 15px 25px 30px 35px'
     return fontSizeFormats.split(' ').map((item) => {
@@ -18,7 +18,7 @@ const ButtonsRegister = function (editor, window) {
 
   const createLetterSpacingListBoxChangeHandler = function (editor, items) {
     return function () {
-      const self = this
+      const self = this // eslint-disable-line
       editor.on('nodeChange', (e) => {
         const formatName = 'letterspacing'
         const formatter = editor.formatter

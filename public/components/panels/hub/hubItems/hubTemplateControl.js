@@ -15,6 +15,7 @@ const localizations = dataManager.get('localizations')
 export default class HubTemplateControl extends ElementControl {
   constructor (props) {
     super(props)
+    this.itemRef = React.createRef()
 
     this.state = {
       showLoading: false,
@@ -147,7 +148,9 @@ export default class HubTemplateControl extends ElementControl {
     if (previewVisible) {
       previewOutput = (
         <figure className='vcv-ui-item-preview-container' style={previewStyle}>
-          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} onLoad={this.handleUpdatePreviewPosition} />
+          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} onLoad={() => {
+            this.handleUpdatePreviewPosition(this.itemRef.current)
+          }} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
               {element.metaDescription}
@@ -159,7 +162,7 @@ export default class HubTemplateControl extends ElementControl {
     }
 
     return (
-      <div className={listItemClasses}>
+      <div className={listItemClasses} ref={this.itemRef}>
         <span
           className={itemElementClasses}
           onMouseEnter={this.handleMouseEnterShowPreview}

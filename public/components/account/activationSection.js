@@ -217,7 +217,7 @@ export default class ActivationSectionProvider extends React.Component {
         'vcv-attachment-path': path,
         'vcv-nonce': dataManager.get('nonce')
       }).then(() => {
-        this.setState(prevState => ({
+        this.setState(() => ({
           activeAdditionalAction: this.state.activeAdditionalAction - 1
         }))
       })
