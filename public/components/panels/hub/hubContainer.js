@@ -217,7 +217,7 @@ export default class HubContainer extends React.Component {
     return {}
   }
 
-  addElement (element, presetId = false) {
+  addElement (element = false) {
     const workspace = workspaceStorage.state('settings').get() || false
     element.parent = workspace && workspace.element ? workspace.element.id : false
     element = cook.get(element).toJS()

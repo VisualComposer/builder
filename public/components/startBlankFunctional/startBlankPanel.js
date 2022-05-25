@@ -12,10 +12,11 @@ const settingsStorage = vcCake.getStorage('settings')
 let addedId, iframeWindow
 
 function StartBlankPanel (props) {
-  const [containerClasses, setContainerClasses] = useState('vcv-start-blank-container')
+  const classes = 'vcv-start-blank-container'
+  const [containerClasses, setContainerClasses] = useState(classes)
 
   useEffect(() => {
-    setContainerClasses(containerClasses + ' vcv-ui-state--visible')
+    setContainerClasses(classes + ' vcv-ui-state--visible')
   }, [])
 
   const handleMouseUp = () => {

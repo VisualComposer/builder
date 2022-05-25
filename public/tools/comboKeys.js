@@ -8,7 +8,7 @@ export function bindEditorKeys (document) {
   const wordpressDataStorage = getStorage('wordpressData')
   const historyStorage = getStorage('history')
 
-  let combokeysInstance = new Combokeys(document)
+  const combokeysInstance = new Combokeys(document)
 
   combokeysInstance.stopCallback = function (e, element) {
     const workspaceState = workspaceStorage.state('settings').get()
@@ -28,19 +28,19 @@ export function bindEditorKeys (document) {
 
     return false
   }
-  combokeysInstance.bind([ 'command+z', 'ctrl+z' ], (e) => {
+  combokeysInstance.bind(['command+z', 'ctrl+z'], (e) => {
     e.preventDefault()
     historyStorage.state('canUndo').get() && historyStorage.trigger('undo')
     return false
   })
-  combokeysInstance.bind([ 'command+shift+z', 'ctrl+shift+z' ], (e) => {
+  combokeysInstance.bind(['command+shift+z', 'ctrl+shift+z'], (e) => {
     e.preventDefault()
     historyStorage.state('canRedo').get() && historyStorage.trigger('redo')
     return false
   })
   combokeysInstance.bind('shift+a', (e) => {
     e.preventDefault()
-    let settings = workspaceStorage.state('settings').get()
+    const settings = workspaceStorage.state('settings').get()
     if (settings && settings.action === 'add') {
       workspaceStorage.state('settings').set(false)
     } else {
@@ -49,14 +49,14 @@ export function bindEditorKeys (document) {
   })
   combokeysInstance.bind('shift+t', (e) => {
     e.preventDefault()
-    let settings = workspaceStorage.state('content').get()
+    const settings = workspaceStorage.state('content').get()
     if (settings === 'treeView') {
       workspaceStorage.state('content').set(false)
     } else {
       workspaceStorage.state('content').set('treeView')
     }
   })
-  combokeysInstance.bind([ 'command+s', 'ctrl+s' ], (e) => {
+  combokeysInstance.bind(['command+s', 'ctrl+s'], (e) => {
     e.preventDefault()
     if (dataManager.get('editorType') !== 'vcv_tutorials') {
       wordpressDataStorage.trigger('save', {
@@ -65,7 +65,7 @@ export function bindEditorKeys (document) {
     }
     return false
   })
-  combokeysInstance.bind([ 'command+shift+p', 'ctrl+shift+p' ], () => {
+  combokeysInstance.bind(['command+shift+p', 'ctrl+shift+p'], () => {
     workspaceStorage.state('shortcutPreview').set(true)
     return false
   })
@@ -79,7 +79,7 @@ export function bindEditorKeys (document) {
     workspaceStorage.state('settings').set({ action: 'settings' })
   })
   // Override Elementor combo
-  combokeysInstance.bind([ 'command+e', 'ctrl+e' ], (e) => {
+  combokeysInstance.bind(['command+e', 'ctrl+e'], (e) => {
     e.preventDefault()
   })
 }

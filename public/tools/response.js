@@ -1,6 +1,6 @@
 export function getJsonFromString (string) {
-  let regex = /(\{"\w+".*\})/g
-  var result = string.match(regex)
+  const regex = /(\{"\w+".*\})/g
+  const result = string.match(regex)
   if (result) {
     return result[0]
   }
@@ -14,7 +14,7 @@ export function getResponse (result) {
     response = JSON.parse(result)
   } catch (e) {
     console.warn('Failed to parse, no valid json.', e, result)
-    let jsonString = getJsonFromString(result)
+    const jsonString = getJsonFromString(result)
     response = JSON.parse(jsonString)
   }
 

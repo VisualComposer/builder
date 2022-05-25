@@ -29,13 +29,9 @@ const Outlines = (props) => {
     setPosition(getPosition(el))
   }, [selector, iframe])
 
-  const updatePosition = () => {
-    setPosition(getPosition(element))
-  }
-
   useEffect(() => {
     if (element) {
-      updatePosition()
+      setPosition(getPosition(element))
     }
   }, [element])
 

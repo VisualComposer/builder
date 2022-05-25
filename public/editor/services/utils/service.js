@@ -86,7 +86,7 @@ const API = {
     const dataManager = getService('dataManager')
     const request = new window.XMLHttpRequest()
     request.open('POST', dataManager.get('adminAjaxUrl'), true)
-    request.onload = (response) => {
+    request.onload = () => {
       if (request.status >= 200 && request.status < 400) {
         successCallback(request)
       } else {
@@ -95,7 +95,7 @@ const API = {
         }
       }
     }
-    request.onerror = (response) => {
+    request.onerror = () => {
       if (typeof failureCallback === 'function') {
         failureCallback(request)
       }
@@ -176,7 +176,7 @@ const API = {
     const urlRegex = /url\(\s*(['"]?)(.*?)\1\s*\)/g
     const encodedUrls = html.match(urlRegex)
     if (encodedUrls && encodedUrls.length) {
-      const decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, "'"))
+      const decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, '\''))
       encodedUrls.forEach((url, i) => {
         html = html.replace(url, decodedUrls[i])
       })

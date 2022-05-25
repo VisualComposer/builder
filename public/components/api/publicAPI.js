@@ -1,6 +1,8 @@
 import ee from 'event-emitter'
 
-const MyEventEmitter = function () {}
+const MyEventEmitter = function () {
+  // do nothing
+}
 ee(MyEventEmitter.prototype)
 const apiEventEmitter = new MyEventEmitter()
 

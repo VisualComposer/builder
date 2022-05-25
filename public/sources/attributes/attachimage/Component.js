@@ -154,7 +154,9 @@ export default class AttachImage extends Attribute {
       },
       multiple: this.props.options.multiple ? 'add' : false
     })
+    /* eslint-disable */
     const _this = this
+    /* eslint-enable */
     const CustomStockImagesView = window.wp.media.View.extend({
       /**
        * Remove Stock images tab content

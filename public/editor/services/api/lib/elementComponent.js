@@ -134,7 +134,7 @@ export default class ElementComponent extends React.Component {
   }
 
   getDomNode () {
-    return ReactDOM.findDOMNode(this)
+    return ReactDOM.findDOMNode(this) // eslint-disable-line
   }
 
   getBackgroundClass (designOptions) {

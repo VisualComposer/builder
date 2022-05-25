@@ -28,7 +28,7 @@ export default class ImageGallery extends vcvAPI.elementComponent {
   prepareImage (image) {
     if (image.length && typeof image[0] === 'object') {
       const newImages = []
-      image.forEach((item, index) => {
+      image.forEach((item) => {
         const newItem = item
         newItem.full = newItem.id ? newItem.full : this.getImageUrl(newItem.full)
         newItem.id = newItem.id ? newItem.id : Math.random()

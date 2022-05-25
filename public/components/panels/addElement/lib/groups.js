@@ -63,7 +63,7 @@ export default class Groups extends React.Component {
     this.isComponentMounted = true
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (this.props.applyFirstElement && (prevProps.applyFirstElement !== this.props.applyFirstElement)) {
       this.applyFirstElement()
     }

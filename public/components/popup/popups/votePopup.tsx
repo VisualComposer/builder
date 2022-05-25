@@ -1,10 +1,10 @@
 import React from 'react'
+import { Dispatch } from 'redux' // eslint-disable-line
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
-import {popupShown, popupsSet, Popups, popupVisibilitySet} from '../../../editor/stores/editorPopup/slice'
-import { AppStateType } from "../../../editor/stores/reducer"
-import { Dispatch } from 'redux'
+import { popupShown, popupsSet, Popups, popupVisibilitySet } from '../../../editor/stores/editorPopup/slice'
+import { AppStateType } from '../../../editor/stores/reducer'
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -19,8 +19,8 @@ type Props = {
   popups: Popups,
   onPrimaryButtonClick: () => void,
   onClose: () => void,
-  popupShown: any,
-  popupsSet: any,
+  popupShown: any, // eslint-disable-line
+  popupsSet: any, // eslint-disable-line
   popupVisibilitySet: (status: boolean) => void
 }
 
@@ -38,7 +38,7 @@ const VotePopup: React.FC<Props> = (props) => {
 
     // Set vote value in storage so we can use it in the review popup
     const popupState = JSON.parse(JSON.stringify(props.popups)) || {}
-      Object.preventExtensions(popupState);
+    Object.preventExtensions(popupState)
     if (popupState.votePopup) {
       popupState.votePopup.voteValue = checkedInput.value
     }
@@ -97,7 +97,7 @@ const VotePopup: React.FC<Props> = (props) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   popupShown: (data: string) => dispatch(popupShown(data)),
-  popupsSet: (data: any) => dispatch(popupsSet(data)),
+  popupsSet: (data: any) => dispatch(popupsSet(data)), // eslint-disable-line
   popupVisibilitySet: (data:boolean) => dispatch(popupVisibilitySet(data))
 })
 

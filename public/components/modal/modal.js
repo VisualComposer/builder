@@ -7,25 +7,6 @@ const workspaceStorage = getStorage('workspace')
 const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
   const [innerClick, setInnerClick] = useState(false)
 
-  useEffect(() => {
-    window.addEventListener('keyup', handleHideOnOuterClick)
-    return () => {
-      window.removeEventListener('keyup', handleHideOnOuterClick)
-      workspaceStorage.state('hasModal').set(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    workspaceStorage.state('hasModal').set(show)
-    document.body.style.overflow = show ? 'hidden' : 'auto'
-  }, [show])
-
-  const handleShowOnInnerClick = useCallback(event => {
-    if (event.currentTarget && event.currentTarget.closest('.vcv-ui-modal')) {
-      setInnerClick(true)
-    }
-  }, [])
-
   const handleHideOnOuterClick = useCallback(event => {
     setInnerClick(false)
 
@@ -36,6 +17,25 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
     if ((event.target.dataset.modal && onClose instanceof Function) ||
       (event.type === 'keyup' && event.which === 27)) {
       onClose(event)
+    }
+  }, [innerClick, closeOnOuterClick, onClose])
+
+  useEffect(() => {
+    window.addEventListener('keyup', handleHideOnOuterClick)
+    return () => {
+      window.removeEventListener('keyup', handleHideOnOuterClick)
+      workspaceStorage.state('hasModal').set(false)
+    }
+  }, [handleHideOnOuterClick])
+
+  useEffect(() => {
+    workspaceStorage.state('hasModal').set(show)
+    document.body.style.overflow = show ? 'hidden' : 'auto'
+  }, [show])
+
+  const handleShowOnInnerClick = useCallback(event => {
+    if (event.currentTarget && event.currentTarget.closest('.vcv-ui-modal')) {
+      setInnerClick(true)
     }
   }, [])
 

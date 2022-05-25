@@ -30,7 +30,7 @@ const ButtonsRegister = function (editor, window) {
 
       const fontFamilies = getFontFamilies()
       // Element May be changed need to re-render the displayed font-family
-      editor.on('init nodeChange', function (e) {
+      editor.on('init nodeChange', function () {
         const currentFontFamily = getCurrentFontFamily(editor)
         const find = currentFontFamily ? fontFamilies.find(function (i) {
           return i.value ? i.value.replace(/\s/g, '') === currentFontFamily.replace(/\s/g, '') : i.family.replace(/\s/g, '') === currentFontFamily.replace(/\s/g, '')

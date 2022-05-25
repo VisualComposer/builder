@@ -34,7 +34,7 @@ export default class RawCode extends Attribute {
     this.codeEditor.on('change', this.setValue)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate () {
     this.codeEditor.refresh()
   }
 

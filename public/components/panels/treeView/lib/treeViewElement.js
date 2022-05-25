@@ -44,7 +44,6 @@ export default class TreeViewElement extends React.Component {
       childExpand: props.level > 1 || this.isMobile,
       hasBeenOpened: false,
       isActive: false,
-      hasChild: false,
       showOutline: false,
       element: props.element,
       content: props.element.customHeaderTitle || props.element.name,
@@ -106,7 +105,7 @@ export default class TreeViewElement extends React.Component {
     window.removeEventListener('storage', this.checkPaste)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate (prevProps) {
     if (!isEqual(prevProps.element, this.props.element)) {
       const newShowOutline = this.props.showOutlineCallback(this.props.element.id)
       newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
@@ -409,7 +408,6 @@ export default class TreeViewElement extends React.Component {
 
     const innerChildren = documentManager.children(this.state.element.id)
     const childHtml = this.getContent(innerChildren)
-    this.state.hasChild = !!innerChildren.length
 
     let addChildControl = false
     const elementContainerFor = element.containerFor()
@@ -435,7 +433,7 @@ export default class TreeViewElement extends React.Component {
     }
 
     let expandTrigger = ''
-    if (this.state.hasChild) {
+    if (innerChildren.length) {
       expandTrigger = (
         <i
           className='vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand'

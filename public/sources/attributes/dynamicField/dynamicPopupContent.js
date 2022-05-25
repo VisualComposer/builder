@@ -58,7 +58,7 @@ export default class DynamicPopupContent extends React.Component {
         postFields: postFields || {}
       }, () => {
         // Update attribute value with new sourceId
-        const dropdownRealValue = ReactDOM.findDOMNode(this.dropdownRef.current).value
+        const dropdownRealValue = ReactDOM.findDOMNode(this.dropdownRef.current).value // eslint-disable-line
         if (this.props.currentPostField !== dropdownRealValue) {
           this.dynamicFieldChange(undefined, dropdownRealValue)
         }

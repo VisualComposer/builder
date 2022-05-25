@@ -214,7 +214,6 @@ export default class Navbar extends React.Component {
         </dt>
         <dd className={navbarContentClasses}>
           <Scrollbars
-            ref='scrollbars'
             renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
             renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
             renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}

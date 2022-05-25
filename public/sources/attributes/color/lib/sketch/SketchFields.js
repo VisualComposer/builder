@@ -6,7 +6,7 @@ import { isValidHex } from 'react-color/lib/helpers/color'
 import shallowCompare from 'react-addons-shallow-compare'
 import { EditableInput } from 'react-color/lib/components/common'
 
-export class SketchFields extends React.Component {
+class SketchFields extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     return shallowCompare.bind(this, this, nextProps, nextState)
   }
