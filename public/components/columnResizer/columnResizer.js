@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { columnResizeDataChanged, columnResizerDraggingIdChanged } from '../../editor/stores/controls/slice'
 import vcCake from 'vc-cake'
@@ -203,7 +202,7 @@ class ColumnResizer extends React.PureComponent {
   }
 
   getRowData (e) {
-    const $helper = ReactDOM.findDOMNode(this)
+    const $helper = this.resizerRef.current
     let $tempRightCol = $helper.nextElementSibling
     let $rightCol = null
     let $leftCol = null

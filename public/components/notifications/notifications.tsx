@@ -8,7 +8,6 @@ interface Props {
 }
 
 const Notifications: React.FC<Props> = (props) => {
-
   const getVisibleContainer = (selector: string): Element | null => {
     const portals = [].slice.call(document.querySelectorAll(selector))
 

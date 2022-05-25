@@ -102,7 +102,7 @@ var ButtonsRegister = function (editor, window) {
     return node ? (node.nodeType === 3 ? node.parentNode : node) : null
   }
 
-  const createFontWeightListBoxChangeHandler = function (editor, items, callback) {
+  const createFontWeightListBoxChangeHandler = function (editor) {
     const getFontWeight = () => {
       const node = getSelectionStart(editor)
       if (node) {
@@ -131,9 +131,9 @@ var ButtonsRegister = function (editor, window) {
     }
 
     return function () {
-      const self = this
+      const self = this // eslint-disable-line
       self.state.set('value', null)
-      editor.on('init nodeChange', function (e) {
+      editor.on('init nodeChange', function () {
         const items = getFontWeightValues(null, editor)
         const fontWeight = getFontWeight()
         const match = findMatchingValue(fontWeight, items)

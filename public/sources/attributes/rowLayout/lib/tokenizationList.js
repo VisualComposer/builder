@@ -34,6 +34,7 @@ export default class TokenizationList extends React.Component {
 
   constructor (props) {
     super(props)
+    this.suggestBoxRef = React.createRef()
     this.state = {
       value: this.props.value,
       editing: false,
@@ -77,7 +78,7 @@ export default class TokenizationList extends React.Component {
       return
     }
 
-    const box = this.refs.suggestBox
+    const box = this.suggestBoxRef.current
     const boxRect = box ? box.getBoundingClientRect() : null
 
     if (boxRect) {
@@ -312,7 +313,7 @@ export default class TokenizationList extends React.Component {
     })
 
     return (
-      <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>
+      <div className={cssClasses} style={this.state.cursorPosition} ref={this.suggestBoxRef}>
         {items}
       </div>
     )

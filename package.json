@@ -15,11 +15,10 @@
     "build-production-silent": "webpack --version && webpack --config webpack.config.production.babel.js --silent",
     "build-settings": "echo 'nothing';exit 0",
     "build-settings-production": "echo 'nothing';exit 0",
-    "standard": "standard --version && standard",
     "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest --env=jsdom",
     "watch": "webpack --version && webpack --config webpack.config.babel.js --progress --watch",
     "watch-settings": "echo 'nothing';exit 0",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx,.js"
   },
   "babel": {
     "plugins": [
@@ -37,56 +36,6 @@
     "ie 10",
     "ie 11"
   ],
-  "eslintConfig": {
-    "settings": {
-      "react": {
-        "pragma": "React",
-        "version": "detect"
-      }
-    },
-    "env": {
-      "browser": true,
-      "commonjs": true,
-      "node": true
-    },
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:react-hooks/recommended",
-      "plugin:react/recommended",
-      "plugin:import/recommended"
-    ],
-    "rules": {
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "import/no-unresolved": "off",
-      "import/no-webpack-loader-syntax": "off",
-      "react/prop-types": 0
-    },
-    "ignorePatterns": [
-      "**/*.babel.js",
-      "**/*.bundle.js",
-      "**/*.spec.js",
-      "**/*.min.js",
-      "public/editor/modules/insights/axe.d.ts",
-      "**/commands.js",
-      "elements/*/public/*",
-      "devAddons/_tests/*",
-      "_infrastructure/*",
-      "devElements/_tests/*",
-      "public/sources/*",
-      "public/config/*",
-      "public/dist/*",
-      "tests/*",
-      "tools/*"
-    ],
-    "root": true
-  },
   "jest": {
     "testEnvironment": "jsdom",
     "moduleNameMapper": {
@@ -125,7 +74,7 @@
     "color-name": "1.1.4",
     "core-js": "3.19.0",
     "css-loader": "6.5.0",
-    "eslint": "7.32.0",
+    "eslint": "8.15.0",
     "less": "4.1.2",
     "postcss": "8.3.11",
     "raw-loader": "1.0.0",
@@ -164,7 +113,6 @@
     "reactcss": "1.2.3",
     "redux": "4.1.2",
     "resize-sensor": "^0.0.6",
-    "standard": "14.3.4",
     "sticky-sidebar": "^3.3.1",
     "ts-loader": "9.2.6",
     "typescript": "4.5.4",
@@ -177,14 +125,14 @@
     "jest-cli": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
     "@types/react-dom": "17.0.11",
-    "eslint": "7.32.0",
-    "eslint-plugin-import": "2.25.3",
+    "eslint": "8.15.0",
+    "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.2.2",
     "eslint-plugin-jsx-a11y": "6.5.1",
-    "eslint-plugin-react": "7.28.0",
-    "eslint-plugin-react-hooks": "4.3.0",
-    "@typescript-eslint/eslint-plugin": "5.10.0",
-    "@typescript-eslint/parser": "5.10.0",
+    "eslint-plugin-react": "7.29.4",
+    "eslint-plugin-react-hooks": "4.5.0",
+    "@typescript-eslint/eslint-plugin": "5.25.0",
+    "@typescript-eslint/parser": "5.25.0",
     "babel-eslint": "10.1.0"
   },
   "devDependencies": {
@@ -192,25 +140,6 @@
   "engines": {
     "node": ">=14",
     "npm": ">=5.8"
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "ignore": [
-      "public/config/",
-      "public/sources/assetsLibrary",
-      "tests/",
-      "tools/"
-    ],
-    "rules": {
-      "jsx-quotes": [
-        2,
-        "prefer-single"
-      ],
-      "import/no-webpack-loader-syntax": "off"
-    },
-    "env": {
-      "browser": true
-    }
   },
   "_analyzeDependencies": {
     "duplicate-package-checker-webpack-plugin": "3.0.0",

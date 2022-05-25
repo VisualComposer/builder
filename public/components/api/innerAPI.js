@@ -2,7 +2,9 @@ import React from 'react'
 import { env } from 'vc-cake'
 import ee from 'event-emitter'
 
-const InnerAPIEmitter = function () {}
+const InnerAPIEmitter = function () {
+  // do nothing
+}
 ee(InnerAPIEmitter.prototype)
 const apiEventEmitter = new InnerAPIEmitter()
 

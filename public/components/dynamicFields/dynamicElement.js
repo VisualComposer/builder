@@ -23,7 +23,7 @@ export default class DynamicElement extends React.Component {
 
   componentWillUnmount () {
     if (this.elementComponentRef && this.elementComponentRef.current) {
-      const el = ReactDOM.findDOMNode(this.elementComponentRef.current)
+      const el = ReactDOM.findDOMNode(this.elementComponentRef.current) // eslint-disable-line
       this.props.cookApi.dynamicFields.cleanComments(el, this.props.element.id)
     }
   }

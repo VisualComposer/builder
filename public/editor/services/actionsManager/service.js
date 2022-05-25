@@ -35,7 +35,7 @@ const ActionsManager = {
       element.settings(target.key).settings.options.url = state
       target.refWrapperComponent.forceUpdate()
     },
-    updateDependenciesClasses: (state, target, options, element) => {
+    updateDependenciesClasses: (state, target, options) => {
       const newStateClasses = (target.refWrapperComponent.state.dependenciesClasses || []).filter((item) => {
         return item !== options.class
       })

@@ -30,7 +30,7 @@ export default class StyleEditor extends React.Component {
     this.codeEditor.on('change', this.handleChange)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate () {
     this.codeEditor.refresh()
   }
 
