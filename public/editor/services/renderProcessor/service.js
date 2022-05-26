@@ -7,7 +7,7 @@ const Service = {
   },
   appAllDone () {
     this.clearTimeout()
-    const renderPromise = new window.Promise((resolve, reject) => {
+    const renderPromise = new window.Promise((resolve) => {
       this.timeout = window.setTimeout(() => {
         console.warn && console.warn('RenderProcess timed-out')
         this.purge()

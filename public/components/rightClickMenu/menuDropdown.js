@@ -20,7 +20,7 @@ export default class MenuDropdown extends React.Component {
     this.setDropdownPosition()
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (prevProps.position !== this.props.position) {
       this.setDropdownPosition()
     }

@@ -47,7 +47,7 @@ const AppendControl = ({ data = {}, columnResizeData }) => {
     if (vcElementId) {
       setContainerPos(updateAppendContainerPosition(vcElementId, iframeElement.contentDocument, controlContainer))
     }
-  }, [vcElementId])
+  }, [iframeElement, vcElementId])
 
   // Dependencies are empty because it reacts only on storage state change
   const handleSettingsChange = useCallback(() => {
@@ -60,7 +60,7 @@ const AppendControl = ({ data = {}, columnResizeData }) => {
     return () => {
       settingsStorage.state('pageTemplate').ignoreChange(handleSettingsChange)
     }
-  }, [setPositionState])
+  }, [handleSettingsChange, setPositionState])
 
   if (columnResizeData.mode) {
     return null

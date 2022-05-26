@@ -103,7 +103,7 @@ const Service = {
       'vcv-source-id': dataManager.get('sourceID')
     }, args)
 
-    if (env('VCV_JS_SAVE_ZIP')) {
+    if (env('VCV_JS_SAVE_ZIP') !== false) {
       const compressData = utils.compressData(args)
 
       if (compressData instanceof Blob) {

@@ -47,7 +47,7 @@ export default class DynamicAttribute extends React.Component {
     this.state = state
   }
 
-  onLoadPostFields (sourceId, postData, postFields) {
+  onLoadPostFields (sourceId) {
     this.setState({ dataLoaded: sourceId })
   }
 

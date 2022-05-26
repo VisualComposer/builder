@@ -1,7 +1,7 @@
-const ButtonsRegister = function (editor, window) {
+const ButtonsRegister = function (editor) {
   const createLineHeightListBoxChangeHandler = function (editor, items) {
     return function () {
-      const self = this
+      const self = this // eslint-disable-line
       editor.on('nodeChange', (e) => {
         const formatName = 'lineheight'
         const formatter = editor.formatter

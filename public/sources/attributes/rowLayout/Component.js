@@ -164,7 +164,7 @@ export default class Layout extends Attribute {
         }
       })
 
-      reducedLayout.forEach((col, index) => {
+      reducedLayout.forEach((col) => {
         if (col === '') {
           col = 'auto'
         }

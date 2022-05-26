@@ -123,7 +123,9 @@ class ReactTags extends React.Component {
       // Provide a no-op function to the input component to avoid warnings
       // <https://github.com/i-like-robots/react-tags/issues/135>
       // <https://github.com/facebook/react/issues/13835>
-      onChange: () => {},
+      onChange: () => {
+        // do nothing
+      },
       onBlur: this.onBlur.bind(this),
       onFocus: this.onFocus.bind(this),
       onInput: this.onInput.bind(this),

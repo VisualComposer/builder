@@ -12,7 +12,7 @@ export type CssMixinsBySettingsType = {
   [key: string]: MixinData[]
 }
 
-export function getCssMixinsBySettings (elSettings: { [key: string]: any }): CssMixinsBySettingsType {
+export function getCssMixinsBySettings (elSettings: { [key: string]: any }): CssMixinsBySettingsType { // eslint-disable-line
   const foundAttributesWithMixins: {
     [key: string]: {
       mixin: string
@@ -68,12 +68,12 @@ export function getCssMixinsBySettings (elSettings: { [key: string]: any }): Css
   return foundMixins
 }
 
-export function getInnerCssMixinsBySettings (elSettings: { [key: string]: any }): CssMixinsBySettingsType {
+export function getInnerCssMixinsBySettings (elSettings: { [key: string]: any }): CssMixinsBySettingsType { // eslint-disable-line
   let foundMixins: CssMixinsBySettingsType = {}
   for (const key in elSettings) {
     if (elSettings[key].type === 'paramsGroup') {
       const groupFieldsSettings = elSettings[key].options.settings
-      let newFoundMixins = getCssMixinsBySettings(groupFieldsSettings)
+      const newFoundMixins = getCssMixinsBySettings(groupFieldsSettings)
       foundMixins = { ...foundMixins, ...newFoundMixins }
     }
   }
@@ -83,14 +83,14 @@ export function getInnerCssMixinsBySettings (elSettings: { [key: string]: any })
 
 export type MixinsReduceResult = {
   selectors?: string[]
-  [index: string]: any
+  [index: string]: any // eslint-disable-line
 }
 
 export type MixinsSelectorResult = string | MixinsReduceResult
 
-export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: object }, returnObjectWithProperties: boolean = false): MixinsSelectorResult {
-  const getValue = (atts: { [key: string]: object }, attributeName: string, valueKey: string = '') => {
-    let value: string | any = atts[attributeName] || 'empty'
+export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: object }, returnObjectWithProperties = false): MixinsSelectorResult {
+  const getValue = (atts: { [key: string]: object }, attributeName: string, valueKey = '') => {
+    let value: string | any = atts[attributeName] || 'empty' // eslint-disable-line
     if (typeof value === 'object' && value.constructor === Object && valueKey) {
       value = value[valueKey]
     }
@@ -99,7 +99,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
   }
   const getSelector = (mixinData: MixinData) => {
     let attrSelector = 'empty'
-    const {attributeName, namePattern, valueKey} = mixinData
+    const { attributeName, namePattern, valueKey } = mixinData
     const value = getValue(atts, attributeName, valueKey)
     if (value !== 'empty') {
       if (namePattern) {
@@ -117,16 +117,16 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
   if (returnObjectWithProperties) {
     const result: MixinsReduceResult = mixin.reduce<MixinsReduceResult>((previousValue: MixinsReduceResult, currentValue: MixinData): MixinsReduceResult => {
       const attributeName: string = currentValue.attributeName
-      let value: string | any = atts[attributeName] || 'empty'
+      let value: string | any = atts[attributeName] || 'empty' // eslint-disable-line
       value = value + '' // force to string
       previousValue[currentValue.propertyName] = value
-      previousValue.selectors!.push(getSelector(currentValue))
+      previousValue.selectors!.push(getSelector(currentValue)) // eslint-disable-line
 
       return previousValue
     }, {
       selectors: []
     } as unknown as MixinsReduceResult)
-    result.selector = result.selectors!.join('--')
+    result.selector = result.selectors!.join('--') // eslint-disable-line
 
     // it was just temporary variable to concatenate selector to string
     delete result.selectors
@@ -137,7 +137,7 @@ export function getMixinsSelector (mixin: MixinData[], atts: { [key: string]: ob
   }
 }
 
-export const getCssMixinsData = memoize<{ [key: string]: any }>((tag: string): CssMixinsBySettingsType => {
+export const getCssMixinsData = memoize<{ [key: string]: any }>((tag: string): CssMixinsBySettingsType => { // eslint-disable-line
   const cook = getService('cook')
   const elSettings = cook.getSettings(tag)
   if (!elSettings) {
@@ -148,7 +148,7 @@ export const getCssMixinsData = memoize<{ [key: string]: any }>((tag: string): C
   return mixins
 })
 
-export const getInnerCssMixinsData = memoize<{ [key: string]: any }>((tag: string): CssMixinsBySettingsType => {
+export const getInnerCssMixinsData = memoize<{ [key: string]: any }>((tag: string): CssMixinsBySettingsType => { // eslint-disable-line
   const cook = getService('cook')
   const elSettings = cook.getSettings(tag)
   if (!elSettings) {

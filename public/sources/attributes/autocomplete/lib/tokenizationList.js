@@ -26,10 +26,11 @@ export default class TokenizationList extends React.Component {
     (value) => {
       this.loadSuggestions(value[value.length - 1])
     },
-    400);
+    400)
 
   constructor (props) {
     super(props)
+    this.suggestBoxRef = React.createRef()
     let value = this.props.value
     if (!Array.isArray(value)) {
       value = value ? [value] : []
@@ -123,7 +124,7 @@ export default class TokenizationList extends React.Component {
     this.setState({ addedSuggested: false })
   }
 
-  handleFocus (e) {
+  handleFocus () {
     let value = this.state.value.join(',')
 
     if (value.length) {
@@ -214,7 +215,7 @@ export default class TokenizationList extends React.Component {
       return
     }
 
-    const box = this.refs.suggestBox
+    const box = this.suggestBoxRef.current
     const boxRect = box ? box.getBoundingClientRect() : null
 
     if (boxRect) {
@@ -379,7 +380,7 @@ export default class TokenizationList extends React.Component {
         )
       })
 
-      return <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>{reactItems}</div>
+      return <div className={cssClasses} style={this.state.cursorPosition} ref={this.suggestBoxRef}>{reactItems}</div>
     }
   }
 

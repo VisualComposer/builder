@@ -4,6 +4,11 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class PinterestPinit extends vcvAPI.elementComponent {
+  constructor (props) {
+    super(props)
+    this.pinterestInner = React.createRef()
+  }
+
   componentDidMount () {
     this.insertHtml(this.props.atts)
   }
@@ -18,7 +23,7 @@ export default class PinterestPinit extends vcvAPI.elementComponent {
     const button = this.createHtml(props)
     const script = '<script type="text/javascript" async defer src="https://assets.pinterest.com/js/pinit.js"></script>'
     const html = button + script
-    const wrapper = this.refs.pinterestInner
+    const wrapper = this.pinterestInner.current
     this.updateInlineHtml(wrapper, html)
 
     const iframe = document.querySelector('#vcv-editor-iframe').contentWindow
@@ -75,7 +80,7 @@ export default class PinterestPinit extends vcvAPI.elementComponent {
 
     return (
       <div {...customProps} className={classes} {...editor}>
-        <div className={innerClasses} ref='pinterestInner' id={'el-' + id} {...doAll}>Google Plus Button</div>
+        <div className={innerClasses} ref={this.pinterestInner} id={'el-' + id} {...doAll}>Google Plus Button</div>
       </div>
     )
   }

@@ -29,7 +29,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    this.promise = new window.Promise((resolve, reject) => {
+    this.promise = new window.Promise((resolve) => {
       this.resolve = resolve
       this.setImage(this.props)
     })
@@ -42,7 +42,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     SingleImageElement.image && SingleImageElement.image.removeEventListener('error', this.setError)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate (prevProps) {
     if (prevProps.atts.image !== this.props.atts.image) {
       this.setImage(this.props)
     } else if (prevProps.atts.size !== this.props.atts.size) {
@@ -398,7 +398,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
         <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
           <figure>
             <div className={figureInnerClasses} style={{ width: this.state.parsedWidth }}>
-              <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: '100%' }}>
+              <CustomTag {...customProps} className={classes} style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: '100%' }}>
                 {imgElement}
               </CustomTag>
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default function memoize<T>(func: Function): Function {
     const cache: Map<string, T> = new Map()
     return (...args: any[]): T => {

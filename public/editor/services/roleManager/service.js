@@ -13,8 +13,8 @@ const RoleManager = {
     // no addon available
     return defaultValue
   },
-  canState (state) {
-
+  canState () {
+    // do nothing
   },
   defaultAdmin () {
     return window.vcvManageOptions
