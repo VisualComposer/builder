@@ -3,8 +3,8 @@ Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,konutis,or
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.9.3
-Stable tag: 44.1
+Tested up to: 6.0
+Stable tag: 44.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,32 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 44.2 =
+*Release Date - 2022-06-01*
+
+### Free:
+- New: 'Default' value is added to the TinyMCE options to revert back to the default states
+- New: Support for Geo location and Waze added to link selection
+- Update: Option to enable base64 encode saving option only in Settings
+- Fix: Get method called with stops
+- Fix: Disabling Gutenberg editor in Settings works properly
+- Fix: Image size is displayed properly Insights
+- Fix: Substitute element option works properly
+- Fix: Custom scripts work properly
+- Fix: Basic button element works properly with Powerful Addons for Visual Composer - Lite
+- Fix: Basic button colors work properly
+- Fix: Instagram embed works properly
+- Fix: Tutorial template works properly
+- Fix: Preset saving inputs are consistent with the rest of the UI
+
+### Premium:
+- Update: Option to create and edit popups added to the Popup tab in Page Options
+- Fix: Hover image element container sizes work correctly
+- Fix: Dynamic popup works properly with keyboard shortcuts
+- Fix: Sidebar editor works properly in Storefront theme
+- Fix: Double Text button works properly
+- Fix: WooCommerce Shopping Cart element works properly
 
 = 44.1 =
 *Release Date - 2022-05-12*
