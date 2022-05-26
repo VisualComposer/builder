@@ -54,10 +54,7 @@ $ git push origin master
 ## Coding Rules
 
 ### Javascript Code Style
-Use StandardJS to validate code-style `yarn standard`.
-
-#### Supported Language
-Use ES6 version for Javascript code. https://standardjs.com
+Use Eslint to validate code-style `yarn lint`.
 
 #### Variables and Classes
 For all var, let, const and method names you should use camelCase.
