@@ -400,7 +400,7 @@ class WpmlController extends Container implements Module
     }
 
     /**
-     * While post update we need set post land appropriate to current updating post.
+     * While post update we need set post lang appropriate to currently updating post.
      *
      * @param int $postId
      *
@@ -414,7 +414,11 @@ class WpmlController extends Container implements Module
 
         global $wpdb;
 
-        $sql = sprintf("SELECT language_code FROM %sicl_translations WHERE element_id = %s", $wpdb->prefix, $postId);
+        $sql = $wpdb->prepare(
+            "SELECT language_code FROM %sicl_translations WHERE element_id = %d",
+            $wpdb->prefix,
+            $postId
+        );
 
         $result = $wpdb->get_results($sql);
 
