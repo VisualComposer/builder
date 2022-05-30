@@ -35,7 +35,7 @@ Use [Feature Branch workflow](https://es.atlassian.com/git/tutorials/comparing-w
 ```sh
 $ git checkout -b <VC-ID-feature-branch-in-kebab-case>
 # Edit some code
-$ git commit -m " [VC-ID] Message for change"
+$ git commit -m "[VC-ID] Message for change"
 $ git push -u origin <feature-branch-in-kebab-case>
 ```
 
