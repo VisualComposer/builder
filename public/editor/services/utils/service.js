@@ -67,7 +67,7 @@ const API = {
     const binaryStringBuffer = deflate(JSON.stringify(data))
     const dataManager = getService('dataManager')
 
-    if (data['vcv-check-content-zip-type'] || dataManager.get('contentZipType') === 'binary') {
+    if (data['vcv-check-content-zip-type'] || dataManager.get('isBinaryContent')) {
       data = new Blob([new Uint8Array(binaryStringBuffer)], { type: 'application/octet-stream' })
     } else {
       let binary = ''
