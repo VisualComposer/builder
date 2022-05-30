@@ -351,6 +351,19 @@
     color: @vcv-color-white;
     text-decoration: none;
   }
+
+  &--loading {
+    &,&:hover{
+      position: relative;
+      color: transparent;
+      background: darken(@vcv-color-mango-tango, 3%);
+      cursor: not-allowed;
+
+      &::before {
+        .spinner()
+      }
+    }
+  }
 }
 
 .template-info .vcv-ui-form-group-heading,

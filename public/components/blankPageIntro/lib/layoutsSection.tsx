@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
 // @ts-ignore
@@ -80,4 +80,4 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
   )
 }
 
-export default LayoutsSection
+export default memo(LayoutsSection)

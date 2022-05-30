@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState, useEffect, memo, useCallback} from 'react'
 import classNames from 'classnames'
 import { getStorage, getService, env } from 'vc-cake'
 // @ts-ignore
@@ -52,8 +52,31 @@ const userTemplates:any = window.vcvGlobalTemplatesList
 const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
   const [dropdownValue, setDropdownValue] = useState({value: ''})
   const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleItemClick = () => {
+  useEffect(() => {
+    workspaceStorage.state('downloadingItems').onChange(downloadTemplate)
+    hubTemplatesStorage.state('templates').onChange(templateStorageChange)
+    return () => {
+      workspaceStorage.state('downloadingItems').ignoreChange(downloadTemplate)
+      hubTemplatesStorage.state('templates').ignoreChange(templateStorageChange)
+    }
+  }, [isLoading])
+
+  const templateStorageChange = useCallback((data:any) => {
+    const template = data[itemData.templateType]?.templates?.find((item:any) => item.bundle === itemData.bundle)
+    if (template) {
+      handleTemplateChange(itemData.templateType, template.id)
+    }
+  }, [isLoading])
+
+  const downloadTemplate = useCallback((data:any) => {
+    if (data.length && !isLoading) {
+      setIsLoading(true)
+    }
+  }, [isLoading])
+
+  const handleItemClick = useCallback(() => {
     handleClick(index)
     if (itemData.control === 'button') {
       const data = {
@@ -61,7 +84,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         value: itemData.value,
         stretchedContent: false
       }
-      updateTemplate(data)
+      updateLayout(data)
     }
     if (itemData.isPageIntro) {
       let templates = hubTemplates
@@ -70,8 +93,20 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         setHubTemplates(templates)
       }
       const template = templates[itemData.templateType].templates.find((item:any) => item.bundle === itemData.bundle)
-      handleTemplateChange(itemData.templateType, template.id)
+      if (template) {
+        handleTemplateChange(itemData.templateType, template.id)
+      } else {
+        hubTemplatesStorage.trigger('downloadTemplate', itemData)
+      }
     }
+  }, [isLoading])
+
+  const removeAllElements = () => {
+    const allElements = documentManager.children(false)
+      allElements.forEach((row:any, index:number) => {
+      const silent = allElements.length - 1 !== index
+      elementsStorage.trigger('remove', row.id, { silent })
+    })
   }
 
   const reloadIframe = (lastSavedPageTemplate:string, lastSavedHeaderTemplate:string, lastSavedSidebarTemplate:string, lastSavedFooterTemplate:string) => {
@@ -90,7 +125,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     settingsStorage.state('skipBlank').set(true)
   }
 
-  const updateTemplate = (data:any) => {
+  const updateLayout = (data:any) => {
     setDropdownValue(data)
     if (!env('VCV_JS_THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
@@ -123,7 +158,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     }
   }
 
-  const handleLayoutChange = (selectedTemplate:any, isLocked:boolean) => {
+  const handleLayoutChange = useCallback((selectedTemplate:any, isLocked:boolean) => {
     const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
     let value = layoutData[1]
     if (value !== 'none' && value !== 'default' && parseInt(value)) {
@@ -134,8 +169,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       value: value,
       stretchedContent: false
     }
-    updateTemplate(data)
-  }
+    updateLayout(data)
+  }, [isLoading])
 
   const getElementExceededLimitStatus = (element:any) => {
     interface LimitData {
@@ -155,6 +190,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   }
 
   const handleTemplateChange = (templateType:string, id:string) => {
+    removeAllElements()
     elementsStorage.state('elementAddList').set([])
     const next = (elements:any) => {
       const existingJobs = assetsStorage.state('jobs').get()
@@ -298,4 +334,4 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   )
 }
 
-export default LayoutItem
+export default memo(LayoutItem)

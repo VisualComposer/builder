@@ -27,7 +27,7 @@ export default class CustomLayoutDropdown extends React.Component {
 
   handleChangeUpdateLayout (event) {
     const value = event.target.value
-    const prefix = this.props.options ? this.props.options.find(item => item.value === value).prefix : 'vc-custom-layout__'
+    const prefix = this.props?.options.find(item => item.value === value)?.prefix || 'vc-custom-layout__'
     this.props.onTemplateChange(`${prefix}${value}`)
   }
 

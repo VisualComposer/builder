@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import Sidebar from './lib/sidebar'
@@ -8,9 +8,12 @@ import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Compo
 // @ts-ignore
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 
+const assetsStorage = getStorage('assets')
+const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 interface Props {
   unmountBlankPage: any
@@ -18,10 +21,55 @@ interface Props {
 
 const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const scrollbarsRef = useRef(null)
+
+  useEffect(() => {
+    workspaceIFrame.onChange(handleIframeReload)
+    elementsStorage.state('elementAddList').onChange(handleAddElement)
+    assetsStorage.state('jobs').onChange(handleJobsChange)
+    workspaceStorage.state('downloadingItems').onChange(handleDownloadTemplate)
+    return () => {
+      workspaceIFrame.ignoreChange(handleIframeReload)
+      elementsStorage.state('elementAddList').ignoreChange(handleAddElement)
+      assetsStorage.state('jobs').ignoreChange(handleJobsChange)
+      workspaceStorage.state('downloadingItems').ignoreChange(handleDownloadTemplate)
+    }
+  }, [isLoading])
+
+  const handleAddElement = useCallback((data:any) => {
+    if (!data.length && !isLoading) {
+      setIsLoading(true)
+    }
+  }, [isLoading])
+
+  const handleJobsChange = useCallback((data:any) => {
+    if (data.elements && !data.elements.find((element:any) => element.jobs) && isLoading) {
+      setIsLoading(false)
+    }
+  }, [isLoading])
+
+  const handleIframeReload = useCallback((data:any) => {
+    if ((data.type && (data.type !== 'loaded') && (data.type !== 'layoutLoaded')) && !isLoading) {
+      setIsLoading(true)
+    } else if ((!data || (data?.type === 'loaded' || data.type === 'layoutLoaded')) && isLoading) {
+      setIsLoading(false)
+    }
+  }, [isLoading])
+
+  const handleDownloadTemplate = useCallback((data:any) => {
+    if (data.length) {
+        setIsLoading(true)
+    } else if (!data.length) {
+        setIsLoading(false)
+    }
+  }, [isLoading])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (isLoading) {
+      return false
+    }
     const settings = {
       action: 'add',
       element: {},
@@ -41,9 +89,22 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     'blank-page-settings--active': isSidebarOpened
   })
 
+  const buttonClasses = classNames({
+    'blank-button': true,
+    'blank-page-submit-button': true,
+    'blank-page-submit-button--loading': isLoading
+  })
+
   const url = new URL(window.location.href)
   const postOptionsText = url.searchParams.get('post_type') === 'page' ? localizations.pageSettings || 'Page Options' : localizations.postOptions || 'Post Options'
   const getStartedText = localizations.getStartedText || 'GET STARTED'
+
+  let content = (
+    <>
+      <LayoutsSection sectionType='layout' />
+      <LayoutsSection sectionType='content' />
+    </>
+  )
 
   return (
     <div className={blankPageClasses}>
@@ -66,11 +127,10 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         </div>
         <div className='template-groups-container'>
           <Scrollbar ref={scrollbarsRef}>
-            <LayoutsSection sectionType='layout' />
-            <LayoutsSection sectionType='content' />
+            {content}
           </Scrollbar>
         </div>
-        <button className='blank-button blank-page-submit-button' type='submit'>{getStartedText}</button>
+        <button className={buttonClasses} type='submit'>{getStartedText}</button>
       </form>
     </div>
   )
@@ -86,7 +146,7 @@ export default BlankPageIntro
  * 4. Handle Blank Page intro render on iframe reload (x)
  * 5. Style mobile view (x)
  * 6. Style attributes (x)
- * 7. Check Free version view (show badges, disable clicks on premium layouts)
- * 8. Render hub content layouts
+ * 7. Check Free version view (show badges, disable clicks on premium layouts) (x)
+ * 8. Render hub content layouts (x)
  * 9. Apply Blank Page Intro for HFS, Popup, Layout editors
  */
