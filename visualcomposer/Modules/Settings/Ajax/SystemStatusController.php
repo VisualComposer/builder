@@ -104,7 +104,6 @@ class SystemStatusController extends Container implements Module
             }
         }
 
-
         $variables[] = [
             'key' => 'VCV_IS_BINARY_CONTENT',
             'value' => $isBinary,
