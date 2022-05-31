@@ -43,6 +43,20 @@ const LayoutsData = {
             label: localizations.myTemplate || 'My template',
             control: 'dropdown'
         }
+    ],
+    'popup': [
+        {
+            type: 'blankPopup',
+            label: localizations.blankPopup || 'Blank popup',
+            icon: require('./popupIcon'),
+            control: 'button'
+        },
+        {
+            type: 'popupTemplate',
+            icon: require('./customIcon'),
+            label: localizations.popupTemplate || 'Popup template',
+            control: 'dropdown'
+        }
     ]
 }
 

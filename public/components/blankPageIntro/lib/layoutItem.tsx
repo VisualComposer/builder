@@ -61,14 +61,18 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       workspaceStorage.state('downloadingItems').ignoreChange(downloadTemplate)
       hubTemplatesStorage.state('templates').ignoreChange(templateStorageChange)
     }
-  }, [isLoading])
+  }, [isLoading, hubTemplates])
 
   const templateStorageChange = useCallback((data:any) => {
+    if (!hubTemplates.length) {
+      const templates = hubTemplatesStorage.state('templates').get()
+      setHubTemplates(templates)
+    }
     const template = data[itemData.templateType]?.templates?.find((item:any) => item.bundle === itemData.bundle)
     if (template) {
       handleTemplateChange(itemData.templateType, template.id)
     }
-  }, [isLoading])
+  }, [isLoading, hubTemplates])
 
   const downloadTemplate = useCallback((data:any) => {
     if (data.length && !isLoading) {
@@ -103,8 +107,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
 
   const removeAllElements = () => {
     const allElements = documentManager.children(false)
-      allElements.forEach((row:any, index:number) => {
-      const silent = allElements.length - 1 !== index
+      allElements.forEach((row:any, i:number) => {
+      const silent = allElements.length - 1 !== i
       elementsStorage.trigger('remove', row.id, { silent })
     })
   }
@@ -264,7 +268,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     }
   }
 
-  const isSelect = itemData.type === 'vc-theme' || itemData.type === 'myTemplate'
+  const isSelect = itemData.control === 'dropdown'
   const icon:any = itemData?.icon?.default() || null
   const isPremiumActivated = dataManager.get('isPremiumActivated')
   const isPremiumContent = !isPremiumActivated && (itemData?.contentType === 'premium')
@@ -290,11 +294,26 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
           options={hfsLayouts}
         />
       )
-    }
-    if (itemData.type === 'myTemplate') {
-      const options = {values: userTemplates}
+    } else {
+      let options:any = {}
+      let fieldKey:string = ''
+      if (itemData.type === 'myTemplate') {
+        options = {values: userTemplates}
+        fieldKey = 'myTemplate'
+      }
+      if (itemData.type === 'popupTemplate') {
+        const values = [
+          {
+            label: localizations.selectAPopup || 'Select a popup',
+            value: ''
+          }
+        ]
+        const templates = values.concat(hubTemplates?.popup?.templates || [])
+        options = { values: templates }
+        fieldKey = 'popupTemplate'
+      }
       dropdown = (<Dropdown
-        fieldKey='userTemplates'
+        fieldKey={fieldKey}
         options={options}
         value={{value: ''}}
         updater={handleTemplateChange}

@@ -16,7 +16,7 @@ interface Props {
 const LayoutsSection: React.FC<Props> = ({sectionType}) => {
   const [isSectionOpened, setIsSectionOpened] = useState(true)
   const [activeItem, setActiveItem] = useState(0)
-  let layoutsData:any = LayoutsData[sectionType] // TODO: fix error
+  let layoutsData:any = LayoutsData[sectionType] || [] // TODO: fix error
   let sectionLabel
   let tooltipText
 
@@ -28,14 +28,31 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
     setActiveItem(index)
   }
 
+  const toggleSectionText = localizations.toggleSection || 'Toggle section'
+  let tooltip:any = null
+  let sectionToggle:any = (
+    <button
+      className='template-group-toggle blank-button vcv-ui-icon vcv-ui-icon-chevron-thick'
+      type='button'
+      aria-label={toggleSectionText}
+      title={toggleSectionText}
+      onClick={toggleSection}
+    />
+  )
+
   if (sectionType === 'layout') {
     sectionLabel = localizations.layout || 'Layout'
     tooltipText = localizations.layoutsDescription || 'Selecting a layout for the page, post, custom post type or layout is required.'
+    tooltip = <Tooltip>{tooltipText}</Tooltip>
   } else if (sectionType === 'content') {
     sectionLabel = localizations.content || 'Content'
     tooltipText = localizations.contentSectionDescription || 'Pre-select content or start with a blank content area.'
+    tooltip = <Tooltip>{tooltipText}</Tooltip>
     const hubTemplates = dataManager.get('hubGetTemplatesTeaser').filter((template:any) => template.isPageIntro)
-      layoutsData = layoutsData.concat(hubTemplates)
+    layoutsData = layoutsData.concat(hubTemplates)
+  } else if (sectionType === 'popup') {
+    sectionLabel = ''
+    sectionToggle = null
   }
 
   const getItems = () => {
@@ -51,8 +68,6 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
     })
   }
 
-  const toggleSectionText = localizations.toggleSection || 'Toggle section'
-
   const templateGroupClasses = classNames({
     'template-group': true,
     'template-group--active': isSectionOpened
@@ -63,15 +78,9 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
       <div className='template-group-label-container'>
         <div className='template-group-label'>
           {sectionLabel}
-          <Tooltip>{tooltipText}</Tooltip>
+          {tooltip}
         </div>
-        <button
-          className='template-group-toggle blank-button vcv-ui-icon vcv-ui-icon-chevron-thick'
-          type='button'
-          aria-label={toggleSectionText}
-          title={toggleSectionText}
-          onClick={toggleSection}
-        />
+        {sectionToggle}
       </div>
       <div className='template-items-section'>
         {getItems()}

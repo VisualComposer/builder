@@ -2112,6 +2112,18 @@ class Localizations extends Container implements Helper
                 'The blank content template.',
                 'visualcomposer'
             ),
+            'blankPopup' => __(
+                'Blank popup',
+                'visualcomposer'
+            ),
+            'popupTemplate' => __(
+                'Popup template',
+                'visualcomposer'
+            ),
+            'selectAPopup' => __(
+                'Select a popup',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -11,13 +11,19 @@ import Scrollbar from 'public/components/scrollbar/scrollbar'
 const assetsStorage = getStorage('assets')
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
+const cook = getService('cook')
 const dataManager = getService('dataManager')
+const documentsService = getService('document')
 const localizations = dataManager.get('localizations')
 const workspaceIFrame = workspaceStorage.state('iframe')
+const editorType = dataManager.get('editorType')
 
 interface Props {
   unmountBlankPage: any
 }
+
+let addedId:string = ''
+let iframeWindow:any = {}
 
 const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false)
@@ -65,24 +71,45 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     }
   }, [isLoading])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault()
     if (isLoading) {
       return false
     }
-    const settings = {
-      action: 'add',
-      element: {},
-      tag: '',
-      options: {}
+    if (editorType === 'popup') {
+      const elements = documentsService.all()
+      if (!Object.keys(elements).length) {
+        const cookElement = cook.get({ tag: 'popupRoot' }).toJS()
+        const rowElement = cook.get({ tag: 'row', parent: cookElement.id }).toJS()
+        elementsStorage.trigger('add', cookElement)
+        elementsStorage.trigger('add', rowElement)
+        addedId = cookElement.id
+        const iframe = (document.getElementById('vcv-editor-iframe') as HTMLIFrameElement)
+        iframeWindow = iframe?.contentWindow?.window
+        iframeWindow?.vcv?.on('ready', openEditForm)
+      }
+    } else {
+      const settings = {
+          action: 'add',
+          element: {},
+          tag: '',
+          options: {}
+      }
+      workspaceStorage.state('settings').set(settings)
     }
-    workspaceStorage.state('settings').set(settings)
     unmountBlankPage()
-  }
+  }, [addedId])
 
-  const toggleSettings = () => {
+  const openEditForm = useCallback((action:string, id:string) => {
+    if (action === 'add' && id === addedId) {
+      workspaceStorage.trigger('edit', addedId, '')
+      iframeWindow?.vcv?.off('ready', openEditForm)
+    }
+  }, [iframeWindow])
+
+  const toggleSettings = useCallback(() => {
     setIsSidebarOpened(!isSidebarOpened)
-  }
+  }, [isSidebarOpened])
 
   const blankPageClasses = classNames({
     'blank-page-container': true,
@@ -105,6 +132,9 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
       <LayoutsSection sectionType='content' />
     </>
   )
+  if (editorType === 'popup') {
+    content = <LayoutsSection sectionType='popup' />
+  }
 
   return (
     <div className={blankPageClasses}>
@@ -148,5 +178,5 @@ export default BlankPageIntro
  * 6. Style attributes (x)
  * 7. Check Free version view (show badges, disable clicks on premium layouts) (x)
  * 8. Render hub content layouts (x)
- * 9. Apply Blank Page Intro for HFS, Popup, Layout editors
+ * 9. Apply Blank Page Intro for HFS, Popup, Layout editors ()
  */

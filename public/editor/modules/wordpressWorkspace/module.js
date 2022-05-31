@@ -102,17 +102,6 @@ add('wordpressWorkspace', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
-    const removeStartBlank = () => {
-      ReactDOM.unmountComponentAtNode(iframeContent)
-      workspaceStorage.state('navbarDisabled').set(false)
-    }
-    const addStartBlank = () => {
-      ReactDOM.render(
-        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
-        iframeContent
-      )
-      workspaceStorage.state('navbarDisabled').set(false)
-    }
     const removeBlankIntro = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
       workspaceStorage.state('navbarDisabled').set(false)
@@ -135,34 +124,25 @@ add('wordpressWorkspace', (api) => {
       }
     }
     let documentElements
-    let isBlank = true
     let isBlankPageIntro = true
-    const editorType = dataManager.get('editorType')
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        const showBlank = editorType !== 'default'
-        // Show the start ui only in initial loading for custom types
-        const skipState = settingsStorage.state('skipBlank').get()
-        if (showBlank && skipState === null) {
-          addStartBlank()
-          isBlank = true
-          isBlankPageIntro = false
-        } else if (isBlankPageIntro && editorType === 'default') {
+        if (typeof settingsStorage.state('skipBlank').get() === 'undefined') {
           addBlankIntro()
-          isBlank = false
-          isBlankPageIntro = true
+          isBlankPageIntro = false
         } else {
+          isBlankPageIntro = false
           removeOverlay()
         }
-      } else if (data.length && isBlank) {
+      } else if (data.length && isBlankPageIntro) {
         const visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
-        removeStartBlank()
-        isBlank = false
+        removeBlankIntro()
+        isBlankPageIntro = false
       } else {
         workspaceStorage.state('navbarDisabled').set(false)
       }
