@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import Scrollbar from '../../scrollbar/scrollbar.js'
+import Scrollbar from '../../scrollbar/scrollbar'
 import BlockControl from './lib/blockControl'
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlayComponent'
