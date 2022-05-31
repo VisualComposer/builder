@@ -47,7 +47,7 @@ const Modal = ( { children, onClose, closeOnOuterClick, show }: ModalProps ) => 
 
   return (
     <div className='vcv-ui-modal-overlay' onClick={handleHideOnOuterClick} data-modal='true'>
-      <div className='vcv-ui-modal-container' onMouseDown={e => handleShowOnInnerClick(e)}>
+      <div className='vcv-ui-modal-container' onMouseDown={handleShowOnInnerClick}>
         {children}
       </div>
     </div>

@@ -103,6 +103,7 @@ class SystemStatusController extends Container implements Module
                 $optionsHelper->set('settings-alternative-saving-enabled', false);
             }
         }
+
         $variables[] = [
             'key' => 'VCV_IS_BINARY_CONTENT',
             'value' => $isBinary,
