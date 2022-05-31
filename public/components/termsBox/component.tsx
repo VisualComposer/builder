@@ -7,8 +7,17 @@ const localizations = dataManager.get('localizations')
 const settingsStorage = getStorage('settings')
 const dataProcessor = getService('dataProcessor')
 
-export default class TermsBox extends React.Component {
-  constructor (props) {
+interface Props {
+  onPrimaryButtonClick?: () => void
+  onClose?: () => void
+}
+
+interface State {
+  isLoading: boolean
+}
+
+export default class TermsBox extends React.Component<Props, State> {
+  constructor (props: Props) {
     super(props)
 
     this.state = {
