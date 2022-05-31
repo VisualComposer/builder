@@ -5,7 +5,7 @@ import { Popups } from '../../../components/popup/types'
 interface popupStore {
   popups: Popups,
   fullScreenPopupData: any, // eslint-disable-line
-  activeFullPopup: string | boolean,
+  activeFullPopup: string,
   activePopup: string,
   isPopupVisible: boolean
 }
@@ -95,7 +95,7 @@ const slice = createSlice({
       data.popups = action.payload
       data.activePopup = getActivePopup(data.popups)
     },
-    activeFullPopupSet: (data, action: PayloadAction<string | boolean>) => {
+    activeFullPopupSet: (data, action: PayloadAction<string>) => {
       data.activeFullPopup = action.payload
     },
     fullScreenPopupDataSet: (data, action) => {

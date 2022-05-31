@@ -13,7 +13,7 @@ const dataManager = getService('dataManager')
 const FullPagePopupContainer = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }: FullPagePopupContainerProps) => {
   const handleCloseClick = () => {
     window.setTimeout(() => {
-      activeFullPopupSet(false)
+      activeFullPopupSet('')
     }, 350)
   }
 
@@ -63,7 +63,7 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 const mapDispatchToProps = (dispatch:Dispatch) => ({
-  activeFullPopupSet: (data:string | boolean) => dispatch(activeFullPopupSet(data))
+  activeFullPopupSet: (data: string) => dispatch(activeFullPopupSet(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullPagePopupContainer)

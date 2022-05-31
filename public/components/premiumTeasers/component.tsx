@@ -24,6 +24,19 @@ interface PremiumTeaserProps {
   notificationAdded: (notification: Notification) => void
 }
 
+interface Addon {
+  allowDownload: boolean
+  bundle: string
+  metaAddonImageUrl: string
+  metaDescription: string
+  metaPreviewUrl: string
+  metaThumbnailUrl: string
+  name: string
+  tag: string
+  type: string
+  update: boolean
+}
+
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
 const workspaceStorage = getStorage('workspace')
@@ -64,7 +77,7 @@ const PremiumTeaser = ({ onClose, addonName, onPrimaryButtonClick, url, isPremiu
 
   const handleClick = (): void => {
     const allAddons = hubAddonsStorage.state('addonTeasers').get()
-    const addonIndex = allAddons.findIndex(addon => addon.tag === addonName)
+    const addonIndex = allAddons.findIndex((addon: Addon) => addon.tag === addonName)
     const addonData = allAddons[addonIndex]
     const downloadedAddons = hubAddonsStorage.state('addons').get()
 

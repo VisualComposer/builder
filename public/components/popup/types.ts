@@ -37,7 +37,7 @@ export interface PopupInnerProps extends PopupProps {
 }
 
 export interface FullPagePopupContainerProps {
-  activeFullPopupSet: (activeFullPopup:string | boolean) => void
+  activeFullPopupSet: (activeFullPopup:string) => void
   fullScreenPopupData: any // eslint-disable-line
   activeFullPopup: string
 }
