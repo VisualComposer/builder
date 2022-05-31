@@ -10,17 +10,12 @@ import PricingPopup from './popups/pricingPopup'
 import { connect } from 'react-redux'
 import { allPopupsHidden, popupVisibilitySet } from '../../editor/stores/editorPopup/slice'
 import { AppStateType } from '../../editor/stores/reducer'
+import { PopupContainerProps } from './types'
 
 const elementsStorage = getStorage('elements')
 
-type Props = {
-  activePopup: string,
-  allPopupsHidden: () => void,
-  isPopupVisible: boolean,
-  popupVisibilitySet: (status:boolean) => void,
-}
+const PopupContainer = ({ activePopup, allPopupsHidden, isPopupVisible, popupVisibilitySet }: PopupContainerProps) => {
 
-const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopupVisible, popupVisibilitySet }) => {
   const [actionClicked, setActionClicked] = useState(false)
 
   const handleDocumentChange = useCallback((data:[]) => {

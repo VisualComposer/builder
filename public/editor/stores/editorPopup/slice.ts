@@ -1,17 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getService } from 'vc-cake'
+import { Popups } from '../../../components/popup/types'
 
 const dataManager = getService('dataManager')
-
-interface Popup {
-  visible: boolean,
-  priority: number,
-  voteValue?: any // eslint-disable-line
-}
-
-export interface Popups {
-  [key:string]: Popup,
-}
 
 const getActivePopup = (popupData: Popups): string => {
   const popupDataByPriority = []

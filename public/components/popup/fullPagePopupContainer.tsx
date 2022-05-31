@@ -6,16 +6,11 @@ import PremiumTeaser from '../../components/premiumTeasers/component'
 import { connect } from 'react-redux'
 import { activeFullPopupSet } from '../../editor/stores/editorPopup/slice'
 import { AppStateType } from '../../editor/stores/reducer'
+import { FullPagePopupContainerProps } from "./types"
 
 const dataManager = getService('dataManager')
 
-type Props = {
-  activeFullPopupSet: (activeFullPopup:string | boolean) => void,
-  fullScreenPopupData: any // eslint-disable-line
-  activeFullPopup: string
-}
-
-const FullPagePopupContainer: React.FC<Props> = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }) => {
+const FullPagePopupContainer = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }: FullPagePopupContainerProps) => {
   const handleCloseClick = () => {
     window.setTimeout(() => {
       activeFullPopupSet(false)
@@ -68,7 +63,7 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 const mapDispatchToProps = (dispatch:Dispatch) => ({
-  activeFullPopupSet: (data:any) => dispatch(activeFullPopupSet(data)) // eslint-disable-line
+  activeFullPopupSet: (data:any) => dispatch(activeFullPopupSet(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullPagePopupContainer)

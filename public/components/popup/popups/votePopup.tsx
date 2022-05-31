@@ -3,8 +3,9 @@ import { Dispatch } from 'redux' // eslint-disable-line
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
-import { popupShown, popupsSet, Popups, popupVisibilitySet } from '../../../editor/stores/editorPopup/slice'
-import { AppStateType } from '../../../editor/stores/reducer'
+import { popupShown, popupsSet, popupVisibilitySet } from '../../../editor/stores/editorPopup/slice'
+import { VotePopupProps } from '../types'
+import { AppStateType } from "../../../editor/stores/reducer"
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -15,16 +16,8 @@ const veryDisappointed = localizations ? localizations.veryDisappointed : 'Very 
 const somewhatDisappointed = localizations ? localizations.somewhatDisappointed : 'Somewhat disappointed'
 const disappointed = localizations ? localizations.disappointed : 'Not disappointed (it really isn’t that useful)'
 
-type Props = {
-  popups: Popups,
-  onPrimaryButtonClick: () => void,
-  onClose: () => void,
-  popupShown: any, // eslint-disable-line
-  popupsSet: any, // eslint-disable-line
-  popupVisibilitySet: (status: boolean) => void
-}
+const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimaryButtonClick, onClose }: VotePopupProps) => {
 
-const VotePopup: React.FC<Props> = (props) => {
   const handlePrimaryButtonClick = () => {
     const checkedInput: HTMLInputElement | null = document.querySelector('input.vcv-layout-popup-checkbox:checked')
     if (!checkedInput) {
@@ -37,22 +30,22 @@ const VotePopup: React.FC<Props> = (props) => {
     })
 
     // Set vote value in storage so we can use it in the review popup
-    const popupState = JSON.parse(JSON.stringify(props.popups)) || {}
-    Object.preventExtensions(popupState)
+    const popupState = JSON.parse(JSON.stringify(popups)) || {}
+    Object.preventExtensions(popupState);
     if (popupState.votePopup) {
       popupState.votePopup.voteValue = checkedInput.value
     }
-    props.popupsSet(popupState)
+    popupsSet(popupState)
 
     // Show review popup
     const visibilityTimeout = setTimeout(() => {
-      props.popupVisibilitySet(true)
-      props.popupShown('reviewPopup')
+      popupVisibilitySet(true)
+      popupShown('reviewPopup')
 
       window.clearTimeout(visibilityTimeout)
     }, 2000)
 
-    props.onPrimaryButtonClick()
+    onPrimaryButtonClick()
   }
 
   const handleCloseClick = () => {
@@ -61,12 +54,11 @@ const VotePopup: React.FC<Props> = (props) => {
       'vcv-action': 'license:feedback:submit:adminNonce',
       'vcv-feedback': 'skip'
     })
-    props.onClose()
+    onClose()
   }
 
   return (
     <PopupInner
-      {...props}
       headingText={headingText}
       buttonText={buttonText}
       onPrimaryButtonClick={handlePrimaryButtonClick}
