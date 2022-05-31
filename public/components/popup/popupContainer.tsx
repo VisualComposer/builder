@@ -15,7 +15,6 @@ import { PopupContainerProps } from './types'
 const elementsStorage = getStorage('elements')
 
 const PopupContainer = ({ activePopup, allPopupsHidden, isPopupVisible, popupVisibilitySet }: PopupContainerProps) => {
-
   const [actionClicked, setActionClicked] = useState(false)
 
   const handleDocumentChange = useCallback((data:[]) => {

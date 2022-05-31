@@ -10,7 +10,7 @@ const cook = getService('cook')
 const roleManager = getService('roleManager')
 
 const RightClickMenu = () => {
-  let iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
+  const iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
   let menuWrapper: HTMLDivElement
   let iframeWindow: Window | null
 
@@ -19,7 +19,6 @@ const RightClickMenu = () => {
     menuWrapper.classList.add('vcv-ui-right-click-menu-wrapper')
     iframeOverlay && iframeOverlay.appendChild(menuWrapper)
   }
-
 
   const unmountMenuComponent = () => {
     const controlsState = layoutStorage.state('interactWithControls').get()

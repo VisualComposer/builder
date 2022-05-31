@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
-import { PopupProps, CustomButtonProps } from "../types";
+import { PopupProps, CustomButtonProps } from '../types'
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -13,8 +13,7 @@ const dashboardUrl = `${window.vcvSettingsDashboardUrl}#vcv-ui-settings-data-col
 const confirmText = localizations ? localizations.dataCollectionToggleText : 'Share anonymous data'
 
 const DataCollectionPopup = ({ onClose, onPrimaryButtonClick }: PopupProps) => {
-
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false)
 
   const handleChange = (): void => {
     setIsChecked(!isChecked)

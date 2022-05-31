@@ -1,11 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import * as React from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { getStorage } from 'vc-cake'
-import { ModalProps } from './types'
+
+interface ModalProps {
+  children: JSX.Element | JSX.Element[]
+  onClose: () => void
+  closeOnOuterClick: boolean
+  show: boolean
+}
 
 const workspaceStorage = getStorage('workspace')
 
-const Modal = ( { children, onClose, closeOnOuterClick, show }: ModalProps ) => {
-
+const Modal = ({ children, onClose, closeOnOuterClick, show }: ModalProps) => {
   const [innerClick, setInnerClick] = useState<boolean>(false)
 
   const handleHideOnOuterClick = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent): void => {
@@ -20,7 +26,7 @@ const Modal = ( { children, onClose, closeOnOuterClick, show }: ModalProps ) => 
     if (modal || (event.type === 'keyup' && (event as KeyboardEvent).code === 'Escape')) {
       onClose()
     }
-  }, [])
+  }, [innerClick, closeOnOuterClick, onClose])
 
   useEffect(() => {
     window.addEventListener('keyup', handleHideOnOuterClick)
@@ -40,7 +46,6 @@ const Modal = ( { children, onClose, closeOnOuterClick, show }: ModalProps ) => 
       setInnerClick(true)
     }
   }, [])
-
 
   if (!show) {
     return null

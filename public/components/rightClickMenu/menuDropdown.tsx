@@ -1,30 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import ControlDropdownInner from '../elementControls/controlDropdownInner'
 import { ControlHelpers } from '../elementControls/controlHelpers'
 import classNames from 'classnames'
-import { MenuDropdownProps } from './types'
 
-
+interface MenuDropdownProps {
+  position: {
+    top: number,
+    left: number
+  },
+  id: string
+}
 
 const MenuDropdown = ({ position, id }: MenuDropdownProps) => {
-
-  const [dropdownVerticalPosition, setDropdownVerticalPosition] = useState('bottom');
-  const [dropdownHorizontalPosition, setDropdownHorizontalPosition] = useState('right');
+  const [dropdownVerticalPosition, setDropdownVerticalPosition] = useState('bottom')
+  const [dropdownHorizontalPosition, setDropdownHorizontalPosition] = useState('right')
   const rightClickDropdown = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setDropdownPosition()
-  }, []);
-
-  useEffect(() => {
-    setDropdownPosition()
-  }, [position]);
-
-  const setDropdownPosition = () => {
+  const setDropdownPosition = useCallback(() => {
     const iframe = document.getElementById('vcv-editor-iframe') as HTMLIFrameElement
     const dropdownRect = rightClickDropdown.current && rightClickDropdown.current.getBoundingClientRect()
 
-    if(dropdownRect && iframe.contentWindow) {
+    if (dropdownRect && iframe.contentWindow) {
       const isLeft = position.left + dropdownRect.width > iframe.contentWindow.innerWidth
       const isTop = position.top + dropdownRect.height > iframe.contentWindow.innerHeight
       const horizontalPosition = isLeft ? 'left' : 'right'
@@ -32,7 +28,11 @@ const MenuDropdown = ({ position, id }: MenuDropdownProps) => {
       setDropdownHorizontalPosition(horizontalPosition)
       setDropdownVerticalPosition(verticalPosition)
     }
-  }
+  }, [rightClickDropdown, position])
+
+  useEffect(() => {
+    setDropdownPosition()
+  }, [setDropdownPosition])
 
   const vcElement = ControlHelpers.getVcElement(id)
   const colorIndex = ControlHelpers.getElementColorIndex(vcElement)

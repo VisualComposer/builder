@@ -4,8 +4,8 @@ import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
 import { popupShown, popupsSet, popupVisibilitySet } from '../../../editor/stores/editorPopup/slice'
-import { VotePopupProps } from '../types'
-import { AppStateType } from "../../../editor/stores/reducer"
+import { Popups, VotePopupProps } from '../types'
+import { AppStateType } from '../../../editor/stores/reducer'
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -17,7 +17,6 @@ const somewhatDisappointed = localizations ? localizations.somewhatDisappointed 
 const disappointed = localizations ? localizations.disappointed : 'Not disappointed (it really isn’t that useful)'
 
 const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimaryButtonClick, onClose }: VotePopupProps) => {
-
   const handlePrimaryButtonClick = () => {
     const checkedInput: HTMLInputElement | null = document.querySelector('input.vcv-layout-popup-checkbox:checked')
     if (!checkedInput) {
@@ -31,10 +30,12 @@ const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimar
 
     // Set vote value in storage so we can use it in the review popup
     const popupState = JSON.parse(JSON.stringify(popups)) || {}
-    Object.preventExtensions(popupState);
+    Object.preventExtensions(popupState)
     if (popupState.votePopup) {
       popupState.votePopup.voteValue = checkedInput.value
     }
+    console.log('popups', popups)
+    console.log('popupState', popupState)
     popupsSet(popupState)
 
     // Show review popup
@@ -89,7 +90,7 @@ const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimar
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   popupShown: (data: string) => dispatch(popupShown(data)),
-  popupsSet: (data: any) => dispatch(popupsSet(data)), // eslint-disable-line
+  popupsSet: (data: Popups) => dispatch(popupsSet(data)), // eslint-disable-line
   popupVisibilitySet: (data:boolean) => dispatch(popupVisibilitySet(data))
 })
 

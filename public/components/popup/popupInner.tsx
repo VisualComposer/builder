@@ -5,7 +5,6 @@ import { PopupInnerProps } from './types'
 const dataManager = getService('dataManager')
 
 const PopupInner = ({ children, headingText, buttonText, onPrimaryButtonClick, customButtonProps, customButtonTag, badge, onClose }: PopupInnerProps) => {
-
   const localizations = dataManager.get('localizations')
   const closeButtonText = localizations ? localizations.close : 'Close'
   const popupButtonText = buttonText || (localizations ? localizations.submit : 'Submit')

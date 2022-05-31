@@ -224,5 +224,9 @@
     "public/config/",
     "public/sources/assetsLibrary/*"
   ],
-  "root": true
+  "root": true,
+  "globals": {
+    "JSX": true,
+    "React": true
+  }
 }

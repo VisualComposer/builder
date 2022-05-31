@@ -2,8 +2,8 @@ import React from 'react'
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
-import { AppStateType } from "../../../editor/stores/reducer";
-import { ReviewPopupProps, CustomButtonProps } from "../types";
+import { AppStateType } from '../../../editor/stores/reducer'
+import { ReviewPopupProps, CustomButtonProps } from '../types'
 
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
@@ -18,7 +18,7 @@ const ReviewPopup = ({ onPrimaryButtonClick, onClose, popups }: ReviewPopupProps
   const popupState = popups || {}
   let reviewType = '3' // If not provided for some reason
   if (popupState && popupState.votePopup) {
-    reviewType = popupState.votePopup.voteValue
+    reviewType = popupState.votePopup.voteValue || ''
   }
 
   const isPositiveReview: boolean = reviewType === '1' || reviewType === '2'

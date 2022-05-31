@@ -1,26 +1,57 @@
-import React, { useState, useEffect } from 'react'
+import * as React from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { getService, getStorage } from 'vc-cake'
 import classNames from 'classnames'
 import { notificationAdded } from '../../editor/stores/notifications/slice'
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
-import { PremiumTeaserProps, Notification } from './types'
+import { Dispatch } from 'redux' // eslint-disable-line
+
+interface Notification {
+  type: string,
+  text: string,
+  time: number
+}
+
+interface PremiumTeaserProps {
+  headingText: string,
+  buttonText: string,
+  description: string,
+  url: string,
+  isPremiumActivated: boolean,
+  addonName: string,
+  onClose: () => void,
+  onPrimaryButtonClick: () => void,
+  notificationAdded: (notification: Notification) => void
+}
 
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
 const workspaceStorage = getStorage('workspace')
 const localizations = dataManager.get('localizations')
 
-const PremiumTeaser = (props: PremiumTeaserProps) => {
-  const { onClose, addonName, onPrimaryButtonClick, url, isPremiumActivated, buttonText, headingText, description, notificationAdded } = props
-
+const PremiumTeaser = ({ onClose, addonName, onPrimaryButtonClick, url, isPremiumActivated, buttonText, headingText, description, notificationAdded }: PremiumTeaserProps) => {
   let downloading = false
   const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
   if (downloadingItems.includes(addonName)) {
     downloading = true
   }
 
-  const [isDownloading, setIsDownloading] = useState(downloading);
+  const [isDownloading, setIsDownloading] = useState(downloading)
+
+  const handleClose = useCallback((event: KeyboardEvent) => {
+    if ((event as KeyboardEvent).code === 'Escape') {
+      onClose()
+      workspaceStorage.state('hasModal').set(false)
+    }
+  }, [onClose])
+
+  const checkDownloading = useCallback((): void => {
+    const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+    if (!downloadingItems.includes(addonName)) {
+      setIsDownloading(false)
+      onClose && onClose()
+    }
+  }, [onClose, addonName])
 
   useEffect(() => {
     window.addEventListener('keyup', handleClose)
@@ -28,27 +59,12 @@ const PremiumTeaser = (props: PremiumTeaserProps) => {
     return () => {
       workspaceStorage.state('downloadingItems').ignoreChange(checkDownloading)
       window.removeEventListener('keyup', handleClose)
-    };
-  }, []);
-
-  const handleClose = (event: KeyboardEvent) => {
-    if ((event as KeyboardEvent).code === 'Escape') {
-      onClose()
-      workspaceStorage.state('hasModal').set(false)
     }
-  }
-
-  const checkDownloading = (): void => {
-    const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
-    if (!downloadingItems.includes(addonName)) {
-      setIsDownloading(false)
-      onClose && onClose()
-    }
-  }
+  }, [handleClose, checkDownloading])
 
   const handleClick = (): void => {
     const allAddons = hubAddonsStorage.state('addonTeasers').get()
-    const addonIndex = allAddons.findIndex((addon:any) => addon.tag === addonName)
+    const addonIndex = allAddons.findIndex(addon => addon.tag === addonName)
     const addonData = allAddons[addonIndex]
     const downloadedAddons = hubAddonsStorage.state('addons').get()
 
@@ -109,7 +125,7 @@ const PremiumTeaser = (props: PremiumTeaserProps) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  notificationAdded: (data: Notification) => dispatch(notificationAdded(data)),
+  notificationAdded: (data: Notification) => dispatch(notificationAdded(data))
 })
 
 export default connect(null, mapDispatchToProps)(PremiumTeaser)

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Dispatch } from 'redux' // eslint-disable-line
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
@@ -6,7 +6,7 @@ import PremiumTeaser from '../../components/premiumTeasers/component'
 import { connect } from 'react-redux'
 import { activeFullPopupSet } from '../../editor/stores/editorPopup/slice'
 import { AppStateType } from '../../editor/stores/reducer'
-import { FullPagePopupContainerProps } from "./types"
+import { FullPagePopupContainerProps } from './types'
 
 const dataManager = getService('dataManager')
 
@@ -63,7 +63,7 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 const mapDispatchToProps = (dispatch:Dispatch) => ({
-  activeFullPopupSet: (data:any) => dispatch(activeFullPopupSet(data))
+  activeFullPopupSet: (data:string | boolean) => dispatch(activeFullPopupSet(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullPagePopupContainer)

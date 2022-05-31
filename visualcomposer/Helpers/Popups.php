@@ -48,7 +48,7 @@ class Popups implements Helper
             $result = $isActivelyUsed && !$systemStatusFailing && $foundPostsOk;
         }
 
-        self::$showFeedbackPopupCache = $result;
+        self::$showFeedbackPopupCache = true;
 
         return self::$showFeedbackPopupCache;
     }

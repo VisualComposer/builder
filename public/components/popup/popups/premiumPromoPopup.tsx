@@ -1,7 +1,7 @@
 import React from 'react'
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
-import { PopupProps, CustomButtonProps } from "../types";
+import { PopupProps, CustomButtonProps } from '../types'
 
 const dataProcessor = getService('dataProcessor')
 const dataManager = getService('dataManager')
@@ -11,7 +11,6 @@ const text = localizations ? localizations.downloadAllExclusiveText : 'Download 
 const buttonText = localizations ? localizations.goPremium : 'Go Premium'
 
 const PremiumPromoPopup = ({ onPrimaryButtonClick, onClose }: PopupProps) => {
-
   const sendClosePopupRequest = (): void => {
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'premiumPromoPopup:submit:adminNonce',

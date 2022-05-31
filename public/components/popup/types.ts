@@ -1,7 +1,7 @@
 interface Popup {
   visible: boolean
   priority: number
-  voteValue?: any
+  voteValue?: string
 }
 
 export interface Popups {
@@ -19,8 +19,8 @@ export interface ReviewPopupProps extends PopupProps {
 
 export interface VotePopupProps extends PopupProps {
   popupVisibilitySet: (status: boolean) => void
-  popupShown: any
-  popupsSet: any
+  popupShown: (popupName: string) => void
+  popupsSet: (popups: Popups) => void
   popups: Popups
 }
 
@@ -38,7 +38,7 @@ export interface PopupInnerProps extends PopupProps {
 
 export interface FullPagePopupContainerProps {
   activeFullPopupSet: (activeFullPopup:string | boolean) => void
-  fullScreenPopupData: any
+  fullScreenPopupData: any // eslint-disable-line
   activeFullPopup: string
 }
 
