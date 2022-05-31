@@ -29,6 +29,8 @@ export default class Scrollbar extends React.Component<ScrollbarProps, Scrollbar
   render () {
     const scrollProps = Object.assign({}, this.props)
     const { ...newScrollProps } = scrollProps
+    // @ts-ignore
+    delete newScrollProps.initialScrollTop
     const scrollbarClasses = classNames({
       'vcv-ui-scroll': true,
       'vcv-ui-tree-layout-filled': Object.prototype.hasOwnProperty.call(this.props, 'content') && this.props.content
