@@ -34,8 +34,7 @@ const initialState: popupStore = {
   popups: {
     votePopup: {
       visible: dataManager?.get('showFeedbackForm'),
-      priority: 1,
-      voteValue: ''
+      priority: 1
     },
     reviewPopup: {
       visible: false,

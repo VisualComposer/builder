@@ -48,7 +48,7 @@ class Popups implements Helper
             $result = $isActivelyUsed && !$systemStatusFailing && $foundPostsOk;
         }
 
-        self::$showFeedbackPopupCache = true;
+        self::$showFeedbackPopupCache = $result;
 
         return self::$showFeedbackPopupCache;
     }
@@ -62,6 +62,7 @@ class Popups implements Helper
         $result = false;
         $optionsHelper = vchelper('Options');
         $licenseHelper = vchelper('License');
+        var_dump();
         // Only if Free license activated and popup never shown before (never closed actually)
         if (!$licenseHelper->isPremiumActivated() && empty($optionsHelper->get('premium-promo-popup-closed'))) {
             // 3 days delay if feedback popup is closed

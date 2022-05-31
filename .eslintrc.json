@@ -226,7 +226,6 @@
   ],
   "root": true,
   "globals": {
-    "JSX": true,
-    "React": true
+    "JSX": true
   }
 }
