@@ -27,6 +27,7 @@ add('insights', () => {
       if (!isEmptyContent) {
         insightsChecksInstance.checkForHeadings()
         insightsChecksInstance.checkForAlt()
+        insightsChecksInstance.checkNameForLinks()
         insightsChecksInstance.checkForImagesSize()
         insightsChecksInstance.checkParagraphsLength()
         insightsChecksInstance.checkTitleLength()
