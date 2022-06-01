@@ -330,7 +330,6 @@ export default class DndDataSet {
       this.removeMouseOverStartBlank()
       this.elementToColumn = null
     } else {
-      console.log(point)
       let domNode = this.findNode(point)
       let domElement = this.getDomElement(domNode)
       if (!domElement) {
