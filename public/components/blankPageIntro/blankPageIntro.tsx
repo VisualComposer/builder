@@ -126,20 +126,51 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const postOptionsText = url.searchParams.get('post_type') === 'page' ? localizations.pageSettings || 'Page Options' : localizations.postOptions || 'Post Options'
   const getStartedText = localizations.getStartedText || 'GET STARTED'
 
-  let content = (
-    <>
-      <LayoutsSection sectionType='layout' />
-      <LayoutsSection sectionType='content' />
-    </>
+  let settingsButton:any = (
+    <button
+      className='blank-button settings-btn vcv-ui-icon vcv-ui-icon-cog'
+      aria-label={postOptionsText}
+      title={postOptionsText}
+      type='button'
+      onClick={toggleSettings}
+    />
   )
+
+  let content:any = (
+    <div className='template-groups-container'>
+      <Scrollbar ref={scrollbarsRef}>
+        <LayoutsSection sectionType='layout' />
+        <LayoutsSection sectionType='content' />
+      </Scrollbar>
+    </div>
+  )
+
+  console.log('editorType', editorType);
+
   if (editorType === 'popup') {
-    content = <LayoutsSection sectionType='popup' />
+    content = (
+      <div className='template-groups-container'>
+        <Scrollbar ref={scrollbarsRef}>
+          <LayoutsSection sectionType='popup' />
+        </Scrollbar>
+      </div>
+    )
   }
+
+  if (editorType === 'template') {
+    content = null
+    settingsButton = null
+  }
+
+  const formClasses = classNames({
+    'blank-page-form': true,
+    'blank-page-form--nocontent': editorType === 'template'
+  })
 
   return (
     <div className={blankPageClasses}>
       <Sidebar toggleSettings={toggleSettings} />
-      <form onSubmit={handleSubmit} className='blank-page-form'>
+      <form onSubmit={handleSubmit} className={formClasses}>
         <div className='blank-page-input-container'>
           <PageSettingsTitle
             key='pageSettingsTitle'
@@ -147,19 +178,9 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
             updater={() => {}} // required for attributes
             value='' // required for attributes
           />
-          <button
-            className='blank-button settings-btn vcv-ui-icon vcv-ui-icon-cog'
-            aria-label={postOptionsText}
-            title={postOptionsText}
-            type='button'
-            onClick={toggleSettings}
-          />
+          {settingsButton}
         </div>
-        <div className='template-groups-container'>
-          <Scrollbar ref={scrollbarsRef}>
-            {content}
-          </Scrollbar>
-        </div>
+        {content}
         <button className={buttonClasses} type='submit'>{getStartedText}</button>
       </form>
     </div>
@@ -178,5 +199,9 @@ export default BlankPageIntro
  * 6. Style attributes (x)
  * 7. Check Free version view (show badges, disable clicks on premium layouts) (x)
  * 8. Render hub content layouts (x)
- * 9. Apply Blank Page Intro for HFS, Popup, Layout editors ()
+ * 9. Apply Blank Page Intro for:
+ *      9.1. Popup editor (x)
+ *      9.2. Layout editors
+ *      9.3. Template editor (x)
+ *      9.4. HFS editor
  */
