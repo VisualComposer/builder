@@ -650,6 +650,7 @@ export default class InsightsChecks {
           store.dispatch(insightsAdded({
             state: 'critical',
             type: `linkNameMissing${position}`,
+            thumbnail: link.querySelector('img')?.src,
             title: position !== 'Content' ? `${position}: ${linkMissingName}` : linkMissingName,
             groupDescription: linkMissingNameDescription,
             description: insightsLinkDoNotHaveDiscernibleName.replace('%s', elementId ? `(${cookService.getById(elementId).getName()})` : '').trim(),
