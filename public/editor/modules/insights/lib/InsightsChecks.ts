@@ -646,11 +646,12 @@ export default class InsightsChecks {
           const linkMissingName = this.localizations.insightsLinksDoNotHaveName
           const linkMissingNameDescription = this.localizations.insightsLinksDoNotHaveNameDescription
           const insightsLinkDoNotHaveDiscernibleName = this.localizations.insightsLinkDoNotHaveDiscernibleName
+          const cookElement = cookService.getById(elementId)
 
           store.dispatch(insightsAdded({
             state: 'critical',
             type: `linkNameMissing${position}`,
-            thumbnail: link.querySelector('img')?.src,
+            thumbnail: cookElement?.get('metaThumbnailUrl'),
             title: position !== 'Content' ? `${position}: ${linkMissingName}` : linkMissingName,
             groupDescription: linkMissingNameDescription,
             description: insightsLinkDoNotHaveDiscernibleName.replace('%s', elementId ? `(${cookService.getById(elementId).getName()})` : '').trim(),
