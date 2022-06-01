@@ -1,22 +1,29 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { getStorage } from 'vc-cake'
+
+interface ModalProps {
+  children: JSX.Element | JSX.Element[]
+  onClose: () => void
+    closeOnOuterClick: boolean
+  show: boolean
+}
 
 const workspaceStorage = getStorage('workspace')
 
-const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
-  const [innerClick, setInnerClick] = useState(false)
+const Modal = ({ children, onClose, closeOnOuterClick, show }: ModalProps) => {
+  const [innerClick, setInnerClick] = useState<boolean>(false)
 
-  const handleHideOnOuterClick = useCallback(event => {
+  const handleHideOnOuterClick = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent): void => {
     setInnerClick(false)
 
-    if (closeOnOuterClick === false || innerClick) {
+    if (!closeOnOuterClick || innerClick) {
       return
     }
 
-    if ((event.target.dataset.modal && onClose instanceof Function) ||
-      (event.type === 'keyup' && event.which === 27)) {
-      onClose(event)
+    const { modal } = (event.target as HTMLDivElement).dataset
+
+    if (modal || (event.type === 'keyup' && (event as KeyboardEvent).code === 'Escape')) {
+      onClose()
     }
   }, [innerClick, closeOnOuterClick, onClose])
 
@@ -33,7 +40,7 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
     document.body.style.overflow = show ? 'hidden' : 'auto'
   }, [show])
 
-  const handleShowOnInnerClick = useCallback(event => {
+  const handleShowOnInnerClick = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
     if (event.currentTarget && event.currentTarget.closest('.vcv-ui-modal')) {
       setInnerClick(true)
     }
@@ -42,6 +49,7 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
   if (!show) {
     return null
   }
+
   return (
     <div className='vcv-ui-modal-overlay' onClick={handleHideOnOuterClick} data-modal='true'>
       <div className='vcv-ui-modal-container' onMouseDown={handleShowOnInnerClick}>
@@ -49,15 +57,6 @@ const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
       </div>
     </div>
   )
-}
-
-Modal.propTypes = {
-  closeOnOuterClick: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
 }
 
 export default React.memo(Modal)
