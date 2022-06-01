@@ -157,14 +157,14 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     )
   }
 
-  if (editorType === 'template') {
+  if (['template','header','footer','sidebar'].includes(editorType)) {
     content = null
     settingsButton = null
   }
 
   const formClasses = classNames({
     'blank-page-form': true,
-    'blank-page-form--nocontent': editorType === 'template'
+    'blank-page-form--nocontent': ['template','header','footer','sidebar'].includes(editorType)
   })
 
   return (
@@ -203,5 +203,5 @@ export default BlankPageIntro
  *      9.1. Popup editor (x)
  *      9.2. Layout editors
  *      9.3. Template editor (x)
- *      9.4. HFS editor
+ *      9.4. HFS editor (x)
  */
