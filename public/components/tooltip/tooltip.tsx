@@ -61,7 +61,7 @@ export default class Tooltip extends React.Component<Props, State> {
 
   handleTooltipClick () {
     if (this.state.isVisible) {
-      document.body.removeEventListener('click', (e) => { this.closeIfNotInside(e) })
+      document.body.removeEventListener('click', this.closeIfNotInside)
     } else {
       document.body.addEventListener('click', this.closeIfNotInside)
     }
