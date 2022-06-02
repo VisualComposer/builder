@@ -17,7 +17,8 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF##*/}
       - name: Get the branch
         id: get_branch
-        run: echo ::set-output name=BRANCH::${GITHUB_REF##*/} | sed 's/[.].*$/.x/')
+        run: |
+          echo ::set-output name=BRANCH::$(echo ${GITHUB_REF##*/} | perl -pe 's/(?(?=-)(\-.+$)|(\.\d+$))/.x/')
       - name: Checkout code
         run: |
           GIT_SSL_NO_VERIFY=true git clone -b ${{ steps.get_branch.outputs.BRANCH }} --single-branch https://github.com/VisualComposer/builder.git --depth 1 
