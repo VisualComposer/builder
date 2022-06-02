@@ -114,7 +114,7 @@ export default class CssBuilder {
     this.addElementLocalAttributesCssMixins(data, useCache) // local element cssMixins folder
     this.addElementFiles(data, force)
 
-    this.doJobs(data).then((result) => {
+    this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
       elementsStorage.trigger(`element:${data.id}:assets`)
       window.setTimeout(() => {

@@ -1,19 +1,19 @@
 const now = window.performance && window.performance.now
-    ? window.performance.now.bind(window.performance)
-    : Date.now
+  ? window.performance.now.bind(window.performance)
+  : Date.now
 
 const SCROLL_TIME = 468
 
-function scrollElement(x, y) {
+function scrollElement (x, y) {
   this.scrollLeft = x
   this.scrollTop = y
 }
 
-function ease(k) {
+function ease (k) {
   return 0.5 * (1 - Math.cos(Math.PI * k))
 }
 
-function step(context) {
+function step (context) {
   const time = now()
   let elapsed = (time - context.startTime) / SCROLL_TIME
 
@@ -34,7 +34,7 @@ function step(context) {
   }
 }
 
-export function smoothScroll(el, x = 0, y = 0) {
+export function smoothScroll (el, x = 0, y = 0) {
   const startTime = now()
   const scrollable = el
   const startX = el.scrollLeft

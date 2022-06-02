@@ -7,7 +7,7 @@ import shallowCompare from 'react-addons-shallow-compare'
 
 import Swatch from './Swatch'
 
-export class SketchPresetColors extends React.Component {
+class SketchPresetColors extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     return shallowCompare.bind(this, this, nextProps, nextState)
   }

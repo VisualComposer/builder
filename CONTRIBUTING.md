@@ -35,8 +35,8 @@ Use [Feature Branch workflow](https://es.atlassian.com/git/tutorials/comparing-w
 ```sh
 $ git checkout -b <VC-ID-feature-branch-in-kebab-case>
 # Edit some code
-$ git commit -m "Message for change [VC-ID]"
-$ git push -u origin <feature-branch-in-kebab-case>
+$ git commit -m "[VC-ID] Message for change"
+$ git push -u origin <VC-ID-feature-branch-in-kebab-case>
 ```
 
 ### Bring builder up to date
@@ -54,10 +54,7 @@ $ git push origin master
 ## Coding Rules
 
 ### Javascript Code Style
-Use StandardJS to validate code-style `yarn standard`.
-
-#### Supported Language
-Use ES6 version for Javascript code. https://standardjs.com
+Use Eslint to validate code-style `yarn lint`.
 
 #### Variables and Classes
 For all var, let, const and method names you should use camelCase.

@@ -52,7 +52,7 @@ export default class Element extends React.Component {
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
     if (this.elementComponentRef.current) {
-      const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current)
+      const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current) // eslint-disable-line
       const htmlString = domNode ? utils.normalizeHtml(domNode.parentElement.innerHTML) : ''
       elementsStorage.trigger('addHtmlString', this.state.element.id, htmlString)
     }
@@ -76,14 +76,14 @@ export default class Element extends React.Component {
     if (!this.elementComponentRef || !this.elementComponentRef.current) {
       return
     }
-    const el = ReactDOM.findDOMNode(this.elementComponentRef.current)
+    const el = ReactDOM.findDOMNode(this.elementComponentRef.current) // eslint-disable-line
     cleanComments(el, this.state.element.id)
   }
 
   componentDidUpdate () {
     this.props.api.notify('element:didUpdate', this.props.element.id)
     if (this.elementComponentRef.current) {
-      const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current)
+      const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current) // eslint-disable-line
       const htmlString = domNode ? utils.normalizeHtml(domNode.parentElement.innerHTML) : ''
       elementsStorage.trigger('addHtmlString', this.state.element.id, htmlString)
     }

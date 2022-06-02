@@ -1,17 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit' // eslint-disable-line
 import { getService } from 'vc-cake'
+import { Popups } from '../../../components/popup/types'
+
+interface popupStore {
+  popups: Popups,
+  fullScreenPopupData: any, // eslint-disable-line
+  activeFullPopup: string,
+  activePopup: string,
+  isPopupVisible: boolean
+}
 
 const dataManager = getService('dataManager')
-
-interface Popup {
-  visible: boolean,
-  priority: number,
-  voteValue?: any
-}
-
-export interface Popups {
-  [key:string]: Popup,
-}
 
 const getActivePopup = (popupData: Popups): string => {
   const popupDataByPriority = []
@@ -31,10 +30,10 @@ const getActivePopup = (popupData: Popups): string => {
   return activePopup
 }
 
-const initialState = {
+const initialState: popupStore = {
   popups: {
     votePopup: {
-      visible: dataManager.get('showFeedbackForm'),
+      visible: dataManager?.get('showFeedbackForm'),
       priority: 1
     },
     reviewPopup: {
@@ -66,7 +65,7 @@ const slice = createSlice({
   name: 'editorPopup',
   initialState,
   reducers: {
-    popupShown: (data, action) => {
+    popupShown: (data, action: PayloadAction<string>) => {
       const popupName = action.payload
       const popups: Popups = data.popups
       if (popupName && popups[popupName]) {
@@ -77,7 +76,7 @@ const slice = createSlice({
     popupVisibilitySet: (data, action) => {
       data.isPopupVisible = action.payload
     },
-    popupHidden: (data, action) => {
+    popupHidden: (data, action: PayloadAction<string>) => {
       const popupName = action.payload
       const popups: Popups = data.popups
       if (popupName && popups[popupName]) {
@@ -88,15 +87,15 @@ const slice = createSlice({
     allPopupsHidden: (data) => {
       const popups: Popups = data.popups
       Object.keys(data.popups).forEach((popupName) => {
-      popups[popupName].visible = false
+        popups[popupName].visible = false
       })
       data.activePopup = getActivePopup(data.popups)
     },
-    popupsSet: (data, action) => {
+    popupsSet: (data, action: PayloadAction<Popups>) => {
       data.popups = action.payload
       data.activePopup = getActivePopup(data.popups)
     },
-    activeFullPopupSet: (data, action) => {
+    activeFullPopupSet: (data, action: PayloadAction<string>) => {
       data.activeFullPopup = action.payload
     },
     fullScreenPopupDataSet: (data, action) => {

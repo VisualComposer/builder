@@ -15,6 +15,8 @@ export default class EditFromField extends React.Component {
 
   constructor (props) {
     super(props)
+    this.fieldAttributeWrapper = React.createRef()
+    this.attributeComponent = React.createRef()
     let value = props.elementAccessPoint.cook().toJS()[props.fieldKey]
     if (props.options && props.options.nestedAttr) {
       value = props.options.activeParamGroup[props.fieldKey]
@@ -34,9 +36,9 @@ export default class EditFromField extends React.Component {
   componentDidMount () {
     this.props.elementAccessPoint.onAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldMount(this.props.fieldKey, {
-      refWrapper: this.refs.fieldAttributeWrapper,
+      refWrapper: this.fieldAttributeWrapper.current,
       refWrapperComponent: this,
-      refAttributeComponent: this.refs.attributeComponent
+      refAttributeComponent: this.attributeComponent.current
     }, 'field')
   }
 
@@ -45,13 +47,13 @@ export default class EditFromField extends React.Component {
     this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate () {
     this.props.elementAccessPoint.ignoreAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.elementAccessPoint.onAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldMount(this.props.fieldKey, {
-      refWrapper: this.refs.fieldAttributeWrapper,
+      refWrapper: this.fieldAttributeWrapper.current,
       refWrapperComponent: this,
-      refAttributeComponent: this.refs.attributeComponent
+      refAttributeComponent: this.attributeComponent.current
     }, 'field')
   }
 
@@ -141,7 +143,7 @@ export default class EditFromField extends React.Component {
     }
 
     return (
-      <div ref='fieldAttributeWrapper' className={classes}>
+      <div ref={this.fieldAttributeWrapper} className={classes}>
         <div className={groupClasses} key={`element-form-group-field-${cookElement.get('id')}-${fieldKey}`}>
           {label}
           <AttributeComponent
@@ -153,7 +155,7 @@ export default class EditFromField extends React.Component {
             defaultValue={defaultValue}
             updater={this.updateElement}
             elementAccessPoint={elementAccessPoint}
-            ref='attributeComponent'
+            ref={this.attributeComponent}
             setLoadingState={this.setLoadingState}
           />
           {description}

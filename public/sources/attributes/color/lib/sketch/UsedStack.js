@@ -5,7 +5,7 @@ import shallowCompare from 'react-addons-shallow-compare'
 import Swatch from './Swatch'
 import reactCSS from 'reactcss'
 
-export class UsedStack extends React.Component {
+class UsedStack extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     return shallowCompare.bind(this, this, nextProps, nextState)
   }

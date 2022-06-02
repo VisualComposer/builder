@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ElementControl from './elementControl'
-import Scrollbar from '../../../scrollbar/scrollbar.js'
+import Scrollbar from '../../../scrollbar/scrollbar'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 import ElementsGroup from './elementsGroup'
@@ -63,7 +63,7 @@ export default class Groups extends React.Component {
     this.isComponentMounted = true
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (this.props.applyFirstElement && (prevProps.applyFirstElement !== this.props.applyFirstElement)) {
       this.applyFirstElement()
     }

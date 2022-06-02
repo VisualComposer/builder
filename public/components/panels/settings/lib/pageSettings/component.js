@@ -29,7 +29,9 @@ export default class PageSettings extends React.Component {
       <PageSettingsTitle
         key={content.length}
         fieldKey='pageSettingsTitle'
-        updater={() => {}} // required for attributes
+        updater={() => {
+          // required for attributes
+        }}
         value='' // required for attributes
       />
     )
@@ -47,7 +49,9 @@ export default class PageSettings extends React.Component {
         <PageSettingsLayouts
           key={`layouts-${content.length}`}
           fieldKey='pageSettingsLayouts'
-          updater={() => {}} // required for attributes
+          updater={() => {
+            // required for attributes
+          }}
           value='' // required for attributes
         />
       )

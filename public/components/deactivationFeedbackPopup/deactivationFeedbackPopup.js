@@ -15,8 +15,8 @@ export const deactivationFeedbackPopup = () => {
   const noLongerNeed = localizations ? localizations.noLongerNeed : 'I no longer need the plugin'
   const foundABetterPlugin = localizations ? localizations.foundABetterPlugin : 'I found a better plugin'
   const pleaseShareWhichPlugin = localizations ? localizations.pleaseShareWhichPlugin : 'Please share which plugin'
-  const couldntGetThePluginToWork = localizations ? localizations.couldntGetThePluginToWork : "I couldn't get the plugin to work"
-  const itsATemporaryDeactivation = localizations ? localizations.itsATemporaryDeactivation : "It's a temporary deactivation"
+  const couldntGetThePluginToWork = localizations ? localizations.couldntGetThePluginToWork : 'I couldn\'t get the plugin to work'
+  const itsATemporaryDeactivation = localizations ? localizations.itsATemporaryDeactivation : 'It\'s a temporary deactivation'
   const other = localizations ? localizations.other : 'Other'
   const pleaseShareTheReason = localizations ? localizations.pleaseShareTheReason : 'Please share the reason'
   const submitAndDeactivate = localizations ? localizations.submitAndDeactivate : 'Submit &amp; Deactivate'
@@ -38,12 +38,12 @@ export const deactivationFeedbackPopup = () => {
     },
     'couldnt-get-the-plugin-to-work': {
       title: couldntGetThePluginToWork,
-      defaultTitle: "I couldn't get the plugin to work",
+      defaultTitle: 'I couldn\'t get the plugin to work',
       placeholder: ''
     },
     'temporary-deactivation': {
       title: itsATemporaryDeactivation,
-      defaultTitle: "It's a temporary deactivation",
+      defaultTitle: 'It\'s a temporary deactivation',
       placeholder: ''
     },
     'other-reason': {

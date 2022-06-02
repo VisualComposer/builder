@@ -5,11 +5,11 @@ import innerAPI from 'public/components/api/innerAPI'
 addStorage('settings', (storage) => {
   const dataManager = getService('dataManager')
 
-  storage.state('globalCss').onChange((data) => {
+  storage.state('globalCss').onChange(() => {
     // Used in onbeforeunload to show warning
     storage.state('status').set({ status: 'changed' })
   })
-  storage.state('customCss').onChange((data) => {
+  storage.state('customCss').onChange(() => {
     // Used in onbeforeunload to show warning
     storage.state('status').set({ status: 'changed' })
   })

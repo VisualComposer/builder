@@ -112,7 +112,9 @@ export default class HtmlEditorWrapper extends Attribute {
       }
     })
 
+    /* eslint-disable */
     const _this = this
+    /* eslint-enable */
     const CustomStockImagesView = window.wp.media.View.extend({
       /**
        * Stock images tab content render

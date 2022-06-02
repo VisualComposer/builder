@@ -24,7 +24,7 @@ export default class HtmlEditor extends React.Component {
     this.codeEditor.on('blur', this.handleBlur)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate () {
     this.codeEditor.refresh()
   }
 

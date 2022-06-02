@@ -1094,6 +1094,26 @@ class Localizations extends Container implements Helper
                 'The text contains %length words. Good job!',
                 'visualcomposer'
             ),
+            'insightsLinksDoNotHaveName' => __(
+                'Links do not have a discernible name',
+                'visualcomposer'
+            ),
+            'insightsLinksDoNotHaveNameDescription' => __(
+                'Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users.',
+                'visualcomposer'
+            ),
+            'insightsLinkDoNotHaveDiscernibleName' => __(
+                'Link do not have a discernible name %s',
+                'visualcomposer'
+            ),
+            'insightsAllLinksHaveText' => __(
+                'All links have customized link text',
+                'visualcomposer'
+            ),
+            'insightsAllLinksHaveTextDescription' => __(
+                'Replacing raw URLs with specific linked text improves user experience.',
+                'visualcomposer'
+            ),
             'noInboundLinks' => __(
                 'No internal links appear on the page.',
                 'visualcomposer'

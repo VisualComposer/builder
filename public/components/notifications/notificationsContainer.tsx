@@ -21,7 +21,7 @@ const NotificationsContainer: React.FC<Props> = (props) => {
     if (!notifications || !notifications.length) {
       return null
     }
-    
+
     const filteredNotifications = notifications.filter(
       (item) => !(Number(isPortal) ^ Number(item.usePortal))
     )

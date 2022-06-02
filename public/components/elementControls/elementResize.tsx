@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
-import {connect} from 'react-redux'
-import {Dispatch} from 'redux'
+import { connect } from 'react-redux'
+import { Dispatch } from 'redux' // eslint-disable-line
 import vcCake from 'vc-cake'
-import {updateDesignOptionsBoxModel} from '../../sources/attributes/designOptionsAdvanced/helpers'
-import {columnResizeDataChanged} from '../../editor/stores/controls/slice'
+import { updateDesignOptionsBoxModel } from '../../sources/attributes/designOptionsAdvanced/helpers'
+import { columnResizeDataChanged } from '../../editor/stores/controls/slice'
 
 const cook = vcCake.getService('cook')
 const documentService = vcCake.getService('document')
@@ -14,11 +14,23 @@ const dataManager = vcCake.getService('dataManager')
 
 const localizations = dataManager.get('localizations')
 
+interface ContainerPos {
+  top: number,
+  left: number,
+  width: number,
+  height: number
+}
+
 const initialContainerPos: ContainerPos = {
   top: 0,
   left: 0,
   width: 0,
   height: 0
+}
+
+interface ColumnData {
+  mode?: string,
+  id?: string
 }
 
 interface Props {
@@ -28,19 +40,7 @@ interface Props {
   columnResizeDataChanged: (data: ColumnData) => void
 }
 
-interface ColumnData {
-  mode?: string,
-  id?: string
-}
-
-interface ContainerPos {
-  top: number,
-  left: number,
-  width: number,
-  height: number
-}
-
-function updateContainerPosition(iframe: HTMLIFrameElement, vcElementId: string) {
+function updateContainerPosition (iframe: HTMLIFrameElement, vcElementId: string) {
   const iframeDocument = iframe?.contentDocument
   if (!iframeDocument || !vcElementId) {
     return initialContainerPos
@@ -66,7 +66,7 @@ function updateContainerPosition(iframe: HTMLIFrameElement, vcElementId: string)
   }
 }
 
-function addNewColumn(action: string, vcElementContainerId: string) {
+function addNewColumn (action: string, vcElementContainerId: string) {
   const columns = documentService.children(vcElementContainerId)
   const related = action === 'before' ? columns[0].id : columns[columns.length - 1].id
   const colSettings = {
@@ -77,7 +77,7 @@ function addNewColumn(action: string, vcElementContainerId: string) {
   const options = {
     action: action,
     related: related,
-    options: {silent: true}
+    options: { silent: true }
   }
   elementsStorage.trigger('add', columnData.toJS(), true, {})
   if (action === 'before') {
@@ -85,7 +85,7 @@ function addNewColumn(action: string, vcElementContainerId: string) {
   }
 }
 
-function getDistanceValues(rowElement: HTMLElement | null | undefined) {
+function getDistanceValues (rowElement: HTMLElement | null | undefined) {
   let left = 0
   let right = 0
 
@@ -102,7 +102,7 @@ function getDistanceValues(rowElement: HTMLElement | null | undefined) {
 }
 
 const ElementResize: React.FC<Props> = (props) => {
-  const {vcElementContainerId} = props.resizeControlData
+  const { vcElementContainerId } = props.resizeControlData
   const [isResizing, setResizing] = useState(false)
 
   const [containerPos, setContainerPos] = useState(initialContainerPos)
@@ -125,7 +125,6 @@ const ElementResize: React.FC<Props> = (props) => {
         top: `${labelPosition}px`
       })
     }
-
   }, [containerPos])
 
   const handleMouseMove = useCallback((e) => {
@@ -291,7 +290,7 @@ const ElementResize: React.FC<Props> = (props) => {
   })
 
   return (
-    <div className={resizerClasses} style={{...styles}}>
+    <div className={resizerClasses} style={{ ...styles }}>
       <div
         className='vce-column-resizer-handler vce-element-resize--left'
         onMouseDown={(event) => {
@@ -308,15 +307,15 @@ const ElementResize: React.FC<Props> = (props) => {
             <span className='vce-column-resizer-label-percentage' title={marginText}>{leftDistance}px</span>
           </div>
           <div className='vce-column-resizer-label vce-column-resizer-label-right'>
-           <span
-             className='vce-column-resizer-label-percentage vce-add-column'
-             title={columnBeforeText}
-             onMouseDown={(event) => {
-               handlePlusClick(event, 'before')
-             }}
-           >
-             <i className='vcv-ui-icon vcv-ui-icon-add' />
-           </span>
+            <span
+              className='vce-column-resizer-label-percentage vce-add-column'
+              title={columnBeforeText}
+              onMouseDown={(event) => {
+                handlePlusClick(event, 'before')
+              }}
+            >
+              <i className='vcv-ui-icon vcv-ui-icon-add' />
+            </span>
           </div>
         </div>
       </div>

@@ -38,7 +38,6 @@ vcCake.add('contentLayout', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
   const dnd = new DndManager(api)
   const controls = new ControlsManager(api)
-  const rightClick = new RightClickMenu()
 
   const localizations = dataManager.get('localizations')
   if (Utils.isRTL()) {
@@ -116,7 +115,7 @@ vcCake.add('contentLayout', (api) => {
       )
 
       !reload && dnd.init()
-      rightClick.init()
+      RightClickMenu()
 
       workspaceIFrame.onChange(reloadLayout)
 

@@ -145,7 +145,7 @@ export const dashboard = () => {
     }
   }
 
-  const handleContentFormChange = (e) => {
+  const handleContentFormChange = () => {
     formTouched = true
   }
 

@@ -652,7 +652,7 @@
         .then(cy.wrap);
   })
 
-    /** Set value for rank input
+  /** Set value for rank input
    *
    * @param title [string]
    * @param value [integer]
@@ -671,3 +671,39 @@
         })
     })
   
+  /** Access CSS properties under 'before'
+   *
+   * @param el [string]
+   * @param property [string]
+   */
+
+   Cypress.Commands.add(
+    'before',
+    {
+        prevSubject: 'element',
+    },
+    (el, property) => {
+        const win = el[0].ownerDocument.defaultView;
+        const before = win.getComputedStyle(el[0], 'before');
+        return before.getPropertyValue(property);
+    },
+);
+
+
+/** Access CSS properties under 'after'
+ *
+ * @param el [string]
+ * @param property [string]
+ */
+
+   Cypress.Commands.add(
+    'after',
+    {
+        prevSubject: 'element',
+    },
+    (el, property) => {
+        const win = el[0].ownerDocument.defaultView;
+        const after = win.getComputedStyle(el[0], 'after');
+        return after.getPropertyValue(property);
+    },
+);
