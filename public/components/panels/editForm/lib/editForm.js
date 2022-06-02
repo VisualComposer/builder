@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import EditFormSection from './editFormSection'
 import EditFormReplaceElement from './editFormReplaceElement'
 import PremiumTeaser from 'public/components/premiumTeasers/component'
-import Scrollbar from 'public/components/scrollbar/scrollbar.js'
+import Scrollbar from 'public/components/scrollbar/scrollbar'
 import { getService, getStorage, env } from 'vc-cake'
 
 const dataManager = getService('dataManager')

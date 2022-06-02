@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import Scrollbar from '../../scrollbar/scrollbar.js'
+import Scrollbar from '../../scrollbar/scrollbar'
 import TemplateControl from './lib/templateControl'
-import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
-import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
+import LoadingOverlayComponent from 'public/components/overlays/loadingOverlayComponent'
 import TemplatesGroup from './lib/templatesGroup'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
@@ -593,7 +592,7 @@ export default class AddTemplatePanel extends React.Component {
 
     let transparentOverlay = null
     if (env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading) {
-      transparentOverlay = <TransparentOverlayComponent disableNavBar parent='.vcv-layout' />
+      transparentOverlay = <LoadingOverlayComponent isTransparent disableNavBar parent='.vcv-layout' />
     }
 
     const isAbleToSave = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())

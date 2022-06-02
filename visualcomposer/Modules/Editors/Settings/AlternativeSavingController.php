@@ -85,7 +85,7 @@ class AlternativeSavingController extends Container implements Module
      */
     protected function renderToggle($value, Options $optionsHelper)
     {
-        $isEnabled = (bool)$optionsHelper->get($this->optionVcvSlug, false);
+        $isEnabled = (bool)$optionsHelper->get($this->optionVcvSlug, true);
 
         return vcview(
             'settings/fields/toggle',

@@ -94,13 +94,25 @@ class SystemStatusController extends Container implements Module
             $isBinary = true;
         }
 
+        // is user enable toggle manually we should not use binary saving anymore
         if ($optionsHelper->get('settings-alternative-saving-enabled') === 'itemAlternativeSavingDisabled') {
             $isBinary = false;
+        } else {
+            // if checking pass then we should disable base64 encoding for a user
+            if ($isBinary) {
+                $optionsHelper->set('settings-alternative-saving-enabled', false);
+            }
         }
 
         $variables[] = [
             'key' => 'VCV_IS_BINARY_CONTENT',
             'value' => $isBinary,
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_JS_SAVE_ZIP',
+            'value' => \VcvEnv::get('VCV_JS_SAVE_ZIP', true),
             'type' => 'constant',
         ];
 

@@ -619,4 +619,57 @@ export default class InsightsChecks {
         })
     }
   }
+
+  checkNameForLinks () {
+    const links = env('iframe').document.body.querySelectorAll('a')
+    let allLinksHasName = true
+    links.forEach((link: HTMLAnchorElement) => {
+      if (!link.innerText && !link.getAttribute('aria-label')) {
+        let imageHasAlt = false
+        const imagesWithAlt = link.querySelectorAll('img[alt]')
+        if (imagesWithAlt.length) {
+          imagesWithAlt.forEach((img) => {
+            if (img.getAttribute('alt')) {
+              imageHasAlt = true
+            }
+          })
+          if (!imageHasAlt) {
+            allLinksHasName = false
+          }
+        }
+        if (!imageHasAlt) {
+          allLinksHasName = false
+
+          const position = InsightsChecks.getNodePosition(link)
+          const elementId = InsightsChecks.getElementId(link)
+          const domNodeSelector = utils.generateQuerySelector(link)
+          const linkMissingName = this.localizations.insightsLinksDoNotHaveName
+          const linkMissingNameDescription = this.localizations.insightsLinksDoNotHaveNameDescription
+          const insightsLinkDoNotHaveDiscernibleName = this.localizations.insightsLinkDoNotHaveDiscernibleName
+          const cookElement = cookService.getById(elementId)
+
+          store.dispatch(insightsAdded({
+            state: 'critical',
+            type: `linkNameMissing${position}`,
+            thumbnail: cookElement?.get('metaThumbnailUrl'),
+            title: position !== 'Content' ? `${position}: ${linkMissingName}` : linkMissingName,
+            groupDescription: linkMissingNameDescription,
+            description: insightsLinkDoNotHaveDiscernibleName.replace('%s', elementId ? `(${cookService.getById(elementId).getName()})` : '').trim(),
+            elementID: elementId,
+            domNodeSelector: domNodeSelector
+          }))
+        }
+      }
+    })
+    if (links.length && allLinksHasName) {
+      const insightsAllLinksHaveText = this.localizations.insightsAllLinksHaveText
+      const insightsAllLinksHaveTextDescription = this.localizations.insightsAllLinksHaveTextDescription
+      store.dispatch(insightsAdded({
+        state: 'success',
+        type: 'linkNameExists',
+        title: insightsAllLinksHaveText,
+        groupDescription: insightsAllLinksHaveTextDescription
+      }))
+    }
+  }
 }
