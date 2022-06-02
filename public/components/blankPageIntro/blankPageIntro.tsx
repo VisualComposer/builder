@@ -11,6 +11,7 @@ import Scrollbar from 'public/components/scrollbar/scrollbar'
 const assetsStorage = getStorage('assets')
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
+const settingsStorage = getStorage('settings')
 const cook = getService('cook')
 const dataManager = getService('dataManager')
 const documentsService = getService('document')
@@ -88,12 +89,36 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         iframeWindow = iframe?.contentWindow?.window
         iframeWindow?.vcv?.on('ready', openEditForm)
       }
+    } else if (editorType === 'vcv_layouts') {
+      const elements = documentsService.all()
+      if (!Object.keys(elements).length) {
+        const layoutType = settingsStorage.state('layoutType').get()
+        const elementTag = layoutType === 'postTemplate' ? 'layoutContentArea' : 'layoutPostList'
+
+        const blankHeaderTitle = localizations.blankHeaderTitle || 'Design your header here as a part of your layout. You can also download header templates from the Visual Composer Hub.'
+        const blankFooterTitle = localizations.blankFooterTitle || 'Design your footer here as a part of your layout. You can also download footer templates from the Visual Composer Hub.'
+        const commonDesignOptions = {device: {all: {boxModel: {marginTop: '50px', marginBottom: '50px'}}}}
+        const headerElement = cook.get({
+          tag: 'textBlock',
+          designOptions: commonDesignOptions,
+          output: `<p style="text-align:center;">${blankHeaderTitle}</p>`
+        }).toJS()
+        const initialElement = cook.get({tag: elementTag}).toJS()
+        const footerElement = cook.get({
+          tag: 'textBlock',
+          designOptions: commonDesignOptions,
+          output: `<p style="text-align:center;">${blankFooterTitle}</p>`
+        }).toJS()
+        elementsStorage.trigger('add', headerElement)
+        elementsStorage.trigger('add', initialElement)
+        elementsStorage.trigger('add', footerElement)
+      }
     } else {
       const settings = {
-          action: 'add',
-          element: {},
-          tag: '',
-          options: {}
+        action: 'add',
+        element: {},
+        tag: '',
+        options: {}
       }
       workspaceStorage.state('settings').set(settings)
     }
@@ -145,8 +170,6 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     </div>
   )
 
-  console.log('editorType', editorType);
-
   if (editorType === 'popup') {
     content = (
       <div className='template-groups-container'>
@@ -155,10 +178,22 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         </Scrollbar>
       </div>
     )
+    settingsButton = null
   }
 
   if (['template','header','footer','sidebar'].includes(editorType)) {
     content = null
+    settingsButton = null
+  }
+
+  if (editorType === 'vcv_layouts') {
+    content = (
+      <div className='template-groups-container'>
+        <Scrollbar ref={scrollbarsRef}>
+          <LayoutsSection sectionType='vcv_layouts' />
+        </Scrollbar>
+      </div>
+    )
     settingsButton = null
   }
 
@@ -188,20 +223,3 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
 }
 
 export default BlankPageIntro
-
-/**
- * TODO:
- * 1. Handle layout apply when selected in dropdown (x)
- * 2. Dropdown for Content My templates (all user saved templates) (x)
- * 3. Style focus state for fields (x)
- * 4. Handle Blank Page intro render on iframe reload (x)
- * 5. Style mobile view (x)
- * 6. Style attributes (x)
- * 7. Check Free version view (show badges, disable clicks on premium layouts) (x)
- * 8. Render hub content layouts (x)
- * 9. Apply Blank Page Intro for:
- *      9.1. Popup editor (x)
- *      9.2. Layout editors
- *      9.3. Template editor (x)
- *      9.4. HFS editor (x)
- */

@@ -2124,6 +2124,22 @@ class Localizations extends Container implements Helper
                 'Select a popup',
                 'visualcomposer'
             ),
+            'singular' => __(
+                'Singular',
+                'visualcomposer'
+            ),
+            'archiveTitle' => __(
+                'Archive',
+                'visualcomposer'
+            ),
+            'layoutTemplate' => __(
+                'Layout template',
+                'visualcomposer'
+            ),
+            'selectATemplate' => __(
+                'Select a template',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

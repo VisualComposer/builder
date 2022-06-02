@@ -53,8 +53,30 @@ const LayoutsData = {
         },
         {
             type: 'popupTemplate',
-            icon: require('./customIcon'),
+            icon: require('./myTemplateIcon'),
             label: localizations.popupTemplate || 'Popup template',
+            control: 'dropdown'
+        }
+    ],
+    'vcv_layouts': [
+        {
+            type: 'postTemplate',
+            label: localizations.singular || 'Singular',
+            icon: require('./singularIcon'),
+            control: 'button',
+            description: localizations.singularLayoutDescription || 'Build a layout around the defined content area (ex. header, footer, sidebar).'
+        },
+        {
+            type: 'archiveTemplate',
+            icon: require('./archiveIcon'),
+            label: localizations.archiveTitle || 'Archive',
+            control: 'button',
+            description: localizations.archiveLayoutDescription || 'Build a layout with a post grid.'
+        },
+        {
+            type: 'layoutTemplate',
+            icon: require('./myTemplateIcon'),
+            label: localizations.myTemplate || 'My template',
             control: 'dropdown'
         }
     ]

@@ -24,10 +24,10 @@ const hubTemplatesStorage = getStorage('hubTemplates')
 const localizations = dataManager.get('localizations')
 const workspaceSettings = workspaceStorage.state('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
+const editorType = dataManager.get('editorType')
 
 declare global {
   interface Window {
-    VCV_PAGE_TEMPLATES_LAYOUTS_ALL:any,
     VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT:any,
     VCV_HEADER_TEMPLATES:any,
     VCV_SIDEBAR_TEMPLATES:any,
@@ -45,9 +45,6 @@ interface Props {
   isActive: boolean,
   index: number
 }
-
-const allAvailableVcLayouts:any = window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL && window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL()
-const userTemplates:any = window.vcvGlobalTemplatesList
 
 const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
   const [dropdownValue, setDropdownValue] = useState({value: ''})
@@ -88,7 +85,11 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         value: itemData.value,
         stretchedContent: false
       }
-      updateLayout(data)
+      if (editorType === 'vcv_layouts') {
+        settingsStorage.state('layoutType').set(data.type)
+      } else {
+        updateLayout(data)
+      }
     }
     if (itemData.isPageIntro) {
       let templates = hubTemplates
@@ -282,6 +283,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     tooltip = null
     checkedIcon = null
     if (itemData.type === 'vc-theme') {
+      const allAvailableVcLayouts = dataManager.get('pageTemplatesLayoutsAll')
       let hfsLayouts:any = allAvailableVcLayouts.find((layout:any) => layout.type === 'vc-theme').values
       hfsLayouts = hfsLayouts.map((layout:any) => {
         layout.prefix = 'vc-theme__'
@@ -298,6 +300,15 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       let options:any = {}
       let fieldKey:string = ''
       if (itemData.type === 'myTemplate') {
+        const userTemplates = dataManager.get('globalTemplatesList')
+        options = {values: userTemplates}
+        fieldKey = 'myTemplate'
+      }
+      if (itemData.type === 'layoutTemplate') {
+        const userTemplates = dataManager.get('globalTemplatesList').filter((template:any) => {
+          const label = template?.label || template?.group?.label
+          return label.toLowerCase() === 'my templates' || label.toLowerCase() === 'select a template'
+        })
         options = {values: userTemplates}
         fieldKey = 'myTemplate'
       }

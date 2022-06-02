@@ -50,7 +50,7 @@ const LayoutsSection: React.FC<Props> = ({sectionType}) => {
     tooltip = <Tooltip>{tooltipText}</Tooltip>
     const hubTemplates = dataManager.get('hubGetTemplatesTeaser').filter((template:any) => template.isPageIntro)
     layoutsData = layoutsData.concat(hubTemplates)
-  } else if (sectionType === 'popup') {
+  } else if (sectionType === 'popup' || sectionType === 'vcv_layouts') {
     sectionLabel = ''
     sectionToggle = null
   }
