@@ -2,17 +2,35 @@ import React from 'react'
 import classNames from 'classnames'
 import TooltipBox from './tooltipBox'
 
-export default class Tooltip extends React.Component {
-  constructor (props) {
+interface Props {
+  relativeElementSelector?: string
+  onClose?: () => void
+  isLightHover: boolean
+  children: string
+}
+
+interface State {
+  isVisible: boolean
+  showAtTop: boolean
+  isHovered: boolean
+}
+
+export default class Tooltip extends React.Component<Props, State> {
+  tooltipRef: React.RefObject<HTMLInputElement>
+  tooltipButtonRef: React.RefObject<HTMLInputElement>
+  overflowContainer: null | HTMLElement
+  constructor (props: Props) {
     super(props)
 
     this.state = {
       isVisible: false,
-      showAtTop: false
+      showAtTop: false,
+      isHovered: false
     }
 
     this.tooltipRef = React.createRef()
     this.tooltipButtonRef = React.createRef()
+    this.overflowContainer = null
 
     this.handleTooltipClick = this.handleTooltipClick.bind(this)
     this.closeIfNotInside = this.closeIfNotInside.bind(this)
@@ -30,9 +48,9 @@ export default class Tooltip extends React.Component {
     document.body.removeEventListener('click', this.closeIfNotInside)
   }
 
-  closeIfNotInside (e) {
-    const $el = e.target
-    const tooltipBox = $el.closest('.vcv-tooltip-box')
+  closeIfNotInside (e: MouseEvent) {
+    const $el = e.target as HTMLElement
+    const tooltipBox = $el?.closest('.vcv-tooltip-box')
 
     if (tooltipBox || $el === this.tooltipButtonRef.current) {
       return
@@ -43,7 +61,7 @@ export default class Tooltip extends React.Component {
 
   handleTooltipClick () {
     if (this.state.isVisible) {
-      document.body.removeEventListener('click', this.closeIfNotInside)
+      document.body.removeEventListener('click', (e) => { this.closeIfNotInside(e) })
     } else {
       document.body.addEventListener('click', this.closeIfNotInside)
     }
@@ -55,15 +73,17 @@ export default class Tooltip extends React.Component {
     const tooltipWidth = 234
     const tooltipContainer = this.tooltipRef.current
     const overflowContainer = this.overflowContainer
-    const tooltipContainerRect = tooltipContainer.getBoundingClientRect()
-    const overflowContainerRect = overflowContainer.getBoundingClientRect()
+    const tooltipContainerRect = tooltipContainer?.getBoundingClientRect()
+    const overflowContainerRect = overflowContainer?.getBoundingClientRect()
 
     let left = -(tooltipWidth / 2)
 
-    if (tooltipContainerRect.left - overflowContainerRect.left < tooltipWidth / 2) {
-      left = overflowContainerRect.left - tooltipContainerRect.left + 3
-    } else if (overflowContainerRect.right - tooltipContainerRect.right < tooltipWidth / 2) {
-      left = -(tooltipWidth - overflowContainerRect.right + tooltipContainerRect.left + 3)
+    if (tooltipContainerRect && overflowContainerRect) {
+      if (tooltipContainerRect.left - overflowContainerRect.left < tooltipWidth / 2) {
+        left = overflowContainerRect.left - tooltipContainerRect.left + 3
+      } else if (overflowContainerRect.right - tooltipContainerRect.right < tooltipWidth / 2) {
+        left = -(tooltipWidth - overflowContainerRect.right + tooltipContainerRect.left + 3)
+      }
     }
 
     return {
