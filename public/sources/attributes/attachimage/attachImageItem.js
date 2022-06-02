@@ -88,7 +88,7 @@ export default class AttachImageItem extends React.Component {
       'vcv-ui-form-attach-image-item-view--portrait': this.state.imgPortrait
     })
 
-    const fileName = url && url.full ? url.full.split('/').pop() : imgUrl.split('/').pop()
+    const fileName = url && url.full ? url.full.split('/').pop() : imgUrl?.split('/').pop()
     const imageSize = this.state.imageSize.width ? `${this.state.imageSize.width}x${this.state.imageSize.height}` : ''
 
     let dynamicControl = null
