@@ -24,17 +24,6 @@ export default class TooltipBox extends React.Component<Props> {
     }
   }
 
-  // render () {
-  //   return (
-  //     <div
-  //       ref={this.tooltipBoxRef}
-  //       className='vcv-tooltip-box'
-  //       style={this.props.boxStyles}
-  //     >
-  //       {this.props.children}
-  //     </div>
-  //   )
-  // }
   render () {
     return (
       <div
