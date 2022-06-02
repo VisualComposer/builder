@@ -13,10 +13,11 @@ interface Props {
   sectionType: string
 }
 
-const LayoutsSection: React.FC<Props> = ({sectionType}) => {
+const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
   const [isSectionOpened, setIsSectionOpened] = useState(true)
   const [activeItem, setActiveItem] = useState(0)
-  let layoutsData:any = LayoutsData[sectionType] || [] // TODO: fix error
+  let layoutsData:any = LayoutsData
+  layoutsData = layoutsData[sectionType] || []
   let sectionLabel
   let tooltipText
 

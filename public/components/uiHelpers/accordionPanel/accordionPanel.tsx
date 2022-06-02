@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 // @ts-ignore
 import Tooltip from 'public/components/tooltip/tooltip'
@@ -11,7 +11,7 @@ interface Props {
   classes: string
 }
 
-const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText, isChevron = false, classes}) => {
+const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, isChevron = false, classes }) => {
   const [isActive, setIsActive] = useState(true)
 
   const handleClickToggleSection = (e: React.MouseEvent) => {
@@ -24,7 +24,7 @@ const AccordionPanel: React.FC<Props> = ({children, sectionTitle, tooltipText, i
   let sectionClasses = classNames({
     'vcv-ui-edit-form-section': true,
     'vcv-ui-edit-form-section--opened': isActive,
-    'vcv-ui-edit-form-section--closed': !isActive,
+    'vcv-ui-edit-form-section--closed': !isActive
   })
 
   if (classes) {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo, useCallback} from 'react'
+import React, { useState, useEffect, memo, useCallback } from 'react'
 import classNames from 'classnames'
 import { getStorage, getService, env } from 'vc-cake'
 // @ts-ignore
@@ -47,7 +47,7 @@ interface Props {
 }
 
 const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
-  const [dropdownValue, setDropdownValue] = useState({value: ''})
+  const [dropdownValue, setDropdownValue] = useState({ value: '' })
   const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
   const [isLoading, setIsLoading] = useState(false)
 
@@ -108,7 +108,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
 
   const removeAllElements = () => {
     const allElements = documentManager.children(false)
-      allElements.forEach((row:any, i:number) => {
+    allElements.forEach((row:any, i:number) => {
       const silent = allElements.length - 1 !== i
       elementsStorage.trigger('remove', row.id, { silent })
     })
@@ -182,7 +182,10 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       hasExceeded: boolean,
       limit: any
     }
-    const limitData:LimitData = {} // TODO: fix error
+    const limitData:LimitData = {
+      hasExceeded: false,
+      limit: 0
+    }
     if (Object.prototype.hasOwnProperty.call(element, 'metaElementLimit')) {
       const limit = parseInt(element.metaElementLimit)
       const limitedElements = documentManager.getByTag(element.tag) || {}
@@ -241,7 +244,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
                 time: 5000,
                 showCloseButton: true
               }))
-            elementLimitHasExceeded = true
+              elementLimitHasExceeded = true
             }
           })
         }
@@ -298,10 +301,10 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       )
     } else {
       let options:any = {}
-      let fieldKey:string = ''
+      let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         const userTemplates = dataManager.get('globalTemplatesList')
-        options = {values: userTemplates}
+        options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
       if (itemData.type === 'layoutTemplate') {
@@ -309,7 +312,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
           const label = template?.label || template?.group?.label
           return label.toLowerCase() === 'my templates' || label.toLowerCase() === 'select a template'
         })
-        options = {values: userTemplates}
+        options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
       if (itemData.type === 'popupTemplate') {
@@ -326,7 +329,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       dropdown = (<Dropdown
         fieldKey={fieldKey}
         options={options}
-        value={{value: ''}}
+        value={{ value: '' }}
         updater={handleTemplateChange}
       />)
     }
@@ -356,9 +359,9 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       </div>
       <div className={infoClasses}>
         <span className='template-label'>{itemData.label || itemData.name}</span>
-          {dropdown}
-          {tooltip}
-          {checkedIcon}
+        {dropdown}
+        {tooltip}
+        {checkedIcon}
       </div>
     </div>
   )

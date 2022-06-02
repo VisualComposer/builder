@@ -44,7 +44,7 @@ export default class CustomLayoutDropdown extends React.Component {
       )))
     }
     if (this.props?.options?.length) {
-      const hfsLayouts = this.props.options.map((item) =>{
+      const hfsLayouts = this.props.options.map((item) => {
         return <option key={`hfs-layout-template-${item.value}`} value={item.value}>{item.label}</option>
       })
       options = (<>

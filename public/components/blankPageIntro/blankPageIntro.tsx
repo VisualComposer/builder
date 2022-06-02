@@ -20,10 +20,10 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 const editorType = dataManager.get('editorType')
 
 interface Props {
-  unmountBlankPage: any
+  unmountBlankPage: () => void
 }
 
-let addedId:string = ''
+let addedId = ''
 let iframeWindow:any = {}
 
 const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
@@ -66,9 +66,9 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
 
   const handleDownloadTemplate = useCallback((data:any) => {
     if (data.length) {
-        setIsLoading(true)
+      setIsLoading(true)
     } else if (!data.length) {
-        setIsLoading(false)
+      setIsLoading(false)
     }
   }, [isLoading])
 
@@ -97,13 +97,13 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
 
         const blankHeaderTitle = localizations.blankHeaderTitle || 'Design your header here as a part of your layout. You can also download header templates from the Visual Composer Hub.'
         const blankFooterTitle = localizations.blankFooterTitle || 'Design your footer here as a part of your layout. You can also download footer templates from the Visual Composer Hub.'
-        const commonDesignOptions = {device: {all: {boxModel: {marginTop: '50px', marginBottom: '50px'}}}}
+        const commonDesignOptions = { device: { all: { boxModel: { marginTop: '50px', marginBottom: '50px' } } } }
         const headerElement = cook.get({
           tag: 'textBlock',
           designOptions: commonDesignOptions,
           output: `<p style="text-align:center;">${blankHeaderTitle}</p>`
         }).toJS()
-        const initialElement = cook.get({tag: elementTag}).toJS()
+        const initialElement = cook.get({ tag: elementTag }).toJS()
         const footerElement = cook.get({
           tag: 'textBlock',
           designOptions: commonDesignOptions,
@@ -181,7 +181,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     settingsButton = null
   }
 
-  if (['template','header','footer','sidebar'].includes(editorType)) {
+  if (['template', 'header', 'footer', 'sidebar'].includes(editorType)) {
     content = null
     settingsButton = null
   }
@@ -199,7 +199,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
 
   const formClasses = classNames({
     'blank-page-form': true,
-    'blank-page-form--nocontent': ['template','header','footer','sidebar'].includes(editorType)
+    'blank-page-form--nocontent': ['template', 'header', 'footer', 'sidebar'].includes(editorType)
   })
 
   return (

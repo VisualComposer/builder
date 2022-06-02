@@ -28,7 +28,7 @@ interface Props {
   toggleSettings: any
 }
 
-const Sidebar: React.FC<Props> = ({toggleSettings}) => {
+const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
   const scrollbarsRef = useRef(null)
   const postSettings:any = []
   const closeButtonText = localizations.close || 'Close'
@@ -54,7 +54,7 @@ const Sidebar: React.FC<Props> = ({toggleSettings}) => {
 
   if (dataManager.get('featuredImage')) {
     const featuredImage = localizations.featuredImage || 'Featured Image'
-      postSettings.push(
+    postSettings.push(
       <AccordionPanel
         key='featuredImage'
         sectionTitle={featuredImage}
