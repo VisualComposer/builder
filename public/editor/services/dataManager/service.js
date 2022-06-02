@@ -92,7 +92,8 @@ const dataManager = {
       showPricingPopup: () => { return window.vcvShowPricingPopup },
       isWpNativeLazyLoadExist: () => { return window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST && window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST() },
       globalSettings: () => { return window.VCV_GLOBAL_DATA && window.VCV_GLOBAL_DATA() },
-      isBinaryContent: () => { return window.VCV_IS_BINARY_CONTENT && window.VCV_IS_BINARY_CONTENT() }
+      isBinaryContent: () => { return window.VCV_IS_BINARY_CONTENT && window.VCV_IS_BINARY_CONTENT() },
+      isEnvJsSaveZip: () => { return window.VCV_JS_SAVE_ZIP && window.VCV_JS_SAVE_ZIP() }
     }
   }
 }
