@@ -1,7 +1,14 @@
 import React from 'react'
 
-export default class TooltipBox extends React.Component {
-  constructor (props) {
+interface Props {
+  setTopState: () => void
+  boxStyles: object
+  children: string
+}
+
+export default class TooltipBox extends React.Component<Props> {
+  tooltipBoxRef: React.RefObject<HTMLInputElement>
+  constructor (props: Props) {
     super(props)
 
     this.tooltipBoxRef = React.createRef()
@@ -12,7 +19,7 @@ export default class TooltipBox extends React.Component {
       const tooltipBoxRect = this.tooltipBoxRef.current.getBoundingClientRect()
       const bodyRect = window.document.body.getBoundingClientRect()
       if (tooltipBoxRect.bottom > bodyRect.height) {
-        this.props.setTopState(true)
+        this.props.setTopState()
       }
     }
   }

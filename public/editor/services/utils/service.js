@@ -1,4 +1,4 @@
-import { getService, addService, env } from 'vc-cake'
+import { getService, addService } from 'vc-cake'
 import { deflate } from 'pako'
 import base64 from 'base-64'
 
@@ -103,9 +103,7 @@ const API = {
 
     let sendArgs = window.jQuery.param(data)
 
-    if (env('VCV_JS_SAVE_ZIP') === false) {
-      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    } else {
+    if (dataManager.get('isEnvJsSaveZip')) {
       const utils = getService('utils')
       const compressed = utils.compressData(data)
 
@@ -121,6 +119,8 @@ const API = {
         }
         sendArgs = window.jQuery.param(data)
       }
+    } else {
+      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     }
 
     request.send(sendArgs)

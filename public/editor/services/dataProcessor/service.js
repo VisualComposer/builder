@@ -1,4 +1,4 @@
-import { getService, addService, env } from 'vc-cake'
+import { getService, addService } from 'vc-cake'
 const utils = getService('utils')
 let processes = []
 let id = 1
@@ -15,13 +15,8 @@ const Service = {
           request.open(method, url)
 
           let sendArgs = ''
-          if (env('VCV_JS_SAVE_ZIP') === false) {
-            request.setRequestHeader('Content-type', contentType)
-
-            if (args) {
-              sendArgs = window.jQuery.param(args)
-            }
-          } else {
+          const dataManager = getService('dataManager')
+          if (dataManager.get('isEnvJsSaveZip')) {
             if (args instanceof Blob) {
               request.setRequestHeader('Content-type', 'application/octet-stream')
               request.setRequestHeader('Content-Transfer-Encoding', 'binary')
@@ -35,6 +30,12 @@ const Service = {
               } else {
                 sendArgs = window.jQuery.param(args)
               }
+            }
+          } else {
+            request.setRequestHeader('Content-type', contentType)
+
+            if (args) {
+              sendArgs = window.jQuery.param(args)
             }
           }
 
@@ -103,7 +104,7 @@ const Service = {
       'vcv-source-id': dataManager.get('sourceID')
     }, args)
 
-    if (env('VCV_JS_SAVE_ZIP') !== false) {
+    if (dataManager.get('isEnvJsSaveZip')) {
       const compressData = utils.compressData(args)
 
       if (compressData instanceof Blob) {
