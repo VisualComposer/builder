@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import StockMediaResultsPanel from './stockMediaResultsPanel'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
+import getHubControls from '../panels/hub/categoriesSettings'
 
 const dataManager = getService('dataManager')
 
@@ -23,6 +24,7 @@ export default class StockMedia extends React.Component {
 
   constructor (props) {
     super(props)
+    this.categories = getHubControls()
     this.state = {
       inputValue: '',
       input: false,
@@ -100,6 +102,12 @@ export default class StockMedia extends React.Component {
     )
   }
 
+  getUtmMedium () {
+    const activeFilterType = this.categories[this.props.filterType].title.toLowerCase().trim().replace(/\s+/g, '')
+    const renderPlace = this.props.renderPlace || 'hub'
+    return `${activeFilterType}-${renderPlace}-${this.props.namespace}`
+  }
+
   render () {
     const {
       backgroundImage,
@@ -117,6 +125,19 @@ export default class StockMedia extends React.Component {
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
     const goPremiumText = StockMedia.localizations ? StockMedia.localizations.goPremium : 'Go Premium'
+    const alreadyHaveLicenseText = StockMedia.localizations ? StockMedia.localizations.alreadyHaveLicenseTextOneAction : 'Already have a Premium license?'
+    const activateHereText = StockMedia.localizations ? StockMedia.localizations.activateHere : 'Activate here'
+
+    const refRoot = `&vcv-ref=${this.getUtmMedium()}`
+    const activateUrl = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    const linkProps = {
+      rel: 'noopener noreferrer',
+      href: activateUrl,
+      className: 'vcv-hub-banner-link'
+    }
+    if (this.props.namespace !== 'vcdashboard') {
+      linkProps.target = '_blank'
+    }
 
     let content = ''
     if (!dataManager.get('isPremiumActivated')) {
@@ -127,6 +148,9 @@ export default class StockMedia extends React.Component {
           <a className='vcv-stock-images-button' href={goPremiumLink} target='_blank' rel='noopener noreferrer'>
             {goPremiumText}
           </a>
+          <p className='vcv-hub-banner-subtitle'>
+            {alreadyHaveLicenseText} <a {...linkProps}>{activateHereText}</a>.
+          </p>
         </>
       )
     } else {
