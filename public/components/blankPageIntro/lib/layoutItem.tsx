@@ -137,16 +137,23 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     if (!env('VCV_JS_THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
 
-      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (documentManager.get('pageTemplatesLayoutsCurrent'))
+        // console.log('documentManager.get(\'headerTemplates\')', dataManager.get('headerTemplates'));
+        // console.log('window.VCV_HEADER_TEMPLATES()', window.VCV_HEADER_TEMPLATES());
+        //
+        // if (!dataManager.get('headerTemplates')) {
+        //     dataManager.reset()
+        // }
+
+      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (dataManager.get('pageTemplatesLayoutsCurrent'))
       const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
-      const lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (documentManager.get('headerTemplates').current)
+      const lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (dataManager.get('headerTemplates').current)
       const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
 
-      const lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (documentManager.get('sidebarTemplates').current)
+      const lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (dataManager.get('sidebarTemplates').current)
       const lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
 
-      const lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (documentManager.get('footerTemplates').current)
+      const lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (dataManager.get('footerTemplates').current)
       const lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       if (
@@ -238,10 +245,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
 
   const handleLayoutChange = useCallback((selectedTemplate:string) => {
     const layoutData = selectedTemplate.split('__')
-    let value = layoutData[1]
-    if (value !== 'none' && value !== 'default' && parseInt(value)) {
-      value = parseInt(layoutData[1])
-    }
+    const value = layoutData[1]
     const data = {
       type: layoutData[0],
       value: value,
@@ -304,7 +308,6 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         const userTemplates = dataManager.get('globalTemplatesList')
-        console.log('userTemplates', userTemplates)
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
@@ -313,7 +316,6 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
           const label = template?.label || template?.group?.label
           return label.toLowerCase() === 'my templates' || label.toLowerCase() === 'select a template'
         })
-        console.log('userTemplates', userTemplates)
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
@@ -325,7 +327,6 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
           }
         ]
         const templates = values.concat(hubTemplates?.popup?.templates || [])
-        console.log('templates', templates)
         options = { values: templates }
         fieldKey = 'popupTemplate'
       }
