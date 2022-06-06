@@ -2,7 +2,6 @@ import { add, getStorage, getService, env, setData, getData, onDataChange } from
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
-import StartBlankPanel from 'public/components/startBlankFunctional/startBlankPanel'
 import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
@@ -129,7 +128,7 @@ add('wordpressWorkspace', (api) => {
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        if (typeof settingsStorage.state('skipBlank').get() === 'undefined') {
+        if (!settingsStorage.state('skipBlank').get()) {
           addBlankIntro()
           isBlankPageIntro = false
         } else {

@@ -28,20 +28,17 @@ const editorType = dataManager.get('editorType')
 
 declare global {
   interface Window {
-    VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT:any,
-    VCV_HEADER_TEMPLATES:any,
-    VCV_SIDEBAR_TEMPLATES:any,
-    VCV_FOOTER_TEMPLATES:any,
     vcvLastLoadedPageTemplate:string,
     vcvLastLoadedHeaderTemplate:string,
     vcvLastLoadedSidebarTemplate:string,
-    vcvLastLoadedFooterTemplate:string,
-    vcvGlobalTemplatesList: any
+    vcvLastLoadedFooterTemplate:string
   }
 }
+
 interface Props {
-  itemData: any,
-  handleClick: any,
+  // setting type any because item can be a hub template item from storage
+  itemData:any, // eslint-disable-line
+  handleClick: (index: number) => void,
   isActive: boolean,
   index: number
 }
@@ -58,161 +55,24 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       workspaceStorage.state('downloadingItems').ignoreChange(downloadTemplate)
       hubTemplatesStorage.state('templates').ignoreChange(templateStorageChange)
     }
-  }, [isLoading, hubTemplates])
+  })
 
-  const templateStorageChange = useCallback((data:any) => {
-    if (!hubTemplates.length) {
-      const templates = hubTemplatesStorage.state('templates').get()
-      setHubTemplates(templates)
-    }
-    const template = data[itemData.templateType]?.templates?.find((item:any) => item.bundle === itemData.bundle)
-    if (template) {
-      handleTemplateChange(itemData.templateType, template.id)
-    }
-  }, [isLoading, hubTemplates])
-
-  const downloadTemplate = useCallback((data:any) => {
-    if (data.length && !isLoading) {
-      setIsLoading(true)
-    }
-  }, [isLoading])
-
-  const handleItemClick = useCallback(() => {
-    handleClick(index)
-    if (itemData.control === 'button') {
-      const data = {
-        type: itemData.type,
-        value: itemData.value,
-        stretchedContent: false
-      }
-      if (editorType === 'vcv_layouts') {
-        settingsStorage.state('layoutType').set(data.type)
-      } else {
-        updateLayout(data)
-      }
-    }
-    if (itemData.isPageIntro) {
-      let templates = hubTemplates
-      if (Object.keys(hubTemplates).length === 0) {
-        templates = hubTemplatesStorage.state('templates').get()
-        setHubTemplates(templates)
-      }
-      const template = templates[itemData.templateType].templates.find((item:any) => item.bundle === itemData.bundle)
-      if (template) {
-        handleTemplateChange(itemData.templateType, template.id)
-      } else {
-        hubTemplatesStorage.trigger('downloadTemplate', itemData)
-      }
-    }
-  }, [isLoading])
-
-  const removeAllElements = () => {
-    const allElements = documentManager.children(false)
-    allElements.forEach((row:any, i:number) => {
-      const silent = allElements.length - 1 !== i
-      elementsStorage.trigger('remove', row.id, { silent })
-    })
-  }
-
-  const reloadIframe = (lastSavedPageTemplate:string, lastSavedHeaderTemplate:string, lastSavedSidebarTemplate:string, lastSavedFooterTemplate:string) => {
-    window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
-    window.vcvLastLoadedHeaderTemplate = lastSavedHeaderTemplate
-    window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
-    window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
-
-    workspaceIFrame.set({
-      type: 'reload',
-      template: lastSavedPageTemplate,
-      header: lastSavedHeaderTemplate,
-      sidebar: lastSavedSidebarTemplate,
-      footer: lastSavedFooterTemplate
-    })
-    settingsStorage.state('skipBlank').set(true)
-  }
-
-  const updateLayout = (data:any) => {
-    setDropdownValue(data)
-    if (!env('VCV_JS_THEME_EDITOR')) {
-      settingsStorage.state('pageTemplate').set(data)
-
-      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
-      const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
-
-      const lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current)
-      const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
-
-      const lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current)
-      const lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
-
-      const lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current)
-      const lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
-
-      if (
-        (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type || (lastLoadedPageTemplate.stretchedContent !== lastSavedPageTemplate.stretchedContent))) ||
-        (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) ||
-        (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) ||
-        (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate)
-      ) {
-        reloadIframe(
-          lastSavedPageTemplate,
-          lastSavedHeaderTemplate,
-          lastSavedSidebarTemplate,
-          lastSavedFooterTemplate
-        )
-      }
-    }
-  }
-
-  const handleLayoutChange = useCallback((selectedTemplate:any, isLocked:boolean) => {
-    const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
-    let value = layoutData[1]
-    if (value !== 'none' && value !== 'default' && parseInt(value)) {
-      value = parseInt(layoutData[1])
-    }
-    const data = {
-      type: layoutData[0],
-      value: value,
-      stretchedContent: false
-    }
-    updateLayout(data)
-  }, [isLoading])
-
-  const getElementExceededLimitStatus = (element:any) => {
-    interface LimitData {
-      hasExceeded: boolean,
-      limit: any
-    }
-    const limitData:LimitData = {
-      hasExceeded: false,
-      limit: 0
-    }
-    if (Object.prototype.hasOwnProperty.call(element, 'metaElementLimit')) {
-      const limit = parseInt(element.metaElementLimit)
-      const limitedElements = documentManager.getByTag(element.tag) || {}
-      if (limit > 0 && Object.keys(limitedElements).length >= limit) {
-        limitData.hasExceeded = true
-        limitData.limit = limit
-      }
-    }
-    return limitData
-  }
-
-  const handleTemplateChange = (templateType:string, id:string) => {
+  const handleTemplateChange = useCallback((templateType:string, id:string) => {
     removeAllElements()
     elementsStorage.state('elementAddList').set([])
-    const next = (elements:any) => {
+    const next = (elements:[]) => {
       const existingJobs = assetsStorage.state('jobs').get()
-      const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter((job: any) => !job.hidden)
+      const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter((job: { hidden: boolean }) => !job.hidden)
       const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
 
       elementsStorage.trigger('merge', elements)
 
-      const handleJobsChange = (data: any) => {
+      const handleJobsChange = (data: { elements: [] }) => { // eslint-disable-line
         const addedElements = elementsStorage.state('elementAddList').get()
         const addedElementsCount = addedElements.length
-        const visibleJobs = data.elements.filter((element: any) => !element.hidden)
+        const visibleJobs = data.elements.filter((element: { hidden: boolean }) => !element.hidden)
         if (existingJobsCount + addedElementsCount === visibleJobs.length) {
-          const jobsInProgress = data.elements.find((element: any) => element.jobs)
+          const jobsInProgress = data.elements.find((element: { jobs: [] }) => element.jobs)
 
           if (jobsInProgress) {
             return
@@ -222,12 +82,12 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
           workspaceSettings.set(false)
           assetsStorage.state('jobs').ignoreChange(handleJobsChange)
         }
-        assetsStorage.state('jobs').onChange(handleJobsChange)
+        assetsStorage.state('jobs').onChange(handleJobsChange) // eslint-disable-line
       }
     }
 
     if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
-      myTemplatesService.load(id, (response:any) => {
+      myTemplatesService.load(id, (response:any) => { // eslint-disable-line
         let elementLimitHasExceeded = false
         if (response.data) {
           Object.keys(response.data).forEach((elementId) => {
@@ -270,25 +130,163 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         next(response.data)
       })
     }
+  }, [])
+
+  const updateLayout = useCallback((data: { value: string }) => {
+    setDropdownValue(data)
+    if (!env('VCV_JS_THEME_EDITOR')) {
+      settingsStorage.state('pageTemplate').set(data)
+
+      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (documentManager.get('pageTemplatesLayoutsCurrent'))
+      const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+
+      const lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (documentManager.get('headerTemplates').current)
+      const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+
+      const lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (documentManager.get('sidebarTemplates').current)
+      const lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+
+      const lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (documentManager.get('footerTemplates').current)
+      const lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
+
+      if (
+        (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type || (lastLoadedPageTemplate.stretchedContent !== lastSavedPageTemplate.stretchedContent))) ||
+                (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) ||
+                (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) ||
+                (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate)
+      ) {
+        reloadIframe(
+          lastSavedPageTemplate,
+          lastSavedHeaderTemplate,
+          lastSavedSidebarTemplate,
+          lastSavedFooterTemplate
+        )
+      }
+    }
+  }, [])
+
+  // setting type any because item can be a hub template item from storage
+  const templateStorageChange = useCallback((data:any) => { // eslint-disable-line
+    if (!hubTemplates.length) {
+      const templates = hubTemplatesStorage.state('templates').get()
+      setHubTemplates(templates)
+    }
+    const template = data[itemData.templateType]?.templates?.find((item: { bundle: string }) => item.bundle === itemData.bundle)
+    if (template) {
+      handleTemplateChange(itemData.templateType, template.id)
+    }
+  }, [hubTemplates.length, handleTemplateChange, itemData.bundle, itemData.templateType])
+
+  const downloadTemplate = useCallback((data: { length: number }) => {
+    if (data.length && !isLoading) {
+      setIsLoading(true)
+    }
+  }, [isLoading])
+
+  const handleItemClick = useCallback(() => {
+    handleClick(index)
+    if (itemData.control === 'button') {
+      const data = {
+        type: itemData.type,
+        value: itemData.value,
+        stretchedContent: false
+      }
+      if (editorType === 'vcv_layouts') {
+        settingsStorage.state('layoutType').set(data.type)
+      } else {
+        updateLayout(data)
+      }
+    }
+    if (itemData.isPageIntro) {
+      let templates = hubTemplates
+      if (Object.keys(hubTemplates).length === 0) {
+        templates = hubTemplatesStorage.state('templates').get()
+        setHubTemplates(templates)
+      }
+      const template = templates[itemData.templateType].templates.find((item: { bundle:string }) => item.bundle === itemData.bundle)
+      if (template) {
+        handleTemplateChange(itemData.templateType, template.id)
+      } else {
+        hubTemplatesStorage.trigger('downloadTemplate', itemData)
+      }
+    }
+  }, [handleClick, handleTemplateChange, hubTemplates, index, itemData, updateLayout])
+
+  const removeAllElements = () => {
+    const allElements = documentManager.children(false)
+    allElements.forEach((row: { id: string }, i:number) => {
+      const silent = allElements.length - 1 !== i
+      elementsStorage.trigger('remove', row.id, { silent })
+    })
+  }
+
+  const reloadIframe = (lastSavedPageTemplate:string, lastSavedHeaderTemplate:string, lastSavedSidebarTemplate:string, lastSavedFooterTemplate:string) => {
+    window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+    window.vcvLastLoadedHeaderTemplate = lastSavedHeaderTemplate
+    window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
+    window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
+
+    workspaceIFrame.set({
+      type: 'reload',
+      template: lastSavedPageTemplate,
+      header: lastSavedHeaderTemplate,
+      sidebar: lastSavedSidebarTemplate,
+      footer: lastSavedFooterTemplate
+    })
+    settingsStorage.state('skipBlank').set(true)
+  }
+
+  const handleLayoutChange = useCallback((selectedTemplate:string) => {
+    const layoutData = selectedTemplate.split('__')
+    let value = layoutData[1]
+    if (value !== 'none' && value !== 'default' && parseInt(value)) {
+      value = parseInt(layoutData[1])
+    }
+    const data = {
+      type: layoutData[0],
+      value: value,
+      stretchedContent: false
+    }
+    updateLayout(data)
+  }, [updateLayout])
+
+  const getElementExceededLimitStatus = (element:{ metaElementLimit:string, tag:string }) => {
+    interface LimitData {
+      hasExceeded: boolean,
+      limit: number
+    }
+    const limitData:LimitData = {
+      hasExceeded: false,
+      limit: 0
+    }
+    if (Object.prototype.hasOwnProperty.call(element, 'metaElementLimit')) {
+      const limit = parseInt(element.metaElementLimit)
+      const limitedElements = documentManager.getByTag(element.tag) || {}
+      if (limit > 0 && Object.keys(limitedElements).length >= limit) {
+        limitData.hasExceeded = true
+        limitData.limit = limit
+      }
+    }
+    return limitData
   }
 
   const isSelect = itemData.control === 'dropdown'
-  const icon:any = itemData?.icon?.default() || null
+  const icon:React.ReactElement | null = itemData?.icon?.default() || null
   const isPremiumActivated = dataManager.get('isPremiumActivated')
   const isPremiumContent = !isPremiumActivated && (itemData?.contentType === 'premium')
   const premiumBagde = isPremiumContent ? <span className='item-badge'>{localizations.premium || 'Premium'}</span> : null
 
-  let tooltip:any = itemData.description && <Tooltip>{itemData.description}</Tooltip>
-  let dropdown:any = null
-  let checkedIcon:any = <i className='vcv-ui-icon vcv-ui-icon-checked-circle' />
+  let tooltip:React.ReactElement | null = itemData.description && <Tooltip>{itemData.description}</Tooltip>
+  let dropdown:React.ReactElement | null = null
+  let checkedIcon:React.ReactElement | null = <i className='vcv-ui-icon vcv-ui-icon-checked-circle' />
 
   if (isSelect) {
     tooltip = null
     checkedIcon = null
     if (itemData.type === 'vc-theme') {
       const allAvailableVcLayouts = dataManager.get('pageTemplatesLayoutsAll')
-      let hfsLayouts:any = allAvailableVcLayouts.find((layout:any) => layout.type === 'vc-theme').values
-      hfsLayouts = hfsLayouts.map((layout:any) => {
+      let hfsLayouts:React.ReactElement[] = allAvailableVcLayouts.find((layout: { type: string }) => layout.type === 'vc-theme').values
+      hfsLayouts = hfsLayouts.map((layout:any) => { // eslint-disable-line
         layout.prefix = 'vc-theme__'
         return layout
       })
@@ -300,18 +298,22 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         />
       )
     } else {
-      let options:any = {}
+      let options = {
+        // values: {}
+      }
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         const userTemplates = dataManager.get('globalTemplatesList')
+        console.log('userTemplates', userTemplates)
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
       if (itemData.type === 'layoutTemplate') {
-        const userTemplates = dataManager.get('globalTemplatesList').filter((template:any) => {
+        const userTemplates = dataManager.get('globalTemplatesList').filter((template: {label: string, group: { label: string }}) => {
           const label = template?.label || template?.group?.label
           return label.toLowerCase() === 'my templates' || label.toLowerCase() === 'select a template'
         })
+        console.log('userTemplates', userTemplates)
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
@@ -323,6 +325,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
           }
         ]
         const templates = values.concat(hubTemplates?.popup?.templates || [])
+        console.log('templates', templates)
         options = { values: templates }
         fieldKey = 'popupTemplate'
       }

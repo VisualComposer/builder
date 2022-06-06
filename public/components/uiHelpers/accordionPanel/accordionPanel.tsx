@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import Tooltip from 'public/components/tooltip/tooltip'
 
 interface Props {
-  children: any,
+  children: React.ReactNode,
   sectionTitle: string,
   tooltipText: string,
   isChevron: boolean,
@@ -15,8 +15,8 @@ const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, 
   const [isActive, setIsActive] = useState(true)
 
   const handleClickToggleSection = (e: React.MouseEvent) => {
-    const target:any = e.target
-    if (e.currentTarget === target || (target && target.classList && target.classList.contains('vcv-ui-edit-form-section-header-title'))) {
+    const target = e.target as HTMLElement
+    if (e.currentTarget === e.target || (target && target.classList && target.classList.contains('vcv-ui-edit-form-section-header-title'))) {
       setIsActive(!isActive)
     }
   }

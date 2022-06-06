@@ -13,11 +13,21 @@ interface Props {
   sectionType: string
 }
 
+interface Item {
+    type:string,
+    value?:string,
+    icon?:React.ReactElement,
+    label:string,
+    control:string,
+    description?:string,
+    contentType?:string
+}
+
 const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
   const [isSectionOpened, setIsSectionOpened] = useState(true)
   const [activeItem, setActiveItem] = useState(0)
-  let layoutsData:any = LayoutsData
-  layoutsData = layoutsData[sectionType] || []
+  // @ts-ignore
+  let sectionData:Item[] = LayoutsData[sectionType]
   let sectionLabel
   let tooltipText
 
@@ -30,8 +40,8 @@ const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
   }
 
   const toggleSectionText = localizations.toggleSection || 'Toggle section'
-  let tooltip:any = null
-  let sectionToggle:any = (
+  let tooltip:React.ReactElement | null = null
+  let sectionToggle:React.ReactElement | null = (
     <button
       className='template-group-toggle blank-button vcv-ui-icon vcv-ui-icon-chevron-thick'
       type='button'
@@ -49,15 +59,16 @@ const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
     sectionLabel = localizations.content || 'Content'
     tooltipText = localizations.contentSectionDescription || 'Pre-select content or start with a blank content area.'
     tooltip = <Tooltip>{tooltipText}</Tooltip>
-    const hubTemplates = dataManager.get('hubGetTemplatesTeaser').filter((template:any) => template.isPageIntro)
-    layoutsData = layoutsData.concat(hubTemplates)
+    const hubTemplates = dataManager.get('hubGetTemplatesTeaser').filter((template: { isPageIntro: boolean }) => template.isPageIntro)
+    sectionData = sectionData.concat(hubTemplates)
   } else if (sectionType === 'popup' || sectionType === 'vcv_layouts') {
     sectionLabel = ''
     sectionToggle = null
   }
 
   const getItems = () => {
-    return layoutsData.map((item:any, i:number) => {
+    // setting type any because item can be a hub template item from storage
+    return sectionData.map((item:any, i:number) => { // eslint-disable-line
       const isActive = i === activeItem
       return <LayoutItem
         key={`item-${i}`}

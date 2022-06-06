@@ -25,12 +25,12 @@ const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
 interface Props {
-  toggleSettings: any
+  toggleSettings: () => void
 }
 
 const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
   const scrollbarsRef = useRef(null)
-  const postSettings:any = []
+  const postSettings:React.ReactElement[] = []
   const closeButtonText = localizations.close || 'Close'
   const url = new URL(window.location.href)
   const postOptionsText = url.searchParams.get('post_type') === 'page' ? localizations.pageSettings || 'Page Options' : localizations.postOptions || 'Post Options'

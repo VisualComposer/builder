@@ -23,8 +23,15 @@ interface Props {
   unmountBlankPage: () => void
 }
 
+interface IframeWindow {
+  vcv?: {
+    on: (event:string, callback: (action:string, id:string) => void) => void,
+    off: (event:string, callback: (action:string, id:string) => void) => void
+  }
+}
+
 let addedId = ''
-let iframeWindow:any = {}
+let iframeWindow:IframeWindow | any = {} // eslint-disable-line
 
 const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false)
@@ -42,21 +49,21 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
       assetsStorage.state('jobs').ignoreChange(handleJobsChange)
       workspaceStorage.state('downloadingItems').ignoreChange(handleDownloadTemplate)
     }
-  }, [isLoading])
+  })
 
-  const handleAddElement = useCallback((data:any) => {
+  const handleAddElement = useCallback((data: { length: number }) => {
     if (!data.length && !isLoading) {
       setIsLoading(true)
     }
   }, [isLoading])
 
-  const handleJobsChange = useCallback((data:any) => {
-    if (data.elements && !data.elements.find((element:any) => element.jobs) && isLoading) {
+  const handleJobsChange = useCallback((data: { elements: [] }) => {
+    if (data.elements && !data.elements.find((element: {jobs: [] }) => element.jobs) && isLoading) {
       setIsLoading(false)
     }
   }, [isLoading])
 
-  const handleIframeReload = useCallback((data:any) => {
+  const handleIframeReload = useCallback((data: { type: string }) => {
     if ((data.type && (data.type !== 'loaded') && (data.type !== 'layoutLoaded')) && !isLoading) {
       setIsLoading(true)
     } else if ((!data || (data?.type === 'loaded' || data.type === 'layoutLoaded')) && isLoading) {
@@ -64,15 +71,15 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     }
   }, [isLoading])
 
-  const handleDownloadTemplate = useCallback((data:any) => {
+  const handleDownloadTemplate = useCallback((data: { length: number }) => {
     if (data.length) {
       setIsLoading(true)
     } else if (!data.length) {
       setIsLoading(false)
     }
-  }, [isLoading])
+  }, [])
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (isLoading) {
       return false
@@ -85,9 +92,11 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         elementsStorage.trigger('add', cookElement)
         elementsStorage.trigger('add', rowElement)
         addedId = cookElement.id
-        const iframe = (document.getElementById('vcv-editor-iframe') as HTMLIFrameElement)
+        const iframe = document.getElementById('vcv-editor-iframe') as HTMLIFrameElement
         iframeWindow = iframe?.contentWindow?.window
-        iframeWindow?.vcv?.on('ready', openEditForm)
+        if ('vcv' in iframeWindow) {
+          iframeWindow?.vcv?.on('ready', openEditForm)
+        }
       }
     } else if (editorType === 'vcv_layouts') {
       const elements = documentsService.all()
@@ -123,14 +132,16 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
       workspaceStorage.state('settings').set(settings)
     }
     unmountBlankPage()
-  }, [addedId])
+  }
 
   const openEditForm = useCallback((action:string, id:string) => {
     if (action === 'add' && id === addedId) {
       workspaceStorage.trigger('edit', addedId, '')
-      iframeWindow?.vcv?.off('ready', openEditForm)
+      if ('vcv' in iframeWindow) {
+        iframeWindow?.vcv?.off('ready', openEditForm)
+      }
     }
-  }, [iframeWindow])
+  }, [])
 
   const toggleSettings = useCallback(() => {
     setIsSidebarOpened(!isSidebarOpened)
@@ -151,7 +162,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const postOptionsText = url.searchParams.get('post_type') === 'page' ? localizations.pageSettings || 'Page Options' : localizations.postOptions || 'Post Options'
   const getStartedText = localizations.getStartedText || 'GET STARTED'
 
-  let settingsButton:any = (
+  let settingsButton:React.ReactElement | null = (
     <button
       className='blank-button settings-btn vcv-ui-icon vcv-ui-icon-cog'
       aria-label={postOptionsText}
@@ -161,7 +172,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     />
   )
 
-  let content:any = (
+  let content:React.ReactElement | null = (
     <div className='template-groups-container'>
       <Scrollbar ref={scrollbarsRef}>
         <LayoutsSection sectionType='layout' />
@@ -210,7 +221,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
           <PageSettingsTitle
             key='pageSettingsTitle'
             fieldKey='pageSettingsTitle'
-            updater={() => {}} // required for attributes
+            updater={() => { return false }} // required for attributes
             value='' // required for attributes
           />
           {settingsButton}
