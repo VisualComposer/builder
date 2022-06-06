@@ -7,7 +7,7 @@ const capitalT = '{shift}T'
 describe('Editor controls', function () {
     it('Checks different keyboard shortcuts', function () {
         cy.createPage()
-
+        cy.get('.blank-page-submit-button').click()
         cy.get('#add-content-search').should('have.focus')
 
         // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
