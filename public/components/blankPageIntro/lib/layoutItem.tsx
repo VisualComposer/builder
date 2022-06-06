@@ -137,12 +137,12 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     if (!env('VCV_JS_THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
 
-        // console.log('documentManager.get(\'headerTemplates\')', dataManager.get('headerTemplates'));
-        // console.log('window.VCV_HEADER_TEMPLATES()', window.VCV_HEADER_TEMPLATES());
-        //
-        // if (!dataManager.get('headerTemplates')) {
-        //     dataManager.reset()
-        // }
+      // console.log('documentManager.get(\'headerTemplates\')', dataManager.get('headerTemplates'));
+      // console.log('window.VCV_HEADER_TEMPLATES()', window.VCV_HEADER_TEMPLATES());
+      //
+      // if (!dataManager.get('headerTemplates')) {
+      //     dataManager.reset()
+      // }
 
       const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (dataManager.get('pageTemplatesLayoutsCurrent'))
       const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
