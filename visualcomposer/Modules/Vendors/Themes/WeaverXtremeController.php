@@ -34,14 +34,8 @@ class WeaverXtremeController extends Container implements Module
             return;
         }
 
-        try {
-            $this->titleController = vcapp('EditorsSettingsTitleController');
-            $this->fixDisablePageTitleSetting();
-        } catch (BindingResolutionException $e) {
-            if (vcvenv('VCV_DEBUG')) {
-                throw $e;
-            }
-        }
+        $this->titleController = vcapp('EditorsSettingsTitleController');
+        $this->fixDisablePageTitleSetting();
     }
 
     /**

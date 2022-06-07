@@ -45,14 +45,8 @@ class YoastController extends Container implements Module
             1
         );
 
-        try {
-            $this->titleController = vcapp('EditorsSettingsTitleController');
-            $this->preventRemovingTitleFromBreadcrumbs();
-        } catch (BindingResolutionException $e) {
-            if (vcvenv('VCV_DEBUG')) {
-                throw $e;
-            }
-        }
+        $this->titleController = vcapp('EditorsSettingsTitleController');
+        $this->preventRemovingTitleFromBreadcrumbs();
     }
 
     protected function initializeYoast(Frontend $frontendHelper)
