@@ -2,6 +2,8 @@ import React from 'react'
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
+import { AppStateType } from '../../../editor/stores/reducer'
+import { ReviewPopupProps, CustomButtonProps } from '../types'
 
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
@@ -12,23 +14,23 @@ const negativeReviewText = localizations ? localizations.negativeReviewText : 'Y
 const positiveReviewButtonText = localizations ? localizations.positiveReviewButtonText : 'Write Your Review'
 const negativeReviewButtonText = localizations ? localizations.negativeReviewButtonText : 'Leave Your Feedback'
 
-const ReviewPopup = (props) => {
-  const popupState = props.popups || {}
+const ReviewPopup = ({ onPrimaryButtonClick, onClose, popups }: ReviewPopupProps) => {
+  const popupState = popups || {}
   let reviewType = '3' // If not provided for some reason
   if (popupState && popupState.votePopup) {
-    reviewType = popupState.votePopup.voteValue
+    reviewType = popupState.votePopup.voteValue || ''
   }
 
-  const isPositiveReview = reviewType === '1' || reviewType === '2'
-  const headingText = isPositiveReview ? positiveReviewHeadingText : negativeReviewHeadingText
-  const reviewText = isPositiveReview ? positiveReviewText : negativeReviewText
-  const buttonText = isPositiveReview ? positiveReviewButtonText : negativeReviewButtonText
+  const isPositiveReview: boolean = reviewType === '1' || reviewType === '2'
+  const headingText: string = isPositiveReview ? positiveReviewHeadingText : negativeReviewHeadingText
+  const reviewText: string = isPositiveReview ? positiveReviewText : negativeReviewText
+  const buttonText: string = isPositiveReview ? positiveReviewButtonText : negativeReviewButtonText
 
-  const feedbackLink = isPositiveReview
+  const feedbackLink: string = isPositiveReview
     ? 'https://wordpress.org/support/plugin/visualcomposer/reviews/?filter=5#new-topic-0'
     : dataManager.get('utm')['editor-feedback-review-popup-button']
 
-  const customButtonProps = {
+  const customButtonProps: CustomButtonProps<string> = {
     target: '_blank',
     rel: 'noopener noreferrer',
     href: feedbackLink
@@ -36,7 +38,8 @@ const ReviewPopup = (props) => {
 
   return (
     <PopupInner
-      {...props}
+      onPrimaryButtonClick={onPrimaryButtonClick}
+      onClose={onClose}
       headingText={headingText}
       buttonText={buttonText}
       popupName='reviewPopup'
@@ -47,7 +50,7 @@ const ReviewPopup = (props) => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: AppStateType) => ({
   popups: state.editorPopup.popups
 })
 

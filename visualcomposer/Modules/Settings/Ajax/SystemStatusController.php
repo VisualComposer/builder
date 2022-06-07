@@ -110,6 +110,12 @@ class SystemStatusController extends Container implements Module
             'type' => 'constant',
         ];
 
+        $variables[] = [
+            'key' => 'VCV_JS_SAVE_ZIP',
+            'value' => \VcvEnv::get('VCV_JS_SAVE_ZIP', true),
+            'type' => 'constant',
+        ];
+
         return $variables;
     }
 }
