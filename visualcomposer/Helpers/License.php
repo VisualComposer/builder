@@ -124,7 +124,8 @@ class License extends Container implements Helper
      */
     public function isPremiumActivated()
     {
-        return (bool)$this->getKey() && $this->getType() !== 'free';
+        $result = $this->getKey() && $this->getType() !== 'free';
+        return apply_filters('vcv:helpers:license:isPremiumActivated', $result);
     }
 
     /**
