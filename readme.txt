@@ -8,7 +8,7 @@ Stable tag: 44.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-[New] Easy drag and drop page builder that gives the freedom to design WordPress websites, landing pages, custom themes, maintenance sode & coming soon pages.
+[New] Easy drag and drop page builder that gives the freedom to design WordPress websites, landing pages, custom themes, maintenance mode & coming soon pages.
 
 == Description ==
 

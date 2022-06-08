@@ -273,14 +273,6 @@ export default class SaveController {
   }
 
   load = (id, data, status) => {
-    dataProcessor.appAdminServerRequest({
-      'vcv-action': 'settings:systemStatus:checkContentZipType:adminNonce',
-      'vcv-nonce': dataManager.get('nonce'),
-      'vcv-check-content-zip-type': true
-    }).then(() => {
-      // we set option here on a backend side, not need to check response for it.
-    })
-
     this.ajax(
       {
         'vcv-action': 'getData:adminNonce',
