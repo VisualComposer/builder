@@ -192,13 +192,10 @@ class Controller extends Container implements Module
                 $zip = file_get_contents('php://input');
                 $newAllJson = zlib_decode($zip);
                 $newArgs = json_decode($newAllJson, true);
-                $contentZipType = $optionsHelper->get('content:zip:type', '');
 
-                if (!empty($newArgs['vcv-check-content-zip-type']) || $contentZipType === 'binary') {
-                    $all = $requestHelper->all();
-                    $new = array_merge($all, $newArgs);
-                    $requestHelper->setData($new);
-                }
+                $all = $requestHelper->all();
+                $new = array_merge($all, $newArgs);
+                $requestHelper->setData($new);
             // we need it for a cases when user server environment do not support binary content.
             } elseif ($requestHelper->exists('vcv-zip')) {
                 $zip = $requestHelper->input('vcv-zip');
