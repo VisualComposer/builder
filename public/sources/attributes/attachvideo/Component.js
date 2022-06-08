@@ -110,8 +110,8 @@ export default class AttachVideo extends Attribute {
   }
 
   handleRemove (key) {
-    const ids = this.state.value.ids
-    const urls = this.state.value.urls
+    const ids = [...this.state.value.ids]
+    const urls = [...this.state.value.urls]
     ids.splice(key, 1)
     urls.splice(key, 1)
     let fieldValue = { ids: [], urls: [] }
