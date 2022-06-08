@@ -198,7 +198,7 @@ export default class ImageGallery extends vcvAPI.elementComponent {
         classes += ` vce-image-filter--${image[index].filter}`
       }
       let caption = ''
-      if (showCaptionGeneral && image[index].caption) {
+      if (showCaptionGeneral && image[index]?.caption) {
         caption = (<figcaption>{image[index].caption}</figcaption>)
       }
 
