@@ -351,7 +351,8 @@ STYLE;
                         ?>
                         <?php
                         $licenseHelper = vchelper('License');
-                        if (!$licenseHelper->isPremiumActivated()) {
+                        $active = vcfilter('vcv:resources:view:dashboard:activation', $licenseHelper->isPremiumActivated());
+                        if (!$active) {
                             echo sprintf(
                                 '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star" target="_blank" rel="noopener noreferrer">%s<span aria-hidden="true" class="dashicons dashicons-external vcv-ui-icon-dashboard-external"></span></a></li>',
                                 esc_url(vchelper('Utm')->get('vcdashboard-go-premium')),
