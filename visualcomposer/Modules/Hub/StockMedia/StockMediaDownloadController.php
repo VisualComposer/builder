@@ -198,7 +198,7 @@ class StockMediaDownloadController extends Container implements Module
         if ($currentUserHelper->wpAll($this->capability)->get()) {
             $variables[] = [
                 'key' => 'VCV_LICENSE_KEY',
-                'value' => $licenseHelper->getKey(),
+                'value' => vcfilter('vcv:modules:Hub:StockMedia:addVariables:licenseKey', $licenseHelper->getKey()),
                 'type' => 'constant',
             ];
             if (defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated()) {
