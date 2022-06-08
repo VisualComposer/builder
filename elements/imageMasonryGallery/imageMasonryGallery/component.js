@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -14,14 +15,16 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    this.prepareImages(this.props.atts)
+    this.prepareImages(JSON.parse(JSON.stringify(this.props.atts)))
   }
 
-  componentDidUpdate () {
-    this.currentImg = 0
-    this.data = []
-    this.loadingIndex++
-    this.prepareImages(this.props.atts, true)
+  componentDidUpdate (prevProps) {
+    if (!lodash.isEqual(prevProps, this.props)) {
+      this.currentImg = 0
+      this.data = []
+      this.loadingIndex++
+      this.prepareImages(JSON.parse(JSON.stringify(this.props.atts)), true)
+    }
     vcCake.env('iframe') && vcCake.env('iframe').vcv.trigger('ready')
   }
 
