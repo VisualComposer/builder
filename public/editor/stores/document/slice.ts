@@ -105,7 +105,7 @@ const slice = createSlice({
       const newData = action.payload[1]
 
       if (state.documentData[id]) {
-        state.documentData[id] = { ...state.documentData[id], ...newData }
+        state.documentData[id] = JSON.parse(JSON.stringify({ ...state.documentData[id], ...newData }))
       }
     },
     remove: (state: State, action) => {
