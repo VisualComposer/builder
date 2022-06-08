@@ -121,7 +121,9 @@ $utmHelper = vchelper('Utm');
         <?php echo esc_html__('Help', 'visualcomposer'); ?>
         <span aria-hidden="true" class="dashicons dashicons-external"></span>
     </a>
-    <?php if (!vchelper('License')->isPremiumActivated()) : ?>
+    <?php
+    $active = vcfilter('vcv:resources:view:dashboard:activation', vchelper('License')->isPremiumActivated());
+    if (!$active) : ?>
         |
         <a href="<?php echo $utmHelper->get('wpdashboard-news-gopremium'); ?>" target="_blank" rel="noopener noreferrer"
                 class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
