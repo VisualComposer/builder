@@ -55,7 +55,8 @@ class GoPremium extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isPremiumActivated() || $licenseHelper->isThemeActivated()) {
+                $active = vcfilter('vcv:license:pages', $licenseHelper->isPremiumActivated() || $licenseHelper->isThemeActivated());
+                if (!$active) {
                     $this->call('addPage');
                 }
 
@@ -94,14 +95,17 @@ class GoPremium extends Container implements Module
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
-        if (
-            !$licenseHelper->isPremiumActivated()
-            && !strpos($screen->id, $this->slug)
-            && !strpos(
-                $screen->id,
-                'vcv-getting-started'
-            )
-        ) {
+
+        $active = !$licenseHelper->isPremiumActivated()
+        && !strpos($screen->id, $this->slug)
+        && !strpos(
+            $screen->id,
+            'vcv-getting-started'
+        );
+
+        $active = vcfilter('vcv:modules:license:pages:goPremium:hubActivationNotice', $active);
+
+        if ($active) {
             if (!isset($notices['hubActivationNotice'])) {
                 $noticeHelper->addNotice(
                     'hubActivationNotice',
