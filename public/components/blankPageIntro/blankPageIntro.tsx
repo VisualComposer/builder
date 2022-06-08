@@ -175,8 +175,8 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   let content:React.ReactElement | null = (
     <div className='template-groups-container'>
       <Scrollbar ref={scrollbarsRef}>
-        <LayoutsSection sectionType='layout' isOpened={true} />
-        <LayoutsSection sectionType='content' isOpened={false} />
+        <LayoutsSection sectionType='layout' />
+        <LayoutsSection sectionType='content' />
       </Scrollbar>
     </div>
   )
@@ -185,7 +185,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     content = (
       <div className='template-groups-container'>
         <Scrollbar ref={scrollbarsRef}>
-          <LayoutsSection sectionType='popup' isOpened={true} />
+          <LayoutsSection sectionType='popup' />
         </Scrollbar>
       </div>
     )
@@ -201,7 +201,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     content = (
       <div className='template-groups-container'>
         <Scrollbar ref={scrollbarsRef}>
-          <LayoutsSection sectionType='vcv_layouts' isOpened={true} />
+          <LayoutsSection sectionType='vcv_layouts' />
         </Scrollbar>
       </div>
     )
