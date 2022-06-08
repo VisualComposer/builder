@@ -154,7 +154,9 @@ export default class AttachImage extends Attribute {
       },
       multiple: this.props.options.multiple ? 'add' : false
     })
+    /* eslint-disable */
     const _this = this
+    /* eslint-enable */
     const CustomStockImagesView = window.wp.media.View.extend({
       /**
        * Remove Stock images tab content
@@ -277,8 +279,8 @@ export default class AttachImage extends Attribute {
   }
 
   handleRemove (key) {
-    const ids = this.state.value.ids
-    const urls = this.state.value.urls
+    const ids = [...this.state.value.ids]
+    const urls = [...this.state.value.urls]
     ids.splice(key, 1)
     urls.splice(key, 1)
     const fieldValue = {
@@ -364,10 +366,11 @@ export default class AttachImage extends Attribute {
   }
 
   handleFilterChange (filterName) {
-    const stateValue = this.state.value
+    const stateValue = { ...this.state.value }
     stateValue.urls = stateValue.urls.map(image => {
-      image.filter = filterName
-      return image
+      const newImage = { ...image }
+      newImage.filter = filterName
+      return newImage
     })
     this.updateFieldValue(stateValue)
   }
@@ -383,7 +386,7 @@ export default class AttachImage extends Attribute {
   }
 
   updateFieldValue (value) {
-    const mergedValue = lodash.merge(this.state.value, value)
+    const mergedValue = { ...this.state.value, ...value }
     this.setFieldValue(mergedValue)
   }
 

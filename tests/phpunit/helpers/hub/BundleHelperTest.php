@@ -47,10 +47,11 @@ class BundleHelperTest extends WP_UnitTestCase
     //    {
     //        $version = $this->getLatestWpVersion();
     //        $helper = vchelper('HubBundle');
+    //        $urlParam = ['token' => 'free-token', 'bundle' => 'element/icon'];
     //        $url = str_replace(
     //            VCV_VERSION,
     //            $version,
-    //            $helper->getElementDownloadUrl(['token' => 'free-token', 'bundle' => 'element/icon'])
+    //            $helper->getAssetDownloadUrl('element', $urlParam)
     //        );
     //
     //        BundleHelperTest::$elementJson = $helper->getRemoteBundleJson($url);
@@ -63,10 +64,11 @@ class BundleHelperTest extends WP_UnitTestCase
     {
         $version = $this->getLatestWpVersion();
         $helper = vchelper('HubBundle');
+        $urlParam = ['token' => 'free-token', 'bundle' => 'predefinedTemplate/weddingPage'];
         $url = str_replace(
             VCV_VERSION,
             $version,
-            $helper->getTemplateDownloadUrl(['token' => 'free-token', 'bundle' => 'predefinedTemplate/weddingPage'])
+            $helper->getAssetDownloadUrl('template', $urlParam)
         );
 
         BundleHelperTest::$templateJson = $helper->getRemoteBundleJson($url);
@@ -79,10 +81,11 @@ class BundleHelperTest extends WP_UnitTestCase
     {
         $version = $this->getLatestWpVersion();
         $helper = vchelper('HubBundle');
+        $urlParam = ['token' => 'free-token', 'bundle' => 'addon/pluginVersionCheck'];
         $url = str_replace(
             VCV_VERSION,
             $version,
-            $helper->getAddonDownloadUrl(['token' => 'free-token', 'bundle' => 'addon/pluginVersionCheck'])
+            $helper->getAssetDownloadUrl('addon', $urlParam)
         );
 
         BundleHelperTest::$addonJson = $helper->getRemoteBundleJson($url);

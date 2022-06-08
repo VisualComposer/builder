@@ -1,7 +1,7 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-export const Swatch = (props) => {
+const Swatch = (props) => {
   const convertStyles = (color) => {
     const styles = {
       height: '100%',

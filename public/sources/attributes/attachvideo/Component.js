@@ -110,8 +110,8 @@ export default class AttachVideo extends Attribute {
   }
 
   handleRemove (key) {
-    const ids = this.state.value.ids
-    const urls = this.state.value.urls
+    const ids = [...this.state.value.ids]
+    const urls = [...this.state.value.urls]
     ids.splice(key, 1)
     urls.splice(key, 1)
     let fieldValue = { ids: [], urls: [] }
@@ -136,7 +136,7 @@ export default class AttachVideo extends Attribute {
     const ids = []
     const urls = []
     const icons = []
-    selection.models.forEach((attachment, index) => {
+    selection.models.forEach((attachment) => {
       const attachmentData = this.mediaAttachmentParse(attachment)
       // let url = Object.assign({}, attachmentData.url)
       ids.push(attachmentData.id)

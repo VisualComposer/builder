@@ -120,12 +120,16 @@ export default class DndDataSet {
         value: _.defaults(options, {
           cancelMove: false,
           moveCallback: function () {
+            // do nothing
           },
           dropCallback: function () {
+            // do nothing
           },
           startCallback: function () {
+            // do nothing
           },
           endCallback: function () {
+            // do nothing
           },
           window: window,
           document: document,
@@ -143,6 +147,7 @@ export default class DndDataSet {
           customScroll: false,
           scrollContainer: null,
           scrollCallback: function () {
+            // do nothing
           },
           isAttribute: false,
           disableMobile: false,
@@ -229,7 +234,8 @@ export default class DndDataSet {
     }
   }
 
-  removeItem (id) {
+  removeItem () {
+    // do nothing
   }
 
   removePlaceholder () {
@@ -269,7 +275,7 @@ export default class DndDataSet {
     return domElement.$node.parents('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
   }
 
-  findDOMNode (point, id = null) {
+  findNode (point, id = null) {
     let domNode
     if (id) {
       domNode = this.options.document.getElementById(id)
@@ -324,7 +330,7 @@ export default class DndDataSet {
       this.removeMouseOverStartBlank()
       this.elementToColumn = null
     } else {
-      let domNode = this.findDOMNode(point)
+      let domNode = this.findNode(point)
       let domElement = this.getDomElement(domNode)
       if (!domElement) {
         return
@@ -396,7 +402,7 @@ export default class DndDataSet {
           const targetColumn = columnsRect.findIndex(column => point && point.x > column.left && point.x < column.right)
           if (targetColumn > -1 && children[targetColumn]) {
             const columnId = `el-${children[targetColumn].id}`
-            domNode = this.findDOMNode({}, columnId)
+            domNode = this.findNode({}, columnId)
             domElement = this.getDomElement(domNode)
             parentDOMElement = this.getDomElementParent(domElement.parent()) || null
           }
@@ -763,7 +769,7 @@ export default class DndDataSet {
       this.startDragTimeout = setTimeout(() => {
         this.startDragTimeout = null
         e.preventDefault()
-        this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY }, null, this.findDOMNode({ x: e.touches[0].clientX, y: e.touches[0].clientY }))
+        this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY }, null, this.findNode({ x: e.touches[0].clientX, y: e.touches[0].clientY }))
       }, 450)
     }
   }

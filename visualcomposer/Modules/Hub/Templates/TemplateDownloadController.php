@@ -25,7 +25,8 @@ class TemplateDownloadController extends ElementDownloadController implements Mo
     {
         $hubBundleHelper = vchelper('HubBundle');
         // $bundle is the template ID
-        $url = $hubBundleHelper->getTemplateDownloadUrl(['token' => $token, 'bundle' => $bundle]);
+        $urlParam = ['token' => $token, 'bundle' => $bundle];
+        $url = $hubBundleHelper->getAssetDownloadUrl('template', $urlParam);
         $response = wp_remote_get(
             $url,
             [

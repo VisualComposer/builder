@@ -32,11 +32,6 @@ class SystemStatusController extends Container implements Module
             'vcv:ajax:settings:systemStatus:checkPayloadProcessing:adminNonce',
             'checkPayloadProcessing'
         );
-        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::checkContentZipType */
-        $this->addFilter(
-            'vcv:ajax:settings:systemStatus:checkContentZipType:adminNonce',
-            'checkContentZipType'
-        );
         $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
     }
 
@@ -62,25 +57,6 @@ class SystemStatusController extends Container implements Module
     }
 
     /**
-     * Set option that determine data we use for our ajax requests.
-     * By default, we use base64 but in cases when server support it we use just binary data.
-     *
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @return mixed
-     */
-    protected function checkContentZipType(Request $requestHelper, Options $optionsHelper)
-    {
-        $check = $requestHelper->input('vcv-check-content-zip-type');
-
-        if ($check) {
-            $optionsHelper->set('content:zip:type', 'binary');
-        }
-
-        return false;
-    }
-
-    /**
      * Add frontend variables.
      *
      * @param array $variables
@@ -89,9 +65,22 @@ class SystemStatusController extends Container implements Module
      */
     protected function addVariables($variables, Options $optionsHelper)
     {
+        $isBinary = true;
+
+        // is user enable toggle manually we should not use binary saving anymore
+        if ($optionsHelper->get('settings-alternative-saving-enabled') === 'itemAlternativeSavingDisabled') {
+            $isBinary = false;
+        }
+
         $variables[] = [
-            'key' => 'VCV_CONTENT_ZIP_TYPE',
-            'value' => $optionsHelper->get('content:zip:type', ''),
+            'key' => 'VCV_IS_BINARY_CONTENT',
+            'value' => $isBinary,
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_JS_SAVE_ZIP',
+            'value' => \VcvEnv::get('VCV_JS_SAVE_ZIP', true),
             'type' => 'constant',
         ];
 

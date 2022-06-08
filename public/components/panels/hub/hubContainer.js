@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import HubItemController from './hubItemController'
 import NavigationSlider from 'public/components/navigationSlider/navigationSlider'
-import Scrollbar from '../../scrollbar/scrollbar.js'
+import Scrollbar from '../../scrollbar/scrollbar'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
@@ -217,7 +217,7 @@ export default class HubContainer extends React.Component {
     return {}
   }
 
-  addElement (element, presetId = false) {
+  addElement (element = false) {
     const workspace = workspaceStorage.state('settings').get() || false
     element.parent = workspace && workspace.element ? workspace.element.id : false
     element = cook.get(element).toJS()

@@ -1,24 +1,19 @@
 import React from 'react'
+import { Dispatch } from 'redux' // eslint-disable-line
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
 import PremiumTeaser from '../../components/premiumTeasers/component'
 import { connect } from 'react-redux'
 import { activeFullPopupSet } from '../../editor/stores/editorPopup/slice'
-import { AppStateType } from "../../editor/stores/reducer"
-import { Dispatch } from 'redux'
+import { AppStateType } from '../../editor/stores/reducer'
+import { FullPagePopupContainerProps } from './types'
 
 const dataManager = getService('dataManager')
 
-type Props = {
-  activeFullPopupSet: (activeFullPopup:string | boolean) => void,
-  fullScreenPopupData: any
-  activeFullPopup: string
-}
-
-const FullPagePopupContainer: React.FC<Props> = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }) => {
+const FullPagePopupContainer = ({ activeFullPopupSet, fullScreenPopupData, activeFullPopup }: FullPagePopupContainerProps) => {
   const handleCloseClick = () => {
     window.setTimeout(() => {
-      activeFullPopupSet(false)
+      activeFullPopupSet('')
     }, 350)
   }
 
@@ -68,7 +63,7 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 const mapDispatchToProps = (dispatch:Dispatch) => ({
-  activeFullPopupSet: (data:any) => dispatch(activeFullPopupSet(data))
+  activeFullPopupSet: (data: string) => dispatch(activeFullPopupSet(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullPagePopupContainer)

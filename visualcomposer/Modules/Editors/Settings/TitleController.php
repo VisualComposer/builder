@@ -24,7 +24,9 @@ class TitleController extends Container implements Module
     use EventsFilters;
     use WpFiltersActions;
 
-    protected $titleRemoveClosure = null;
+    public $titleRemoveClosure;
+    public $removeTitleFilterClosure;
+    public $addTitleFilterClosure;
 
     public function __construct()
     {
@@ -34,13 +36,13 @@ class TitleController extends Container implements Module
         );
 
         //remove the filer before menu title render
-        $this->wpAddFilter(
+        $this->removeTitleFilterClosure = $this->wpAddFilter(
             'wp_nav_menu_args',
             'removeTitleFilter'
         );
 
         //add the filter back after the menu title is rendered
-        $this->wpAddFilter(
+        $this->addTitleFilterClosure = $this->wpAddFilter(
             'wp_nav_menu_items',
             'addTitleFilter'
         );

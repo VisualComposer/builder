@@ -28,7 +28,7 @@ export default class AjaxForm extends Attribute {
     this.requestToServer()
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate () {
     if (this.state.formStatus && this.fieldContainer && !this.state.formBound) {
       this.fields = Array.from(this.fieldContainer.querySelectorAll('input, select, textarea, datalist'))
       this.bindFormChangeEvents()

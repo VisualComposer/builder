@@ -331,7 +331,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * Render box model
    * @returns {*}
    */
-  renderBoxModel (defaultStyles) {
+  renderBoxModel () {
     if (this.state.devices[this.state.currentDevice].display) {
       return null
     }

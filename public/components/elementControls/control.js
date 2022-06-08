@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import classNames from 'classnames'
 import { getService, getStorage } from 'vc-cake'
 import ControlDropdown from './controlDropdown'
@@ -12,6 +12,11 @@ export default function Control (props) {
   const [activeDropdown, setActiveDropdown] = useState(false)
   const [hoverClasses, setHoverClasses] = useState([])
   const [isDropdownActive, setIsDropdownActive] = useState(false)
+
+  const handleHoverOut = useCallback(() => {
+    setHoverClasses([])
+    setIsDropdownActive(false)
+  }, [])
 
   const vcElement = ControlHelpers.getVcElement(props.id)
   if (!vcElement) {
@@ -52,11 +57,6 @@ export default function Control (props) {
   const handleHover = (classes) => {
     setHoverClasses(classes)
     setIsDropdownActive(true)
-  }
-
-  const handleHoverOut = () => {
-    setHoverClasses([])
-    setIsDropdownActive(false)
   }
 
   const controlDropdown = activeDropdown ? <ControlDropdown id={props.id} handleHover={handleHover} handleHoverOut={handleHoverOut} /> : null

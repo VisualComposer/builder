@@ -29,35 +29,9 @@ const Outlines = (props) => {
     setPosition(getPosition(el))
   }, [selector, iframe])
 
-  let outlineTimeout = null
-
-  const stopAutoUpdatePosition = () => {
-    if (outlineTimeout) {
-      window.clearInterval(outlineTimeout)
-      outlineTimeout = null
-    }
-  }
-
-  const updatePosition = () => {
-    setPosition(getPosition(element))
-  }
-
-  const autoUpdatePosition = () => {
-    stopAutoUpdatePosition()
-    if (!outlineTimeout) {
-      updatePosition()
-      outlineTimeout = window.setInterval(updatePosition, 16)
-    }
-  }
-
   useEffect(() => {
     if (element) {
-      autoUpdatePosition()
-    } else {
-      stopAutoUpdatePosition()
-    }
-    return () => {
-      stopAutoUpdatePosition()
+      setPosition(getPosition(element))
     }
   }, [element])
 

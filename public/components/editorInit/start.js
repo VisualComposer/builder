@@ -138,7 +138,7 @@ export const start = (callback) => {
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        window.addEventListener('load', (event) => {
+        window.addEventListener('load', () => {
           $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
           const $layoutContainer = $('.vcv-layout-container')
           if ($layoutContainer) {

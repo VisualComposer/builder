@@ -4,7 +4,9 @@ import { getService } from 'vc-cake'
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
-declare const window: any
+declare global {
+  interface Window { vcvWpAdminUrl: string; }
+}
 
 const AssignLayoutControl: React.FC = () => {
   const assignLayoutTitle = localizations ? localizations.assignLayout : 'Assign Layout to...'
@@ -12,15 +14,15 @@ const AssignLayoutControl: React.FC = () => {
   const assignUrl = adminLink + 'admin.php?page=vcv-headers-footers'
 
   return (
-      <div className='vcv-ui-navbar-controls-set'>
-          <a
-            className='vcv-ui-navbar-control'
-            href={assignUrl}
-            title={assignLayoutTitle}
-          >
-            {assignLayoutTitle}
-          </a>
-      </div>
+    <div className='vcv-ui-navbar-controls-set'>
+      <a
+        className='vcv-ui-navbar-control'
+        href={assignUrl}
+        title={assignLayoutTitle}
+      >
+        {assignLayoutTitle}
+      </a>
+    </div>
   )
 }
 

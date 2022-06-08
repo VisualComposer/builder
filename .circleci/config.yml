@@ -14,7 +14,8 @@ jobs:
             - v1-node-codestyle-{{ arch }}-
       - run: npm install -g n
       - run: n 14
-      - run: yarn install --frozen-lockfile && yarn standard
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
       - save_cache:
           key: v1-node-codestyle-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -313,11 +314,13 @@ jobs:
       - run: n 14
       - run: yarn install
       - run: yarn build
-      - run: yarn test -u --forceExit
+      - run: yarn test -u
       - save_cache:
           key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+    # The resource_class feature allows configuring CPU and RAM resources for each job. Different resource classes are available for different executors. https://circleci.com/docs/2.0/configuration-reference/#resourceclass
+    resource_class: large
 workflows:
   version: 2
   codestyle:

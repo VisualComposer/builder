@@ -1,5 +1,5 @@
-import { getService, addService, env } from 'vc-cake'
-import { deflate } from 'pako/lib/deflate'
+import { getService, addService } from 'vc-cake'
+import { deflate } from 'pako'
 import base64 from 'base-64'
 
 // compute once, optimization for recalculate styles
@@ -67,7 +67,7 @@ const API = {
     const binaryStringBuffer = deflate(JSON.stringify(data))
     const dataManager = getService('dataManager')
 
-    if (data['vcv-check-content-zip-type'] || dataManager.get('contentZipType') === 'binary') {
+    if (data['vcv-check-content-zip-type'] || dataManager.get('isBinaryContent')) {
       data = new Blob([new Uint8Array(binaryStringBuffer)], { type: 'application/octet-stream' })
     } else {
       let binary = ''
@@ -86,7 +86,7 @@ const API = {
     const dataManager = getService('dataManager')
     const request = new window.XMLHttpRequest()
     request.open('POST', dataManager.get('adminAjaxUrl'), true)
-    request.onload = (response) => {
+    request.onload = () => {
       if (request.status >= 200 && request.status < 400) {
         successCallback(request)
       } else {
@@ -95,7 +95,7 @@ const API = {
         }
       }
     }
-    request.onerror = (response) => {
+    request.onerror = () => {
       if (typeof failureCallback === 'function') {
         failureCallback(request)
       }
@@ -103,9 +103,7 @@ const API = {
 
     let sendArgs = window.jQuery.param(data)
 
-    if (env('VCV_JS_SAVE_ZIP') === false) {
-      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    } else {
+    if (dataManager.get('isEnvJsSaveZip')) {
       const utils = getService('utils')
       const compressed = utils.compressData(data)
 
@@ -121,6 +119,8 @@ const API = {
         }
         sendArgs = window.jQuery.param(data)
       }
+    } else {
+      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     }
 
     request.send(sendArgs)
@@ -176,7 +176,7 @@ const API = {
     const urlRegex = /url\(\s*(['"]?)(.*?)\1\s*\)/g
     const encodedUrls = html.match(urlRegex)
     if (encodedUrls && encodedUrls.length) {
-      const decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, "'"))
+      const decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, '\''))
       encodedUrls.forEach((url, i) => {
         html = html.replace(url, decodedUrls[i])
       })

@@ -37,20 +37,34 @@ class BundleController extends Container implements Module
     ) {
         if ($userCapabilitiesHelper->canEdit($post->ID)) {
             $savedEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
-            $isGutenbergEnabled = $optionsHelper->get('settings-gutenberg-editor-enabled', true);
+            $isGutenbergEnabled = (bool)$optionsHelper->get('settings-gutenberg-editor-enabled', true);
 
-            $currentEditor = false;
-            if ($isGutenbergEnabled && $requestHelper->input('vcv-set-editor') === 'gutenberg') {
-                $currentEditor = 'gutenberg';
-            }
+            // New page/post
+            $editor = $isGutenbergEnabled ? 'gutenberg' : 'classic';
 
-            if (!$currentEditor && !$savedEditor) {
-                $editor = 'gutenberg';
-            } elseif (!$currentEditor) {
+            // Give a preference to saved editor
+            if ($savedEditor) {
                 $editor = $savedEditor;
-            } else {
-                $editor = $currentEditor;
+                // but we can't load gutenberg if it is disabled in settings
+                if (!$isGutenbergEnabled && $savedEditor === 'gutenberg') {
+                    $editor = 'classic';
+                }
             }
+
+            // Handle the click on "Gutenberg Editor" button
+            if (
+                $isGutenbergEnabled
+                && $requestHelper->input('vcv-set-editor') === 'gutenberg'
+                && !$requestHelper->exists('classic-editor')
+            ) {
+                $editor = 'gutenberg';
+            }
+
+            // Handle the click on "Classic Editor" button
+            if (!$isGutenbergEnabled && $requestHelper->exists('classic-editor')) {
+                $editor = 'classic';
+            }
+
             echo sprintf(
                 '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="%s">',
                 esc_attr(

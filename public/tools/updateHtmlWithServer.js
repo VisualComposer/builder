@@ -7,7 +7,7 @@ const dataProcessor = getService('dataProcessor')
 const shortcodeAssetsStorage = getStorage('shortcodeAssets')
 const { getShortcodesRegexp } = getService('utils')
 
-let requests = {}
+const requests = {}
 
 export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
   const iframe = env('iframe')

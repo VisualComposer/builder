@@ -130,6 +130,11 @@ class PluginsController extends Container implements Module
      */
     protected function pluginsPageLink($links)
     {
+        $active = vcfilter('vcv:vendors:pluginsController:pluginsPageLink', true);
+
+        if (!$active) {
+            return $links;
+        }
         /** @noinspection HtmlUnknownTarget */
         $goPremiumLink = sprintf(
             '<a href="%s" class="vcv-plugins-go-premium" target="_blank" rel="noopener noreferrer">%s</a>',

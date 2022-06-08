@@ -18,8 +18,12 @@ export default {
   DefaultTextAreaEditor (element) {
     const $el = window.jQuery(element)
     return {
-      setSize: () => {},
-      refresh: () => {},
+      setSize: () => {
+        // do nothing
+      },
+      refresh: () => {
+        // do nothing
+      },
       setValue: (value) => {
         if (typeof value === 'undefined') {
           console.warn('getEditor default value is undefined', $el)

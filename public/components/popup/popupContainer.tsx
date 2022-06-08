@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { Dispatch } from 'redux' // eslint-disable-line
 import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
 import VotePopup from './popups/votePopup'
@@ -8,19 +9,12 @@ import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
 import { connect } from 'react-redux'
 import { allPopupsHidden, popupVisibilitySet } from '../../editor/stores/editorPopup/slice'
-import { AppStateType } from "../../editor/stores/reducer"
-import { Dispatch } from 'redux'
+import { AppStateType } from '../../editor/stores/reducer'
+import { PopupContainerProps } from './types'
 
 const elementsStorage = getStorage('elements')
 
-type Props = {
-  activePopup: string,
-  allPopupsHidden: () => void,
-  isPopupVisible: boolean,
-  popupVisibilitySet: (status:boolean) => void,
-}
-
-const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopupVisible, popupVisibilitySet }) => {
+const PopupContainer = ({ activePopup, allPopupsHidden, isPopupVisible, popupVisibilitySet }: PopupContainerProps) => {
   const [actionClicked, setActionClicked] = useState(false)
 
   const handleDocumentChange = useCallback((data:[]) => {
@@ -30,7 +24,7 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
         elementsStorage.state('document').ignoreChange(handleDocumentChange)
       }, activePopup === 'pricingPopup' ? 20000 : 500)
     }
-  }, [activePopup]);
+  }, [popupVisibilitySet, activePopup])
 
   useEffect(() => {
     elementsStorage.state('document').onChange(handleDocumentChange)
@@ -39,10 +33,9 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
     }
   }, [handleDocumentChange])
 
-
   const handleCloseClick = () => {
-      popupVisibilitySet(false)
-      window.setTimeout(() => {
+    popupVisibilitySet(false)
+    window.setTimeout(() => {
       allPopupsHidden()
     }, 500)
   }
@@ -51,8 +44,8 @@ const PopupContainer: React.FC<Props> = ({ activePopup, allPopupsHidden, isPopup
     setActionClicked(true)
     window.setTimeout(() => {
       setActionClicked(false)
-        popupVisibilitySet(false);
-        allPopupsHidden()
+      popupVisibilitySet(false)
+      allPopupsHidden()
     }, 500)
   }
 

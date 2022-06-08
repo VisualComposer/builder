@@ -14,21 +14,21 @@ export default class ImageGallery extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    this.prepareImage(this.props.atts.image)
+    this.prepareImage(JSON.parse(JSON.stringify(this.props.atts.image)))
   }
 
   componentDidUpdate (prevProps) {
     if (!isEqual(this.props.atts.image, prevProps.atts.image) || this.props.atts.image.length !== this.state.imgSrc.length) {
       this.imageSources = []
       this.imageOrder = {}
-      this.prepareImage(this.props.atts.image)
+      this.prepareImage(JSON.parse(JSON.stringify(this.props.atts.image)))
     }
   }
 
   prepareImage (image) {
     if (image.length && typeof image[0] === 'object') {
       const newImages = []
-      image.forEach((item, index) => {
+      image.forEach((item) => {
         const newItem = item
         newItem.full = newItem.id ? newItem.full : this.getImageUrl(newItem.full)
         newItem.id = newItem.id ? newItem.id : Math.random()

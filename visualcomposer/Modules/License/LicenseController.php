@@ -48,7 +48,7 @@ class LicenseController extends Container implements Module
      *
      * @return array|mixed|object
      */
-    protected function activate(
+    public function activate(
         Request $requestHelper,
         Logger $loggerHelper,
         License $licenseHelper,
