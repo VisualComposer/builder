@@ -10,7 +10,8 @@ const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
 interface Props {
-  sectionType: string
+  sectionType: string,
+  isOpened: boolean
 }
 
 interface Item {
@@ -23,8 +24,8 @@ interface Item {
     contentType?:string
 }
 
-const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
-  const [isSectionOpened, setIsSectionOpened] = useState(true)
+const LayoutsSection: React.FC<Props> = ({ sectionType, isOpened }) => {
+  const [isSectionOpened, setIsSectionOpened] = useState(isOpened)
   const [activeItem, setActiveItem] = useState(0)
   // @ts-ignore
   let sectionData:Item[] = LayoutsData[sectionType]

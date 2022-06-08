@@ -47,18 +47,13 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   const [dropdownValue, setDropdownValue] = useState({ value: '' })
   const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
   const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    workspaceStorage.state('downloadingItems').onChange(downloadTemplate)
-    hubTemplatesStorage.state('templates').onChange(templateStorageChange)
-    return () => {
-      workspaceStorage.state('downloadingItems').ignoreChange(downloadTemplate)
-      hubTemplatesStorage.state('templates').ignoreChange(templateStorageChange)
-    }
-  })
+  const [isDropdownFocused, setIsDropdownFocused] = useState(isActive)
 
   const handleTemplateChange = useCallback((templateType:string, id:string) => {
     removeAllElements()
+    if (templateType !== 'hub') {
+      handleClick(index)
+    }
     elementsStorage.state('elementAddList').set([])
     const next = (elements:[]) => {
       const existingJobs = assetsStorage.state('jobs').get()
@@ -130,7 +125,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         next(response.data)
       })
     }
-  }, [])
+  }, [handleClick, index])
 
   const updateLayout = useCallback((data: { value: string }) => {
     setDropdownValue(data)
@@ -184,8 +179,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   }, [isLoading])
 
   const handleItemClick = useCallback(() => {
-    handleClick(index)
     if (itemData.control === 'button') {
+      handleClick(index)
       const data = {
         type: itemData.type,
         value: itemData.value,
@@ -197,7 +192,11 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         updateLayout(data)
       }
     }
+    if (itemData.control === 'dropdown') {
+      setIsDropdownFocused(true)
+    }
     if (itemData.isPageIntro) {
+      handleClick(index)
       let templates = hubTemplates
       if (Object.keys(hubTemplates).length === 0) {
         templates = hubTemplatesStorage.state('templates').get()
@@ -211,6 +210,16 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       }
     }
   }, [handleClick, handleTemplateChange, hubTemplates, index, itemData, updateLayout])
+
+  useEffect(() => {
+    setIsDropdownFocused(isActive)
+    workspaceStorage.state('downloadingItems').onChange(downloadTemplate)
+    hubTemplatesStorage.state('templates').onChange(templateStorageChange)
+    return () => {
+      workspaceStorage.state('downloadingItems').ignoreChange(downloadTemplate)
+      hubTemplatesStorage.state('templates').ignoreChange(templateStorageChange)
+    }
+  }, [isActive, downloadTemplate, templateStorageChange])
 
   const removeAllElements = () => {
     const allElements = documentManager.children(false)
@@ -237,6 +246,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   }
 
   const handleLayoutChange = useCallback((selectedTemplate:string) => {
+    handleClick(index)
     const layoutData = selectedTemplate.split('__')
     const value = layoutData[1]
     const data = {
@@ -245,7 +255,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       stretchedContent: false
     }
     updateLayout(data)
-  }, [updateLayout])
+  }, [updateLayout, handleClick, index])
 
   const getElementExceededLimitStatus = (element:{ metaElementLimit:string, tag:string }) => {
     interface LimitData {
@@ -289,6 +299,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       })
       dropdown = (
         <CustomLayoutDropdown
+          isFocused={isDropdownFocused}
           onTemplateChange={handleLayoutChange}
           current={dropdownValue}
           options={hfsLayouts}
@@ -301,6 +312,9 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         const userTemplates = dataManager.get('globalTemplatesList')
+        if (!userTemplates.length) {
+          return null
+        }
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
@@ -324,6 +338,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         fieldKey = 'popupTemplate'
       }
       dropdown = (<Dropdown
+        isFocused={isDropdownFocused}
         fieldKey={fieldKey}
         options={options}
         value={{ value: '' }}

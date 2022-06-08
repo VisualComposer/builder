@@ -58,7 +58,7 @@
       font-size: 9px;
       color: @blank-page-intro-icons-color;
       margin-left: auto;
-      transition: color .2s ease-in-out;
+      transition: color @vcv-transition-duration @vcv-transition-timing-function;
     }
   }
 
@@ -92,6 +92,11 @@
   font-weight: 500;
   height: @blank-page-intro-settings-button-size;
   padding: 15px;
+  transition: border-color @vcv-transition-duration @vcv-transition-timing-function;
+
+  &:hover {
+    border-color: #C6C6CD;
+  }
 }
 
 .blank-page-form .vcv-ui-form-dropdown {
@@ -108,7 +113,7 @@
 }
 
 .blank-page-form  .vcv-ui-scroll-content {
-  padding: 0 5px; // to prevent item box shadow cutoff
+  padding: 0 15px 0 5px; // to prevent item box shadow cutoff and place scroll bar
 }
 
 .blank-page-input-container {
@@ -208,7 +213,7 @@
 .template-groups-container {
   flex: 1 0 auto;
   margin-top: 30px;
-  margin-right: 12px;
+  //margin-right: 12px;
   margin-bottom: 40px;
 }
 
@@ -225,6 +230,8 @@
   .vcv-ui-icon-chevron-thick {
     font-size: 9px;
     color: @blank-page-intro-icons-color;
+    padding: 6px;
+    margin-right: -6px;
   }
 }
 
@@ -258,10 +265,15 @@
   flex-direction: column;
   border-radius: @blank-page-intro-item-border-radius;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.15);
+  transition: box-shadow @vcv-transition-duration @vcv-transition-timing-function;
   cursor: pointer;
 
   &:hover {
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
+
+    .vcv-ui-icon-checked-circle {
+      color: #D4D4D4;
+    }
   }
 }
 
@@ -311,6 +323,7 @@
     margin-left: auto;
     font-size: 20px;
     color: transparent;
+    transition: color @vcv-transition-duration @vcv-transition-timing-function;
   }
 }
 
@@ -345,7 +358,7 @@
   text-decoration: none;
   padding: 15px 20px;
   color: @vcv-color-white;
-  transition: background .2s;
+  transition: background @vcv-transition-duration @vcv-transition-timing-function;
   box-shadow: none;
   outline: none;
   text-transform: uppercase;

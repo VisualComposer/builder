@@ -20,7 +20,8 @@ export default class Dropdown extends Attribute {
     extraClass: PropTypes.any,
     description: PropTypes.string,
     noValueDescription: PropTypes.string,
-    hasValueDescription: PropTypes.string
+    hasValueDescription: PropTypes.string,
+    isFocused: PropTypes.bool
   }
 
   static defaultProps = {
@@ -29,6 +30,12 @@ export default class Dropdown extends Attribute {
 
   constructor (props) {
     super(props)
+
+    this.dropdownRef = null
+
+    this.setDropdownRef = (element) => {
+      this.dropdownRef = element
+    }
 
     this.state.dropdownOptions = this.getSelectOptions(props)
 
@@ -39,6 +46,9 @@ export default class Dropdown extends Attribute {
     super.componentDidUpdate(prevProps)
     if (!isEqual(prevProps, this.props)) {
       this.setState({ dropdownOptions: this.getSelectOptions(this.props) })
+    }
+    if (this.props.isFocused) {
+      this.dropdownRef.focus()
     }
   }
 
@@ -227,6 +237,7 @@ export default class Dropdown extends Attribute {
     return (
       <>
         <select
+          ref={this.setDropdownRef}
           value={value}
           onChange={this.handleChange}
           className={selectClass}
