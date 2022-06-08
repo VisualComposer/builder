@@ -24,14 +24,17 @@ class EditorVariablesController extends Container implements Module
     protected function addVariables($variables, $payload)
     {
         $licenseHelper = vchelper('License');
-        $isPremiumActivated = $licenseHelper->isPremiumActivated();
+        $active = vcfilter(
+            'vcv:modules:license:editorVariablesController:addVariables',
+            $licenseHelper->isPremiumActivated()
+        );
         $variables[] = [
             'key' => 'vcvIsPremiumActivated',
-            'value' => $isPremiumActivated,
+            'value' => $active,
             'type' => 'variable',
         ];
 
-        if (!$isPremiumActivated) {
+        if (!$active) {
             $variables[] = [
                 'key' => 'vcvAgreeHubTerms',
                 'value' => $licenseHelper->agreeHubTerms(),
