@@ -24,8 +24,6 @@ class TemplatesUpdater extends Container implements Module
 
     protected $importedImages = [];
 
-    protected $templatePostType;
-
     public static $needAttachmentMetadataList = [];
 
     public function __construct()
@@ -62,15 +60,14 @@ class TemplatesUpdater extends Container implements Module
             return false;
         }
 
-        $this->templatePostType = isset($payload['actionData']['action']) && $payload['actionData']['action'] === 'template/tutorial' ? 'vcv_tutorials' : 'vcv_templates';
-        $template['name'] = $this->templatePostType === 'vcv_tutorials' ? 'Tutorial Page' : $payload['actionData']['data']['name'];
-        $templateElements = $template['data'];
+        $templatePostType = isset($payload['actionData']['action']) && $payload['actionData']['action'] === 'template/tutorial' ? 'vcv_tutorials' : 'vcv_templates';
+        $template['name'] = $templatePostType === 'vcv_tutorials' ? 'Tutorial Page' : $payload['actionData']['data']['name'];
 
         $templateMeta = $hubTemplatesHelper->processTemplateMetaImages(
             [
                 'id' => $template['id'],
-                'preview' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['preview'],
-                'thumbnail' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['thumbnail'],
+                'preview' => $templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['preview'],
+                'thumbnail' => $templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['thumbnail'],
             ]
         );
 
@@ -78,28 +75,14 @@ class TemplatesUpdater extends Container implements Module
         $template['thumbnail'] = $templateMeta['thumbnail'];
         $template['preview'] = $templateMeta['preview'];
 
-        if ($this->templatePostType !== 'vcv_tutorials') {
-            $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
-            $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
-            $templateElements = $this->processDesignOptions($templateElements, $template);
+        if ($templatePostType !== 'vcv_tutorials') {
+            $elementsImages = $wpMediaHelper->getTemplateElementMedia($template['data']);
         }
-
-        // Check if menu source is exist or not
-        $templateElements = $this->isMenuExist($templateElements);
-        $templateElements = json_decode(
-            str_replace(
-                '[publicPath]',
-                $hubTemplatesHelper->getTemplatesUrl($template['id']),
-                wp_json_encode($templateElements)
-            ),
-            true
-        );
-        unset($template['data']);
 
         $templateHelper = vchelper('HubTemplates');
         $templateId = $templateHelper->insertNewTemplate(
             $template['id'],
-            $this->templatePostType,
+            $templatePostType,
             $payload['actionData']['data']['name']
         );
 
@@ -109,13 +92,17 @@ class TemplatesUpdater extends Container implements Module
             $type = 'hub';
         }
 
+        $templateElements = $this->getTemplateElements($template, $templatePostType, $template['id'], $elementsImages);
+
+        unset($template['data']);
+
         $templateHelper->updateTemplateMetas(
             $templateId,
             $template,
             $type,
             $payload['actionData']['action'],
             $templateElements,
-            $this->templatePostType
+            $templatePostType
         );
 
         /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
@@ -142,6 +129,44 @@ class TemplatesUpdater extends Container implements Module
 
 
         return $response;
+    }
+
+    /**
+     * Get template elements.
+     *
+     * @param array $template
+     * @param string $templatePostType
+     * @param string $folder
+     * @param array $elementsImages
+     *
+     * @return mixed
+     */
+    public function getTemplateElements($template, $templatePostType, $folder, $elementsImages = false)
+    {
+        $templateElements = $template['data'];
+        if ($templatePostType !== 'vcv_tutorials') {
+            if ($elementsImages) {
+                unset($template['data']);
+                $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
+                $templateElements = $this->processDesignOptions($templateElements, $template);
+            }
+        }
+
+        $hubTemplatesHelper = vchelper('HubTemplates');
+
+        // Check if menu source is exist or not
+        $templateElements = $this->isMenuExist($templateElements);
+
+        $templateElements = json_decode(
+            str_replace(
+                '[publicPath]',
+                $hubTemplatesHelper->getTemplatesUrl($folder),
+                wp_json_encode($templateElements)
+            ),
+            true
+        );
+
+        return $templateElements;
     }
 
     /**
