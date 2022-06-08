@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\PageLayout;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -100,15 +101,17 @@ class PageTemplatesController extends Container implements Module
         return $output;
     }
 
-    protected function viewPageTemplate($originalTemplate, Request $requestHelper)
-    {
+    protected function viewPageTemplate(
+        $originalTemplate,
+        Request $requestHelper,
+        PageLayout $pageLayoutHelper
+    ) {
         if ($requestHelper->input('vcv-template') === 'default' || $requestHelper->input('vcv-template') === 'theme:default') {
             return $originalTemplate;
         }
 
         /** @see \VisualComposer\Modules\Editors\Settings\PageTemplatesController::getCurrentTemplateLayout */
-        $current = vcfilter(
-            'vcv:editor:settings:pageTemplatesLayouts:current',
+        $current = $pageLayoutHelper->getCurrentPageLayout(
             [
                 'type' => 'theme',
                 'value' => $originalTemplate,
