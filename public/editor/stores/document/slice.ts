@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getService } from 'vc-cake'
-import lodash from 'lodash'
 
 interface ElementData {
   id: string,
@@ -106,7 +105,7 @@ const slice = createSlice({
       const newData = action.payload[1]
 
       if (state.documentData[id]) {
-        state.documentData[id] = lodash.merge(state.documentData[id], newData)
+        state.documentData[id] = { ...state.documentData[id], ...newData }
       }
     },
     remove: (state: State, action) => {
