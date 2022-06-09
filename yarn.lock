@@ -6305,9 +6305,9 @@ minimatch@^3.1.2:
     brace-expansion "^1.1.7"
 
 minimist@^1.2.0, minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
+  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
 minimist@^1.2.6:
   version "1.2.6"
@@ -6327,9 +6327,9 @@ mobile-detect@1.4.5:
   integrity sha512-yc0LhH6tItlvfLBugVUEtgawwFU2sIe+cSdmRJJCTMZ5GEJyLxNyC/NIOAOGk67Fa8GNpOttO3Xz/1bHpXFD/g==
 
 moment@^2.27.0:
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
-  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
+  integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
 
 moo@^0.5.0:
   version "0.5.1"
@@ -8792,10 +8792,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vc-cake@0.9.0, vc-cake@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/vc-cake/-/vc-cake-1.1.0.tgz#ca238a0dd2da8f2a748248e409da863cf3b82dea"
-  integrity sha512-eQbf3vIqxL4QaYAcZ/E+hqM2IanERmkmjkMMXdCKwGTfzxJ5+3IobGHB1GIEpwX+Xp6FEfPLh4Ll3A5mXhmgtA==
+vc-cake@0.9.0, vc-cake@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vc-cake/-/vc-cake-1.1.1.tgz#5d936b3a09f11723517cd0dcadaed7039203c364"
+  integrity sha512-6jaR+9eDpOXnSbmVEa1fVHHUy9qa7l6+krhOtigtfEdPD5hN8AQ/24VoMjgIjZz0qo14V4Ur5PqZVmnToOk9dQ==
   dependencies:
     immutable "4.0.0"
     lodash "4.17.21"

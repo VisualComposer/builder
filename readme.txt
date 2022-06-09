@@ -4,11 +4,11 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 6.0
-Stable tag: 44.2.1
+Stable tag: 44.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-[New] Easy drag and drop page builder that gives the freedom to design WordPress websites, landing pages, custom themes, maintenance sode & coming soon pages.
+[New] Easy drag and drop page builder that gives the freedom to design WordPress websites, landing pages, custom themes, maintenance mode & coming soon pages.
 
 == Description ==
 
@@ -221,6 +221,14 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 44.2.2 =
+*Release Date - 2022-06-08*
+
+### Free:
+- Fix: Navigation bar works properly
+- Fix: Free template download works properly
+- Fix: Elements with multiple images work properly
 
 = 44.2.1 =
 *Release Date - 2022-06-02*
