@@ -118,14 +118,7 @@ export default class AddTemplatePanel extends React.Component {
       if (!data[group] || !data[group].templates || !data[group].templates.length) {
         return
       }
-      // Merge hub and predefined groups together for BC
-      if (group === 'predefined' && this.templatesCategories.find(category => category.id === 'predefined')) {
-        const predefinedTemplates = data[group] && data[group].templates ? data[group].templates : []
-        const hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
-        if (hubTemplates) {
-          hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
-        }
-      } else if (!group.toLowerCase().includes('block')) {
+      if (!group.toLowerCase().includes('block')) {
         const groupData = {
           index: index + 1,
           id: group,
@@ -136,8 +129,21 @@ export default class AddTemplatePanel extends React.Component {
         this.templatesCategories.push(groupData)
       }
 
-      delete data[group]
+      if (group !== 'predefined') {
+        delete data[group]
+      }
     })
+
+    // Merge hub and predefined groups together for BC
+    if (this.templatesCategories.find(category => category.id === 'predefined')) {
+      const predefinedTemplates = data.predefined && data.predefined.templates ? data.predefined.templates : []
+      const hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
+      if (hubTemplates) {
+        hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
+      }
+
+      this.templatesCategories = this.templatesCategories.filter(category => category.id !== 'predefined')
+    }
 
     const mostUsedItems = allTemplates.filter(template => template.usageCount > 9).sort((templateA, templateB) => templateB.usageCount - templateA.usageCount).slice(0, 9)
     // Most User Group
