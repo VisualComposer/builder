@@ -34,6 +34,8 @@ export default class CustomLayoutDropdown extends React.Component {
   componentDidUpdate () {
     if (this.props.isFocused) {
       this.dropdownRef.focus()
+    } else {
+      this.dropdownRef.blur()
     }
   }
 
