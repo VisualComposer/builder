@@ -437,7 +437,6 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleApplyTemplate (id, templateType) {
-    console.log('id, templateType', { id, templateType })
     elementsStorage.state('elementAddList').set([])
     const editorType = dataManager.get('editorType')
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
@@ -447,7 +446,6 @@ export default class AddTemplatePanel extends React.Component {
       }
     }
     const next = (elements) => {
-      console.log('next', elements)
       const existingJobs = assetsStorage.state('jobs').get()
       const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter(job => !job.hidden)
       const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
