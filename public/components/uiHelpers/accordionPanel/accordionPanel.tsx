@@ -8,11 +8,12 @@ interface Props {
   sectionTitle: string,
   tooltipText: string,
   isChevron: boolean,
-  classes: string
+  classes: string,
+  isExpanded: boolean
 }
 
-const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, isChevron = false, classes }) => {
-  const [isActive, setIsActive] = useState(true)
+const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, isChevron = false, classes, isExpanded }) => {
+  const [isActive, setIsActive] = useState(isExpanded)
 
   const handleClickToggleSection = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement
