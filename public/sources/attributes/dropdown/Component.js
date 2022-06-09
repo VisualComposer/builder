@@ -49,6 +49,8 @@ export default class Dropdown extends Attribute {
     }
     if (this.props.isFocused) {
       this.dropdownRef.focus()
+    } else {
+      this.dropdownRef.blur()
     }
   }
 
