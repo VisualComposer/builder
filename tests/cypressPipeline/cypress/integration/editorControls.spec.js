@@ -6,7 +6,6 @@ describe('Editor controls', function () {
   it('Checks editor navbar controls and element attributes', function () {
     cy.fixture('../fixtures/editorControls.json').then((settings) => {
       cy.createPage()
-      cy.get('.blank-page-submit-button').click()
 
       // 1. Add element, set attributes
       cy.addElement(ELEMENT_NAME, true)
