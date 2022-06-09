@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
+import MobileDetect from 'mobile-detect'
 import { getStorage, getService } from 'vc-cake'
 import Sidebar from './lib/sidebar'
 import LayoutsSection from './lib/layoutsSection'
@@ -32,6 +33,9 @@ interface IframeWindow {
 
 let addedId = ''
 let iframeWindow:IframeWindow | any = {} // eslint-disable-line
+
+const mobileDetect = new MobileDetect(window.navigator.userAgent)
+const isMobile = mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())
 
 const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false)
@@ -149,6 +153,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
 
   const blankPageClasses = classNames({
     'blank-page-container': true,
+    'blank-page--mobile': isMobile,
     'blank-page-settings--active': isSidebarOpened
   })
 

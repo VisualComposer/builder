@@ -9,6 +9,11 @@
   word-wrap: break-word;
   padding: 30px 40px;
 
+  &.blank-page--mobile .blank-page-settings {
+    top: 60px; // height of the navbar on mobile screens
+    width: 100%;
+  }
+
   &.blank-page-settings--active {
     padding-right: @blank-page-intro-sidebar-width;
 
@@ -415,7 +420,7 @@
   .blank-page-settings {
     right: -100%;
     bottom: 50px; // height of the button
-    width: calc(100% - 60px); // full width - navabr width
+    width: calc(100% - 60px); // full width - navbar width
   }
 
   .blank-page-submit-button {
