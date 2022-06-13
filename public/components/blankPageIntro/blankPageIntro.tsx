@@ -136,6 +136,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
       workspaceStorage.state('settings').set(settings)
     }
     unmountBlankPage()
+    settingsStorage.state('skipBlank').set(true)
   }
 
   const openEditForm = useCallback((action:string, id:string) => {
