@@ -40,15 +40,21 @@ interface Props {
   itemData:any, // eslint-disable-line
   handleClick: (index: number) => void,
   isActive: boolean,
-  index: number
+  index: number,
+  activeItem: number
 }
 
-const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
+const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, activeItem }) => {
   const [dropdownValue, setDropdownValue] = useState({ value: '' })
   const [templateDropdownValue, setTemplateDropdownValue] = useState('')
   const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
   const [isLoading, setIsLoading] = useState(false)
   const [isDropdownFocused, setIsDropdownFocused] = useState(isActive)
+
+  if (itemData.control === 'dropdown') {
+    console.log('isActive', isActive);
+    console.log('isDropdownFocused', isDropdownFocused);
+  }
 
   const handleTemplateChange = useCallback((templateType:string, id:string) => {
     removeAllElements()
@@ -196,6 +202,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       }
     }
     if (itemData.control === 'dropdown') {
+      handleClick(-1)
       setIsDropdownFocused(true)
     }
     if (itemData.isPageIntro) {
@@ -215,7 +222,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   }, [handleClick, handleTemplateChange, hubTemplates, index, itemData, updateLayout])
 
   useEffect(() => {
-    setIsDropdownFocused(isActive)
+    setIsDropdownFocused(activeItem === -1)
     workspaceStorage.state('downloadingItems').onChange(downloadTemplate)
     hubTemplatesStorage.state('templates').onChange(templateStorageChange)
     return () => {
