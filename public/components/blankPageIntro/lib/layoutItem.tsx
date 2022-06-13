@@ -45,6 +45,7 @@ interface Props {
 
 const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
   const [dropdownValue, setDropdownValue] = useState({ value: '' })
+  const [templateDropdownValue, setTemplateDropdownValue] = useState('')
   const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
   const [isLoading, setIsLoading] = useState(false)
   const [isDropdownFocused, setIsDropdownFocused] = useState(isActive)
@@ -55,6 +56,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       handleClick(index)
     }
     elementsStorage.state('elementAddList').set([])
+    settingsStorage.state('skipBlank').set(true)
     const next = (elements:[]) => {
       const existingJobs = assetsStorage.state('jobs').get()
       const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter((job: { hidden: boolean }) => !job.hidden)
@@ -125,7 +127,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         next(response.data)
       })
     }
-  }, [handleClick, index])
+    setTemplateDropdownValue(id)
+  }, [handleClick, index, dropdownValue])
 
   const updateLayout = useCallback((data: { value: string }) => {
     setDropdownValue(data)
@@ -167,7 +170,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       setHubTemplates(templates)
     }
     const template = data[itemData.templateType]?.templates?.find((item: { bundle: string }) => item.bundle === itemData.bundle)
-    if (template) {
+    if (template && isActive) {
       handleTemplateChange(itemData.templateType, template.id)
     }
   }, [hubTemplates.length, handleTemplateChange, itemData.bundle, itemData.templateType])
@@ -341,7 +344,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         isFocused={isDropdownFocused}
         fieldKey={fieldKey}
         options={options}
-        value={{ value: '' }}
+        value={templateDropdownValue}
         updater={handleTemplateChange}
       />)
     }
