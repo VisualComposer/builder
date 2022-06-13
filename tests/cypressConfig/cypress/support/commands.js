@@ -65,6 +65,7 @@
       cy.route('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
     })
     cy.wait('@loadContentRequest')
+    cy.wait(1000)
     cy.get('.blank-page-submit-button').click()
   })
   
