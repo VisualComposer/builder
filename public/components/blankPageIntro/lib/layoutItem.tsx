@@ -51,11 +51,6 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
   const [isLoading, setIsLoading] = useState(false)
   const [isDropdownFocused, setIsDropdownFocused] = useState(isActive)
 
-  if (itemData.control === 'dropdown') {
-    console.log('isActive', isActive);
-    console.log('isDropdownFocused', isDropdownFocused);
-  }
-
   const handleTemplateChange = useCallback((templateType:string, id:string) => {
     removeAllElements()
     if (templateType !== 'hub') {
@@ -134,7 +129,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
       })
     }
     setTemplateDropdownValue(id)
-  }, [handleClick, index, dropdownValue])
+  }, [handleClick, index])
 
   const updateLayout = useCallback((data: { value: string }) => {
     setDropdownValue(data)
@@ -179,7 +174,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
     if (template && isActive) {
       handleTemplateChange(itemData.templateType, template.id)
     }
-  }, [hubTemplates.length, handleTemplateChange, itemData.bundle, itemData.templateType])
+  }, [hubTemplates.length, handleTemplateChange, itemData.bundle, itemData.templateType, isActive])
 
   const downloadTemplate = useCallback((data: { length: number }) => {
     if (data.length && !isLoading) {
@@ -229,7 +224,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
       workspaceStorage.state('downloadingItems').ignoreChange(downloadTemplate)
       hubTemplatesStorage.state('templates').ignoreChange(templateStorageChange)
     }
-  }, [isActive, downloadTemplate, templateStorageChange])
+  }, [isActive, downloadTemplate, templateStorageChange, activeItem])
 
   const removeAllElements = () => {
     const allElements = documentManager.children(false)
