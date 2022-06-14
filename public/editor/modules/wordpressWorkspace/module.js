@@ -2,7 +2,7 @@ import { add, getStorage, getService, env, setData, getData, onDataChange } from
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
-import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
+// import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
@@ -101,11 +101,11 @@ add('wordpressWorkspace', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
-    const removeBlankIntro = () => {
-      ReactDOM.unmountComponentAtNode(iframeContent)
-      workspaceStorage.state('navbarDisabled').set(false)
-      isBlankPageIntro = false
-    }
+    // const removeBlankIntro = () => {
+    //   ReactDOM.unmountComponentAtNode(iframeContent)
+    //   workspaceStorage.state('navbarDisabled').set(false)
+    //   isBlankPageIntro = false
+    // }
     // const addBlankIntro = () => {
     //   ReactDOM.render(
     //     <BlankPageIntro unmountBlankPage={removeBlankIntro} />,
