@@ -317,7 +317,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         const userTemplates = dataManager.get('globalTemplatesList')
-        if (!userTemplates.length) {
+        if (userTemplates && !userTemplates.length) {
           return null
         }
         options = { values: userTemplates }
