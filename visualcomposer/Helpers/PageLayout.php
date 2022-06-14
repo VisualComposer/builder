@@ -29,8 +29,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class PageLayout implements Helper
 {
-    protected $pageLayout = [];
-
     /**
      * Get a filtered current page layout
      *
@@ -40,17 +38,13 @@ class PageLayout implements Helper
      */
     public function getCurrentPageLayout(array $pageTemplate = [])
     {
-        if (empty($this->pageLayout)) {
-            $defaults = wp_parse_args($pageTemplate, [
-                'type' => 'vc-custom-layout',
-                'value' => 'default',
-                'stretchedContent' => 0,
-            ]);
+        $defaults = wp_parse_args($pageTemplate, [
+            'type' => 'vc-custom-layout',
+            'value' => 'default',
+            'stretchedContent' => 0,
+        ]);
 
-            $this->pageLayout = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current', $defaults);
-        }
-
-        return $this->pageLayout;
+        return vcfilter('vcv:editor:settings:pageTemplatesLayouts:current', $defaults);
     }
 
     /**
