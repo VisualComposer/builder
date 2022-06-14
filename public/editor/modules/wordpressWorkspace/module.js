@@ -129,7 +129,7 @@ add('wordpressWorkspace', (api) => {
       documentElements = elements
       if (data.length === 0) {
         if (isBlankPageIntro && !settingsStorage.state('skipBlank').get()) {
-          addBlankIntro()
+          // addBlankIntro()
           isBlankPageIntro = false
         } else {
           isBlankPageIntro = false
@@ -140,7 +140,7 @@ add('wordpressWorkspace', (api) => {
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
-        removeBlankIntro()
+        // removeBlankIntro()
         isBlankPageIntro = false
       } else {
         workspaceStorage.state('navbarDisabled').set(false)
