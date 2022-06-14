@@ -75,6 +75,7 @@ export default class PageSettings extends React.Component {
           key='categories'
           sectionTitle={categoriesTitle}
           tooltipText={categoriesDescription}
+          isExpanded={true}
         >
           <Categories />
         </AccordionPanel>
@@ -89,6 +90,7 @@ export default class PageSettings extends React.Component {
           key='tags'
           sectionTitle={tagsText}
           tooltipText={tagsDescription}
+          isExpanded={true}
         >
           <Tags />
         </AccordionPanel>
@@ -101,6 +103,7 @@ export default class PageSettings extends React.Component {
         <AccordionPanel
           key='featuredImage'
           sectionTitle={featuredImage}
+          isExpanded={true}
         >
           <FeaturedImage />
         </AccordionPanel>
@@ -113,6 +116,7 @@ export default class PageSettings extends React.Component {
         <AccordionPanel
           key='parentPage'
           sectionTitle={parentPageTitle}
+          isExpanded={true}
         >
           <ParentPage />
         </AccordionPanel>
@@ -128,6 +132,7 @@ export default class PageSettings extends React.Component {
           key='excerpt'
           sectionTitle={settingName}
           tooltipText={excerptsAreOptional}
+          isExpanded={true}
         >
           <Excerpt />
         </AccordionPanel>
@@ -140,6 +145,7 @@ export default class PageSettings extends React.Component {
         <AccordionPanel
           key='author'
           sectionTitle={authorTitle}
+          isExpanded={true}
         >
           <Author />
         </AccordionPanel>
@@ -152,6 +158,7 @@ export default class PageSettings extends React.Component {
         <AccordionPanel
           key='discussion'
           sectionTitle={settingName}
+          isExpanded={true}
         >
           <Discussion />
         </AccordionPanel>
@@ -163,6 +170,7 @@ export default class PageSettings extends React.Component {
         <AccordionPanel
           sectionTitle={generalText}
           key='settingsGeneral'
+          isExpanded={true}
         >
           {content}
         </AccordionPanel>
