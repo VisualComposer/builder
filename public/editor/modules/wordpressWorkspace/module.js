@@ -106,13 +106,13 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
     }
-    const addBlankIntro = () => {
-      ReactDOM.render(
-        <BlankPageIntro unmountBlankPage={removeBlankIntro} />,
-        iframeContent
-      )
-      workspaceStorage.state('navbarDisabled').set(true)
-    }
+    // const addBlankIntro = () => {
+    //   ReactDOM.render(
+    //     <BlankPageIntro unmountBlankPage={removeBlankIntro} />,
+    //     iframeContent
+    //   )
+    //   workspaceStorage.state('navbarDisabled').set(true)
+    // }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
       workspaceStorage.state('navbarDisabled').set(false)
