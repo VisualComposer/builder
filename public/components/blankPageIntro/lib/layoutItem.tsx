@@ -130,7 +130,6 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   }, [handleClick, index])
 
   const updateLayout = useCallback((data: { value: string }) => {
-    setDropdownValue(data)
     if (!env('VCV_JS_THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
 
@@ -160,6 +159,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         )
       }
     }
+    setDropdownValue(data)
   }, [])
 
   // setting type any because item can be a hub template item from storage
@@ -188,10 +188,36 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         value: itemData.value,
         stretchedContent: false
       }
+      if (itemData.type === 'noContent') {
+        removeAllElements()
+        return false
+      }
       if (editorType === 'vcv_layouts') {
         settingsStorage.state('layoutType').set(data.type)
       } else {
         updateLayout(data)
+      }
+    }
+    if (itemData.control === 'dropdown') {
+      if (itemData.type === 'vc-theme') {
+        if (dropdownValue.value) {
+          updateLayout(dropdownValue)
+        } else {
+          const defaultData = {
+            type: 'vc-custom-layout',
+            value: 'default',
+            stretchedContent: false
+          }
+          updateLayout(defaultData)
+        }
+      }
+
+      if (itemData.type === 'myTemplate') {
+        if (templateDropdownValue) {
+          handleTemplateChange(itemData.templateType, templateDropdownValue)
+        } else {
+          removeAllElements()
+        }
       }
     }
     if (itemData.isPageIntro) {
@@ -207,7 +233,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         hubTemplatesStorage.trigger('downloadTemplate', itemData)
       }
     }
-  }, [handleClick, handleTemplateChange, hubTemplates, index, itemData, updateLayout])
+  }, [handleClick, handleTemplateChange, hubTemplates, index, itemData, updateLayout, dropdownValue, templateDropdownValue])
 
   useEffect(() => {
     workspaceStorage.state('downloadingItems').onChange(downloadTemplate)
