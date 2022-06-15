@@ -76,7 +76,6 @@ const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
         itemData={item}
         handleClick={handleClick}
         isActive={isActive}
-        activeItem={activeItem}
       />
     })
   }

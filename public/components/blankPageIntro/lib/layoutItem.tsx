@@ -40,16 +40,14 @@ interface Props {
   itemData:any, // eslint-disable-line
   handleClick: (index: number) => void,
   isActive: boolean,
-  index: number,
-  activeItem: number
+  index: number
 }
 
-const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, activeItem }) => {
+const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index }) => {
   const [dropdownValue, setDropdownValue] = useState({ value: '' })
   const [templateDropdownValue, setTemplateDropdownValue] = useState('')
   const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
   const [isLoading, setIsLoading] = useState(false)
-  const [isDropdownFocused, setIsDropdownFocused] = useState(isActive)
 
   const handleTemplateChange = useCallback((templateType:string, id:string) => {
     removeAllElements()
@@ -183,8 +181,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
   }, [isLoading])
 
   const handleItemClick = useCallback(() => {
+    handleClick(index)
     if (itemData.control === 'button') {
-      handleClick(index)
       const data = {
         type: itemData.type,
         value: itemData.value,
@@ -196,12 +194,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
         updateLayout(data)
       }
     }
-    if (itemData.control === 'dropdown') {
-      handleClick(-1)
-      setIsDropdownFocused(true)
-    }
     if (itemData.isPageIntro) {
-      handleClick(index)
       let templates = hubTemplates
       if (Object.keys(hubTemplates).length === 0) {
         templates = hubTemplatesStorage.state('templates').get()
@@ -217,14 +210,13 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
   }, [handleClick, handleTemplateChange, hubTemplates, index, itemData, updateLayout])
 
   useEffect(() => {
-    setIsDropdownFocused(activeItem === -1)
     workspaceStorage.state('downloadingItems').onChange(downloadTemplate)
     hubTemplatesStorage.state('templates').onChange(templateStorageChange)
     return () => {
       workspaceStorage.state('downloadingItems').ignoreChange(downloadTemplate)
       hubTemplatesStorage.state('templates').ignoreChange(templateStorageChange)
     }
-  }, [isActive, downloadTemplate, templateStorageChange, activeItem])
+  }, [isActive, downloadTemplate, templateStorageChange])
 
   const removeAllElements = () => {
     const allElements = documentManager.children(false)
@@ -304,16 +296,13 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
       })
       dropdown = (
         <CustomLayoutDropdown
-          isFocused={isDropdownFocused}
           onTemplateChange={handleLayoutChange}
           current={dropdownValue}
           options={hfsLayouts}
         />
       )
     } else {
-      let options = {
-        // values: {}
-      }
+      let options = {}
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         const userTemplates = dataManager.get('globalTemplatesList')
@@ -343,7 +332,6 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index, a
         fieldKey = 'popupTemplate'
       }
       dropdown = (<Dropdown
-        isFocused={isDropdownFocused}
         fieldKey={fieldKey}
         options={options}
         value={templateDropdownValue}

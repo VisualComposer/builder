@@ -20,23 +20,10 @@ export default class CustomLayoutDropdown extends React.Component {
       themeLayouts: themeLayouts,
       customLayouts: customLayouts
     }
-    this.dropdownRef = null
-
-    this.setDropdownRef = (element) => {
-      this.dropdownRef = element
-    }
 
     this.handleChangeUpdateLayout = this.handleChangeUpdateLayout.bind(this)
     this.getLayoutOptions = this.getLayoutOptions.bind(this)
     this.handleUpdateList = this.handleUpdateList.bind(this)
-  }
-
-  componentDidUpdate () {
-    if (this.props.isFocused) {
-      this.dropdownRef.focus()
-    } else {
-      this.dropdownRef.blur()
-    }
   }
 
   handleChangeUpdateLayout (event) {
@@ -138,7 +125,6 @@ export default class CustomLayoutDropdown extends React.Component {
           value={this.props.current.value}
           onChange={this.handleChangeUpdateLayout}
           onClick={this.handleUpdateList}
-          ref={this.setDropdownRef}
         >
           <option value='default'>
             Default
