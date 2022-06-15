@@ -67,6 +67,9 @@ const CenterControls: React.FC<Props> = ({ id, containerPos, controlsListWidth, 
 
   const centerPosition = elementTopPos + (visibleHeight / 2)
   let topPosition = centerPosition - controlsHeight / 2
+  if (containerPos.height < controlsHeight) {
+    topPosition = containerPos.realTop
+  }
   if ((topPosition < (controlsHeight + screenGap * 2)) && (controlsListWidth > innerLeft)) {
     topPosition = controlsHeight + screenGap * 2
   }

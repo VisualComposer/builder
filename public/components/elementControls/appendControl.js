@@ -30,6 +30,10 @@ function updateAppendContainerPosition (vcElementId, iframeDocument, appendContr
     posTop -= iframeRect.top
     posLeft -= iframeRect.left
   }
+  const controlsHeight = 40
+  if (elementRect.height < controlsHeight) {
+    posTop = elementRect.top + controlsHeight
+  }
   return {
     top: posTop,
     left: posLeft,
@@ -106,6 +110,8 @@ const AppendControl = ({ data = {}, columnResizeData }) => {
   }
 
   let styles = {}
+  console.log('container', container)
+  console.log('containerPos', containerPos)
   if (containerPos) {
     styles = {
       top: `${containerPos.top}px`,
