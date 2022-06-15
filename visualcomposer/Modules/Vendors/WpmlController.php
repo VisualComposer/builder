@@ -98,11 +98,11 @@ class WpmlController extends Container implements Module
     }
 
     /**
-     * Add our editor vcv-pageContent meta to translation package.
+     * Replace our content data with translation content.
      *
      * @param array $package
      *
-     * @return array
+     * @return array|mixed
      */
     protected function prepareTranslationJobData($package)
     {
@@ -110,46 +110,66 @@ class WpmlController extends Container implements Module
             return $package;
         }
 
-        $fields = $package['contents'];
+        // Not a vc post.
+        if (!array_key_exists('field-vcv-pageContent-0', $package['contents'])) {
+            return $package;
+        }
 
-        foreach ($fields as $fieldKey => $field) {
-            if ($fieldKey === 'field-vcv-pageContent-0') {
-                // Make the magic
-                $pageContent = json_decode(rawurldecode(base64_decode($field['data'])), true);
-
-                $translations = [];
-                foreach ($pageContent['elements'] as $elementId => $valueElement) {
-                    $translations = array_merge(
-                        $translations,
-                        $this->getTranslations($valueElement, [$elementId])
-                    );
-                }
-
-                // Create new sub-list of pageContent inner fields as separate fields for xcliff file
-                if (!empty($translations)) {
-                    foreach ($translations as $translation) {
-                        // we have 'path' and 'value'
-                        $key = implode('.', $translation['path']);
-                        $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0' ] = [
-                            'translate' => 1,
-                            'data' => base64_encode($translation['value']),
-                            'format' => 'base64',
-                        ];
-                        $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-name' ] = [
-                            'translate' => 0,
-                            'data' => 'vcv-pageContentField--' . $key,
-                        ];
-                        $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-type' ] = [
-                            'translate' => 0,
-                            'data' => 'custom_field',
-                        ];
-                    }
-                }
+        foreach ($package['contents'] as $fieldKey => $field) {
+            if ($fieldKey !== 'field-vcv-pageContent-0') {
+                continue;
             }
-            // Remove 'body' as it not needed
-            if ($fieldKey === 'body') {
-                unset($package['contents'][ $fieldKey ]);
+            // Make the magic
+            $pageContent = json_decode(rawurldecode(base64_decode($field['data'])), true);
+
+            $translations = [];
+            foreach ($pageContent['elements'] as $elementId => $valueElement) {
+                $translations = array_merge(
+                    $translations,
+                    $this->getTranslations($valueElement, [$elementId])
+                );
             }
+
+            $package = $this->setNewContentForTranslationPackage($translations, $package);
+        }
+
+        unset($package['contents'][ 'field-vcv-pageContent-0' ]);
+        unset($package['contents'][ 'field-vcv-pageContent-0-name' ]);
+        unset($package['contents'][ 'field-vcv-pageContent-0-type' ]);
+
+        return $package;
+    }
+
+    /**
+     * Create new sub-list of pageContent inner fields as separate fields for xcliff file
+     *
+     * @param array $translations
+     * @param array $package
+     *
+     * @return array
+     */
+    protected function setNewContentForTranslationPackage($translations, $package)
+    {
+        if (empty($translations)) {
+            return $package;
+        }
+
+        foreach ($translations as $translation) {
+            // we have 'path' and 'value'
+            $key = implode('.', $translation['path']);
+            $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0' ] = [
+                'translate' => 1,
+                'data' => base64_encode($translation['value']),
+                'format' => 'base64',
+            ];
+            $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-name' ] = [
+                'translate' => 0,
+                'data' => 'vcv-pageContentField--' . $key,
+            ];
+            $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0-type' ] = [
+                'translate' => 0,
+                'data' => 'custom_field',
+            ];
         }
 
         return $package;
