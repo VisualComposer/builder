@@ -110,8 +110,6 @@ const AppendControl = ({ data = {}, columnResizeData }) => {
   }
 
   let styles = {}
-  console.log('container', container)
-  console.log('containerPos', containerPos)
   if (containerPos) {
     styles = {
       top: `${containerPos.top}px`,
