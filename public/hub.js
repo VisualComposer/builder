@@ -19,7 +19,7 @@ const dataManager = vcCake.getService('dataManager')
 
 export const setupCake = () => {
   const globalStoreInstance = require('public/editor/stores/globalStoreInstance')
-  vcCake.env('globalStore', globalStoreInstance)
+  vcCake.env('globalStore', globalStoreInstance.default)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
     // require('./editor/stores/fieldOptionsStorage')
