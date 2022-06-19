@@ -60,6 +60,10 @@ class SlugController extends Container implements Module
      */
     protected function setPageSlug($response, $payload, Request $requestHelper)
     {
+        // Warning! Do not change slug for previewed post.
+        // This will break fetching the right revision.
+        // @see wp_save_post_revision()
+        // Find line: "Grab the last revision, but not an autosave."
         $sourceId = $payload['sourceId'];
         $post = get_post($sourceId);
         $postName = $requestHelper->input('vcv-post-name');

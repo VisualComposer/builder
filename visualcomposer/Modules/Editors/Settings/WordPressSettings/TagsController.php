@@ -91,7 +91,7 @@ class TagsController extends Container implements Module
      */
     protected function setData($response, $payload, Request $requestHelper)
     {
-        $currentPageId = $payload['sourceId'];
+        $currentPageId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
         if ($requestHelper->exists('vcv-settings-tags')) {
             $tags = $requestHelper->input('vcv-settings-tags', '');
             if (!empty($tags)) {
