@@ -144,7 +144,7 @@ class AuthorController extends Container implements Module
      */
     protected function setData($response, $payload, Request $requestHelper)
     {
-        $currentPageId = $payload['sourceId'];
+        $currentPageId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
         if ($requestHelper->exists('vcv-settings-author')) {
             $authorId = $requestHelper->input('vcv-settings-author');
             if (empty($authorId)) {
