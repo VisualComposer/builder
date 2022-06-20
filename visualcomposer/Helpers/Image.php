@@ -22,12 +22,12 @@ class Image implements Helper
 
             preg_match('(data-height=["|\']([0-9]{0,4})["|\'])', $matches[1], $matchesHeight);
             if (isset($matchesHeight[1])) {
-                $height = $matchesHeight[1];
+                $height = (int)$matchesHeight[1];
             }
 
             preg_match('(data-width=["|\']([0-9]{0,4})["|\'])', $matches[1], $matchesWidth);
             if (isset($matchesWidth[1])) {
-                $width = $matchesWidth[1];
+                $width = (int)$matchesWidth[1];
             }
 
             $dynamic = false;
@@ -38,15 +38,21 @@ class Image implements Helper
                 }
             }
 
-            if (isset($src) && isset($width) && isset($height)) {
-                return $this->generateImage($matches, $src, $width, $height, $dynamic);
+            $attachmentId = 0;
+            preg_match('(data-attachment-id=["|\'](\d+)["|\'])', $matches[1], $matchesAttachmentId);
+            if (isset($matchesAttachmentId[1])) {
+                $attachmentId = (int)$matchesAttachmentId[1];
+            }
+
+            if (isset($src, $width, $height)) {
+                return $this->generateImage($matches, $src, $width, $height, $dynamic, $attachmentId);
             }
         }
 
         return $matches[0];
     }
 
-    protected function getImageData($url)
+    public function getImageData($url)
     {
         $contentUrl = content_url();
         $contentUrl = str_replace(['http://', 'https://'], '', $contentUrl);
@@ -69,33 +75,60 @@ class Image implements Helper
     }
 
     /**
-     * @param $content
-     * @param $src
-     * @param bool $width
-     * @param bool $height
+     * Generate <img> with provided attributes
      *
+     * @param array $content
+     * @param string $src
+     * @param int|bool $width
+     * @param int|bool $height
      * @param bool $dynamic
+     * @param int $attachmentId
      *
      * @return string
      */
-    protected function generateImage($content, $src, $width = false, $height = false, $dynamic = false)
+    protected function generateImage($content, $src, $width = false, $height = false, $dynamic = false, $attachmentId = 0)
     {
         $src = $this->getLazyLoadSrc($content[1], $src);
         $imageData = $this->getImageData($src);
+
+        // Add some additional data for the image
+        $imageData['width'] = $width;
+        $imageData['height'] = $height;
+        $imageData['attachmentId'] = $attachmentId;
+
         $image = wp_get_image_editor($imageData['path']);
-        $srcset = [];
-        list($src, $srcset) = $this->getImageSrcsets($dynamic, $image, $width, $height, $imageData, $src, $srcset);
 
         $newSrc = '';
-        if (!empty($srcset) && !$dynamic) {
-            $newSrc .= ' srcset="' . implode(',', $srcset) . '"';
+        if (!$dynamic && $width && $height && !is_wp_error($image)) {
+            $originalSize = $image->get_size();
+            $imageData['originalWidth'] = $originalSize['width'];
+            $imageData['originalHeight'] = $originalSize['height'];
+
+            $sizes = $this->getSizes($imageData);
+            $images = $this->getImages($sizes, $image, $imageData);
+
+            // Update the src with a resized image (with provided $width and $height).
+            // Should be already in a list of $images, as we tried to resize images
+            // of all provided sizes in $sizes list.
+            $resizedImageSrc = $this->getImageSrc($images, $width, $image, $imageData);
+            if (!empty($resizedImageSrc)) {
+                $src = $resizedImageSrc;
+            }
+            unset($resizedImageSrc);
+
+            // Create the srcset
+            $srcset = $this->getImageSrcset($images);
+            if (!empty($srcset)) {
+                // Note the whitespace before `srcset` attribute
+                $newSrc .= sprintf(' srcset="%s"', $srcset);
+            }
         }
+
         $attributes = $content[1];
         $isLazyload = strpos($content[1], 'data-src=') !== false;
         $attributes = $this->getImageAttributes($isLazyload, $newSrc, $src, $attributes, $dynamic);
-        $result = '<img ' . $attributes . '/>';
 
-        return $result;
+        return '<img ' . $attributes . '/>';
     }
 
     /**
@@ -118,62 +151,55 @@ class Image implements Helper
     }
 
     /**
-     * @param $dynamic
-     * @param $image
-     * @param $width
-     * @param $height
-     * @param array $imageData
-     * @param $src
-     * @param array $srcset
+     * Get a value for image `src` attribute
      *
-     * @return array
+     * @param array $images A list of resized images
+     * @param int $width A width we are looking for
+     * @param \WP_Image_Editor $image
+     * @param array $imageData Image data
+     *
+     * @return string
      */
-    protected function getImageSrcsets($dynamic, $image, $width, $height, array $imageData, $src, array $srcset)
+    public function getImageSrc($images, $width, $image = null, array $imageData = [])
     {
-        if (!$dynamic && $width && $height && !is_wp_error($image)) {
-            $originalSizes = $image->get_size();
-            $originalWidth = $originalSizes['width'];
-            $image->resize($width, $height, true);
-
-            $uploadDir = wp_upload_dir();
-            $newPath = $uploadDir['path'] . '/' . $imageData['filename'] . '-' . $width . 'x' . $height . '.' . $imageData['extension'];
-            $newfile = $image->save($newPath);
-
-            if (file_exists($uploadDir['path'] . '/' . $newfile['file'])) {
-                $src = $uploadDir['url'] . '/' . $newfile['file'];
-            }
-
-            $resizedWidth = $width;
-            $retinaImage = false;
-            $sizes = [
-                '320w' => 320,
-                '480w' => 480,
-                '800w' => 800,
-            ];
-            $sizes[ (int)$resizedWidth . 'w' ] = (int)$resizedWidth;
-            if ($resizedWidth * 2 <= $originalWidth) {
-                $retinaImage = $resizedWidth * 2;
-                $sizes['2x'] = (int)$retinaImage;
-            }
-            $aspectRatio = $resizedWidth / $height;
-
-            foreach ($sizes as $widthAttr => $iWidth) {
-                if ($iWidth > $resizedWidth && !$retinaImage) {
-                    continue;
-                }
-                $image = wp_get_image_editor($imageData['path']);
-                $height = round($iWidth / $aspectRatio);
-                $image->resize($iWidth, $height, true);
-
-                $uploadDir = wp_upload_dir();
-                $newPath = $uploadDir['path'] . '/' . $imageData['filename'] . '-' . $iWidth . 'x' . $height . '.' . $imageData['extension'];
-                $newfile = $image->save($newPath);
-
-                $srcset[] = $uploadDir['url'] . '/' . $newfile['file'] . ' ' . $widthAttr;
-            }
+        $key = "{$width}w";
+        if (!empty($images) && is_array($images) && array_key_exists($key, $images)) {
+            return $images[ $key ];
         }
 
-        return [$src, $srcset];
+        if (!$image instanceof \WP_Image_Editor || empty($imageData)) {
+            return '';
+        }
+
+        // Oops, image is not resized yet. Try to get an image again.
+        $images = $this->getImages([$key => $width], $image, $imageData);
+        if (!empty($images) && array_key_exists($key, $images)) {
+            return $images[ $key ];
+        }
+
+        // Something definitely goes wrong
+        return '';
+    }
+
+    /**
+     * Get a value for image `srcset` attribute
+     *
+     * @param array $images
+     *
+     * @return string
+     */
+    public function getImageSrcset($images)
+    {
+        if (empty($images)) {
+            return '';
+        }
+
+        $srcset = [];
+        foreach ($images as $widthAttr => $imageSrc) {
+            $srcset[] = sprintf('%s %s', esc_url($imageSrc), esc_attr($widthAttr));
+        }
+
+        return implode(', ', $srcset);
     }
 
     /**
@@ -202,5 +228,210 @@ class Image implements Helper
         }
 
         return $attributes;
+    }
+
+    /**
+     * Calculate aspect ratio
+     *
+     * @param int $width
+     * @param int $height
+     *
+     * @return float
+     */
+    public function getAspectRatio($width, $height)
+    {
+        return $width / $height;
+    }
+
+    /**
+     * Get base URL
+     *
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        $uploadDir = wp_get_upload_dir();
+        $baseUrl = trailingslashit($uploadDir['baseurl']);
+
+        /*
+         * If currently on HTTPS, prefer HTTPS URLs when we know they're supported by the domain
+         * (which is to say, when they share the domain name of the current request).
+         */
+        if ( is_ssl() && strpos($baseUrl, 'https') !== 0 && parse_url($baseUrl, PHP_URL_HOST ) === $_SERVER['HTTP_HOST'] ) {
+            $baseUrl = set_url_scheme( $baseUrl, 'https' );
+        }
+
+        return $baseUrl;
+    }
+
+    /**
+     * Get sizes
+     *
+     * @param array $imageData Image data. Keys "width" and "originalWidth" are required.
+     *
+     * @return array
+     */
+    public function getSizes(array $imageData)
+    {
+        if (empty($imageData['originalWidth']) || empty($imageData['width'])) {
+            return [];
+        }
+
+        $originalWidth = $imageData['originalWidth'];
+        $resizedWidth = $imageData['width'];
+
+        // Pre-defined sizes
+        $sizes = [
+            '320w' => 320,
+            '480w' => 480,
+            '800w' => 800,
+        ];
+
+        // Calculate a size, based on a $width that come from the editor
+        $sizes[ $resizedWidth . 'w' ] = (int)$resizedWidth;
+
+        // Calculate retina size
+        if ($resizedWidth * 2 <= $originalWidth) {
+            $retinaImage = $resizedWidth * 2;
+            $sizes['2x'] = (int)$retinaImage;
+        }
+
+        return $sizes;
+    }
+
+    public function getImages($sizes, $image, $imageData)
+    {
+        if (empty($sizes)) {
+            return [];
+        }
+
+        // TODO: maybe check for cached images
+
+        if (!empty($imageData['attachmentId'])) {
+            $images = $this->getImagesFromAttachmentSizes($sizes, $imageData['attachmentId']);
+
+            // Make sure we have all sizes
+            $restOfSizes = array_diff_key($sizes, $images);
+            if(!empty($restOfSizes)) {
+                $resizedImages = $this->resizeImages($restOfSizes, $image, $imageData);
+                $images = array_merge($images, $resizedImages);
+            }
+        } else {
+            // Resize all images
+            $images = $this->resizeImages($sizes, $image, $imageData);
+        }
+
+        // TODO: this is a good place to cache generated images
+
+        // Images should be with a relative path without leading slash,
+        // e.g. "2022/06/Image.jpg", so prepend them with a base URL
+        $baseUrl = $this->getBaseUrl();
+        foreach ($images as &$relativePathToImage) {
+            $relativePathToImage = $baseUrl . $relativePathToImage;
+        }
+        unset($relativePathToImage);
+
+        return $images;
+    }
+
+    /**
+     * Get images from attachment sizes
+     *
+     * Try to look through a list of already resized images.
+     * There may already be what we are looking for.
+     *
+     * @param array $sizes A list of sizes to search
+     * @param int $attachmentId Attachment ID
+     *
+     * @return array
+     */
+    public function getImagesFromAttachmentSizes($sizes, $attachmentId)
+    {
+        $attachmentMeta = wp_get_attachment_metadata($attachmentId);
+        if (empty($attachmentMeta) || empty($attachmentMeta['sizes'])) {
+            return [];
+        }
+
+        $dirname = _wp_get_attachment_relative_path($attachmentMeta['file']);
+        if ($dirname) {
+            $dirname = trailingslashit($dirname);
+        }
+
+        $attachmentSizes = $attachmentMeta['sizes'];
+        $images = [];
+        foreach ($attachmentSizes as $image) {
+            // Check if image meta isn't corrupted.
+            if (!is_array($image)) {
+                continue;
+            }
+
+            // Loop through the list of already resized images and try to find
+            // a required "width". Once found - we can use it!
+            if (in_array($image['width'], $sizes, true)) {
+                $key = array_search($image['width'], $sizes, true);
+                $images[ $key ] = $dirname . $image['file'];
+            }
+        }
+
+        return $images;
+
+    }
+
+    public function resizeImages($sizes, $image, $imageData)
+    {
+        $images = [];
+        $uploadDir = wp_upload_dir();
+
+        $dirname = $uploadDir['subdir'];
+        if ($dirname) {
+            $dirname = trailingslashit($dirname);
+        }
+
+        $aspectRatio = $this->getAspectRatio($imageData['width'], $imageData['height']);
+        $retinaImage = array_key_exists('2x', $sizes);
+        foreach ($sizes as $widthAttr => $width) {
+            if ($width > $imageData['width'] && !$retinaImage) {
+                continue;
+            }
+
+            $height = (int)round($width / $aspectRatio);
+            $filename = "{$imageData['filename']}-{$width}x{$height}.{$imageData['extension']}";
+            $absolutePath = "{$uploadDir['path']}/{$filename}";
+
+            // Check if file already exists. No need to resize twice.
+            if (!file_exists($absolutePath)) {
+                $resizedImage = $this->resizeImage($image, $absolutePath, $width, $height, true);
+                if (is_wp_error($resizedImage)) {
+                    continue;
+                }
+
+                $filename = $resizedImage['file'];
+            }
+
+            // For consistency with "getImagesFromAttachmentSizes" method
+            // return the relative path to the filename.
+            $images[$widthAttr] = $dirname . $filename;
+        }
+
+        return $images;
+    }
+
+    /**
+     * Resize and save image
+     *
+     * @param \WP_Image_Editor $image
+     * @param string $path Absolute path where to save an image
+     * @param int $width
+     * @param int $height
+     * @param bool $crop
+     *
+     * @return array|\WP_Error
+     */
+    public function resizeImage($image, $path, $width = null, $height = null, $crop = false)
+    {
+        $newImage = clone $image;
+        $newImage->resize($width, $height, $crop);
+
+        return $newImage->save($path);
     }
 }
