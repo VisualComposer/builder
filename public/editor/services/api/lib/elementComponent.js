@@ -646,7 +646,7 @@ export default class ElementComponent extends React.Component {
     return attributes
   }
 
-  setAttVars = (attVars, styleObj) => {
+  setCssVariables = (attVars, styleObj) => {
     for (const [key, value] of Object.entries(attVars)) {
       if (value) {
         styleObj[`--${key}`] = value
