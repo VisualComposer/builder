@@ -256,4 +256,51 @@ class Templates implements Helper
 
         return false;
     }
+
+    /**
+     * Replace template elements placeholder path with real path.
+     *
+     * @param array $templateElements
+     * @param string $path
+     *
+     * @return array
+     */
+    public function replaceTemplateElementPathPlaceholder($templateElements, $folder)
+    {
+        $templateElements = json_decode(
+            str_replace(
+                '[publicPath]',
+                $this->getTemplatesUrl($folder),
+                wp_json_encode($templateElements)
+            ),
+            true
+        );
+
+        return $templateElements;
+    }
+
+
+    /**
+     * @param array $templateElements
+     *
+     * @return array
+     */
+    public function isMenuExist($templateElements)
+    {
+        foreach ($templateElements as $element) {
+            if (isset($element['menuSource']) && !empty($element['menuSource'])) {
+                $menusFromKey = get_terms(
+                    [
+                        'taxonomy' => 'nav_menu',
+                        'slug' => $element['menuSource'],
+                    ]
+                );
+                if (empty($menusFromKey)) {
+                    $templateElements[ $element['id'] ]['menuSource'] = '';
+                }
+            }
+        }
+
+        return $templateElements;
+    }
 }
