@@ -193,6 +193,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         return false
       }
       if (editorType === 'vcv_layouts') {
+        removeAllElements()
         settingsStorage.state('layoutType').set(data.type)
       } else {
         updateLayout(data)

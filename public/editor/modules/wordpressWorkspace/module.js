@@ -99,18 +99,21 @@ add('wordpressWorkspace', (api) => {
 
   // Start blank overlay
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
+  const iframeContainer = document.querySelector('.vcv-layout-iframe-container')
 
   if (iframeContent) {
     const removeBlankIntro = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
+      iframeContainer.classList.remove('vcv-layout-iframe-container--intro')
     }
     const addBlankIntro = () => {
       ReactDOM.render(
         <BlankPageIntro unmountBlankPage={removeBlankIntro} />,
         iframeContent
       )
+      iframeContainer.classList.add('vcv-layout-iframe-container--intro')
       workspaceStorage.state('navbarDisabled').set(true)
     }
     const removeOverlay = () => {
