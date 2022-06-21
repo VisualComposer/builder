@@ -655,7 +655,7 @@ export default class ElementComponent extends React.Component {
     }
   }
 
-  modifyColor = (percentage, color1, color2, blend) => {
+  getColorShade = (percentage, color1, color2, blend) => {
     return pSBC(percentage, color1, color2, blend)
   }
 
