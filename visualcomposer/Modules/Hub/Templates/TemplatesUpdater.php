@@ -141,8 +141,12 @@ class TemplatesUpdater extends Container implements Module
      *
      * @return mixed
      */
-    public function getTemplateElements($template, $templatePostType, $folder, $elementsImages = false)
-    {
+    public function getTemplateElements(
+        $template,
+        $templatePostType,
+        $folder,
+        $elementsImages = false
+    ) {
         $templateElements = $template['data'];
         if ($templatePostType !== 'vcv_tutorials') {
             if ($elementsImages) {
@@ -155,18 +159,9 @@ class TemplatesUpdater extends Container implements Module
         $hubTemplatesHelper = vchelper('HubTemplates');
 
         // Check if menu source is exist or not
-        $templateElements = $this->isMenuExist($templateElements);
+        $templateElements = $hubTemplatesHelper->isMenuExist($templateElements);
 
-        $templateElements = json_decode(
-            str_replace(
-                '[publicPath]',
-                $hubTemplatesHelper->getTemplatesUrl($folder),
-                wp_json_encode($templateElements)
-            ),
-            true
-        );
-
-        return $templateElements;
+        return $hubTemplatesHelper->replaceTemplateElementPathPlaceholder($templateElements, $folder);
     }
 
     /**
@@ -264,30 +259,6 @@ class TemplatesUpdater extends Container implements Module
         }
 
         return $recursiveIterator->getArrayCopy();
-    }
-
-    /**
-     * @param $templateElements
-     *
-     * @return mixed
-     */
-    protected function isMenuExist($templateElements)
-    {
-        foreach ($templateElements as $element) {
-            if (isset($element['menuSource']) && !empty($element['menuSource'])) {
-                $menusFromKey = get_terms(
-                    [
-                        'taxonomy' => 'nav_menu',
-                        'slug' => $element['menuSource'],
-                    ]
-                );
-                if (empty($menusFromKey)) {
-                    $templateElements[ $element['id'] ]['menuSource'] = '';
-                }
-            }
-        }
-
-        return $templateElements;
     }
 
     /**
