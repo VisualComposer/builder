@@ -1,3 +1,7 @@
+.vcv-layout-iframe-container--intro {
+  width: 100% !important; // overwrite settings for Responsive View
+}
+
 .blank-page-container {
   position: absolute;
   top: 0;
@@ -8,6 +12,7 @@
   display: flex;
   word-wrap: break-word;
   padding: 30px 40px;
+  transition: padding @vcv-transition-duration @vcv-transition-timing-function;
 
   &.blank-page--mobile .blank-page-settings {
     top: 60px; // height of the navbar on mobile screens
@@ -64,6 +69,7 @@
       color: @blank-page-intro-icons-color;
       margin-left: auto;
       transition: color @vcv-transition-duration @vcv-transition-timing-function;
+      pointer-events: none;
     }
   }
 
@@ -161,7 +167,8 @@
   right: -@blank-page-intro-sidebar-width;
   width: @blank-page-intro-sidebar-width;
   background-color: @blank-page-intro-settings-bg-color;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15)
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+  transition: right @vcv-transition-duration @vcv-transition-timing-function;
 }
 
 .blank-page-settings > .vcv-ui-scroll {
@@ -237,6 +244,11 @@
     color: @blank-page-intro-icons-color;
     padding: 6px;
     margin-right: -6px;
+    transition: color @vcv-transition-duration @vcv-transition-timing-function;
+  }
+
+  .vcv-ui-icon-chevron-thick:hover {
+    color: darken(@blank-page-intro-icons-color, 15%);
   }
 }
 
@@ -353,6 +365,7 @@
 }
 
 .blank-page-submit-button {
+  -webkit-font-smoothing: antialiased;
   flex: 0 0 auto;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
