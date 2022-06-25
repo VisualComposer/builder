@@ -71,10 +71,11 @@ class Controller extends Container implements Module
             // BC for hub templates and old templates
             // @codingStandardsIgnoreLine
             if ($post->post_type === 'vcv_templates' || $post->post_type === 'vcv_tutorials') {
+                $editorTemplatesHelper = vchelper('EditorTemplates');
                 $data = rawurlencode(
                     wp_json_encode(
                         [
-                            'elements' => get_post_meta($sourceId, 'vcvEditorTemplateElements', true),
+                            'elements' => $editorTemplatesHelper->getTemplateElementsByMeta($sourceId),
                         ]
                     )
                 );
