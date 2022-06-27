@@ -6304,12 +6304,7 @@ minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@^1.2.0, minimist@^1.2.5:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
-  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
-
-minimist@^1.2.6:
+minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -8801,10 +8796,15 @@ vc-cake@0.9.0, vc-cake@1.1.1:
     lodash "4.17.21"
     murmurhash "2.0.0"
 
-vc-webpack-vendors@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.1.1.tgz#40fee350e011b68670d5d83f33174ef0c8b3adab"
-  integrity sha512-6APE9tW2vAO5OnlSZZrPqLES6gGUraRWk3MaFE1hP07AySlp+z8RM9LZwmnuga11jg1endi4DzKxsIvFLwaFug==
+vc-helpers@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vc-helpers/-/vc-helpers-0.0.2.tgz#584edf46477106f2fb7b13f85cd96a6af3a7d0a7"
+  integrity sha512-la2KjObUCGjEmIlBvjFOgvGVm041l9/u0Y17e8Xlxw9BvblA4L45Na4tpsYjAAxQvjm+S6YaLiBwEhM8E73HxA==
+
+vc-webpack-vendors@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.2.0.tgz#598a6a0d9fcc101b50af11d41d8920d1ee103e64"
+  integrity sha512-Lwa0tejLpJsRmIZ8OSFaBpWXpU5UvS84+GBk8wns3Ky5kz57dSUcLAKB6FA2Vz+AR8KIqeOHNKJ0KWiW2FXqng==
   dependencies:
     "@babel/cli" "7.16.0"
     "@babel/core" "7.16.0"
@@ -8886,6 +8886,7 @@ vc-webpack-vendors@3.1.1:
     url-loader "4.1.1"
     util "0.12.4"
     vc-cake "0.9.0"
+    vc-helpers "0.0.2"
     virtual-module-webpack-plugin "0.4.1"
     webfontloader "1.6.28"
     webpack "5.61.0"

@@ -30,12 +30,16 @@ class UpdateController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdateAction */
-        $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'checkForUpdateAction');
-        /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
-        $this->wpAddAction('admin_menu', 'checkForUpdate', 9);
-        /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
-        $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
+        $isUpdateAllow = vcfilter('vcv:modules:hub:isUpdateAllow', true);
+
+        if ($isUpdateAllow) {
+            /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdateAction */
+            $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'checkForUpdateAction');
+            /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
+            $this->wpAddAction('admin_menu', 'checkForUpdate', 9);
+            /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
+            $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
+        }
 
         // System reset
         /** @see \VisualComposer\Modules\Hub\UpdateController::unsetOptions */
