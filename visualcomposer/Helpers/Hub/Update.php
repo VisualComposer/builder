@@ -96,6 +96,9 @@ class Update implements Helper
 
         $accessUserCapabilitiesHelper = vchelper('AccessUserCapabilities');
         foreach ($updatePosts as $updatePost) {
+            if (empty($updatePost)) {
+                continue;
+            }
             $post = get_post($updatePost);
             // @codingStandardsIgnoreLine
             if ($post && $post->post_status !== 'trash' && $accessUserCapabilitiesHelper->canEdit($post->ID)) {
