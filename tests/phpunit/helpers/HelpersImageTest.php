@@ -224,12 +224,12 @@ class HelpersImageTest extends WP_UnitTestCase
         // This method relies on the real installation, so need to add e2e tests
     }
 
-    public function testResizeImages()
+    public function testResizeImageBySizes()
     {
         /** @var $helper VisualComposer\Helpers\Image */
         $helper = vcapp('VisualComposer\Helpers\Image');
 
-        $this->assertTrue(method_exists($helper, 'resizeImages'), 'method resizeImages() should exist');
+        $this->assertTrue(method_exists($helper, 'resizeImageBySizes'), 'method resizeImageBySizes() should exist');
 
         // Not sure about testing this method as it requires to resize a real images
     }
