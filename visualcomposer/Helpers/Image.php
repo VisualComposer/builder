@@ -257,8 +257,12 @@ class Image implements Helper
          * If currently on HTTPS, prefer HTTPS URLs when we know they're supported by the domain
          * (which is to say, when they share the domain name of the current request).
          */
-        if ( is_ssl() && strpos($baseUrl, 'https') !== 0 && parse_url($baseUrl, PHP_URL_HOST ) === $_SERVER['HTTP_HOST'] ) {
-            $baseUrl = set_url_scheme( $baseUrl, 'https' );
+        if (
+            is_ssl()
+            && strpos($baseUrl, 'https') !== 0
+            && parse_url($baseUrl, PHP_URL_HOST) === $_SERVER['HTTP_HOST']
+        ) {
+            $baseUrl = set_url_scheme($baseUrl, 'https');
         }
 
         return $baseUrl;
@@ -312,7 +316,7 @@ class Image implements Helper
 
             // Make sure we have all sizes
             $restOfSizes = array_diff_key($sizes, $images);
-            if(!empty($restOfSizes)) {
+            if (!empty($restOfSizes)) {
                 $resizedImages = $this->resizeImages($restOfSizes, $image, $imageData);
                 $images = array_merge($images, $resizedImages);
             }
@@ -374,7 +378,6 @@ class Image implements Helper
         }
 
         return $images;
-
     }
 
     public function resizeImages($sizes, $image, $imageData)
