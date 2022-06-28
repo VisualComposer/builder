@@ -281,9 +281,13 @@ class Update implements Helper
         return false;
     }
 
-    protected function processTeasers($actions)
+    /**
+     * Process hub teasers.
+     *
+     * @param array $actions
+     */
+    public function processTeasers($actions)
     {
-
         if (isset($actions['hubTeaser'])) {
             vcevent('vcv:hub:process:action:hubTeaser', ['teasers' => $actions['hubTeaser']]);
             $optionsHelper = vchelper('Options');
