@@ -303,6 +303,34 @@ class Image implements Helper
         return $sizes;
     }
 
+    /**
+     * Get images by provided list of sizes
+     *
+     * If an attachment id is provided this method first checks images
+     * already resized by WordPress.
+     *
+     * Performs resize for the rest of the images (or all if an attachment ID
+     * is not provided or required sizes are not found in a list of WordPress
+     * images).
+     *
+     * Returns a list of resized image, where key is a width attribute
+     * (for srcset) and value is a relative path to image, for example:
+     *
+     * ```
+     * [
+     *   '320w' => '2022/06/Portfolio-4-320x213.jpg',
+     *   '480w' => '2022/06/Portfolio-4-480x320.jpg',
+     *   '2x' => '2022/06/Portfolio-4-2048x1366.jpg',
+     * ]
+     * ```
+     *
+     * @param array $sizes A list of sizes in format [320w => 320, ...]
+     * @param \WP_Image_Editor $image Image
+     * @param array $imageData Image data (width, height, attachmentId, etc)
+     *
+     * @return array
+     *
+     */
     public function getImages($sizes, $image, $imageData)
     {
         if (empty($sizes)) {
@@ -317,12 +345,12 @@ class Image implements Helper
             // Make sure we have all sizes
             $restOfSizes = array_diff_key($sizes, $images);
             if (!empty($restOfSizes)) {
-                $resizedImages = $this->resizeImages($restOfSizes, $image, $imageData);
+                $resizedImages = $this->resizeImageBySizes($restOfSizes, $image, $imageData);
                 $images = array_merge($images, $resizedImages);
             }
         } else {
             // Resize all images
-            $images = $this->resizeImages($sizes, $image, $imageData);
+            $images = $this->resizeImageBySizes($sizes, $image, $imageData);
         }
 
         // TODO: this is a good place to cache generated images
@@ -380,7 +408,16 @@ class Image implements Helper
         return $images;
     }
 
-    public function resizeImages($sizes, $image, $imageData)
+    /**
+     * Resize a single image by provided list of sizes
+     *
+     * @param array $sizes A list of sizes in format [320w => 320]
+     * @param \WP_Image_Editor $image Image
+     * @param array $imageData Image data (width, height, attachmentId, etc)
+     *
+     * @return array
+     */
+    public function resizeImageBySizes($sizes, $image, $imageData)
     {
         $images = [];
         $uploadDir = wp_upload_dir();
