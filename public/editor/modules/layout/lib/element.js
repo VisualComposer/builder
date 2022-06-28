@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
-import { isEqual, defer, cloneDeep } from 'lodash'
+import lodash from 'lodash'
 import PropTypes from 'prop-types'
 import EmptyCommentElementWrapper from './emptyCommentElementWrapper.tsx'
 import ElementInner from './elementInner'
@@ -28,7 +28,7 @@ export default class Element extends React.Component {
 
   constructor (props) {
     super(props)
-    this.dataUpdate = this.dataUpdate.bind(this)
+    this.dataUpdate = lodash.debounce(this.dataUpdate.bind(this), 20)
     this.elementComponentTransformation = this.elementComponentTransformation.bind(this)
     this.getEditorProps = this.getEditorProps.bind(this)
     this.elementComponentRef = React.createRef()
