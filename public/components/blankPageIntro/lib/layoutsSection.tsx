@@ -10,20 +10,22 @@ const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
 interface Props {
-  sectionType: string
+  // setting type any because item can be a hub template item from storage
+  handleItemClick: (itemData:any) => void // eslint-disable-line
+  sectionType: string,
 }
 
 interface Item {
-    type:string,
-    value?:string,
-    icon?:React.ReactElement,
-    label:string,
-    control:string,
-    description?:string,
-    contentType?:string
+  type:string,
+  value?:string,
+  icon?:React.ReactElement,
+  label:string,
+  control:string,
+  description?:string,
+  contentType?:string
 }
 
-const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
+const LayoutsSection: React.FC<Props> = ({ sectionType, handleItemClick }) => {
   const [isSectionOpened, setIsSectionOpened] = useState(true)
   const [activeItem, setActiveItem] = useState(0)
   // @ts-ignore
@@ -35,8 +37,11 @@ const LayoutsSection: React.FC<Props> = ({ sectionType }) => {
     setIsSectionOpened(!isSectionOpened)
   }
 
-  const handleClick = (index:number) => {
+  // setting type any because item can be a hub template item from storage
+  const handleClick = (index:number, itemData:any) => { // eslint-disable-line
     setActiveItem(index)
+    itemData.sectionType = sectionType
+    handleItemClick(itemData)
   }
 
   const toggleSectionText = localizations.toggleSection || 'Toggle section'
