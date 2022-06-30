@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 6.0
-Stable tag: 44.2.2
+Stable tag: 44.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,33 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 44.3 =
+*Release Date - 2022-07-07*
+
+### Free:
+- New: TinyMCE typography options offer Default settings
+- New: Insights check anchor tag texts and inform about issues
+- New: Support for geo: and waze: added to the URL attribute
+- Update: Editor controls updated for better UX
+- Fix: Hub templates category works properly after downloading templates
+- Fix: Attach image attribute works properly
+- Fix: Disabling page title works properly in Weaver Xtreme theme
+- Fix: Improved consistency in Hub tabs
+- Fix: Editor saving works properly with multiple media
+- Fix: WPML compatibility improved
+
+### Premium:
+- New: Font Manager allows controling spaces and margins for bullets
+- Update: Google Fonts updated to feature latest fonts in the Font Manager
+- Fix: Dynamic Content does not remove content on the View page
+- Fix: Theme Builder layouts work properly
+- Fix: Custom excerpt works properly in the post grid elements
+- Fix: Logo Widget has proper image sizes
+- Fix: Essential Grid plugin works with the Theme Builder
+- Fix: WooCommerce related product element works properly
+- Fix: Single image element works properly with the Dynamic Content
+- Fix: Sidebar preview works properly in the Preview mode
 
 = 44.2.2 =
 *Release Date - 2022-06-08*
