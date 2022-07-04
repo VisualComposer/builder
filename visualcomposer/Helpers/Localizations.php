@@ -2160,6 +2160,10 @@ class Localizations extends Container implements Helper
                 'Select a template',
                 'visualcomposer'
             ),
+            'noTemplates' => __(
+                'You don’t have any templates',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

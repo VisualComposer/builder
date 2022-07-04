@@ -101,8 +101,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   const isSelect = itemData.control === 'dropdown'
   const icon:React.ReactElement | null = itemData?.icon?.default() || null
   const isPremiumActivated = dataManager.get('isPremiumActivated')
-  const isPremiumContent = !isPremiumActivated && (itemData?.contentType === 'premium')
-  const premiumBagde = isPremiumContent ? <span className='item-badge'>{localizations.premium || 'Premium'}</span> : null
+  let isDisabled = !isPremiumActivated && (itemData?.contentType === 'premium')
+  const premiumBagde = isDisabled ? <span className='item-badge'>{localizations.premium || 'Premium'}</span> : null
 
   let tooltip:React.ReactElement | null = itemData.description && <Tooltip>{itemData.description}</Tooltip>
   let dropdown:React.ReactElement | null = null
@@ -129,9 +129,14 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       let options = {}
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
-        const userTemplates = dataManager.get('globalTemplatesList')
+        let userTemplates = dataManager.get('globalTemplatesList')
+        userTemplates = []
         if (userTemplates && !userTemplates.length) {
-          return null
+          userTemplates = [{
+            label: localizations.noTemplates,
+            value: ''
+          }]
+          isDisabled = true
         }
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
@@ -167,7 +172,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   const itemClasses = classNames({
     'template-item': true,
     'template-item--selected': isActive,
-    'template-item--disabled': isPremiumContent
+    'template-item--disabled': isDisabled
   })
   const infoClasses = classNames({
     'template-info': true,
