@@ -287,33 +287,20 @@ class AssetsShared extends Container implements Helper
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             $optionsHelper = vchelper('Options');
             $assets = $optionsHelper->get('assetsLibrary', []);
-            $assetsHelper = vchelper('Assets');
             foreach ($assets as $key => $value) {
                 if (!isset($assetsLibraries[ $key ])) {
                     if (isset($value['jsBundle'])) {
-                        $value['jsBundle'] = add_query_arg(
-                            'v',
-                            VCV_VERSION,
-                            $assetsHelper->getAssetUrl($value['jsBundle'])
-                        );
+                        $value['jsBundle'] = $this->getBundleUrl($value['jsBundle']);
                     }
                     if (isset($value['cssBundle'])) {
-                        $value['cssBundle'] = add_query_arg(
-                            'v',
-                            VCV_VERSION,
-                            $assetsHelper->getAssetUrl($value['cssBundle'])
-                        );
+                        $value['cssBundle'] = $this->getBundleUrl($value['cssBundle']);
                     }
                     $assetsLibraries[ $key ] = $value;
 
                     if (isset($value['cssSubsetBundles'])) {
                         $cssSubsetBundles = [];
                         foreach ($value['cssSubsetBundles'] as $singleKey => $single) {
-                            $cssSubsetBundles[ $singleKey ] = add_query_arg(
-                                'v',
-                                VCV_VERSION,
-                                $assetsHelper->getAssetUrl($single)
-                            );
+                            $cssSubsetBundles[ $singleKey ] = $this->getBundleUrl($single);
                         }
                         $assetsLibraries[ $key ]['cssSubsetBundles'] = $cssSubsetBundles;
                     }
@@ -322,5 +309,25 @@ class AssetsShared extends Container implements Helper
         }
 
         return $assetsLibraries;
+    }
+
+    /**
+     * Get bundle url.
+     *
+     * @param string $relativePath
+     *
+     * @return string
+     */
+    public function getBundleUrl($relativePath)
+    {
+        $assetsHelper = vchelper('Assets');
+
+        $assetUrl = $assetsHelper->getAssetUrl($relativePath);
+
+        return add_query_arg(
+            'v',
+            VCV_VERSION,
+            apply_filters('vcv:helpers:assetsShared:getBundleUrl', $assetUrl, $relativePath)
+        );
     }
 }
