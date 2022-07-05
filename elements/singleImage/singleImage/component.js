@@ -212,7 +212,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       imageClasses += ' vcv-lozad'
       lazyLoadAttr = `data-src="${src}"`
     }
-    let shortcode = `[vcvSingleImage class="${imageClasses}" ${lazyLoadAttr} data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${imageSource}" data-img-src="${props['data-img-src']}"`
+    let shortcode = `[vcvSingleImage class="${imageClasses}" ${lazyLoadAttr} data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${imageSource}" data-img-src="${props['data-img-src']}" data-attachment-id="${props['data-attachment-id']}" `
 
     let alt = props.alt
     let title = props.title
@@ -274,6 +274,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     const isDynamic = Array.isArray(typeof rawImage === 'string' && rawImage.match(blockRegexp))
 
     customImageProps['data-img-src'] = imgSrc
+    customImageProps['data-attachment-id'] = image && image.id ? image.id : 0
     customImageProps.alt = image && image.alt ? image.alt : ''
     customImageProps.title = image && image.title ? image.title : ''
 

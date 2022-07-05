@@ -39,7 +39,7 @@ Visual Composer API allows you to develop your own custom elements for the websi
 * [Staging Environment](https://visualcomposer.com/blog/visual-composer-on-staging/)
 
 ## Changelog
-Check the [list of the latest improvements](./CHANGELOG.md).
+Check the [list of the latest improvements](https://help.visualcomposer.com/release-notes/).
 
 ## Contributing
 Read our [contributing guide](./CONTRIBUTING.md) to learn about our development process. How to build your changes to Visual Composer.

@@ -206,8 +206,25 @@ order by a.post_modified desc
                 $templateElements = $decoded['elements'];
             }
         } else {
-            $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
+            $templateElements = $this->getTemplateElementsByMeta($template->ID);
         }
+
+        return $templateElements;
+    }
+
+    /**
+     * Get template elements from our meta.
+     *
+     * @param array $templateId
+     *
+     * @return array
+     */
+    public function getTemplateElementsByMeta($templateId)
+    {
+        $templateElements = get_post_meta($templateId, 'vcvEditorTemplateElements', true);
+        $folder = get_post_meta($templateId, '_vcv-id', true);
+        $hubTemplatesHelper = vchelper('HubTemplates');
+        $templateElements = $hubTemplatesHelper->replaceTemplateElementPathPlaceholder($templateElements, $folder);
 
         return $templateElements;
     }
