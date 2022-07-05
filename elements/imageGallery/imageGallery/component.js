@@ -159,7 +159,7 @@ export default class ImageGallery extends vcvAPI.elementComponent {
         imgClasses += ' vce-image-gallery-img--orientation-portrait'
       }
 
-      if (clickableOptions === 'url' && image[index].link && image[index].link.url) {
+      if (clickableOptions === 'url' && image[index]?.link?.url) {
         CustomTag = 'a'
         const { url, title, targetBlank, relNofollow } = image[index].link
         customProps = {

@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\PageLayout;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -39,8 +40,11 @@ class PageTemplatesController extends Container implements Module
         );
     }
 
-    protected function getCurrentTemplateLayout($output, PostType $postTypeHelper)
-    {
+    protected function getCurrentTemplateLayout(
+        $output,
+        PostType $postTypeHelper,
+        Request $requestHelper
+    ) {
         $postId = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current:custom');
 
         // always return default template for search and archive page
@@ -57,8 +61,18 @@ class PageTemplatesController extends Container implements Module
         $post = vchelper('Preview')->updateSourcePostWithPreviewPost($post);
 
         // check if custom vc template is set
-        $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
-        $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+        // but check the request first for a live templates changing in the builder
+        if ($requestHelper->exists('vcv-template')) {
+            $customTemplate = $requestHelper->input('vcv-template');
+        } else {
+            $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
+        }
+
+        if ($requestHelper->exists('vcv-template-type')) {
+            $customTemplateType = $requestHelper->input('vcv-template-type');
+        } else {
+            $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+        }
 
         // don't use custom template type value if type is theme, use native wp template type
         if (empty($customTemplateType)) {
@@ -68,7 +82,13 @@ class PageTemplatesController extends Container implements Module
             // @codingStandardsIgnoreLine
             $customTemplate = $post->page_template;
         }
-        $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
+
+        if ($requestHelper->exists('vcv-template-stretched')) {
+            $templateStretch = $requestHelper->input('vcv-template-stretched', 0);
+        } else {
+            $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
+        }
+
         // BC: For TemplateFilterController.php
         if (in_array($customTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
             $customTemplateType = 'vc';
@@ -100,15 +120,17 @@ class PageTemplatesController extends Container implements Module
         return $output;
     }
 
-    protected function viewPageTemplate($originalTemplate, Request $requestHelper)
-    {
+    protected function viewPageTemplate(
+        $originalTemplate,
+        Request $requestHelper,
+        PageLayout $pageLayoutHelper
+    ) {
         if ($requestHelper->input('vcv-template') === 'default' || $requestHelper->input('vcv-template') === 'theme:default') {
             return $originalTemplate;
         }
 
         /** @see \VisualComposer\Modules\Editors\Settings\PageTemplatesController::getCurrentTemplateLayout */
-        $current = vcfilter(
-            'vcv:editor:settings:pageTemplatesLayouts:current',
+        $current = $pageLayoutHelper->getCurrentPageLayout(
             [
                 'type' => 'theme',
                 'value' => $originalTemplate,

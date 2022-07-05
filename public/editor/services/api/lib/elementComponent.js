@@ -20,6 +20,7 @@ import {
   getMixinsSelector
 } from 'public/editor/services/modernAssetsStorage/cssMixins'
 import { spinnerHtml } from 'public/tools/spinnerHtml'
+import pSBC from 'public/tools/psbc.min.js'
 
 const assetsStorage = getStorage('assets')
 const { getBlockRegexp } = getService('utils')
@@ -644,6 +645,18 @@ export default class ElementComponent extends React.Component {
       })
     }
     return attributes
+  }
+
+  setCssVariables = (cssVars, styleObj) => {
+    for (const [key, value] of Object.entries(cssVars)) {
+      if (value) {
+        styleObj[`--${key}`] = value
+      }
+    }
+  }
+
+  getColorShade = (percentage, color1, color2, blend) => {
+    return pSBC(percentage, color1, color2, blend)
   }
 
   render () {
