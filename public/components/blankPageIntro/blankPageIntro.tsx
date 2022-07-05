@@ -302,7 +302,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         if (activeTemplate.type === 'layoutTemplate') {
           const templateList = dataManager.get('globalTemplatesList')
           const templateGroup = templateList.find((template: {group: {values: []}}) => {
-            let type = undefined
+            let type
             if (template.group) {
               type = template.group.values.find((item: {value:number}) => item.value === parseInt(activeTemplate.id))
             }
