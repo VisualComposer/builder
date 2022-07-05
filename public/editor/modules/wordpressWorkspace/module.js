@@ -104,6 +104,7 @@ add('wordpressWorkspace', (api) => {
   if (iframeContent) {
     const removeBlankIntro = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
+      workspaceStorage.state('blankPageIntro').set(false)
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
       iframeContainer.classList.remove('vcv-layout-iframe-container--intro')
@@ -127,6 +128,7 @@ add('wordpressWorkspace', (api) => {
     }
     let documentElements
     let isBlankPageIntro = true
+    workspaceStorage.state('blankPageIntro').set(true)
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements

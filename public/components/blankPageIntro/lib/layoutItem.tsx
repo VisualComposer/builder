@@ -130,7 +130,6 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         let userTemplates = dataManager.get('globalTemplatesList')
-        userTemplates = []
         if (userTemplates && !userTemplates.length) {
           userTemplates = [{
             label: localizations.noTemplates,
@@ -144,7 +143,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       if (itemData.type === 'layoutTemplate') {
         const userTemplates = dataManager.get('globalTemplatesList').filter((template: {label: string, group: { label: string }}) => {
           const label = template?.label || template?.group?.label
-          return label.toLowerCase() === 'my templates' || label.toLowerCase() === 'select a template'
+          return label.toLowerCase() === 'my singular layout templates' || label.toLowerCase() === 'my archive templates' || label.toLowerCase() === 'select a template'
         })
         options = { values: userTemplates }
         fieldKey = 'myTemplate'

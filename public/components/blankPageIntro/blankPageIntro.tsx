@@ -297,6 +297,23 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         }
       }
     } else if (editorType === 'vcv_layouts') {
+      if (activeTemplate?.type) {
+        let templateType = activeTemplate.type
+        if (activeTemplate.type === 'layoutTemplate') {
+          const templateList = dataManager.get('globalTemplatesList')
+          const templateGroup = templateList.find((template: {group: {values: []}}) => {
+            let type = undefined
+            if (template.group) {
+              type = template.group.values.find((item: {value:number}) => item.value === parseInt(activeTemplate.id))
+            }
+            return type
+          })
+          if (templateGroup?.group) {
+            templateType = templateGroup.group.label === 'My Singular Layout Templates' ? 'postTemplate' : 'archiveTemplate'
+          }
+        }
+        settingsStorage.state('layoutType').set(templateType)
+      }
       if (activeTemplate?.id) {
         applyTemplate(activeTemplate.type, activeTemplate.id)
         return
