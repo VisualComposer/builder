@@ -344,11 +344,11 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
           if (Object.keys(hubTemplates).length === 0) {
             templates = hubTemplatesStorage.state('templates').get()
           }
-          console.log('templates', templates);
-          console.log('activeTemplate', activeTemplate);
+          console.log('templates', templates)
+          console.log('activeTemplate', activeTemplate)
           const templateType = activeTemplate?.type === 'myTemplate' ? 'custom' : activeTemplate.templateType
           const templateCategory = templates[templateType]?.templates
-          let template = activeTemplate?.type === 'myTemplate'
+          const template = activeTemplate?.type === 'myTemplate'
             ? templateCategory.find((item: { id:string }) => item.id === activeTemplate.id)
             : templateCategory && templateCategory.find((item: { bundle:string }) => item.bundle === activeTemplate.bundle)
 
