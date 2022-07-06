@@ -2164,6 +2164,10 @@ class Localizations extends Container implements Helper
                 'You don’t have any templates',
                 'visualcomposer'
             ),
+            'hubAccessTermsBlankPage' => __(
+                'By downloading content from the Hub, you agree to the cloud <a href="https://visualcomposer.com/terms-of-use/" target="_blank" rel="noopener noreferrer">terms and services</a>',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -344,11 +344,13 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
           if (Object.keys(hubTemplates).length === 0) {
             templates = hubTemplatesStorage.state('templates').get()
           }
+          console.log('templates', templates);
+          console.log('activeTemplate', activeTemplate);
           const templateType = activeTemplate?.type === 'myTemplate' ? 'custom' : activeTemplate.templateType
           const templateCategory = templates[templateType]?.templates
-          const template = activeTemplate?.type === 'myTemplate'
+          let template = activeTemplate?.type === 'myTemplate'
             ? templateCategory.find((item: { id:string }) => item.id === activeTemplate.id)
-            : templateCategory.find((item: { bundle:string }) => item.bundle === activeTemplate.bundle)
+            : templateCategory && templateCategory.find((item: { bundle:string }) => item.bundle === activeTemplate.bundle)
 
           if (activeTemplate.isPageIntro) {
             if (!template) {
@@ -461,6 +463,10 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
     'blank-page-form--nocontent': ['template', 'header', 'footer', 'sidebar'].includes(editorType)
   })
 
+  const hubTerms = settingsStorage.state('agreeHubTerms').get()
+  const isPageIntro = activeTemplate?.isPageIntro
+  const terms = !hubTerms && isPageIntro ? <p className='template-teaser-text' dangerouslySetInnerHTML={{ __html: localizations.hubAccessTermsBlankPage }} /> : null
+
   return (
     <div className={blankPageClasses}>
       <Sidebar toggleSettings={toggleSettings} />
@@ -476,6 +482,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         </div>
         {content}
         <button className={buttonClasses} type='submit'>{getStartedText}</button>
+        {terms}
       </form>
     </div>
   )

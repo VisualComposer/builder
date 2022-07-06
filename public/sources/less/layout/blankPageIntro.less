@@ -208,7 +208,7 @@
 .blank-page-form {
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
+  flex: 1 0 100%;
 }
 
 .blank-page-form--nocontent {
@@ -356,12 +356,32 @@
   line-height: 20px;
 }
 
-.template-group-label {
+.template-group-label,
+.template-teaser-text{
   color: #62666D;
 }
 
 .template-label {
   color: #6E7177;
+}
+
+.template-teaser-text {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+
+  a {
+    color: #586dc6;
+    text-decoration: none;
+    transition: underline @vcv-transition-duration @vcv-transition-timing-function,
+                color @vcv-transition-duration @vcv-transition-timing-function;
+
+    &:hover {
+      color: #515162;
+      text-decoration: underline;
+    }
+  }
 }
 
 .blank-page-submit-button {
@@ -446,5 +466,9 @@
     &--loading:hover {
       position: absolute;
     }
+  }
+
+  .template-teaser-text {
+    margin: 0 0 40px;
   }
 }
