@@ -141,21 +141,46 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         fieldKey = 'myTemplate'
       }
       if (itemData.type === 'layoutTemplate') {
-        const userTemplates = dataManager.get('globalTemplatesList').filter((template: {label: string, group: { label: string }}) => {
+        let userTemplates = dataManager.get('globalTemplatesList').filter((template: {label: string, group: { label: string }}) => {
           const label = template?.label || template?.group?.label
-          return label.toLowerCase() === 'my singular layout templates' || label.toLowerCase() === 'my archive templates' || label.toLowerCase() === 'select a template'
+          return label.toLowerCase() === 'my singular layout templates' || label.toLowerCase() === 'my archive templates'
         })
+        if (userTemplates && !userTemplates.length) {
+          userTemplates = [{
+            label: localizations.noTemplates,
+            value: ''
+          }]
+          isDisabled = true
+        } else {
+          const values = [
+            {
+              label: 'Select a layout',
+              value: ''
+            }
+          ]
+          userTemplates = values.concat(userTemplates)
+        }
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
       }
       if (itemData.type === 'popupTemplate') {
-        const values = [
-          {
-            label: localizations.selectAPopup || 'Select a popup',
+        const popupTemplates = hubTemplates?.popup?.templates
+        let templates = []
+        if (!popupTemplates || !popupTemplates.length) {
+          templates = [{
+            label: localizations.noTemplates,
             value: ''
-          }
-        ]
-        const templates = values.concat(hubTemplates?.popup?.templates || [])
+          }]
+          isDisabled = true
+        } else {
+          const values = [
+            {
+              label: localizations.selectAPopup || 'Select a popup',
+              value: ''
+            }
+          ]
+          templates = values.concat(popupTemplates)
+        }
         options = { values: templates }
         fieldKey = 'popupTemplate'
       }

@@ -297,30 +297,30 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         }
       }
     } else if (editorType === 'vcv_layouts') {
-      if (activeTemplate?.type) {
-        let templateType = activeTemplate.type
-        if (activeTemplate.type === 'layoutTemplate') {
-          const templateList = dataManager.get('globalTemplatesList')
-          const templateGroup = templateList.find((template: {group: {values: []}}) => {
-            let type
-            if (template.group) {
-              type = template.group.values.find((item: {value:number}) => item.value === parseInt(activeTemplate.id))
-            }
-            return type
-          })
-          if (templateGroup?.group) {
-            templateType = templateGroup.group.label === 'My Singular Layout Templates' ? 'postTemplate' : 'archiveTemplate'
+      let templateType = activeTemplate?.type
+      if (templateType && templateType === 'layoutTemplate' && activeTemplate?.id) {
+        const templateList = dataManager.get('globalTemplatesList')
+        const templateGroup = templateList.find((template: {group: {values: []}}) => {
+          let type
+          if (template.group) {
+            type = template.group.values.find((item: {value:number}) => item.value === parseInt(activeTemplate.id))
           }
+          return type
+        })
+        if (templateGroup?.group) {
+          templateType = templateGroup.group.label === 'My Singular Layout Templates' ? 'postTemplate' : 'archiveTemplate'
         }
-        settingsStorage.state('layoutType').set(templateType)
+      } else {
+        templateType = 'postTemplate'
       }
+      settingsStorage.state('layoutType').set(templateType)
       if (activeTemplate?.id) {
-        applyTemplate(activeTemplate.type, activeTemplate.id)
+        applyTemplate(templateType, activeTemplate.id)
         return
       }
       const elements = documentService.all()
       if (!Object.keys(elements).length) {
-        const elementTag = activeTemplate?.type === 'postTemplate' ? 'layoutContentArea' : 'layoutPostList'
+        const elementTag = templateType === 'postTemplate' ? 'layoutContentArea' : 'layoutPostList'
         const commonDesignOptions = { device: { all: { boxModel: { marginTop: '50px', marginBottom: '50px' } } } }
         const headerElement = cook.get({
           tag: 'textBlock',
