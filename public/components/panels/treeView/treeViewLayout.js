@@ -1,6 +1,6 @@
 import { getStorage, getService } from 'vc-cake'
 import React from 'react'
-import TreeViewElement from './lib/treeViewElement'
+import TreeViewElementWrapper from './lib/treeViewElementWrapper'
 import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar'
 import lodash from 'lodash'
@@ -95,17 +95,8 @@ export default class TreeViewLayout extends React.Component {
     })
   }
 
-  updateElementsData (data, singleElement = false) {
-    let newData
-    if (singleElement && singleElement === 'singleElement') {
-      const currentData = this.state.data
-      const newDataIndex = currentData.findIndex(element => element.id === data.id)
-      currentData[newDataIndex] = data
-      newData = currentData
-    } else {
-      newData = data
-    }
-
+  updateElementsData (data) {
+    let newData = data
     if (this.props.isAttribute) {
       newData = documentManager.children(this.props.element.get('id'))
     }
@@ -174,7 +165,7 @@ export default class TreeViewLayout extends React.Component {
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
         return (
-          <TreeViewElement
+          <TreeViewElementWrapper
             element={element}
             key={'tree-view-' + element.id}
             level={1}
@@ -183,7 +174,6 @@ export default class TreeViewLayout extends React.Component {
             onUnmountCallback={this.handleElementUnmount}
             scrollValue={this.props.scrollValue}
             isAttribute={this.props.isAttribute}
-            updateElementsData={this.updateElementsData}
           />
         )
       }, this)

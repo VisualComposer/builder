@@ -1,8 +1,8 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, memo } from 'react'
 import { connect } from 'react-redux'
 import { rowHoverIdChanged } from '../../../stores/controls/slice'
 
-const ElementInner = forwardRef((props, ref) => {
+const ElementContainerWrapper = forwardRef((props, ref) => {
   const handleMouseOver = (event) => {
     event.stopPropagation()
     props.rowHoverIdChanged(props.id)
@@ -43,7 +43,7 @@ const ElementInner = forwardRef((props, ref) => {
   )
 })
 
-ElementInner.displayName = 'ElementInner'
+ElementContainerWrapper.displayName = 'ElementContainerWrapper'
 
 const mapStateToProps = (state) => ({
   columnResizeData: state.controls.columnResizeData,
@@ -55,4 +55,4 @@ const mapDispatchToProps = (dispatch) => ({
   rowHoverIdChanged: (data) => dispatch(rowHoverIdChanged(data))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(ElementInner)
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(memo(ElementContainerWrapper))

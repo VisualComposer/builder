@@ -5,6 +5,7 @@ import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import { ControlHelpers } from 'public/components/elementControls/controlHelpers'
 import { isEqual } from 'lodash'
+import TreeViewElementWrapper from './treeViewElementWrapper'
 
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
@@ -70,11 +71,11 @@ export default class TreeViewElement extends React.Component {
     this.handleClickLock = this.handleClickLock.bind(this)
   }
 
-  dataUpdate (data, newProps = false) {
-    this.setState({ element: data || this.props.element })
-    if (!newProps && this.props.updateElementsData) {
-      this.props.updateElementsData(data || this.props.element, 'singleElement')
+  dataUpdate (data) {
+    if (isEqual(data, this.props.element)) {
+      return
     }
+    this.setState({ element: data || this.props.element })
     if (data && Object.prototype.hasOwnProperty.call(data, 'customHeaderTitle')) {
       const element = cook.get(data || this.props.element)
       const content = data.customHeaderTitle || element.getName()
@@ -214,7 +215,7 @@ export default class TreeViewElement extends React.Component {
     const level = this.props.level + 1
     const elementsList = children.map((element) => {
       return (
-        <TreeViewElement
+        <TreeViewElementWrapper
           showOutlineCallback={showOutlineCallback}
           onMountCallback={onMountCallback}
           onUnmountCallback={onUnmountCallback}
@@ -368,6 +369,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   render () {
+    console.log('render tree view element')
     const hidden = this.state.element.hidden
     const localizations = dataManager.get('localizations')
     const addText = localizations ? localizations.add : 'Add'
