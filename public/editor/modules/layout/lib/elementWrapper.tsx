@@ -22,7 +22,6 @@ function areEqual (prevProps: Readonly<Props>, nextProps: Readonly<Props>) {
 const ElementWrapper = forwardRef((props: Props, ref) => {
   const customEditorProps = { ...props.editor }
   const ContentComponent = props.contentComponent
-  console.log('render', props.element.tag)
   return (
     // @ts-ignore
     <ContentComponent

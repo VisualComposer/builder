@@ -369,7 +369,6 @@ export default class TreeViewElement extends React.Component {
   }
 
   render () {
-    console.log('render tree view element')
     const hidden = this.state.element.hidden
     const localizations = dataManager.get('localizations')
     const addText = localizations ? localizations.add : 'Add'
