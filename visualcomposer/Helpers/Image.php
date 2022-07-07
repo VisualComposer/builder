@@ -440,7 +440,7 @@ class Image implements Helper
 
             // Check if file already exists. No need to resize twice.
             if (!file_exists($absolutePath)) {
-                $resizedImage = $this->resizeImage($image, $absolutePath, $width, $height, true);
+                $resizedImage = $this->resizeImage($image, $imageData, $absolutePath, $width, $height, true);
                 if (is_wp_error($resizedImage)) {
                     continue;
                 }
@@ -450,7 +450,7 @@ class Image implements Helper
 
             // For consistency with "getImagesFromAttachmentSizes" method
             // return the relative path to the filename.
-            $images[$widthAttr] = $dirname . $filename;
+            $images[ $widthAttr ] = ltrim($dirname . $filename, '/\\');
         }
 
         return $images;
@@ -459,17 +459,25 @@ class Image implements Helper
     /**
      * Resize and save image
      *
-     * @param \WP_Image_Editor $image
-     * @param string $path Absolute path where to save an image
+     * @param \WP_Image_Editor $image Image editor object.
+     * @param array $imageData Image data.
+     * @param string $path Absolute path where to save an image.
      * @param int $width
      * @param int $height
      * @param bool $crop
      *
      * @return array|\WP_Error
      */
-    public function resizeImage($image, $path, $width = null, $height = null, $crop = false)
+    public function resizeImage($image, $imageData, $path, $width = null, $height = null, $crop = false)
     {
-        $newImage = clone $image;
+        // For GD need to create a new object, because GD has a reference to a resource.
+        // In case of ImageMagick it is possible to clone the object.
+        if ($image instanceof \WP_Image_Editor_GD) {
+            $newImage = wp_get_image_editor($imageData['path']);
+        } else {
+            $newImage = clone $image;
+        }
+
         $newImage->resize($width, $height, $crop);
 
         return $newImage->save($path);
