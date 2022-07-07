@@ -450,7 +450,7 @@ class Image implements Helper
 
             // For consistency with "getImagesFromAttachmentSizes" method
             // return the relative path to the filename.
-            $images[$widthAttr] = $dirname . $filename;
+            $images[$widthAttr] = ltrim( $dirname . $filename, '/\\' );
         }
 
         return $images;
