@@ -133,7 +133,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         // const templateGroups = userTemplates.filter((template: {group: {values: []}}) => {
         //   return template?.group?.values.length
         // })
-        console.log('userTemplates',userTemplates)
+        console.log('userTemplates', userTemplates)
         if (userTemplates && !userTemplates.length) {
           userTemplates = [{
             label: localizations.noTemplates,
