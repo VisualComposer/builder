@@ -130,10 +130,11 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         let userTemplates = dataManager.get('globalTemplatesList')
-        const templateGroups = userTemplates.filter((template: {group: {values: []}}) => {
-          return template?.group?.values.length
-        })
-        if (userTemplates && !templateGroups.length) {
+        // const templateGroups = userTemplates.filter((template: {group: {values: []}}) => {
+        //   return template?.group?.values.length
+        // })
+        console.log('userTemplates',userTemplates)
+        if (userTemplates && !userTemplates.length) {
           userTemplates = [{
             label: localizations.noTemplates,
             value: ''
