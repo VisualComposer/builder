@@ -130,11 +130,10 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       let fieldKey = ''
       if (itemData.type === 'myTemplate') {
         let userTemplates = dataManager.get('globalTemplatesList')
-        // const templateGroups = userTemplates.filter((template: {group: {values: []}}) => {
-        //   return template?.group?.values.length
-        // })
-        console.log('userTemplates', userTemplates)
-        if (userTemplates && !userTemplates.length) {
+        const templateGroups = userTemplates && userTemplates.filter((template: {group: {values: []}}) => {
+          return template?.group?.values.length
+        })
+        if (templateGroups && !templateGroups.length) {
           userTemplates = [{
             label: localizations.noTemplates,
             value: ''
@@ -145,11 +144,12 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         fieldKey = 'myTemplate'
       }
       if (itemData.type === 'layoutTemplate') {
-        let userTemplates = dataManager.get('globalTemplatesList').filter((template: {label: string, group: { label: string }}) => {
+        let userTemplates = dataManager.get('globalTemplatesList')
+        const templateGroups = userTemplates && userTemplates.filter((template: {label: string, group: { label: string }}) => {
           const label = template?.label || template?.group?.label
           return label.toLowerCase() === 'my singular layout templates' || label.toLowerCase() === 'my archive templates'
         })
-        if (userTemplates && !userTemplates.length) {
+        if (templateGroups && !templateGroups.length) {
           userTemplates = [{
             label: localizations.noTemplates,
             value: ''
