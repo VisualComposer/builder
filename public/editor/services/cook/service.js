@@ -330,13 +330,8 @@ const API = {
           const innerNestingLevel = inner ? innerRenderCount : 0
           commentsStackResult.commentStack.forEach((commentData) => {
             const { blockInfo, attributesLevel } = commentData
-
-            const imageType = ['featured_image']
-
-            if (imageType.includes(blockInfo.blockAtts.value)) {
-              el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-              el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} -->`)
-            }
+            el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
+            el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} -->`)
           })
         }
       }
@@ -385,7 +380,7 @@ const API = {
         dynamicProps.sourceId = sourceId
       }
 
-      const currentValue = API.dynamicFields.getDynamicFieldsData(
+      dynamicProps.currentValue = API.dynamicFields.getDynamicFieldsData(
         {
           blockAtts: {
             value: dynamicFieldKey,
@@ -396,7 +391,6 @@ const API = {
         true,
         options
       )
-      dynamicProps.currentValue = currentValue
 
       if (options?.fieldOptions?.dynamicFieldsOptions?.addAttributes) {
         const element = options?.element || {}
