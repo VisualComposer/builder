@@ -380,7 +380,7 @@ const API = {
         dynamicProps.sourceId = sourceId
       }
 
-      const currentValue = API.dynamicFields.getDynamicFieldsData(
+      dynamicProps.currentValue = API.dynamicFields.getDynamicFieldsData(
         {
           blockAtts: {
             value: dynamicFieldKey,
@@ -391,7 +391,6 @@ const API = {
         true,
         options
       )
-      dynamicProps.currentValue = currentValue
 
       if (options?.fieldOptions?.dynamicFieldsOptions?.addAttributes) {
         const element = options?.element || {}
