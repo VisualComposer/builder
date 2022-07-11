@@ -101,7 +101,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
   const isSelect = itemData.control === 'dropdown'
   const icon:React.ReactElement | null = itemData?.icon?.default() || null
   const isPremiumActivated = dataManager.get('isPremiumActivated')
-  let isDisabled = !isPremiumActivated && (itemData?.contentType === 'premium' || itemData?.bundleType?.includes('premium'))
+  let isDisabled = !isPremiumActivated && (itemData?.contentType === 'premium' || (itemData?.bundleType?.includes('premium') && !itemData?.bundleType?.includes('free')))
   const premiumBagde = isDisabled ? <span className='item-badge'>{localizations.premium || 'Premium'}</span> : null
 
   let tooltip:React.ReactElement | null = itemData.description && <Tooltip>{itemData.description}</Tooltip>
