@@ -20,7 +20,7 @@
   }
 
   &.blank-page-settings--active {
-    padding-right: @blank-page-intro-sidebar-width;
+    padding-right: calc(@blank-page-intro-sidebar-width + 40px);
 
     .blank-page-form {
       margin-right: 40px;
@@ -296,6 +296,12 @@
 
 .template-item--disabled {
   pointer-events: none;
+  flex: 1 1 auto;
+}
+
+.disabled-container {
+  cursor: not-allowed;
+  display: flex;
 }
 
 .template-item--selected {

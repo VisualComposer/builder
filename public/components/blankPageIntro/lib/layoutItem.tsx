@@ -162,7 +162,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
               value: ''
             }
           ]
-          userTemplates = values.concat(userTemplates)
+          userTemplates = values.concat(templateGroups)
         }
         options = { values: userTemplates }
         fieldKey = 'myTemplate'
@@ -213,19 +213,25 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     styles.backgroundImage = `url(${itemData.introPageImageUrl})`
   }
 
+  const NotAllowed = ({ children }: { children: React.ReactElement }) => {
+    return isDisabled ? <div className='disabled-container'>{children}</div> : <>{children}</>
+  }
+
   return (
-    <div className={itemClasses} onClick={handleItemClick}>
-      {premiumBagde}
-      <div className='template-thumbnail' style={styles}>
-        {icon}
+    <NotAllowed>
+      <div className={itemClasses} onClick={handleItemClick}>
+        {premiumBagde}
+        <div className='template-thumbnail' style={styles}>
+          {icon}
+        </div>
+        <div className={infoClasses}>
+          <span className='template-label'>{itemData.label || itemData.name}</span>
+          {dropdown}
+          {tooltip}
+          {checkedIcon}
+        </div>
       </div>
-      <div className={infoClasses}>
-        <span className='template-label'>{itemData.label || itemData.name}</span>
-        {dropdown}
-        {tooltip}
-        {checkedIcon}
-      </div>
-    </div>
+    </NotAllowed>
   )
 }
 
