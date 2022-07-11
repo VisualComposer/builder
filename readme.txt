@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 6.0
-Stable tag: 44.2.2
+Stable tag: 44.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -222,8 +222,17 @@ It is both! Visual Composer’s free version works like a page builder where you
 
 == Changelog ==
 
-= 44.3.0 =
+= 44.3.1 =
 *Release Date - 2022-07-07*
+
+### Free:
+- Fix: Single image element works properly
+
+### Premium:
+- Fix: Global header and footer settings work properly
+
+= 44.3.0 =
+*Release Date - 2022-07-06*
 
 ### Free:
 - New: TinyMCE typography options offer Default settings
