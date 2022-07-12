@@ -22,6 +22,7 @@ const cook = getService('cook')
 const dataManager = getService('dataManager')
 const documentService = getService('document')
 const myTemplatesService = getService('myTemplates')
+const dataProcessor = getService('dataProcessor')
 const localizations = dataManager.get('localizations')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const editorType = dataManager.get('editorType')
@@ -353,7 +354,16 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
           if (activeTemplate.isPageIntro) {
             if (!template) {
               setIsDownloading(true)
-              hubTemplatesStorage.trigger('downloadTemplate', activeTemplate)
+              if (!settingsStorage.state('agreeHubTerms').get()) {
+                settingsStorage.state('agreeHubTerms').set(true)
+                dataProcessor.appAdminServerRequest({
+                  'vcv-action': 'editors:agreeHubTerms:enable:adminNonce'
+                }).then(() => {
+                  hubTemplatesStorage.trigger('downloadTemplate', activeTemplate)
+                })
+              } else {
+                hubTemplatesStorage.trigger('downloadTemplate', activeTemplate)
+              }
               return
             }
           }
