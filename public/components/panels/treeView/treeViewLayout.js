@@ -1,6 +1,6 @@
 import { getStorage, getService } from 'vc-cake'
 import React from 'react'
-import TreeViewElementWrapper from './lib/TreeViewElementWrapper'
+import TreeViewElementWrapper from './lib/treeViewElementWrapper'
 import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar'
 import lodash from 'lodash'
