@@ -1,5 +1,4 @@
 import { getService, getStorage, env } from 'vc-cake'
-import { connect } from 'react-redux'
 import React, { useState, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
@@ -111,6 +110,7 @@ const TreeViewElement = (props) => {
   }, [content, editable])
 
   const dataUpdate = (data, newProps = false) => {
+    // TODO: check this
     // setElement(data || props.elementData)
     // if (!newProps && props.updateElementsData) {
     //   props.updateElementsData(data || props.elementData, 'singleElement')

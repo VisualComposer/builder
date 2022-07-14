@@ -8,6 +8,7 @@ import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import EmptyCommentElementWrapper from './emptyCommentElementWrapper'
 import Element from './element'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
+import store from '../../../stores/store'
 
 const cook = vcCake.getService('cook')
 const assetsStorage = vcCake.getStorage('assets')
@@ -72,7 +73,7 @@ const ElementWrapper = forwardRef((props, ref) => {
     }
 
     return !returnData ? <EmptyCommentElementWrapper /> : returnData
-  }, [cookElement, props.elementData, props.api, props.id])
+  }, [cookElement, props.elementData, props.api, props.id, props.elementCount])
 
   if (!cookElement) {
     return null
@@ -105,8 +106,18 @@ const ElementWrapper = forwardRef((props, ref) => {
 
 ElementWrapper.displayName = 'ElementWrapper'
 
-const mapStateToProps = (state, props) => ({
-  elementData: state.document.documentData[props.id]
-})
+const mapStateToProps = (state, props) => {
+  console.log(props)
+  const documentData = state.document.documentData
+  // const children = Object.keys(documentData)
+  //   .map((id) => documentData[id])
+  //   .filter((el) => el.parent === props.id)
+  //   .sort((a, b) => a.order - b.order)
+
+  return {
+    elementCount: Object.keys(documentData).length,
+    elementData: documentData[props.id]
+  }
+}
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(ElementWrapper)
