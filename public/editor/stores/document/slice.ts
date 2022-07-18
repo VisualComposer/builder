@@ -4,7 +4,8 @@ import { getService } from 'vc-cake'
 interface ElementData {
   id: string,
   parent?: string,
-  order: number
+  order: number,
+  metaChildCounter: number
 }
 
 interface State {
@@ -35,6 +36,14 @@ const moveDownAfter = (state: State, id: string, step: number) => {
 const moveBeforeAfter = (state: State, id: string, moveId: string) => {
   const element = state.documentData[id]
   const moveElement = state.documentData[moveId]
+
+  if (moveElement.parent && state.documentData[moveElement.parent]) {
+    state.documentData[moveElement.parent].metaChildCounter = (state.documentData[moveElement.parent].metaChildCounter || 0) + 1
+  }
+
+  if (element.parent && state.documentData[element.parent]) {
+    state.documentData[element.parent].metaChildCounter = (state.documentData[element.parent].metaChildCounter || 0) + 1
+  }
 
   element.order = moveElement.order
   element.parent = moveElement.parent
@@ -89,6 +98,11 @@ const slice = createSlice({
       const options = action.payload[2]
       state.documentData[id] = action.payload[1]
 
+      const parentId = action.payload[1].parent
+      if (parentId && state.documentData[parentId]) {
+        state.documentData[parentId].metaChildCounter = (state.documentData[parentId].metaChildCounter || 0) + 1
+      }
+
       if (options && options.insertAfter) {
         moveBeforeAfter(state, id, options.insertAfter)
         moveDownAfter(state, options.insertAfter, 1)
@@ -109,12 +123,20 @@ const slice = createSlice({
       }
     },
     remove: (state: State, action) => {
+      const parentId = state.documentData[action.payload].parent
+      if (parentId && state.documentData[parentId]) {
+        state.documentData[parentId].metaChildCounter = (state.documentData[parentId].metaChildCounter || 0) + 1
+      }
       delete state.documentData[action.payload]
     },
     appendTo: (state: State, action) => {
       const id = action.payload[0]
       const parentId = action.payload[1]
       const lastOrderIndex = action.payload[2]
+
+      if (parentId && state.documentData[parentId]) {
+        state.documentData[parentId].metaChildCounter = (state.documentData[parentId].metaChildCounter || 0) + 1
+      }
 
       state.documentData[id].parent = parentId
       state.documentData[id].order = lastOrderIndex
