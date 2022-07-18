@@ -143,7 +143,6 @@ export default class DndManager {
   }
 
   initItems (id) {
-    console.log(id)
     const cookElement = cook.getById(id)
     const isDraggable = cookElement.get('metaIsDraggable')
     if (isDraggable === undefined || isDraggable) {
