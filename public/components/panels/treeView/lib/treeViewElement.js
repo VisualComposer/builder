@@ -84,7 +84,7 @@ const TreeViewElement = (props) => {
       workspaceStorage.state('userInteractWith').set(false)
       window.removeEventListener('storage', checkPaste)
     }
-  }, [])
+  }, [element.id])
 
   useEffect(() => {
     const newShowOutline = props.showOutlineCallback(element?.id)

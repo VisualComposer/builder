@@ -8,7 +8,6 @@ import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import EmptyCommentElementWrapper from './emptyCommentElementWrapper'
 import Element from './element'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
-import store from '../../../stores/store'
 
 const cook = vcCake.getService('cook')
 const assetsStorage = vcCake.getStorage('assets')
@@ -74,7 +73,7 @@ const ElementWrapper = forwardRef((props, ref) => {
     }
 
     return !returnData ? <EmptyCommentElementWrapper /> : returnData
-  }, [cookElement, props.elementData, props.api, props.id, props.elementCount])
+  }, [cookElement, props.elementData, props.api, props.id])
 
   if (!cookElement) {
     return null
