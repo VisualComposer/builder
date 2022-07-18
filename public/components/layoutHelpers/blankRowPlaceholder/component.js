@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import ElementControl from './lib/elementControl'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
@@ -39,6 +40,7 @@ export default class BlankRowPlaceholder extends React.Component {
 
   addedId = null
   iframeWindow = null
+  dropFile = false
 
   constructor (props) {
     super(props)
@@ -55,12 +57,16 @@ export default class BlankRowPlaceholder extends React.Component {
     this.rowContainer = React.createRef()
     this.elementsContainer = React.createRef()
     this.state = {
+      isDraggingOver: false,
       copyData
     }
     this.handleClick = this.handleClick.bind(this)
     this.setControlsLayout = debounce(this.setControlsLayout.bind(this), 50)
     this.openEditForm = this.openEditForm.bind(this)
     this.getControls = this.getControls.bind(this)
+    this.handleDrop = this.handleDrop.bind(this)
+    this.handleDragOver = this.handleDragOver.bind(this)
+    this.handleDragLeave = this.handleDragLeave.bind(this)
 
     this.resizeObserver = new window.ResizeObserver(this.setControlsLayout)
   }
@@ -193,8 +199,12 @@ export default class BlankRowPlaceholder extends React.Component {
    */
   openEditForm (action, id) {
     if (action === 'add' && id === this.addedId) {
-      workspaceStorage.trigger('edit', this.addedId, '')
+      const options = this.dropFile ? { imageDrop: true } : {}
+      workspaceStorage.trigger('edit', this.addedId, '', options)
       this.iframeWindow.vcv.off('ready', this.openEditForm)
+      if (this.dropFile) {
+        this.dropFile = false
+      }
     }
   }
 
@@ -293,6 +303,47 @@ export default class BlankRowPlaceholder extends React.Component {
     })
   }
 
+  handleDragOver (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'copy'
+    this.setState({
+      isDraggingOver: true
+    })
+  }
+
+  handleDragLeave (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      isDraggingOver: false
+    })
+  }
+
+  handleDrop (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      isDraggingOver: false
+    })
+    const files = event.dataTransfer.files
+    const images = Array.from(files).filter(file => file.type.includes('image'))
+    if (images.length) {
+      const elementTag = files.length > 1 ? 'imageGallery' : 'singleImage'
+      const element = cook.get({ tag: elementTag }).toJS()
+
+      elementsStorage.trigger('add', element)
+      this.addedId = element.id
+      this.dropFile = true
+      // creating a global variable because otherwise it won't store files object
+      window.vcvDropFile = images
+
+      const iframe = document.getElementById('vcv-editor-iframe')
+      this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+      this.iframeWindow.vcv.on('ready', this.openEditForm)
+    }
+  }
+
   render () {
     const isIconDark = this.props.iconColor === 'dark' ? true : ['default', 'template', 'vcv_tutorials', 'vcv_layouts'].indexOf(BlankRowPlaceholder.editorType) >= 0
     const elementControls = this.getElementControls(isIconDark)
@@ -303,12 +354,20 @@ export default class BlankRowPlaceholder extends React.Component {
 
     const dragOverlayIcon = isIconDark ? addElementIcon : addElementIconLight
 
+    const blankRowClasses = classNames({
+      'vcv-ui-blank-row': true,
+      'vcv-drag-helper-over-blank-row': this.state.isDraggingOver
+    })
+
     return (
       <div
         className='vcvhelper vcv-ui-blank-row-container vcv-is-disabled-outline'
         ref={this.rowContainer}
+        onDragOver={this.handleDragOver}
+        onDragLeave={this.handleDragLeave}
+        onDrop={this.handleDrop}
       >
-        <div className='vcv-ui-blank-row' id='vcv-ui-blank-row'>
+        <div className={blankRowClasses} id='vcv-ui-blank-row'>
           <div className='vcv-ui-blank-row-drag-overlay' dangerouslySetInnerHTML={{ __html: dragOverlayIcon }} />
           <div
             className='vcv-ui-blank-row-controls-container'
