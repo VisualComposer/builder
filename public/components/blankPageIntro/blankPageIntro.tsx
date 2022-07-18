@@ -280,7 +280,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (editorType === 'popup') {
-      if (activeTemplate && activeTemplate.id) {
+      if (activeTemplate && activeTemplate.id && parseInt(activeTemplate.id)) {
         applyTemplate(activeTemplate.type, activeTemplate.id)
         return
       }
@@ -339,7 +339,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         elementsStorage.trigger('add', footerElement)
       }
     } else {
-      if (activeTemplate?.id || activeLayout.value) {
+      if ((activeTemplate?.id && activeTemplate.id.match(/\d/)) || activeLayout.value) {
         if (activeTemplate?.id) {
           let templates = hubTemplates
           if (Object.keys(hubTemplates).length === 0) {
