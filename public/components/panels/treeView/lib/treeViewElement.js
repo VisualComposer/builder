@@ -543,7 +543,7 @@ const TreeViewElement = (props) => {
   const controlClasses = classNames({
     'vcv-ui-tree-layout-control': true,
     'vcv-ui-state--active': false,
-    'vcv-ui-state--outline': props.outlineElementId === props.elementData.id,
+    'vcv-ui-state--outline': props.isElementHovered,
     'vcv-ui-tree-layout-control-mobile': isMobile,
     'vcv-ui-tree-layout-control-is-locked': isElementLocked
   })
