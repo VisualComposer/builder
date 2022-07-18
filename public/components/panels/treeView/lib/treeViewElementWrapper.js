@@ -10,7 +10,7 @@ TreeViewElementWrapper.displayName = 'TreeViewElementWrapper'
 
 const mapStateToProps = (state, props) => {
   return {
-    outlineElementId: state.controls.outlineData.id,
+    isElementHovered: state.controls.outlineData.id === props.id,
     elementData: state.document.documentData[props.id]
   }
 }
