@@ -278,6 +278,7 @@
 
 .template-item {
   position: relative;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   border-radius: @blank-page-intro-item-border-radius;
@@ -299,7 +300,12 @@
   flex: 1 1 auto;
 }
 
-.disabled-container {
+.template-item-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.template-item-wrapper--disabled {
   cursor: not-allowed;
   display: flex;
 }

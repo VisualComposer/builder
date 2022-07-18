@@ -206,6 +206,10 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     'template-info': true,
     'template-info--select': isSelect
   })
+  const wrapperClasses = classNames({
+    'template-item-wrapper': true,
+    'template-item-wrapper--disabled': isDisabled
+  })
   const styles = {
     backgroundImage: ''
   }
@@ -213,12 +217,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     styles.backgroundImage = `url(${itemData.introPageImageUrl})`
   }
 
-  const NotAllowed = ({ children }: { children: React.ReactElement }) => {
-    return isDisabled ? <div className='disabled-container'>{children}</div> : <>{children}</>
-  }
-
   return (
-    <NotAllowed>
+    <div className={wrapperClasses}>
       <div className={itemClasses} onClick={handleItemClick}>
         {premiumBagde}
         <div className='template-thumbnail' style={styles}>
@@ -231,7 +231,7 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
           {checkedIcon}
         </div>
       </div>
-    </NotAllowed>
+    </div>
   )
 }
 
