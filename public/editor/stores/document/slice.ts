@@ -124,18 +124,24 @@ const slice = createSlice({
     },
     remove: (state: State, action) => {
       const parentId = state.documentData[action.payload].parent
-      if (parentId && state.documentData[parentId]) {
+      delete state.documentData[action.payload]
+
+      if (parentId && state.documentData[parentId]) { // Trigger parent update
         state.documentData[parentId].metaChildCounter = (state.documentData[parentId].metaChildCounter || 0) + 1
       }
-      delete state.documentData[action.payload]
     },
     appendTo: (state: State, action) => {
       const id = action.payload[0]
       const parentId = action.payload[1]
       const lastOrderIndex = action.payload[2]
+      const oldParentId = state.documentData[id]?.parent
 
       if (parentId && state.documentData[parentId]) {
         state.documentData[parentId].metaChildCounter = (state.documentData[parentId].metaChildCounter || 0) + 1
+      }
+
+      if (oldParentId && state.documentData[oldParentId]) {
+        state.documentData[oldParentId].metaChildCounter = (state.documentData[oldParentId].metaChildCounter || 0) + 1
       }
 
       state.documentData[id].parent = parentId
