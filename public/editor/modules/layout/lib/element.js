@@ -25,7 +25,10 @@ export default class Element extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.notify('element:mount', this.props.id)
+    window.setTimeout(() => {
+      this.props.api.notify('element:mount', this.props.id)
+    }, 10)
+
     if (this.elementComponentRef.current) {
       const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current) // eslint-disable-line
       const htmlString = domNode ? utils.normalizeHtml(domNode.parentElement.innerHTML) : ''
