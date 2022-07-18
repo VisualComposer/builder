@@ -37,7 +37,6 @@ export default class TreeViewLayout extends React.Component {
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
     this.handleAddTemplate = this.handleAddTemplate.bind(this)
-    this.checkShowOutlineCallback = this.checkShowOutlineCallback.bind(this)
     this.handleElementMount = this.handleElementMount.bind(this)
     this.handleElementUnmount = this.handleElementUnmount.bind(this)
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
@@ -165,10 +164,6 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
-  checkShowOutlineCallback (id) {
-    return this.state.outlineElementId === id
-  }
-
   getElements () {
     let elementsList = []
     if (this.state.data) {
@@ -178,7 +173,6 @@ export default class TreeViewLayout extends React.Component {
             id={element.id}
             key={'tree-view-' + element.id}
             level={1}
-            showOutlineCallback={this.checkShowOutlineCallback}
             onMountCallback={this.handleElementMount}
             onUnmountCallback={this.handleElementUnmount}
             scrollValue={this.props.scrollValue}

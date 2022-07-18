@@ -10,6 +10,7 @@ TreeViewElementWrapper.displayName = 'TreeViewElementWrapper'
 
 const mapStateToProps = (state, props) => {
   return {
+    outlineElementId: state.controls.outlineData.id,
     elementData: state.document.documentData[props.id]
   }
 }

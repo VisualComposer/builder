@@ -58,7 +58,6 @@ const editText = localizations ? localizations.edit : 'Edit'
 const TreeViewElement = (props) => {
   const [childExpand, setChildExpand] = useState(props.level > 1 || isMobile)
   const [hasBeenOpened, setHasBeenOpened] = useState(false)
-  const [showOutline, setShowOutline] = useState(false)
   const [showControls, setShowControls] = useState(false)
   const [showDropdownState, setShowDropdownState] = useState(false)
   const element = props.elementData
@@ -85,11 +84,6 @@ const TreeViewElement = (props) => {
       window.removeEventListener('storage', checkPaste)
     }
   }, [element.id])
-
-  useEffect(() => {
-    const newShowOutline = props.showOutlineCallback(element?.id)
-    newShowOutline !== showOutline && setShowOutline(newShowOutline)
-  }, [element?.id, showOutline])
 
   useEffect(() => {
     if (editable) {
@@ -190,12 +184,11 @@ const TreeViewElement = (props) => {
     if (!childExpand && !hasBeenOpened && !isMobile) {
       return null
     }
-    const { showOutlineCallback, onMountCallback, onUnmountCallback, level } = props
+    const { onMountCallback, onUnmountCallback, level } = props
     const newLevel = level + 1
     const elementsList = children.map((innerElement) => {
       return (
         <TreeViewElementWrapper
-          showOutlineCallback={showOutlineCallback}
           onMountCallback={onMountCallback}
           onUnmountCallback={onUnmountCallback}
           id={innerElement.id}
@@ -550,7 +543,7 @@ const TreeViewElement = (props) => {
   const controlClasses = classNames({
     'vcv-ui-tree-layout-control': true,
     'vcv-ui-state--active': false,
-    'vcv-ui-state--outline': showOutline,
+    'vcv-ui-state--outline': props.outlineElementId === props.elementData.id,
     'vcv-ui-tree-layout-control-mobile': isMobile,
     'vcv-ui-tree-layout-control-is-locked': isElementLocked
   })
