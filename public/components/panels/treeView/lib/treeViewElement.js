@@ -62,7 +62,6 @@ const TreeViewElement = (props) => {
   const [showControls, setShowControls] = useState(false)
   const [showDropdownState, setShowDropdownState] = useState(false)
   const element = props.elementData
-  const [content, setContent] = useState(props.elementData.customHeaderTitle || props.elementData.name)
   const [editable, setEditable] = useState(false)
   const [copyData, setCopyData] = useState(window.localStorage && (window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()))
 
@@ -71,14 +70,16 @@ const TreeViewElement = (props) => {
   const controlsTriggerRef = useRef(null)
 
   useEffect(() => {
-    // elementsStorage.on(`element:${element.id}`, dataUpdate)
-    props.onMountCallback(element.id)
+    if (element.id) {
+      props.onMountCallback(element.id)
+    }
     workspaceStorage.state('copyData').onChange(checkPaste)
     window.addEventListener('storage', checkPaste)
 
     return () => {
-      // elementsStorage.off(`element:${element.id}`, dataUpdate)
-      props.onUnmountCallback(element.id)
+      if (element?.id) {
+        props.onUnmountCallback(element.id)
+      }
       workspaceStorage.state('copyData').ignoreChange(checkPaste)
       workspaceStorage.state('userInteractWith').set(false)
       window.removeEventListener('storage', checkPaste)
@@ -86,16 +87,9 @@ const TreeViewElement = (props) => {
   }, [])
 
   useEffect(() => {
-    const newShowOutline = props.showOutlineCallback(element.id)
+    const newShowOutline = props.showOutlineCallback(element?.id)
     newShowOutline !== showOutline && setShowOutline(newShowOutline)
-    // setElement(props.elementData)
-  }, [props.elementData, element.id, showOutline])
-
-  useEffect(() => {
-    if (spanRef) {
-      spanRef.current.innerText = content
-    }
-  }, [content])
+  }, [element?.id, showOutline])
 
   useEffect(() => {
     if (editable) {
@@ -104,24 +98,13 @@ const TreeViewElement = (props) => {
   }, [editable])
 
   useEffect(() => {
-    if (!editable && !content && spanRef) {
-      spanRef.current.innerText = cookElement.getName()
+    if (props.elementData?.customHeaderTitle || props.elementData?.name) {
+      spanRef.current.innerText = props.elementData?.customHeaderTitle || props.elementData?.name
     }
-  }, [content, editable])
+  }, [props.elementData?.customHeaderTitle, props.elementData?.name])
 
-  const dataUpdate = (data, newProps = false) => {
-    // TODO: check this
-    // setElement(data || props.elementData)
-    // if (!newProps && props.updateElementsData) {
-    //   props.updateElementsData(data || props.elementData, 'singleElement')
-    // }
-    // if (data && Object.prototype.hasOwnProperty.call(data, 'customHeaderTitle')) {
-    //   const element = cook.get(data || props.elementData)
-    //   const currentContent = data.customHeaderTitle || element.getName()
-    //   if (content !== currentContent) {
-    //     setContent(currentContent)
-    //   }
-    // }
+  if (!props.elementData) {
+    return null
   }
 
   const checkPaste = (data) => {
@@ -277,7 +260,7 @@ const TreeViewElement = (props) => {
     elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
 
     setEditable(false)
-    setContent(value || cookElement.getName())
+    // setContent(value || cookElement.getName())
   }
 
   const handleBlurValidateContent = () => {
@@ -576,7 +559,7 @@ const TreeViewElement = (props) => {
   const space = 0.8
   const defaultSpace = 1
 
-  const spanContent = content || cookElement.getName()
+  const spanContent = props.elementData?.customHeaderTitle || props.elementData?.name || cookElement.getName()
 
   let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
   if (editable) {
@@ -662,8 +645,6 @@ const TreeViewElement = (props) => {
       {spanContent}
     </span>
   )
-
-  console.log('render tree view', element.tag)
 
   return (
     <li
