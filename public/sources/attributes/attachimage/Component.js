@@ -218,6 +218,10 @@ export default class AttachImage extends Attribute {
 
   componentDidMount () {
     document.addEventListener('keyup', this.closeMediaPopup)
+    if (this.props?.editFormOptions?.imageDrop) {
+      this.handleRemove(0)
+      this.handleDrop()
+    }
   }
 
   componentWillUnmount () {
@@ -525,9 +529,9 @@ export default class AttachImage extends Attribute {
   }
 
   handleDrop (event) {
-    event.stopPropagation()
-    event.preventDefault()
-    this.uploadFileList = event.dataTransfer.files
+    event && event.stopPropagation()
+    event && event.preventDefault()
+    this.uploadFileList = (event && event?.dataTransfer?.files) || window.vcvDropFile
     this.mediaUploader.on('open', this.handleUploadFiles)
     this.openLibrary()
   }
@@ -539,7 +543,7 @@ export default class AttachImage extends Attribute {
       }
       this.uploadFileList = []
       this.mediaUploader.off('open', this.handleUploadFiles)
-    }, 200)
+    }, 600)
   }
 
   getAttachImageComponent (dynamicApi) {
