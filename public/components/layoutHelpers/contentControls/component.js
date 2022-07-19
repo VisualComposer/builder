@@ -5,9 +5,11 @@ import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
+const elementsStorage = vcCake.getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const dataManager = vcCake.getService('dataManager')
 const roleManager = vcCake.getService('roleManager')
+const cook = vcCake.getService('cook')
 
 export default class ContentControls extends React.Component {
   static propTypes = {
@@ -15,9 +17,20 @@ export default class ContentControls extends React.Component {
     id: PropTypes.string.isRequired
   }
 
+  addedId = null
+  iframeWindow = null
+
   constructor (props) {
     super(props)
+    this.state = {
+      isDraggingOver: false
+    }
     this.handleClick = this.handleClick.bind(this)
+    this.handleDrop = this.handleDrop.bind(this)
+    this.handleDragOver = this.handleDragOver.bind(this)
+    this.handleDragLeave = this.handleDragLeave.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
+
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
       this.isMobile = true
@@ -66,6 +79,54 @@ export default class ContentControls extends React.Component {
     }
   }
 
+  handleDragOver (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'copy'
+    this.setState({
+      isDraggingOver: true
+    })
+  }
+
+  handleDragLeave (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      isDraggingOver: false
+    })
+  }
+
+  handleDrop (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      isDraggingOver: false
+    })
+    const files = event.dataTransfer.files
+    const images = Array.from(files).filter(file => file.type.includes('image'))
+    if (images.length) {
+      const elementTag = images.length > 1 ? 'imageGallery' : 'singleImage'
+      const element = cook.get({ tag: elementTag }).toJS()
+      element.parent = this.props.id
+
+      elementsStorage.trigger('add', element)
+      this.addedId = element.id
+      // creating a global variable because otherwise it won't store files object
+      window.vcvDropFile = images
+
+      const iframe = document.getElementById('vcv-editor-iframe')
+      this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+      this.iframeWindow.vcv.on('ready', this.openEditForm)
+    }
+  }
+
+  openEditForm (action, id) {
+    if (action === 'add' && id === this.addedId) {
+      workspaceStorage.trigger('edit', this.addedId, '', { imageDrop: true })
+      this.iframeWindow.vcv.off('ready', this.openEditForm)
+    }
+  }
+
   render () {
     const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
@@ -73,6 +134,9 @@ export default class ContentControls extends React.Component {
     let classes = 'vcvhelper vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
     if (this.isMobile) {
       classes += ' vcv-row-control-container-mobile-add'
+    }
+    if (this.state.isDraggingOver) {
+      classes += ' vcv-is-dragging'
     }
     if (!isAbleToAdd) {
       classes += ' vcv-row-control-container--add-disabled'
@@ -85,6 +149,9 @@ export default class ContentControls extends React.Component {
         title={addElementText}
         onClick={action}
         ref={this.container}
+        onDragOver={this.handleDragOver}
+        onDragLeave={this.handleDragLeave}
+        onDrop={this.handleDrop}
       >
         <RowControl />
       </div>
