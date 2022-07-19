@@ -315,9 +315,17 @@ export default class BlankRowPlaceholder extends React.Component {
   handleDragLeave (event) {
     event.stopPropagation()
     event.preventDefault()
-    this.setState({
-      isDraggingOver: false
-    })
+    const currentRect = this.rowContainer.current.getBoundingClientRect()
+    if (
+      event.clientY > currentRect.bottom ||
+      event.clientY < currentRect.top ||
+      event.clientX > currentRect.right ||
+      event.clientX < currentRect.left
+    ) {
+      this.setState({
+        isDraggingOver: false
+      })
+    }
   }
 
   handleDrop (event) {
