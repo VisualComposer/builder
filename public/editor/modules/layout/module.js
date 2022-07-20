@@ -193,9 +193,9 @@ vcCake.add('contentLayout', (api) => {
           <div class='vcv-loading-dot vcv-loading-dot-2'></div>
         </div>
       </div>`
-    const startBlank = iframeContent.querySelector('.vcv-start-blank-container')
-    if (startBlank) {
-      iframeContent.insertBefore(loadingOverlay, startBlank)
+    const blankPageIntro = iframeContent.querySelector('.blank-page-container')
+    if (blankPageIntro) {
+      iframeContent.insertBefore(loadingOverlay, blankPageIntro)
     } else {
       iframeContent.appendChild(loadingOverlay)
     }

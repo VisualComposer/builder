@@ -154,7 +154,7 @@ export default class PageSettingsTitle extends Attribute {
       <>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
-          <input type='text' className='vcv-ui-form-input' ref={this.titleInputRef} value={this.state.current} onChange={this.handleChangeTitle} onBlur={this.handleBlur} />
+          <input type='text' className='vcv-ui-form-input' ref={this.titleInputRef} value={this.state.current || ''} onChange={this.handleChangeTitle} onBlur={this.handleBlur} />
         </div>
         {disableTitleToggleControl}
       </>

@@ -2072,6 +2072,102 @@ class Localizations extends Container implements Helper
                 'Row margin',
                 'visualcomposer'
             ),
+            'layout' => __(
+                'Layout',
+                'visualcomposer'
+            ),
+            'content' => __(
+                'Content',
+                'visualcomposer'
+            ),
+            'toggleSection' => __(
+                'Toggle section',
+                'visualcomposer'
+            ),
+            'blankPageNonCapitalized' => __(
+                'Blank page',
+                'visualcomposer'
+            ),
+            'defaultLayout' => __(
+                'Default layout',
+                'visualcomposer'
+            ),
+            'customLayout' => __(
+                'Custom layout',
+                'visualcomposer'
+            ),
+            'noContent' => __(
+                'No content',
+                'visualcomposer'
+            ),
+            'myTemplate' => __(
+                'My template',
+                'visualcomposer'
+            ),
+            'layoutsDescription' => __(
+                'Selecting a layout for the page, post, custom post type or layout is required.',
+                'visualcomposer'
+            ),
+            'defaultLayoutDescription' => __(
+                'The theme default layout.',
+                'visualcomposer'
+            ),
+            'blankLayoutDescription' => __(
+                'A layout without a header, footer and sidebar.',
+                'visualcomposer'
+            ),
+            'singularLayoutDescription' => __(
+                'Build a layout around the defined content area (ex. header, footer, sidebar).',
+                'visualcomposer'
+            ),
+            'archiveLayoutDescription' => __(
+                'Build a layout with a post grid.',
+                'visualcomposer'
+            ),
+            'contentSectionDescription' => __(
+                'Pre-select content or start with a blank content area.',
+                'visualcomposer'
+            ),
+            'noContentDescription' => __(
+                'The blank content template.',
+                'visualcomposer'
+            ),
+            'blankPopup' => __(
+                'Blank popup',
+                'visualcomposer'
+            ),
+            'popupTemplate' => __(
+                'Popup template',
+                'visualcomposer'
+            ),
+            'selectAPopup' => __(
+                'Select a popup',
+                'visualcomposer'
+            ),
+            'singular' => __(
+                'Singular',
+                'visualcomposer'
+            ),
+            'archiveTitle' => __(
+                'Archive',
+                'visualcomposer'
+            ),
+            'layoutTemplate' => __(
+                'Layout template',
+                'visualcomposer'
+            ),
+            'selectATemplate' => __(
+                'Select a template',
+                'visualcomposer'
+            ),
+            'noTemplates' => __(
+                'You don’t have any templates',
+                'visualcomposer'
+            ),
+            'hubAccessTermsBlankPage' => __(
+                'By downloading content from the Hub, you agree to the cloud <a href="https://visualcomposer.com/terms-of-use/" target="_blank" rel="noopener noreferrer">terms and services</a>',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

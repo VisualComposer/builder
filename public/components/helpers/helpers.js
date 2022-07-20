@@ -7,6 +7,7 @@ import lodash from 'lodash'
 const dataManager = vcCake.getService('dataManager')
 const elementsStorage = vcCake.getStorage('elements')
 const settingsStorage = vcCake.getStorage('settings')
+const workspaceStorage = vcCake.getStorage('workspace')
 const localizations = dataManager.get('localizations')
 const addContent = localizations ? localizations.addContent : 'Add Content'
 const elementControls = localizations ? localizations.elementControls : 'Element Controls'
@@ -35,7 +36,8 @@ export default class Helpers extends React.Component {
       isGuideVisible: true,
       loaded: false,
       defaultView: 'desktop',
-      helpers: this.getHelperData()
+      helpers: this.getHelperData(),
+      isBlankPage: workspaceStorage.state('blankPageIntro').get()
     }
 
     this.iframeContentWindow = null
@@ -45,14 +47,21 @@ export default class Helpers extends React.Component {
     this.closeGuide = this.closeGuide.bind(this)
     this.handleEditorLoaded = this.handleEditorLoaded.bind(this)
     this.resetHelpersData = this.resetHelpersData.bind(this)
+    this.handleBlankPageChange = this.handleBlankPageChange.bind(this)
     this.resizeListener = lodash.debounce(this.resizeListener.bind(this), 50)
 
     elementsStorage.state('document').onChange(this.handleEditorLoaded)
     settingsStorage.state('outputEditorLayoutDesktop').onChange(this.resetHelpersData)
+    workspaceStorage.state('blankPageIntro').onChange(this.handleBlankPageChange)
   }
 
   componentWillUnmount () {
     settingsStorage.state('outputEditorLayoutDesktop').ignoreChange(this.resetHelpersData)
+    workspaceStorage.state('blankPageIntro').ignoreChange(this.handleBlankPageChange)
+  }
+
+  handleBlankPageChange (data) {
+    this.setState({ isBlankPage: data })
   }
 
   handleEditorLoaded () {
@@ -258,6 +267,10 @@ export default class Helpers extends React.Component {
         />
       )
     })
+
+    if (this.state.isBlankPage) {
+      return null
+    }
 
     return (
       <div className='vcv-helpers-container'>

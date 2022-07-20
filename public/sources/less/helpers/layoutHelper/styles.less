@@ -1,5 +1,6 @@
 .vcv-row-control-container {
-  box-sizing: border-box;
+  position: relative;
+  box-sizing: content-box;
   min-height: @vcv-row-control-size;
   display: flex;
   flex: 1 1 auto;
@@ -10,8 +11,22 @@
   align-items: center;
   opacity: 0;
   cursor: pointer;
-  margin: @vcv-row-control-margin;
+  padding: @vcv-row-control-margin;
   transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
+}
+
+.vcv-row-control-container.vcv-is-dragging {
+  opacity: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: @vcv-blank-row-border;
+    z-index: 1;
+  }
 }
 
 .vce-row:hover .vcv-row-control-container:not(.vcv-row-control-container--add-disabled) {

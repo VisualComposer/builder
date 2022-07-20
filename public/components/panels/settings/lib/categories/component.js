@@ -76,7 +76,8 @@ export default class Categories extends React.Component {
     settingsStorage.state('categories').set(currentStorageState)
   }
 
-  handleAddCategory () {
+  handleAddCategory (e) {
+    e.preventDefault()
     if (!this.state.newCategory) {
       return
     }
@@ -171,7 +172,7 @@ export default class Categories extends React.Component {
       })
 
       newCategory = (
-        <div className={containerClasses}>
+        <form className={containerClasses} onSubmit={this.handleAddCategory}>
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               {categoryTitle}
@@ -201,13 +202,13 @@ export default class Categories extends React.Component {
           <div className='vcv-ui-form-group'>
             <button
               className={buttonClasses}
-              onClick={this.handleAddCategory}
+              type='submit'
               disabled={this.state.isSaving}
             >
               {addNewCategory}
             </button>
           </div>
-        </div>
+        </form>
       )
     }
 

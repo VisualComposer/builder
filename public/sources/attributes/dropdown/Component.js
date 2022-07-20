@@ -58,8 +58,8 @@ export default class Dropdown extends Attribute {
   }
 
   createOptions (key, values, fieldKey) {
-    const value = values[key].value
-    const label = values[key].label
+    const value = values[key].value || values[key].id
+    const label = values[key].label || values[key].name
     const disabled = values[key].disabled
     const selected = values[key].selected
     return <option key={fieldKey + ':' + key + ':' + value} value={value} disabled={disabled} selected={selected}>{label}</option>
