@@ -67,8 +67,6 @@ class AddonDownloadController extends Container implements Module
         return $response;
     }
 
-
-
     protected function sendRequestJson($bundle, $token)
     {
         $hubBundleHelper = vchelper('HubBundle');
