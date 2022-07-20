@@ -28,6 +28,7 @@ const dataManager = {
       activationFinishedUrl: () => { return window.vcvActivationFinishedUrl },
       hubGetAddonTeaser: () => { return window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {} },
       hubGetAddons: () => { return window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {} },
+      hubGetMigratedToFreeAddons: () => { return window.VCV_HUB_GET_MIGRATED_TO_FREE_ADDONS ? window.VCV_HUB_GET_MIGRATED_TO_FREE_ADDONS() : {} },
       addonElementPresets: () => { return window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : [] },
       hubGetGroups: () => { return window.VCV_HUB_GET_GROUPS ? window.VCV_HUB_GET_GROUPS() : {} },
       hubGetCategories: () => { return window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {} },
