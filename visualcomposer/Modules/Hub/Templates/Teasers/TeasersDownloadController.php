@@ -51,6 +51,8 @@ class TeasersDownloadController extends Container implements Module
                 'update' => isset($template['update']) ? $template['update'] : false,
                 'allowDownload' => isset($template['allowDownload']) ? $template['allowDownload'] : false,
                 'bundleType' => isset($template['bundleType']) ? $template['bundleType'] : [],
+                'introPageImageUrl' => isset($template['introPageImageUrl']) ? $template['introPageImageUrl'] : '',
+                'isPageIntro' => empty($template['isPageIntro']) ? false : true,
             ];
             $allTemplates[] = $templateData;
         }

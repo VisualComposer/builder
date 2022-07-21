@@ -13,6 +13,7 @@ addStorage('elements', (storage) => {
   const wordpressDataStorage = getStorage('wordpressData')
   const workspaceStorage = getStorage('workspace')
   const cacheStorage = getStorage('cache')
+  const assetsStorage = getStorage('assets')
   const updateTimeMachine = () => {
     wordpressDataStorage.state('status').set({ status: 'changed' })
     historyStorage.trigger('add', documentManager.all())
@@ -205,6 +206,11 @@ addStorage('elements', (storage) => {
     if (!element) {
       return
     }
+
+    // Remove all jobs from assets storage state
+    const childrenIds = Object.keys(documentManager.getDescendants(id))
+    childrenIds.forEach(childId => assetsStorage.trigger('removeElement', childId))
+
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
     const initChildren = parent && cook.get(parent).get('initChildren')

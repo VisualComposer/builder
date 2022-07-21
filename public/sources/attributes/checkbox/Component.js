@@ -30,7 +30,7 @@ export default class Checkbox extends Attribute {
   updateState (props) {
     return {
       value: props.value,
-      values: this?.state?.values || this.getValues()
+      values: this?.props?.options?.values || this.getValues()
     }
   }
 
@@ -60,7 +60,7 @@ export default class Checkbox extends Attribute {
         let heightLimit = 0
         items.forEach((item, i) => {
           if (i < this.props.options.itemLimit) {
-            const itemHeight = item.getBoundingClientRect().height
+            const itemHeight = item.getBoundingClientRect().height || 20
             const itemMargins = parseInt(window.getComputedStyle(item).marginTop) + parseInt(window.getComputedStyle(item).marginBottom)
             heightLimit = heightLimit + itemHeight + itemMargins
           }
