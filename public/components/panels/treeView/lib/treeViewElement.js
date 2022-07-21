@@ -1,5 +1,5 @@
 import { getService, getStorage, env } from 'vc-cake'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import { ControlHelpers } from 'public/components/elementControls/controlHelpers'
@@ -68,8 +68,15 @@ const TreeViewElement = (props) => {
   const controlsContentRef = useRef(null)
   const controlsTriggerRef = useRef(null)
 
+  const checkPaste = useCallback((data) => {
+    if (data?.element || data.key === 'vcv-copy-data') {
+      const copyData = data.key === 'vcv-copy-data' ? JSON.parse(data.newValue) : data
+      setCopyData(copyData)
+    }
+  }, [])
+
   useEffect(() => {
-    if (element.id) {
+    if (element?.id) {
       props.onMountCallback(element.id)
     }
     workspaceStorage.state('copyData').onChange(checkPaste)
@@ -83,7 +90,7 @@ const TreeViewElement = (props) => {
       workspaceStorage.state('userInteractWith').set(false)
       window.removeEventListener('storage', checkPaste)
     }
-  }, [element.id])
+  }, [element?.id])
 
   useEffect(() => {
     if (editable) {
@@ -99,13 +106,6 @@ const TreeViewElement = (props) => {
 
   if (!props.elementData) {
     return null
-  }
-
-  const checkPaste = (data) => {
-    if ((data && data.element) || data.key === 'vcv-copy-data') {
-      const copyData = data.key === 'vcv-copy-data' ? JSON.parse(data.newValue) : data
-      setCopyData(copyData)
-    }
   }
 
   const handleClickChildExpand = () => {
