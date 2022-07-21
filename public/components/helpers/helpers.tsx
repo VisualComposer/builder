@@ -119,6 +119,27 @@ declare global {
   }
 }
 
+interface ItemData {
+  helperId: string,
+  top: number,
+  left: number,
+  helperPosition: {
+    bottom: number
+  },
+  position: {
+    horizontal: string
+  },
+  heading: string,
+  description: string,
+  helperImage: string,
+  step: number,
+  icons: [{
+    icon: string,
+    left: number,
+    top: number
+  }]
+}
+
 const Helpers = () => {
   const [activeStep, setActiveStep] = useState(1)
   const [isGuideVisible, setIsGuideVisible] = useState(true)
@@ -127,10 +148,12 @@ const Helpers = () => {
   const [width, setWidth] = useState(0)
   const $helpersElements:Element[] = Array.from(document.querySelectorAll('[data-vcv-guide-helper]'))
   const items:React.ReactElement[] = []
-  const visibleItems:HTMLElement | [] = []
+  const visibleItems:HTMLElement | ItemData[] = []
 
   const resizer = () => {
-    setWidth(window.innerWidth)
+    if (width !== window.innerWidth) {
+      setWidth(window.innerWidth)
+    }
   }
   const resizeListener = lodash.debounce(resizer, 50)
 
@@ -158,7 +181,7 @@ const Helpers = () => {
     const currentIndex = visibleItems.findIndex((item: { step: number }) => item.step === activeStep)
     const nextIndex = currentIndex + 1
     if (visibleItems.length && visibleItems[nextIndex]) {
-      const nextStep = visibleItems[nextIndex].step
+      const nextStep = visibleItems[nextIndex]?.step
       setActiveStep(nextStep)
     }
   }
@@ -196,6 +219,7 @@ const Helpers = () => {
     const width = boundingRect.width
     const height = boundingRect.height
     const helperId = item.getAttribute('data-vcv-guide-helper')
+    // @ts-ignore
     const helperData = helpers[helperId]
 
     if (isInViewPort(item)) {
@@ -229,15 +253,12 @@ const Helpers = () => {
     }
   })
 
-  visibleItems.sort((a, b) => (a.step > b.step) ? 1 : ((b.step > a.step) ? -1 : 0))
+  visibleItems.sort((a: {step:number}, b: {step:number}) => (a.step > b.step) ? 1 : ((b.step > a.step) ? -1 : 0))
 
-  visibleItems.forEach((item:Element, index:number) => {
+  visibleItems.forEach((item:ItemData, index:number) => {
     items.push(
       <HelperContainer
         key={item.helperId}
-        top={item.top}
-        left={item.left}
-        helperPosition={item.helperPosition}
         isActive={item.step === activeStep}
         helperData={item}
         isLast={visibleItems.length - 1 === index}

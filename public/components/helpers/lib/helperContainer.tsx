@@ -6,17 +6,18 @@ const dataManager = vcCake.getService('dataManager')
 const localizations = dataManager.get('localizations')
 
 interface Props {
-  top: number,
-  left: number,
   handleActiveChange: (step: number) => void,
   handleNextClick: () => void,
   handleCloseGuide: () => void,
   isActive: boolean,
   isLast: boolean
-  helperPosition: {
-    bottom: number
-  },
   helperData: {
+    top: number,
+    left: number,
+    helperPosition: {
+      bottom: number
+    },
+    helperId: string,
     position: {
       horizontal: string
     },
@@ -32,14 +33,14 @@ interface Props {
   }
 }
 
-const HelperContainer: React.FC<Props> = ({ top, left, handleActiveChange, handleNextClick, handleCloseGuide, isActive, isLast, helperPosition, helperData }) => {
+const HelperContainer: React.FC<Props> = ({ handleActiveChange, handleNextClick, handleCloseGuide, isActive, isLast, helperData }) => {
   const done = localizations.done || 'Done'
   const nextTip = localizations.nextTip || 'Next Tip'
   const clickHereToSkip = localizations.clickHereToSkip || 'Click here to skip'
 
   const helperClasses = classNames({
     'vcv-helper-box': true,
-    'vcv-helper-box-position--bottom': helperPosition.bottom,
+    'vcv-helper-box-position--bottom': helperData.helperPosition.bottom,
     'vcv-helper-box-position--horizontal-top': helperData.position && helperData.position.horizontal === 'top',
     'vcv-helper-box-position--horizontal-bottom': helperData.position && helperData.position.horizontal === 'bottom'
   })
@@ -51,8 +52,8 @@ const HelperContainer: React.FC<Props> = ({ top, left, handleActiveChange, handl
   })
 
   const containerStyleProps = {
-    left: left,
-    top: top
+    left: helperData.left,
+    top: helperData.top
   }
 
   let buttonText = nextTip
