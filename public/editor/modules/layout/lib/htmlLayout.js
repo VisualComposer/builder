@@ -73,7 +73,7 @@ export default class HtmlLayout extends React.Component {
     if (this.props.data.length) {
       elementsList = this.props.data.map((element) => {
         return (
-          <Element element={element} key={'element-wrapper-' + element.id} api={this.props.api} />
+          <Element id={element.id} key={'element-wrapper-' + element.id} api={this.props.api} />
         )
       })
     }

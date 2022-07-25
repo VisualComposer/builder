@@ -50,6 +50,15 @@ class Addons extends Container implements Module
             'options' => JSON_FORCE_OBJECT | JSON_NUMERIC_CHECK,
         ];
 
+        $key = 'VCV_HUB_GET_MIGRATED_TO_FREE_ADDONS';
+
+        $variables[] = [
+            'key' => $key,
+            'value' => $hubHelper->getMigratedToFree(),
+            'type' => 'constant',
+            'options' => JSON_FORCE_OBJECT | JSON_NUMERIC_CHECK,
+        ];
+
         return $variables;
     }
 }

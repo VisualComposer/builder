@@ -28,6 +28,7 @@ const dataManager = {
       activationFinishedUrl: () => { return window.vcvActivationFinishedUrl },
       hubGetAddonTeaser: () => { return window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {} },
       hubGetAddons: () => { return window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {} },
+      hubGetMigratedToFreeAddons: () => { return window.VCV_HUB_GET_MIGRATED_TO_FREE_ADDONS ? window.VCV_HUB_GET_MIGRATED_TO_FREE_ADDONS() : {} },
       addonElementPresets: () => { return window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : [] },
       hubGetGroups: () => { return window.VCV_HUB_GET_GROUPS ? window.VCV_HUB_GET_GROUPS() : {} },
       hubGetCategories: () => { return window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {} },
@@ -37,6 +38,7 @@ const dataManager = {
       isPremiumActivated: () => { return window.vcvIsPremiumActivated },
       pageTemplatesLayoutsCurrent: () => { return window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() },
       pageTemplatesLayouts: () => { return window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() },
+      pageTemplatesLayoutsAll: () => { return window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL && window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL() },
       headerTemplates: () => { return window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() },
       sidebarTemplates: () => { return window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() },
       footerTemplates: () => { return window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() },
@@ -93,7 +95,8 @@ const dataManager = {
       isWpNativeLazyLoadExist: () => { return window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST && window.VCV_IS_WP_NATIVE_LAZY_LOAD_EXIST() },
       globalSettings: () => { return window.VCV_GLOBAL_DATA && window.VCV_GLOBAL_DATA() },
       isBinaryContent: () => { return window.VCV_IS_BINARY_CONTENT && window.VCV_IS_BINARY_CONTENT() },
-      isEnvJsSaveZip: () => { return window.VCV_JS_SAVE_ZIP && window.VCV_JS_SAVE_ZIP() }
+      isEnvJsSaveZip: () => { return window.VCV_JS_SAVE_ZIP && window.VCV_JS_SAVE_ZIP() },
+      globalTemplatesList: () => { return window.vcvGlobalTemplatesList }
     }
   }
 }
