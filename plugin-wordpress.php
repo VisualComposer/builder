@@ -120,3 +120,4 @@ if (!defined('DOING_AJAX') || !DOING_AJAX) {
 
 // Bootstrap the system.
 require $dir . '/bootstrap/autoload.php';
+
