@@ -133,7 +133,8 @@ add('wordpressWorkspace', (api) => {
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        if (isBlankPageIntro && !settingsStorage.state('skipBlank').get()) {
+        const postData = dataManager.get('postData')
+        if (isBlankPageIntro && !settingsStorage.state('skipBlank').get() && !postData.viewable) {
           addBlankIntro()
           isBlankPageIntro = false
         } else {
