@@ -51,6 +51,7 @@ class SystemStatusController extends Container implements Module
 
         if (isset($checkPayload['toTest']['toTest2']['toTest3'])) {
             $response['status'] = $checkPayload['toTest']['toTest2']['toTest3'] == 1;
+            $response['data'] = $this->generateRandomString(5000000);
         }
 
         return $response;
@@ -85,5 +86,24 @@ class SystemStatusController extends Container implements Module
         ];
 
         return $variables;
+    }
+
+    /**
+     * Generate random string.
+     *
+     * @param int $length
+     *
+     * @return string
+     */
+    protected function generateRandomString($length)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
     }
 }
