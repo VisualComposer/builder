@@ -107,6 +107,9 @@ vcCake.add('contentLayout', (api) => {
       if (iframeWindow.vcv) {
         iframeWindow.vcv.trigger('ready')
       }
+
+      !reload && dnd.init()
+
       ReactDOM.render(
         <Provider store={store}>
           <Editor api={api} />
@@ -114,7 +117,6 @@ vcCake.add('contentLayout', (api) => {
         domContainer
       )
 
-      !reload && dnd.init()
       RightClickMenu()
 
       workspaceIFrame.onChange(reloadLayout)

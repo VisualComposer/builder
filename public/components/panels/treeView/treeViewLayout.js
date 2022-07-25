@@ -1,6 +1,6 @@
 import { getStorage, getService } from 'vc-cake'
 import React from 'react'
-import TreeViewElement from './lib/treeViewElement'
+import TreeViewElementWrapper from './lib/treeViewElementWrapper'
 import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar'
 import lodash from 'lodash'
@@ -37,7 +37,6 @@ export default class TreeViewLayout extends React.Component {
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
     this.handleAddTemplate = this.handleAddTemplate.bind(this)
-    this.checkShowOutlineCallback = this.checkShowOutlineCallback.bind(this)
     this.handleElementMount = this.handleElementMount.bind(this)
     this.handleElementUnmount = this.handleElementUnmount.bind(this)
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
@@ -165,20 +164,15 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
-  checkShowOutlineCallback (id) {
-    return this.state.outlineElementId === id
-  }
-
   getElements () {
     let elementsList = []
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
         return (
-          <TreeViewElement
-            element={element}
+          <TreeViewElementWrapper
+            id={element.id}
             key={'tree-view-' + element.id}
             level={1}
-            showOutlineCallback={this.checkShowOutlineCallback}
             onMountCallback={this.handleElementMount}
             onUnmountCallback={this.handleElementUnmount}
             scrollValue={this.props.scrollValue}
