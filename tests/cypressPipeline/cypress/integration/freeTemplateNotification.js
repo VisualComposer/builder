@@ -6,7 +6,7 @@ describe('Free template notification', function () {
         cy.contains('.wp-menu-name', 'Visual Composer').click()
         cy.contains('.vcv-dashboard-sidebar-navigation-link', 'Visual Composer Hub').click()
 
-       // cy.contains('.vcv-premium-teaser-btn', 'Yes, I agree').click()
+       cy.contains('.vcv-premium-teaser-btn', 'Yes, I agree').click()
 
         cy.wait(1500)
 
