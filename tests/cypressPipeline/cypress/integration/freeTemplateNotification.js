@@ -12,10 +12,10 @@ describe('Free template notification', function () {
         cy.get('img[alt="Simple Blog Article"]').next().find('.vcv-ui-item-add').click()
 
         cy.wait(1500)
-        // cy.window().then((win) => {
-        //     cy.route('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
-        //   })
-        //   cy.wait('@loadContentRequest')
+        cy.window().then((win) => {
+            cy.route('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
+          })
+          cy.wait('@loadContentRequest')
         
         cy.createPage()
 
