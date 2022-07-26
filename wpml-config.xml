@@ -45,5 +45,6 @@
         <custom-type translate="1" display-as-translated="1">vcv_footers</custom-type>
         <custom-type translate="1" display-as-translated="1">vcv_sidebars</custom-type>
         <custom-type translate="1" display-as-translated="1">vcv_layouts</custom-type>
+        <custom-type translate="1" display-as-translated="1">vcv_popups</custom-type>
     </custom-types>
 </wpml-config>

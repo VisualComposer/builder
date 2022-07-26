@@ -95,6 +95,11 @@ class WpmlController extends Container implements Module
         $this->wpAddAction('admin_notices', 'createNotice');
 
         $this->addFilter('vcv:dataAjax:setData:sourceId', 'changeLanguageWhileUpdate', -1);
+
+        $this->addFilter(
+            'vcv:resources:view:settings:pages:handleIframeBodyClick',
+            'addHandleIframeBodyClick'
+        );
     }
 
     /**
@@ -448,5 +453,25 @@ class WpmlController extends Container implements Module
         }
 
         return $postId;
+    }
+
+    /**
+     * Add script that help us redirect to wpml translate service inside our iframe settings.
+     *
+     * @param string $output
+     *
+     * @return string
+     */
+    protected function addHandleIframeBodyClick($output)
+    {
+        $output .= "
+            const link = e.target.closest('.js-wpml-translate-link')
+            if (link) {
+              e.preventDefault();
+              window.open(link.href)
+            }
+        ";
+
+        return $output;
     }
 }
