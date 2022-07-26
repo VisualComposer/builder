@@ -6,7 +6,7 @@ describe('Free template notification', function () {
         cy.contains('.wp-menu-name', 'Visual Composer').click()
         cy.contains('.vcv-dashboard-sidebar-navigation-link', 'Visual Composer Hub').click()
 
-        cy.contains('.vcv-premium-teaser-btn', 'Yes, I agree').click()
+       // cy.contains('.vcv-premium-teaser-btn', 'Yes, I agree').click()
 
         cy.wait(1500)
 
@@ -17,7 +17,7 @@ describe('Free template notification', function () {
         cy.get('.vcv-ui-wp-spinner-light').should("not.be.visible", { timeout: 10000000 }); 
         */
         
-        cy.wait(20000).visit(Cypress.env('newPage'))
+        cy.wait(40000).visit(Cypress.env('newPage'))
         cy.window().then((win) => {
           cy.route('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
         })
