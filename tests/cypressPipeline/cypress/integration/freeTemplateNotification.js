@@ -10,14 +10,14 @@ describe('Free template notification', function () {
 
         cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
         cy.get('img[alt="Simple Blog Article"]').next().find('.vcv-ui-item-add').click()
+
+        cy.wait(1500)
         // cy.window().then((win) => {
         //     cy.route('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
         //   })
         //   cy.wait('@loadContentRequest')
         
         cy.createPage()
-
-        cy.wait(10000)
 
         cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
         cy.get('img[alt="Simple Blog Article"]').should('exist')
