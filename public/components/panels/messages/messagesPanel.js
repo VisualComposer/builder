@@ -20,29 +20,13 @@ const isUnseenMessages = (allMessages, seenMessages) => {
   return !!unseenMessages.length
 }
 
-const initControls = innerAPI.applyFilter('insightPanelsData', {
-  insights: {
-    index: 0,
-    type: 'insights',
-    title: 'Insights',
-    icon: 'lamp'
-  },
-  notifications: {
-    index: 1,
-    type: 'notifications',
-    title: 'Notifications',
-    icon: 'bell'
-  }
-})
-
-workspaceMessagesControls.set({ ...initControls })
-
 const MessagesPanel = ({ seenMessages, notifications, currentLevel }) => {
+  const controls = workspaceMessagesControls.get()
+
   const notificationIds = notifications.map(item => item.ID)
   if (isUnseenMessages(notificationIds, seenMessages)) {
-    initControls.notifications.level = 'critical'
+    controls.notifications.level = 'critical'
   }
-  const controls = initControls
 
   const [activeSection, setActiveSection] = useState(workspaceMessagesTabState.get() ? workspaceMessagesTabState.get() : 'insights')
   const [isVisible, setIsVisible] = useState(workspaceContentState.get() === 'messages')
