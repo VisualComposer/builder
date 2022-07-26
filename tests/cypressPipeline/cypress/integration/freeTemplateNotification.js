@@ -12,10 +12,13 @@ describe('Free template notification', function () {
 
         cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
         cy.get('img[alt="Simple Blog Article"]').next().find('.vcv-ui-item-add').click()
-
-        /*
-        cy.get('.vcv-ui-wp-spinner-light').should("not.be.visible", { timeout: 10000000 }); 
-        */
+        //cy.window().then((win) => {
+        cy.route({
+            method: 'POST',
+            url:'http://localhost:8888/dev/wp-admin/admin-ajax.php?vcv-admin-ajax=1&action=vcv-admin-ajax',
+        }).as('downloadRequest')
+        //})
+        cy.wait('@downloadRequest')
         
         cy.wait(40000).visit(Cypress.env('newPage'))
         cy.window().then((win) => {
