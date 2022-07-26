@@ -17,6 +17,8 @@ describe('Free template notification', function () {
         
         cy.createPage()
 
+        cy.wait(10000)
+
         cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
         cy.get('img[alt="Simple Blog Article"]').should('exist')
 
