@@ -8,7 +8,7 @@ interface Props {
 const NotificationPortal: React.FC<Props> = (props) => {
   if (props.portalContainer) {
     return ReactDOM.createPortal(
-      props.children,
+      <>{props.children}</>,
       props.portalContainer
     )
   }

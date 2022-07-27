@@ -2,7 +2,7 @@ import innerAPI from './innerAPI'
 
 export default {
   mount (point, callback) {
-    const allowedPoints = ['panelInsights:third-party']
+    const allowedPoints = ['panelMessages:third-party']
     if (allowedPoints.indexOf(point) < 0) {
       console.warn('Mount point not allowed', point)
       return
