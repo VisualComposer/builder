@@ -2854,9 +2854,9 @@ collect-v8-coverage@^1.0.0:
   resolved "https://registry.yarnpkg.com/collect-v8-coverage/-/collect-v8-coverage-1.0.1.tgz#cc2c8e94fc18bbdffe64d6534570c8a673b27f59"
   integrity sha512-iBPtljfCNcTKNAto0KEtDfZ3qzjJvqE3aTGZsbhjSBlorqpXJlaWWtPO35D+ZImoC3KWejX64o+yPGxhWSTzfg==
 
-"color-blend@https://github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39":
+"color-blend@git+ssh://git@github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39":
   version "1.0.0"
-  resolved "https://github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39"
+  resolved "git+ssh://git@github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39"
   dependencies:
     consistent "^1.1.0"
     postcss "^6.0.21"
@@ -6838,6 +6838,15 @@ postcss-each@1.1.0:
   dependencies:
     postcss-simple-vars "^6.0.0"
 
+"postcss-functions@git+ssh://git@github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1":
+  version "3.0.0"
+  resolved "git+ssh://git@github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1"
+  dependencies:
+    glob "^7.1.2"
+    object-assign "^4.1.1"
+    postcss "^6.0.9"
+    postcss-value-parser "^3.3.0"
+
 "postcss-functions@https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1":
   version "3.0.0"
   resolved "https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1"
@@ -7027,9 +7036,9 @@ postcss-ordered-values@^5.1.3:
     cssnano-utils "^3.1.0"
     postcss-value-parser "^4.2.0"
 
-"postcss-prefix-url@https://github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011":
+"postcss-prefix-url@git+ssh://git@github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011":
   version "1.0.0"
-  resolved "https://github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011"
+  resolved "git+ssh://git@github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011"
   dependencies:
     consistent "^1.1.0"
     postcss "^6.0.21"
@@ -8676,10 +8685,10 @@ vc-helpers@0.0.2:
   resolved "https://registry.yarnpkg.com/vc-helpers/-/vc-helpers-0.0.2.tgz#584edf46477106f2fb7b13f85cd96a6af3a7d0a7"
   integrity sha512-la2KjObUCGjEmIlBvjFOgvGVm041l9/u0Y17e8Xlxw9BvblA4L45Na4tpsYjAAxQvjm+S6YaLiBwEhM8E73HxA==
 
-vc-webpack-vendors@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.2.0.tgz#598a6a0d9fcc101b50af11d41d8920d1ee103e64"
-  integrity sha512-Lwa0tejLpJsRmIZ8OSFaBpWXpU5UvS84+GBk8wns3Ky5kz57dSUcLAKB6FA2Vz+AR8KIqeOHNKJ0KWiW2FXqng==
+vc-webpack-vendors@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.2.2.tgz#df20a17d6c7881c44bd4498ac3cc495a4989c067"
+  integrity sha512-+EwZwOuUgdI8n99TutOzD3gBC380jYmPEo6gzqtkib4plofRP4xgA4oZqiBqcJKN0qGUkLzYSiobmFdWXxN4gA==
   dependencies:
     "@babel/cli" "7.16.0"
     "@babel/core" "7.16.0"
@@ -8696,7 +8705,7 @@ vc-webpack-vendors@3.2.0:
     base-64 "1.0.0"
     buffer "6.0.3"
     classnames "2.3.1"
-    color-blend "https://github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39"
+    color-blend "git+ssh://git@github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39"
     color-name "1.1.4"
     combokeys "3.0.1"
     core-js "3.19.0"
@@ -8734,11 +8743,11 @@ vc-webpack-vendors@3.2.0:
     postcss-custom-media "8.0.0"
     postcss-custom-properties "12.0.0"
     postcss-each "1.1.0"
-    postcss-functions "https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1"
+    postcss-functions "git+ssh://git@github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1"
     postcss-loader "6.2.0"
     postcss-math "0.0.10"
     postcss-nested "5.0.6"
-    postcss-prefix-url "https://github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011"
+    postcss-prefix-url "git+ssh://git@github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011"
     prop-types "15.7.2"
     raw-loader "1.0.0"
     react "17.0.2"
