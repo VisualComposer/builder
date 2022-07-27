@@ -6747,19 +6747,9 @@ postcss-each@1.1.0:
   dependencies:
     postcss-simple-vars "^6.0.0"
 
-"postcss-functions@git+https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1":
+"postcss-functions@git+https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1", "postcss-functions@https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1":
   version "3.0.0"
   resolved "git+https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1"
-  dependencies:
-    glob "^7.1.2"
-    object-assign "^4.1.1"
-    postcss "^6.0.9"
-    postcss-value-parser "^3.3.0"
-
-"postcss-functions@https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1":
-  version "3.0.0"
-  resolved "git+ssh://git@github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1"
-  integrity sha512-F1s6dJJzMMJp7QQ8OH4APEYkzDVsnCqhk5L+HxyAbf3mUO3UjbMTNJxd7NgJyOF0V57S5pYe8UBoHgiptLY+yw==
   dependencies:
     glob "^7.1.2"
     object-assign "^4.1.1"
@@ -8586,10 +8576,10 @@ vc-helpers@0.0.2:
   resolved "https://registry.yarnpkg.com/vc-helpers/-/vc-helpers-0.0.2.tgz#584edf46477106f2fb7b13f85cd96a6af3a7d0a7"
   integrity sha512-la2KjObUCGjEmIlBvjFOgvGVm041l9/u0Y17e8Xlxw9BvblA4L45Na4tpsYjAAxQvjm+S6YaLiBwEhM8E73HxA==
 
-vc-webpack-vendors@3.2.4:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.2.4.tgz#43e2e98acf1e47eecd548c25425fdd25885afc5c"
-  integrity sha512-EKX7pg6N2Hxkk+diVxg95y1jI+9yXH/w+WYrp2RDrX10quy2UXgCWuRRdtkKWitZJw4Y5OiNRqdv1S4FD+fVJg==
+vc-webpack-vendors@3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.2.5.tgz#8ec409db8d0fd34dab79f506b59e3f50bfa93dfd"
+  integrity sha512-AfCSSg78rcbrIwcCvRFhjC7YE9DwBDuioMB7cQRVk6GdlmujnSOegReRVECq4IwquCuvFLlLVD+SznIxU5yEYw==
   dependencies:
     "@babel/cli" "7.16.0"
     "@babel/core" "7.16.0"
