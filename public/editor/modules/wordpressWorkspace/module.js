@@ -134,7 +134,7 @@ add('wordpressWorkspace', (api) => {
       documentElements = elements
       if (data.length === 0) {
         const postData = dataManager.get('postData')
-        if (isBlankPageIntro && !settingsStorage.state('skipBlank').get() && !postData.viewable) {
+        if (isBlankPageIntro && !settingsStorage.state('skipBlank').get() && postData.status === 'auto-draft') {
           addBlankIntro()
           isBlankPageIntro = false
         } else {
