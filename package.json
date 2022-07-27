@@ -87,7 +87,10 @@
     "jest-environment-jsdom": "28.1.0",
     "jest-cli": "28.1.0",
     "vc-cake": "1.1.1",
-    "css-declaration-sorter": "6.1.3"
+    "css-declaration-sorter": "6.1.3",
+    "color-blend": "git+https://github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39",
+    "postcss-functions": "git+https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1",
+    "postcss-prefix-url": "git+https://github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011"
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.7.1",
@@ -116,7 +119,7 @@
     "sticky-sidebar": "^3.3.1",
     "ts-loader": "9.2.6",
     "typescript": "4.5.4",
-    "vc-webpack-vendors": "3.2.4",
+    "vc-webpack-vendors": "3.2.5",
     "webfontloader": "1.6.28",
     "@types/jest": "27.5.1",
     "ts-jest": "28.0.2",
