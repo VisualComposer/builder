@@ -116,7 +116,7 @@
     "sticky-sidebar": "^3.3.1",
     "ts-loader": "9.2.6",
     "typescript": "4.5.4",
-    "vc-webpack-vendors": "3.2.2",
+    "vc-webpack-vendors": "3.2.1",
     "webfontloader": "1.6.28",
     "@types/jest": "27.5.1",
     "ts-jest": "28.0.2",
