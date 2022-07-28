@@ -140,6 +140,12 @@ export default class AddTemplatePanel extends React.Component {
       const hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
       if (hubTemplates) {
         hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
+      } else {
+        this.templatesCategories.forEach((category) => {
+          if (category.id === 'predefined') {
+            category.id = 'hub'
+          }
+        })
       }
 
       this.templatesCategories = this.templatesCategories.filter(category => category.id !== 'predefined')
