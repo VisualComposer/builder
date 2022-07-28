@@ -46,6 +46,8 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
       } else {
         isVcvClick = false
       }
+
+        <?php echo vcfilter('vcv:resources:view:settings:pages:handleIframeBodyClick')  ?>
     }
 
     function setScrollHeight () {

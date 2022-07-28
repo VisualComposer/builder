@@ -39,4 +39,12 @@
         <custom-field action="copy-once">_vcv-pageDesignOptionsCompiledCss</custom-field>
         <custom-field action="copy-once">_vcv-settingsPopup</custom-field>
     </custom-fields>
+    <custom-types>
+        <custom-type translate="1" display-as-translated="1">vcv_templates</custom-type>
+        <custom-type translate="1" display-as-translated="1">vcv_headers</custom-type>
+        <custom-type translate="1" display-as-translated="1">vcv_footers</custom-type>
+        <custom-type translate="1" display-as-translated="1">vcv_sidebars</custom-type>
+        <custom-type translate="1" display-as-translated="1">vcv_layouts</custom-type>
+        <custom-type translate="1" display-as-translated="1">vcv_popups</custom-type>
+    </custom-types>
 </wpml-config>
