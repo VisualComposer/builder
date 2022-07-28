@@ -173,6 +173,7 @@ addStorage('elements', (storage) => {
     }
   })
   storage.on('update', (id, element, source = '', options = {}) => {
+    innerAPI.dispatch('elementUpdate', id, element)
     options = Object.assign({ disableUpdateAssets: false, disableUpdateComponent: false }, options)
     const cookElement = cook.getById(id)
     if (!cookElement) {
