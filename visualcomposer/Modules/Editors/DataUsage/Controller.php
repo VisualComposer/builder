@@ -210,7 +210,7 @@ class Controller extends Container implements Module
     protected function afterDataSendProcess($response, $updatedPostsList)
     {
         $optionsHelper = vchelper('Options');
-        $isResponseSuccess = !empty($response['response']['code']) && $response['response']['code'] === 200;
+        $isResponseSuccess = !is_wp_error($response) && $response['response']['code'] === 200;
 
         if ($isResponseSuccess) {
             // Set transient that expires in 1 day
