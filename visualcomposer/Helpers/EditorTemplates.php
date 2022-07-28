@@ -16,45 +16,60 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class EditorTemplates implements Helper
 {
-    protected function queryTemplates()
-    {
-        // We cannot use get_posts because of high memory usage (>100mb on 60 templates)
-        // Problems: multilingual translations are not filtered, but 3rd party can use filters if they wish so
-        // Additionally: we load just all templates now.
-        global $wpdb;
-        $results = $wpdb->get_results(
-            "select a.ID as `id`, a.post_title as `name`, b.meta_key, b.meta_value
-from {$wpdb->posts} a
-left join {$wpdb->postmeta} b on b.post_id = a.ID
-where a.post_type = 'vcv_templates' and a.post_status in ('draft', 'publish')
-and b.meta_key in ('_vcv-type', '_vcv-thumbnail', '_vcv-preview', '_vcv-description', '_vcv-bundle')
-order by a.post_modified desc
-;",
-            ARRAY_A
-        );
-
-        return $results;
-    }
-
-    protected function queryCustomTemplates()
+    /**
+     * Query to get all our global templates type with some additional meta info for them.
+     *
+     * @return array|object|\stdClass[]|null
+     */
+    public function queryTemplates()
     {
         global $wpdb;
 
-        return $wpdb->get_results(
-            "
-                    SELECT a.ID as `id`, a.post_title as `name`, b.meta_key, b.meta_value
-                    FROM {$wpdb->posts} as a
-                    LEFT JOIN {$wpdb->postmeta} as b on b.post_id = a.ID
-                    WHERE a.post_type = 'vcv_templates' and a.post_status in ('publish')
-                    AND b.meta_key in ('_vcv-type') AND b.meta_value LIKE 'custom%'
-                    OR b.meta_key
-                    ORDER BY a.post_modified ASC   
-            ",
-            ARRAY_A
-        );
+        $clause = " AND b.meta_key IN ('_vcv-type', '_vcv-thumbnail', '_vcv-preview', '_vcv-description', '_vcv-bundle')";
+        $order = " ORDER BY a.post_modified ASC";
+
+        return $wpdb->get_results($this->getQueryTemplateSelect() . $clause . $order, ARRAY_A);
     }
 
     /**
+     * Query to get all our global templates with 'custom' type.
+     *
+     * @return array|object|\stdClass[]|null
+     */
+    public function queryCustomTemplates()
+    {
+        global $wpdb;
+
+        $clause = " AND b.meta_key='_vcv-type' AND b.meta_value='custom'";
+        $order = " ORDER BY a.post_modified ASC";
+
+        return $wpdb->get_results($this->getQueryTemplateSelect() . $clause . $order, ARRAY_A);
+    }
+
+    /**
+     * Get query for selecting all our global templates.
+     *
+     * We cannot use get_posts because of high memory usage (>100mb on 60 templates)
+     * Problems: multilingual translations are not filtered, but 3rd party can use filters if they wish so
+     * Additionally: we load just all templates now.
+     *
+     * @return string
+     */
+    public function getQueryTemplateSelect()
+    {
+        global $wpdb;
+
+        return "
+                SELECT a.ID as `id`, a.post_title as `name`, b.meta_key, b.meta_value
+                FROM {$wpdb->posts} as a
+                LEFT JOIN {$wpdb->postmeta} as b on b.post_id = a.ID
+                WHERE a.post_type = 'vcv_templates' and a.post_status in ('draft', 'publish')
+        ";
+    }
+
+    /**
+     * Get all global templates.
+     *
      * @return array
      */
     public function all()
@@ -72,6 +87,8 @@ order by a.post_modified desc
     }
 
     /**
+     * Get global templates with type 'custom'.
+     *
      * @return array
      */
     public function getCustomTemplates()
@@ -215,7 +232,7 @@ order by a.post_modified desc
     /**
      * Get template elements from our meta.
      *
-     * @param array $templateId
+     * @param int $templateId
      *
      * @return array
      */

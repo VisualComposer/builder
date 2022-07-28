@@ -56,11 +56,51 @@ class MessagesButtonControl extends NavbarContent {
     this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
+  getControls () {
+    const controls = innerAPI.applyFilter('insightPanelsData', {
+      insights: {
+        index: 0,
+        type: 'insights',
+        title: 'Insights',
+        icon: 'lamp'
+      },
+      notifications: {
+        index: 1,
+        type: 'notifications',
+        title: 'Notifications',
+        icon: 'bell'
+      }
+    })
+    workspaceMessagesControls.set({ ...controls })
+    const controlsArray = Object.keys(controls).map(key => controls[key])
+
+    const subMenuIconClasses = classNames({
+      'vcv-ui-navbar-control-icon': true,
+      'vcv-ui-icon': true
+    })
+
+    return controlsArray.map((control, index) => {
+      const subMenuIconClass = subMenuIconClasses + ` vcv-ui-icon-${control.icon}`
+      return (
+        <span
+          onClick={(e) => this.handleTabClick(e, control.type)}
+          key={index}
+          className='vcv-ui-navbar-control'
+          title={control.title}
+        >
+          <span className='vcv-ui-navbar-control-content'>
+            <i className={subMenuIconClass} />
+            <span>{control.title}</span>
+          </span>
+        </span>
+      )
+    })
+  }
+
   render () {
     const localizations = dataManager.get('localizations')
     const name = localizations ? localizations.insightsAndNotifications : 'Insights & Notifications'
-    const controls = workspaceMessagesControls.get()
-    const controlsArray = Object.keys(controls).map(key => controls[key])
+
     const { currentLevel, isUnseenMessages } = this.props
 
     const containerClasses = classNames({
@@ -81,32 +121,10 @@ class MessagesButtonControl extends NavbarContent {
       'vcv-ui-icon-bell': true
     })
 
-    const subMenuIconClasses = classNames({
-      'vcv-ui-navbar-control-icon': true,
-      'vcv-ui-icon': true
-    })
-
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
-      'vcv-ui-show-dropdown-content': this.state.showDropdown,
+      'vcv-ui-show-dropdown-content': true,
       'vcv-ui-navbar-show-labels': true
-    })
-
-    const subMenus = controlsArray.map((control, index) => {
-      const subMenuIconClass = subMenuIconClasses + ` vcv-ui-icon-${control.icon}`
-      return (
-        <span
-          onClick={(e) => this.handleTabClick(e, control.type)}
-          key={index}
-          className='vcv-ui-navbar-control'
-          title={control.title}
-        >
-          <span className='vcv-ui-navbar-control-content'>
-            <i className={subMenuIconClass} />
-            <span>{control.title}</span>
-          </span>
-        </span>
-      )
     })
 
     const messagesControls = (
@@ -118,14 +136,14 @@ class MessagesButtonControl extends NavbarContent {
           </span>
         </dt>
         <dd className={navbarContentClasses}>
-          {subMenus}
+          {this.state.showDropdown ? this.getControls() : null}
         </dd>
       </dl>
     )
 
     const messagesControlsInsideDropdown = (
       <div className='vcv-ui-navbar-controls-set'>
-        {subMenus}
+        {this.state.showDropdown ? this.getControls() : null}
       </div>
     )
 

@@ -122,7 +122,7 @@ class Preview implements Helper
             }
         }
 
-        return $sourceId;
+        return (int)$sourceId;
     }
 
     /**
