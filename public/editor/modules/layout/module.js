@@ -107,6 +107,9 @@ vcCake.add('contentLayout', (api) => {
       if (iframeWindow.vcv) {
         iframeWindow.vcv.trigger('ready')
       }
+
+      !reload && dnd.init()
+
       ReactDOM.render(
         <Provider store={store}>
           <Editor api={api} />
@@ -114,7 +117,6 @@ vcCake.add('contentLayout', (api) => {
         domContainer
       )
 
-      !reload && dnd.init()
       RightClickMenu()
 
       workspaceIFrame.onChange(reloadLayout)
@@ -191,9 +193,9 @@ vcCake.add('contentLayout', (api) => {
           <div class='vcv-loading-dot vcv-loading-dot-2'></div>
         </div>
       </div>`
-    const startBlank = iframeContent.querySelector('.vcv-start-blank-container')
-    if (startBlank) {
-      iframeContent.insertBefore(loadingOverlay, startBlank)
+    const blankPageIntro = iframeContent.querySelector('.blank-page-container')
+    if (blankPageIntro) {
+      iframeContent.insertBefore(loadingOverlay, blankPageIntro)
     } else {
       iframeContent.appendChild(loadingOverlay)
     }
