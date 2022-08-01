@@ -838,6 +838,10 @@ class Localizations extends Container implements Helper
                 'Lock Element',
                 'visualcomposer'
             ),
+            'unlockElementText' => __(
+                'Unlock Element',
+                'visualcomposer'
+            ),
             'url' => __(
                 'URL',
                 'visualcomposer'
@@ -2166,6 +2170,14 @@ class Localizations extends Container implements Helper
             ),
             'hubAccessTermsBlankPage' => __(
                 'By downloading content from the Hub, you agree to the cloud <a href="https://visualcomposer.com/terms-of-use/" target="_blank" rel="noopener noreferrer">terms and services</a>',
+                'visualcomposer'
+            ),
+            'removeElement' => __(
+                'Remove Element',
+                'visualcomposer'
+            ),
+            'editElement' => __(
+                'Edit Element',
                 'visualcomposer'
             ),
         ];
