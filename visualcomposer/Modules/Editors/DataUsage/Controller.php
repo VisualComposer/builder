@@ -157,7 +157,7 @@ class Controller extends Container implements Module
                 $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templates', true);
 
                 if (unserialize($editorUsage)) {
-                    $editorUsageData = $this->gwtEditorUsageData($editorUsage);
+                    $editorUsageData = $this->getEditorUsageData($editorUsage);
 
                     $usageStats[$hashedId]['editorUsage'] = $editorUsageData;
                 }
@@ -180,7 +180,7 @@ class Controller extends Container implements Module
      *
      * @return array|mixed
      */
-    protected function gwtEditorUsageData($editorUsage)
+    protected function getEditorUsageData($editorUsage)
     {
         // @codingStandardsIgnoreLine
         global $wp_version;
@@ -210,7 +210,7 @@ class Controller extends Container implements Module
     protected function afterDataSendProcess($response, $updatedPostsList)
     {
         $optionsHelper = vchelper('Options');
-        $isResponseSuccess = !is_wp_error($response) && $response['response']['code'] === 200;
+        $isResponseSuccess = wp_remote_retrieve_response_code($response) === 200;
 
         if ($isResponseSuccess) {
             // Set transient that expires in 1 day
