@@ -288,9 +288,7 @@ jobs:
       - run:
           name: Add free license to db
           command: |
-            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', '0b147957-48d2-4c15-b50e-f9f755bd8749', 'yes');"
-            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
-            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-agreeHubTerms', '1658314019', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
       - run: yarn run cypress install
       - run: yarn run cypress run --project ./tests/cypressPipeline

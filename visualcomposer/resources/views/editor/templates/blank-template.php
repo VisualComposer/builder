@@ -13,7 +13,11 @@ if (!defined('ABSPATH')) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
     wp_head();
-    $customLayoutWidth = vchelper('Options')->get('custom-page-templates-section-layout-width', '1140px');
+    $customLayoutWidth = vchelper('Options')->get('custom-page-templates-section-layout-width', '1140');
+    $customLayoutWidth = (int) rtrim($customLayoutWidth, 'px');
+    if (empty($customLayoutWidth)) {
+        $customLayoutWidth = '1140';
+    }
     ?>
     <!-- Override the main container width styles -->
     <style>
@@ -29,7 +33,7 @@ if (!defined('ABSPATH')) {
             .vcv-editor-theme-hf .vcv-layouts-html > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
             .vcv-header > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
             .vcv-footer > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"] {
-                max-width: <?php echo $customLayoutWidth ?> !important;
+                max-width: <?php echo $customLayoutWidth . 'px' ?> !important;
             }
         }
     </style>
