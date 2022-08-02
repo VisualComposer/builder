@@ -61,80 +61,158 @@ class Controller extends Container implements Module
         return $response;
     }
 
-    // NOTE: If you change anything in the data, you also need to change the information table here visualcomposer/resources/views/settings/fields/dataCollectionTable.php
-    protected function sendUsageData(License $licenseHelper)
+    /**
+     * Send user usage data statistic to VC data collection server.
+     *
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     */
+    protected function sendUsageData(License $licenseHelper, Options $optionsHelper)
+    {
+        if (!$this->isNeedUserData()) {
+            return;
+        }
+
+        $updatedPostsList = $optionsHelper->get('updatedPostsList');
+        $usageStats = $this->getUsageStats($updatedPostsList);
+
+        if (!$usageStats) {
+            return;
+        }
+
+        $data = [
+            'vcv-send-usage-statistics' => 'sendUsageStatistics',
+            'vcv-statistics' => $usageStats,
+            'vcv-hashed-url' => $licenseHelper->getHashedKey(get_site_url()),
+        ];
+
+        $json = json_encode($data);
+        $zip = zlib_encode($json, ZLIB_ENCODING_DEFLATE);
+        $encodedData = base64_encode($zip);
+
+        $response = wp_remote_post(
+            vcvenv('VCV_HUB_URL'),
+            [
+                'body' => [
+                    'vcv-send-usage-statistics' => $encodedData
+                ],
+                'timeout' => 30,
+            ]
+        );
+
+        $this->afterDataSendProcess($response, $updatedPostsList);
+    }
+
+    /**
+     * Check if we need user data right now.
+     * We send user data once a day.
+     *
+     * @return bool
+     */
+    public function isNeedUserData()
+    {
+        $optionsHelper = vchelper('Options');
+        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
+
+        if (!$isAllowed) {
+            return false;
+        }
+
+        // Once in a day transient.
+        $isAlreadySend = $optionsHelper->getTransient('lastUsageSend');
+
+        if ($isAlreadySend) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Collect user usage statistics.
+     *
+     * @note If you change anything in the data,
+     * you also need to change the information table
+     * here visualcomposer/resources/views/settings/fields/dataCollectionTable.php
+     *
+     * @param array $updatedPostsList
+     *
+     * @return array
+     */
+    protected function getUsageStats($updatedPostsList)
+    {
+        $optionsHelper = vchelper('Options');
+        $usageStats = [];
+        $teaserDownloads = $optionsHelper->get('downloadedContent');
+        if (unserialize($teaserDownloads)) {
+            $usageStats['downloadedContent'] = unserialize($teaserDownloads);
+        }
+
+        $licenseHelper = vchelper('License');
+        if ($updatedPostsList && is_array($updatedPostsList)) {
+            foreach ($updatedPostsList as $postId) {
+                $hashedId = $licenseHelper->getHashedKey($postId);
+                $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editorUsage', true);
+                $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementDiffs', true);
+                $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templates', true);
+
+                if (unserialize($editorUsage)) {
+                    $editorUsageData = $this->getEditorUsageData($editorUsage);
+
+                    $usageStats[$hashedId]['editorUsage'] = $editorUsageData;
+                }
+                if (unserialize($elementUsage)) {
+                    $usageStats[$hashedId]['elementUsage'] = unserialize($elementUsage);
+                }
+                if (unserialize($templateUsage)) {
+                    $usageStats[$hashedId]['templateUsage'] = unserialize($templateUsage);
+                }
+            }
+        }
+
+        return $usageStats;
+    }
+
+    /**
+     * Get editor usage data.
+     *
+     * @param string $editorUsage
+     *
+     * @return array|mixed
+     */
+    protected function getEditorUsageData($editorUsage)
     {
         // @codingStandardsIgnoreLine
         global $wp_version;
-        $optionsHelper = vchelper('Options');
-        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
-        // Send usage data once in a day
-        if ($isAllowed && !$optionsHelper->getTransient('lastUsageSend')) {
-            $usageStats = [];
-            $teaserDownloads = $optionsHelper->get('downloadedContent');
-            if (unserialize($teaserDownloads)) {
-                $usageStats['downloadedContent'] = unserialize($teaserDownloads);
+        $editorUsageData = unserialize($editorUsage);
+        if (is_array($editorUsageData)) {
+            $activeTheme = wp_get_theme();
+            foreach ($editorUsageData as $key => $value) {
+                $editorUsageData[$key]['phpVersion'] = phpversion();
+                // @codingStandardsIgnoreLine
+                $editorUsageData[$key]['wpVersion'] = $wp_version;
+                $editorUsageData[$key]['vcvVersion'] = VCV_VERSION;
+                $editorUsageData[$key]['activeTheme'] = $activeTheme->get('Name');
             }
-
-            $updatedPostsList = $optionsHelper->get('updatedPostsList');
-            if ($updatedPostsList && is_array($updatedPostsList)) {
-                foreach ($updatedPostsList as $postId) {
-                    $hashedId = $licenseHelper->getHashedKey($postId);
-                    $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editorUsage', true);
-                    $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementDiffs', true);
-                    $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templates', true);
-
-                    if (unserialize($editorUsage)) {
-                        $activeTheme = wp_get_theme();
-                        $editorUsageData = unserialize($editorUsage);
-                        foreach ($editorUsageData as $key => $value) {
-                            $editorUsageData[$key]['phpVersion'] = phpversion();
-                            // @codingStandardsIgnoreLine
-                            $editorUsageData[$key]['wpVersion'] = $wp_version;
-                            $editorUsageData[$key]['vcvVersion'] = VCV_VERSION;
-                            $editorUsageData[$key]['activeTheme'] = $activeTheme->get('Name');
-                        }
-
-                        $usageStats[$hashedId]['editorUsage'] = $editorUsageData;
-                    }
-                    if (unserialize($elementUsage)) {
-                        $usageStats[$hashedId]['elementUsage'] = unserialize($elementUsage);
-                    }
-                    if (unserialize($templateUsage)) {
-                        $usageStats[$hashedId]['templateUsage'] = unserialize($templateUsage);
-                    }
-                }
-            }
-
-            if (!empty($usageStats)) {
-                $data = [
-                    'vcv-send-usage-statistics' => 'sendUsageStatistics',
-                    'vcv-statistics' => $usageStats,
-                    'vcv-hashed-url' => $licenseHelper->getHashedKey(get_site_url()),
-                ];
-                $json = json_encode($data);
-                $zip = zlib_encode($json, ZLIB_ENCODING_DEFLATE);
-                $encodedData = base64_encode($zip);
-
-                $request = wp_remote_post(
-                    vcvenv('VCV_HUB_URL'),
-                    [
-                        'body' => [
-                            'vcv-send-usage-statistics' => $encodedData
-                        ],
-                        'timeout' => 30,
-                    ]
-                );
-
-                $this->afterDataSendProcess($request['response']['code'], $updatedPostsList);
-            }
+        } else {
+            $editorUsageData = [];
         }
+
+        return $editorUsageData;
     }
 
-    protected function afterDataSendProcess($responseCode, $updatedPostsList)
+    /**
+     * Action after send statistic.
+     *
+     * @param array|\WP_Error $response
+     * @param array $updatedPostsList
+     */
+    protected function afterDataSendProcess($response, $updatedPostsList)
     {
         $optionsHelper = vchelper('Options');
-        if ($responseCode === 200) {
+        $isResponseSuccess = wp_remote_retrieve_response_code($response) === 200;
+
+        if ($isResponseSuccess) {
             // Set transient that expires in 1 day
             $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
             $optionsHelper->set('lastSentDate', time());
