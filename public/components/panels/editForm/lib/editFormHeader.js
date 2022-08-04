@@ -47,6 +47,7 @@ export default class EditFormHeader extends React.Component {
     this.handleToggleDropdown = this.handleToggleDropdown.bind(this)
     this.handleRemoveElement = this.handleRemoveElement.bind(this)
     this.handleSaveAsPreset = this.handleSaveAsPreset.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
   }
 
   componentDidMount () {
@@ -228,7 +229,22 @@ export default class EditFormHeader extends React.Component {
     }
   }
 
+  handleOutsideClick (e) {
+    const menuControl = e.target.closest('.vcv-ui-edit-form-header-menu')
+
+    if (menuControl) {
+      return
+    }
+
+    this.handleToggleDropdown()
+  }
+
   handleToggleDropdown () {
+    if (this.state.isDropdownActive) {
+      window.document.removeEventListener('click', this.handleOutsideClick)
+    } else {
+      window.document.addEventListener('click', this.handleOutsideClick)
+    }
     this.setState({ isDropdownActive: !this.state.isDropdownActive })
   }
 
