@@ -289,29 +289,52 @@ class Controller extends Container implements Module
     protected function saveUsageStats($response, $payload, License $licenseHelper)
     {
         $sourceId = $payload['sourceId'];
-        $hashedId = $licenseHelper->getHashedKey($sourceId);
         $elements = $payload['elements'];
-        $licenseType = $payload['licenseType'];
         $date = time();
+
+        $optionsHelper = vchelper('Options');
+        $updatedPostsList = $optionsHelper->get('updatedPostsList', []);
+        if (!in_array($sourceId, $updatedPostsList)) {
+            $updatedPostsList[] = $sourceId;
+        }
+
+        $optionsHelper->set('updatedPostsList', $updatedPostsList);
+
+        $this->saveEditorUsage($sourceId, $payload, $date);
+        $this->saveElementsUsage($sourceId, $elements, $date);
+
+        // Update editor start time field for multiple save without page refresh
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', $date);
+
+        return false;
+    }
+
+    /**
+     * Save editor usage data.
+     *
+     * @param int $sourceId
+     * @param array $payload
+     * @param int $date
+     */
+    protected function saveEditorUsage($sourceId, $payload, $date)
+    {
+        $licenseHelper = vchelper('License');
+        $hashedId = $licenseHelper->getHashedKey($sourceId);
+
+        $licenseType = $payload['licenseType'];
         if (!$licenseType) {
             $licenseType = 'Not Activated';
         }
-        $optionsHelper = vchelper('Options');
-        $updatedPostsList = $optionsHelper->get('updatedPostsList');
-        if ($updatedPostsList && is_array($updatedPostsList)) {
-            if (!in_array($sourceId, $updatedPostsList)) {
-                $updatedPostsList[] = $sourceId;
-            }
-        } else {
-            $updatedPostsList[] = $sourceId;
-        }
-        $optionsHelper->set('updatedPostsList', $updatedPostsList);
+
         $editorStartDate = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', true);
         $editorEndDate = $date;
+
+        $optionsHelper = vchelper('Options');
+
         $editorUsage = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', true);
-        if ($editorUsage) {
-            $editorUsage = unserialize($editorUsage);
-        } else {
+        $editorUsage = unserialize($editorUsage);
+
+        if (! is_array($editorUsage)) {
             $editorUsage = [];
         }
 
@@ -331,6 +354,21 @@ class Controller extends Container implements Module
         ];
 
         $editorUsage = serialize($editorUsage);
+
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
+    }
+
+    /**
+     * Save editor elements usage data.
+     *
+     * @param int $sourceId
+     * @param string $elements
+     * @param string $date
+     */
+    protected function saveElementsUsage($sourceId, $elements, $date)
+    {
+        $licenseHelper = vchelper('License');
+
         $elements = json_decode($elements, true);
         if ($elements) {
             foreach ($elements as $key => $value) {
@@ -348,11 +386,6 @@ class Controller extends Container implements Module
 
         $elements = serialize($elements);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'allElements', $elements);
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
-        // Update editor start time field for multiple save without page refresh
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', $date);
-
-        return false;
     }
 
     protected function getNewElements($previousElements, $elements)
