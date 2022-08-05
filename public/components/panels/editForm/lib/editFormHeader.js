@@ -28,6 +28,8 @@ export default class EditFormHeader extends React.Component {
     this.state = {
       content: props.elementAccessPoint.cook().getName(),
       editable: false,
+      isDropdownActive: false,
+      isPresetActive: false,
       hidden: props.elementAccessPoint.cook().get('hidden'),
       isLocked: props.elementAccessPoint.cook().get('metaIsElementLocked')
     }
@@ -42,6 +44,10 @@ export default class EditFormHeader extends React.Component {
     this.updateHiddenState = this.updateHiddenState.bind(this)
     this.updateLockState = this.updateLockState.bind(this)
     this.handleLockElementToggle = this.handleLockElementToggle.bind(this)
+    this.handleToggleDropdown = this.handleToggleDropdown.bind(this)
+    this.handleRemoveElement = this.handleRemoveElement.bind(this)
+    this.handleSaveAsPreset = this.handleSaveAsPreset.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
   }
 
   componentDidMount () {
@@ -223,6 +229,39 @@ export default class EditFormHeader extends React.Component {
     }
   }
 
+  handleOutsideClick (e) {
+    const menuControl = e.target.closest('.vcv-ui-edit-form-header-menu')
+
+    if (menuControl) {
+      return
+    }
+
+    this.handleToggleDropdown()
+  }
+
+  handleToggleDropdown () {
+    if (this.state.isDropdownActive) {
+      window.document.removeEventListener('click', this.handleOutsideClick)
+    } else {
+      window.document.addEventListener('click', this.handleOutsideClick)
+    }
+    this.setState({ isDropdownActive: !this.state.isDropdownActive })
+  }
+
+  handleRemoveElement () {
+    const eventOptions = this.props.options
+    workspaceStorage.trigger('remove', this.props.elementAccessPoint.id, this.props.elementAccessPoint.tag, eventOptions)
+  }
+
+  handleSaveAsPreset () {
+    this.setState({ isPresetActive: !this.state.isPresetActive })
+    if (this.state.isPresetActive) {
+      this.handleClickGoBack()
+    } else {
+      this.props.handleEditFormSettingsToggle()
+    }
+  }
+
   render () {
     const {
       elementAccessPoint,
@@ -232,7 +271,7 @@ export default class EditFormHeader extends React.Component {
       handleReplaceElementToggle
     } = this.props
 
-    let { content, editable, hidden, isLocked } = this.state
+    let { content, editable, hidden, isLocked, isPresetActive } = this.state
     const isNested = options && (options.child || options.nestedAttr)
     const headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
@@ -296,20 +335,15 @@ export default class EditFormHeader extends React.Component {
       hideControl = (
         <span
           className='vcv-ui-edit-form-header-control'
-          title={visibilityText}
           onClick={this.handleClickHide}
         >
           <i className={iconClasses} />
+          <span className='vcv-ui-edit-form-header-control-title'>{visibilityText}</span>
         </span>
       )
     }
 
-    const editFormSettingsIconClasses = classNames({
-      'vcv-ui-icon': true,
-      'vcv-ui-icon-cog': true
-    })
-
-    let settingsControl = null
+    let presetControl = null
     const cookElement = elementAccessPoint.cook()
     const isRoot = cookElement.relatedTo('RootElements')
     const isGeneral = cookElement.relatedTo('General') && !isRoot
@@ -317,14 +351,19 @@ export default class EditFormHeader extends React.Component {
     const isBlocksEnabled = isRoot && roleManager.can('editor_content_user_blocks_management', roleManager.defaultTrue())
 
     if (isPresetsEnabled || isBlocksEnabled) {
-      const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
-      settingsControl = (
+      const saveAsPreset = localizations.saveAsPreset || 'Save as a Preset'
+      const saveAsTemplate = localizations.saveAsBlock || 'Save as a Block'
+      const editElement = localizations.editElement || 'Edit Element'
+      const saveAsText = isRoot ? saveAsTemplate : saveAsPreset
+      const controlText = isPresetActive ? editElement : saveAsText
+
+      presetControl = (
         <span
           className='vcv-ui-edit-form-header-control'
-          title={editFormSettingsText}
-          onClick={this.props.handleEditFormSettingsToggle}
+          onClick={this.handleSaveAsPreset}
         >
-          <i className={editFormSettingsIconClasses} />
+          <i className='vcv-ui-icon vcv-ui-icon-heart-stroke' />
+          <span className='vcv-ui-edit-form-header-control-title'>{controlText}</span>
         </span>
       )
     }
@@ -338,7 +377,10 @@ export default class EditFormHeader extends React.Component {
     let lockControl = null
     if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && (isGeneral || isRoot)) {
       const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
-      const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
+      const lockElementText = localizations.lockElementText || 'Lock Element'
+      const unlockElementText = localizations.unlockElementText || 'Ulnock Element'
+      const lockText = isLocked ? unlockElementText : lockElementText
+
       const lockClasses = classNames({
         'vcv-ui-edit-form-header-control': true,
         'vcv-ui-edit-form-header-control--disabled': !isAddonAvailable
@@ -346,10 +388,10 @@ export default class EditFormHeader extends React.Component {
       lockControl = (
         <span
           className={lockClasses}
-          title={lockElementText}
           onClick={this.handleLockElementToggle}
         >
           <i className={lockElementClasses} />
+          <span className='vcv-ui-edit-form-header-control-title'>{lockText}</span>
         </span>
       )
     }
@@ -364,14 +406,51 @@ export default class EditFormHeader extends React.Component {
         replaceElementIcon = (
           <span
             className='vcv-ui-edit-form-header-control'
-            title={substituteElementText}
             onClick={handleReplaceElementToggle}
           >
             <i className='vcv-ui-icon vcv-ui-icon-swap' />
+            <span className='vcv-ui-edit-form-header-control-title'>{substituteElementText}</span>
           </span>
         )
       }
     }
+
+    const removeElementText = localizations.removeElement || 'Remove Element'
+    const removeElementControl = (
+      <span
+        className='vcv-ui-edit-form-header-control'
+        onClick={this.handleRemoveElement}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-trash' />
+        <span className='vcv-ui-edit-form-header-control-title'>{removeElementText}</span>
+      </span>
+    )
+
+    const dropdownClasses = classNames({
+      'vcv-ui-edit-form-header-dropdown': true,
+      'vcv-ui-edit-form-header-dropdown--active': this.state.isDropdownActive
+    })
+
+    const dropdown = <dt className={dropdownClasses}>
+      {replaceElementIcon}
+      {lockControl}
+      {hideControl}
+      {presetControl}
+      {removeElementControl}
+    </dt>
+
+    const settingsText = localizations.editFormSettingsText || 'Element Settings'
+    const settingsIcon = <dl className='vcv-ui-edit-form-header-menu'>
+      <dt onClick={this.handleToggleDropdown}>
+        <span
+          className='vcv-ui-edit-form-header-control'
+          title={settingsText}
+        >
+          <i className='vcv-ui-icon vcv-ui-icon-drag-dots' />
+        </span>
+      </dt>
+      {dropdown}
+    </dl>
 
     return (
       <div className='vcv-ui-edit-form-header'>
@@ -379,10 +458,7 @@ export default class EditFormHeader extends React.Component {
         {sectionImage}
         {headerTitle}
         <span className='vcv-ui-edit-form-header-control-container'>
-          {options.nestedAttr ? null : replaceElementIcon}
-          {options.nestedAttr ? null : lockControl}
-          {options.nestedAttr ? null : hideControl}
-          {options.nestedAttr ? null : settingsControl}
+          {settingsIcon}
           <span
             className='vcv-ui-edit-form-header-control'
             title={closeTitle}
