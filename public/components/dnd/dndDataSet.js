@@ -341,7 +341,7 @@ export default class DndDataSet {
       if (
         domElement.isNearHorizontalBoundaries(point, 30) &&
         this.draggingElement.tag !== 'column' &&
-        parentDOMElement.tag &&
+        parentDOMElement?.tag &&
         this.draggingElement.id !== parentDOMElement.id &&
         this.draggingElement.id !== parentDOMElement.parent() &&
         !isTreeView

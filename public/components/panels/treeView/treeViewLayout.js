@@ -241,19 +241,15 @@ export default class TreeViewLayout extends React.Component {
     const text = localizations ? localizations.emptyTreeView : 'There is no content on the page - start by adding an element or template.'
 
     const elements = this.getElements()
-    if (elements.length) {
-      return (
-        <ul className='vcv-ui-tree-layout'>
-          {elements}
-        </ul>
-      )
-    }
+    const classes = classNames({
+      'vcv-ui-tree-layout': true,
+      'vcv-ui-tree-layout-empty-content': !elements.length
+    })
+
     return (
-      <div className='vcv-ui-tree-layout-messages'>
-        <p className='vcv-ui-tree-layout-message'>
-          {text}
-        </p>
-      </div>
+      <ul className={classes}>
+        {elements?.length ? elements : <li className='vcv-ui-tree-layout-message'>{text}</li>}
+      </ul>
     )
   }
 
