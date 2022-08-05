@@ -124,6 +124,7 @@ class PostUpdateTest extends WP_UnitTestCase
 
         $postId = $postTypeHelper->create(
             [
+                'post_title' => 'Untitled',
                 'post_type' => 'post',
                 'post_status' => 'publish',
                 'post_content' => $element,
