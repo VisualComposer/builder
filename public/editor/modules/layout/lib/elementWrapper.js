@@ -10,7 +10,6 @@ import Element from './element'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
 
 const cook = vcCake.getService('cook')
-const assetsStorage = vcCake.getStorage('assets')
 const documentManager = vcCake.getService('document')
 const roleManager = vcCake.getService('roleManager')
 
