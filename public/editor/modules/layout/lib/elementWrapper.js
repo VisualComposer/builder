@@ -24,8 +24,6 @@ const ElementWrapper = forwardRef((props, ref) => {
   const rawAtts = cookElement ? cloneDeep(cookElement.getAll(false)) : {}
 
   useEffect(() => {
-    assetsStorage.trigger('updateElement', props.id)
-
     if (cookElement && ref.current) {
       updateDynamicComments(ref.current, props.id, cookElement)
     }
