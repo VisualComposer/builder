@@ -10,7 +10,6 @@ import Element from './element'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
 
 const cook = vcCake.getService('cook')
-const assetsStorage = vcCake.getStorage('assets')
 const documentManager = vcCake.getService('document')
 const roleManager = vcCake.getService('roleManager')
 
@@ -24,8 +23,6 @@ const ElementWrapper = forwardRef((props, ref) => {
   const rawAtts = cookElement ? cloneDeep(cookElement.getAll(false)) : {}
 
   useEffect(() => {
-    assetsStorage.trigger('updateElement', props.id)
-
     if (cookElement && ref.current) {
       updateDynamicComments(ref.current, props.id, cookElement)
     }
