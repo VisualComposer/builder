@@ -4,13 +4,9 @@ import MobileDetect from 'mobile-detect'
 import { getStorage, getService, env } from 'vc-cake'
 import Sidebar from './lib/sidebar'
 import LayoutsSection from './lib/layoutsSection'
-// @ts-ignore
 import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Component'
-// @ts-ignore
 import Scrollbar from 'public/components/scrollbar/scrollbar'
-// @ts-ignore
 import store from 'public/editor/stores/store'
-// @ts-ignore
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const assetsStorage = getStorage('assets')

@@ -1,8 +1,16 @@
 import React from 'react'
 import classNames from 'classnames'
-// @ts-ignore
 import { Scrollbars } from 'react-custom-scrollbars'
-import { ScrollbarProps, ScrollbarState } from './types'
+
+interface ScrollbarProps {
+  content?: number
+  onScroll?: () => void
+  initialScrollTop?: number
+}
+
+interface ScrollbarState {
+  showTracks: boolean
+}
 
 export default class Scrollbar extends React.Component<ScrollbarProps, ScrollbarState> {
   scrollbars = null

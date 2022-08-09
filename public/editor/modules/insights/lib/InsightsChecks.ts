@@ -1,9 +1,8 @@
-// @ts-ignore
 import { env, getService, getStorage } from 'vc-cake'
 import { debounce, memoize } from 'lodash'
 import { AxePlugin, AxeResults, NodeResult } from '../axe'
-import store from '../../../stores/store'
-import { insightsAdded, insightsRemoved } from '../../../stores/insights/slice'
+import store from 'public/editor/stores/store'
+import { insightsAdded, insightsRemoved } from 'public/editor/stores/insights/slice'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')

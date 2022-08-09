@@ -1,11 +1,8 @@
 import React, { useState, useEffect, memo, useCallback } from 'react'
 import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
-// @ts-ignore
 import Tooltip from 'public/components/tooltip/tooltip'
-// @ts-ignore
 import CustomLayoutDropdown from 'public/sources/attributes/pageSettingsLayouts/lib/customLayoutDropdown'
-// @ts-ignore
 import Dropdown from 'public/sources/attributes/dropdown/Component'
 
 const dataManager = getService('dataManager')

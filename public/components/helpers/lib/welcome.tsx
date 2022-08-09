@@ -1,6 +1,5 @@
 import React from 'react'
 import { getService } from 'vc-cake'
-// @ts-ignore
 import Wave from 'public/sources/images/helpers/wave.png'
 
 const dataManager = getService('dataManager')
