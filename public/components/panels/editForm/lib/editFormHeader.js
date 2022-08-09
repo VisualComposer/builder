@@ -255,11 +255,7 @@ export default class EditFormHeader extends React.Component {
 
   handleSaveAsPreset () {
     this.setState({ isPresetActive: !this.state.isPresetActive })
-    if (this.state.isPresetActive) {
-      this.handleClickGoBack()
-    } else {
-      this.props.handleEditFormSettingsToggle()
-    }
+    this.props.handleEditFormSettingsToggle()
   }
 
   render () {
@@ -271,7 +267,7 @@ export default class EditFormHeader extends React.Component {
       handleReplaceElementToggle
     } = this.props
 
-    let { content, editable, hidden, isLocked, isPresetActive } = this.state
+    let { content, editable, hidden, isLocked } = this.state
     const isNested = options && (options.child || options.nestedAttr)
     const headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
@@ -319,6 +315,17 @@ export default class EditFormHeader extends React.Component {
       )
     }
 
+    const editElement = localizations.editElement || 'Edit Element'
+    const editControl = (
+      <span
+        className='vcv-ui-edit-form-header-control'
+        onClick={this.handleClickGoBack}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-edit' />
+        <span className='vcv-ui-edit-form-header-control-title'>{editElement}</span>
+      </span>
+    )
+
     let hideControl = null
     if (elementAccessPoint.tag !== 'column') {
       const iconClasses = classNames({
@@ -353,9 +360,7 @@ export default class EditFormHeader extends React.Component {
     if (isPresetsEnabled || isBlocksEnabled) {
       const saveAsPreset = localizations.saveAsPreset || 'Save as a Preset'
       const saveAsTemplate = localizations.saveAsBlock || 'Save as a Block'
-      const editElement = localizations.editElement || 'Edit Element'
       const saveAsText = isRoot ? saveAsTemplate : saveAsPreset
-      const controlText = isPresetActive ? editElement : saveAsText
 
       presetControl = (
         <span
@@ -363,7 +368,7 @@ export default class EditFormHeader extends React.Component {
           onClick={this.handleSaveAsPreset}
         >
           <i className='vcv-ui-icon vcv-ui-icon-heart-stroke' />
-          <span className='vcv-ui-edit-form-header-control-title'>{controlText}</span>
+          <span className='vcv-ui-edit-form-header-control-title'>{saveAsText}</span>
         </span>
       )
     }
@@ -432,6 +437,7 @@ export default class EditFormHeader extends React.Component {
     })
 
     const dropdown = <dt className={dropdownClasses}>
+      {editControl}
       {replaceElementIcon}
       {lockControl}
       {hideControl}
