@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit' // eslint-disable-line
 import { getService } from 'vc-cake'
-import { Popups } from '../../../components/popup/types'
+import { Popups } from 'public/components/popup/types'
 
 interface popupStore {
   popups: Popups,
