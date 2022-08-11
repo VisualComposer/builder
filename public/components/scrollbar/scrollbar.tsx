@@ -6,6 +6,7 @@ interface ScrollbarProps {
   content?: number
   onScroll?: () => void
   initialScrollTop?: number
+  children: React.ReactNode | null
 }
 
 interface ScrollbarState {
