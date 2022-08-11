@@ -377,6 +377,23 @@ const API = {
       }
     }
     return API.generateQuerySelector(el.parentNode) + ' > ' + str
+  },
+  arrayMove (arr, oldIndex, newIndex) {
+    const newArr = [...arr]
+    while (oldIndex < 0) {
+      oldIndex += newArr.length
+    }
+    while (newIndex < 0) {
+      newIndex += newArr.length
+    }
+    if (newIndex >= newArr.length) {
+      let k = newIndex - newArr.length + 1
+      while (k--) {
+        newArr.push(undefined)
+      }
+    }
+    newArr.splice(newIndex, 0, newArr.splice(oldIndex, 1)[0])
+    return newArr
   }
 }
 addService('utils', API)
