@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import { getStorage, getService, env } from 'vc-cake'
