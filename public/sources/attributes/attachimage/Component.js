@@ -8,7 +8,7 @@ import Url from '../url/Component'
 import AttachImageList from './attachImageList'
 import FilterList from './filterList'
 import Toggle from '../toggle/Component'
-import { SortableContainer, arrayMove } from 'react-sortable-hoc'
+import { SortableContainer } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
@@ -17,7 +17,7 @@ import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { portalChanged } from 'public/editor/stores/notifications/slice'
 
-const { getBlockRegexp } = getService('utils')
+const { getBlockRegexp, arrayMove } = getService('utils')
 const roleManager = getService('roleManager')
 const blockRegexp = getBlockRegexp()
 const workspaceStorage = getStorage('workspace')
