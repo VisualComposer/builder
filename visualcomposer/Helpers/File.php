@@ -18,7 +18,7 @@ class File implements Helper
     /**
      * @param $filePath
      *
-     * @return mixed
+     * @return bool|string
      */
     public function getContents($filePath)
     {
@@ -33,7 +33,7 @@ class File implements Helper
      * @param $filePath
      * @param $contents
      *
-     * @return mixed
+     * @return false|int
      */
     public function setContents($filePath, $contents)
     {
@@ -65,7 +65,7 @@ class File implements Helper
     }
 
     /**
-     * Check does directory exists and if not create it
+     * Check does directory exist and if not create it
      *
      * @param $dirPath
      * @param int $permissions
@@ -129,7 +129,7 @@ class File implements Helper
 
     public function removeFile($file)
     {
-        return wp_delete_file($file);
+        wp_delete_file($file);
     }
 
     public function copyDirectory($from, $to, $overwrite = true)
@@ -159,5 +159,101 @@ class File implements Helper
     public function createDirectory($dir)
     {
         return $this->getFileSystem()->mkdir($dir);
+    }
+
+    /**
+     * We use it to get file contents from url.
+     *
+     * @note We also check the case when link to file lead to local server upload folder like
+     *
+     * @return string
+     */
+    public function getRemoteContents($url)
+    {
+        $remoteContent = $this->getContentsWithDisabledSsl($url);
+        if ($remoteContent) {
+            return $remoteContent;
+        }
+
+        // in case when file not on the server and or allow_url_fopen is set to off
+        // we try to receive it with curl
+        $remoteContent = $this->getContentsWithCurl($url);
+        if ($remoteContent) {
+            return $remoteContent;
+        }
+
+        // in case when file is on localhost but all other cases do not working for him
+        // we try get file path to uploads from url and then get his content.
+        $remoteContent = $this->getContentsUrlAsLocalUpload($url);
+        if ($remoteContent) {
+            return $remoteContent;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get file content with specific context.
+     *
+     * @note  Disable SSL verification need in-case if https for localhost used and any self-signed SSL
+     *
+     * @param string $url
+     *
+     * @return false|string
+     */
+    public function getContentsWithDisabledSsl($url)
+    {
+        $arrContextOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ],
+        ];
+
+        $param = stream_context_create($arrContextOptions);
+
+        $content = file_get_contents($url, null, $param);
+
+        return $content;
+    }
+
+    /**
+     * Get remote content with curl request.
+     *
+     * @param string $url
+     *
+     * @return bool|string
+     */
+    public function getContentsWithCurl($url)
+    {
+        $statusHelper = vchelper('Status');
+        if (!$statusHelper->getCurlStatus()) {
+            return false;
+        }
+
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, $url);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        $downloadedFile = curl_exec($c);
+        curl_close($c);
+
+        return $downloadedFile;
+    }
+
+    /**
+     * Try to convert url to wp uploads file path and then get content of it.
+     *
+     * @param string $url
+     *
+     * @return bool|string
+     */
+    public function getContentsUrlAsLocalUpload($url)
+    {
+        $basedirUpload = wp_upload_dir()['basedir'];
+        $siteUrl = get_site_url();
+
+        $file = str_replace($siteUrl . '/wp-content/uploads', $basedirUpload, $url);
+
+        return $this->getContents($file);
     }
 }

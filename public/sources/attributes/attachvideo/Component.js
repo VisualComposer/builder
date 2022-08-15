@@ -3,9 +3,11 @@ import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
 import AttachVideoList from './attachVideoList'
-import { SortableContainer, arrayMove } from 'react-sortable-hoc'
+import { SortableContainer } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
+
+const { arrayMove } = getService('utils')
 
 const workspaceStorage = getStorage('workspace')
 const SortableList = SortableContainer((props) => {
