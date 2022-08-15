@@ -223,7 +223,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 == Changelog ==
 
 = 45.0 =
-*Release Date - 2022-08-16*
+*Release Date - 2022-08-17*
 
 ### Free:
 - New: Blank page wizard added for an easier start
