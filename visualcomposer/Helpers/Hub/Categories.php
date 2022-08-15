@@ -507,6 +507,7 @@ class Categories implements Helper
                     'sliderRevolution',
                     'translatePressLanguageSwitcher',
                     'wpForms',
+                    'hubSpotForms',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/WordPress.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/WordPress.svg'),
