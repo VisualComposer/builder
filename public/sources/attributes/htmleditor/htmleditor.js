@@ -262,13 +262,16 @@ export default class HtmlEditorComponent extends React.Component {
             this.loadUsedFonts(this.props)
             editor.iframeElement.style.visibility = 'hidden'
             editor.iframeElement.style.height = '0'
-            editor.on('BeforeExecCommand', function () {
-              editor.selection.select(editor.getBody(), true)
-            })
-            editor.on('nodeChange', () => {
-              editor.selection.select(editor.getBody(), true)
-            })
-            editor.selection.select(editor.getBody(), true)
+            if(this.props.editorLoaded){
+              editor.on('BeforeExecCommand', function () {
+                editor.getBody() && editor.selection.select(editor.getBody(), true)
+              })
+              editor.on('nodeChange', () => {
+                editor.getBody() && editor.selection.select(editor.getBody(), true)
+
+              })
+              editor.getBody() && editor.selection.select(editor.getBody(), true)
+            }
             this.props.setEditorLoaded(true)
           }
         })
