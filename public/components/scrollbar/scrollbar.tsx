@@ -6,6 +6,7 @@ interface ScrollbarProps {
   content?: number
   onScroll?: () => void
   initialScrollTop?: number
+  children: React.ReactNode | null
 }
 
 interface ScrollbarState {
@@ -48,11 +49,11 @@ export default class Scrollbar extends React.Component<ScrollbarProps, Scrollbar
       <Scrollbars
         // @ts-ignore
         ref={(scrollbars) => { this.scrollbars = scrollbars }} {...newScrollProps} className={scrollbarClasses}
-        renderTrackHorizontal={(props: unknown) => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
-        renderTrackVertical={(props: unknown) => <div {...props} className='vcv-ui-scroll-track--vertical' />}
-        renderThumbHorizontal={(props: unknown) => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
-        renderThumbVertical={(props: unknown) => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
-        renderView={(props: unknown) => <div {...props} className='vcv-ui-scroll-content' />}
+        renderTrackHorizontal={(props: object) => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
+        renderTrackVertical={(props: object) => <div {...props} className='vcv-ui-scroll-track--vertical' />}
+        renderThumbHorizontal={(props: object) => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
+        renderThumbVertical={(props: object) => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
+        renderView={(props: object) => <div {...props} className='vcv-ui-scroll-content' />}
         onScroll={this.props.onScroll}
         hideTracksWhenNotNeeded={this.state.showTracks}
       />

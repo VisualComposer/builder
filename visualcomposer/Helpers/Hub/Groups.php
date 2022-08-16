@@ -177,6 +177,7 @@ class Groups implements Helper
                     'sliderRevolution',
                     'translatePressLanguageSwitcher',
                     'wpForms',
+                    'hubSpotForms',
                 ],
             ],
             'Menus' => [
