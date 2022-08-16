@@ -1,7 +1,6 @@
 import React, { useState, memo } from 'react'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
-// @ts-ignore
 import Tooltip from 'public/components/tooltip/tooltip'
 import LayoutItem from './layoutItem'
 import LayoutsData from './layoutsData/index'

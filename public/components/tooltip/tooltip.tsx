@@ -5,7 +5,7 @@ import TooltipBox from './tooltipBox'
 interface Props {
   relativeElementSelector?: string
   onClose?: () => void
-  isLightHover: boolean
+  isLightHover?: boolean
   children: string
 }
 

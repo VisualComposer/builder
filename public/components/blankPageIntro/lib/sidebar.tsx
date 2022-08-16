@@ -1,24 +1,14 @@
 import React, { useRef } from 'react'
 import { getService } from 'vc-cake'
-// @ts-ignore
 import AccordionPanel from 'public/components/uiHelpers/accordionPanel/accordionPanel'
-// @ts-ignore
 import Permalink from 'public/components/permalink/permalink'
-// @ts-ignore
 import ParentPage from 'public/components/panels/settings/lib/parentPage/component'
-// @ts-ignore
 import FeaturedImage from 'public/components/panels/settings/lib/featuredImage/component'
-// @ts-ignore
 import Categories from 'public/components/panels/settings/lib/categories/component'
-// @ts-ignore
 import Tags from 'public/components/panels/settings/lib/postTags/component'
-// @ts-ignore
 import Excerpt from 'public/components/panels/settings/lib/excerpt/component'
-// @ts-ignore
 import Discussion from 'public/components/panels/settings/lib/discussion/component'
-// @ts-ignore
 import Author from 'public/components/panels/settings/lib/author/component'
-// @ts-ignore
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 
 const dataManager = getService('dataManager')

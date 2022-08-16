@@ -1,5 +1,5 @@
 import { getService } from 'vc-cake'
-import memoize from '../../../tools/memoize'
+import memoize from 'public/tools/memoize'
 
 export type MixinData = {
   attributeName: string

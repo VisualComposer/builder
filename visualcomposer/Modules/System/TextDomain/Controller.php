@@ -33,6 +33,11 @@ class Controller extends Container implements Module
 
     protected function setDomain()
     {
+        $locale = determine_locale();
+        $locale = apply_filters('plugin_locale', $locale, 'visualcomposer');
+
+        unload_textdomain('visualcomposer');
+        load_textdomain('visualcomposer', WP_LANG_DIR . '/visualcomposer/visualcomposer-' . $locale . '.mo');
         load_plugin_textdomain('visualcomposer', false, VCV_PLUGIN_DIRNAME . '/languages');
     }
 }

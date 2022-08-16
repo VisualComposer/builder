@@ -1,16 +1,12 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import { getStorage, getService, env } from 'vc-cake'
 import Sidebar from './lib/sidebar'
 import LayoutsSection from './lib/layoutsSection'
-// @ts-ignore
 import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Component'
-// @ts-ignore
 import Scrollbar from 'public/components/scrollbar/scrollbar'
-// @ts-ignore
 import store from 'public/editor/stores/store'
-// @ts-ignore
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const assetsStorage = getStorage('assets')
@@ -62,7 +58,6 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   const [activeLayout, setActiveLayout] = useState({ value: '' })
   const [activeTemplate, setActiveTemplate] = useState<ActiveTemplate|undefined>(undefined)
   const [hubTemplates, setHubTemplates] = useState(hubTemplatesStorage.state('templates').get())
-  const scrollbarsRef = useRef(null)
 
   useEffect(() => {
     workspaceIFrame.onChange(handleIframeReload)
@@ -432,9 +427,11 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
 
   let content:React.ReactElement | null = (
     <div className='template-groups-container'>
-      <Scrollbar ref={scrollbarsRef}>
-        <LayoutsSection sectionType='layout' handleItemClick={handleItemClick} />
-        <LayoutsSection sectionType='content' handleItemClick={handleItemClick} />
+      <Scrollbar>
+        <>
+          <LayoutsSection sectionType='layout' handleItemClick={handleItemClick} />
+          <LayoutsSection sectionType='content' handleItemClick={handleItemClick} />
+        </>
       </Scrollbar>
     </div>
   )
@@ -442,7 +439,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   if (editorType === 'popup') {
     content = (
       <div className='template-groups-container'>
-        <Scrollbar ref={scrollbarsRef}>
+        <Scrollbar>
           <LayoutsSection sectionType='popup' handleItemClick={handleItemClick} />
         </Scrollbar>
       </div>
@@ -458,7 +455,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
   if (editorType === 'vcv_layouts') {
     content = (
       <div className='template-groups-container'>
-        <Scrollbar ref={scrollbarsRef}>
+        <Scrollbar>
           <LayoutsSection sectionType='vcv_layouts' handleItemClick={handleItemClick} />
         </Scrollbar>
       </div>

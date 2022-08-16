@@ -1,9 +1,6 @@
-// @ts-ignore
 import { notificationRemoved } from 'public/editor/stores/notifications/slice'
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-// @ts-ignore
 import store from 'public/editor/stores/store'
-// @ts-ignore
 import { getService } from 'vc-cake'
 import classNames from 'classnames'
 

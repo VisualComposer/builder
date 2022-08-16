@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
-// @ts-ignore
 import Tooltip from 'public/components/tooltip/tooltip'
 
 interface Props {
   children: React.ReactNode,
   sectionTitle: string,
-  tooltipText: string,
+  tooltipText?: string,
   isChevron: boolean,
   classes: string,
   isExpanded: boolean

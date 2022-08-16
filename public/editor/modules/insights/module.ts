@@ -1,9 +1,8 @@
-// @ts-ignore
 import { getStorage, env, add } from 'vc-cake'
 import { debounce } from 'lodash'
 import InsightsChecks from './lib/InsightsChecks'
-import store from '../../stores/store'
-import { insightsReset } from '../../stores/insights/slice'
+import store from 'public/editor/stores/store'
+import { insightsReset } from 'public/editor/stores/insights/slice'
 
 const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
