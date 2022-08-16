@@ -22,7 +22,6 @@ describe('Free version section automation for release checklist', function () {
             .should('have.class', 'vcv-stock-image-hover-lock')
             .and('have.attr', 'title', 'Activate Premium to Unlock Giphy Integration')
 
-        //cy.get('.vcv-ui-state--active').find(`img[alt="${settings.premiumElement}"]`).parent().next().find('.vcv-ui-icon-lock-fill')
         cy.searchInHub('Elements', settings.freeElement)
         cy.get('.vcv-ui-state--active').find(`img[alt="${settings.freeElement}"]`)
         cy.get('#add-element-search').clear()
