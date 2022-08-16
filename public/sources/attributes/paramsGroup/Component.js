@@ -3,10 +3,10 @@ import Attribute from '../attribute'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import lodash from 'lodash'
 import { getStorage, getService, env } from 'vc-cake'
-import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'
 
 const workspaceStorage = getStorage('workspace')
-const { getBlockRegexp } = getService('utils')
+const { getBlockRegexp, arrayMove } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const dataManager = getService('dataManager')
 

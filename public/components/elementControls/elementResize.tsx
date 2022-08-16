@@ -116,10 +116,10 @@ const ElementResize: React.FC<Props> = (props) => {
   const [resizerSide, setResizerSide] = useState('')
   const [resizerPosition, setResizerPosition] = useState({})
 
-  const setResizeLabelsPosition = useCallback((e) => {
+  const setResizeLabelsPosition = useCallback((clientY: number) => {
     const resizerHeight = 29
     if (containerPos.top !== undefined) {
-      const labelPosition = e.clientY - containerPos.top - (resizerHeight / 2)
+      const labelPosition = clientY - containerPos.top - (resizerHeight / 2)
       setResizerPosition({
         position: 'absolute',
         top: `${labelPosition}px`
@@ -127,7 +127,7 @@ const ElementResize: React.FC<Props> = (props) => {
     }
   }, [containerPos])
 
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     if (row?.parentElement) {
       const isLeft = resizerSide === 'left'
       const iframeOffset = iframe.getBoundingClientRect().left
@@ -152,7 +152,7 @@ const ElementResize: React.FC<Props> = (props) => {
           setRightDistance(Math.round(distance))
         }
         row.style[isLeft ? 'marginLeft' : 'marginRight'] = `${Math.round(distance)}px`
-        setResizeLabelsPosition(e)
+        setResizeLabelsPosition(e.clientY)
       }
     }
   }, [row, resizerSide, vcElementContainerId, setResizeLabelsPosition, iframe, leftDistance, rightDistance])
@@ -228,7 +228,7 @@ const ElementResize: React.FC<Props> = (props) => {
       options: {}
     })
     vcCake.setData('vcv:layoutColumnResize', vcElementContainerId)
-    setResizeLabelsPosition(event)
+    setResizeLabelsPosition(event.clientY)
   }
 
   const handleMouseEnter = () => {

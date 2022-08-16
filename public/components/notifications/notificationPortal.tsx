@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom'
-import React from 'react'
+import React, { ReactElement } from 'react'
 
 interface Props {
+  children: ReactElement | null
   portalContainer: Element | null
 }
 
