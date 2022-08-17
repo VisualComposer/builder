@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
     <?php
     wp_head();
     $customLayoutWidth = vchelper('Options')->get('custom-page-templates-section-layout-width', '1140');
-    $customLayoutWidth = (int) rtrim($customLayoutWidth, 'px');
+    $customLayoutWidth = (int)rtrim($customLayoutWidth, 'px');
     if (empty($customLayoutWidth)) {
         $customLayoutWidth = '1140';
     }
