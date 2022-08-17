@@ -25,7 +25,9 @@ export default class CalendarAttribute extends Attribute {
 
   handleChangeRaw = (date) => {
     const newDate = new Date(date.target.value)
-    if (date.target && !isNaN(newDate)) {
+    const hasProperYear = newDate.getFullYear() >= 1000
+
+    if (date.target && !isNaN(newDate) && hasProperYear) {
       this.handleChange(newDate)
     }
   }
