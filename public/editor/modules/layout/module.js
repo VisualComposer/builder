@@ -150,6 +150,7 @@ vcCake.add('contentLayout', (api) => {
           zoneButton && zoneButton.addEventListener('click', () => {
             workspaceStorage.state('content').set('settings')
             workspaceSettings.set({ action: 'settings' })
+            workspaceStorage.state('settingsTab').set('pageSettings')
           })
         })
       }
