@@ -236,6 +236,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 - Fix: The editor recognizes the end of the session
 
 ### Premium:
+- New: HubSpot form element added to the Visual Composer Hub for compatibility (HubSpot plugin is required)
 - Fix: Underline option works properly with the Font Manager settings
 - Fix: Accordion element performance improved
 - Fix: Dynamic content works properly
