@@ -44,6 +44,7 @@ export default class Element extends React.Component {
     this.props.api.notify('element:unmount', this.props.id)
     elementsStorage.trigger('removeHtmlString', this.props.id)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
+    assetsStorage.trigger('removeElement', this.props.id)
   }
 
   componentDidUpdate () {

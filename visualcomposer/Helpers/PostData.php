@@ -395,7 +395,7 @@ class PostData implements Helper
     public function getDefaultPostData($sourceId = '')
     {
         $response = [];
-        $response['featured_image'] = str_replace('images/spacer.png', 'images/featured-image-preview.png', $this->getFeaturedImage($sourceId));
+        $response['featured_image'] = $this->replaceSpacerWithPlaceholder($sourceId);
         $response['post_author_image'] = $this->getPostAuthorImage($sourceId);
         $response['post_author'] = $this->getPostAuthor($sourceId);
         $response['post_title'] = $this->getPostTitle($sourceId);
@@ -420,5 +420,36 @@ class PostData implements Helper
         $response['comment_url'] = $this->getCommentUrl($sourceId);
 
         return $response;
+    }
+
+    /**
+     * Replace image spacer with image placeholder.
+     *
+     * @param integer $sourceId
+     *
+     * @return string
+     */
+    public function replaceSpacerWithPlaceholder($sourceId)
+    {
+        return str_replace(
+            'images/spacer.png',
+            'images/' . $this->getEditorImagePlaceholder()['name'],
+            $this->getFeaturedImage($sourceId)
+        );
+    }
+
+    /**
+     * Get placeholder for an editor images.
+     *
+     * @return array
+     */
+    public function getEditorImagePlaceholder()
+    {
+        $name = 'featured-image-preview.png';
+        return [
+            'name' => $name,
+            'path' => vcapp()->path('visualcomposer/resources/images/' . $name),
+            'url' => VCV_PLUGIN_URL . '/visualcomposer/resources/images/' . $name,
+        ];
     }
 }
