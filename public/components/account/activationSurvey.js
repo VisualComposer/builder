@@ -68,7 +68,7 @@ function ActivationSurvey ({ show, onClose, onSubmitSurvey, isLoading }) {
             </ul>
           </section>
           <footer className='vcv-ui-modal-footer'>
-            <button className={buttonClasses} disabled={isLoading} onClick={handleSubmit}>Submit</button>
+            <button className={buttonClasses} disabled={isLoading || !selectedAnswer} onClick={handleSubmit}>Submit</button>
           </footer>
         </div>
       </Modal>
