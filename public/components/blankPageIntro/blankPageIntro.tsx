@@ -88,13 +88,13 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
       const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (dataManager.get('pageTemplatesLayoutsCurrent'))
       const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
-      const lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (dataManager.get('headerTemplates').current)
+      const lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (dataManager.get('headerTemplates') && dataManager.get('headerTemplates').current)
       const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
 
-      const lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (dataManager.get('sidebarTemplates').current)
+      const lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (dataManager.get('sidebarTemplates') && dataManager.get('sidebarTemplates').current)
       const lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
 
-      const lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (dataManager.get('footerTemplates').current)
+      const lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (dataManager.get('footerTemplates') && dataManager.get('footerTemplates').current)
       const lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       if (
