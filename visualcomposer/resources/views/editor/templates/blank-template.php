@@ -18,6 +18,7 @@ if (!defined('ABSPATH')) {
     if (empty($customLayoutWidth)) {
         $customLayoutWidth = '1140';
     }
+
     ?>
     <!-- Override the main container width styles -->
     <style>
