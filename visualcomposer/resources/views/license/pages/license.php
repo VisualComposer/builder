@@ -93,7 +93,7 @@ if (!vchelper('License')->isPremiumActivated()) {
                 <tr>
                     <td><?php echo esc_html__('License expiration date', 'visualcomposer') ?>:</td>
                     <td><?php
-                        echo $expirationDate !== 'lifetime' ? date(
+                        echo $expirationDate !== 'lifetime' ? gmdate(
                             get_option('date_format') . ' ' . get_option('time_format'),
                             $expirationDate
                         ) : 'lifetime'; ?></td>
