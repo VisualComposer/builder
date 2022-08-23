@@ -100,8 +100,8 @@ class Controller extends Container implements Module
             }
             // @codingStandardsIgnoreStart
             global $wp_embed;
-            $content = $wp_embed->run_shortcode( $content );
-            $content = $wp_embed->autoembed( $content ); // Render embed shortcodes
+            $content = $wp_embed->run_shortcode($content);
+            $content = $wp_embed->autoembed($content); // Render embed shortcodes
             // @codingStandardsIgnoreEnd
             $content = do_shortcode($content);
             $content = convert_smilies($content);

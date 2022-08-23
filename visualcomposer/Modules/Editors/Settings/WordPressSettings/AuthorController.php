@@ -103,8 +103,8 @@ class AuthorController extends Container implements Module
             $currentUserAccessHelper->wpAll(
                 // @codingStandardsIgnoreLine
                 [get_post_type_object($currentPost->post_type)->cap->publish_posts, $currentPost->ID]
-            // @codingStandardsIgnoreLine
-            )->get() && post_type_supports( $currentPost->post_type, 'author' )
+                // @codingStandardsIgnoreLine
+            )->get() && post_type_supports($currentPost->post_type, 'author')
         ) {
             $response = array_merge(
                 $response,

@@ -41,7 +41,8 @@ class WpMedia implements Helper
         $thumb_class = (isset($params['class']) && '' !== $params['class']) ? $params['class'] . ' ' : '';
         global $_wp_additional_image_sizes;
         $thumbnail = '';
-        if (is_string($thumb_size)
+        if (
+            is_string($thumb_size)
             && ((!empty($_wp_additional_image_sizes[ $thumb_size ])
                     && is_array(
                         $_wp_additional_image_sizes[ $thumb_size ]
