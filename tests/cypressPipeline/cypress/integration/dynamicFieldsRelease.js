@@ -46,23 +46,52 @@ describe('Dynamic fields section automation for release checklist', function () 
             cy.wait(2000)
             cy.get('.vcv-ui-modal-action[title="Save"]').click()
 
-            cy.getIframe('#vcv-editor-iframe').find('button').contains(settings.title)
 
-            cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Edit dynamic content"]').first().click()
+            cy.addElement('Basic Button', true)
+            cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Insert dynamic content"]').first().click()
+            cy.contains('label', 'Set custom post source').parent().click()
+            cy.get('.vcv-ui-tag-list-item-remove[title="Remove"]').click()
+            cy.contains('.vcv-ui-form-group-heading', 'Source').parent().parent().find('textarea').click({force:true}).clear().type(settings.title)
+            cy.get('.vcv-ui-suggest-box').children().first().click()
+            cy.wait(2000)
             cy.get('header').contains('Dynamic Content').parent().parent().find('select').select('Post Excerpt')
             cy.get('.vcv-ui-modal-action[title="Save"]').click()
-            cy.getIframe('#vcv-editor-iframe').find('button').contains(settings.excerpt)
 
-            cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Edit dynamic content"]').first().click()
+
+            cy.addElement('Basic Button', true)
+            cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Insert dynamic content"]').first().click()
+            cy.contains('label', 'Set custom post source').parent().click()
+            cy.get('.vcv-ui-tag-list-item-remove[title="Remove"]').click()
+            cy.contains('.vcv-ui-form-group-heading', 'Source').parent().parent().find('textarea').click({force:true}).clear().type(settings.title)
+            cy.get('.vcv-ui-suggest-box').children().first().click()
+            cy.wait(2000)
             cy.get('header').contains('Dynamic Content').parent().parent().find('select').select('Post Tags')
             cy.get('.vcv-ui-modal-action[title="Save"]').click()
-            cy.getIframe('#vcv-editor-iframe').find('button').contains(settings.tag)
+            
 
-            cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Edit dynamic content"]').first().click()
+            cy.addElement('Basic Button', true)
+            cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Insert dynamic content"]').first().click()
+            cy.contains('label', 'Set custom post source').parent().click()
+            cy.get('.vcv-ui-tag-list-item-remove[title="Remove"]').click()
+            cy.contains('.vcv-ui-form-group-heading', 'Source').parent().parent().find('textarea').click({force:true}).clear().type(settings.title)
+            cy.get('.vcv-ui-suggest-box').children().first().click()
+            cy.wait(2000)
             cy.get('header').contains('Dynamic Content').parent().parent().find('select').select('Post Categories')
             cy.get('.vcv-ui-modal-action[title="Save"]').click()
+
+
+            cy.getIframe('#vcv-editor-iframe').find('button').contains(settings.title)
+            cy.getIframe('#vcv-editor-iframe').find('button').contains(settings.excerpt)
+            cy.getIframe('#vcv-editor-iframe').find('button').contains(settings.tag)
             cy.getIframe('#vcv-editor-iframe').find('button').contains(settings.category)
 
+            cy.savePage()
+            cy.viewPage()
+
+            cy.get('button').contains(settings.title)
+            cy.get('button').contains(settings.excerpt)
+            cy.get('button').contains(settings.tag)
+            cy.get('button').contains(settings.category)
           })
 
 
