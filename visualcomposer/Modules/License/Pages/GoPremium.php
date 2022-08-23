@@ -65,7 +65,7 @@ class GoPremium extends Container implements Module
                     && $licenseHelper->isPremiumActivated()
                     && !$licenseHelper->isThemeActivated()
                 ) {
-                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    wp_safe_redirect(admin_url('admin.php?page=vcv-getting-started'));
                     exit;
                 }
             },

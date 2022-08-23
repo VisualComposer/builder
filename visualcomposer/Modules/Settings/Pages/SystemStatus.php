@@ -341,7 +341,7 @@ class SystemStatus extends Container implements Module
     protected function refreshStatusPage(Status $statusHelper)
     {
         $statusHelper->checkSystemStatusAndSetFlag();
-        wp_redirect(admin_url('admin.php?page=' . $this->slug));
+        wp_safe_redirect(admin_url('admin.php?page=' . $this->slug));
         exit;
     }
 

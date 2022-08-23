@@ -143,7 +143,7 @@ class Url implements Helper
     public function redirectIfUnauthorized()
     {
         if (!is_user_logged_in()) {
-            wp_redirect(wp_login_url($this->current()));
+            wp_safe_redirect(wp_login_url($this->current()));
 
             return $this->terminate();
         }

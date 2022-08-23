@@ -111,7 +111,7 @@ class FactoryResetController extends Container implements Module
     ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             $loggerHelper->log(__('Incorrect permissions.', 'visualcomposer') . ' #10072');
-            wp_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
+            wp_safe_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
             exit;
         }
         if (!$optionsHelper->getTransient('vcv:settings:factoryReset:allow')) {
@@ -123,7 +123,7 @@ class FactoryResetController extends Container implements Module
         $optionsHelper->set('settingsResetInitiated', time());
         vcevent('vcv:system:factory:reset');
         wp_cache_flush();
-        wp_redirect(admin_url('admin.php?page=vcv-settings'));
+        wp_safe_redirect(admin_url('admin.php?page=vcv-settings'));
         exit;
     }
 }

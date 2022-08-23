@@ -156,7 +156,7 @@ class PostType extends Container implements Module
             if ($pagenow === 'post.php' && $requestHelper->input('post')) {
                 $sourceId = $requestHelper->input('post');
                 $attr = '?post=' . $sourceId . '&action=edit&vcv-source-id=' . $sourceId . '&';
-                wp_redirect(
+                wp_safe_redirect(
                     admin_url(
                         $pagenow . $attr . 'post_type=' . rawurlencode($this->postType)
                         . '&vcv-action=frontend&vcv-editor-type='
@@ -165,7 +165,7 @@ class PostType extends Container implements Module
                 );
                 exit;
             }
-            wp_redirect(
+            wp_safe_redirect(
                 add_query_arg(['vcv-action' => 'frontend', 'vcv-editor-type' => rawurlencode($this->postType)])
             );
             exit;

@@ -140,7 +140,7 @@ class LicenseController extends Container implements Module
         $optionsHelper->deleteTransient('addons:autoload:all');
         $licenseHelper->refresh('vcv-license');
 
-        wp_redirect(admin_url('admin.php?page=vcv-license'));
+        wp_safe_redirect(admin_url('admin.php?page=vcv-license'));
         exit;
     }
 
