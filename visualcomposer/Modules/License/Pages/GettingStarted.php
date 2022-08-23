@@ -43,7 +43,7 @@ class GettingStarted extends Container implements Module
             'admin_menu',
             function (Request $requestHelper) {
                 if ($requestHelper->input('page') === 'vcv-about') {
-                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    wp_safe_redirect(admin_url('admin.php?page=vcv-getting-started'));
                     exit;
                 }
             },
