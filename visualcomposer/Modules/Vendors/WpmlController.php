@@ -217,7 +217,7 @@ class WpmlController extends Container implements Module
                 strpos($field->field_type, 'field-vcv-pageContentField--') !== false;
 
             // @codingStandardsIgnoreLine
-            if ( !$field->field_finished ||  !$isFieldPostContent) {
+            if (!$field->field_finished ||  !$isFieldPostContent) {
                 continue;
             }
             // @codingStandardsIgnoreLine
