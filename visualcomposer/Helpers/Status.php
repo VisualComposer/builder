@@ -205,7 +205,9 @@ class Status implements Helper
      */
     public function getFileSystemStatus()
     {
-        return !(defined('FS_METHOD') && FS_METHOD !== 'direct');
+        $status = !(defined('FS_METHOD') && FS_METHOD !== 'direct');
+
+        return apply_filters('vcv:helpers:status:getFileSystemStatus', $status);
     }
 
     /**
