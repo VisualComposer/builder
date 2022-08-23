@@ -138,9 +138,9 @@ class WpmlController extends Container implements Module
             $package = $this->setNewContentForTranslationPackage($translations, $package);
         }
 
-        unset($package['contents'][ 'field-vcv-pageContent-0' ]);
-        unset($package['contents'][ 'field-vcv-pageContent-0-name' ]);
-        unset($package['contents'][ 'field-vcv-pageContent-0-type' ]);
+        unset($package['contents']['field-vcv-pageContent-0']);
+        unset($package['contents']['field-vcv-pageContent-0-name']);
+        unset($package['contents']['field-vcv-pageContent-0-type']);
 
         return $package;
     }
@@ -205,19 +205,19 @@ class WpmlController extends Container implements Module
         }
 
         $pageContent = json_decode(
-            // @codingStandardsIgnoreLine
+        // @codingStandardsIgnoreLine
             rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data)),
             true
         );
         $elements = $job->elements;
         foreach ($elements as $index => $field) {
             // @codingStandardsIgnoreLine
-            $isFieldPostContent = isset($field->field_type) &&
-                // @codingStandardsIgnoreLine
+            $isFieldPostContent = isset($field->field_type)
+                && // @codingStandardsIgnoreLine
                 strpos($field->field_type, 'field-vcv-pageContentField--') !== false;
 
             // @codingStandardsIgnoreLine
-            if (!$field->field_finished ||  !$isFieldPostContent) {
+            if (!$field->field_finished || !$isFieldPostContent) {
                 continue;
             }
             // @codingStandardsIgnoreLine
@@ -439,13 +439,13 @@ class WpmlController extends Container implements Module
 
         global $wpdb;
 
-        $sql = $wpdb->prepare(
-            "SELECT language_code FROM %sicl_translations WHERE element_id = %d",
-            $wpdb->prefix,
-            $postId
+        $result = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT language_code FROM %sicl_translations WHERE element_id = %d",
+                $wpdb->prefix,
+                $postId
+            )
         );
-
-        $result = $wpdb->get_results($sql);
 
         if (!empty($result[0]->language_code)) {
             $_POST['post_ID'] = $postId;

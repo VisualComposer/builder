@@ -373,7 +373,7 @@ class PostData implements Helper
 
     public function getCurrentYear()
     {
-        $date = date('Y');
+        $date = gmdate('Y');
 
         return $date;
     }

@@ -7,9 +7,8 @@
        except in this file, so it can contain information for
        developers who may change this file in the future.
     -->
-    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility"/>
-
     <description>A custom coding standard</description>
+    <config name="installed_paths" value="../../wp-coding-standards/wpcs,../../phpcompatibility/php-compatibility"/>
 
     <rule ref="PSR12">
         <exclude name="Generic.Files.LineLength.TooLong"/>
@@ -81,6 +80,21 @@
         <exclude-pattern type="relative">./plugin-wordpress.php</exclude-pattern>
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
     </rule>
+
+    <!-- wpcom -->
+<!--    <rule ref="WordPress.DB.PreparedSQLPlaceholders"/>-->
+    <rule ref="WordPress.DB.PreparedSQL"/>
+    <rule ref="WordPress.DB.RestrictedFunctions"/>
+    <rule ref="WordPress.DB.RestrictedClasses"/>
+    <rule ref="WordPress.PHP.RestrictedPHPFunctions"/>
+    <rule ref="WordPress.PHP.NoSilencedErrors">
+        <exclude name="WordPress.PHP.NoSilencedErrors.Discouraged"/>
+    </rule>
+    <rule ref="Generic.Files.ByteOrderMark"/>
+    <rule ref="Generic.CodeAnalysis.EmptyPHPStatement"/>
+<!--    <rule ref="WordPress.WP.I18n"/>-->
+    <rule ref="WordPress.DateTime.RestrictedFunctions"/>
+
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
     <file>./plugin-wordpress.php</file>
