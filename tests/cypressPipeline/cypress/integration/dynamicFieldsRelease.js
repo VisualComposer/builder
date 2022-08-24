@@ -3,14 +3,15 @@
 describe('Dynamic fields section automation for release checklist', function () {
     it('Check dynamic fields in release checklist', function () {
         cy.fixture('../fixtures/dynamicFieldsRelease.json').then((settings) => {
+            
         cy.visit('/wp-admin/post-new.php?vcv-action=frontend')
         cy.contains('.blank-page-submit-button', 'Get Started').click()
 
         cy.get('.vcv-ui-navbar-control-content').contains('Options').click({force: true})
 
         cy.contains('.vcv-ui-form-group-heading', 'Title').next().clear().type(settings.title)
+        
         cy.contains('.vcv-ui-form-link', 'add a new category').click()
-
         cy.contains('.vcv-ui-form-group-heading', 'Category').next().clear().type(settings.category)
         cy.contains('button', 'Add New Category').click()
 
@@ -23,6 +24,10 @@ describe('Dynamic fields section automation for release checklist', function () 
         //image??
 
         cy.savePage()
+
+        cy.url().then(($postUrl) => {
+            console.log($postUrl)
+
         cy.createPage()
 
         cy.addElement('Basic Button')
@@ -94,7 +99,24 @@ describe('Dynamic fields section automation for release checklist', function () 
             cy.get('button').contains(settings.category)
           })
 
+        cy.url().then(($url) => {
+           
+            cy.visit($postUrl)
+            cy.get('.vcv-ui-navbar-control-content').contains('Options').click({force: true})
 
+            cy.contains('.vcv-ui-form-group-heading', 'Title').next().clear().type(settings.newTitle)
+        
+            cy.contains('.vcv-ui-form-link', 'add a new category').click()
+            cy.contains('.vcv-ui-form-group-heading', 'Category').next().clear().type(settings.newCategory)
+            cy.contains('button', 'Add New Category').click()
+
+            cy.contains('.vcv-ui-edit-form-section-header-title', 'Categories').parent().next().contains(settings.category).find('.vcv-ui-form-checkbox-indicator').click()
+    
+            cy.contains('.vcv-ui-form-group-heading', 'Tags').next().find('.vc-tags--search-input').clear().type(settings.newTag)
+    
+            cy.contains('.vcv-ui-form-group-heading', 'Excerpt').next().clear().type(settings.newExcerpt)
+        })
+    })
 
         })
     })
