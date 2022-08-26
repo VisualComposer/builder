@@ -2,6 +2,8 @@
 
 use VisualComposer\Framework\Illuminate\Container\Container as FrameworkContainer;
 
+use function VisualComposer\Framework\esc_html;
+
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
     header('HTTP/1.1 403 Forbidden');
@@ -26,6 +28,9 @@ function vcapp($make = null, $parameters = [])
     return FrameworkContainer::getInstance()->make($make, $parameters);
 }
 
+/**
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+ */
 function vcapi()
 {
     return vcapp('ApiFactory');
@@ -78,7 +83,9 @@ function vcfilter($filter, $body = '', $payload = [], $haltable = false)
  * @param $path
  * @param array $args
  *
- * @return mixed|string
+ * @return string
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+ * @throws \Exception
  */
 function vcview($path, $args = [])
 {
@@ -89,18 +96,20 @@ function vcview($path, $args = [])
 /**
  * @param $path
  * @param array $args
+ *
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function evcview($path, $args = [])
 {
-    // @codingStandardsIgnoreLine
-    echo vcview($path, $args);
+    vcv_print_html(vcview($path, $args));
 }
 
 /**
  * @param $path
  * @param array $args
  *
- * @return mixed|string
+ * @return string
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function vcelementview($path, $args = [])
 {
@@ -112,7 +121,8 @@ function vcelementview($path, $args = [])
  * @param $path
  * @param array $args
  *
- * @return mixed|string
+ * @return string
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function vcaddonview($path, $args = [])
 {
@@ -137,6 +147,7 @@ if (!function_exists('vcvenv')) {
 
 /**
  * @return mixed|\VisualComposer\Application
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function vcvboot()
 {
@@ -145,12 +156,18 @@ function vcvboot()
     return vcapp();
 }
 
+/**
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+ */
 function vcvinit()
 {
     require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
     vcapp()->init();
 }
 
+/**
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+ */
 function vcvadmininit()
 {
     require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
@@ -204,6 +221,7 @@ function vcLogWpHttpCodes($code)
  * @param $errorMessage
  *
  * @return bool
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  * @internal
  *
  */
@@ -288,6 +306,7 @@ function vcIsBadResponse($response)
  * @param $response
  *
  * @return bool
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  * @internal
  *
  */
@@ -372,11 +391,15 @@ function _vcCheckIsResponseBad($response)
  */
 function vcvdie($message = '')
 {
-    // @codingStandardsIgnoreLine
-    echo is_string($message) ? $message : json_encode($message);
+    vcv_print_html(is_string($message) ? $message : wp_json_encode($message));
     if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
-        throw new \Exception($message);
+        throw new Exception($message);
     } else {
         exit;
     }
+}
+
+function vcv_print_html($html)
+{
+    echo esc_html($html);
 }
