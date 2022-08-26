@@ -119,20 +119,21 @@ class JsEnqueueController extends Container implements Module
     protected function printJs($globalJs, $localJs, $sourceId, $part)
     {
         if (vcvenv('VCV_DEBUG')) {
-            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part
+            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . esc_attr($sourceId) . '-' . esc_attr($part)
                 . ' START -->';
         }
         $frontendHelper = vchelper('Frontend');
+        $outputHelper = vchelper('Output');
         if (!$frontendHelper->isPageEditable()) {
             if (!empty($globalJs)) {
-                echo $globalJs;
+                $outputHelper->printNotEscaped($globalJs);
             }
             if (!empty($localJs)) {
-                echo $localJs;
+                $outputHelper->printNotEscaped($localJs);
             }
         }
         if (vcvenv('VCV_DEBUG')) {
-            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part
+            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . esc_attr($sourceId) . '-' . esc_attr($part)
                 . ' END -->';
         }
     }

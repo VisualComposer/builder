@@ -114,10 +114,12 @@ class SettingsController extends Container implements Module
      */
     protected function saveNotice()
     {
-        if (isset($_REQUEST['message']) && $_REQUEST['message'] === 'vcv-saved') {
+        $requestHelper = vchelper('Request');
+        $message = $requestHelper->input('vcv-message');
+        if ($message === 'vcv-saved') {
             echo sprintf(
                 '<div class="notice notice-success"><p>%s</p></div>',
-                __('Your settings are saved.', 'visualcomposer')
+                esc_html__('Your settings are saved.', 'visualcomposer')
             );
         }
     }
@@ -164,13 +166,13 @@ class SettingsController extends Container implements Module
     protected function addActionLinks($links)
     {
         return array_merge(
-            array(
+            [
                 sprintf(
                     '<a href="%s">%s</a>',
-                    admin_url('admin.php?page=vcv-settings'),
+                    esc_url(admin_url('admin.php?page=vcv-settings')),
                     esc_html__('Settings', 'visualcomposer')
                 ),
-            ),
+            ],
             $links
         );
     }

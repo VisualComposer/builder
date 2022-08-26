@@ -60,7 +60,8 @@ class ItemInitialHelpersController extends Container implements Module
 
         $fieldCallback = function () {
             /** @see \VisualComposer\Modules\Editors\Settings\itemInitialHelpersEnabled::renderToggle */
-            echo $this->call('renderToggle', ['value' => 'itemInitialHelpersEnabled']);
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($this->call('renderToggle', ['value' => 'itemInitialHelpersEnabled']));
         };
 
         $this->addField(

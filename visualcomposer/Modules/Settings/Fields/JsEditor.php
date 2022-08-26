@@ -76,9 +76,11 @@ class JsEditor extends Container implements Module
             ],
         ];
 
+        $outputHelper = vchelper('Output');
+
         foreach ($globalJsSettings as $globalSetting) {
-            $fieldCallback = function ($data) use ($globalSetting) {
-                echo $this->call('renderEditor', ['data' => $data, 'globalSetting' => $globalSetting]);
+            $fieldCallback = function ($data) use ($globalSetting, $outputHelper) {
+                $outputHelper->printNotEscaped($this->call('renderEditor', ['data' => $data, 'globalSetting' => $globalSetting]));
             };
 
             $this->addField(

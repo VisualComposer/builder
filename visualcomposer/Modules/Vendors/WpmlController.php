@@ -125,6 +125,8 @@ class WpmlController extends Container implements Module
                 continue;
             }
             // Make the magic
+            // Content Encoded in Base64 as it is safe to use in URL and JSON
+            // @codingStandardsIgnoreLine
             $pageContent = json_decode(rawurldecode(base64_decode($field['data'])), true);
 
             $translations = [];
@@ -164,6 +166,8 @@ class WpmlController extends Container implements Module
             $key = implode('.', $translation['path']);
             $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0' ] = [
                 'translate' => 1,
+                // Content Encoded in Base64 as it is safe to use in URL and JSON
+                // @codingStandardsIgnoreLine
                 'data' => base64_encode($translation['value']),
                 'format' => 'base64',
             ];
@@ -205,6 +209,7 @@ class WpmlController extends Container implements Module
         }
 
         $pageContent = json_decode(
+        // Content Encoded in Base64 as it is safe to use in URL and JSON
         // @codingStandardsIgnoreLine
             rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data)),
             true
@@ -241,7 +246,7 @@ class WpmlController extends Container implements Module
         // Encode back updated translation
         // @codingStandardsIgnoreLine
         $job->elements[ $pageContentIndex ]->field_data_translated = base64_encode(
-            rawurlencode(json_encode($pageContent))
+            rawurlencode(wp_json_encode($pageContent))
         );
 
         return $fields;
@@ -250,10 +255,11 @@ class WpmlController extends Container implements Module
     protected function createNotice()
     {
         global $pagenow;
-
+        $requestHelper = vchelper('Request');
+        $page = $requestHelper->input('page');
         if (
-            isset($_GET['page']) && $pagenow === 'admin.php'
-            && strpos($_GET['page'], 'wpml-translation-management') !== false
+            $pagenow === 'admin.php'
+            && strpos($page, 'wpml-translation-management') !== false
         ) {
             // Add notice that after translation you have to open automatic post updates page: %url%
             $class = 'notice notice-info';
@@ -261,11 +267,13 @@ class WpmlController extends Container implements Module
                 '<div class="%1$s"><p>%2$s</p></div>',
                 esc_attr($class),
                 sprintf(
-                    __(
-                        '<b>Visual Composer:</b> To complete WPML Translation Manager process for the Visual Composer supported pages you will need to run automatic posts update. <a href="%s">Update Posts</a>',
+                    esc_html__(
+                        '%sVisual Composer:%s To complete WPML Translation Manager process for the Visual Composer supported pages you will need to run automatic posts update. <a href="%s">Update Posts</a>',
                         'visualcomposer'
                     ),
-                    admin_url('admin.php?page=vcv-update')
+                    '<strong>',
+                    '</strong>',
+                    esc_url(admin_url('admin.php?page=vcv-update'))
                 )
             );
         }

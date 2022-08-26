@@ -63,7 +63,8 @@ class GeneratePressController extends Container implements Module
          * @since 0.1
          */
         do_action('generate_inside_container');
-        echo ob_get_clean();
+        $outputHelper = vchelper('Output');
+        $outputHelper->printNotEscaped(ob_get_clean());
     }
 
     /**

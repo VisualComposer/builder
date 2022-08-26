@@ -96,7 +96,8 @@ class MenuController extends Container implements Module
                     $content
                 );
             }
-            echo $content;
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($content);
         }
     }
 

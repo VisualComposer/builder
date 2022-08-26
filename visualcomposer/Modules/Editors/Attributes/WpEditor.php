@@ -174,7 +174,7 @@ class WpEditor extends Container implements Module
             wp_print_styles('editor-buttons');
             $this->editorButtonStyles = ob_get_clean();
         }
-
-        echo $this->editorButtonStyles;
+        $outputHelper = vchelper('Output');
+        $outputHelper->printNotEscaped($this->editorButtonStyles);
     }
 }

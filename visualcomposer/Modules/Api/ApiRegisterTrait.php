@@ -50,9 +50,7 @@ trait ApiRegisterTrait
         if (in_array($name, $this->publicMethods)) {
             return $this->call($name, $arguments);
         } else {
-            throw new \Exception('API: ' . __CLASS__ . ' Method ' . esc_attr(strip_tags($name)) . ' is not public!');
+            throw new \Exception('API: ' . __CLASS__ . ' Method ' . esc_attr(wp_strip_all_tags($name)) . ' is not public!');
         }
-
-        return false;
     }
 }

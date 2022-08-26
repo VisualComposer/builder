@@ -65,7 +65,8 @@ class ItemBadgeController extends Container implements Module
 
         $fieldCallback = function () {
             /** @see \VisualComposer\Modules\Editors\Settings\itemBadgeEnabled::renderToggle */
-            echo $this->call('renderToggle', ['value' => true]);
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($this->call('renderToggle', ['value' => true]));
         };
 
         $this->addField(
@@ -74,7 +75,7 @@ class ItemBadgeController extends Container implements Module
                 'title' => __('Add badge', 'visualcomposer'),
                 'name' => 'settings-item-badge-enabled',
                 'id' => $this->optionSlug,
-                'fieldCallback' => $fieldCallback
+                'fieldCallback' => $fieldCallback,
             ]
         );
     }
@@ -110,7 +111,8 @@ class ItemBadgeController extends Container implements Module
         $badgeUrl = $urlHelper->assetUrl('images/created-with-badge.svg');
 
         if ($isEnabled) {
-            echo '<a class="vcv-settings-badge" target="_blank" href=' . esc_url($utmHelper->get('created-with-badge-button')) . ' rel="noopener noreferrer"><img src="' . esc_url($badgeUrl) . '" alt="Created with Visual Composer" /></a>';
+            echo '<a class="vcv-settings-badge" target="_blank" href=' . esc_url($utmHelper->get('created-with-badge-button')) . ' rel="noopener noreferrer"><img src="' . esc_url($badgeUrl)
+                . '" alt="Created with Visual Composer" /></a>';
         }
     }
 

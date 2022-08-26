@@ -59,11 +59,14 @@ trait ShortcodesTrait
         ob_start();
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
         $shortcodeString = $this->call('renderEditorShortcode');
+        $outputHelper = vchelper('Output');
         do_action('wp_loaded'); // Fix for WooCommerce
         // @codingStandardsIgnoreLine
-        echo apply_filters(
-            'the_content',
-            $shortcodeString
+        $outputHelper->printNotEscaped(
+            apply_filters(
+                'the_content',
+                $shortcodeString
+            )
         );
         wp_print_styles();
         print_late_styles();
@@ -109,6 +112,8 @@ trait ShortcodesTrait
             '[%s %s]%s[/%s]',
             $this->shortcodeTag,
             $strHelper->buildQueryString($atts),
+            // Build shortcode content in protected mode
+            // @codingStandardsIgnoreLine
             rawurlencode(base64_encode($content)),
             $this->shortcodeTag
         );

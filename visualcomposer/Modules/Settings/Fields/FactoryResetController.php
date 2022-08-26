@@ -78,12 +78,13 @@ class FactoryResetController extends Container implements Module
                 'Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s.',
                 'visualcomposer'
             );
-            // @codingStandardsIgnoreStart
-            echo sprintf(
-                '<p class="description">%s</p>',
-                sprintf($sectionDescription, $link)
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped(
+                sprintf(
+                    '<p class="description">%s</p>',
+                    sprintf($sectionDescription, $link)
+                )
             );
-            // @codingStandardsIgnoreEnd
         };
         $this->addSection(
             [

@@ -105,7 +105,8 @@ class Controller extends Container implements Module
             // @codingStandardsIgnoreEnd
             $content = do_shortcode($content);
             $content = convert_smilies($content);
-            echo $content;
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($content);
             $shortcodeContents = ob_get_clean();
             ob_start();
             wp_footer();

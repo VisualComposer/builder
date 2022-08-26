@@ -36,15 +36,15 @@ class CustomPostTypesController extends Container implements Module
                     $this->wpAddAction(
                         'admin_footer',
                         function () {
-                            echo <<<STYLE
+                            $js = <<<JS
 <script>
 (function() {
-  var handler = function() {
+  let handler = function() {
       // This page used in iframe - on click we should modify iframe parent window
-      var linksToParent = ['a']
+      let linksToParent = ['a']
       linksToParent.forEach(function(item) {
         document.querySelectorAll(item).forEach(function(node) {
-          if(node.href.indexOf('action=edit') !== -1 || node.href.indexOf('post-new.php') !== -1) {
+          if (node.href.indexOf('action=edit') !== -1 || node.href.indexOf('post-new.php') !== -1) {
             // if not row-action parent then reload parent page
             node.target = '_parent'
           }
@@ -52,9 +52,11 @@ class CustomPostTypesController extends Container implements Module
       })
   }
   document.addEventListener('DOMContentLoaded', handler)
-})()
+})();
 </script>
-STYLE;
+JS;
+                            $outputHelper = vchelper('Output');
+                            $outputHelper->printNotEscaped($js);
                         }
                     );
                 }

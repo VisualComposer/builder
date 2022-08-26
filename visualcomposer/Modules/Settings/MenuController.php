@@ -92,7 +92,8 @@ class MenuController extends Container implements Module
 
     protected function addMenuCss()
     {
-        echo <<<CSS
+        $outputHelper = vchelper('Output');
+        $css = <<<CSS
     <style>
         #toplevel_page_vcv-settings .wp-submenu .vcv-ui-state--hidden,
         #toplevel_page_vcv-getting-started .wp-submenu .vcv-ui-state--hidden {
@@ -100,6 +101,7 @@ class MenuController extends Container implements Module
         }
     </style>
 CSS;
+        $outputHelper->printNotEscaped($css);
     }
 
     /**
@@ -123,8 +125,8 @@ CSS;
             }
 
             if ($index !== false) {
-                $topLevelMenu[] = $submenu['vcv-settings'][$index];
-                unset($submenu['vcv-settings'][$index]);
+                $topLevelMenu[] = $submenu['vcv-settings'][ $index ];
+                unset($submenu['vcv-settings'][ $index ]);
             }
         }
 

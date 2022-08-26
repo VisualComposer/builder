@@ -111,9 +111,9 @@ class StockMediaDownloadController extends Container implements Module
      */
     protected function downloadImage($imageUrl, $imageSize, $stockMediaType, File $fileHelper)
     {
-        $parseUrl = parse_url($imageUrl);
+        $parseUrl = wp_parse_url($imageUrl);
         if (
-            in_array($stockMediaType, ['giphy','unsplash'], true)
+            in_array($stockMediaType, ['giphy', 'unsplash'], true)
             && preg_match('/(.*)(\.' . $stockMediaType . '\.com)$/', $parseUrl['host'])
         ) {
             if ($stockMediaType === 'unsplash') {
@@ -206,7 +206,7 @@ class StockMediaDownloadController extends Container implements Module
             if (defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated()) {
                 $variables[] = [
                     'key' => 'VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY',
-                    'value' => VCV_AUTHOR_API_KEY,
+                    'value' => constant('VCV_AUTHOR_API_KEY'),
                     'type' => 'constant',
                 ];
             }
@@ -332,7 +332,7 @@ class StockMediaDownloadController extends Container implements Module
                 $licenseKey,
                 VCV_PLUGIN_URL,
                 defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated() ? ('&author_api_key='
-                    . VCV_AUTHOR_API_KEY) : ''
+                    . constant('VCV_AUTHOR_API_KEY')) : ''
             );
         }
         $response = wp_remote_get(
