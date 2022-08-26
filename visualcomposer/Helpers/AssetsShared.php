@@ -11,15 +11,32 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
+/**
+ *
+ */
 class AssetsShared extends Container implements Helper
 {
+    /**
+     * @var null
+     */
     protected static $assetsLibrariesCache = null;
 
+    /**
+     * @param $name
+     * @param $path
+     *
+     * @return string
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     protected function renameLocalPath($name, $path)
     {
         return vchelper('Url')->to(str_replace('[publicPath]/', 'public/sources/assetsLibrary/' . $name . '/', $path));
     }
 
+    /**
+     * @return array|null
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     public function getSharedAssets()
     {
         if (empty(self::$assetsLibrariesCache)) {
@@ -32,6 +49,12 @@ class AssetsShared extends Container implements Helper
         return self::$assetsLibrariesCache;
     }
 
+    /**
+     * @param $assets
+     *
+     * @return \VisualComposer\Helpers\Options
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     public function setSharedAssets($assets)
     {
         $optionsHelper = vchelper('Options');
@@ -40,6 +63,11 @@ class AssetsShared extends Container implements Helper
         return $optionsHelper->set('assetsLibrary', $assets);
     }
 
+    /**
+     * @param $filePath
+     *
+     * @return string
+     */
     public function getPluginsAssetUrl($filePath = '')
     {
         if (preg_match('/^http/', $filePath)) {
@@ -56,7 +84,7 @@ class AssetsShared extends Container implements Helper
      *
      * @param $path
      *
-     * @return mixed
+     * @return array|string|string[]
      */
     public function relative($path)
     {
@@ -84,7 +112,8 @@ class AssetsShared extends Container implements Helper
      *
      * @param $assetsPath
      *
-     * @return mixed
+     * @return array|null
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function findLocalAssetsPath($assetsPath)
     {
@@ -228,6 +257,7 @@ class AssetsShared extends Container implements Helper
      * @param $assetsLibraries
      *
      * @return array
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function parseJsonFile($assetsLibraries)
     {

@@ -67,12 +67,12 @@ class WpMedia implements Helper
             if (is_array($thumb_size)) {
                 // Resize image to custom size
                 $p_img = $this->resizeImageById($attach_id, $thumb_size[0], $thumb_size[1], true);
-                $alt = trim(strip_tags(get_post_meta($attach_id, '_wp_attachment_image_alt', true)));
+                $alt = trim(wp_strip_all_tags(get_post_meta($attach_id, '_wp_attachment_image_alt', true)));
                 $attachment = get_post($attach_id);
                 if (!empty($attachment)) {
-                    $title = trim(strip_tags($attachment->post_title));
+                    $title = trim(wp_strip_all_tags($attachment->post_title));
                     if (empty($alt)) {
-                        $alt = trim(strip_tags($attachment->post_excerpt)); // If not, Use the Caption
+                        $alt = trim(wp_strip_all_tags($attachment->post_excerpt)); // If not, Use the Caption
                     }
                     if (empty($alt)) {
                         $alt = $title;

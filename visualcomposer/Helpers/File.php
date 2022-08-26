@@ -26,7 +26,8 @@ class File implements Helper
             return false;
         }
 
-        return file_get_contents($filePath);
+        // get content from using file system
+        return $this->getFileSystem()->get_contents($filePath);
     }
 
     /**
@@ -37,7 +38,8 @@ class File implements Helper
      */
     public function setContents($filePath, $contents)
     {
-        return file_put_contents($filePath, $contents);
+        // set content using file system
+        return $this->getFileSystem()->put_contents($filePath, $contents);
     }
 
     /**
@@ -170,6 +172,7 @@ class File implements Helper
      */
     public function getRemoteContents($url)
     {
+        // @TODO Remove all this..
         $remoteContent = $this->doRequest($url);
         if ($remoteContent) {
             return $remoteContent;
@@ -210,7 +213,7 @@ class File implements Helper
             $response = false;
         }
 
-        return $response;
+        return $response
     }
 
     /**

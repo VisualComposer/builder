@@ -51,13 +51,14 @@ class Templates implements Helper
     public function readBundles($bundlePathList)
     {
         $templates = [];
+        $fileHelper = vchelper('File');
 
         foreach ($bundlePathList as $bundlePath) {
-            $bundle = json_decode(file_get_contents($bundlePath), true);
+            $bundle = json_decode($fileHelper->getContents($bundlePath), true);
             $dirname = dirname($bundlePath);
             $tag = basename($dirname);
 
-            $templates[$tag] = $bundle;
+            $templates[ $tag ] = $bundle;
         }
 
         return $templates;
@@ -278,7 +279,6 @@ class Templates implements Helper
 
         return $templateElements;
     }
-
 
     /**
      * @param array $templateElements

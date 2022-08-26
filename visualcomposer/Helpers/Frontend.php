@@ -68,10 +68,11 @@ class Frontend implements Helper
         global $pagenow;
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        if (!isset($_GET['post_type'])) {
+        $postType = $requestHelper->input('post_type');
+        if (!$requestHelper->exists('post_type') || empty($postType)) {
             $postType = 'post';
-        } elseif (in_array($_GET['post_type'], get_post_types(['show_ui' => true]), true)) {
-            $postType = $_GET['post_type'];
+        } elseif (in_array($postType, get_post_types(['show_ui' => true]), true)) {
+            $postType = esc_attr($postType);
         } else {
             return false; // wrong or not post type at all (like index.php)
         }
@@ -144,7 +145,7 @@ class Frontend implements Helper
     {
         $isVcvFrontend = true;
         if ($this->isPageEditable()) {
-            return $isVcvFrontend;
+            return true;
         }
 
         if (is_singular()) {
@@ -239,6 +240,7 @@ class Frontend implements Helper
         if (function_exists('wp_filter_content_tags')) {
             $sourceContent = wp_filter_content_tags($sourceContent);
         } else {
+            // @deprecated since WordPress 5.5
             $sourceContent = wp_make_content_images_responsive($sourceContent);
         }
         $sourceContent = do_shortcode($sourceContent);

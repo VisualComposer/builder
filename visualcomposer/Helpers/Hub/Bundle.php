@@ -342,10 +342,11 @@ class Bundle implements Helper
      */
     protected function downloadRemoteBundleJson($url, $result, $loggerHelper)
     {
-        $response = vchelper('File')->download($url);
+        $fileHelper = vchelper('File');
+        $response = $fileHelper->download($url);
         if (!vcIsBadResponse($response)) {
             // $file /tmp/temp.tmp
-            $result = json_decode(file_get_contents($response), true);
+            $result = json_decode($fileHelper->getContents($response), true);
         } else {
             $messages = [];
             $messages[] = __('Failed to read remote bundle JSON.', 'visualcomposer') . ' #10006';

@@ -251,8 +251,9 @@ class Addons implements Helper
     public function readManifests(array $manifests)
     {
         $addons = [];
+        $fileHelper = vchelper('File');
         foreach ($manifests as $manifestPath) {
-            $manifest = json_decode(file_get_contents($manifestPath), true);
+            $manifest = json_decode($fileHelper->getContents($manifestPath), true);
             $dirname = dirname($manifestPath);
             $tag = basename($dirname);
             if (isset($manifest['addons'])) {

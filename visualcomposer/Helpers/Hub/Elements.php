@@ -301,10 +301,9 @@ class Elements implements Helper
     public function readManifests(array $manifests, $pathToElementFolder, $urlToElementFolder)
     {
         $elements = [];
-        $urlHelper = vchelper('Url');
-        $vcapp = vcapp();
+        $fileHelper = vchelper('File');
         foreach ($manifests as $manifestPath) {
-            $manifest = json_decode(file_get_contents($manifestPath), true);
+            $manifest = json_decode($fileHelper->getContents($manifestPath), true);
             $dirname = dirname($manifestPath);
             $tag = basename($dirname);
             if (!isset($manifest['elements'], $manifest['elements'][ $tag ])) {
@@ -328,7 +327,7 @@ class Elements implements Helper
                 str_replace(
                     '[publicPath]',
                     $urlToElementFolder . $tag . '/' . $tag . '/public',
-                    json_encode($element)
+                    wp_json_encode($element)
                 ),
                 true
             );
