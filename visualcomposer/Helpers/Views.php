@@ -28,6 +28,7 @@ class Views extends container implements Helper
      *
      * @return string Rendered view.
      * @note Do not modify variables name! Because it will be passed into `include`
+     * @throws \Exception
      */
     public function render($_path, $_args = [])
     {
@@ -51,7 +52,6 @@ class Views extends container implements Helper
                 'args' => $_args,
             ]
         );
-        /** @noinspection PhpIncludeInspection */
         if (file_exists($_path)) {
             include($_path);
         } elseif (vcvenv('VCV_DEBUG')) {
@@ -68,7 +68,9 @@ class Views extends container implements Helper
      * @param $section
      * @param $slug
      *
+     * @return bool
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function doNestedSection($section, $slug)
     {
@@ -82,18 +84,22 @@ class Views extends container implements Helper
                 <span class="vcv-dashboard-accordion-item-heading-text">' . esc_html($section['title']) . '</span>
                 </div>';
             echo '<div class="vcv-dashboard-accordion-item-content">';
-            echo isset($section['description']) ? ('<p class="description">' . esc_html($section['description']) . '</p>') : '';
+            if (isset($section['description'])) {
+                echo '<p class="description">' . esc_html($section['description']) . '</p>';
+            } else {
+                echo '';
+            }
         }
         echo sprintf(
             '<div class="%s-section %s_%s%s">',
             esc_attr($slug),
             esc_attr($section['group']),
             esc_attr($section['slug']),
-            $class
+            esc_attr($class)
         );
         echo '<div class="vcv-dashboard-accordion-item-title">';
         if ($section['title'] && !$hideTitle) {
-            echo "<h2>{$section['title']}</h2>\n";
+            echo "<h2>" . esc_html($section['title']) . "</h2>\n";
         }
         if (isset($section['headerFooterCallback'])) {
             call_user_func($section['headerFooterCallback'], $section);
@@ -133,24 +139,27 @@ class Views extends container implements Helper
             $class = '';
 
             if (!empty($field['args']['class'])) {
-                $class = ' class="' . esc_attr($field['args']['class']) . '"';
+                $class = esc_attr($field['args']['class']);
             }
-
-            echo "<tr{$class}>";
+            echo '<tr class="' . esc_attr($class) . '">';
 
             if (empty($field['args']['vcv-no-label'])) {
                 if (!empty($field['args']['label_for'])) {
-                    echo '<th scope="row"><label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title']
+                    echo '<th scope="row"><label for="' . esc_attr($field['args']['label_for']) . '">' . esc_html($field['title'])
                         . '</label></th>';
                 } else {
                     echo '<th scope="row">';
-                    echo $field['title'];
-                    echo isset($field['help']) ? '<span class="vcv-help-tooltip-container">
+                    echo esc_html($field['title']);
+                    if (isset($field['help'])) {
+                        echo '<span class="vcv-help-tooltip-container">
                         <span class="vcv-help-tooltip-icon"></span>
                         <span class="vcv-help-tooltip">
-                        ' . $field['help'] . '
+                        ' . esc_html($field['help']) . '
                         </span>
-                      </span>' : '';
+                      </span>';
+                    } else {
+                        echo '';
+                    }
                     echo '</th>';
                 }
             }
@@ -169,7 +178,7 @@ class Views extends container implements Helper
             . '" />';
         echo sprintf(
             '<input type="hidden" name="vcv-settings-rendered-fields" value="%s" />',
-            htmlentities(wp_json_encode(array_values(array_unique($this->renderedFields))))
+            esc_attr(htmlentities(wp_json_encode(array_values(array_unique($this->renderedFields)))))
         );
         $this->renderedFields = [];
     }

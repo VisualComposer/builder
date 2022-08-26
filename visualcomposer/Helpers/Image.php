@@ -260,7 +260,7 @@ class Image implements Helper
         if (
             is_ssl()
             && strpos($baseUrl, 'https') !== 0
-            && parse_url($baseUrl, PHP_URL_HOST) === $_SERVER['HTTP_HOST']
+            && wp_parse_url($baseUrl, PHP_URL_HOST) === $_SERVER['HTTP_HOST']
         ) {
             $baseUrl = set_url_scheme($baseUrl, 'https');
         }

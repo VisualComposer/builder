@@ -151,7 +151,7 @@ AND b.meta_key='_vcv-type' AND b.meta_value='custom'
         $template = vchelper('PostType')->get($templateId, 'vcv_templates');
         if (vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
             $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
-            $templateElements = $templateElements = $this->getTemplateElements($meta, $template);
+            $templateElements = $this->getTemplateElements($meta, $template);
             $template->vcvTemplateElements = $templateElements;
         }
 

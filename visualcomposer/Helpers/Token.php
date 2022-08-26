@@ -33,7 +33,7 @@ class Token extends Container implements Helper
             $body['license-key'] = $licenseHelper->getKey();
             $url = vcvenv('VCV_TOKEN_URL');
             if (defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated()) {
-                $body['author_api_key'] = VCV_AUTHOR_API_KEY;
+                $body['author_api_key'] = constant('VCV_AUTHOR_API_KEY');
                 $url = vcvenv('VCV_THEME_TOKEN_URL');
             }
             $url = vchelper('Url')->query($url, $body);

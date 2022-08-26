@@ -139,11 +139,10 @@ class License extends Container implements Helper
      * @param $errorCode
      *
      * @codingStandardsIgnoreStart
-     * @return string|void
+     * @return string
      */
     public function licenseErrorCodes($errorCode)
     {
-        $message = '';
         $utmHelper = vchelper('Utm');
         switch ($errorCode) {
             case 'expired':
@@ -204,7 +203,7 @@ class License extends Container implements Helper
     /**
      * Hub terms agreement for free users
      *
-     * @return string|void
+     * @return bool
      */
     public function agreeHubTerms()
     {
