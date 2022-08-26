@@ -109,6 +109,17 @@
     <rule ref="Generic.PHP.ForbiddenFunctions"/>
     <rule ref="Generic.Classes.DuplicateClassName"/>
     <rule ref="WordPress.Security.SafeRedirect"/>
+    <rule ref="WordPress.Security.NonceVerification"/>
+    <rule ref="WordPress.Security.EscapeOutput"/>
+    <rule ref="WordPress.PHP.DevelopmentFunctions"/>
+    <rule ref="WordPress.PHP.DiscouragedPHPFunctions"/>
+    <rule ref="WordPress.WP.DeprecatedFunctions"/>
+    <rule ref="WordPress.WP.DeprecatedClasses"/>
+    <rule ref="WordPress.WP.DeprecatedParameters"/>
+    <rule ref="WordPress.WP.DeprecatedParameterValues"/>
+    <rule ref="WordPress.WP.AlternativeFunctions"/>
+    <rule ref="WordPress.WP.DiscouragedConstants"/>
+    <rule ref="WordPress.WP.DiscouragedFunctions"/>
 
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
