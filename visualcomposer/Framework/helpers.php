@@ -2,8 +2,6 @@
 
 use VisualComposer\Framework\Illuminate\Container\Container as FrameworkContainer;
 
-use function VisualComposer\Framework\esc_html;
-
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
     header('HTTP/1.1 403 Forbidden');
@@ -101,7 +99,9 @@ function vcview($path, $args = [])
  */
 function evcview($path, $args = [])
 {
-    vcv_print_html(vcview($path, $args));
+    $outputHelper = vchelper('Output');
+
+    $outputHelper->printNotEscaped(vcview($path, $args));
 }
 
 /**
@@ -391,15 +391,10 @@ function _vcCheckIsResponseBad($response)
  */
 function vcvdie($message = '')
 {
-    vcv_print_html(is_string($message) ? $message : wp_json_encode($message));
+    echo esc_html(is_string($message) ? $message : wp_json_encode($message));
     if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
         throw new Exception($message);
     } else {
         exit;
     }
-}
-
-function vcv_print_html($html)
-{
-    echo esc_html($html);
 }

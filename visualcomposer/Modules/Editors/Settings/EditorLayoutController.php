@@ -61,7 +61,8 @@ class EditorLayoutController extends Container implements Module
         );
 
         $dropdownFieldCallback = function () {
-            echo $this->call('renderAboveContentDropdown');
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($this->call('renderAboveContentDropdown'));
         };
 
         $this->addField(

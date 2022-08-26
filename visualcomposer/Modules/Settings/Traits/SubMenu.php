@@ -40,6 +40,7 @@ trait SubMenu
 
         if ($hasAccess) {
             global $submenu;
+            $outputHelper = vchelper('Output');
 
             if (isset($page['external'])) {
                 $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
@@ -53,9 +54,9 @@ trait SubMenu
                             'isDashboardPage' => isset($page['isDashboardPage']) && $page['isDashboardPage'],
                             'hideTitle' => '',
                             'iconClass' => '',
-                            'callback' => function () use ($page) {
+                            'callback' => function () use ($page, $outputHelper) {
                                 /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage */
-                                echo $this->call('renderContent', ['page' => $page]);
+                                $outputHelper->printNotEscaped($this->call('renderContent', ['page' => $page]));
                             },
                         ],
                         $page
@@ -69,13 +70,13 @@ trait SubMenu
                     $page['title'],
                     !empty($part) ? 'edit_posts' : $capability,
                     $page['slug'],
-                    function () use ($page) {
+                    function () use ($page, $outputHelper) {
                         /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
                         if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
                             $page['layout'] = 'dashboard-main-layout';
                         }
 
-                        echo $this->call('renderPage', ['page' => $page]);
+                        $outputHelper->printNotEscaped($this->call('renderPage', ['page' => $page]));
                     }
                 );
 
@@ -86,7 +87,7 @@ trait SubMenu
                 if (isset($page['hideInWpMenu']) && $page['hideInWpMenu']) {
                     $extraClass .= ' vcv-ui-state--hidden';
                 }
-                $submenu[$mainPageSlug][ count($submenu[$mainPageSlug]) - 1 ][4] = $extraClass;
+                $submenu[ $mainPageSlug ][ count($submenu[ $mainPageSlug ]) - 1 ][4] = $extraClass;
             }
         }
     }

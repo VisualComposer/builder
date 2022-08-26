@@ -59,13 +59,14 @@ class ItemDataCollectionController extends Container implements Module
                 'callback' => $sectionCallback,
             ]
         );
+        $outputHelper = vchelper('Output');
 
-        $fieldCallback = function () {
+        $fieldCallback = function () use ($outputHelper) {
             /** @see \VisualComposer\Modules\Editors\Settings\itemDataCollectionEnabled::renderToggle */
-            echo $this->call('renderToggle', ['value' => 'itemDataCollectionEnabled']);
+            $outputHelper->printNotEscaped($this->call('renderToggle', ['value' => 'itemDataCollectionEnabled']));
         };
-        $innerTableCallback = function () {
-            echo $this->call('renderTable', ['value' => 'itemDataCollectionTable']);
+        $innerTableCallback = function () use ($outputHelper) {
+            $outputHelper->printNotEscaped($this->call('renderTable', ['value' => 'itemDataCollectionTable']));
         };
 
         $this->addField(
@@ -101,7 +102,7 @@ class ItemDataCollectionController extends Container implements Module
                 'fieldCallback' => $innerTableCallback,
                 'args' => [
                     'vcv-no-label' => true,
-                ]
+                ],
             ]
         );
     }

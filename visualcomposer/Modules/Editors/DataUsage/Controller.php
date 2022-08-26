@@ -86,15 +86,17 @@ class Controller extends Container implements Module
             'vcv-hashed-url' => $licenseHelper->getHashedKey(get_site_url()),
         ];
 
-        $json = json_encode($data);
+        $json = wp_json_encode($data);
         $zip = zlib_encode($json, ZLIB_ENCODING_DEFLATE);
+        // Base64 is safe to send through the network
+        // @codingStandardsIgnoreLine
         $encodedData = base64_encode($zip);
 
         $response = wp_remote_post(
             vcvenv('VCV_HUB_URL'),
             [
                 'body' => [
-                    'vcv-send-usage-statistics' => $encodedData
+                    'vcv-send-usage-statistics' => $encodedData,
                 ],
                 'timeout' => 30,
             ]
@@ -144,8 +146,8 @@ class Controller extends Container implements Module
         $optionsHelper = vchelper('Options');
         $usageStats = [];
         $teaserDownloads = $optionsHelper->get('downloadedContent');
-        if (unserialize($teaserDownloads)) {
-            $usageStats['downloadedContent'] = unserialize($teaserDownloads);
+        if (maybe_unserialize($teaserDownloads)) {
+            $usageStats['downloadedContent'] = maybe_unserialize($teaserDownloads);
         }
 
         $licenseHelper = vchelper('License');
@@ -156,16 +158,16 @@ class Controller extends Container implements Module
                 $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementDiffs', true);
                 $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templates', true);
 
-                if (unserialize($editorUsage)) {
+                if (maybe_unserialize($editorUsage)) {
                     $editorUsageData = $this->getEditorUsageData($editorUsage);
 
-                    $usageStats[$hashedId]['editorUsage'] = $editorUsageData;
+                    $usageStats[ $hashedId ]['editorUsage'] = $editorUsageData;
                 }
-                if (unserialize($elementUsage)) {
-                    $usageStats[$hashedId]['elementUsage'] = unserialize($elementUsage);
+                if (maybe_unserialize($elementUsage)) {
+                    $usageStats[ $hashedId ]['elementUsage'] = maybe_unserialize($elementUsage);
                 }
-                if (unserialize($templateUsage)) {
-                    $usageStats[$hashedId]['templateUsage'] = unserialize($templateUsage);
+                if (maybe_unserialize($templateUsage)) {
+                    $usageStats[ $hashedId ]['templateUsage'] = maybe_unserialize($templateUsage);
                 }
             }
         }
@@ -184,15 +186,15 @@ class Controller extends Container implements Module
     {
         // @codingStandardsIgnoreLine
         global $wp_version;
-        $editorUsageData = unserialize($editorUsage);
+        $editorUsageData = maybe_unserialize($editorUsage);
         if (is_array($editorUsageData)) {
             $activeTheme = wp_get_theme();
             foreach ($editorUsageData as $key => $value) {
-                $editorUsageData[$key]['phpVersion'] = phpversion();
+                $editorUsageData[ $key ]['phpVersion'] = phpversion();
                 // @codingStandardsIgnoreLine
-                $editorUsageData[$key]['wpVersion'] = $wp_version;
-                $editorUsageData[$key]['vcvVersion'] = VCV_VERSION;
-                $editorUsageData[$key]['activeTheme'] = $activeTheme->get('Name');
+                $editorUsageData[ $key ]['wpVersion'] = $wp_version;
+                $editorUsageData[ $key ]['vcvVersion'] = VCV_VERSION;
+                $editorUsageData[ $key ]['activeTheme'] = $activeTheme->get('Name');
             }
         } else {
             $editorUsageData = [];
@@ -332,9 +334,9 @@ class Controller extends Container implements Module
         $optionsHelper = vchelper('Options');
 
         $editorUsage = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', true);
-        $editorUsage = unserialize($editorUsage);
+        $editorUsage = maybe_unserialize($editorUsage);
 
-        if (! is_array($editorUsage)) {
+        if (!is_array($editorUsage)) {
             $editorUsage = [];
         }
 
@@ -342,7 +344,7 @@ class Controller extends Container implements Module
         $lastSentDate = $optionsHelper->get('lastSentDate');
         foreach ($editorUsage as $key => $value) {
             if ($value['timestamp'] < $lastSentDate) {
-                unset($editorUsage[$key]);
+                unset($editorUsage[ $key ]);
             }
         }
         $editorUsage[] = [
@@ -353,7 +355,7 @@ class Controller extends Container implements Module
             'timestamp' => time(),
         ];
 
-        $editorUsage = serialize($editorUsage);
+        $editorUsage = maybe_unserialize($editorUsage);
 
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
     }
@@ -372,19 +374,19 @@ class Controller extends Container implements Module
         $elements = json_decode($elements, true);
         if ($elements) {
             foreach ($elements as $key => $value) {
-                $elements[$key]['pageId'] = $licenseHelper->getHashedKey($elements[$key]['pageId']);
-                $elements[$key]['date'] = $date;
+                $elements[ $key ]['pageId'] = $licenseHelper->getHashedKey($elements[ $key ]['pageId']);
+                $elements[ $key ]['date'] = $date;
             }
         }
 
         $previousElements = get_post_meta($sourceId, '_' . VCV_PREFIX . 'elements', true);
-        $previousElements = unserialize($previousElements);
+        $previousElements = maybe_unserialize($previousElements);
 
         $newElements = $this->getNewElements($previousElements, $elements);
-        $newElements = serialize($newElements);
+        $newElements = maybe_serialize($newElements);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementDiffs', $newElements);
 
-        $elements = serialize($elements);
+        $elements = maybe_serialize($elements);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'allElements', $elements);
     }
 
@@ -394,8 +396,8 @@ class Controller extends Container implements Module
         if ($previousElements) {
             $mergedElements = array_merge($previousElements, $elements);
             foreach ($mergedElements as $key => $value) {
-                if (!isset($elements[$key])) {
-                    $newElements[$key] = [
+                if (!isset($elements[ $key ])) {
+                    $newElements[ $key ] = [
                         'pageId' => $value['pageId'],
                         'name' => $value['name'],
                         'count' => $value['count'],
@@ -405,8 +407,8 @@ class Controller extends Container implements Module
                         'date' => time(),
                     ];
                 }
-                if (!isset($previousElements[$key])) {
-                    $newElements[$key] = [
+                if (!isset($previousElements[ $key ])) {
+                    $newElements[ $key ] = [
                         'pageId' => $value['pageId'],
                         'name' => $value['name'],
                         'count' => $value['count'],
@@ -416,10 +418,10 @@ class Controller extends Container implements Module
                         'date' => time(),
                     ];
                 }
-                if (isset($elements[$key]) && isset($previousElements[$key])) {
-                    $diff = $elements[$key]['count'] - $previousElements[$key]['count'];
+                if (isset($elements[ $key ]) && isset($previousElements[ $key ])) {
+                    $diff = $elements[ $key ]['count'] - $previousElements[ $key ]['count'];
                     if ($diff !== 0) {
-                        $newElements[$key] = [
+                        $newElements[ $key ] = [
                             'pageId' => $value['pageId'],
                             'name' => $value['name'],
                             'count' => abs($diff),
@@ -454,11 +456,11 @@ class Controller extends Container implements Module
         $templateType = $editorTemplatesHelper->getGroupName($templateGroupKey);
 
         $templates = get_post_meta($sourceId, '_' . VCV_PREFIX . 'templates', true);
-        $templates = unserialize($templates);
+        $templates = maybe_unserialize($templates);
         if (empty($templates)) {
             $templates = [];
         }
-        $templates[$id] = [
+        $templates[ $id ] = [
             'pageId' => $hashedId,
             'name' => $template['allData']['pageTitle']['current'],
             'license' => ucfirst($licenseType),
@@ -466,9 +468,8 @@ class Controller extends Container implements Module
             'date' => time(),
             'type' => $templateType,
         ];
-        $templates = serialize($templates);
+        $templates = maybe_serialize($templates);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'templates', $templates);
-
 
         return false;
     }
@@ -489,7 +490,7 @@ class Controller extends Container implements Module
         }
         $downloadedContent = $optionsHelper->get('downloadedContent', []);
         if (!empty($downloadedContent)) {
-            $downloadedContent = unserialize($downloadedContent);
+            $downloadedContent = maybe_unserialize($downloadedContent);
         }
 
         $teaserId = isset($teaser['id']) ? $teaser['id'] : $teaser['key'];
@@ -518,7 +519,7 @@ class Controller extends Container implements Module
         }
 
         if (isset($payload['template'])) {
-            $downloadedContent['templateUsage'][$teaserId] = [
+            $downloadedContent['templateUsage'][ $teaserId ] = [
                 'pageId' => $hashedId,
                 'name' => $teaser['name'],
                 'license' => ucfirst($licenseType),
@@ -527,7 +528,7 @@ class Controller extends Container implements Module
                 'type' => $teaser['type'] === 'hub' ? 'Premium' : 'Free',
             ];
         } else {
-            $downloadedContent['elementUsage'][$teaserId] = [
+            $downloadedContent['elementUsage'][ $teaserId ] = [
                 'pageId' => $hashedId,
                 'name' => isset($teaser['name']) ? $teaser['name'] : $teaser['tag'],
                 'license' => ucfirst($licenseType),
@@ -537,7 +538,7 @@ class Controller extends Container implements Module
             ];
         }
 
-        $downloadedContent = serialize($downloadedContent);
+        $downloadedContent = maybe_serialize($downloadedContent);
         $optionsHelper->set('downloadedContent', $downloadedContent);
 
         return false;

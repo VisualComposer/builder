@@ -67,7 +67,7 @@ class NoticeController extends Container implements Module
                     printf(
                         '<div class="%1$s"><p>%2$s</p></div>',
                         esc_attr($class),
-                        $notice['message']
+                        esc_html($notice['message'])
                     );
                 } elseif ($notice['dismissible']) {
                     $dismissUrl = $urlHelper->adminAjax(
@@ -80,16 +80,16 @@ class NoticeController extends Container implements Module
                     printf(
                         '<div class="%1$s"><p>%2$s</p><p><a href="%3$s">%4$s</a></p></div>',
                         esc_attr($class),
-                        $notice['message'],
+                        esc_html($notice['message']),
                         // @codingStandardsIgnoreLine
-                        $dismissUrl,
+                        esc_url($dismissUrl),
                         esc_html__('Dismiss', 'visualcomposer')
                     );
                 } else {
                     printf(
                         '<div class="%1$s"><p>%2$s</p></div>',
                         esc_attr($class),
-                        $notice['message']
+                        esc_html($notice['message'])
                     );
                 }
             }

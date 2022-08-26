@@ -26,6 +26,7 @@ class AssetBundleController extends Container implements Module
      */
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Assets\AssetBundleController::registerAssets */
         $this->wpAddAction('init', 'registerAssets');
     }
 

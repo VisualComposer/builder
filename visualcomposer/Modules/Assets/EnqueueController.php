@@ -164,8 +164,8 @@ class EnqueueController extends Container implements Module
                         'vcv:assets:enqueue:callback:skip',
                         false,
                         [
-                        'closureInfo' => $closureInfo,
-                        'callback' => $callback,
+                            'closureInfo' => $closureInfo,
+                            'callback' => $callback,
                         ]
                     )
                 ) {
@@ -330,8 +330,9 @@ class EnqueueController extends Container implements Module
 
             $path = VCV_PLUGIN_ASSETS_DIR_PATH . $bundleUrl;
             $fileContent = '';
+            $fileHelper = vchelper('File');
             if (file_exists($path)) {
-                $fileContent = file_get_contents($path);
+                $fileContent = $fileHelper->getContents($path);
             } // todo: regenerate if not exists
             wp_register_style('vcv:assets:front:style:' . $sourceId, false);
             wp_enqueue_style('vcv:assets:front:style:' . $sourceId);
