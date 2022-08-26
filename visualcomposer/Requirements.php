@@ -21,34 +21,22 @@ class VcvCoreRequirements
      */
     public function coreChecks()
     {
-        $message = '';
+        $messages = [];
         $die = false;
 
         if (!self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION)) {
             $die = true;
-            $message .= '<li>' .
-                sprintf(
-                    'PHP version %s or greater (recommended 7 or greater)',
-                    VCV_REQUIRED_PHP_VERSION
-                ) .
-                '</li>';
+            $messages[] = sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
         }
 
         if (!self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'))) {
             $die = true;
-            $message .= '<li>' .
-                sprintf(
-                    'WordPress version %s or greater',
-                    VCV_REQUIRED_BLOG_VERSION
-                ) .
-                '</li>';
+            $messages[] = sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
         }
 
         if (!function_exists('curl_exec') || !function_exists('curl_init')) {
             $die = true;
-            $message .= '<li>' .
-                'The cURL extension must be loaded' .
-                '</li>';
+            $messages[] = 'The cURL extension must be loaded';
         }
         if (
             !function_exists('base64_decode')
@@ -57,24 +45,23 @@ class VcvCoreRequirements
             || !function_exists('json_encode')
         ) {
             $die = true;
-            $message .= '<li>' .
-                'The base64/json functions must be loaded' .
-                '</li>';
+            $messages[] = 'The base64/json functions must be loaded';
         }
         if (!function_exists('zlib_decode')) {
             $die = true;
-            $message .= '<li>' .
-                'The zip extension must be loaded zlib_decode() is not defined' .
-                '</li>';
+            $messages[] = 'The zip extension must be loaded zlib_decode() is not defined';
         }
 
         if ($die) {
             $this->deactivate(VCV_PLUGIN_FULL_PATH);
-            wp_die(
-            // @codingStandardsIgnoreLine
-                'To run Visual Composer Website Builder your host needs to have:<ul>' . $message . '</ul>' . '<a href="'
-                . esc_url(admin_url('plugins.php')) . '">Go back to dashboard</a>'
-            );
+            echo 'To run Visual Composer Website Builder your server needs to have:<ul>';
+            echo '<ul>';
+            foreach ($messages as $message) {
+                echo '<li>' . esc_html($message) . '</li>';
+            }
+            echo '</ul>';
+            echo '<a href="' . esc_url(admin_url('plugins.php')) . '">Go back to dashboard</a>';
+            exit;
         }
 
         return true;
