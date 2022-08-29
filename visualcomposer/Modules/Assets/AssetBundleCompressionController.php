@@ -41,18 +41,15 @@ class AssetBundleCompressionController extends Container implements Module
         $mimeType = $this->getMimeType();
         header('Content-Type: ' . $mimeType);
 
-        if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === false) {
+        $gzipHelper = vchelper('Gzip');
+
+        if ($gzipHelper->isGzip()) {
+            // output our gzip content.
+            header("Content-Encoding: gzip");
+            echo file_get_contents($this->getBundlePath(true));
+        } else {
             // browser cannot accept compressed content, so need output standard JS/CSS
             echo file_get_contents($this->getBundlePath());
-        } else {
-            if ($this->isPhpGzCompressionInProcess()) {
-                // let 3 party app gzip our content.
-                echo file_get_contents($this->getBundlePath());
-            } else {
-                // output our gzip content.
-                header("Content-Encoding: gzip");
-                echo file_get_contents($this->getBundlePath(true));
-            }
         }
 
         exit;
@@ -78,29 +75,6 @@ class AssetBundleCompressionController extends Container implements Module
         }
 
         return $path;
-    }
-
-    /**
-     * Check if php compression is already enabled.
-     *
-     * @return bool
-     */
-    protected function isPhpGzCompressionInProcess()
-    {
-        if (in_array('ob_gzhandler', ob_list_handlers())) {
-            return true;
-        }
-
-        if (extension_loaded('zlib')) {
-            // phpcs:ignore
-            @ini_set('zlib.output_compression_level', 1);
-
-            if (ini_get('zlib.output_compression_level') === '1') {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

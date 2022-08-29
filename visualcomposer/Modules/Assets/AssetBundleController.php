@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Gzip;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 
@@ -32,20 +33,14 @@ class AssetBundleController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    protected function registerAssets(Url $urlHelper)
+    protected function registerAssets(Url $urlHelper, Gzip $gzipHelper)
     {
+        $gzipPath = get_site_url(null, 'index.php?vcv-script=vendor');
+        $normalPath = $urlHelper->to('public/dist/vendor.bundle.js');
+        $path = $gzipHelper->isGzip() ? $gzipPath : $normalPath;
         wp_register_script(
             'vcv:assets:vendor:script',
-            get_site_url(null, 'index.php?vcv-script=vendor'),
-            [
-                'jquery',
-                'vcv:assets:runtime:script',
-            ],
-            VCV_VERSION
-        );
-        wp_register_script(
-            'vcv:assets:front:script',
-            $urlHelper->to('public/dist/front.bundle.js'),
+            $path,
             [
                 'jquery',
                 'vcv:assets:runtime:script',
@@ -53,6 +48,7 @@ class AssetBundleController extends Container implements Module
             VCV_VERSION,
             true
         );
+
         wp_register_style(
             'vcv:assets:front:style',
             $urlHelper->to('public/dist/front.bundle.css'),

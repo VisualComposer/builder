@@ -140,14 +140,21 @@ class Update implements Helper
             'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:postUpdate:skipPost:adminNonce']),
             'type' => 'constant',
         ];
+        $gzipHelper = vchelper('Gzip');
+        $gzipPath = get_site_url(null, 'index.php?vcv-script=wp');
+        $normalPath = $urlHelper->to('public/dist/wp.bundle.js') . '?v=' . VCV_VERSION;
+        $path = $gzipHelper->isGzip() ? $gzipPath : $normalPath;
         $variables[] = [
             'key' => 'VCV_UPDATE_WP_BUNDLE_URL',
-            'value' => get_site_url(null, 'index.php?vcv-script=wp'),
+            'value' => $path,
             'type' => 'constant',
         ];
+        $gzipPath = get_site_url(null, 'index.php?vcv-script=vendor');
+        $normalPath = $urlHelper->to('public/dist/vendor.bundle.js') . '?v=' . VCV_VERSION;
+        $path = $gzipHelper->isGzip() ? $gzipPath : $normalPath;
         $variables[] = [
             'key' => 'VCV_UPDATE_VENDOR_URL',
-            'value' => get_site_url(null, 'index.php?vcv-script=vendor'),
+            'value' => $path,
             'type' => 'constant',
         ];
         $variables[] = [

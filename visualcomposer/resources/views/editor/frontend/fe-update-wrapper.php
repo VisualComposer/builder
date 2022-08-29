@@ -72,7 +72,15 @@ wp_enqueue_media();
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
-<script src="<?php echo get_site_url(null, 'index.php?vcv-script=vendor'); ?>"></script>
+
+<?php
+$gzipHelper = vchelper('Gzip');
+$urlHelper = vchelper('Url');
+$gzipPath = get_site_url(null, 'index.php?vcv-script=vendor');
+$normalPath = $urlHelper->to('public/dist/vendor.bundle.js') . '?v=' . VCV_VERSION;
+$path = $gzipHelper->isGzip() ? $gzipPath : $normalPath;
+?>
+<script src="<?php echo $path; ?>"></script>
 
 <div class="vcv-settings" data-section="vcv-update">
     <?php echo $content; ?>

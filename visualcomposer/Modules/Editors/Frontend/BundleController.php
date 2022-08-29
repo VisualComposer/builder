@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Gzip;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
@@ -42,11 +43,15 @@ class BundleController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    protected function registerEditorAssets(Url $urlHelper)
+    protected function registerEditorAssets(Url $urlHelper, Gzip $gzipHelper)
     {
+        $gzipPath = get_site_url(null, 'index.php?vcv-script=wp');
+        $normalPath = $urlHelper->to('public/dist/wp.bundle.js');
+        $path = $gzipHelper->isGzip() ? $gzipPath : $normalPath;
+
         wp_register_script(
             'vcv:editors:frontend:script',
-            get_site_url(null, 'index.php?vcv-script=wp'),
+            $path,
             [
                 'vcv:assets:vendor:script',
             ],
