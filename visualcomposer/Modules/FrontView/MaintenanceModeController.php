@@ -66,31 +66,34 @@ class MaintenanceModeController extends Container implements Module
 
     protected function renderMaintenancePage(CurrentUser $accessCurrentUserHelper)
     {
-        // @codingStandardsIgnoreLine
-        global $post, $wp_query, $wp_the_query;
+        $globalsHelper = vchelper('Globals');
 
         $id = self::isMaintenanceMode();
 
         if ($id && !$accessCurrentUserHelper->wpAll('edit_pages')->get()) {
             $this->headers();
-            $post = get_post($id);
-            $id = $post->ID; // in case if translated
+            //            $post = get_post($id);
+            $queriedPost = get_post($id);
+            $globalsHelper->set('post', $queriedPost);
+            $id = $queriedPost->ID; // in case if translated
             // @codingStandardsIgnoreLine
-            $wp_query = new WP_Query(
+            $tempQuery = new WP_Query(
                 [
                     'suppress_filters' => true,
                     'post_type' => 'page',
                     'p' => $id,
                 ]
             ); // set local current query
+            $globalsHelper->set('wp_query', $tempQuery);
             // @codingStandardsIgnoreLine
-            $wp_the_query = new WP_Query(
+            $tempGlobalQuery = new WP_Query(
                 [
                     'suppress_filters' => true,
                     'post_type' => 'page',
                     'p' => $id,
                 ]
             ); // set global query also!
+            $globalsHelper->set('wp_the_query', $tempGlobalQuery);
             $template = get_page_template();
             if (!$template) {
                 $template = get_index_template();
@@ -105,10 +108,10 @@ class MaintenanceModeController extends Container implements Module
     protected function headers()
     {
         // Default headers for 503 maintenance
-        header('HTTP/1.1 503 Service Temporarily Unavailable');
-        header('Status: 503 Service Temporarily Unavailable');
+        @header('HTTP/1.1 503 Service Temporarily Unavailable');
+        @header('Status: 503 Service Temporarily Unavailable');
         // 30min delay
-        header('Retry-After: 1800');
+        @header('Retry-After: 1800');
 
         // Set Disable WordPress caching
         if (!defined('DONOTCACHEPAGE')) {

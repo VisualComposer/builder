@@ -79,7 +79,8 @@ class YoastController extends Container implements Module
     protected function setGlobalPostId()
     {
         $requestHelper = vchelper('Request');
-        $GLOBALS['post_ID'] = $requestHelper->input('vcv-source-id');
+        $globalsHelper = vchelper('Globals');
+        $globalsHelper->set('post_ID', $requestHelper->input('vcv-source-id'));
     }
 
     /**
@@ -95,18 +96,22 @@ class YoastController extends Container implements Module
         global $wp_query, $wp_the_query;
 
         if (
-            empty($wp_query->query['queriedPage']) ||
-            empty($wp_the_query->query['queriedPage']) ||
-            empty($contextPresentation->model)
+            empty($wp_query->query['queriedPage'])
+            || empty($wp_the_query->query['queriedPage'])
+            || empty($contextPresentation->model)
         ) {
             return $contextPresentation;
         }
 
-        $backWpQuery = $wp_query;
-        $backupWpTheQuery = $wp_the_query;
+        $globalsHelper = vchelper('Globals');
+        $globalsHelper->backup('yoast.wp_query', 'wp_query');
+        $globalsHelper->backup('yoast.wp_the_query', 'wp_the_query');
+        $copyWpQuery = $globalsHelper->get('wp_query');
+        $copyWpTheQuest = $globalsHelper->get('wp_the_query');
 
-        $wp_query = $backWpQuery->query['queriedPage'];
-        $wp_the_query = $backupWpTheQuery->query['queriedPage'];
+        // set globals
+        $globalsHelper->set('wp_query', $copyWpQuery->query['queriedPage']);
+        $globalsHelper->set('wp_the_query', $copyWpTheQuest->query['queriedPage']);
 
         $repository = YoastSEO()->classes->get('Yoast\WP\SEO\Repositories\Indexable_Repository');
         $model = $repository->for_current_page();
@@ -115,9 +120,9 @@ class YoastController extends Container implements Module
             $contextPresentation->model = $model;
         }
 
-        $wp_query = $backWpQuery;
-        $wp_the_query = $backupWpTheQuery;
-        // @codingStandardsIgnoreEnd
+        // restore globals
+        $globalsHelper->restore('yoast.wp_query', 'wp_query');
+        $globalsHelper->restore('yoast.wp_the_query', 'wp_the_query');
 
         return $contextPresentation;
     }

@@ -39,11 +39,13 @@ trait SubMenu
         }
 
         if ($hasAccess) {
-            global $submenu;
+            $globalsHelper = vchelper('Globals');
             $outputHelper = vchelper('Output');
 
             if (isset($page['external'])) {
-                $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
+                $submenuCopy = $globalsHelper->get('submenu');
+                $submenuCopy[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
+                $globalsHelper->set('submenu', $submenuCopy);
             } else {
                 $tabsHelper = vchelper('SettingsTabsRegistry');
                 $tabsHelper->set(
@@ -80,14 +82,16 @@ trait SubMenu
                     }
                 );
 
-                // After add_submenu_page called last index of $submenu['vcv-settings'] will be recently added item
+                // After add_submenu_page called last index of $submenuCopy['vcv-settings'] will be recently added item
                 // So we can adjust it to add extra-class to hide
                 $extraClass = 'vcv-submenu--' . vchelper('Str')->slugify($page['slug']);
                 $extraClass .= isset($page['isDashboardPage']) && $page['isDashboardPage'] ? ' vcv-submenu-dashboard-page' : '';
                 if (isset($page['hideInWpMenu']) && $page['hideInWpMenu']) {
                     $extraClass .= ' vcv-ui-state--hidden';
                 }
-                $submenu[ $mainPageSlug ][ count($submenu[ $mainPageSlug ]) - 1 ][4] = $extraClass;
+                $submenuCopy = $globalsHelper->get('submenu');
+                $submenuCopy[ $mainPageSlug ][ count($submenuCopy[ $mainPageSlug ]) - 1 ][4] = $extraClass;
+                $globalsHelper->set('submenu', $submenuCopy);
             }
         }
     }

@@ -9,17 +9,31 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use function VisualComposer\Framework\esc_html;
 
-class Output implements Helper
+class Globals implements Helper
 {
-    public function printNotEscaped($content)
+    protected static $globalCache = [];
+
+    public function backup($prefix, $key)
     {
-        echo esc_html($content);
+        self::$globalCache[ $prefix . '_' . $key ] = $GLOBALS[ $key ];
     }
 
-    public function printEscaped($content)
+    public function set($key, $value)
     {
-        echo \esc_html($content);
+        $GLOBALS[ $key ] = $value;
+    }
+
+    public function get($key)
+    {
+        return $GLOBALS[ $key ];
+    }
+
+    public function restore($prefix, $key)
+    {
+        if (isset(self::$globalCache[ $prefix . '_' . $key ])) {
+            $GLOBALS[ $key ] = self::$globalCache[ $prefix . '_' . $key ];
+            unset(self::$globalCache[ $prefix . '_' . $key ]); // clear memory leak
+        }
     }
 }

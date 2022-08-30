@@ -111,8 +111,22 @@
     <rule ref="WordPress.Security.SafeRedirect"/>
     <rule ref="WordPress.Security.NonceVerification"/>
     <rule ref="WordPress.Security.EscapeOutput"/>
-    <rule ref="WordPress.PHP.DevelopmentFunctions"/>
-    <rule ref="WordPress.PHP.DiscouragedPHPFunctions"/>
+    <rule ref="WordPress.PHP.DevelopmentFunctions">
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Assets/AssetBundleCompressionController.php</exclude-pattern>
+    </rule>
+    <!-- WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode exclude visualcomposer/Modules/Editors/DataUsage/Controller.php -->
+    <rule ref="WordPress.PHP.DiscouragedPHPFunctions">
+        <exclude-pattern>./visualcomposer/Modules/Editors/DataUsage/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Assets/AssetBundleCompressionController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Elements/Traits/AddShortcodeTrait.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Elements/Traits/ShortcodesTrait.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/FrontView/FrontViewController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Vendors/WpmlController.php</exclude-pattern>
+    </rule>
     <rule ref="WordPress.WP.DeprecatedFunctions"/>
     <rule ref="WordPress.WP.DeprecatedClasses"/>
     <rule ref="WordPress.WP.DeprecatedParameters"/>
@@ -120,7 +134,19 @@
     <rule ref="WordPress.WP.AlternativeFunctions"/>
     <rule ref="WordPress.WP.DiscouragedConstants"/>
     <rule ref="WordPress.WP.DiscouragedFunctions"/>
-
+    <rule ref="WordPress.PHP.IniSet">
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Assets/AssetBundleCompressionController.php</exclude-pattern>
+    </rule>
+    <rule ref="Generic.PHP.BacktickOperator"/>
+    <rule ref="Generic.PHP.Syntax"/>
+    <rule ref="WordPress.WP.GlobalVariablesOverride"/>
+    <rule ref="WordPress.PHP.NoSilencedErrors">
+        <properties>
+            <property name="usePHPFunctionsList" value="false"/>
+        </properties>
+    </rule>
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
     <file>./plugin-wordpress.php</file>

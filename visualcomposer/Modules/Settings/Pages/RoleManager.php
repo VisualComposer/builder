@@ -48,7 +48,6 @@ class RoleManager extends Container implements Module
         $this->addFilter('vcv:helper:access:role:defaultCapabilities', 'addDefaultCapability');
         $this->wpAddFilter('role_has_cap', 'checkPresetUpdate');
 
-
         // Default Fallback for rendering parts in role-manager page
         $this->addFilter(
             'vcv:render:settings:roleManager:part:*',
@@ -91,7 +90,10 @@ class RoleManager extends Container implements Module
         $page = [
             'slug' => $this->slug,
             'title' => __('Role Manager', 'visualcomposer'),
-            'description' => __('Use these settings to control which Visual Composer features each user role can access. These changes doesn\'t affect default WordPress capabilities.', 'visualcomposer'),
+            'description' => __(
+                'Use these settings to control which Visual Composer features each user role can access. These changes doesn\'t affect default WordPress capabilities.',
+                'visualcomposer'
+            ),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
             'iconClass' => 'vcv-ui-icon-dashboard-lock',
@@ -110,21 +112,14 @@ class RoleManager extends Container implements Module
      */
     protected function getWpRoles()
     {
-        // @codingStandardsIgnoreLine
-        global $wp_roles;
-        if (function_exists('wp_roles')) {
-            // @codingStandardsIgnoreLine
-            return $wp_roles;
+        $globalsHelper = vchelper('Globals');
+        $roles = $globalsHelper->get('wp_roles');
+        if (empty($roles)) {
+            $roles = new \WP_Roles();
+            $globalsHelper->set('wp_roles', $roles);
         }
 
-        // @codingStandardsIgnoreLine
-        if (!isset($wp_roles)) {
-            // @codingStandardsIgnoreLine
-            $wp_roles = new \WP_Roles();
-        }
-
-        // @codingStandardsIgnoreLine
-        return $wp_roles;
+        return $roles;
     }
 
     /**
@@ -185,7 +180,7 @@ class RoleManager extends Container implements Module
             $roleAccessHelper->who($roleKey)->part($part)->setState(true);
         } elseif (is_array($partData)) {
             // It is multi-value capability like posts_*
-            foreach ($partData[$part] as $roleCap) {
+            foreach ($partData[ $part ] as $roleCap) {
                 $roleAccessHelper->who($roleKey)->part($part)->setCapRule($roleCap, true);
             }
         }
@@ -229,19 +224,18 @@ class RoleManager extends Container implements Module
             // check if role using preset
             $optionsHelper = vchelper('Options');
             $rolePresets = $optionsHelper->get('role-presets', []);
-            $presetValue = isset($rolePresets[$name]) ? $rolePresets[$name] : 'custom';
+            $presetValue = isset($rolePresets[ $name ]) ? $rolePresets[ $name ] : 'custom';
             // if custom DO NOTHING
             if ($presetValue !== 'custom') {
                 $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
                 $presetCapabilities = $userCapabilitiesHelper->getDefaultCapabilities();
-                $rolePresetCapabilities = isset($presetCapabilities[$presetValue]) ? $presetCapabilities[$presetValue] : [];
+                $rolePresetCapabilities = isset($presetCapabilities[ $presetValue ]) ? $presetCapabilities[ $presetValue ] : [];
                 $capabilities = array_merge($capabilities, $rolePresetCapabilities);
             }
         }
 
         return $capabilities;
     }
-
 
     /**
      * For some user roles we need remove all capabilities.

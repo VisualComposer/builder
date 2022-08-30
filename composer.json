@@ -21,6 +21,9 @@
     ]
   },
   "require": {
-    "ext-exif": "*"
+    "ext-exif": "*",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "ext-zlib": "*"
   }
 }
