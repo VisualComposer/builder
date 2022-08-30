@@ -34,7 +34,7 @@ if (!defined('ABSPATH')) {
             div.vcv-editor-theme-hf .vcv-layouts-html > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
             div.vcv-header > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
             div.vcv-footer > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"] {
-                max-width: <?php echo $customLayoutWidth . 'px' ?> !important;
+                max-width: <?php echo esc_attr($customLayoutWidth) . 'px' ?> !important;
             }
         }
     </style>

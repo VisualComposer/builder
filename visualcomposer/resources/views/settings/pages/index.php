@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 }
 /** @var $controller \VisualComposer\Modules\Settings\Pages\Settings */
 /** @var string $slug */
+$outputHelper = vchelper('Output');
 ?>
 <?php if ($slug === 'vcv-headers-footers' || $slug === 'vcv-custom-page-templates') { ?>
     <style>
@@ -59,9 +60,9 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 <?php } ?>
-<form action="<?php echo vchelper('Url')->adminAjax(
+<form action="<?php echo esc_url(vchelper('Url')->adminAjax(
     ['vcv-action' => 'settings:save:adminNonce', 'vcv-nonce' => vchelper('Nonce')->admin()]
-); ?>"
+)); ?>"
         method="post"
         data-vcv-ui-element="settings-tab-<?php echo esc_attr($slug); ?>"
         class="vcv-settings-tab-content vcv-settings-tab-content--active">
@@ -80,11 +81,11 @@ if (!defined('ABSPATH')) {
         $content = ob_get_clean();
         if ($useAccordion) {
             echo '<div class="vcv-dashboard-accordion">';
-            echo $content;
+            $outputHelper->printNotEscaped($content);
             echo '</div>';
         } else {
             echo '<div class="vcv-dashboard-standard">';
-            echo $content;
+            $outputHelper->printNotEscaped($content);
             echo '</div>';
         }
     }
@@ -111,7 +112,7 @@ if (!defined('ABSPATH')) {
         $slug
     ); ?>" id="vcv_settings-<?php echo esc_attr($slug); ?>-action" />
 
-    <input type="hidden" name="vcv-page-slug" value="<?php echo $slug; ?>" />
+    <input type="hidden" name="vcv-page-slug" value="<?php echo esc_attr($slug); ?>" />
 </form>
 
 

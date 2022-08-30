@@ -8,16 +8,18 @@ if (!defined('ABSPATH')) {
 
 // Get Active Tab
 $activeTab = '';
-if (isset($_GET['page'])) {
-    $activeTab = esc_attr($_GET['page']);
+$requestHelper = vchelper('Request');
+if ($requestHelper->exists('page')) {
+    $activeTab = esc_attr($requestHelper->input('page'));
 }
 
 $tabsHelper = vchelper('SettingsTabsRegistry');
+$outputHelper = vchelper('Output');
 $utmHelper = vchelper('Utm');
 $allTabs = $tabsHelper->getHierarchy($tabsHelper->all());
 $activeTabData = $tabsHelper->get($activeTab);
 if (empty($activeTabData)) {
-    wp_die(__('Sorry, you are not allowed to access this page.'));
+    wp_die(esc_html__('Sorry, you are not allowed to access this page.'));
     exit; // page not exists..
 }
 // Get Parent Tab
@@ -37,8 +39,8 @@ $variables = vcfilter(
 if (is_array($variables)) {
     foreach ($variables as $variable) {
         if (is_array($variable) && isset($variable['key'], $variable['value'])) {
-            $type = isset($variable['type']) ? $variable['type'] : 'variable';
-            evcview('partials/variableTypes/' . $type, $variable);
+            $variableType = isset($variable['type']) ? $variable['type'] : 'variable';
+            evcview('partials/variableTypes/' . $variableType, $variable);
         }
     }
     unset($variable);
@@ -64,7 +66,7 @@ foreach (
 if ($hideMenu) {
     // Hide only dashboard pages (skip for 3rd party)
     // Hide only when existing addons where updated to dashboard menu updates version
-    echo <<<STYLE
+    $style = <<<STYLE
 <style>
   #toplevel_page_vcv-settings.wp-menu-open .vcv-submenu-dashboard-page,
   #toplevel_page_vcv-getting-started.wp-menu-open .vcv-submenu-dashboard-page {
@@ -82,6 +84,7 @@ if ($hideMenu) {
   }
 </style>
 STYLE;
+    $outputHelper->printNotEscaped($style);
 }
 
 ?>
@@ -243,7 +246,7 @@ STYLE;
                 <div class="vcv-dashboard-sidebar-inner">
                     <header class="vcv-dashboard-sidebar-header">
                         <?php if (!vchelper('License')->isPremiumActivated()) : ?>
-                            <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get('vcdashboard-logo-url'); ?>" target="_blank" rel="noopener noreferrer">
+                            <a class="vcv-dashboard-logo" href="<?php echo esc_url($utmHelper->get('vcdashboard-logo-url')); ?>" target="_blank" rel="noopener noreferrer">
                                 <?php evcview('settings/partials/dashboard-logo'); ?>
                             </a>
                         <?php else : ?>
@@ -286,16 +289,16 @@ STYLE;
                                             ?>
                                             <ul class="vcv-dashboard-sidebar-navigation-menu vcv-dashboard-sidebar-navigation-menu--submenu">
                                                 <?php
-                                                foreach ($subTabs as $tabKey => $tab) :
+                                                foreach ($subTabs as $tabKey => $tabData) :
                                                     $activeClass = '';
                                                     if ($tabKey === $activeTab) {
                                                         $activeClass = ' vcv-dashboard-sidebar-navigation-link--active';
                                                     }
-                                                    $tabTitle = empty($tab['subTitle']) ? $tab['name'] : $tab['subTitle'];
+                                                    $tabTitle = empty($tabData['subTitle']) ? $tabData['name'] : $tabData['subTitle'];
                                                     $subMenuLink = '?page=' . esc_attr($tabKey);
 
                                                     $sameParent = $menuKey === $parentSlug;
-                                                    $forceReload = isset($tab['forceReloadOnOpen']) && $tab['forceReloadOnOpen'];
+                                                    $forceReload = isset($tabData['forceReloadOnOpen']) && $tabData['forceReloadOnOpen'];
 
                                                     if ($sameParent && !$forceReload) {
                                                         $activeClass .= ' vcv-dashboard-sidebar-navigation-link--same-parent';
@@ -303,12 +306,12 @@ STYLE;
                                                     ?>
                                                     <li class="vcv-dashboard-sidebar-navigation-menu-item">
                                                         <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard <?php echo esc_attr($activeClass); ?>"
-                                                                href="<?php echo $subMenuLink ?>"
+                                                                href="<?php echo esc_url($subMenuLink); ?>"
                                                                 data-value="<?php echo esc_attr($tabKey) ?>">
-                                                            <?php echo $tabTitle; ?>
-                                                            <?php if (isset($tab['premiumActionBundle']) && !vchelper('License')->isPremiumActivated()) { ?>
-                                                                <?php $title = __('This feature is available in Visual Composer Premium', 'visualcomposer'); ?>
-                                                                <span class="vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star vcv-available-in-premium" title="<?php echo $title; ?>" />
+                                                            <?php echo esc_html($tabTitle); ?>
+                                                            <?php if (isset($tabData['premiumActionBundle']) && !vchelper('License')->isPremiumActivated()) { ?>
+                                                                <?php $titleText = __('This feature is available in Visual Composer Premium', 'visualcomposer'); ?>
+                                                                <span class="vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star vcv-available-in-premium" title="<?php echo esc_attr($titleText); ?>" />
                                                             <?php } ?>
                                                         </a>
                                                     </li>
@@ -324,12 +327,12 @@ STYLE;
                                 echo sprintf(
                                     '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener noreferrer">%s<span aria-hidden="true" class="dashicons dashicons-external vcv-ui-icon-dashboard-external"></span></a></li>',
                                     esc_url($utmHelper->get('vcdashboard-help')),
-                                    __('Help', 'visualcomposer')
+                                    esc_html__('Help', 'visualcomposer')
                                 );
                                 echo sprintf(
                                     '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener noreferrer">%s<span aria-hidden="true" class="dashicons dashicons-external vcv-ui-icon-dashboard-external"></span></a></li>',
                                     esc_url($utmHelper->get('vcdashboard-myvc')),
-                                    __('My Visual Composer', 'visualcomposer')
+                                    esc_html__('My Visual Composer', 'visualcomposer')
                                 );
                                 ?>
                                 <?php
@@ -339,7 +342,7 @@ STYLE;
                                     echo sprintf(
                                         '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star" target="_blank" rel="noopener noreferrer">%s<span aria-hidden="true" class="dashicons dashicons-external vcv-ui-icon-dashboard-external"></span></a></li>',
                                         esc_url(vchelper('Utm')->get('vcdashboard-go-premium')),
-                                        __('Go Premium', 'visualcomposer')
+                                        esc_html__('Go Premium', 'visualcomposer')
                                     );
                                 }
                                 ?>
@@ -354,8 +357,8 @@ STYLE;
                 <?php
                 if (isset($allTabs[ $parentSlug ]['children']) && !empty($allTabs[ $parentSlug ]['children'])) {
                     $renderedTabs = $allTabs[ $parentSlug ]['children'];
-                    foreach ($renderedTabs as $tabKey => $tab) {
-                        $tab['callback']();
+                    foreach ($renderedTabs as $tabKey => $tabData) {
+                        $tabData['callback']();
                     }
                 } else {
                     $activeTabData['callback']();
@@ -365,11 +368,12 @@ STYLE;
             <div class="vcv-thanks-message">
                 <?php
                 echo sprintf(
-                    __(
-                        'Thank you for choosing Visual Composer Website Builder. <br>' .
+                    esc_html__(
+                        'Thank you for choosing Visual Composer Website Builder. %s' .
                         'Like the plugin? %sRate us on WordPress.org%s',
                         'visualcomposer'
                     ),
+                    '<br>',
                     '<a href="https://wordpress.org/support/plugin/visualcomposer/reviews/?filter=5" target="_blank" rel="noopener noreferrer">',
                     '</a>'
                 )

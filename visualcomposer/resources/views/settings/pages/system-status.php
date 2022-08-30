@@ -84,7 +84,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('WordPress version currently installed on your site.', 'visualcomposer'); ?>
                     </span>
                 </td>
-                <td class="<?php echo $wpVersion['status'] ?>"><?php echo $wpVersion['text']; ?></td>
+                <td class="<?php echo esc_attr($wpVersion['status']); ?>"><?php echo esc_html($wpVersion['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('PHP version', 'visualcomposer') ?>:</td>
@@ -94,7 +94,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('PHP version currently installed on your site.', 'visualcomposer'); ?>
                     </span>
                 </td>
-                <td class="<?php echo $phpVersion['status'] ?>"><?php echo $phpVersion['text']; ?></td>
+                <td class="<?php echo esc_attr($phpVersion['status']); ?>"><?php echo esc_html($phpVersion['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('WP_DEBUG', 'visualcomposer') ?>:</td>
@@ -104,7 +104,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('Displays whether of not WordPress is in Debug Mode', 'visualcomposer'); ?>
                     </span>
                 </td>
-                <td class="<?php echo $wpDebug['status'] ?> vcv-no-icon"><?php echo $wpDebug['text'] ?></td>
+                <td class="<?php echo esc_attr($wpDebug['status']); ?> vcv-no-icon"><?php echo esc_html($wpDebug['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Visual Composer version', 'visualcomposer') ?>:</td>
@@ -114,7 +114,7 @@ if (!defined('ABSPATH')) {
                 </span>
                 </td>
                 <td>
-                    <?php echo $vcVersion; ?>
+                    <?php echo esc_html($vcVersion); ?>
                 </td>
             </tr>
             <?php if (vchelper('Options')->getTransient('pluginUpdateAvailable')) { ?>
@@ -126,7 +126,7 @@ if (!defined('ABSPATH')) {
                                     'There is a new version of Visual Composer Website Builder available.',
                                     'visualcomposer'
                                 ); ?>
-                                <a href="<?php echo self_admin_url('plugins.php'); ?>" class="update-link"><?php echo esc_html('Update', 'visualcomposer'); ?></a>.
+                                <a href="<?php echo esc_url(self_admin_url('plugins.php')); ?>" class="update-link"><?php echo esc_html('Update', 'visualcomposer'); ?></a>.
                             </p>
                         </div>
                     </td>
@@ -153,7 +153,7 @@ if (!defined('ABSPATH')) {
                         ); ?>
                     </span>
                 </td>
-                <td class="<?php echo $pluginFolder['status'] ?>"><?php echo $pluginFolder['text']; ?></td>
+                <td class="<?php echo esc_attr($pluginFolder['status']); ?>"><?php echo esc_html($pluginFolder['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Memory limit', 'visualcomposer') ?>:</td>
@@ -166,7 +166,7 @@ if (!defined('ABSPATH')) {
                         ); ?>
                     </span>
                 </td>
-                <td class="<?php echo $memoryLimit['status'] ?>"><?php echo $memoryLimit['text']; ?></td>
+                <td class="<?php echo esc_attr($memoryLimit['status']); ?>"><?php echo esc_html($memoryLimit['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Post max size', 'visualcomposer') ?>:</td>
@@ -179,7 +179,7 @@ if (!defined('ABSPATH')) {
                         ) ?>
                     </span>
                 </td>
-                <td class="<?php echo $postMaxSize['status'] ?>"><?php echo $postMaxSize['text']; ?></td>
+                <td class="<?php echo esc_attr($postMaxSize['status']); ?>"><?php echo esc_html($postMaxSize['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Max input nesting level', 'visualcomposer') ?>:</td>
@@ -192,7 +192,7 @@ if (!defined('ABSPATH')) {
                         ) ?>
                     </span>
                 </td>
-                <td class="<?php echo $maxInputNestingLevel['status']; ?>"><?php echo $maxInputNestingLevel['text']; ?></td>
+                <td class="<?php echo esc_attr($maxInputNestingLevel['status']); ?>"><?php echo esc_html($maxInputNestingLevel['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('PHP Max Input Vars', 'visualcomposer'); ?>:</td>
@@ -205,7 +205,7 @@ if (!defined('ABSPATH')) {
                         ); ?>
                     </span>
                 </td>
-                <td class="<?php echo $maxInputVars['status']; ?>"><?php echo $maxInputVars['text']; ?></td>
+                <td class="<?php echo esc_attr($maxInputVars['status']); ?>"><?php echo esc_html($maxInputVars['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Timeout', 'visualcomposer') ?>:</td>
@@ -215,7 +215,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('The maximum execution time for PHP scripts.', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo $timeout['status'] ?>"><?php echo $timeout['text']; ?></td>
+                <td class="<?php echo esc_attr($timeout['status']); ?>"><?php echo esc_html($timeout['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Max upload file size', 'visualcomposer') ?>:</td>
@@ -228,7 +228,7 @@ if (!defined('ABSPATH')) {
                         ) ?>
                     </span>
                 </td>
-                <td class="<?php echo $fileUploadSize['status'] ?>"><?php echo $fileUploadSize['text']; ?></td>
+                <td class="<?php echo esc_attr($fileUploadSize['status']); ?>"><?php echo esc_html($fileUploadSize['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Access to the upload folder', 'visualcomposer') ?>:</td>
@@ -241,7 +241,7 @@ if (!defined('ABSPATH')) {
                         ) ?>
                     </span>
                 </td>
-                <td class="<?php echo $uploadDirAccess['status'] ?>"><?php echo $uploadDirAccess['text']; ?></td>
+                <td class="<?php echo esc_attr($uploadDirAccess['status']); ?>"><?php echo esc_html($uploadDirAccess['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('File system method', 'visualcomposer') ?>:</td>
@@ -251,7 +251,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('The file system method should be direct.', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo $fsMethod['status'] ?>"><?php echo $fsMethod['text']; ?></td>
+                <td class="<?php echo esc_attr($fsMethod['status']); ?>"><?php echo esc_html($fsMethod['text']); ?></td>
             </tr>
             </tbody>
         </table>
@@ -271,7 +271,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('The Zip Extension should be enabled on your server', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo $zipExt['status'] ?>"><?php echo $zipExt['text']; ?></td>
+                <td class="<?php echo esc_attr($zipExt['status']); ?>"><?php echo esc_html($zipExt['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('cURL extension', 'visualcomposer') ?>:</td>
@@ -281,7 +281,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('The version of cURL installed on your server.', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo $curlExt['status'] ?>"><?php echo $curlExt['text']; ?></td>
+                <td class="<?php echo esc_attr($curlExt['status']); ?>"><?php echo esc_html($curlExt['text']); ?></td>
             </tr>
             </tbody>
         </table>
@@ -301,7 +301,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('Connection with your account.', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo $account['status'] ?>"><?php echo $account['text']; ?></td>
+                <td class="<?php echo esc_attr($account['status']); ?>"><?php echo esc_html($account['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('AWS', 'visualcomposer') ?>:</td>
@@ -311,7 +311,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('The connection with the AWS.', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo $aws['status'] ?>"><?php echo $aws['text']; ?></td>
+                <td class="<?php echo esc_attr($aws['status']); ?>"><?php echo esc_html($aws['text']); ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Large data transfer', 'visualcomposer') ?>:</td>

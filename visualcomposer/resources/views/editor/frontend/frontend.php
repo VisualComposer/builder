@@ -6,13 +6,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 require_once ABSPATH . 'wp-admin/includes/admin.php';
-
+$globalsHelper = vchelper('Globals');
+$outputHelper = vchelper('Output');
 // @codingStandardsIgnoreStart
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
        $update_title, $total_update_count, $parent_file, $typenow, $wp_meta_boxes;
 
 $hookSuffix = $hook_suffix;
-$wp_meta_boxes = [];
+$globalsHelper->set('wp_meta_boxes', []);
 if (empty($current_screen)) {
     set_current_screen();
 }
@@ -21,7 +22,7 @@ if (empty($current_screen->id)) {
     $current_screen->id = $sourceId;
 }
 // @codingStandardsIgnoreEnd
-$typenow = get_post_type();
+$globalsHelper->set('typenow', get_post_type());
 /**
  * @var $editableLink - link to editable content
  */
@@ -35,7 +36,7 @@ wp_enqueue_media();
     <link rel="profile" href="http://gmpg.org/xfn/11" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0" />
-    <title><?php echo sprintf(__('Visual Composer: %s', 'visualcomposer'), get_the_title()); ?></title>
+    <title><?php echo sprintf(__('Visual Composer: %s', 'visualcomposer'), esc_html(get_the_title())); ?></title>
     <link rel="stylesheet"
             href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <?php
@@ -50,7 +51,7 @@ wp_enqueue_media();
     if (is_array($extraOutput)) {
         foreach ($extraOutput as $output) {
             // @codingStandardsIgnoreLine
-            echo $output;
+            vcv_print_html($output);
         }
         unset($output);
     }
@@ -58,8 +59,8 @@ wp_enqueue_media();
     if (is_array($variables)) {
         foreach ($variables as $variable) {
             if (is_array($variable) && isset($variable['key'], $variable['value'])) {
-                $type = isset($variable['type']) ? $variable['type'] : 'variable';
-                evcview('partials/variableTypes/' . $type, $variable);
+                $variableType = isset($variable['type']) ? $variable['type'] : 'variable';
+                evcview('partials/variableTypes/' . $variableType, $variable);
             }
         }
         unset($variable);
@@ -71,8 +72,7 @@ wp_enqueue_media();
 $extraOutput = vcfilter('vcv:frontend:body:extraOutput', [], ['sourceId' => $sourceId]);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
-        // @codingStandardsIgnoreLine
-        echo $output;
+        $outputHelper->printNotEscaped($output);
     }
     unset($output);
 }
@@ -90,8 +90,7 @@ if (is_array($extraOutput)) {
                     </div>
                     <iframe class="vcv-layout-iframe"
                             src="<?php
-                            // @codingStandardsIgnoreLine
-                            echo $editableLink;
+                            echo esc_url($editableLink);
                             ?>" id="vcv-editor-iframe"
                             frameborder="0" scrolling="auto"></iframe>
                 </div>
@@ -129,8 +128,7 @@ do_action('admin_footer-' . $hookSuffix);
 $extraOutput = vcfilter('vcv:frontend:footer:extraOutput', [], ['sourceId' => $sourceId]);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
-        // @codingStandardsIgnoreLine
-        echo $output;
+        $outputHelper->printNotEscaped($output);
     }
     unset($output);
 }
