@@ -86,15 +86,14 @@ class EnqueueController extends Container implements Module
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
+        $globalsHelper = vchelper('Globals');
         VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
         $printJs = !isset($payload['printJs']) || $payload['printJs'];
         $enqueueList = $assetsEnqueueHelper->getEnqueueList();
         if (!empty($enqueueList)) {
             foreach ($enqueueList as $sourceId) {
-                // @codingStandardsIgnoreStart
-                global $wp_query, $wp_the_query;
-                $backup = $wp_query;
-                $backupGlobal = $wp_the_query;
+                $backup = $globalsHelper->get('wp_query');
+                $backupGlobal = $globalsHelper->get('wp_the_query');
 
                 $tempPostQuery = new WP_Query(
                     [
@@ -104,13 +103,13 @@ class EnqueueController extends Container implements Module
                         'posts_per_page' => 1,
                     ]
                 );
-                $wp_query = $tempPostQuery;
+                $globalsHelper->set('wp_query', $tempPostQuery);
                 if (is_null(self::$initialPostId)) {
                     self::$initialPostId = get_the_ID();
                 }
-                $wp_the_query = $tempPostQuery;
-                if ($wp_query->have_posts()) {
-                    $wp_query->the_post();
+                $globalsHelper->set('wp_the_query', $tempPostQuery);
+                if ($tempPostQuery->have_posts()) {
+                    $tempPostQuery->the_post();
                     $this->callNonWordpressActionCallbacks('wp_enqueue_scripts');
 
                     // queue of assets to be outputted later with print_late_styles() and do_action('wp_print_footer_script')
@@ -128,8 +127,8 @@ class EnqueueController extends Container implements Module
                     }
                     ob_end_clean();
                 }
-                $wp_query = $backup;
-                $wp_the_query = $backupGlobal; // fix wp_reset_query
+                $globalsHelper->set('wp_query', $backup);
+                $globalsHelper->set('wp_the_query', $backupGlobal);
                 // Remove from list only if printJs is true (footer side)
                 if ($printJs) {
                     $assetsEnqueueHelper->removeFromList($sourceId);
@@ -148,12 +147,14 @@ class EnqueueController extends Container implements Module
      */
     protected function callNonWordpressActionCallbacks($action)
     {
-        global $wp_filter, $wp_current_filter;
+        global $wp_filter;
         // Run over actions sorted by priorities
         $actions = $wp_filter[ $action ]->callbacks;
         ksort($actions);
-        // @codingStandardsIgnoreLine
-        $wp_current_filter[] = $action;
+        $globalsHelper = vchelper('Globals');
+        $currentFilterCopy = $globalsHelper->get('wp_current_filter');
+        $currentFilterCopy[] = $action;
+        $globalsHelper->set('wp_current_filter', $currentFilterCopy);
         foreach ($actions as $callbacks) {
             // Run over callbacks
             foreach ($callbacks as $callback) {
@@ -181,8 +182,9 @@ class EnqueueController extends Container implements Module
                 call_user_func_array($callback['function'], ['']);
             }
         }
-        // @codingStandardsIgnoreLine
-        array_pop($wp_current_filter);
+        $currentFilterCopy = $globalsHelper->get('wp_current_filter');
+        array_pop($currentFilterCopy);
+        $globalsHelper->set('wp_current_filter', $currentFilterCopy);
     }
 
     protected function enqueueVcvAssets($sourceIds)
@@ -200,7 +202,6 @@ class EnqueueController extends Container implements Module
 
     protected function setCustomWpScripts()
     {
-        // @codingStandardsIgnoreStart
         global $wp_scripts;
         $newScripts = new VcwbWpScripts();
         if (is_object($wp_scripts)) {
@@ -208,8 +209,8 @@ class EnqueueController extends Container implements Module
                 $newScripts->{$key} = $value;
             }
         }
-        $wp_scripts = $newScripts;
-        // @codingStandardsIgnoreEnd
+        $globalsHelper = vchelper('Globals');
+        $globalsHelper->set('wp_scripts', $newScripts);
     }
 
     /**
@@ -221,12 +222,9 @@ class EnqueueController extends Container implements Module
             return;
         }
 
-        // @codingStandardsIgnoreStart
-        global $wp_query;
         if (is_null(self::$initialPostId)) {
             self::$initialPostId = get_the_ID();
         }
-        // @codingStandardsIgnoreEnd
 
         $sourceIds = array_unique($sourceIds);
         $this->enqueueAssetsBySourceList($sourceIds);

@@ -82,8 +82,6 @@ function vcfilter($filter, $body = '', $payload = [], $haltable = false)
  * @param array $args
  *
  * @return string
- * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
- * @throws \Exception
  */
 function vcview($path, $args = [])
 {
@@ -94,8 +92,6 @@ function vcview($path, $args = [])
 /**
  * @param $path
  * @param array $args
- *
- * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function evcview($path, $args = [])
 {
