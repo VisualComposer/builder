@@ -14,11 +14,11 @@ if (!defined('ABSPATH')) {
 <div class="vcv-settings-section vcv-settings_vcv-settings-gutenberg-editor-enabled">
     <div class="vcv-ui-settings-status-tables-wrapper">
         <div class="vcv-ui-settings-status-table">
-            <p class="description"><?php echo sprintf(__('Select user role preset for %s or customize access rights.', 'visualcomposer'), $role); ?></p>
+            <p class="description"><?php echo sprintf(esc_html__('Select user role preset for %s or customize access rights.', 'visualcomposer'), esc_attr($role)); ?></p>
         </div>
         <div class="vcv-ui-settings-status-table">
                     <?php
-                    echo vcview(
+                    evcview(
                         'settings/fields/dropdown',
                         [
                             'name' => 'vcv-settings-role-preset[' . $role . ']',

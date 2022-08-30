@@ -7,10 +7,10 @@ if (!defined('ABSPATH')) {
 }
 /** @var string $value */
 /** @var string $key */
+$outputHelper = vchelper('Output');
 ?>
 <script id="vcv-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
     <?php
-    // @codingStandardsIgnoreLine
-    echo $value;
+    $outputHelper->printNotEscaped($value);
     ?>
 </script>
