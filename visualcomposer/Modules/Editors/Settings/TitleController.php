@@ -78,7 +78,7 @@ class TitleController extends Container implements Module
             $post = vchelper('Preview')->updateSourcePostWithPreviewPost($post);
             $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId($sourceId);
 
-            $pageTitle = $requestHelper->input('vcv-page-title');
+            $pageTitle = esc_html($requestHelper->input('vcv-page-title'));
             $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled', false);
             if ($requestHelper->exists('vcv-page-title') && !$pageTitle) {
                 $pageTitleDisabled = true;
