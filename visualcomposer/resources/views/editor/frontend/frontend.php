@@ -50,8 +50,7 @@ wp_enqueue_media();
     $extraOutput = vcfilter('vcv:frontend:head:extraOutput', [], ['sourceId' => $sourceId]);
     if (is_array($extraOutput)) {
         foreach ($extraOutput as $output) {
-            // @codingStandardsIgnoreLine
-            vcv_print_html($output);
+            $outputHelper->printNotEscaped($output);
         }
         unset($output);
     }
