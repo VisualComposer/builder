@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
  **/
 $dir = dirname(__FILE__);
 require_once $dir . '/../vendor/autoload.php';
+require_once $dir . '/../visualcomposer/Framework/no-escape.php';
 require_once $dir . '/../visualcomposer/Framework/helpers.php';
 
 if (VCV_LAZY_LOAD) {
