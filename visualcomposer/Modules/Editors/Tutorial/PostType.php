@@ -68,22 +68,35 @@ class PostType extends Container implements Module
                     'name' => $this->postNamePlural,
                     'singular_name' => $this->postNameSingular,
                     'menu_name' => $this->postNamePlural,
+                    // translators: %s: Post type name.
                     'add_new' => sprintf(__('Add %s', 'visualcomposer'), $this->postNameSingular),
+                    // translators: %s: Post type name.
                     'add_new_item' => sprintf(__('Add New %s', 'visualcomposer'), $this->postNameSingular),
                     'edit' => __('Edit', 'visualcomposer'),
+                    // translators: %s: Post type name.
                     'edit_item' => sprintf(__('Edit %s', 'visualcomposer'), $this->postNameSingular),
+                    // translators: %s: Post type name.
                     'new_item' => sprintf(__('New %s', 'visualcomposer'), $this->postNameSingular),
+                    // translators: %s: Post type name.
                     'view' => sprintf(__('View %s', 'visualcomposer'), $this->postNamePlural),
+                    // translators: %s: Post type name.
                     'view_item' => sprintf(__('View %s', 'visualcomposer'), $this->postNameSingular),
+                    // translators: %s: Post type name.
                     'search_items' => sprintf(__('Search %s', 'visualcomposer'), $this->postNameSingular),
+                    // translators: %s: Post type name.
                     'not_found' => sprintf(__('No %s Found', 'visualcomposer'), $this->postNamePlural),
                     'not_found_in_trash' => sprintf(
+                    // translators: %s: Post type name.
                         __('No %s Found in Trash', 'visualcomposer'),
                         $this->postNamePlural
                     ),
+                    // translators: %s: Post type name.
                     'parent' => sprintf(__('Parent %s', 'visualcomposer'), $this->postNameSingular),
+                    // translators: %s: Post type name.
                     'filter_items_list' => sprintf(__('Filter %s', 'visualcomposer'), $this->postNamePlural),
+                    // translators: %s: Post type name.
                     'items_list_navigation' => sprintf(__('%s Navigation', 'visualcomposer'), $this->postNamePlural),
+                    // translators: %s: Post type name.
                     'items_list' => sprintf(__('%s List', 'visualcomposer'), $this->postNamePlural),
                 ],
                 'public' => false,

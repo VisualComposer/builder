@@ -368,9 +368,9 @@ STYLE;
             <div class="vcv-thanks-message">
                 <?php
                 echo sprintf(
+                // translators: %1$s: <br>, %2$s: Url to review, %3$s: </a>
                     esc_html__(
-                        'Thank you for choosing Visual Composer Website Builder. %s' .
-                        'Like the plugin? %sRate us on WordPress.org%s',
+                        'Thank you for choosing Visual Composer Website Builder. %1$s Like the plugin? %2$sRate us on WordPress.org%3$s',
                         'visualcomposer'
                     ),
                     '<br>',

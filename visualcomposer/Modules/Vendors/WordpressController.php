@@ -12,7 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class WordpressController extends Container implements Module
+class WordPressController extends Container implements Module
 {
     use EventsFilters;
 
@@ -62,9 +62,9 @@ class WordpressController extends Container implements Module
     public function adminFooterText($current)
     {
         return sprintf(
+            // translators: %1$s: link to Visual Composer Website Builder, %2$s: </a>
             __(
-                'Thank you for choosing Visual Composer Website Builder. <br>' .
-                'Like the plugin? %sRate us on WordPress.org%s',
+                'Thank you for choosing Visual Composer Website Builder. <br>Like the plugin? %1$sRate us on WordPress.org%2$s',
                 'visualcomposer'
             ),
             '<a href="https://wordpress.org/support/plugin/visualcomposer/reviews/?filter=5" target="_blank" rel="noopener noreferrer">',

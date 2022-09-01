@@ -156,21 +156,21 @@ class JsonActionsController extends Container implements Module
         $wpdb->query(
             $wpdb->prepare(
                 'UPDATE ' . $wpdb->options
-                . ' SET option_value="0.0.1" WHERE option_name LIKE "%s" AND NOT option_name = "%s"',
+                . ' SET option_value="0.0.1" WHERE option_name LIKE %s AND NOT option_name = %s',
                 VCV_PREFIX . 'hubAction:%',
                 VCV_PREFIX . 'hubAction:updatePosts'
             )
         );
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s',
                 VCV_PREFIX . 'hubA:d:%'
             )
         );
         // Remove before 1.13 keys
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s',
                 VCV_PREFIX . 'hubAction:download:%'
             )
         );
