@@ -74,6 +74,7 @@ class FactoryResetController extends Container implements Module
                 esc_html($linkTitle)
             );
 
+            // translators: %s: link to initiate reset
             $sectionDescription = __(
                 'Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s.',
                 'visualcomposer'

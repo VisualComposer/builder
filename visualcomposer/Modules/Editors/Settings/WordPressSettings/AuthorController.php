@@ -68,7 +68,7 @@ class AuthorController extends Container implements Module
         }
         $authorList = [];
         foreach ($users as $user) {
-            // @codingStandardsIgnoreLine
+            // translators: %1$s: Author name., %2$s: Author login.
             $dropdownText = sprintf(_x('%1$s (%2$s)', 'visualcomposer'), $user->display_name, $user->user_login);
             $authorList[] = [
                 'label' => $dropdownText,

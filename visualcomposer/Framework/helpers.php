@@ -272,6 +272,7 @@ function vcLogWpErrorByCode($code, $errorMessage)
         );
     }
 
+    // translators: %s: error message
     $message .= PHP_EOL . sprintf(__('WordPress Error: %s', 'visualcomposer'), $errorMessage);
     vchelper('Logger')->log($message);
 
@@ -350,6 +351,7 @@ function _vcCheckIsResponseBad($response)
             $responseCode = wp_remote_retrieve_response_code($response);
             $isRequestError = $responseCode !== 200;
             if ($isRequestError) {
+                // translators: %s: error message
                 $message = sprintf(__('A bad response status code %d was received.', 'visualcomposer'), $responseCode);
                 $loggerHelper->log(
                     $message,

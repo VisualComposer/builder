@@ -121,6 +121,7 @@ class Token extends Container implements Helper
             // if soon (<7 days) then show warning
             if ($data['expiration'] !== 'lifetime' && (int)$data['expiration'] < (time() + WEEK_IN_SECONDS)) {
                 $message = sprintf(
+                    // translators: %s: date
                     __('Your Visual Composer Website Builder License will expire soon - %s', 'visualcomposer'),
                     gmdate(
                         get_option('date_format') . ' ' . get_option('time_format'),

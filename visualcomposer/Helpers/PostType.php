@@ -260,6 +260,7 @@ class PostType implements Helper
             $data['vcvCustomPostType'] = 1;
         }
         // @codingStandardsIgnoreLine
+        // translators: %s: post type name
         $data['viewText'] = sprintf(__('View %s', 'visualcomposer'), $post_type_object->labels->singular_name);
 
         return $data;
