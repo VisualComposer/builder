@@ -26,12 +26,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: CodeStyle check
-          command: |
-            # install composer inside ci folder
-            php ci/composer.phar install -d ci/
-            # run code style check
-            php ci/vendor/bin/phpcs --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
+          name: CodeStyle install
+          command: php ci/composer.phar install -d ci/
+      - run:
+          name: CodeStyle
+          command: php ci/vendor/bin/phpcs --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
   php-tests:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
