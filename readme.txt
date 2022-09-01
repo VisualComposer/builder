@@ -226,7 +226,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 *Release Date - 2022-09-01*
 
 ### Free:
-- Fix: To prevent xss vulnerabilities, 'unfiltered_html' has been disabled for all roles except Super admin, Admin, and Editor
+- Fix: To prevent xss vulnerabilities, all roles without 'unfiltered_html' capability don't have an access to the editor
 
 = 45.0 =
 *Release Date - 2022-08-17*
