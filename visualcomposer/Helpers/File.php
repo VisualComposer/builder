@@ -172,7 +172,6 @@ class File implements Helper
      */
     public function getRemoteContents($url)
     {
-        // @TODO Remove all this..
         $remoteContent = $this->doRequest($url);
         if ($remoteContent) {
             return $remoteContent;
@@ -213,7 +212,7 @@ class File implements Helper
             $response = false;
         }
 
-        return $response
+        return $response;
     }
 
     /**
