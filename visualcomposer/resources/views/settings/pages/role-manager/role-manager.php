@@ -155,6 +155,18 @@ left: -69px;
     </span>
    </div>
    <div class="vcv-dashboard-accordion-item-content">';
+        // IF role doesn't have cap `unfiltered_html` show notice
+        if (!$roleObject->has_cap('unfiltered_html')) {
+            echo '<div class="notice inline notice-warning" style="display:block !important;"><span>' . sprintf(
+                __(
+                    'To enable Visual Composer for %1$s, enable ‘%2$s’ capability for the exact user.',
+                    'visualcomposer'
+                ),
+                $name,
+                '<strong>unfiltered_html</strong>'
+            ) . '</span>
+            </div>';
+        }
         if ($role === 'administrator') {
             $part = 'post_types';
             $stateValue = $roleAccessHelper->who($role)->part($part)->getState();
