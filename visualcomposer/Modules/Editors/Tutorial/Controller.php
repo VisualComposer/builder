@@ -58,7 +58,7 @@ class Controller extends Container implements Module
         $variables[] = [
             'type' => 'constant',
             'key' => 'VCV_TUTORIAL_PAGE_CAPABILITY',
-            'value' => $currentUserAccessHelper->wpAll('edit_' . $this->postType)->get(),
+            'value' => $currentUserAccessHelper->wpAll('edit_' . $this->postType, 'unfiltered_html')->get(),
         ];
 
         return $variables;
