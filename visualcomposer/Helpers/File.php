@@ -170,14 +170,7 @@ class File implements Helper
      */
     public function getRemoteContents($url)
     {
-        $remoteContent = $this->getContentsWithDisabledSsl($url);
-        if ($remoteContent) {
-            return $remoteContent;
-        }
-
-        // in case when file not on the server and or allow_url_fopen is set to off
-        // we try to receive it with curl
-        $remoteContent = $this->getContentsWithCurl($url);
+        $remoteContent = $this->doRequest($url);
         if ($remoteContent) {
             return $remoteContent;
         }
@@ -193,51 +186,31 @@ class File implements Helper
     }
 
     /**
-     * Get file content with specific context.
-     *
-     * @note  Disable SSL verification need in-case if https for localhost used and any self-signed SSL
+     * Process request to specific url.
      *
      * @param string $url
+     * @param array $args
      *
      * @return false|string
      */
-    public function getContentsWithDisabledSsl($url)
+    public function doRequest($url, $args = [])
     {
-        $arrContextOptions = [
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-            ],
-        ];
+        $response = wp_remote_request($url, $args);
 
-        $param = stream_context_create($arrContextOptions);
-
-        $content = file_get_contents($url, null, $param);
-
-        return $content;
-    }
-
-    /**
-     * Get remote content with curl request.
-     *
-     * @param string $url
-     *
-     * @return bool|string
-     */
-    public function getContentsWithCurl($url)
-    {
-        $statusHelper = vchelper('Status');
-        if (!$statusHelper->getCurlStatus()) {
+        if (is_wp_error($response)) {
             return false;
         }
 
-        $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, $url);
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-        $downloadedFile = curl_exec($c);
-        curl_close($c);
+        $responseCode = wp_remote_retrieve_response_code($response);
 
-        return $downloadedFile;
+        // Do nothing, response code is okay.
+        if ($responseCode === 200 || strpos($responseCode, '200') !== false) {
+            $response = wp_remote_retrieve_body($response);
+        } else {
+            $response = false;
+        }
+
+        return $response;
     }
 
     /**
