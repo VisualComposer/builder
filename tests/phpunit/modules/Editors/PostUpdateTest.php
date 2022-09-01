@@ -104,6 +104,7 @@ class PostUpdateTest extends WP_UnitTestCase
             'iconClass' => 'vcv-ui-icon-dashboard-update',
         ];
         $_GET['page'] = 'vcv-update';
+        vchelper('Request')->setData(['page' => 'vcv-update']);
         // Since v36
         $page['layout'] = 'dashboard-main-layout';
         $output = $controller->call(
