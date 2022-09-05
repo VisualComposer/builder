@@ -147,7 +147,9 @@
   }
 
   &.vcv-ui-form-field-has-exception-field .vcv-ui-form-wp-tinymce-inner {
-    display: none;
+    // Updated display none to these lines because it was breaking in firefox
+    height: 0;
+    visibility: hidden;
   }
 }
 

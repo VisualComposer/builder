@@ -1,2 +1,6 @@
 .vce-row-container {margin-top: 0 !important;margin-bottom: 0 !important;}
 .vce-basic-menu-container .vce-basic-menu ul .sub-menu-toggle {display: none;}
+.vcwb .entry-content > * {
+    margin-bottom: initial;
+    margin-top: initial;
+}

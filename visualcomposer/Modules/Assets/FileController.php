@@ -94,7 +94,7 @@ class FileController extends Container implements Module
 
             if ($isResetInitiated) {
                 $assetsHelper = vchelper('Assets');
-                $assetsHelper->generateSourceCssFile([], $sourcePost->ID);
+                $assetsHelper->generateSourceCssFile([], ['sourceId' => $sourcePost->ID]);
                 update_post_meta($sourcePost->ID, '_' . VCV_PREFIX . 'postSourceCssResetInitiated', time());
             }
         }

@@ -47,6 +47,15 @@ class YoastController extends Container implements Module
 
         $this->titleController = vcapp('EditorsSettingsTitleController');
         $this->preventRemovingTitleFromBreadcrumbs();
+
+        if (defined('WPSEO_PREMIUM_FILE')) {
+            $this->wpAddFilter(
+                'wpseo_frontend_presentation',
+                'fixYoastPremiumBreadcrumbs',
+                10,
+                1
+            );
+        }
     }
 
     protected function initializeYoast(Frontend $frontendHelper)
@@ -130,5 +139,33 @@ class YoastController extends Container implements Module
             $this->titleController->addTitleFilterClosure,
             PHP_INT_MAX - 9
         );
+    }
+
+    /**
+     * Fix yoast breadcrumbs issue with our HFS post types.
+     *
+     * @param object $presentation
+     *
+     * @return object
+     */
+    protected function fixYoastPremiumBreadcrumbs($presentation)
+    {
+        $hfsList = [
+            'vcv_headers',
+            'vcv_footers',
+            'vcv_sidebars',
+        ];
+
+        $postType = get_post_type();
+        $isCurrentYoastPostTypeisOurHfs = $postType !== $presentation->model->object_sub_type && !in_array($postType, $hfsList);
+
+        if ($isCurrentYoastPostTypeisOurHfs) {
+            $presentation->model->object_sub_type = $postType;
+            $presentation->model->permalink = get_permalink();
+            $presentation->model->object_id = get_the_ID();
+            $presentation->model->breadcrumb_title = get_the_title();
+        }
+
+        return $presentation;
     }
 }
