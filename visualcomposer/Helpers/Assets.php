@@ -13,9 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Framework\Container;
 use WP_Query;
 
-/**
- *
- */
 class Assets extends Container implements Helper
 {
     /**
@@ -180,6 +177,7 @@ class Assets extends Container implements Helper
         $files = [];
         if (!empty($extension)) {
             $assetsHelper = vchelper('Assets');
+            $fileHelper = vchelper('File');
             $destinationDir = $assetsHelper->getFilePath();
 
             // BC remove stale
@@ -189,7 +187,7 @@ class Assets extends Container implements Helper
             $files = $app->glob(rtrim($destinationDir, '/\\') . '/*' . $extensionFull);
             if (is_array($files)) {
                 foreach ($files as $file) {
-                    unlink($file);
+                    $fileHelper->removeFile($file);
                 }
                 unset($file);
             }
@@ -198,7 +196,7 @@ class Assets extends Container implements Helper
             $files = $app->glob(rtrim($destinationDir, '/\\') . '/' . $extension);
             if (is_array($files)) {
                 foreach ($files as $file) {
-                    unlink($file);
+                    $fileHelper->removeFile($file);
                 }
                 unset($file);
             }

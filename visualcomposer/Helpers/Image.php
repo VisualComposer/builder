@@ -429,6 +429,7 @@ class Image implements Helper
 
         $aspectRatio = $this->getAspectRatio($imageData['width'], $imageData['height']);
         $retinaImage = array_key_exists('2x', $sizes);
+        $fileHelper = vchelper('File');
         foreach ($sizes as $widthAttr => $width) {
             if ($width > $imageData['width'] && !$retinaImage) {
                 continue;
@@ -439,7 +440,7 @@ class Image implements Helper
             $absolutePath = "{$uploadDir['path']}/{$filename}";
 
             // Check if file already exists. No need to resize twice.
-            if (!file_exists($absolutePath)) {
+            if (!$fileHelper->exists($absolutePath)) {
                 $resizedImage = $this->resizeImage($image, $imageData, $absolutePath, $width, $height, true);
                 if (is_wp_error($resizedImage)) {
                     continue;
