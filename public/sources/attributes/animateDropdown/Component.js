@@ -116,6 +116,33 @@ export default class AnimateDropdown extends Dropdown {
     // },
     {
       group: {
+        label: 'Scaling Entrances',
+        values: [
+          {
+            label: 'Scale In',
+            value: 'scaleIn'
+          },
+          {
+            label: 'Scale In Down',
+            value: 'scaleInDown'
+          },
+          {
+            label: 'Scale In Left',
+            value: 'scaleInLeft'
+          },
+          {
+            label: 'Scale In Right',
+            value: 'scaleInRight'
+          },
+          {
+            label: 'Scale In Up',
+            value: 'scaleInUp'
+          }
+        ]
+      }
+    },
+    {
+      group: {
         label: 'Fading Entrances',
         values: [
           {
@@ -131,12 +158,20 @@ export default class AnimateDropdown extends Dropdown {
             value: 'fadeInDownBig'
           },
           {
+            label: 'Fade In Down Small',
+            value: 'fadeInDownSmall'
+          },
+          {
             label: 'Fade In Left',
             value: 'fadeInLeft'
           },
           {
             label: 'Fade In Left Big',
             value: 'fadeInLeftBig'
+          },
+          {
+            label: 'Fade In Left Small',
+            value: 'fadeInLeftSmall'
           },
           {
             label: 'Fade In Right',
@@ -147,12 +182,20 @@ export default class AnimateDropdown extends Dropdown {
             value: 'fadeInRightBig'
           },
           {
+            label: 'Fade In Right Small',
+            value: 'fadeInRightSmall'
+          },
+          {
             label: 'Fade In Up',
             value: 'fadeInUp'
           },
           {
             label: 'Fade In Up Big',
             value: 'fadeInUpBig'
+          },
+          {
+            label: 'Fade In Up Small',
+            value: 'fadeInUpSmall'
           }
         ]
       }
