@@ -329,7 +329,7 @@ class EnqueueController extends Container implements Module
             $path = VCV_PLUGIN_ASSETS_DIR_PATH . $bundleUrl;
             $fileContent = '';
             $fileHelper = vchelper('File');
-            if (file_exists($path)) {
+            if ($fileHelper->exists($path)) {
                 $fileContent = $fileHelper->getContents($path);
             } // todo: regenerate if not exists
             wp_register_style('vcv:assets:front:style:' . $sourceId, false);

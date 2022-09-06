@@ -30,6 +30,26 @@ class File implements Helper
         return $this->getFileSystem()->get_contents($filePath);
     }
 
+    public function exists($filePath)
+    {
+        return $this->getFileSystem()->exists($filePath);
+    }
+
+    public function isFile($filePath)
+    {
+        return $this->getFileSystem()->is_file($filePath);
+    }
+
+    public function isDir($filePath)
+    {
+        return $this->getFileSystem()->is_dir($filePath);
+    }
+
+    public function rename($oldName, $newName)
+    {
+        return $this->getFileSystem()->move($oldName, $newName);
+    }
+
     /**
      * @param $filePath
      * @param $contents
@@ -43,30 +63,6 @@ class File implements Helper
     }
 
     /**
-     * Check does file exist
-     *
-     * @param $filePath
-     *
-     * @return bool
-     */
-    public function isFile($filePath)
-    {
-        return is_file($filePath);
-    }
-
-    /**
-     * Check does directory exist
-     *
-     * @param $dirPath
-     *
-     * @return bool
-     */
-    public function isDir($dirPath)
-    {
-        return is_dir($dirPath);
-    }
-
-    /**
      * Check does directory exist and if not create it
      *
      * @param $dirPath
@@ -76,7 +72,7 @@ class File implements Helper
      */
     public function checkDir($dirPath, $permissions = 0777)
     {
-        return !$this->isDir($dirPath) ? mkdir($dirPath, $permissions, true) : true;
+        return $this->getFileSystem()->mkdir($dirPath, $permissions);
     }
 
     public function download($url)

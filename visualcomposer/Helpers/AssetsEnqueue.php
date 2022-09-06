@@ -11,9 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Framework\Container;
 
-/**
- *
- */
 class AssetsEnqueue extends Container implements Helper
 {
     /**

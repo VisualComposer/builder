@@ -125,7 +125,8 @@ class WpMedia implements Helper
         // checking if the file size is larger than the target size
         // if it is smaller or the same size, stop right here and return
         if ($image_src[1] > $width || $image_src[2] > $height) {
-            if (file_exists($cropped_img_path)) {
+            $fileHelper = vchelper('File');
+            if ($fileHelper->exists($cropped_img_path)) {
                 $cropped_img_url = str_replace(basename($image_src[0]), basename($cropped_img_path), $image_src[0]);
                 $vt_image = [
                     'url' => $cropped_img_url,
@@ -141,7 +142,7 @@ class WpMedia implements Helper
                 $resized_img_path = $no_ext_path . '-' . $proportional_size[0] . 'x' . $proportional_size[1]
                     . $extension;
                 // checking if the file already exists
-                if (file_exists($resized_img_path)) {
+                if ($fileHelper->exists($resized_img_path)) {
                     $resized_img_url = str_replace(
                         basename($image_src[0]),
                         basename($resized_img_path),

@@ -230,11 +230,11 @@ class Templates implements Helper
                 $fileHelper->createDirectory(
                     $templatePath
                 );
-                if (!file_exists($templatePath)) {
+                if (!$fileHelper->exists($templatePath)) {
                     return false;
                 }
 
-                if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
+                if ($fileHelper->rename($imageFile, $templatePath . '/' . $localImagePath)) {
                     return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $localImagePath);
                 }
             } else {
