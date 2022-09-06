@@ -1,14 +1,16 @@
-const vcCake = require('vc-cake')
+import vcCake from 'vc-cake'
 
-let data
+let data = {}
 const dataManager = {
-  get: (dataKey) => {
+  get: (dataKey:string) => {
     if (Object.prototype.hasOwnProperty.call(data, dataKey)) {
+      // @ts-ignore accessing object property via bracket notation
       return data[dataKey]()
     }
     return null
   },
-  set: (dataKey, value) => {
+  set: (dataKey:string, value:boolean) => {
+    // @ts-ignore accessing object property via bracket notation
     data[dataKey] = () => { return value }
   },
   reset () {
