@@ -709,3 +709,13 @@
         return after.getPropertyValue(property);
     },
 );
+
+/** Search in hub
+ *
+ * @param section [string]
+ * @param element [string]
+ */
+ Cypress.Commands.add('searchInHub', (section, element) => {
+    cy.get('.vcv-ui-hub-control-container').contains('.vcv-ui-navigation-slider-button', section).click()
+    cy.get('#add-element-search').clear().type(element)
+ })
