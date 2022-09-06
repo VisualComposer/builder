@@ -1,6 +1,6 @@
 /* global describe, test, expect, global */
 
-import '../../public/editor/services/dataManager/service.js'
+import '../../public/editor/services/dataManager/service'
 import reducer, { assetsAdded } from 'public/editor/stores/sharedAssets/slice'
 
 const initialState = { sharedAssets: {} }

@@ -1,9 +1,9 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
 
-import '../../public/editor/services/dataManager/service.js'
-import '../../public/editor/services/utils/service.js'
-import '../../public/editor/services/document/service.js'
+import '../../public/editor/services/dataManager/service'
+import '../../public/editor/services/utils/service'
+import '../../public/editor/services/document/service'
 
 const elementData = {
   "id": "2bbae7c5",
