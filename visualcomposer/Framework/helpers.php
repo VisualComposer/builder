@@ -321,7 +321,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong JSON response
                 $loggerHelper->log(
-                    __('A wrong response body was received.', 'visualcomposer'),
+                    esc_html__('A wrong response body was received.', 'visualcomposer'),
                     [
                         'body' => $body,
                     ]
@@ -335,7 +335,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong Response status
                 $additionalMessage = isset($body['message']) ? ' ' . $body['message'] : '';
-                $message = __('Bad status code was received.', 'visualcomposer') . $additionalMessage;
+                $message = esc_html__('Bad status code was received.', 'visualcomposer') . $additionalMessage;
                 $loggerHelper->log(
                     $message,
                     [
@@ -351,8 +351,8 @@ function _vcCheckIsResponseBad($response)
             $responseCode = wp_remote_retrieve_response_code($response);
             $isRequestError = $responseCode !== 200;
             if ($isRequestError) {
-                // translators: %s: error message
-                $message = sprintf(__('A bad response status code %d was received.', 'visualcomposer'), $responseCode);
+                // translators: %d: response error code
+                $message = sprintf(esc_html__('A bad response status code %d was received.', 'visualcomposer'), $responseCode);
                 $loggerHelper->log(
                     $message,
                     [
@@ -368,7 +368,7 @@ function _vcCheckIsResponseBad($response)
     $isFilterError = isset($response['status']) && !$response['status'];
     if ($isFilterError) {
         $additionalMessage = isset($response['message']) ? ' ' . $response['message'] : '';
-        $message = __('Failed to process the action.', 'visualcomposer') . $additionalMessage;
+        $message = esc_html__('Failed to process the action.', 'visualcomposer') . $additionalMessage;
         $loggerHelper->log(
             $message,
             [
