@@ -255,7 +255,7 @@ class PostType extends Container implements Module
         $optionsHelper = vchelper('Options');
 
         // Capability migration for custom VC post types
-        if (!$optionsHelper->get($this->postType . '-capability-migration')) {
+        if (!$optionsHelper->get($this->postType . '-capability-migration-45')) {
             // @codingStandardsIgnoreStart
             global $wp_roles;
             $optionsHelper->delete($this->postType . '-capabilities-set');
@@ -264,7 +264,7 @@ class PostType extends Container implements Module
             $wp_roles->remove_cap('contributor', 'delete_' . $this->postType);
             $wp_roles->remove_cap('contributor', 'edit_' . $this->postType . 's');
             $wp_roles->remove_cap('contributor', 'delete_' . $this->postType . 's');
-            $optionsHelper->set($this->postType . '-capability-migration', 1);
+            $optionsHelper->set($this->postType . '-capability-migration-45', 1);
             // @codingStandardsIgnoreEnd
         }
 
@@ -272,7 +272,7 @@ class PostType extends Container implements Module
             return;
         }
 
-        $roles = ['administrator', 'editor'];
+        $roles = ['administrator', 'editor', 'author',  'contributor'];
 
         foreach ($roles as $role) {
             $roleObject = get_role($role);
