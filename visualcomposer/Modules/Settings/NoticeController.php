@@ -84,7 +84,7 @@ class NoticeController extends Container implements Module
                         sprintf(
                             '<div class="%1$s"><p>%2$s</p><p><a href="%3$s">%4$s</a></p></div>',
                             esc_attr($class),
-                            esc_html($notice['message']),
+                            $notice['message'],
                             esc_url($dismissUrl),
                             esc_html__('Dismiss', 'visualcomposer')
                         )

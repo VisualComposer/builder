@@ -125,9 +125,7 @@ class AssetBundleCompressionController extends Container implements Module
             'runtime',
         ];
 
-        $requestHelper = vchelper('Request');
-
-        $searchKey = $assetType === 'js' ? $requestHelper->input('vcv-script') : $requestHelper->input('vcv-style');
+        $searchKey = $assetType === 'js' ? $this->requestHelper->input('vcv-script') : $this->requestHelper->input('vcv-style');
 
         $key = array_search($searchKey, $compressList);
 
@@ -146,8 +144,7 @@ class AssetBundleCompressionController extends Container implements Module
     protected function getAssetType()
     {
         $type = 'js';
-        $requestHelper = vchelper('Request');
-        $style = $requestHelper->input('vcv-style');
+        $style = $this->requestHelper->input('vcv-style');
         if (!empty($style)) {
             $type = 'css';
         }
@@ -162,8 +159,7 @@ class AssetBundleCompressionController extends Container implements Module
     {
         $type = 'application/javascript';
 
-        $requestHelper = vchelper('Request');
-        $style = $requestHelper->input('vcv-style');
+        $style = $this->requestHelper->input('vcv-style');
         if (!empty($style)) {
             $type = 'text/css';
         }

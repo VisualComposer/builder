@@ -117,7 +117,7 @@ class Assets extends Container implements Helper
     /**
      * @param $filePath
      *
-     * @return mixed|string
+     * @return string
      */
     public function getAssetUrl($filePath = '')
     {
