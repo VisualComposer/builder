@@ -1,8 +1,14 @@
 import vcCake from 'vc-cake'
 import store from 'public/editor/stores/store'
 
+interface Library {
+  dependencies: string[]
+  name: string
+  subset?: string
+}
+
 const API = {
-  getAssetsLibraryFiles: (library) => {
+  getAssetsLibraryFiles: (library:Library|string) => {
     const sharedAssets = store.getState().sharedAssets.sharedAssets
     const data = typeof library === 'string' ? sharedAssets[library] : sharedAssets[library.name]
     const files = {
@@ -11,8 +17,8 @@ const API = {
     }
 
     if (data) {
-      if (library.dependencies && library.dependencies.length) {
-        library.dependencies.forEach((dependency) => {
+      if (typeof library !== 'string' && library.dependencies && library.dependencies.length) {
+        library.dependencies.forEach((dependency:string) => {
           const dependencyLibraryFiles = API.getAssetsLibraryFiles(dependency)
           if (dependencyLibraryFiles.cssBundles && dependencyLibraryFiles.cssBundles.length) {
             files.cssBundles = files.cssBundles.concat(dependencyLibraryFiles.cssBundles)
@@ -31,7 +37,7 @@ const API = {
         files.jsBundles = files.jsBundles.concat(data.jsBundle)
       }
 
-      if (library.subset && data.cssSubsetBundles) {
+      if (typeof library !== 'string' && library.subset && data.cssSubsetBundles) {
         const subsetBundle = data.cssSubsetBundles[library.subset]
         if (subsetBundle) {
           files.cssBundles = files.cssBundles.concat(subsetBundle)
@@ -48,7 +54,7 @@ const API = {
    * @param file
    * @returns {*}
    */
-  getSourcePath: (file = null) => {
+  getSourcePath: (file:string|null = null) => {
     const dataManager = vcCake.getService('dataManager')
     let path = dataManager.get('pluginSourceUrl')
     if (file && file.match('^(https?:)?\\/\\/?')) {
