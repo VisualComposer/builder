@@ -267,14 +267,15 @@ class WpmlController extends Container implements Module
                 '<div class="%1$s"><p>%2$s</p></div>',
                 esc_attr($class),
                 sprintf(
-                // translators: %1$s: <strong>, %2$s: </strong>, %3$s: url to automatic post updates page
+                // translators: %1$s: <strong>, %2$s: </strong>, %3$s: <a href url to automatic post updates page, %4$s: </a>
                     esc_html__(
-                        '%1$sVisual Composer:%2$s To complete WPML Translation Manager process for the Visual Composer supported pages you will need to run automatic posts update. <a href="%3$s">Update Posts</a>',
+                        '%1$sVisual Composer:%2$s To complete WPML Translation Manager process for the Visual Composer supported pages you will need to run automatic posts update. %3$sUpdate Posts%4$s',
                         'visualcomposer'
                     ),
                     '<strong>',
                     '</strong>',
-                    esc_url(admin_url('admin.php?page=vcv-update'))
+                    '<a href="' . esc_url(admin_url('admin.php?page=vcv-update')) . '">',
+                    '</a>'
                 )
             );
         }

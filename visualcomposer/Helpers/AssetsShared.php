@@ -14,7 +14,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 class AssetsShared extends Container implements Helper
 {
     /**
-     * @var null
+     * @var null|array
      */
     protected static $assetsLibrariesCache = null;
 

@@ -98,7 +98,7 @@ $utmHelper = vchelper('Utm');
                 <li>
                     <a href="<?php echo esc_url($permalink . $utmHelper->get('wpdashboard-news-blog-post')); ?>" class="rsswidget" rel="noopener noreferrer" title=" <?php echo esc_attr($itemTitle); ?>"
                             target="_blank">
-                        <?php echo esc_html($title); ?>
+                        <?php echo esc_html($itemTitle); ?>
                     </a>
                     <span class="rss-date"><?php echo esc_html($categories); ?></span>
                     <br />

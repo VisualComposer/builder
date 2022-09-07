@@ -338,7 +338,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'newPluginVersionIsAvailable' => sprintf(
-                // translators: %s: Plugin url, %s: Plugin version
+                // translators: %1$s: Plugin url, %2$s: Plugin version
                 __(
                     'You have an outdated version of Visual Composer that requires an update. Update the plugin to get new features, improve performance, avoid compatibility issues, and keep your site secure. <a href="%1$s">Update now</a> to version %2$s.',
                     'visualcomposer'
