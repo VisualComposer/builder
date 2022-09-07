@@ -17,7 +17,8 @@ const postData = {
   },
 
   isPublished: () => {
-    return dataManager.get('postData').status === 'publish' || dataManager.get('postData').status === 'private' || dataManager.get('postData').status === 'future'
+    const { status } = dataManager.get('postData')
+    return ['publish', 'private', 'future'].includes(status)
   },
 
   permalink: () => {
