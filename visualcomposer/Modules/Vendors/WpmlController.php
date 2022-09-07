@@ -120,12 +120,11 @@ class WpmlController extends Container implements Module
             return $package;
         }
 
-        foreach ($package['contents'] as $fieldKey => $field) {
-            if ($fieldKey !== 'field-vcv-pageContent-0') {
-                continue;
-            }
+        if (isset($package['contents']['field-vcv-pageContent-0'])) {
+            $pageContent = $package['contents']['field-vcv-pageContent-0'];
+
             // Make the magic
-            $pageContent = json_decode(rawurldecode(base64_decode($field['data'])), true);
+            $pageContent = json_decode(rawurldecode(base64_decode($pageContent['data'])), true);
 
             $translations = [];
             foreach ($pageContent['elements'] as $elementId => $valueElement) {
@@ -137,10 +136,6 @@ class WpmlController extends Container implements Module
 
             $package = $this->setNewContentForTranslationPackage($translations, $package);
         }
-
-        unset($package['contents'][ 'field-vcv-pageContent-0' ]);
-        unset($package['contents'][ 'field-vcv-pageContent-0-name' ]);
-        unset($package['contents'][ 'field-vcv-pageContent-0-type' ]);
 
         return $package;
     }
