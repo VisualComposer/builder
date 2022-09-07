@@ -66,13 +66,12 @@ class File implements Helper
      * Check does directory exist and if not create it
      *
      * @param $dirPath
-     * @param int $permissions
      *
      * @return bool
      */
-    public function checkDir($dirPath, $permissions = 0777)
+    public function checkDir($dirPath)
     {
-        return $this->getFileSystem()->mkdir($dirPath, $permissions);
+        return wp_mkdir_p($dirPath);
     }
 
     public function download($url)
