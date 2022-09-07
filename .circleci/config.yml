@@ -271,10 +271,10 @@ jobs:
           name: Link files and directories
           command: |
             echo "<?php VcvEnv::set('VCV_ENV_DEV_ELEMENTS', false); VcvEnv::set('VCV_ENV_DEV_ADDONS', false); VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', true); require_once(__DIR__ . '/env.php');" > env-dev.php
-            echo "<?php require_once(dirname(__FILE__) . '/wp-load.php'); $domain = $_SERVER['SERVER_NAME']; update_option('homeurl', 'http://' . $domain); update_option('siteurl', 'http://' . $domain); echo 'homeurl: ' . get_option('homeurl'); echo 'siteurl: ' . get_option('siteurl');" > /var/www/html/setup-ngrok.php
+            echo "<?php require_once(dirname(__FILE__) . '/wp-load.php'); \$domain = \$_SERVER['SERVER_NAME']; update_option('homeurl', 'http://' . \$domain); update_option('siteurl', 'http://' . \$domain); echo 'homeurl: ' . get_option('homeurl'); echo 'siteurl: ' . get_option('siteurl'); \$file = file_get_contents(__DIR__ . '/tests/cypressPipeline/cypress.json'); \$json = json_decode(\$file, true); \$json['baseUrl'] = 'http://' . \$domain; \$json['env']['baseUrl'] = 'http://' . \$domain; \$json = json_encode(\$json, JSON_PRETTY_PRINT); file_put_contents(__DIR__ . '/tests/cypressPipeline/cypress.json', \$json);" > /var/www/html/setup-ngrok.php
             ln -s $(pwd) /var/www/html/wp-content/plugins/builder
             sudo chmod 777 -R /var/www/html/wp-content
-            sudo chown www-data:www-data -R /var/www/html/wp-content/uploads
+            sudo chown www-data:www-data -R /var/www/html
       - restore_cache:
           keys:
             - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
