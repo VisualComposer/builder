@@ -4,15 +4,22 @@ import { set, reset, update, remove, appendTo, moveBefore, moveAfter, clone } fr
 const vcCake = require('vc-cake')
 const createKey = vcCake.getService('utils').createKey
 
+interface ObjectData {
+  id: string,
+  parent: string|boolean,
+  order?: number
+}
+
 const dataStore = {
-  getChildren: function (id) {
+  getChildren: function (id:string|boolean) {
     const documentData = store.getState().document.documentData
     return Object.keys(documentData)
+      // @ts-ignore accessing object property via bracket notation
       .map((id) => JSON.parse(JSON.stringify(documentData[id])))
       .filter((el) => el.parent === id)
       .sort((a, b) => a.order - b.order)
   },
-  getLastOrderIndex: function (id) {
+  getLastOrderIndex: function (id:string|boolean) {
     const children = this.getChildren(id)
     const lastObj = children[children.length - 1]
     return lastObj ? lastObj.order + 1 : 0
@@ -20,9 +27,9 @@ const dataStore = {
 }
 
 const api = {
-  create: function (data, options = {}) {
+  create: function (data: {id:string, parent:string|boolean, order:number}, options:{insertAfter?:boolean, insertInstead?:boolean} = {}) {
     const id = data.id || createKey()
-    const objectData = {
+    const objectData:ObjectData = {
       id: id,
       parent: data.parent || false
     }
@@ -38,8 +45,8 @@ const api = {
 
     return JSON.parse(JSON.stringify(obj))
   },
-  delete: function (id) {
-    let deleted = []
+  delete: function (id:string) {
+    let deleted:string[] = []
     store.dispatch(remove(id))
 
     deleted.push(id)
@@ -48,32 +55,35 @@ const api = {
     }, this)
     return deleted
   },
-  update: function (id, data) {
+  // disabling lint, because data can be any element object with different properties
+  update: function (id:string, data:any) { // eslint-disable-line
     store.dispatch(update([id, data]))
   },
-  get: function (id) {
+  get: function (id:string) {
+    // @ts-ignore accessing object property via bracket notation
     const data = store.getState().document.documentData[id]
     return data ? JSON.parse(JSON.stringify(data)) : null
   },
-  children: function (id) {
+  children: function (id:string) {
     return JSON.parse(JSON.stringify(dataStore.getChildren(id)))
   },
-  moveBefore: function (id, beforeId) {
+  moveBefore: function (id:string, beforeId:string) {
     store.dispatch(moveBefore([id, beforeId]))
   },
-  moveAfter: function (id, afterId) {
+  moveAfter: function (id:string, afterId:string) {
     store.dispatch(moveAfter([id, afterId]))
   },
-  appendTo: function (id, parentId) {
+  appendTo: function (id:string, parentId:string) {
     store.dispatch(appendTo([id, parentId, dataStore.getLastOrderIndex(parentId)]))
   },
-  clone: function (id, parent, unChangeOrder) {
+  clone: function (id:string, parent:string, unChangeOrder:number) {
     const cloneId = createKey()
     store.dispatch(clone([id, cloneId, parent, unChangeOrder]))
     return this.get(cloneId)
   },
-  copy: function (id) {
-    const children = []
+  copy: function (id:string) {
+    // disabling lint, because children array can contain any element object with different properties
+    const children:any[] = [] // eslint-disable-line
     const clone = this.get(id)
     if (!clone) {
       return false
@@ -91,12 +101,13 @@ const api = {
       children
     }
   },
-  getDescendants: function (id, descendantData = {}) {
+  getDescendants: function (id:string, descendantData = {}) {
     const element = this.get(id)
     if (!element) {
       return false
     }
 
+    // @ts-ignore accessing object property via bracket notation
     descendantData[id] = element
 
     dataStore.getChildren(id).forEach((child) => {
@@ -108,27 +119,31 @@ const api = {
   all: function () {
     return JSON.parse(JSON.stringify(store.getState().document.documentData))
   },
-  reset: function (data) {
+  // disabling lint, because data can be any element object with different properties
+  reset: function (data:any) { // eslint-disable-line
     store.dispatch(reset(data))
   },
   size: function () {
     return Object.keys(store.getState().document.documentData).length
   },
-  filter: function (callback) {
+  filter: function (callback:() => void) {
     const data = store.getState().document.documentData
     return Object.keys(data).map((key) => {
-      return JSON.parse(JSON.stringify(data[key]))
+      // @ts-ignore accessing object property via bracket notation
+      return JSON.parse(JSON.stringify(data[key])) // disabling lint, because data can be any element object with different properties
     }).filter(callback)
   },
-  getTopParent: function (id) {
+  getTopParent: function (id:string):string {
     const obj = this.get(id)
     return obj && obj.parent ? this.getTopParent(obj.parent) : id
   },
-  getByTag: function (tag) {
+  getByTag: function (tag:string) {
     const itemsByTag = {}
     const data = store.getState().document.documentData
     Object.keys(data).map((key) => {
+      // @ts-ignore accessing object property via bracket notation
       if (data[key].tag === tag) {
+        // @ts-ignore accessing object property via bracket notation
         itemsByTag[key] = JSON.parse(JSON.stringify(data[key]))
       }
     })
