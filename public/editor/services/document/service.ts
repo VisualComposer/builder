@@ -140,7 +140,7 @@ const api = {
   getByTag: function (tag:string) {
     const itemsByTag = {}
     const data = store.getState().document.documentData
-    Object.keys(data).map((key) => {
+    Object.keys(data).forEach((key) => {
       // @ts-ignore accessing object property via bracket notation
       if (data[key].tag === tag) {
         // @ts-ignore accessing object property via bracket notation
