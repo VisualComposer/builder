@@ -1,12 +1,23 @@
 import { addService } from 'vc-cake'
 
+declare global {
+  interface Window {
+    vcvManageOptions: boolean,
+    VCV_USER_ACCESS: () => {
+      '*': boolean,
+      part: boolean
+    }
+  }
+}
+
 const RoleManager = {
-  can (part, defaultValue = true) {
+  can (part:string, defaultValue = true) {
     if (typeof window.VCV_USER_ACCESS !== 'undefined') {
       if (typeof window.VCV_USER_ACCESS()['*'] !== 'undefined') {
         return window.VCV_USER_ACCESS()['*']
       }
 
+      // @ts-ignore accessing object property via bracket notation
       return !!window.VCV_USER_ACCESS()[part]
     }
 
