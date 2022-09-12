@@ -78,7 +78,7 @@ class FrontendControllerTest extends WP_UnitTestCase
             'window\.vcvNonce = ".+";',
             'window\.vcvIsPremiumActivated',
             '<iframe class="vcv-layout-iframe"',
-            'src=".+vcv-editable=1&vcv-source-id=' . $postId . '&vcv-nonce=.+" id="vcv-editor-iframe"',
+            'src=".+vcv-editable=1&#038;vcv-source-id=' . $postId . '&#038;vcv-nonce=.+" id="vcv-editor-iframe"',
             '\<title\>Visual Composer:',
             'Object\.defineProperty\(window, \\\'VCV_GET_SHARED_ASSETS\\\'',
             'Object\.defineProperty\(window, \\\'VCV_UTM\\\'',

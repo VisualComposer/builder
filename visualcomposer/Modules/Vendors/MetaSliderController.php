@@ -73,7 +73,7 @@ class MetaSliderController extends Container implements Module
             $x = 0;
             foreach (self::$slidersIds as $id) {
                 $x++;
-                $newId = time() . '0' . $x . '0' . self::$slidersCount . rand(100, 999);
+                $newId = time() . '0' . $x . '0' . self::$slidersCount . wp_rand(100, 999);
                 $response = str_replace($id, $newId, $response);
             }
         }

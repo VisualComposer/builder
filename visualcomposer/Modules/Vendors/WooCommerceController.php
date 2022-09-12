@@ -393,7 +393,7 @@ class WooCommerceController extends Container implements Module
     {
         $product = wc_get_product($sourceId);
         if ($product->get_date_on_sale_to()) {
-            return date(wc_date_format() . ' ' . wc_time_format(), $product->get_date_on_sale_to()->getTimestamp());
+            return gmdate(wc_date_format() . ' ' . wc_time_format(), $product->get_date_on_sale_to()->getTimestamp());
         }
 
         return false;
@@ -408,7 +408,7 @@ class WooCommerceController extends Container implements Module
     {
         $product = wc_get_product($sourceId);
         if ($product->get_date_on_sale_from()) {
-            return date(wc_date_format() . ' ' . wc_time_format(), $product->get_date_on_sale_from()->getTimestamp());
+            return gmdate(wc_date_format() . ' ' . wc_time_format(), $product->get_date_on_sale_from()->getTimestamp());
         }
 
         return false;

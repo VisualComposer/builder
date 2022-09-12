@@ -62,11 +62,12 @@ class TwentySeventeenController extends Container implements Module
         if (!$panelId) {
             return;
         }
-        global $post;
-        $post = get_post(get_theme_mod('panel_' . $panelId));
-        setup_postdata($post);
+        $globalsHelper = vchelper('Globals');
+        $queriedPost = get_post(get_theme_mod('panel_' . $panelId));
+        $globalsHelper->set('post', $queriedPost);
+        setup_postdata($queriedPost);
         ob_start();
-        vcevent('vcv:assets:enqueueAssets', ['sourceIds' => [$post->ID]]);
+        vcevent('vcv:assets:enqueueAssets', ['sourceIds' => [$queriedPost->ID]]);
         wp_print_styles();
         wp_print_scripts();
         $assets = ob_get_clean();

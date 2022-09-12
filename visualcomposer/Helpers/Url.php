@@ -49,13 +49,16 @@ class Url implements Helper
      */
     public function ajax($query = [])
     {
+        $allowCodeStyle = false;
+        if ($allowCodeStyle) {
+            // this is necessary to allow usage of code style for global request variables
+            check_admin_referer('vcv-nonce');
+        }
         $ajax = [VCV_AJAX_REQUEST => 1];
         $query = $ajax + $query;
-        // @codingStandardsIgnoreStart
         if (isset($_REQUEST['lang'])) {
-            $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));
+            $query['lang'] = wp_strip_all_tags(esc_attr($_REQUEST['lang']));
         }
-        // // @codingStandardsIgnoreEnd
         $url = set_url_scheme(get_permalink());
 
         /** @var Str $strHelper */
@@ -76,14 +79,17 @@ class Url implements Helper
      */
     public function adminAjax($query = [])
     {
+        $allowCodeStyle = false;
+        if ($allowCodeStyle) {
+            // this is necessary to allow usage of code style for global request variables
+            check_admin_referer('vcv-nonce');
+        }
         $ajax = [VCV_ADMIN_AJAX_REQUEST => 1];
         $query = $ajax + $query;
         $query['action'] = 'vcv-admin-ajax';
-        // @codingStandardsIgnoreStart
         if (isset($_REQUEST['lang'])) {
-            $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));
+            $query['lang'] = wp_strip_all_tags(esc_attr($_REQUEST['lang']));
         }
-        // @codingStandardsIgnoreEnd
         $url = set_url_scheme(admin_url('admin-ajax.php'));
 
         /** @var Str $strHelper */
@@ -143,7 +149,7 @@ class Url implements Helper
     public function redirectIfUnauthorized()
     {
         if (!is_user_logged_in()) {
-            wp_redirect(wp_login_url($this->current()));
+            wp_safe_redirect(wp_login_url($this->current()));
 
             return $this->terminate();
         }

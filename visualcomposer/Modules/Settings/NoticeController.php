@@ -49,6 +49,7 @@ class NoticeController extends Container implements Module
     ) {
         $notices = $noticeHelper->all();
         if (!empty($notices)) {
+            $outputHelper = vchelper('Output');
             foreach ($notices as $notice) {
                 if (
                     !$currentUserHelper->wpAll('manage_options')->get()
@@ -64,10 +65,12 @@ class NoticeController extends Container implements Module
 
                 if (isset($notice['wpDismissible']) && $notice['wpDismissible'] === true) {
                     $class .= ' is-dismissible';
-                    printf(
-                        '<div class="%1$s"><p>%2$s</p></div>',
-                        esc_attr($class),
-                        $notice['message']
+                    $outputHelper->printNotEscaped(
+                        sprintf(
+                            '<div class="%1$s"><p>%2$s</p></div>',
+                            esc_attr($class),
+                            $notice['message']
+                        )
                     );
                 } elseif ($notice['dismissible']) {
                     $dismissUrl = $urlHelper->adminAjax(
@@ -77,19 +80,22 @@ class NoticeController extends Container implements Module
                             'vcv-nonce' => $nonceHelper->admin(),
                         ]
                     );
-                    printf(
-                        '<div class="%1$s"><p>%2$s</p><p><a href="%3$s">%4$s</a></p></div>',
-                        esc_attr($class),
-                        $notice['message'],
-                        // @codingStandardsIgnoreLine
-                        $dismissUrl,
-                        esc_html__('Dismiss', 'visualcomposer')
+                    $outputHelper->printNotEscaped(
+                        sprintf(
+                            '<div class="%1$s"><p>%2$s</p><p><a href="%3$s">%4$s</a></p></div>',
+                            esc_attr($class),
+                            $notice['message'],
+                            esc_url($dismissUrl),
+                            esc_html__('Dismiss', 'visualcomposer')
+                        )
                     );
                 } else {
-                    printf(
-                        '<div class="%1$s"><p>%2$s</p></div>',
-                        esc_attr($class),
-                        $notice['message']
+                    $outputHelper->printNotEscaped(
+                        sprintf(
+                            '<div class="%1$s"><p>%2$s</p></div>',
+                            esc_attr($class),
+                            $notice['message']
+                        )
                     );
                 }
             }

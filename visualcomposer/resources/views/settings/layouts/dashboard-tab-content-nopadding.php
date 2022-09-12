@@ -8,17 +8,19 @@ if (!defined('ABSPATH')) {
 
 // Get Active Tab
 $activeTab = '';
-if (isset($_GET['page'])) {
-    $activeTab = esc_attr($_GET['page']);
+$requestHelper = vchelper('Request');
+if ($requestHelper->exists('page')) {
+    $activeTab = esc_attr($requestHelper->input('page'));
 }
+$outputHelper = vchelper('Output');
 $activeClass = $activeTab === $slug ? 'vcv-dashboards-section-content--active' : '';
 $pageTitle = empty($page['subTitle']) ? $page['title'] : $page['subTitle'];
 ?>
-<div class="vcv-dashboards-section-content vcv-dashboards-section--no-padding <?php echo $activeClass ?>" data-section="<?php echo $slug ?>">
+<div class="vcv-dashboards-section-content vcv-dashboards-section--no-padding <?php echo esc_attr($activeClass); ?>" data-section="<?php echo esc_attr($slug); ?>">
     <?php
     if ($pageTitle) {
-        echo '<h1 style="' . (isset($page['hideTitle']) && $page['hideTitle'] ? 'display:none;' : '') . '">' . $pageTitle . '</h1>';
+        echo '<h1 style="' . (isset($page['hideTitle']) && $page['hideTitle'] ? 'display:none;' : '') . '">' . esc_html($pageTitle) . '</h1>';
     }
-    echo $content;
+    $outputHelper->printNotEscaped($content);
     ?>
 </div>

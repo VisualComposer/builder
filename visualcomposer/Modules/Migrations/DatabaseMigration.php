@@ -27,14 +27,14 @@ class DatabaseMigration extends MigrationsController implements Module
         // Remove temporary download data
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s',
                 VCV_PREFIX . 'hubA:d:%'
             )
         );
         // Remove old transients
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s" and option_name NOT LIKE "%s"',
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s and option_name NOT LIKE %s',
                 '_transient_vcv-%',
                 '_transient_vcv-' . VCV_VERSION . '%'
             )
@@ -42,7 +42,7 @@ class DatabaseMigration extends MigrationsController implements Module
         // Remove old transient timeouts
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s" and option_name NOT LIKE "%s"',
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s and option_name NOT LIKE %s',
                 '_transient_timeout_vcv-%',
                 '_transient_timeout_vcv-' . VCV_VERSION . '%'
             )
@@ -50,7 +50,7 @@ class DatabaseMigration extends MigrationsController implements Module
         // Remove old DB migrations
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s" and option_name NOT LIKE "%s"',
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s and option_name NOT LIKE %s',
                 'vcv-system:migration:databaseMigration-%',
                 'vcv-system:migration:databaseMigration-' . VCV_VERSION
             )
@@ -58,7 +58,7 @@ class DatabaseMigration extends MigrationsController implements Module
         // Remove before 1.13 keys temporary download data
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s',
                 VCV_PREFIX . 'hubAction:download:%'
             )
         );

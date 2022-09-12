@@ -78,10 +78,8 @@ class WpEditor extends Container implements Module
 
     protected function getWpEditor()
     {
-        // @codingStandardsIgnoreStart
-        global $wp_rich_edit;
-        $wp_rich_edit = true;
-        // @codingStandardsIgnoreEnd
+        $globalsHelper = vchelper('Globals');
+        $globalsHelper->set('wp_rich_edit', true);
         ob_start();
         $this->getEditorButtonStyles();
         /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::addCustomTinymcePlugins */
@@ -144,10 +142,8 @@ class WpEditor extends Container implements Module
 
     protected function getWpEditorDynamic()
     {
-        // @codingStandardsIgnoreStart
-        global $wp_rich_edit;
-        $wp_rich_edit = true;
-        // @codingStandardsIgnoreEnd
+        $globalsHelper = vchelper('Globals');
+        $globalsHelper->set('wp_rich_edit', true);
         ob_start();
         $this->getEditorButtonStyles();
         wp_editor(
@@ -174,7 +170,7 @@ class WpEditor extends Container implements Module
             wp_print_styles('editor-buttons');
             $this->editorButtonStyles = ob_get_clean();
         }
-
-        echo $this->editorButtonStyles;
+        $outputHelper = vchelper('Output');
+        $outputHelper->printNotEscaped($this->editorButtonStyles);
     }
 }

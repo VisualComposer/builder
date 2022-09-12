@@ -218,16 +218,14 @@ class AttributeController extends Container implements Module
      */
     protected function removeUiMetaboxes()
     {
-        // @codingStandardsIgnoreStart
-        global $wp_meta_boxes;
-        $wp_meta_boxes = [
+        $globalsHelper = vchelper('Globals');
+        $globalsHelper->set('wp_meta_boxes', [
             'vcv_gutenberg_attr' => [
                 'normal' => [
                     'core' => [],
                 ],
             ],
-        ];
-        // @codingStandardsIgnoreEnd
+        ]);
     }
 
     /**

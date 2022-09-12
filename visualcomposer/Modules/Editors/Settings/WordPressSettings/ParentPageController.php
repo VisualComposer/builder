@@ -110,7 +110,7 @@ class ParentPageController extends Container implements Module
     ) {
         $currentPost = $postTypeHelper->get();
         // @codingStandardsIgnoreLine
-        if (isset($currentPost->post_type) && post_type_supports( $currentPost->post_type, 'page-attributes' )) {
+        if (isset($currentPost->post_type) && post_type_supports($currentPost->post_type, 'page-attributes')) {
             $response = array_merge(
                 $response,
                 [

@@ -13,15 +13,31 @@ use VisualComposer\Framework\Container;
 
 class AssetsEnqueue extends Container implements Helper
 {
+    /**
+     * @var array
+     */
     protected $sourcesList = [];
 
+    /**
+     * @var array
+     */
     protected $doneList = [];
 
+    /**
+     * @param $sourceId
+     *
+     * @return void
+     */
     public function addToEnqueueList($sourceId)
     {
         $this->sourcesList[] = $sourceId;
     }
 
+    /**
+     * @param $sourceId
+     *
+     * @return void
+     */
     public function removeFromList($sourceId)
     {
         if ($this->sourcesList && in_array($sourceId, $this->sourcesList)) {
@@ -32,11 +48,20 @@ class AssetsEnqueue extends Container implements Helper
         }
     }
 
+    /**
+     * @return array
+     */
     public function getEnqueueList()
     {
         return array_unique($this->sourcesList);
     }
 
+    /**
+     * @param $sourceId
+     *
+     * @return void
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     public function enqueueAssets($sourceId)
     {
         $assetsSharedHelper = vchelper('AssetsShared');
@@ -89,6 +114,12 @@ class AssetsEnqueue extends Container implements Helper
         }
     }
 
+    /**
+     * @param $asset
+     *
+     * @return array
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     protected function getAssetData($asset)
     {
         $assetsSharedHelper = vchelper('AssetsShared');
@@ -116,6 +147,12 @@ class AssetsEnqueue extends Container implements Helper
         return $response;
     }
 
+    /**
+     * @param $sourceId
+     *
+     * @return void
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     public function enqueuePageSettingsCss($sourceId)
     {
         if (!empty($this->doneList[ $sourceId ])) {

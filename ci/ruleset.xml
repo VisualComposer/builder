@@ -8,9 +8,11 @@
        developers who may change this file in the future.
     -->
     <description>A custom coding standard</description>
+    <config name="installed_paths" value="../../wp-coding-standards/wpcs,../../phpcompatibility/php-compatibility"/>
 
     <rule ref="PSR12">
         <exclude name="Generic.Files.LineLength.TooLong"/>
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
     </rule>
     <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
     <rule ref="Generic.Files.EndFileNewline"/>
@@ -32,17 +34,22 @@
     <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
     <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
     <rule ref="Generic.Functions.CallTimePassByReference"/>
-    <rule ref="Generic.Metrics.CyclomaticComplexity"/>
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="18"/>
+            <property name="absoluteComplexity" value="19"/>
+        </properties>
+    </rule>
     <rule ref="Generic.Metrics.NestingLevel"/>
     <rule ref="Generic.NamingConventions.ConstructorName"/>
     <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
-    <rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
+    <!--    <rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>-->
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
     <rule ref="Generic.PHP.DisallowShortOpenTag"/>
     <rule ref="Generic.PHP.LowerCaseConstant"/>
     <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
     <rule ref="Generic.WhiteSpace.ScopeIndent"/>
-    <rule ref="Generic.PHP.NoSilencedErrors"/>
+    <!--    <rule ref="Generic.PHP.NoSilencedErrors"/>-->
     <rule ref="Generic.PHP.ForbiddenFunctions"/>
     <rule ref="MySource.PHP.EvalObjectFactory"/>
     <rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
@@ -58,9 +65,9 @@
     <rule ref="Squiz.PHP.Eval"/>
     <rule ref="Zend.Files.ClosingTag"/>
     <rule ref="Squiz.PHP.NonExecutableCode"/>
-    <rule ref="Zend.NamingConventions.ValidVariableName">
-        <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
-    </rule>
+    <!--    <rule ref="Zend.NamingConventions.ValidVariableName">-->
+    <!--        <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>-->
+    <!--    </rule>-->
     <rule ref="Squiz.Classes.ValidClassName">
         <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
         <exclude-pattern>./visualcomposer/Env.php</exclude-pattern>
@@ -73,6 +80,73 @@
         <exclude-pattern type="relative">./plugin-wordpress.php</exclude-pattern>
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
     </rule>
+
+    <!-- wpcom -->
+    <rule ref="WordPress.DB.PreparedSQLPlaceholders"/>
+    <rule ref="WordPress.DB.PreparedSQL"/>
+    <rule ref="WordPress.DB.RestrictedFunctions"/>
+    <rule ref="WordPress.DB.RestrictedClasses"/>
+    <rule ref="WordPress.PHP.RestrictedPHPFunctions"/>
+    <rule ref="WordPress.PHP.NoSilencedErrors">
+        <exclude name="WordPress.PHP.NoSilencedErrors.Discouraged"/>
+    </rule>
+    <rule ref="Generic.Files.ByteOrderMark"/>
+    <rule ref="Generic.CodeAnalysis.EmptyPHPStatement"/>
+    <rule ref="WordPress.WP.I18n"/>
+    <rule ref="WordPress.DateTime.RestrictedFunctions"/>
+
+    <rule ref="Generic.PHP.DiscourageGoto">
+        <type>error</type>
+        <message>The "goto" language construct should not be used.</message>
+    </rule>
+    <rule ref="Squiz.PHP.Eval.Discouraged">
+        <type>error</type>
+        <message>eval() is a security risk so not allowed.</message>
+    </rule>
+
+    <!-- https://github.com/WordPress/WordPress-Coding-Standards/blob/develop/WordPress-Extra/ruleset.xml -->
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.ForbiddenFunctions"/>
+    <rule ref="Generic.Classes.DuplicateClassName"/>
+    <rule ref="WordPress.Security.SafeRedirect"/>
+    <rule ref="WordPress.Security.NonceVerification"/>
+    <rule ref="WordPress.Security.EscapeOutput"/>
+    <rule ref="WordPress.PHP.DevelopmentFunctions">
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Assets/AssetBundleCompressionController.php</exclude-pattern>
+    </rule>
+    <!-- WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode exclude visualcomposer/Modules/Editors/DataUsage/Controller.php -->
+    <rule ref="WordPress.PHP.DiscouragedPHPFunctions">
+        <exclude-pattern>./visualcomposer/Modules/Editors/DataUsage/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Assets/AssetBundleCompressionController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Elements/Traits/AddShortcodeTrait.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Elements/Traits/ShortcodesTrait.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/FrontView/FrontViewController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Vendors/WpmlController.php</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.WP.DeprecatedFunctions"/>
+    <rule ref="WordPress.WP.DeprecatedClasses"/>
+    <rule ref="WordPress.WP.DeprecatedParameters"/>
+    <rule ref="WordPress.WP.DeprecatedParameterValues"/>
+    <rule ref="WordPress.WP.AlternativeFunctions"/>
+    <rule ref="WordPress.WP.DiscouragedConstants"/>
+    <rule ref="WordPress.WP.DiscouragedFunctions"/>
+    <rule ref="WordPress.PHP.IniSet">
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Assets/AssetBundleCompressionController.php</exclude-pattern>
+    </rule>
+    <rule ref="Generic.PHP.BacktickOperator"/>
+    <rule ref="Generic.PHP.Syntax"/>
+    <rule ref="WordPress.WP.GlobalVariablesOverride"/>
+    <rule ref="WordPress.PHP.NoSilencedErrors">
+        <properties>
+            <property name="usePHPFunctionsList" value="false"/>
+        </properties>
+    </rule>
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
     <file>./plugin-wordpress.php</file>
@@ -81,5 +155,11 @@
     <exclude-pattern type="relative">tests/*</exclude-pattern>
     <exclude-pattern type="relative">vendor/*</exclude-pattern>
 
+    <!-- Show sniff codes in all reports -->
+    <arg value="s"/>
+    <!-- ignore all phpcs annotations -->
+    <arg value="-ignore-annotations"/>
+    <!-- Up the Memory limit for large plugins -->
+    <ini name="memory_limit" value="512M"/>
     <arg name="extensions" value="php"/>
 </ruleset>

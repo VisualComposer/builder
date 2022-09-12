@@ -26,6 +26,9 @@ function vcapp($make = null, $parameters = [])
     return FrameworkContainer::getInstance()->make($make, $parameters);
 }
 
+/**
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+ */
 function vcapi()
 {
     return vcapp('ApiFactory');
@@ -78,7 +81,7 @@ function vcfilter($filter, $body = '', $payload = [], $haltable = false)
  * @param $path
  * @param array $args
  *
- * @return mixed|string
+ * @return string
  */
 function vcview($path, $args = [])
 {
@@ -92,15 +95,17 @@ function vcview($path, $args = [])
  */
 function evcview($path, $args = [])
 {
-    // @codingStandardsIgnoreLine
-    echo vcview($path, $args);
+    $outputHelper = vchelper('Output');
+
+    $outputHelper->printNotEscaped(vcview($path, $args));
 }
 
 /**
  * @param $path
  * @param array $args
  *
- * @return mixed|string
+ * @return string
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function vcelementview($path, $args = [])
 {
@@ -112,7 +117,8 @@ function vcelementview($path, $args = [])
  * @param $path
  * @param array $args
  *
- * @return mixed|string
+ * @return string
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function vcaddonview($path, $args = [])
 {
@@ -137,6 +143,7 @@ if (!function_exists('vcvenv')) {
 
 /**
  * @return mixed|\VisualComposer\Application
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function vcvboot()
 {
@@ -145,12 +152,18 @@ function vcvboot()
     return vcapp();
 }
 
+/**
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+ */
 function vcvinit()
 {
     require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
     vcapp()->init();
 }
 
+/**
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+ */
 function vcvadmininit()
 {
     require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
@@ -204,6 +217,7 @@ function vcLogWpHttpCodes($code)
  * @param $errorMessage
  *
  * @return bool
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  * @internal
  *
  */
@@ -258,6 +272,7 @@ function vcLogWpErrorByCode($code, $errorMessage)
         );
     }
 
+    // translators: %s: error message
     $message .= PHP_EOL . sprintf(__('WordPress Error: %s', 'visualcomposer'), $errorMessage);
     vchelper('Logger')->log($message);
 
@@ -288,6 +303,7 @@ function vcIsBadResponse($response)
  * @param $response
  *
  * @return bool
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  * @internal
  *
  */
@@ -305,7 +321,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong JSON response
                 $loggerHelper->log(
-                    __('A wrong response body was received.', 'visualcomposer'),
+                    esc_html__('A wrong response body was received.', 'visualcomposer'),
                     [
                         'body' => $body,
                     ]
@@ -319,7 +335,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong Response status
                 $additionalMessage = isset($body['message']) ? ' ' . $body['message'] : '';
-                $message = __('Bad status code was received.', 'visualcomposer') . $additionalMessage;
+                $message = esc_html__('Bad status code was received.', 'visualcomposer') . $additionalMessage;
                 $loggerHelper->log(
                     $message,
                     [
@@ -335,7 +351,8 @@ function _vcCheckIsResponseBad($response)
             $responseCode = wp_remote_retrieve_response_code($response);
             $isRequestError = $responseCode !== 200;
             if ($isRequestError) {
-                $message = sprintf(__('A bad response status code %d was received.', 'visualcomposer'), $responseCode);
+                // translators: %d: response error code
+                $message = sprintf(esc_html__('A bad response status code %d was received.', 'visualcomposer'), $responseCode);
                 $loggerHelper->log(
                     $message,
                     [
@@ -351,7 +368,7 @@ function _vcCheckIsResponseBad($response)
     $isFilterError = isset($response['status']) && !$response['status'];
     if ($isFilterError) {
         $additionalMessage = isset($response['message']) ? ' ' . $response['message'] : '';
-        $message = __('Failed to process the action.', 'visualcomposer') . $additionalMessage;
+        $message = esc_html__('Failed to process the action.', 'visualcomposer') . $additionalMessage;
         $loggerHelper->log(
             $message,
             [
@@ -372,10 +389,10 @@ function _vcCheckIsResponseBad($response)
  */
 function vcvdie($message = '')
 {
-    // @codingStandardsIgnoreLine
-    echo is_string($message) ? $message : json_encode($message);
+    $outputHelper = vchelper('Output');
+    $outputHelper->printNotEscaped(is_string($message) ? $message : wp_json_encode($message));
     if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
-        throw new \Exception($message);
+        throw new Exception($message);
     } else {
         exit;
     }

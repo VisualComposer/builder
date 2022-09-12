@@ -25,6 +25,8 @@ trait AddShortcodeTrait
             function ($atts, $content, $tag) use ($callback) {
                 /** @var $this \VisualComposer\Framework\Container */
                 /** @var $this \VisualComposer\Framework\Illuminate\Container\Container */
+                // Save way to work in WordPress content (prevents all modifications)
+                // @codingStandardsIgnoreLine
                 $content = base64_decode(rawurldecode($content));
 
                 return !empty($callback) ? $this->call($callback, [$atts, $content, $tag]) : $content;

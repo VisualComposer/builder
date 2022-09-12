@@ -212,6 +212,7 @@
     "**/*.spec.js",
     "**/*.min.js",
     "public/editor/modules/insights/axe.d.ts",
+    "ci/*",
     "**/commands.js",
     "elements/*/public/*",
     "devAddons/*",

@@ -51,7 +51,7 @@ class NinjaFormsController extends Container implements Module
                 '(nf-form-errors-)(\d+)()',
                 '(form.id\s*=\s*\')(\d+)(\')',
             ];
-            $time = time() . self::$ninjaCount . rand(100, 999);
+            $time = time() . self::$ninjaCount . wp_rand(100, 999);
             foreach ($patterns as $pattern) {
                 $response = preg_replace('/' . $pattern . '/', '${1}' . $time . '${3}', $response);
             }

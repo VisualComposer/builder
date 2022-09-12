@@ -23,6 +23,9 @@ class Application extends ApplicationFactory
 {
     /**
      * The available container bindings and their respective load methods.
+     * @see \VisualComposer\Application::registerEventBindings
+     * @see \VisualComposer\Application::registerFilterBindings
+     * @see \VisualComposer\Application::registerAutoloadBindings
      *
      * @var array
      */
@@ -32,12 +35,24 @@ class Application extends ApplicationFactory
         'Autoload' => 'registerAutoloadBindings',
     ];
 
+    /**
+     * @var bool
+     */
     protected $inited = false;
 
+    /**
+     * @var bool
+     */
     protected $adminInited = false;
 
+    /**
+     * @var bool
+     */
     protected $booted = false;
 
+    /**
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     public function init($force = false)
     {
         if ($force || !$this->inited) {
@@ -48,6 +63,9 @@ class Application extends ApplicationFactory
         return $this;
     }
 
+    /**
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
     public function adminInit($force = false)
     {
         if ($force || !$this->adminInited) {

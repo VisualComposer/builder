@@ -51,7 +51,6 @@ class ElementViews implements Helper
                 'args' => $_args,
             ]
         );
-        /** @noinspection PhpIncludeInspection */
         include($_path);
         $content = ob_get_clean();
 

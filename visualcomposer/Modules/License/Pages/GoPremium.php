@@ -65,7 +65,7 @@ class GoPremium extends Container implements Module
                     && $licenseHelper->isPremiumActivated()
                     && !$licenseHelper->isThemeActivated()
                 ) {
-                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    wp_safe_redirect(admin_url('admin.php?page=vcv-getting-started'));
                     exit;
                 }
             },
@@ -110,11 +110,12 @@ class GoPremium extends Container implements Module
                 $noticeHelper->addNotice(
                     'hubActivationNotice',
                     sprintf(
+                    // translators: %s: link to the license page.
                         __(
                             '<strong>Visual Composer:</strong> <a href="%s">Activate Premium</a> license to get full access to Visual Composer Hub. A place to download more content elements, templates, and addons.',
                             'visualcomposer'
                         ),
-                        admin_url('admin.php?page=vcv-activate-license&vcv-ref=wpdashboard')
+                        esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=wpdashboard'))
                     ),
                     'info'
                 );

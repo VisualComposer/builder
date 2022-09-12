@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use Exception;
 use VisualComposer\Framework\Application as ApplicationVc;
 
 /**
@@ -42,6 +43,9 @@ class Autoload extends Container
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function init()
     {
         return $this->useCache();
@@ -64,7 +68,7 @@ class Autoload extends Container
                         $component['singleton']
                     );
                 } elseif (vcvenv('VCV_DEBUG')) {
-                    throw new \Exception(
+                    throw new Exception(
                         '[Failed to add] Class doesnt exists ' . $component['abstract'] . ' try composer update'
                     );
                 }
@@ -93,7 +97,7 @@ class Autoload extends Container
                         );
                     }
                 } elseif (vcvenv('VCV_DEBUG')) {
-                    throw new \Exception(
+                    throw new Exception(
                         '[Failed to Make] Class doesnt exists ' . $component['abstract'] . ' try composer update'
                     );
                 }
@@ -113,7 +117,6 @@ class Autoload extends Container
     {
         $filename = $this->app->path('cache/autoload.php');
         if (file_exists($filename)) {
-            /** @noinspection PhpIncludeInspection */
             $all = require $filename;
             $this->initComponents($all);
             $this->bootComponents($all);
@@ -124,6 +127,25 @@ class Autoload extends Container
         return false;
     }
 
+    /**
+     * @return mixed
+     */
+    protected function getWpFileSystem()
+    {
+        global $wp_filesystem;
+        if (empty($wp_filesystem)) {
+            require_once ABSPATH . '/wp-admin/includes/file.php';
+            WP_Filesystem();
+        }
+
+        return $wp_filesystem;
+    }
+
+    /**
+     * @param $components
+     *
+     * @return array|array[]
+     */
     protected function tokenizeComponents($components)
     {
         $all = [
@@ -134,7 +156,7 @@ class Autoload extends Container
             if (!file_exists($componentPath)) {
                 continue;
             }
-            $tokens = token_get_all(file_get_contents($componentPath));
+            $tokens = token_get_all($this->getWpFileSystem()->get_contents($componentPath));
             $data = self::checkTokens($tokens);
             if (!empty($data['namespace']) && !empty($data['class']) && !empty($data['implements'])) {
                 if (self::isHelper($data['implements'])) {
@@ -350,12 +372,16 @@ class Autoload extends Container
         );
     }
 
+    /**
+     * @param $components
+     *
+     * @return bool
+     */
     protected function bootstrapFiles($components)
     {
         $success = true;
         if (!empty($components['modules'])) {
             foreach ($components['modules'] as $module) {
-                /** @noinspection PhpIncludeInspection */
                 if (file_exists($module['path'])) {
                     require_once($module['path']);
                 } else {
@@ -365,7 +391,6 @@ class Autoload extends Container
         }
         if (!empty($components['helpers'])) {
             foreach ($components['helpers'] as $module) {
-                /** @noinspection PhpIncludeInspection */
                 if (file_exists($module['path'])) {
                     require_once($module['path']);
                 } else {
