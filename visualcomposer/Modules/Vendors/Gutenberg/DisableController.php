@@ -129,7 +129,7 @@ class DisableController extends Container implements Module
                     || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
                 $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                 $url = remove_query_arg(VCV_PREFIX . 'set-editor', $url);
-                wp_redirect($url);
+                wp_safe_redirect($url);
                 exit;
             }
         }

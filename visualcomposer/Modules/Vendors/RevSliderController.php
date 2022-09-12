@@ -47,7 +47,7 @@ class RevSliderController extends Container implements Module
                 } else {
                     self::$slidersCount++;
                 }
-                $time = time() . self::$slidersCount . rand(100, 999);
+                $time = time() . self::$slidersCount . wp_rand(100, 999);
                 if (!is_array($settings)) {
                     $settings = [];
                 }

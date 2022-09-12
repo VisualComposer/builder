@@ -44,7 +44,7 @@ interface Events
     public function forget($event);
 
     /**
-     * Get all of the listeners for a given event name.
+     * Get all the listeners for a given event name.
      *
      * @param  string $eventName
      *

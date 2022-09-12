@@ -93,19 +93,18 @@ class Controller extends Container implements Module
                 $content = vcfilter('vcv:editors:frontend:render', '');
                 if (empty($content)) {
                     wp_die(
-                        '<h1>' . __('You need a higher level of permission.', 'visualcomposer') . '</h1>' .
-                        '<p>' . __('Sorry, you are not allowed to edit posts as this user.', 'visualcomposer')
+                        '<h1>' . esc_html__('You need a higher level of permission.', 'visualcomposer') . '</h1>' .
+                        '<p>' . esc_html__('Sorry, you are not allowed to edit posts as this user.', 'visualcomposer')
                         . '</p>',
                         403
                     );
                 }
 
-                /** @noinspection PhpInconsistentReturnPointsInspection */
                 return $this->terminate($content);
             } else {
                 wp_die(
-                    '<h1>' . __('You need a higher level of permission.', 'visualcomposer') . '</h1>' .
-                    '<p>' . __('Sorry, you are not allowed to edit posts as this user.', 'visualcomposer')
+                    '<h1>' . esc_html__('You need a higher level of permission.', 'visualcomposer') . '</h1>' .
+                    '<p>' . esc_html__('Sorry, you are not allowed to edit posts as this user.', 'visualcomposer')
                     . '</p>',
                     403
                 );

@@ -57,6 +57,7 @@ class AdminController extends Controller implements Module
     {
         if ($requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)) {
             // Silence required to avoid warnings in case if function is restricted
+            // In any ajax request we must disable errors unless it is VCV_DEBUG enabled
             // @codingStandardsIgnoreStart
             @set_time_limit(120);
             if (!vcvenv('VCV_DEBUG')) {

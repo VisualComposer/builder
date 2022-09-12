@@ -96,7 +96,8 @@ class MenuController extends Container implements Module
                     $content
                 );
             }
-            echo $content;
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($content);
         }
     }
 
@@ -141,20 +142,21 @@ class MenuController extends Container implements Module
         UserCapabilities $userCapabilitiesHelper,
         Url $urlHelper
     ) {
-        global $submenu;
+        $globalsHelper = vchelper('Globals');
+        $submenuCopy = $globalsHelper->get('submenu');
         if ($userCapabilitiesHelper->isEditorEnabled($postType)) {
             foreach ($linksData as $linkIndex => $link) {
                 $linkMatch = preg_match('/post-new.php(.*)?/', $link[2]);
                 if ($linkMatch) {
                     // Now we know the post_type and can check for "Add New"
                     $newIndex = $linkIndex + 1;
-                    while (isset($submenu[ $key ][ $newIndex ])) {
+                    while (isset($submenuCopy[ $key ][ $newIndex ])) {
                         $newIndex++;
                     }
                     $linkInfo = isset($link[3]) ? $link[3] : null;
                     $linkClass = isset($link[4]) ? $link[4] : null;
                     $linkClass .= ' vcv-dashboard-admin-menu--add';
-                    $submenu[ $key ][ $newIndex ] = [
+                    $submenuCopy[ $key ][ $newIndex ] = [
                         __('Add New with Visual&nbsp;Composer', 'visualcomposer'),
                         $link[1],
                         vcfilter(
@@ -167,6 +169,7 @@ class MenuController extends Container implements Module
                     ];
                 }
             }
+            $globalsHelper->set('submenu', $submenuCopy);
         }
     }
 

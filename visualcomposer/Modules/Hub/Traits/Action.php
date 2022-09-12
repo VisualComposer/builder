@@ -69,10 +69,11 @@ trait Action
             if ($mdOriginalFile !== $payload['checksum']) {
                 $loggerHelper->log(
                     sprintf(
+                        // translators: %1$s: link to support, %2$s: </a>
                         __(
                             'A .zip file of the Visual Composer is broken - the checksum check failed. Check your Internet connection, initiate reset under Visual Composer Settings, and try again.
 
-If the problem still occurs, visit %smy.visualcomposer.com/support%s for technical assistance.
+If the problem still occurs, visit %1$smy.visualcomposer.com/support%2$s for technical assistance.
 ',
                             'visualcomposer'
                         ),

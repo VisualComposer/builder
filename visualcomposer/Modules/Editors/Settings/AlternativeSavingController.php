@@ -62,8 +62,9 @@ class AlternativeSavingController extends Container implements Module
         );
 
         $fieldCallback = function () {
+            $outputHelper = vchelper('Output');
             /** @see \VisualComposer\Modules\Editors\Settings\ItemPreviewController::renderToggle */
-            echo $this->call('renderToggle', ['value' => 'itemAlternativeSavingDisabled']);
+            $outputHelper->printNotEscaped($this->call('renderToggle', ['value' => 'itemAlternativeSavingDisabled']));
         };
 
         $this->addField(

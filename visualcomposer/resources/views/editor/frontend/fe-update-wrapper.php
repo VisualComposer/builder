@@ -12,17 +12,19 @@ if (!defined('ABSPATH')) {
 }
 require_once ABSPATH . 'wp-admin/includes/admin.php';
 
+$globalsHelper = vchelper('Globals');
+$outputHelper = vchelper('Output');
 // @codingStandardsIgnoreStart
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
        $update_title, $total_update_count, $parent_file, $typenow, $wp_meta_boxes;
 
 $hookSuffix = $hook_suffix;
-$wp_meta_boxes = [];
+$globalsHelper->set('wp_meta_boxes', []);
 if (empty($current_screen)) {
     set_current_screen();
 }
 // @codingStandardsIgnoreEnd
-$typenow = get_post_type();
+$globalsHelper->set('typenow', get_post_type());
 /**
  * @var $editableLink - link to editable content
  */
@@ -31,10 +33,10 @@ wp_enqueue_style('wp-admin');
 wp_enqueue_media();
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+<html xmlns="https://w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
-    <link rel="profile" href="http://gmpg.org/xfn/11" />
-    <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+    <link rel="profile" href="https://gmpg.org/xfn/11" />
+    <meta http-equiv="Content-Type" content="<?php echo esc_attr(get_bloginfo('html_type', 'display')); ?>; charset=<?php echo esc_attr(get_bloginfo('charset', 'display')); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0" />
     <title>Visual Composer: Update</title>
     <link rel="stylesheet"
@@ -57,8 +59,8 @@ wp_enqueue_media();
     if (is_array($variables)) {
         foreach ($variables as $variable) {
             if (is_array($variable) && isset($variable['key'], $variable['value'])) {
-                $type = isset($variable['type']) ? $variable['type'] : 'variable';
-                evcview('partials/variableTypes/' . $type, $variable);
+                $variableType = isset($variable['type']) ? $variable['type'] : 'variable';
+                evcview('partials/variableTypes/' . $variableType, $variable);
             }
         }
         unset($variable);
@@ -72,10 +74,10 @@ wp_enqueue_media();
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
-<script src="<?php echo get_site_url(null, 'index.php?vcv-script=vendor'); ?>"></script>
+<script src="<?php echo esc_url(get_site_url(null, 'index.php?vcv-script=vendor')); ?>"></script>
 
 <div class="vcv-settings" data-section="vcv-update">
-    <?php echo $content; ?>
+    <?php $outputHelper->printNotEscaped($content); ?>
 </div>
 <?php
 vcevent('vcv:frontend:postUpdate:render:footer', ['sourceId' => $sourceId]);
@@ -88,7 +90,7 @@ $extraOutput = vcfilter('vcv:frontend:update:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
         // @codingStandardsIgnoreLine
-        echo $output;
+        $outputHelper->printNotEscaped($output);
     }
     unset($output);
 }

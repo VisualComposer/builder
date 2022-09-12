@@ -219,10 +219,10 @@ class PremiumTeasers extends Container implements Module
             }
 
             $premiumUrlSlug = $section['premiumUrl'];
-            $dashboard[$index]['premiumUrl']
+            $dashboard[ $index ]['premiumUrl']
                 = str_replace('{medium}', $premiumUrlSlug, $utmTemplate);
-            $dashboard[$index]['activationUrl']
-                 = vchelper('Utm')->getActivationUrl($premiumUrlSlug);
+            $dashboard[ $index ]['activationUrl']
+                = vchelper('Utm')->getActivationUrl($premiumUrlSlug);
         }
 
         return $dashboard;
@@ -262,7 +262,7 @@ class PremiumTeasers extends Container implements Module
                             )
                         ) {
                             $section['callback'] = function () use ($section) {
-                                echo vcview(
+                                evcview(
                                     'settings/layouts/dashboard-premium-teaser',
                                     ['page' => $section, 'slug' => $section['slug']]
                                 );
@@ -285,12 +285,13 @@ class PremiumTeasers extends Container implements Module
 
     protected function outputDashboardMenu()
     {
-        global $submenu;
-        if (isset($submenu['vcv-settings'])) {
-            $columnsData = array_column($submenu['vcv-settings'], 2);
+        $globalsHelper = vchelper('Globals');
+        $submenuCopy = $globalsHelper->get('submenu');
+        if (isset($submenuCopy['vcv-settings'])) {
+            $columnsData = array_column($submenuCopy['vcv-settings'], 2);
             $currentUserAccess = vchelper('AccessCurrentUser');
             $addons = vchelper('HubAddons')->getAddons();
-
+            $outputHelper = vchelper('Output');
             foreach ($this->dashboardSections as $teaser) {
                 if (in_array($teaser['slug'], $columnsData, true)) {
                     continue;
@@ -310,9 +311,9 @@ class PremiumTeasers extends Container implements Module
                     $teaser['name'],
                     $teaser['capability'],
                     $teaser['slug'],
-                    function () use ($teaser) {
+                    function () use ($teaser, $outputHelper) {
                         $teaser['layout'] = 'dashboard-main-layout';
-                        echo $this->call('renderPage', ['page' => $teaser]);
+                        $outputHelper->printNotEscaped($this->call('renderPage', ['page' => $teaser]));
                     },
                     1
                 );
@@ -323,8 +324,9 @@ class PremiumTeasers extends Container implements Module
                 if (isset($teaser['hideInWpMenu']) && $teaser['hideInWpMenu']) {
                     $extraClass .= ' vcv-ui-state--hidden';
                 }
-                $submenu['vcv-settings'][1][4] = $extraClass;
+                $submenuCopy['vcv-settings'][1][4] = $extraClass;
             }
+            $globalsHelper->set('submenu', $submenuCopy);
         }
     }
 

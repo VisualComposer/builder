@@ -190,33 +190,31 @@ class PostType implements Helper
      */
     public function setupPost($sourceId)
     {
-        // @codingStandardsIgnoreStart
-        global $post_type, $post_type_object, $post, $wp_query;
+        global $wp_query;
         $queryPost = get_post($sourceId);
-
+        $globalsHelper = vchelper('Globals');
         if (
             isset($queryPost->post_type)
             && post_type_exists($queryPost->post_type)
         ) {
-            $post = $queryPost;
-            if ($post->post_title === __('Auto Draft')) {
-                $post->post_title = sprintf('%s #%s', __('Visual Composer', 'visualcomposer'), $post->ID);
+            $globalsHelper->set('post', $queryPost);
+            if ($queryPost->post_title === __('Auto Draft')) {
+                $queryPost->post_title = sprintf('%s #%s', __('Visual Composer', 'visualcomposer'), $queryPost->ID);
             }
-            setup_postdata($post);
+            setup_postdata($queryPost);
             /** @var \WP_Query $wp_query */
-            $wp_query->queried_object = $post;
+            $wp_query->queried_object = $queryPost;
             if (!isset($wp_query->posts)) {
                 $wp_query->posts = [];
             }
-            $wp_query->posts[0] = $post;
-            $wp_query->post = $post;
-            $wp_query->queried_object_id = $post->ID;
+            $wp_query->posts[0] = $queryPost;
+            $wp_query->post = $queryPost;
+            $wp_query->queried_object_id = $queryPost->ID;
             $wp_query->is_singular = true;
-            $post_type = $post->post_type;
-            $post_type_object = get_post_type_object($post_type);
+            $globalsHelper->set('post_type', $queryPost->post_type);
+            $globalsHelper->set('post_type_object', get_post_type_object($queryPost->post_type));
 
-            // @codingStandardsIgnoreEnd
-            return $post;
+            return $queryPost;
         }
 
         return false;
@@ -262,6 +260,7 @@ class PostType implements Helper
             $data['vcvCustomPostType'] = 1;
         }
         // @codingStandardsIgnoreLine
+        // translators: %s: post type name
         $data['viewText'] = sprintf(__('View %s', 'visualcomposer'), $post_type_object->labels->singular_name);
 
         return $data;

@@ -21,6 +21,7 @@ class Assets extends Container implements Helper
      * @param $sourceId
      *
      * @return array
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function getTemplateIds($sourceId)
     {
@@ -61,6 +62,7 @@ class Assets extends Container implements Helper
      * @param $templatePart
      *
      * @return int|void
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function getTemplatePartId($templatePart)
     {
@@ -98,6 +100,11 @@ class Assets extends Container implements Helper
         return false;
     }
 
+    /**
+     * @param $filename
+     *
+     * @return string
+     */
     public function getFilePath($filename = '')
     {
         $destinationDir = VCV_PLUGIN_ASSETS_DIR_PATH . '/assets-bundles/';
@@ -107,6 +114,11 @@ class Assets extends Container implements Helper
         return $path;
     }
 
+    /**
+     * @param $filePath
+     *
+     * @return string
+     */
     public function getAssetUrl($filePath = '')
     {
         if (preg_match('/^http/', $filePath)) {
@@ -158,22 +170,24 @@ class Assets extends Container implements Helper
      * @param string $extension
      *
      * @return array
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function deleteAssetsBundles($extension = '')
     {
         $files = [];
         if (!empty($extension)) {
             $assetsHelper = vchelper('Assets');
+            $fileHelper = vchelper('File');
             $destinationDir = $assetsHelper->getFilePath();
 
             // BC remove stale
-            $extensionFull = $extensionFull = '.' . $extension;
+            $extensionFull = '.' . $extension;
             /** @var Application $app */
             $app = vcapp();
             $files = $app->glob(rtrim($destinationDir, '/\\') . '/*' . $extensionFull);
             if (is_array($files)) {
                 foreach ($files as $file) {
-                    unlink($file);
+                    $fileHelper->removeFile($file);
                 }
                 unset($file);
             }
@@ -182,7 +196,7 @@ class Assets extends Container implements Helper
             $files = $app->glob(rtrim($destinationDir, '/\\') . '/' . $extension);
             if (is_array($files)) {
                 foreach ($files as $file) {
-                    unlink($file);
+                    $fileHelper->removeFile($file);
                 }
                 unset($file);
             }
@@ -196,7 +210,7 @@ class Assets extends Container implements Helper
      *
      * @param $path
      *
-     * @return mixed
+     * @return array|string|string[]
      */
     public function relative($path)
     {
@@ -226,7 +240,6 @@ class Assets extends Container implements Helper
      * @param $payload
      *
      * @return bool|string URL to generated bundle.
-     * @throws \ReflectionException
      * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function generateSourceCssFile($response, $payload)
@@ -292,6 +305,7 @@ class Assets extends Container implements Helper
      * @param int $sourceId
      *
      * @return bool
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function deleteSourceAssetsFile($sourceId)
     {

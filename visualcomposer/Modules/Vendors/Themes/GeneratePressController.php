@@ -43,26 +43,28 @@ class GeneratePressController extends Container implements Module
      */
     protected function integrateThemeHeader()
     {
-        // @codingStandardsIgnoreStart
-        ?>
-        <div <?php generate_do_attr('page'); ?>>
-            <?php
-            /**
-             * generate_inside_site_container hook.
-             *
-             * @since 2.4
-             */
-            do_action('generate_inside_site_container');
-            ?>
-            <div <?php generate_do_attr('site-content'); ?>>
-                <?php
-                // @codingStandardsIgnoreEnd
-                /**
-                 * generate_inside_container hook.
-                 *
-                 * @since 0.1
-                 */
-                do_action('generate_inside_container');
+        ob_start();
+        echo '<div ';
+        generate_do_attr('page');
+        echo ' >';
+        /**
+         * generate_inside_site_container hook.
+         *
+         * @since 2.4
+         */
+        do_action('generate_inside_site_container');
+
+        echo '<div ';
+        generate_do_attr('site-content');
+        echo '>';
+        /**
+         * generate_inside_container hook.
+         *
+         * @since 0.1
+         */
+        do_action('generate_inside_container');
+        $outputHelper = vchelper('Output');
+        $outputHelper->printNotEscaped(ob_get_clean());
     }
 
     /**

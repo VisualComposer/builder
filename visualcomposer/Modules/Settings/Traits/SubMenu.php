@@ -39,10 +39,13 @@ trait SubMenu
         }
 
         if ($hasAccess) {
-            global $submenu;
+            $globalsHelper = vchelper('Globals');
+            $outputHelper = vchelper('Output');
 
             if (isset($page['external'])) {
-                $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
+                $submenuCopy = $globalsHelper->get('submenu');
+                $submenuCopy[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
+                $globalsHelper->set('submenu', $submenuCopy);
             } else {
                 $tabsHelper = vchelper('SettingsTabsRegistry');
                 $tabsHelper->set(
@@ -53,9 +56,9 @@ trait SubMenu
                             'isDashboardPage' => isset($page['isDashboardPage']) && $page['isDashboardPage'],
                             'hideTitle' => '',
                             'iconClass' => '',
-                            'callback' => function () use ($page) {
+                            'callback' => function () use ($page, $outputHelper) {
                                 /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage */
-                                echo $this->call('renderContent', ['page' => $page]);
+                                $outputHelper->printNotEscaped($this->call('renderContent', ['page' => $page]));
                             },
                         ],
                         $page
@@ -69,24 +72,26 @@ trait SubMenu
                     $page['title'],
                     !empty($part) ? 'edit_posts' : $capability,
                     $page['slug'],
-                    function () use ($page) {
+                    function () use ($page, $outputHelper) {
                         /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
                         if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
                             $page['layout'] = 'dashboard-main-layout';
                         }
 
-                        echo $this->call('renderPage', ['page' => $page]);
+                        $outputHelper->printNotEscaped($this->call('renderPage', ['page' => $page]));
                     }
                 );
 
-                // After add_submenu_page called last index of $submenu['vcv-settings'] will be recently added item
+                // After add_submenu_page called last index of $submenuCopy['vcv-settings'] will be recently added item
                 // So we can adjust it to add extra-class to hide
                 $extraClass = 'vcv-submenu--' . vchelper('Str')->slugify($page['slug']);
                 $extraClass .= isset($page['isDashboardPage']) && $page['isDashboardPage'] ? ' vcv-submenu-dashboard-page' : '';
                 if (isset($page['hideInWpMenu']) && $page['hideInWpMenu']) {
                     $extraClass .= ' vcv-ui-state--hidden';
                 }
-                $submenu[$mainPageSlug][ count($submenu[$mainPageSlug]) - 1 ][4] = $extraClass;
+                $submenuCopy = $globalsHelper->get('submenu');
+                $submenuCopy[ $mainPageSlug ][ count($submenuCopy[ $mainPageSlug ]) - 1 ][4] = $extraClass;
+                $globalsHelper->set('submenu', $submenuCopy);
             }
         }
     }

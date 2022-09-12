@@ -15,27 +15,27 @@ $deactivateUrl = $urlHelper->adminAjax(
     ['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
 );
 
-$activateHubUrl = esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=license-vcdashboard'));
-$upgradeLicenseUrl = esc_url(vcvenv('VCV_HUB_LICENSES_URL'));
+$activateHubUrl = admin_url('admin.php?page=vcv-activate-license&vcv-ref=license-vcdashboard');
+$upgradeLicenseUrl = vcvenv('VCV_HUB_LICENSES_URL');
 
 $expirationDate = vchelper('License')->getExpirationDate();
 if (!vchelper('License')->isPremiumActivated()) {
     echo sprintf(
         '<div class="vcv-description vcv-description--no-flex"><p class="description">%s</p>',
-        __(
+        esc_html__(
             'It seems you haven’t activated your Premium license to access elements, templates, and addons in the Visual Composer Hub.',
             'visualcomposer'
         )
     );
     echo sprintf(
         '<a href="%s" class="button vcv-license-btn-activate-hub">%s</a>',
-        $activateHubUrl,
-        __('Activate Premium', 'visualcomposer')
+        esc_url($activateHubUrl),
+        esc_html__('Activate Premium', 'visualcomposer')
     );
     echo sprintf(
         '<a href="%s" class="button vcv-license-btn-activate-hub vcv-license-btn-go-premium" target="_blank" rel="noopener noreferrer">%s</a>',
         esc_url(vchelper('Utm')->get('vcdashboard-license-go-premium')),
-        __('Go Premium', 'visualcomposer')
+        esc_html__('Go Premium', 'visualcomposer')
     );
     echo '</div>';
 
@@ -69,7 +69,7 @@ if (!vchelper('License')->isPremiumActivated()) {
             <tbody>
             <tr>
                 <td><?php echo esc_html__('License key', 'visualcomposer') ?>:</td>
-                <td><?php echo vchelper('License')->getHiddenKey(); ?> <a href="<?php
+                <td><?php echo esc_html(vchelper('License')->getHiddenKey()); ?> <a href="<?php
                     echo esc_url(
                         $deactivateUrl
                     ); ?>" class="vcv-license-btn-deactivate"><?php
@@ -81,22 +81,31 @@ if (!vchelper('License')->isPremiumActivated()) {
             </tr>
             <tr>
                 <td><?php echo esc_html__('License type', 'visualcomposer') ?>:</td>
-                <td><?php $type = vchelper('License')->getType();
-                    echo ucfirst($type);
-                    echo $type === 'free' ? (' - <a href="' . esc_url($upgradeLicenseUrl)
-                        . '" class="vcv-license-btn-upgrade">' . esc_html__(
+                <td><?php
+                $licenseType = vchelper('License')->getType();
+                echo esc_html(ucfirst($licenseType));
+                if ($licenseType === 'free') {
+                    echo sprintf(
+                        ' - <a href="%s" class="vcv-license-btn-upgrade">%s</a>',
+                        esc_url($upgradeLicenseUrl),
+                        esc_html__(
                             'Upgrade',
                             'visualcomposer'
-                        ) . '</a>') : ''; ?></td>
+                        )
+                    );
+                }
+                ?></td>
             </tr>
             <?php if (!empty($expirationDate)) : ?>
                 <tr>
                     <td><?php echo esc_html__('License expiration date', 'visualcomposer') ?>:</td>
                     <td><?php
-                        echo $expirationDate !== 'lifetime' ? date(
-                            get_option('date_format') . ' ' . get_option('time_format'),
-                            $expirationDate
-                        ) : 'lifetime'; ?></td>
+                        echo esc_html(
+                            $expirationDate !== 'lifetime' ? gmdate(
+                                get_option('date_format') . ' ' . get_option('time_format'),
+                                $expirationDate
+                            ) : 'lifetime'
+                        ); ?></td>
                 </tr>
             <?php endif; ?>
             </tbody>

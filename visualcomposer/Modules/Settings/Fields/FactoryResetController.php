@@ -74,16 +74,18 @@ class FactoryResetController extends Container implements Module
                 esc_html($linkTitle)
             );
 
+            // translators: %s: link to initiate reset
             $sectionDescription = __(
                 'Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s.',
                 'visualcomposer'
             );
-            // @codingStandardsIgnoreStart
-            echo sprintf(
-                '<p class="description">%s</p>',
-                sprintf($sectionDescription, $link)
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped(
+                sprintf(
+                    '<p class="description">%s</p>',
+                    sprintf($sectionDescription, $link)
+                )
             );
-            // @codingStandardsIgnoreEnd
         };
         $this->addSection(
             [
@@ -111,7 +113,7 @@ class FactoryResetController extends Container implements Module
     ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             $loggerHelper->log(__('Incorrect permissions.', 'visualcomposer') . ' #10072');
-            wp_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
+            wp_safe_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
             exit;
         }
         if (!$optionsHelper->getTransient('vcv:settings:factoryReset:allow')) {
@@ -123,7 +125,7 @@ class FactoryResetController extends Container implements Module
         $optionsHelper->set('settingsResetInitiated', time());
         vcevent('vcv:system:factory:reset');
         wp_cache_flush();
-        wp_redirect(admin_url('admin.php?page=vcv-settings'));
+        wp_safe_redirect(admin_url('admin.php?page=vcv-settings'));
         exit;
     }
 }

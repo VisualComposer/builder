@@ -338,16 +338,18 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'newPluginVersionIsAvailable' => sprintf(
+                // translators: %1$s: Plugin url, %2$s: Plugin version
                 __(
-                    'You have an outdated version of Visual Composer that requires an update. Update the plugin to get new features, improve performance, avoid compatibility issues, and keep your site secure. <a href="%s">Update now</a> to version %s.',
+                    'You have an outdated version of Visual Composer that requires an update. Update the plugin to get new features, improve performance, avoid compatibility issues, and keep your site secure. <a href="%1$s">Update now</a> to version %2$s.',
                     'visualcomposer'
                 ),
                 self_admin_url('plugins.php'),
                 $wpHelper->getUpdateVersionFromWordpressOrg()
             ),
             'chooseHFS' => sprintf(
+                // translators: %1$s: {name}, %2$s: url to {link}, %3$s: </a>
                 __(
-                    'Select a %s or %screate a new one%s.',
+                    'Select a %1$s or %2$screate a new one%3$s.',
                     'visualcomposer'
                 ),
                 '{name}',
@@ -380,6 +382,7 @@ class Localizations extends Container implements Helper
             ),
             'startBuildingHFSButton' => __('Start Building', 'visualcomposer'),
             'startPageHFSInputPlaceholder' => sprintf(
+                // translators: %s: {name}
                 __(
                     '%s Name',
                     'visualcomposer'
@@ -630,8 +633,9 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'editThemeTemplate' => sprintf(
+                // translators: %1$s: {editLink} url, %2$s: </a>, %3$s: {linkTitle}, %4$s: {createLink} url, %5$s: </a>
                 __(
-                    '%sEdit%s this %s or %screate%s a new one.',
+                    '%1$sEdit%2$s this %3$s or %4$screate%5$s a new one.',
                     'visualcomposer'
                 ),
                 '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
@@ -641,8 +645,9 @@ class Localizations extends Container implements Helper
                 '</a>'
             ),
             'createThemeTemplate' => sprintf(
+                // translators: %1$s: {createLink} url, %2$s: </a>, %3$s: {linkTitle}
                 __(
-                    '%sCreate%s a new %s.',
+                    '%1$sCreate%2$s a new %3$s.',
                     'visualcomposer'
                 ),
                 '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
@@ -814,8 +819,9 @@ class Localizations extends Container implements Helper
                 'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.',
                 'visualcomposer'
             ),
+            // translators: %1$s: activate, %2$s: go premium
             'alreadyHaveLicenseText' => __(
-                'Already have a Premium license? %1s or %2s.',
+                'Already have a Premium license? %1$s or %2$s.',
                 'visualcomposer'
             ),
             'alreadyHaveLicenseTextOneAction' => __(
@@ -942,6 +948,7 @@ class Localizations extends Container implements Helper
                 'Background Image size exceeded',
                 'visualcomposer'
             ),
+            // translators: %s: image size
             'insightsImageSizeBigDescription' => __(
                 'The image size exceeds %s. This may impact the page\'s performance and SEO ranking.',
                 'visualcomposer'
@@ -1106,6 +1113,7 @@ class Localizations extends Container implements Helper
                 'Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users.',
                 'visualcomposer'
             ),
+            // translators: %s: link
             'insightsLinkDoNotHaveDiscernibleName' => __(
                 'Link do not have a discernible name %s',
                 'visualcomposer'
@@ -1134,29 +1142,39 @@ class Localizations extends Container implements Helper
                 'There are no external links to the page. Add some!',
                 'visualcomposer'
             ),
+            // translators: %element: element
             'onlyOneElementCanBeAddedToPage' => __(
                 'Only one %element element can be added to the page.',
                 'visualcomposer'
             ),
+            // translators: %element: element
             'onlyTwoElementsCanBeAddedToPage' => __(
                 'Only two %element elements can be added to the page.',
                 'visualcomposer'
             ),
+            // translators: %element: element
             'onlyThreeElementsCanBeAddedToPage' => __(
                 'Only three %element elements can be added to the page.',
                 'visualcomposer'
             ),
+            // translators: %element: element
             'onlyFourElementsCanBeAddedToPage' => __(
                 'Only four %element elements can be added to the page.',
                 'visualcomposer'
             ),
+            // translators: %element: element
             'onlyFiveElementsCanBeAddedToPage' => __(
                 'Only five %element elements can be added to the page.',
                 'visualcomposer'
             ),
-            'elementLimitDefaultText' => __(
-                'Only %count %element elements can be added to the page.',
-                'visualcomposer'
+            'elementLimitDefaultText' => sprintf(
+                // translators: %element: element, %count: count
+                __(
+                    'Only %1$scount %2$selement elements can be added to the page.',
+                    'visualcomposer'
+                ),
+                '%',
+                '%'
             ),
             'headerAreaPlaceholderText' => __(
                 'This is your header area placeholder - page or post header will be displayed here.',
@@ -1194,9 +1212,14 @@ class Localizations extends Container implements Helper
                 'The content area is missing for your layout. Make sure to add the Content Area element to specify the place in your layout where the page or post content will be displayed.',
                 'visualcomposer'
             ),
-            'templateContainsLimitElement' => __(
-                'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.',
-                'visualcomposer'
+            'templateContainsLimitElement' => sprintf(
+            // translators: %element: element name
+                __(
+                    'The template you want to add contains %1$selement element. You already have %2$selement element added - remove it before adding the template.',
+                    'visualcomposer'
+                ),
+                '%',
+                '%'
             ),
             'getGiphiesWithPremiumText' => __(
                 'Download and Add Free Animated GIFs to Your Site With Visual Composer Premium',
@@ -1342,47 +1365,72 @@ class Localizations extends Container implements Helper
                 'Publishing Options',
                 'visualcomposer'
             ),
-            'thisIsYourContentLibrary' => __(
-                'This is your content library. <a href="https://help.visualcomposer.com/docs/features/content-elements-structure/?utm_source='
-                . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://help.visualcomposer.com/docs/visual-composer-hub/what-is-visual-composer-hub/?utm_source='
-                . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Hub</a>.',
-                'visualcomposer'
+            'thisIsYourContentLibrary' => sprintf(
+                // translators: %1$s: link to add element, %2$s: </a>, %3$s: link to hub, %4$s: </a>
+                __(
+                    'This is your content library. %1$sAdd an element%2$s by dragging or clicking on it and find templates you have created or downloaded from the %3$sHub%4$s.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/features/content-elements-structure/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '<a href="https://help.visualcomposer.com/docs/visual-composer-hub/what-is-visual-composer-hub/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
-            'useElementControls' => __(
-                'Use <a href="https://help.visualcomposer.com/docs/getting-started/interface/?utm_source=' . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">element controls</a> to see your <a href="https://help.visualcomposer.com/docs/features/content-elements-structure/?utm_source='
-                . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">layout structure</a> or modify the particular row, column, or content element.',
-                'visualcomposer'
+            'useElementControls' => sprintf(
+            // translators: %1$s: link to element controls, %2$s: </a>, %3$s: link to element structure, %4$s: </a>
+                __(
+                    'Use %1$selement controls%2$s to see your %3$slayout structure%4$s or modify the particular row, column, or content element.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/getting-started/interface/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '<a href="https://help.visualcomposer.com/docs/features/content-elements-structure/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
-            'useQuickActions' => __(
-                'Use <a href="https://help.visualcomposer.com/docs/features/content-elements-structure/?utm_source='
-                . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
-                'visualcomposer'
+            'useQuickActions' => sprintf(
+                // translators: %1$s: link to quick actions, %2$s: </a>
+                __(
+                    'Use %1$squick actions%2$s at the bottom of the page to add the most popular row/column layouts and elements.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/features/content-elements-structure/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
-            'validateYourPage' => __(
-                '<a href="https://help.visualcomposer.com/docs/features/insights/?utm_source=' . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Validate your page</a> for SEO and performance to speed up your site and rank higher.',
-                'visualcomposer'
+            'validateYourPage' => sprintf(
+                // translators: %1$s: link to insights, %2$s: </a>
+                __(
+                    '%1$sValidate your page%2$s for SEO and performance to speed up your site and rank higher.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/features/insights/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
-            'checkHowYourPageLooksOnDifferentDevices' => __(
-                'Check how your page looks on different devices. Select the device type to <a href="https://help.visualcomposer.com/docs/features/design-options/?utm_source='
-                . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">preview your layout responsiveness</a>.',
-                'visualcomposer'
+            'checkHowYourPageLooksOnDifferentDevices' => sprintf(
+                // translators: %1$s: link to design options, %2$s: </a>
+                __(
+                    'Check how your page looks on different devices. Select the device type to %1$spreview your layout responsiveness%2$s.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/features/design-options/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
-            'accessVisualComposerHub' => __(
-                'Access <a href="https://help.visualcomposer.com/docs/visual-composer-hub/what-is-visual-composer-hub/?utm_source=' . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, addons, stock images, and more.',
-                'visualcomposer'
+            'accessVisualComposerHub' => sprintf(
+                // translators: %1$s: link to hub, %2$s: </a>
+                __(
+                    'Access %1$sVisual Composer Hub%2$s in-built cloud library to download additional elements, templates, addons, stock images, and more.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/visual-composer-hub/what-is-visual-composer-hub/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
-            'changeOptionsOfYourPageOrPost' => __(
-                'Change <a href="https://help.visualcomposer.com/docs/getting-started/dashboard-settings/?utm_source=' . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">options of your page or post</a>, modify the layout, control popups, add custom CSS, and JavaScript.',
-                'visualcomposer'
+            'changeOptionsOfYourPageOrPost' => sprintf(
+                // translators: %1$s: link to dashboard settings, %2$s: </a>
+                __(
+                    'Change %1$soptions of your page or post%2$s, modify the layout, control popups, add custom CSS, and JavaScript.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/getting-started/dashboard-settings/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
             'previewSaveAndPublish' => __(
                 'Preview, save, and publish your content.',
@@ -1392,20 +1440,27 @@ class Localizations extends Container implements Helper
                 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.',
                 'visualcomposer'
             ),
-            'VCHubIsAnOnlineLibrary' => __(
-                '<a href="https://help.visualcomposer.com/docs/visual-composer-hub/what-is-visual-composer-hub/?utm_source=' . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.',
-                'visualcomposer'
+            'VCHubIsAnOnlineLibrary' => sprintf(
+                // translators: %1$s: link to hub, %2$s: </a>
+                __(
+                    '%1$sVisual Composer Hub%2$s is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/visual-composer-hub/what-is-visual-composer-hub/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
             'useTheToggleToSwitchBetweenLightAndDarkBackground' => __(
                 'Use the toggle to switch between light and dark background while editing the text.',
                 'visualcomposer'
             ),
-            'replaceStaticContentWithDynamicContent' => __(
-                'Replace static content with <a href="https://help.visualcomposer.com/docs/features/dynamic-content/?utm_source='
-                . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">dynamic content</a> placeholders (WordPress default and custom fields).',
-                'visualcomposer'
+            'replaceStaticContentWithDynamicContent' => sprintf(
+                // translators: %1$s: link to dynamic content, %2$s: </a>
+                __(
+                    'Replace static content with %1$sdynamic content%2$s placeholders (WordPress default and custom fields).',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/docs/features/dynamic-content/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
             'useReverseStackingToggle' => __(
                 'Use Reverse stacking toggle to stack columns from right to left on mobile devices.',
@@ -1676,9 +1731,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'elementLockFeatureActivateAddonText' => __(
-                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br>' .
-                'You can lock/unlock specific elements under the element Edit window. <br>' .
-                'To get access to this feature, download the Role Manager addon from the Visual Composer Hub.',
+                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br>You can lock/unlock specific elements under the element Edit window. <br>To get access to this feature, download the Role Manager addon from the Visual Composer Hub.',
                 'visualcomposer'
             ),
             'popupBuilderPremiumFeatureHeading' => __(
@@ -1726,8 +1779,9 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'createHFS' => sprintf(
+                // translators: %1$s: {link} to create, %2$s: </a>, %3$s: {name}
                 __(
-                    '%sCreate%s a new %s template.',
+                    '%1$sCreate%2$s a new %3$s template.',
                     'visualcomposer'
                 ),
                 '<a href="{link}" target="_blank" rel="noopener noreferrer">',
@@ -1735,16 +1789,18 @@ class Localizations extends Container implements Helper
                 '{name}'
             ),
             'createLayout' => sprintf(
+                // translators: %1$s: {link} to create, %2$s: </a>
                 __(
-                    '%sCreate%s a new layout.',
+                    '%1$sCreate%2$s a new layout.',
                     'visualcomposer'
                 ),
                 '<a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
             'editLayout' => sprintf(
+                // translators: %1$s: {editLink} to edit, %2$s: </a>, %3$s: {creatLink}, %4$s: </a>
                 __(
-                    '%sEdit%s this layout or %screate%s a new one.',
+                    '%1$sEdit%2$s this layout or %3$screate%4$s a new one.',
                     'visualcomposer'
                 ),
                 '<a href="{editLink}" target="_blank">',
@@ -1753,8 +1809,9 @@ class Localizations extends Container implements Helper
                 '</a>'
             ),
             'editHFSTemplate' => sprintf(
+                // translators: %1$s: {editLink} to edit, %2$s: </a>, %3$s: {name}, %4$s: {createLink}, %5$s: </a>
                 __(
-                    '%sEdit%s this %s template or %screate%s a new one.',
+                    '%1$sEdit%2$s this %3$s template or %4$screate%5$s a new one.',
                     'visualcomposer'
                 ),
                 '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
@@ -1764,16 +1821,18 @@ class Localizations extends Container implements Helper
                 '</a>'
             ),
             'createPopup' => sprintf(
+                // translators: %1$s: {link} to create, %2$s: </a>
                 __(
-                    '%sCreate%s a new popup.',
+                    '%1$sCreate%2$s a new popup.',
                     'visualcomposer'
                 ),
                 '<a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
             'editPopup' => sprintf(
+                // translators: %1$s: {editLink} to edit, %2$s: </a>, %3$s: {createLink}, %4$s: </a>
                 __(
-                    '%sEdit%s this popup or %screate%s a new one.',
+                    '%1$sEdit%2$s this popup or %3$screate%4$s a new one.',
                     'visualcomposer'
                 ),
                 '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
@@ -1833,10 +1892,11 @@ class Localizations extends Container implements Helper
                 'Enter the block name to save this Row as a block template.',
                 'visualcomposer'
             ),
-            'blockContainsLimitElement' => __(
-                'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.',
+            // translators: %1$s: %element, %2$s: %element
+            'blockContainsLimitElement' => sprintf(__(
+                'The block you want to add contains %1$selement element. You already have %2$selement element added - remove it before adding the block.',
                 'visualcomposer'
-            ),
+            ), '%', '%'),
             'blockSaved' => __(
                 'The block has been successfully saved.',
                 'visualcomposer'
@@ -1850,26 +1910,29 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'postTemplateNotification' => sprintf(
+                // translators: %s: vcv-headers-footers url
                 __(
                     'The layout template you have created is not assigned to any post type. To assign the template, navigate to <a href="%s">Theme Builder Settings</a>',
                     'visualcomposer'
                 ),
-                admin_url('admin.php?page=vcv-headers-footers')
+                esc_url(admin_url('admin.php?page=vcv-headers-footers'))
             ),
             'archiveTemplateNotification' => sprintf(
+                // translators: %s: vcv-headers-footers url
                 __(
                     'The layout template you have created is not assigned to any post archive. To assign the template, navigate to <a href="%s">Theme Builder Settings</a>',
                     'visualcomposer'
                 ),
-                admin_url('admin.php?page=vcv-headers-footers')
+                esc_url(admin_url('admin.php?page=vcv-headers-footers'))
             ),
             'colorContrastTitleWarn' => __(
                 'Your contrast ratio is low',
                 'visualcomposer'
             ),
             'colorContrastDescriptionWarn' => sprintf(
+                // translators: %1$s: {link} to color contrast, %2$s: </a>
                 __(
-                    'Your page foreground and background colors do not meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'Your page foreground and background colors do not meet the WCAG 2 AA %1$scontrast ratio standards%2$s of 4.5:1.',
                     'visualcomposer'
                 ),
                 '<a class="vcv-ui-form-link" href="{link}" target="_blank" rel="noopener noreferrer">',
@@ -1880,8 +1943,9 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'colorContrastDescriptionOK' => sprintf(
+                // translators: %1$s: {link} to color contrast, %2$s: </a>
                 __(
-                    'Your page foreground and background colors meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'Your page foreground and background colors meet the WCAG 2 AA %1$scontrast ratio standards%2$s of 4.5:1.',
                     'visualcomposer'
                 ),
                 '<a class="vcv-ui-form-link" href="{link}" target="_blank" rel="noopener noreferrer">',
@@ -1932,11 +1996,15 @@ class Localizations extends Container implements Helper
                 'No Value',
                 'visualcomposer'
             ),
-            'designOptionsTooltip' => __(
-                'Apply the most common style properties and effects to content elements with <a href="https://help.visualcomposer.com/design-options/?utm_source='
-                . $source
-                . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Design Options</a>.',
-                'visualcomposer'
+            'designOptionsTooltip' => sprintf(
+                // translators: %1$s: help url, %2$s: </a>
+                __(
+                    'Apply the most common style properties and effects to content elements with %1$sDesign Options%2$s.',
+                    'visualcomposer'
+                ),
+                '<a href="https://help.visualcomposer.com/design-options/?utm_source=' . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
             'deviceStyling' => __(
                 'Control font styling for all devices or adjust specific device type',

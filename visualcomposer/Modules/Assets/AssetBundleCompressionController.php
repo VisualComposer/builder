@@ -20,11 +20,14 @@ class AssetBundleCompressionController extends Container implements Module
 {
     use WpFiltersActions;
 
+    protected $requestHelper;
+
     /**
      * AssetBundleController constructor.
      */
     public function __construct()
     {
+        $this->requestHelper = vchelper('Request');
         $this->outputCompression();
     }
 
@@ -33,25 +36,28 @@ class AssetBundleCompressionController extends Container implements Module
      */
     protected function outputCompression()
     {
-        if (empty($_GET['vcv-script']) && empty($_GET['vcv-style'])) {
+        if (!$this->requestHelper->exists('vcv-script') && !$this->requestHelper->exists('vcv-style')) {
             return;
         }
 
-        error_reporting(0);
+        // We have to disable all the errors from output to not break the javascript/css loading
+        // @codingStandardsIgnoreLine
+        @error_reporting(0);
         $mimeType = $this->getMimeType();
-        header('Content-Type: ' . $mimeType);
-
+        @header('Content-Type: ' . $mimeType);
+        $fileHelper = vchelper('File');
+        $outputHelper = vchelper('Output');
         if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === false) {
             // browser cannot accept compressed content, so need output standard JS/CSS
-            echo file_get_contents($this->getBundlePath());
+            $outputHelper->printNotEscaped($fileHelper->getContents($this->getBundlePath()));
         } else {
             if ($this->isPhpGzCompressionInProcess()) {
                 // let 3 party app gzip our content.
-                echo file_get_contents($this->getBundlePath());
+                $outputHelper->printNotEscaped($fileHelper->getContents($this->getBundlePath()));
             } else {
                 // output our gzip content.
-                header("Content-Encoding: gzip");
-                echo file_get_contents($this->getBundlePath(true));
+                @header("Content-Encoding: gzip");
+                $outputHelper->printNotEscaped($fileHelper->getContents($this->getBundlePath(true)));
             }
         }
 
@@ -119,12 +125,12 @@ class AssetBundleCompressionController extends Container implements Module
             'runtime',
         ];
 
-        $searchKey = $assetType === 'js' ? $_GET['vcv-script'] : $_GET['vcv-style'];
+        $searchKey = $assetType === 'js' ? $this->requestHelper->input('vcv-script') : $this->requestHelper->input('vcv-style');
 
         $key = array_search($searchKey, $compressList);
 
         if ($key !== false) {
-            $name = $compressList[$key];
+            $name = $compressList[ $key ];
         }
 
         return $name;
@@ -138,8 +144,8 @@ class AssetBundleCompressionController extends Container implements Module
     protected function getAssetType()
     {
         $type = 'js';
-
-        if (!empty($_GET['vcv-style'])) {
+        $style = $this->requestHelper->input('vcv-style');
+        if (!empty($style)) {
             $type = 'css';
         }
 
@@ -153,7 +159,8 @@ class AssetBundleCompressionController extends Container implements Module
     {
         $type = 'application/javascript';
 
-        if (!empty($_GET['vcv-style'])) {
+        $style = $this->requestHelper->input('vcv-style');
+        if (!empty($style)) {
             $type = 'text/css';
         }
 

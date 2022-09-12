@@ -51,13 +51,14 @@ class Templates implements Helper
     public function readBundles($bundlePathList)
     {
         $templates = [];
+        $fileHelper = vchelper('File');
 
         foreach ($bundlePathList as $bundlePath) {
-            $bundle = json_decode(file_get_contents($bundlePath), true);
+            $bundle = json_decode($fileHelper->getContents($bundlePath), true);
             $dirname = dirname($bundlePath);
             $tag = basename($dirname);
 
-            $templates[$tag] = $bundle;
+            $templates[ $tag ] = $bundle;
         }
 
         return $templates;
@@ -229,11 +230,11 @@ class Templates implements Helper
                 $fileHelper->createDirectory(
                     $templatePath
                 );
-                if (!file_exists($templatePath)) {
+                if (!$fileHelper->exists($templatePath)) {
                     return false;
                 }
 
-                if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
+                if ($fileHelper->rename($imageFile, $templatePath . '/' . $localImagePath)) {
                     return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $localImagePath);
                 }
             } else {
@@ -278,7 +279,6 @@ class Templates implements Helper
 
         return $templateElements;
     }
-
 
     /**
      * @param array $templateElements

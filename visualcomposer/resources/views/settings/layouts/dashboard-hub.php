@@ -8,15 +8,17 @@ if (!defined('ABSPATH')) {
 
 // Get Active Tab
 $activeTab = '';
-if (isset($_GET['page'])) {
-    $activeTab = esc_attr($_GET['page']);
+$requestHelper = vchelper('Request');
+if ($requestHelper->exists('page')) {
+    $activeTab = esc_attr($requestHelper->input('page'));
 }
 $activeClass = $activeTab === $slug ? 'vcv-dashboards-section-content--active' : '';
+$outputHelper = vchelper('Output');
 ?>
 
-<div class="vcv-dashboards-section-content hub <?php echo $activeClass ?>" data-section="<?php echo $slug ?>">
+<div class="vcv-dashboards-section-content hub <?php echo esc_attr($activeClass); ?>" data-section="<?php echo esc_attr($slug); ?>">
     <?php
-    echo $content;
+    $outputHelper->printNotEscaped($content);
     ?>
 </div>
 
@@ -24,8 +26,7 @@ $activeClass = $activeTab === $slug ? 'vcv-dashboards-section-content--active' :
 $extraOutput = vcfilter('vcv:frontend:hub:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
-        // @codingStandardsIgnoreLine
-        echo $output;
+        $outputHelper->printNotEscaped($output);
     }
     unset($output);
 }

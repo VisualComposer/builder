@@ -71,7 +71,8 @@ class CssEditor extends Container implements Module
         );
 
         $fieldCallback = function ($data) use ($globalSetting) {
-            echo $this->call('renderEditor', ['data' => $data, 'globalSetting' => $globalSetting]);
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($this->call('renderEditor', ['data' => $data, 'globalSetting' => $globalSetting]));
         };
 
         $this->addField(

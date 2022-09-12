@@ -38,18 +38,17 @@ class DashboardController extends Container implements Module
             }
         );
 
-        // @codingStandardsIgnoreLine
-        global $wp_meta_boxes;
+        $globalsHelper = vchelper('Globals');
+        $metaBoxesCopy = $globalsHelper->get('wp_meta_boxes');
 
-        // @codingStandardsIgnoreLine
-        $dashboardWidgets = isset($wp_meta_boxes['dashboard']) ? $wp_meta_boxes['dashboard']['normal']['core'] : $wp_meta_boxes['dashboard-network']['normal']['core'];
+        $dashboardWidgets = isset($metaBoxesCopy['dashboard']) ? $metaBoxesCopy['dashboard']['normal']['core'] : $metaBoxesCopy['dashboard-network']['normal']['core'];
         $visualcomposerBlogDashboard = ['visualcomposer-blog-dashboard' => $dashboardWidgets['visualcomposer-blog-dashboard']];
 
         unset($dashboardWidgets['visualcomposer-blog-dashboard']);
         $sortedDashboardWidgets = array_merge($visualcomposerBlogDashboard, $dashboardWidgets);
 
-        // @codingStandardsIgnoreLine
-        $wp_meta_boxes['dashboard']['normal']['core'] = $sortedDashboardWidgets;
+        $metaBoxesCopy['dashboard']['normal']['core'] = $sortedDashboardWidgets;
+        $globalsHelper->set('wp_meta_boxes', $metaBoxesCopy);
     }
 
     /**

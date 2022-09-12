@@ -25,6 +25,7 @@ class AddonViews implements Helper
      *
      * @return string Rendered view.
      * @note Do not modify variables name! Because it will be passed into `include`
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function render($_path, $_args = [])
     {
@@ -52,7 +53,6 @@ class AddonViews implements Helper
                 'args' => $_args,
             ]
         );
-        /** @noinspection PhpIncludeInspection */
         include($_path);
         $content = ob_get_clean();
 

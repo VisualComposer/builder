@@ -58,21 +58,21 @@ $utmHelper = vchelper('Utm');
       }
     </style>
     <div class="vcwb-logo-container">
-        <a href="<?php echo $utmHelper->get('wpdashboard-news-logo'); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
+        <a href="<?php echo esc_url($utmHelper->get('wpdashboard-news-logo')); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
             <?php evcview('vendors/images/vc-logo'); ?>
         </a>
         <?php
         $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
         if ($userCapabilitiesHelper->isEditorEnabled('page')) {
             ?>
-            <a href="<?php echo vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'); ?>"
+            <a href="<?php echo esc_url(vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend')); ?>"
                     class="button button-primary">
                 <?php echo esc_html__('Create New Page', 'visualcomposer'); ?>
             </a>
             <?php
         } elseif ($userCapabilitiesHelper->isEditorEnabled('post')) {
             ?>
-            <a href="<?php echo vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'); ?>"
+            <a href="<?php echo esc_url(vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend')); ?>"
                     class="button button-primary">
                 <?php echo esc_html__('Create a new post', 'visualcomposer'); ?>
             </a>
@@ -85,9 +85,9 @@ $utmHelper = vchelper('Utm');
         if (isset($rssItems) && !empty($rssItems)) :
             foreach ($rssItems as $item) :
                 $content = $item->get_description();
-                $content = strip_tags(substr($content, strpos($content, "<p"), strpos($content, "</p>") + 4));
-                $title = esc_html($item->get_title());
-                $permalink = esc_url($item->get_permalink());
+                $content = wp_strip_all_tags(substr($content, strpos($content, "<p"), strpos($content, "</p>") + 4));
+                $itemTitle = $item->get_title();
+                $permalink = $item->get_permalink();
                 $categories = $item->get_categories();
                 $categoryArray = [];
                 foreach ($categories as $category) {
@@ -96,13 +96,13 @@ $utmHelper = vchelper('Utm');
                 $categories = implode(', ', $categoryArray);
                 ?>
                 <li>
-                    <a href="<?php echo $permalink . $utmHelper->get('wpdashboard-news-blog-post'); ?>" class="rsswidget" rel="noopener noreferrer" title=" <?php echo $title; ?>"
+                    <a href="<?php echo esc_url($permalink . $utmHelper->get('wpdashboard-news-blog-post')); ?>" class="rsswidget" rel="noopener noreferrer" title=" <?php echo esc_attr($itemTitle); ?>"
                             target="_blank">
-                        <?php echo $title; ?>
+                        <?php echo esc_html($itemTitle); ?>
                     </a>
-                    <span class="rss-date"><?php echo $categories; ?></span>
+                    <span class="rss-date"><?php echo esc_html($categories); ?></span>
                     <br />
-                    <?php echo $content; ?>
+                    <?php echo esc_html($content); ?>
                 </li>
             <?php endforeach;
         else : ?>
@@ -111,12 +111,12 @@ $utmHelper = vchelper('Utm');
     </ul>
 </div>
 <p class="vcwb-rss-widget-bottom community-events-footer">
-    <a href="<?php echo $utmHelper->get('wpdashboard-news-blog'); ?>" target="_blank" rel="noopener noreferrer"
+    <a href="<?php echo esc_url($utmHelper->get('wpdashboard-news-blog')); ?>" target="_blank" rel="noopener noreferrer"
             class="vcwb-rss-widget-link vcwb-rss-widget-link--blog">
         <?php echo esc_html__('Blog', 'visualcomposer'); ?>
         <span aria-hidden="true" class="dashicons dashicons-external"></span>
     </a> |
-    <a href="<?php echo $utmHelper->get('wpdashboard-news-help'); ?>" target="_blank" rel="noopener noreferrer"
+    <a href="<?php echo esc_url($utmHelper->get('wpdashboard-news-help')); ?>" target="_blank" rel="noopener noreferrer"
             class="vcwb-rss-widget-link vcwb-rss-widget-link--blog">
         <?php echo esc_html__('Help', 'visualcomposer'); ?>
         <span aria-hidden="true" class="dashicons dashicons-external"></span>
@@ -125,7 +125,7 @@ $utmHelper = vchelper('Utm');
     $active = vcfilter('vcv:resources:view:dashboard:activation', vchelper('License')->isPremiumActivated());
     if (!$active) : ?>
         |
-        <a href="<?php echo $utmHelper->get('wpdashboard-news-gopremium'); ?>" target="_blank" rel="noopener noreferrer"
+        <a href="<?php echo esc_url($utmHelper->get('wpdashboard-news-gopremium')); ?>" target="_blank" rel="noopener noreferrer"
                 class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
             <?php echo esc_html__('Go Premium', 'visualcomposer'); ?>
             <span aria-hidden="true" class="dashicons dashicons-external"></span>

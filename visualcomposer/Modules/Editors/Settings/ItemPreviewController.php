@@ -62,7 +62,8 @@ class ItemPreviewController extends Container implements Module
 
         $fieldCallback = function () {
             /** @see \VisualComposer\Modules\Editors\Settings\ItemPreviewController::renderToggle */
-            echo $this->call('renderToggle', ['value' => 'itemPreviewDisabled']);
+            $outputHelper = vchelper('Output');
+            $outputHelper->printNotEscaped($this->call('renderToggle', ['value' => 'itemPreviewDisabled']));
         };
 
         $this->addField(

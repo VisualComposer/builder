@@ -70,11 +70,11 @@ class DeactivationController extends Container implements Module
             $optionsHelper->delete('license-usage');
             $optionsHelper->deleteTransient('lastBundleUpdate');
 
-            wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+            wp_safe_redirect(admin_url('admin.php?page=vcv-getting-started'));
             vcvdie();
         }
 
-        wp_redirect(admin_url('admin.php?page=vcv-settings'));
+        wp_safe_redirect(admin_url('admin.php?page=vcv-settings'));
         vcvdie();
     }
 }
