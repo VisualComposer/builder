@@ -33,7 +33,7 @@ class Token extends Container implements Helper
             $body['license-key'] = $licenseHelper->getKey();
             $url = vcvenv('VCV_TOKEN_URL');
             if (defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated()) {
-                $body['author_api_key'] = VCV_AUTHOR_API_KEY;
+                $body['author_api_key'] = constant('VCV_AUTHOR_API_KEY');
                 $url = vcvenv('VCV_THEME_TOKEN_URL');
             }
             $url = vchelper('Url')->query($url, $body);
@@ -121,8 +121,9 @@ class Token extends Container implements Helper
             // if soon (<7 days) then show warning
             if ($data['expiration'] !== 'lifetime' && (int)$data['expiration'] < (time() + WEEK_IN_SECONDS)) {
                 $message = sprintf(
+                    // translators: %s: date
                     __('Your Visual Composer Website Builder License will expire soon - %s', 'visualcomposer'),
-                    date(
+                    gmdate(
                         get_option('date_format') . ' ' . get_option('time_format'),
                         $data['expiration']
                     )

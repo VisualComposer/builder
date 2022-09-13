@@ -32,29 +32,24 @@ class PostsGridPostIterator extends Container implements Helper
      */
     public function loopPosts($posts, $template)
     {
-        // @codingStandardsIgnoreStart
-        global $post, $shortcode_tags;
-
-        $backupTags = $shortcode_tags;
-        // @codingStandardsIgnoreEnd
+        $globalsHelper = vchelper('Globals');
+        $globalsHelper->backup('loopPosts.backupTags', 'shortcode_tags');
+        $globalsHelper->backup('loopPosts.post', 'post');
         remove_all_shortcodes();
-        $backup = $post;
         $output = '';
         if (is_array($posts)) {
             foreach ($posts as $queryPost) {
-                $post = $queryPost;
-                setup_postdata($post);
+                $globalsHelper->set('post', $queryPost);
+                setup_postdata($queryPost);
                 $compiledTemplate = $this->renderPost($template, $queryPost);
                 $output .= trim($compiledTemplate);
                 $output = vcfilter('vcv:frontend:content', $output);
                 wp_reset_postdata();
             }
         }
-        $post = $backup;
-        // @codingStandardsIgnoreStart
-        $shortcode_tags = $backupTags;
+        $globalsHelper->restore('loopPosts.backupTags', 'shortcode_tags');
+        $globalsHelper->restore('loopPosts.post', 'post');
 
-        // @codingStandardsIgnoreEnd
         return strip_shortcodes($output);
     }
 

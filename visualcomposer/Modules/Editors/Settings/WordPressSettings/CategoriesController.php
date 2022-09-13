@@ -109,7 +109,7 @@ class CategoriesController extends Container implements Module
      */
     protected function setData($response, $payload, Request $requestHelper)
     {
-        $currentPageId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
+        $currentPageId = vchelper('Preview')->updateSourceIdWithAutosaveId($payload['sourceId']);
         $savedCategories = $requestHelper->input('vcv-settings-categories', []);
         if (!empty($savedCategories)) {
             $savedCategories = json_decode($savedCategories, true);

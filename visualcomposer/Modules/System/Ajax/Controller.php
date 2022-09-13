@@ -87,6 +87,7 @@ class Controller extends Container implements Module
     {
         if ($requestHelper->isAjax()) {
             // Silence required to avoid warnings in case if function is restricted
+            // In any ajax request we must disable errors unless it is VCV_DEBUG enabled
             // @codingStandardsIgnoreStart
             @set_time_limit(120);
             if (!vcvenv('VCV_DEBUG')) {
@@ -184,8 +185,7 @@ class Controller extends Container implements Module
     {
         // our dev env has false
         if (\VcvEnv::get('VCV_JS_SAVE_ZIP')) {
-            $isBinary = isset($_SERVER['CONTENT_TYPE']) &&
-                $_SERVER['CONTENT_TYPE'] === 'application/octet-stream';
+            $isBinary = isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/octet-stream';
 
             // for default case we use binary content for ajax as it most lightweight.
             if ($isBinary) {
@@ -196,10 +196,12 @@ class Controller extends Container implements Module
                 $all = $requestHelper->all();
                 $new = array_merge($all, $newArgs);
                 $requestHelper->setData($new);
-            // we need it for a cases when user server environment do not support binary content.
+                // we need it for a cases when user server environment do not support binary content.
             } elseif ($requestHelper->exists('vcv-zip')) {
                 $zip = $requestHelper->input('vcv-zip');
 
+                // Base64 is safe to send through ajax, and it is used as a fallback for old versions.
+                // @codingStandardsIgnoreLine
                 $basedecoded = base64_decode($zip);
                 $newAllJson = zlib_decode($basedecoded);
                 $newArgs = json_decode($newAllJson, true);

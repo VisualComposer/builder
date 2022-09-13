@@ -43,7 +43,7 @@ class GettingStarted extends Container implements Module
             'admin_menu',
             function (Request $requestHelper) {
                 if ($requestHelper->input('page') === 'vcv-about') {
-                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    wp_safe_redirect(admin_url('admin.php?page=vcv-getting-started'));
                     exit;
                 }
             },
@@ -65,10 +65,11 @@ class GettingStarted extends Container implements Module
         $this->addFilter('vcv:wp:dashboard:variables', 'addDashboardVariables');
     }
 
-    protected function addDashboardVariables($variables, Options $optionsHelper)
+    protected function addDashboardVariables($variables, Options $optionsHelper, Request $requestHelper)
     {
         // Used in Tutorial Template to get back to WordPress
-        if (isset($_GET['page'])  &&  $_GET['page'] == 'vcv-getting-started') {
+        $page = $requestHelper->input('page');
+        if ($page === 'vcv-getting-started') {
             $variables[] = [
                 'key' => 'vcvActivationSurveyUserReasonToUse',
                 'value' => $optionsHelper->get('activation-survey-user-reason-to-use', false),

@@ -45,7 +45,7 @@ class PageTemplatesSaveController extends Container implements Module
         if ($requestHelper->exists('vcv-page-template')) {
             $sourceId = $payload['sourceId'];
             $post = get_post($sourceId);
-            $post = vchelper('Preview')->updateSourcePostWithPreviewPost($post);
+            $post = vchelper('Preview')->updateSourcePostWithAutosavePost($post);
 
             $pageTemplateData = $requestHelper->input('vcv-page-template');
             if (is_array($pageTemplateData)) {

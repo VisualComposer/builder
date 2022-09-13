@@ -68,7 +68,7 @@ class AuthorController extends Container implements Module
         }
         $authorList = [];
         foreach ($users as $user) {
-            // @codingStandardsIgnoreLine
+            // translators: %1$s: Author name., %2$s: Author login.
             $dropdownText = sprintf(_x('%1$s (%2$s)', 'visualcomposer'), $user->display_name, $user->user_login);
             $authorList[] = [
                 'label' => $dropdownText,
@@ -103,8 +103,8 @@ class AuthorController extends Container implements Module
             $currentUserAccessHelper->wpAll(
                 // @codingStandardsIgnoreLine
                 [get_post_type_object($currentPost->post_type)->cap->publish_posts, $currentPost->ID]
-            // @codingStandardsIgnoreLine
-            )->get() && post_type_supports( $currentPost->post_type, 'author' )
+                // @codingStandardsIgnoreLine
+            )->get() && post_type_supports($currentPost->post_type, 'author')
         ) {
             $response = array_merge(
                 $response,
@@ -144,7 +144,7 @@ class AuthorController extends Container implements Module
      */
     protected function setData($response, $payload, Request $requestHelper)
     {
-        $currentPageId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
+        $currentPageId = vchelper('Preview')->updateSourceIdWithAutosaveId($payload['sourceId']);
         if ($requestHelper->exists('vcv-settings-author')) {
             $authorId = $requestHelper->input('vcv-settings-author');
             if (empty($authorId)) {

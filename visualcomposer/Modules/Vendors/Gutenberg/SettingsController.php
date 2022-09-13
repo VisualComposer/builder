@@ -88,7 +88,8 @@ class SettingsController extends Container implements Module
                 /**
                  * @see \VisualComposer\Modules\Vendors\Gutenberg\SettingsController::renderToggle
                  */
-                echo $this->call('renderToggle', ['value' => 'gutenberg-editor']);
+                $outputHelper = vchelper('Output');
+                $outputHelper->printNotEscaped($this->call('renderToggle', ['value' => 'gutenberg-editor']));
             };
 
             $this->addField(

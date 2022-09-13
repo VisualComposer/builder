@@ -2,9 +2,9 @@
 import vcCake from 'vc-cake'
 
 // Services & Storages
-import '../../public/editor/services/dataManager/service.js'
-import '../../public/editor/services/roleManager/service.js'
-import '../../public/editor/services/utils/service.js'
+import '../../public/editor/services/dataManager/service'
+import '../../public/editor/services/roleManager/service'
+import '../../public/editor/services/utils/service'
 import store from 'public/editor/stores/store'
 import {notificationAdded, notificationRemoved, portalChanged} from 'public/editor/stores/notifications/slice'
 

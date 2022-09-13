@@ -114,7 +114,7 @@ class License extends Container implements Helper
             $optionsHelper->deleteTransient('elements:autoload:all');
             $optionsHelper->deleteTransient('addons:autoload:all');
             vcevent('vcv:hub:checkForUpdate', ['token' => $token]);
-            wp_redirect(admin_url('admin.php?page=' . $redirectTo));
+            wp_safe_redirect(admin_url('admin.php?page=' . $redirectTo));
             exit;
         }
     }
@@ -139,26 +139,27 @@ class License extends Container implements Helper
      * @param $errorCode
      *
      * @codingStandardsIgnoreStart
-     * @return string|void
+     * @return string
      */
     public function licenseErrorCodes($errorCode)
     {
-        $message = '';
         $utmHelper = vchelper('Utm');
         switch ($errorCode) {
             case 'expired':
             case 1:
                 $message = sprintf(
+                    // translators: %s: link to license renewal
                     __('Your license key has been expired. <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">Renew</a> your license and continue to enjoy Premium features.', 'visualcomposer'),
-                    $utmHelper->get('license-activation-renewal')
+                    esc_url($utmHelper->get('license-activation-renewal'))
                 );
                 break;
             case 'missing':
             case 'item_name_mismatch':
             case 2:
                 $message = sprintf(
+                    // translators: %s: link to license purchase
                     __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'visualcomposer'),
-                    $utmHelper->get('license-activation-purchase')
+                    esc_url($utmHelper->get('license-activation-purchase'))
                 );
                 break;
             case 'invalid':
@@ -182,8 +183,9 @@ class License extends Container implements Helper
                 break;
             case 'no_activations_left':
                 $message = sprintf(
+                    // translators: %s: link to license upgrade
                     __('This license key has reached its activation limit. <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">Upgrade</a> it by paying only the difference.', 'visualcomposer'),
-                    $utmHelper->get('license-activation-upgrade')
+                    esc_url($utmHelper->get('license-activation-upgrade'))
                 );
                 break;
             case 'purchase_key_already_exist':
@@ -204,7 +206,7 @@ class License extends Container implements Helper
     /**
      * Hub terms agreement for free users
      *
-     * @return string|void
+     * @return bool
      */
     public function agreeHubTerms()
     {

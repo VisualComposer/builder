@@ -96,6 +96,7 @@ class SystemStatus extends Container implements Module
     public function getPhpVersionStatusForView()
     {
         $checkVersion = $this->statusHelper->getPhpVersionStatus();
+        // translators: %s: PHP version.
         $textResponse = $checkVersion ? PHP_VERSION : sprintf(__('PHP version %s or greater (recommended 7 or greater)', 'visualcomposer'), VCV_REQUIRED_PHP_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
@@ -104,6 +105,7 @@ class SystemStatus extends Container implements Module
     public function getWpVersionStatusForView()
     {
         $wpVersionCheck = $this->statusHelper->getWpVersionStatus();
+        // translators: %s: WordPress version.
         $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf(__('WordPress version %s or greater', 'visualcomposer'), VCV_REQUIRED_BLOG_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($wpVersionCheck)];
@@ -127,7 +129,8 @@ class SystemStatus extends Container implements Module
             $postMaxSize = __('Unlimited', 'visualcomposer');
         }
 
-        $textResponse = $postMaxSizeTest ? $postMaxSize : sprintf(__('Post max size should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
+        // translators: %1$s: post_max_size, %2$s: recommended post_max_size.
+        $textResponse = $postMaxSizeTest ? $postMaxSize : sprintf(__('Post max size should be %1$sM, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($postMaxSizeTest)];
     }
@@ -141,7 +144,8 @@ class SystemStatus extends Container implements Module
             $memoryLimit = __('Unlimited', 'visualcomposer');
         }
 
-        $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
+        // translators: %1$s: default memory limit., %2$s: memory_limit.
+        $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %1$sM, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
     }
@@ -155,7 +159,8 @@ class SystemStatus extends Container implements Module
             $postMaxSize = __('Unlimited', 'visualcomposer');
         }
 
-        $textResponse = $postMaxSizeCheck ? $postMaxSize : sprintf(__('post_max_size limit should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
+        // translators: %1$s: default post max size., %2$s: post_max_size.
+        $textResponse = $postMaxSizeCheck ? $postMaxSize : sprintf(__('post_max_size limit should be %1$sM, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($postMaxSizeCheck)];
     }
@@ -165,8 +170,8 @@ class SystemStatus extends Container implements Module
         $maxInputNestingLevel = (int)$this->statusHelper->getPhpVariable('max_input_nesting_level');
         $maxInputNestingLevelCheck = $this->statusHelper->getMaxInputNestingLevelStatus();
 
-
-        $textResponse = $maxInputNestingLevelCheck ? $maxInputNestingLevel : sprintf(__('max_input_nesting_level should be %s, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputNestingLevel(), $maxInputNestingLevel);
+        // translators: %1$s: default max_input_nesting_level., %2$s: max_input_nesting_level.
+        $textResponse = $maxInputNestingLevelCheck ? $maxInputNestingLevel : sprintf(__('max_input_nesting_level should be %1$s, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputNestingLevel(), $maxInputNestingLevel);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxInputNestingLevelCheck)];
     }
@@ -176,8 +181,8 @@ class SystemStatus extends Container implements Module
         $maxInputVars = (int)$this->statusHelper->getPhpVariable('max_input_vars');
         $maxInputVarsCheck = $this->statusHelper->getMaxInputVarsStatus();
 
-
-        $textResponse = $maxInputVarsCheck ? $maxInputVars : sprintf(__('max_input_vars should be %s, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputVars(), $maxInputVars);
+        // translators: %1$s: default max_input_vars., %2$s: max_input_vars.
+        $textResponse = $maxInputVarsCheck ? $maxInputVars : sprintf(__('max_input_vars should be %1$s, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputVars(), $maxInputVars);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxInputVarsCheck)];
     }
@@ -186,7 +191,8 @@ class SystemStatus extends Container implements Module
     {
         $maxExecutionTime = (int)$this->statusHelper->getPhpVariable('max_execution_time');
         $maxExecutionTimeCheck = $this->statusHelper->getTimeoutStatus();
-        $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'visualcomposer'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
+        // translators: %1$s: default max_execution_time., %2$s: max_execution_time.
+        $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %1$sS, currently it is %2$sS', 'visualcomposer'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxExecutionTimeCheck)];
     }
@@ -195,7 +201,8 @@ class SystemStatus extends Container implements Module
     {
         $maxFileSize = $this->statusHelper->getPhpVariable('upload_max_filesize');
         $maxFileSizeCheck = $this->statusHelper->getUploadMaxFileSizeStatus();
-        $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
+        // translators: %1$s: default upload_max_filesize., %2$s: upload_max_filesize.
+        $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %1$sM, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxFileSizeCheck)];
     }
@@ -251,6 +258,7 @@ class SystemStatus extends Container implements Module
     protected function getPluginFolderStatusForView()
     {
         $check = VCV_PLUGIN_DIRNAME === 'visualcomposer';
+        // translators: %s: plugin folder name.
         $textResponse = $check ? VCV_PLUGIN_DIRNAME : sprintf(__('Incorrect plugin folder name: %s. Plugin folder name must be ‘visualcomposer’', 'visualcomposer'), VCV_PLUGIN_DIRNAME);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
@@ -323,11 +331,12 @@ class SystemStatus extends Container implements Module
                 $noticeHelper->addNotice(
                     'systemCheckStatus',
                     sprintf(
+                        // translators: %s: link to system status page.
                         __(
                             'It seems that there is a problem with your server configuration that might affect Visual Composer. For more details, visit <a href="%s">System Status</a> page.',
                             'visualcomposer'
                         ),
-                        admin_url('admin.php?page=' . $systemStatus->slug)
+                        esc_url(admin_url('admin.php?page=' . $systemStatus->slug))
                     ),
                     'error',
                     true
@@ -341,7 +350,7 @@ class SystemStatus extends Container implements Module
     protected function refreshStatusPage(Status $statusHelper)
     {
         $statusHelper->checkSystemStatusAndSetFlag();
-        wp_redirect(admin_url('admin.php?page=' . $this->slug));
+        wp_safe_redirect(admin_url('admin.php?page=' . $this->slug));
         exit;
     }
 

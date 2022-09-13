@@ -316,10 +316,8 @@ class Status implements Helper
             $this->getMaxInputVarsStatus(),
         ];
 
-        foreach ($results as $result) {
-            if ($result === false) {
-                return false;
-            }
+        if (in_array(false, $results, true)) {
+            return false;
         }
 
         return true;

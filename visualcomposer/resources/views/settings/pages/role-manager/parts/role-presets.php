@@ -14,20 +14,22 @@ if (!defined('ABSPATH')) {
 <div class="vcv-settings-section vcv-settings_vcv-settings-gutenberg-editor-enabled">
     <div class="vcv-ui-settings-status-tables-wrapper">
         <div class="vcv-ui-settings-status-table">
-            <p class="description"><?php echo sprintf(__('Select user role preset for %s or customize access rights.', 'visualcomposer'), $role); ?></p>
+            <p class="description"><?php
+                // translators: %s: role name.
+                echo sprintf(esc_html__('Select user role preset for %s or customize access rights.', 'visualcomposer'), esc_attr($role)); ?></p>
         </div>
         <div class="vcv-ui-settings-status-table">
-                    <?php
-                    echo vcview(
-                        'settings/fields/dropdown',
-                        [
-                            'name' => 'vcv-settings-role-preset[' . $role . ']',
-                            'class' => 'vcv-ui-form-presets-dropdown',
-                            'value' => !empty($presetValue) ? $presetValue : (array_key_exists($role, $dropdownOptions) ? $role : 'custom'),
-                            'enabledOptions' => $dropdownOptions,
-                        ]
-                    );
-                    ?>
+            <?php
+            evcview(
+                'settings/fields/dropdown',
+                [
+                    'name' => 'vcv-settings-role-preset[' . $role . ']',
+                    'class' => 'vcv-ui-form-presets-dropdown',
+                    'value' => !empty($presetValue) ? $presetValue : (array_key_exists($role, $dropdownOptions) ? $role : 'custom'),
+                    'enabledOptions' => $dropdownOptions,
+                ]
+            );
+            ?>
         </div>
     </div>
 </div>

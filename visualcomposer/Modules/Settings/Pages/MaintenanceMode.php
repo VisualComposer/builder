@@ -88,9 +88,10 @@ class MaintenanceMode extends Container implements Module
                 'callback' => $sectionCallback,
             ]
         );
+        $outputHelper = vchelper('Output');
 
-        $toggleFieldCallback = function () {
-            echo $this->call('renderToggle');
+        $toggleFieldCallback = function () use ($outputHelper) {
+            $outputHelper->printNotEscaped($this->call('renderToggle'));
         };
 
         $this->addField(
@@ -103,8 +104,8 @@ class MaintenanceMode extends Container implements Module
             ]
         );
 
-        $dropdownFieldCallback = function () {
-            echo $this->call('renderDropdown');
+        $dropdownFieldCallback = function () use ($outputHelper) {
+            $outputHelper->printNotEscaped($this->call('renderDropdown'));
         };
 
         $this->addField(

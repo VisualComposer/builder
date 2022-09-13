@@ -28,13 +28,13 @@ class Templates114Migration extends MigrationsController implements Module
         global $wpdb;
         $wpdb->query(
             $wpdb->prepare(
-                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE "%s"',
+                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE %s',
                 VCV_PREFIX . 'hubAction:predefinedTemplate/%'
             )
         );
         $wpdb->query(
             $wpdb->prepare(
-                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE "%s"',
+                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE %s',
                 VCV_PREFIX . 'hubAction:template/%'
             )
         );

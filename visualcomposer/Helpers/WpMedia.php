@@ -41,7 +41,8 @@ class WpMedia implements Helper
         $thumb_class = (isset($params['class']) && '' !== $params['class']) ? $params['class'] . ' ' : '';
         global $_wp_additional_image_sizes;
         $thumbnail = '';
-        if (is_string($thumb_size)
+        if (
+            is_string($thumb_size)
             && ((!empty($_wp_additional_image_sizes[ $thumb_size ])
                     && is_array(
                         $_wp_additional_image_sizes[ $thumb_size ]
@@ -66,12 +67,12 @@ class WpMedia implements Helper
             if (is_array($thumb_size)) {
                 // Resize image to custom size
                 $p_img = $this->resizeImageById($attach_id, $thumb_size[0], $thumb_size[1], true);
-                $alt = trim(strip_tags(get_post_meta($attach_id, '_wp_attachment_image_alt', true)));
+                $alt = trim(wp_strip_all_tags(get_post_meta($attach_id, '_wp_attachment_image_alt', true)));
                 $attachment = get_post($attach_id);
                 if (!empty($attachment)) {
-                    $title = trim(strip_tags($attachment->post_title));
+                    $title = trim(wp_strip_all_tags($attachment->post_title));
                     if (empty($alt)) {
-                        $alt = trim(strip_tags($attachment->post_excerpt)); // If not, Use the Caption
+                        $alt = trim(wp_strip_all_tags($attachment->post_excerpt)); // If not, Use the Caption
                     }
                     if (empty($alt)) {
                         $alt = $title;
@@ -124,7 +125,8 @@ class WpMedia implements Helper
         // checking if the file size is larger than the target size
         // if it is smaller or the same size, stop right here and return
         if ($image_src[1] > $width || $image_src[2] > $height) {
-            if (file_exists($cropped_img_path)) {
+            $fileHelper = vchelper('File');
+            if ($fileHelper->exists($cropped_img_path)) {
                 $cropped_img_url = str_replace(basename($image_src[0]), basename($cropped_img_path), $image_src[0]);
                 $vt_image = [
                     'url' => $cropped_img_url,
@@ -140,7 +142,7 @@ class WpMedia implements Helper
                 $resized_img_path = $no_ext_path . '-' . $proportional_size[0] . 'x' . $proportional_size[1]
                     . $extension;
                 // checking if the file already exists
-                if (file_exists($resized_img_path)) {
+                if ($fileHelper->exists($resized_img_path)) {
                     $resized_img_url = str_replace(
                         basename($image_src[0]),
                         basename($resized_img_path),

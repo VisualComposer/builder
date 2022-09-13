@@ -45,7 +45,7 @@ class MediaSizesController extends Container implements Module
     {
         $sizes = [];
         $data = $mediaHelper->getSizes();
-        $sizes[] = sprintf('<script>window.vcvImageSizes = %s;</script>', json_encode($data));
+        $sizes[] = sprintf('<script>window.vcvImageSizes = %s;</script>', wp_json_encode($data));
 
         return array_merge($scripts, $sizes);
     }

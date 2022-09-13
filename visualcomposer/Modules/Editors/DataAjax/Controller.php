@@ -251,9 +251,11 @@ class Controller extends Container implements Module
         } elseif ($isPreview) {
             $previewPost = $previewHelper->generatePreview($post, $sourceId);
         } else {
-            if ($currentUserAccessHelper->wpAll(
-                [get_post_type_object($post->post_type)->cap->publish_posts, $sourceId]
-            )->get()) {
+            if (
+                $currentUserAccessHelper->wpAll(
+                    [get_post_type_object($post->post_type)->cap->publish_posts, $sourceId]
+                )->get()
+            ) {
                 if ($post->post_status !== 'private' && $post->post_status !== 'future') {
                     $post->post_status = 'publish';
                 }

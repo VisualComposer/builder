@@ -11,7 +11,7 @@ const storages = {
 }
 
 const ElementAPI = {
-  getInstance: (id, elementData, elementParentProps) => {
+  getInstance: (id:string, elementData:{inner:boolean, innerMultipleLevel:boolean, id:string, tag:string}, elementParentProps:{elementAccessPoint:{inner:boolean}}) => {
     if (id) {
       elementData = services.document.get(id)
       if (elementData) {

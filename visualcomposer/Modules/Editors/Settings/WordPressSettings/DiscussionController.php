@@ -51,9 +51,11 @@ class DiscussionController extends Container implements Module
         $currentPostType = $currentPost->post_type;
         $pingStatus = $currentPost->ping_status;
         $commentStatus = $currentPost->comment_status;
-        if ($currentPostType && $currentUserAccessHelper->wpAll(
+        if (
+            $currentPostType && $currentUserAccessHelper->wpAll(
                 [get_post_type_object($currentPost->post_type)->cap->publish_posts, $currentPost->ID]
-            )->get()) {
+            )->get()
+        ) {
             // @codingStandardsIgnoreEnd
             $discussionVariables = [];
             if (
@@ -92,7 +94,7 @@ class DiscussionController extends Container implements Module
      */
     protected function setData($response, $payload, Request $requestHelper)
     {
-        $currentPageId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
+        $currentPageId = vchelper('Preview')->updateSourceIdWithAutosaveId($payload['sourceId']);
         if (
             $requestHelper->exists('vcv-settings-comment-status')
             && $requestHelper->exists('vcv-settings-ping-status')

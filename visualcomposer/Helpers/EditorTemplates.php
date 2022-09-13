@@ -25,10 +25,16 @@ class EditorTemplates implements Helper
     {
         global $wpdb;
 
-        $clause = " AND b.meta_key IN ('_vcv-type', '_vcv-thumbnail', '_vcv-preview', '_vcv-description', '_vcv-bundle')";
-        $order = " ORDER BY a.post_modified ASC";
-
-        return $wpdb->get_results($this->getQueryTemplateSelect() . $clause . $order, ARRAY_A);
+        return $wpdb->get_results(
+            "
+                SELECT a.ID as `id`, a.post_title as `name`, b.meta_key, b.meta_value
+                FROM {$wpdb->posts} as a
+                LEFT JOIN {$wpdb->postmeta} as b on b.post_id = a.ID
+                WHERE a.post_type = 'vcv_templates' and a.post_status in ('draft', 'publish')
+                AND b.meta_key IN ('_vcv-type', '_vcv-thumbnail', '_vcv-preview', '_vcv-description', '_vcv-bundle')
+                ORDER BY a.post_modified ASC",
+            ARRAY_A
+        );
     }
 
     /**
@@ -40,31 +46,16 @@ class EditorTemplates implements Helper
     {
         global $wpdb;
 
-        $clause = " AND b.meta_key='_vcv-type' AND b.meta_value='custom'";
-        $order = " ORDER BY a.post_modified ASC";
-
-        return $wpdb->get_results($this->getQueryTemplateSelect() . $clause . $order, ARRAY_A);
-    }
-
-    /**
-     * Get query for selecting all our global templates.
-     *
-     * We cannot use get_posts because of high memory usage (>100mb on 60 templates)
-     * Problems: multilingual translations are not filtered, but 3rd party can use filters if they wish so
-     * Additionally: we load just all templates now.
-     *
-     * @return string
-     */
-    public function getQueryTemplateSelect()
-    {
-        global $wpdb;
-
-        return "
+        return $wpdb->get_results(
+            "
                 SELECT a.ID as `id`, a.post_title as `name`, b.meta_key, b.meta_value
                 FROM {$wpdb->posts} as a
                 LEFT JOIN {$wpdb->postmeta} as b on b.post_id = a.ID
                 WHERE a.post_type = 'vcv_templates' and a.post_status in ('draft', 'publish')
-        ";
+AND b.meta_key='_vcv-type' AND b.meta_value='custom'
+ ORDER BY a.post_modified ASC",
+            ARRAY_A
+        );
     }
 
     /**
@@ -154,7 +145,7 @@ class EditorTemplates implements Helper
         $template = vchelper('PostType')->get($templateId, 'vcv_templates');
         if (vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
             $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
-            $templateElements = $templateElements = $this->getTemplateElements($meta, $template);
+            $templateElements = $this->getTemplateElements($meta, $template);
             $template->vcvTemplateElements = $templateElements;
         }
 

@@ -103,9 +103,10 @@ class Hub extends Container implements Module
     {
         ob_start();
         $extraOutput = vcfilter('vcv:frontend:hub:extraOutput', []);
+        $outputHelper = vchelper('Output');
         if (is_array($extraOutput)) {
             foreach ($extraOutput as $output) {
-                echo $output;
+                $outputHelper->printNotEscaped($output);
             }
             unset($output);
         }

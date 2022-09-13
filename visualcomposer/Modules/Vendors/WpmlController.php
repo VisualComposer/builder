@@ -120,12 +120,13 @@ class WpmlController extends Container implements Module
             return $package;
         }
 
-        foreach ($package['contents'] as $fieldKey => $field) {
-            if ($fieldKey !== 'field-vcv-pageContent-0') {
-                continue;
-            }
-            // Make the magic
-            $pageContent = json_decode(rawurldecode(base64_decode($field['data'])), true);
+        if (isset($package['contents']['field-vcv-pageContent-0'])) {
+            $pageContent = $package['contents']['field-vcv-pageContent-0'];
+
+
+            // Content Encoded in Base64 as it is safe to use in URL and JSON
+            // @codingStandardsIgnoreLine
+            $pageContent = json_decode(rawurldecode(base64_decode($pageContent['data'])), true);
 
             $translations = [];
             foreach ($pageContent['elements'] as $elementId => $valueElement) {
@@ -137,10 +138,6 @@ class WpmlController extends Container implements Module
 
             $package = $this->setNewContentForTranslationPackage($translations, $package);
         }
-
-        unset($package['contents'][ 'field-vcv-pageContent-0' ]);
-        unset($package['contents'][ 'field-vcv-pageContent-0-name' ]);
-        unset($package['contents'][ 'field-vcv-pageContent-0-type' ]);
 
         return $package;
     }
@@ -164,6 +161,8 @@ class WpmlController extends Container implements Module
             $key = implode('.', $translation['path']);
             $package['contents'][ 'field-vcv-pageContentField--' . $key . '-0' ] = [
                 'translate' => 1,
+                // Content Encoded in Base64 as it is safe to use in URL and JSON
+                // @codingStandardsIgnoreLine
                 'data' => base64_encode($translation['value']),
                 'format' => 'base64',
             ];
@@ -205,19 +204,20 @@ class WpmlController extends Container implements Module
         }
 
         $pageContent = json_decode(
-            // @codingStandardsIgnoreLine
+        // Content Encoded in Base64 as it is safe to use in URL and JSON
+        // @codingStandardsIgnoreLine
             rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data)),
             true
         );
         $elements = $job->elements;
         foreach ($elements as $index => $field) {
             // @codingStandardsIgnoreLine
-            $isFieldPostContent = isset($field->field_type) &&
-                // @codingStandardsIgnoreLine
+            $isFieldPostContent = isset($field->field_type)
+                && // @codingStandardsIgnoreLine
                 strpos($field->field_type, 'field-vcv-pageContentField--') !== false;
 
             // @codingStandardsIgnoreLine
-            if ( !$field->field_finished ||  !$isFieldPostContent) {
+            if (!$field->field_finished || !$isFieldPostContent) {
                 continue;
             }
             // @codingStandardsIgnoreLine
@@ -241,7 +241,7 @@ class WpmlController extends Container implements Module
         // Encode back updated translation
         // @codingStandardsIgnoreLine
         $job->elements[ $pageContentIndex ]->field_data_translated = base64_encode(
-            rawurlencode(json_encode($pageContent))
+            rawurlencode(wp_json_encode($pageContent))
         );
 
         return $fields;
@@ -250,10 +250,11 @@ class WpmlController extends Container implements Module
     protected function createNotice()
     {
         global $pagenow;
-
+        $requestHelper = vchelper('Request');
+        $page = $requestHelper->input('page');
         if (
-            isset($_GET['page']) && $pagenow === 'admin.php'
-            && strpos($_GET['page'], 'wpml-translation-management') !== false
+            $pagenow === 'admin.php'
+            && strpos($page, 'wpml-translation-management') !== false
         ) {
             // Add notice that after translation you have to open automatic post updates page: %url%
             $class = 'notice notice-info';
@@ -261,11 +262,15 @@ class WpmlController extends Container implements Module
                 '<div class="%1$s"><p>%2$s</p></div>',
                 esc_attr($class),
                 sprintf(
-                    __(
-                        '<b>Visual Composer:</b> To complete WPML Translation Manager process for the Visual Composer supported pages you will need to run automatic posts update. <a href="%s">Update Posts</a>',
+                // translators: %1$s: <strong>, %2$s: </strong>, %3$s: <a href url to automatic post updates page, %4$s: </a>
+                    esc_html__(
+                        '%1$sVisual Composer:%2$s To complete WPML Translation Manager process for the Visual Composer supported pages you will need to run automatic posts update. %3$sUpdate Posts%4$s',
                         'visualcomposer'
                     ),
-                    admin_url('admin.php?page=vcv-update')
+                    '<strong>',
+                    '</strong>',
+                    '<a href="' . esc_url(admin_url('admin.php?page=vcv-update')) . '">',
+                    '</a>'
                 )
             );
         }
@@ -439,13 +444,13 @@ class WpmlController extends Container implements Module
 
         global $wpdb;
 
-        $sql = $wpdb->prepare(
-            "SELECT language_code FROM %sicl_translations WHERE element_id = %d",
-            $wpdb->prefix,
-            $postId
+        $result = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT language_code FROM %sicl_translations WHERE element_id = %d",
+                $wpdb->prefix,
+                $postId
+            )
         );
-
-        $result = $wpdb->get_results($sql);
 
         if (!empty($result[0]->language_code)) {
             $_POST['post_ID'] = $postId;

@@ -13,10 +13,10 @@ if (!defined('ABSPATH')) {
  */
 ?>
 <div class="vcv-settings-section vcv-settings_vcv-settings-gutenberg-editor-enabled">
-    <h2><?php echo __('Post Types', 'visualcomposer'); ?></h2>
+    <h2><?php echo esc_html__('Post Types', 'visualcomposer'); ?></h2>
     <div class="vcv-ui-settings-status-tables-wrapper">
         <div class="vcv-ui-settings-status-table">
-            <p class="description"><?php echo __('Specify post types where you want to use Visual Composer editor.', 'visualcomposer'); ?></p>
+            <p class="description"><?php echo esc_html__('Specify post types where you want to use Visual Composer editor.', 'visualcomposer'); ?></p>
         </div>
         <div class="vcv-ui-settings-status-table">
             <?php
@@ -32,13 +32,13 @@ if (!defined('ABSPATH')) {
                 }
                 ?>
                 <div class="vcv-ui-settings-status-table-row">
-                    <div class="vcv-ui-settings-status-table-title description"><?php echo $postType['label']; ?></div>
+                    <div class="vcv-ui-settings-status-table-title description"><?php echo esc_html($postType['label']); ?></div>
                     <div class="vcv-ui-settings-status-table-content">
                         <?php
                         $index = 'edit_' . $postType['value'];
                         $capabilityKey = 'vcv_access_rules__' . $part . '_' . $index;
                         $isEnabled = isset($stateCapabilities[ $capabilityKey ]) && $stateCapabilities[ $capabilityKey ];
-                        echo vcview(
+                        evcview(
                             'settings/fields/toggle',
                             [
                                 'value' => $index,

@@ -92,7 +92,8 @@ class MenuController extends Container implements Module
 
     protected function addMenuCss()
     {
-        echo <<<CSS
+        $outputHelper = vchelper('Output');
+        $css = <<<CSS
     <style>
         #toplevel_page_vcv-settings .wp-submenu .vcv-ui-state--hidden,
         #toplevel_page_vcv-getting-started .wp-submenu .vcv-ui-state--hidden {
@@ -100,6 +101,7 @@ class MenuController extends Container implements Module
         }
     </style>
 CSS;
+        $outputHelper->printNotEscaped($css);
     }
 
     /**
@@ -107,14 +109,15 @@ CSS;
      */
     protected function arrangeSubmenuItems(TabsRegistry $tabsRegistryHelper)
     {
-        global $submenu;
+        $globalsHelper = vchelper('Globals');
+        $submenuCopy = $globalsHelper->get('submenu');
 
-        if (empty($submenu['vcv-settings'])) {
+        if (empty($submenuCopy['vcv-settings'])) {
             return;
         }
 
-        $menuColumn = array_column($submenu['vcv-settings'], 2);
-
+        $menuColumn = array_column($submenuCopy['vcv-settings'], 2);
+        $topLevelMenu = [];
         foreach ($tabsRegistryHelper->menuTree as $slug => $item) {
             if (is_array($item)) {
                 $index = array_search($slug, $menuColumn);
@@ -123,12 +126,13 @@ CSS;
             }
 
             if ($index !== false) {
-                $topLevelMenu[] = $submenu['vcv-settings'][$index];
-                unset($submenu['vcv-settings'][$index]);
+                $topLevelMenu[] = $submenuCopy['vcv-settings'][ $index ];
+                unset($submenuCopy['vcv-settings'][ $index ]);
             }
         }
 
-        $submenu['vcv-settings'] = array_merge($topLevelMenu, $submenu['vcv-settings']);
+        $submenuCopy['vcv-settings'] = array_merge($topLevelMenu, $submenuCopy['vcv-settings']);
+        $globalsHelper->set('submenu', $submenuCopy);
     }
 
     /**

@@ -26,7 +26,29 @@ class File implements Helper
             return false;
         }
 
-        return file_get_contents($filePath);
+        // get content from using file system
+        return $this->getFileSystem()->get_contents($filePath);
+    }
+
+    public function exists($filePath)
+    {
+        return $this->getFileSystem()->exists($filePath);
+    }
+
+    public function isFile($filePath)
+    {
+        return $this->getFileSystem()->is_file($filePath);
+    }
+
+    public function isDir($filePath)
+    {
+        return $this->getFileSystem()->is_dir($filePath);
+    }
+
+    public function rename($oldName, $newName)
+    {
+        $this->checkDir(dirname($newName));
+        return $this->getFileSystem()->move($oldName, $newName);
     }
 
     /**
@@ -37,44 +59,21 @@ class File implements Helper
      */
     public function setContents($filePath, $contents)
     {
-        return file_put_contents($filePath, $contents);
-    }
-
-    /**
-     * Check does file exist
-     *
-     * @param $filePath
-     *
-     * @return bool
-     */
-    public function isFile($filePath)
-    {
-        return is_file($filePath);
-    }
-
-    /**
-     * Check does directory exist
-     *
-     * @param $dirPath
-     *
-     * @return bool
-     */
-    public function isDir($dirPath)
-    {
-        return is_dir($dirPath);
+        $this->checkDir(dirname($filePath));
+        // set content using file system
+        return $this->getFileSystem()->put_contents($filePath, $contents);
     }
 
     /**
      * Check does directory exist and if not create it
      *
      * @param $dirPath
-     * @param int $permissions
      *
      * @return bool
      */
-    public function checkDir($dirPath, $permissions = 0777)
+    public function checkDir($dirPath)
     {
-        return !$this->isDir($dirPath) ? mkdir($dirPath, $permissions, true) : true;
+        return wp_mkdir_p($dirPath);
     }
 
     public function download($url)
@@ -158,7 +157,7 @@ class File implements Helper
 
     public function createDirectory($dir)
     {
-        return $this->getFileSystem()->mkdir($dir);
+        return wp_mkdir_p($dir);
     }
 
     /**
