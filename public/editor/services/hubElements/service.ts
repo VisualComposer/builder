@@ -5,11 +5,34 @@ import lodash from 'lodash'
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const cook = vcCake.getService('cook')
 
-const API = {
-  get: (key) => {
+interface ElementData {
+  name: string,
+  tag: string,
+  metaDescription: string,
+  description: string,
+  get: (name:string) => string
+}
+
+interface Api {
+  get: (key: string) => {
+    elements: string[],
+    icon: string,
+    iconDark: string,
+    title: string,
+  },
+  getElementName: (elementData: ElementData) => string,
+  getElementDescription: (elementData: ElementData) => string,
+  // disabling lint, because element can be any element object with different properties
+  getSortedElements: (elementTags: []) => any[], // eslint-disable-line
+  getElementIcon: (tag: string, dark: boolean) => string,
+  getElementCategoryName: (tag: string) => string | undefined
+}
+
+const API:Api = {
+  get: (key:string) => {
     return hubElementsStorage.state('categories').get()[key]
   },
-  getElementName: (elementData) => {
+  getElementName: (elementData:ElementData) => {
     let elName = ''
     if (elementData.name) {
       elName = elementData.name
@@ -24,9 +47,9 @@ const API = {
       }
     }
 
-    return elName.toLowerCase()
+    return elName.toString().toLowerCase()
   },
-  getElementDescription: (elementData) => {
+  getElementDescription: (elementData:ElementData) => {
     let elDescription = elementData.metaDescription || elementData.description || ''
     if (!elDescription && elementData.tag) {
       const element = cook.get(elementData)
@@ -37,14 +60,15 @@ const API = {
     }
     return elDescription.toLowerCase()
   },
-  getSortedElements: lodash.memoize((elementTags = []) => {
-    const cookElements = []
+  getSortedElements: lodash.memoize((elementTags:string[] = []) => {
+    // disabling lint, because items inside array can be any element object with different properties
+    const cookElements:any[] = [] // eslint-disable-line
 
     const hubElements = hubElementsStorage.state('elements').get()
     if (!elementTags.length) {
       elementTags = Object.keys(hubElements)
     }
-    elementTags.forEach(tag => {
+    elementTags.forEach((tag:string) => {
       if (hubElements[tag] && !hubElements[tag].metaIsElementRemoved) {
         const cookElement = cook.get({ tag: tag })
         const elementObject = cookElement.toJS(true, false)
