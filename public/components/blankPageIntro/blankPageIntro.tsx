@@ -228,7 +228,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
 
   const handleJobsChange = useCallback((data: { elements: [] }) => {
     if (data.elements && !data.elements.find((element: {jobs: [] }) => element.jobs) && isLoading) {
-      if (activeLayout.value) {
+      if (activeLayout.value && activeLayout.value !== 'default') {
         updateLayout(activeLayout)
       } else {
         setIsLoading(false)
@@ -337,7 +337,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         elementsStorage.trigger('add', footerElement)
       }
     } else {
-      if ((activeTemplate?.id && activeTemplate.id.match(/\d/)) || activeLayout.value) {
+      if ((activeTemplate?.id && activeTemplate.id.match(/\d/)) || (activeLayout.value && activeLayout.value !== 'default')) {
         if (activeTemplate?.id) {
           let templates = hubTemplates
           if (Object.keys(hubTemplates).length === 0) {
