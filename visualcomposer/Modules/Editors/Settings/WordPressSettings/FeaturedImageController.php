@@ -127,7 +127,7 @@ class FeaturedImageController extends Container implements Module
         // Get selected image id
         if ($requestHelper->exists('vcv-settings-featured-image')) {
             $imageId = $requestHelper->input('vcv-settings-featured-image');
-            $currentPageId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
+            $currentPageId = vchelper('Preview')->updateSourceIdWithAutosaveId($payload['sourceId']);
             if ($imageId === 'empty') {
                 delete_post_meta($currentPageId, '_thumbnail_id');
             } elseif (isset($imageId['ids'][0])) {

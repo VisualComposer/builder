@@ -94,7 +94,7 @@ class DiscussionController extends Container implements Module
      */
     protected function setData($response, $payload, Request $requestHelper)
     {
-        $currentPageId = vchelper('Preview')->updateSourceIdWithPreviewId($payload['sourceId']);
+        $currentPageId = vchelper('Preview')->updateSourceIdWithAutosaveId($payload['sourceId']);
         if (
             $requestHelper->exists('vcv-settings-comment-status')
             && $requestHelper->exists('vcv-settings-ping-status')

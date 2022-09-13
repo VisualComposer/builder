@@ -58,7 +58,7 @@ class PageTemplatesController extends Container implements Module
             return $output;
         }
 
-        $post = vchelper('Preview')->updateSourcePostWithPreviewPost($post);
+        $post = vchelper('Preview')->updateSourcePostWithAutosavePost($post);
 
         // check if custom vc template is set
         // but check the request first for a live templates changing in the builder
