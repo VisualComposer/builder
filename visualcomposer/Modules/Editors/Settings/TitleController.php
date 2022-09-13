@@ -75,8 +75,8 @@ class TitleController extends Container implements Module
         $sourceId = $payload['sourceId'];
         $post = get_post($sourceId);
         if (is_object($post)) {
-            $post = vchelper('Preview')->updateSourcePostWithPreviewPost($post);
-            $sourceId = vchelper('Preview')->updateSourceIdWithPreviewId($sourceId);
+            $post = vchelper('Preview')->updateSourcePostWithAutosavePost($post);
+            $sourceId = vchelper('Preview')->updateSourceIdWithAutosaveId($sourceId);
 
             $pageTitle = esc_html($requestHelper->input('vcv-page-title'));
             $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled', false);
@@ -122,7 +122,7 @@ class TitleController extends Container implements Module
         if (!is_admin()) {
             $frontendHelper = vchelper('Frontend');
             $requestHelper = vchelper('Request');
-            $post = vchelper('Preview')->updateSourcePostWithPreviewPost(get_post($postId));
+            $post = vchelper('Preview')->updateSourcePostWithAutosavePost(get_post($postId));
 
             if ($post) {
                 $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
