@@ -7858,11 +7858,6 @@ resize-observer-polyfill@^1.5.0:
   resolved "https://registry.npmjs.org/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz"
   integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
-resize-sensor@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/resize-sensor/-/resize-sensor-0.0.6.tgz"
-  integrity sha512-e+3wwdki9elemYP6AnyG2BK9/Gd7ak46wZN+Z62WwmWfhn2La1XV2rPRRIcar+PhRhfiQDXi29TapGMTIbI3Pg==
-
 resolve-cwd@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/resolve-cwd/-/resolve-cwd-3.0.0.tgz"
@@ -8262,11 +8257,6 @@ standard@16.0.4:
     eslint-plugin-promise "~5.1.0"
     eslint-plugin-react "~7.25.1"
     standard-engine "^14.0.1"
-
-sticky-sidebar@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.npmjs.org/sticky-sidebar/-/sticky-sidebar-3.3.1.tgz"
-  integrity sha512-9ljX5GP9B1sov0kzGmQeQL5CdearSGH5y9cy3wE3wiGiLtgo577EekE8tNgnqr5ys/d++2+MlCCf4ICbNoaJ3A==
 
 stream-browserify@3.0.0:
   version "3.0.0"

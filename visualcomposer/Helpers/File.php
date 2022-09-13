@@ -47,6 +47,7 @@ class File implements Helper
 
     public function rename($oldName, $newName)
     {
+        $this->checkDir(dirname($newName));
         return $this->getFileSystem()->move($oldName, $newName);
     }
 
@@ -58,6 +59,7 @@ class File implements Helper
      */
     public function setContents($filePath, $contents)
     {
+        $this->checkDir(dirname($filePath));
         // set content using file system
         return $this->getFileSystem()->put_contents($filePath, $contents);
     }
@@ -155,7 +157,7 @@ class File implements Helper
 
     public function createDirectory($dir)
     {
-        return $this->getFileSystem()->mkdir($dir);
+        return wp_mkdir_p($dir);
     }
 
     /**

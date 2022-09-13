@@ -1,7 +1,7 @@
 import { getService } from 'vc-cake'
-import importJS from '../../wordpressSettings'
-import ResizeSensorModule from 'resize-sensor'
-import StickySidebar from 'sticky-sidebar'
+import importJS from 'public/wordpressSettings'
+import ResizeSensorModule from 'public/tools/resizeSensor'
+import StickySidebar from 'public/tools/stickySidebar'
 
 window.ResizeSensor = ResizeSensorModule
 
