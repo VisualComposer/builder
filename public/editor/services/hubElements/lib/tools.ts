@@ -1,9 +1,7 @@
 interface SortItem {
   thirdParty: boolean,
   metaOrder: number,
-  name: {
-    localeCompare: (text:string, locale:{kn:boolean}, options:{sensitivity:string}) => number
-  }
+  name: string
 }
 
 export const sortingTool = (a:SortItem, b:SortItem) => {
@@ -18,5 +16,8 @@ export const sortingTool = (a:SortItem, b:SortItem) => {
   } else if (a.metaOrder && b.metaOrder) {
     return a.metaOrder - b.metaOrder
   }
-  return a.name ? a.name.localeCompare(b.name.toString(), { kn: true }, { sensitivity: 'base' }) : -1
+
+  // @ts-ignore locales argument can be string, array or object
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare#parameters
+  return a.name ? a.name.localeCompare(b.name, { kn: true }, { sensitivity: 'base' }) : -1
 }
