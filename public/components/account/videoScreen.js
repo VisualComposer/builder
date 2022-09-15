@@ -48,12 +48,12 @@ export default class VideoScreen extends React.Component {
 
   getDoMoreText () {
     if (!dataManager.get('isPremiumActivated') && dataManager.get('manageOptions')) {
-      let alreadyHaveLicenseText = VideoScreen.localizations ? VideoScreen.localizations.alreadyHaveLicenseText : 'Already have a Premium license? %1s or %2s.'
+      let alreadyHaveLicenseText = VideoScreen.localizations ? VideoScreen.localizations.alreadyHaveLicenseText : 'Already have a Premium license? %1$1s or %2$2s.'
       const activateHereText = VideoScreen.localizations ? VideoScreen.localizations.activateHere : 'Activate here'
       const goPremiumText = VideoScreen.localizations ? VideoScreen.localizations.goPremiumLcFirst : 'go Premium'
 
-      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%1s', `<a href='${dataManager.get('goPremiumUrl')}&vcv-ref=gettingstarted'>${activateHereText}</a>`)
-      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%2s', `<a href='${dataManager.get('utm').gettingstarted}' target='_blank' rel='noopener noreferrer'>${goPremiumText}</a>`)
+      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%1$1s', `<a href='${dataManager.get('goPremiumUrl')}&vcv-ref=gettingstarted'>${activateHereText}</a>`)
+      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%2$2s', `<a href='${dataManager.get('utm').gettingstarted}' target='_blank' rel='noopener noreferrer'>${goPremiumText}</a>`)
 
       return (
         <p className='vcv-activation-description' dangerouslySetInnerHTML={{ __html: alreadyHaveLicenseText }} />
