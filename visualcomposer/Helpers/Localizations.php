@@ -821,7 +821,7 @@ class Localizations extends Container implements Helper
             ),
             // translators: %1$s: activate, %2$s: go premium
             'alreadyHaveLicenseText' => __(
-                'Already have a Premium license? %1s or %2s.',
+                'Already have a Premium license? %1$1s or %2$2s.',
                 'visualcomposer'
             ),
             'alreadyHaveLicenseTextOneAction' => __(
