@@ -819,9 +819,9 @@ class Localizations extends Container implements Helper
                 'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.',
                 'visualcomposer'
             ),
-            // translators: %1$s: activate, %2$s: go premium
+            // translators: %1$1s: activate, %2$2s: go premium
             'alreadyHaveLicenseText' => __(
-                'Already have a Premium license? %1$s or %2$s.',
+                'Already have a Premium license? %1$1s or %2$2s.',
                 'visualcomposer'
             ),
             'alreadyHaveLicenseTextOneAction' => __(
