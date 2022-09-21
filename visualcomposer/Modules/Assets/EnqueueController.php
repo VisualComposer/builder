@@ -311,12 +311,7 @@ class EnqueueController extends Container implements Module
             vcevent('vcv:assets:file:generate', ['response' => [], 'payload' => ['sourceId' => $sourceId]]);
         }
 
-        if (!$this->globalCssAdded && $optionsHelper->get('globalElementsCss')) {
-            $this->globalCssAdded = true;
-            wp_register_style(VCV_PREFIX . 'globalElementsCss', false);
-            wp_enqueue_style(VCV_PREFIX . 'globalElementsCss');
-            wp_add_inline_style(VCV_PREFIX . 'globalElementsCss', $optionsHelper->get('globalElementsCss'));
-        }
+        $this->enqueueGlobalCss();
 
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
@@ -356,6 +351,34 @@ class EnqueueController extends Container implements Module
         } else {
             $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
         }
+    }
+
+    /**
+     * Enqueue global css styles.
+     */
+    protected function enqueueGlobalCss()
+    {
+        $frontendHelper = vchelper('Frontend');
+        // we add it only on frontend view
+        if ($frontendHelper->isPageEditable()) {
+            return;
+        }
+
+        $optionsHelper = vchelper('Options');
+        if ($this->globalCssAdded) {
+            return;
+        }
+
+        $globalCssList = $optionsHelper->get('globalElementsCss');
+
+        if (!$globalCssList) {
+            return;
+        }
+
+        $this->globalCssAdded = true;
+        wp_register_style(VCV_PREFIX . 'globalElementsCss', false);
+        wp_enqueue_style(VCV_PREFIX . 'globalElementsCss');
+        wp_add_inline_style(VCV_PREFIX . 'globalElementsCss', $globalCssList);
     }
 
     /**
