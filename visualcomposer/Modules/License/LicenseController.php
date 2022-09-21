@@ -38,6 +38,12 @@ class LicenseController extends Container implements Module
 
         /** @see \VisualComposer\Modules\License\LicenseController::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+
+        // we use these server variables to check if user use our plugin in wordpress.org env
+        if (isset($_SERVER['ATOMIC_SITE_ID'])) {
+            /** @see \VisualComposer\Modules\License\LicenseController::checkSubscription */
+            $this->addEvent('vcv:admin:inited', 'activateWpComSubscription');
+        }
     }
 
     /**
@@ -64,6 +70,7 @@ class LicenseController extends Container implements Module
         }
 
         $url = vchelper('Url')->query(vcvenv('VCV_ACTIVATE_LICENSE_URL'), $body);
+
         $result = wp_remote_get(
             $url,
             [
@@ -92,12 +99,8 @@ class LicenseController extends Container implements Module
         if (!vcIsBadResponse($resultBody)) {
             $licenseType = $resultBody['license_type'];
             if ($licenseType !== 'free') {
-                $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
-                $licenseHelper->setType($licenseType);
-                $licenseHelper->setExpirationDate(
-                    $resultBody['expires'] !== 'lifetime' ? strtotime($resultBody['expires']) : 'lifetime'
-                );
-                $licenseHelper->updateUsageDate(true);
+                $this->setLicenseOptions($resultBody);
+
                 $optionsHelper->deleteTransient('lastBundleUpdate');
 
                 return ['status' => true];
@@ -172,5 +175,63 @@ class LicenseController extends Container implements Module
             ->delete('license-key-token');
 
         return true;
+    }
+
+    /**
+     * Activate wordpress.com license subscription.
+     */
+    protected function activateWpComSubscription()
+    {
+        $licenseHelper = vchelper('License');
+
+        if ($licenseHelper->isPremiumActivated()) {
+            return;
+        }
+
+        $body = [
+            'wordpress_org_subscription_activation_request' => 1,
+            'blog-id' => get_current_blog_id(),
+        ];
+
+        $url = vchelper('Url')->query(vcvenv('VCV_HUB_URL'), $body);
+
+        $result = wp_remote_get(
+            $url,
+            [
+                'timeout' => 30,
+            ]
+        );
+
+        $resultBody = [];
+        if (is_array($result) && isset($result['body'])) {
+            $resultBody = json_decode($result['body'], true);
+        }
+
+        if (!vcIsBadResponse($resultBody)) {
+            if (!empty($resultBody['data']['expiration'])) {
+                $resultBody['data']['expires'] = $resultBody['data']['expiration'];
+                unset($resultBody['data']['expiration']);
+            }
+            $this->setLicenseOptions($resultBody['data']);
+
+            vchelper('Options')->deleteTransient('lastBundleUpdate');
+        }
+    }
+
+    /**
+     * Set license options.
+     *
+     * @param array $resultBody
+     */
+    protected function setLicenseOptions($resultBody)
+    {
+        $licenseHelper = vchelper('License');
+
+        $licenseHelper->setKey($resultBody['license']);
+        $licenseHelper->setType($resultBody['license_type']);
+        $licenseHelper->setExpirationDate(
+            $resultBody['expires'] !== 'lifetime' ? strtotime($resultBody['expires']) : 'lifetime'
+        );
+        $licenseHelper->updateUsageDate(true);
     }
 }
