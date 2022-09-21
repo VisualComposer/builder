@@ -9535,15 +9535,15 @@ vc-cake@1.1.1:
     lodash "4.17.21"
     murmurhash "2.0.0"
 
-vc-helpers@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/vc-helpers/-/vc-helpers-0.0.3.tgz#6dbfb60696d36d6dcac509a1d143eafd0896c3cf"
-  integrity sha512-7wAg1JTRwsHcFudBeXzs/GBkSchgpQ0itr01TB0uK3mZ6uVYTo4esCYRHtPqFMx3iNjcvJyOmSDlbWPPEIf0HQ==
+vc-helpers@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/vc-helpers/-/vc-helpers-0.0.4.tgz#4d7b321c449f11bee8833214a7e5ea04230a7286"
+  integrity sha512-SIN8tVo6jTk6AYQ9UwMz7y51oIeDGxZ1LLbzjfwK0S6RTTu+hzx6dDZmaNgGd/sIh3QyM8DpF4C5GLoqxvJKQw==
 
-vc-webpack-vendors@3.2.7:
-  version "3.2.7"
-  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.2.7.tgz#daf028340da51ff987439d052e08bad600934b0a"
-  integrity sha512-8Tpb/aRpb3cNj5pv+zgMUvDUg/Bpo4HaNKQUvgG7Wvo5BqKnmeOuePjvwKFfpZ7XIhKo8D5MpoMACrfdOUfj6w==
+vc-webpack-vendors@3.2.8:
+  version "3.2.8"
+  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.2.8.tgz#920c7b1ded662ba8798f6dd8a503d05832350343"
+  integrity sha512-HJ/qBAORTMtZseemPFZqSO9ir0RWMFzgHF+ddRlFIhb04ZZV2AjgZfEfbnZaR9asnk2bssNC38jUJstmdYAsDg==
   dependencies:
     "@babel/cli" "7.18.10"
     "@babel/core" "7.19.0"
@@ -9632,7 +9632,7 @@ vc-webpack-vendors@3.2.7:
     url-loader "4.1.1"
     util "0.12.4"
     vc-cake "1.1.1"
-    vc-helpers "0.0.3"
+    vc-helpers "0.0.4"
     virtual-module-webpack-plugin "0.4.1"
     webfontloader "1.6.28"
     webpack "5.74.0"
