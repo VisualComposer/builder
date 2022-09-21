@@ -217,6 +217,7 @@ export default {
     extensions: ['.ts', '.tsx', '.js', '.json', '.wasm'],
     alias: { public: path.resolve(__dirname, './public/') },
     fallback: {
+      url: false,
       amd: false,
       crypto: require.resolve('crypto-browserify'),
       path: require.resolve('path-browserify'),
