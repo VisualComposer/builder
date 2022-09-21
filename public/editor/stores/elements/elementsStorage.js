@@ -154,9 +154,18 @@ addStorage('elements', (storage) => {
       })
     }
 
+    const getParent = (elData) => {
+      const parent = documentManager.get(elData.parent)
+      if (parent.tag && parent.tag !== 'row') {
+        return getParent(parent)
+      } else {
+        return parent
+      }
+    }
+
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (data.tag === 'column') {
-        const rowElement = documentManager.get(data.parent)
+        const rowElement = getParent(data)
         rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
         storage.trigger('update', rowElement.id, rowElement, '', options)
       }
