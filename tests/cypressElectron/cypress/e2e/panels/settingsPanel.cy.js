@@ -8,7 +8,7 @@ describe('Settings Panel', function () {
       cy.addElement('Basic Button')
 
       cy.window().then((window) => {
-        cy.route('POST', window.vcvAdminAjaxUrl).as('setPostPermalink')
+        cy.intercept('POST', window.vcvAdminAjaxUrl).as('setPostPermalink')
       })
 
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="settings-control"]').click()

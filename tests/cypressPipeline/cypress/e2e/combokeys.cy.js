@@ -158,7 +158,7 @@ describe('Editor controls', function () {
 
         // Press ctrl/command + S, check if the page is saved
         cy.window().then((win) => {
-            cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
+            cy.intercept('POST', win.vcvAdminAjaxUrl).as('saveRequest')
           })
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 83, which: 83 })
         cy.wait('@saveRequest')

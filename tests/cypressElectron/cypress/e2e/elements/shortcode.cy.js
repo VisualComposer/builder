@@ -9,7 +9,7 @@ describe(ELEMENT_NAME, function () {
       cy.addElement(ELEMENT_NAME, true)
 
       cy.window().then((window) => {
-        cy.route('POST', window.vcvAjaxUrl).as('renderShortcode')
+        cy.intercept('POST', window.vcvAjaxUrl).as('renderShortcode')
       })
 
       cy.get('.vcv-ui-edit-form-section-content .vcv-ui-form-input').first()
