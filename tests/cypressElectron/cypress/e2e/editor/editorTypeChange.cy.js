@@ -7,7 +7,7 @@ describe('Editor Type Change', function () {
       cy.addElement('Text Block')
 
       cy.window().then((win) => {
-        cy.route('POST', win.vcvAdminAjaxUrl).as('firstPageEdit')
+        cy.intercept('POST', win.vcvAdminAjaxUrl).as('firstPageEdit')
       })
       cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
         .parent()
@@ -29,7 +29,7 @@ describe('Editor Type Change', function () {
       cy.window().then((win) => {
         let actionURL = win.document.querySelector('.vcv-dashboards-section-content--active form').getAttribute('action')
         actionURL = win.decodeURIComponent(actionURL);
-        cy.route('POST', actionURL).as('settingSaving')
+        cy.intercept('POST', actionURL).as('settingSaving')
       })
       cy.get('input[name="vcv-settings-gutenberg-editor-enabled"]').check({force: true})
       cy.get('#submit_btn-vcv-settings').click()

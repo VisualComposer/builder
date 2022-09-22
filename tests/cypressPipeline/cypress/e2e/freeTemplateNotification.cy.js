@@ -8,14 +8,14 @@ describe('Free template notification', function () {
 
         cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
         cy.window().then((win) => {
-          cy.route('POST', win.vcvAdminAjaxUrl).as('downloadRequest')
+          cy.intercept('POST', win.vcvAdminAjaxUrl).as('downloadRequest')
         })
         cy.get('img[alt="Simple Blog Article"]').next().find('.vcv-ui-item-add').click()
         cy.wait('@downloadRequest')
 
         cy.visit(Cypress.env('newPage'))
         cy.window().then((win) => {
-          cy.route('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
+          cy.intercept('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
         })
         cy.wait('@loadContentRequest')
         cy.wait(1000)

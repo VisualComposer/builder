@@ -20,7 +20,7 @@ describe(ELEMENT_NAME, function () {
 
       // 2. Set widget and widget content
       cy.window().then((window) => {
-        cy.route('POST', window.vcvAjaxUrl).as('getWidget')
+        cy.intercept('POST', window.vcvAjaxUrl).as('getWidget')
       })
       cy.setSelect('Widget', settings.widgetType)
       cy.wait('@getWidget')

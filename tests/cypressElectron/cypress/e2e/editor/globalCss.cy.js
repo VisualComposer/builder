@@ -41,7 +41,7 @@ describe('Global CSS', function () {
       cy.createPage()
       cy.addElement('Text Block')
       cy.window().then((win) => {
-        cy.route('POST', win.vcvAdminAjaxUrl).as('secondPagePermalink')
+        cy.intercept('POST', win.vcvAdminAjaxUrl).as('secondPagePermalink')
       })
       cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
         .parent()

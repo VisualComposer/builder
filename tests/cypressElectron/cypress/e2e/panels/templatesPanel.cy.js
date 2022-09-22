@@ -15,7 +15,7 @@ describe('Template Panel', function () {
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"').click()
       cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
       cy.window().then((window) => {
-        cy.route('POST', window.vcvAdminAjaxUrl).as('saveTemplate')
+        cy.intercept('POST', window.vcvAdminAjaxUrl).as('saveTemplate')
       })
 
       cy.get('.vcv-ui-editor-save-template-field')

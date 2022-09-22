@@ -16,7 +16,7 @@ describe('Hub', function () {
     // cy.get('input[name="licenseKey"]').should('be.visible')
     // cy.get('input[name="licenseKey"]').type(freeLicense)
     // cy.window().then((win) => {
-    //   cy.route('POST', win.vcvAdminAjaxUrl).as('activationUrlClick')
+    //   cy.intercept('POST', win.vcvAdminAjaxUrl).as('activationUrlClick')
     // })
     // cy.get('.vcv-activation-input-button[type="submit"]').click()
     // cy.wait('@activationUrlClick')
@@ -85,7 +85,7 @@ describe('Hub', function () {
       .type('Icon')
 
     cy.window().then((win) => {
-      cy.route('POST', win.vcvAdminAjaxUrl).as('downloadElement')
+      cy.intercept('POST', win.vcvAdminAjaxUrl).as('downloadElement')
     })
     cy.get('.vcv-ui-item-element[title="Icon"] .vcv-ui-icon-download').click()
     cy.contains('.vcv-premium-teaser-btn', 'Yes, I agree').click()
