@@ -182,6 +182,12 @@ class LicenseController extends Container implements Module
      */
     protected function activateWpComSubscription()
     {
+        $optionsHelper = vchelper('Options');
+        // if transient exists skip
+        if ($optionsHelper->getTransient('vcv:wp-com:activation:request')) {
+            return;
+        }
+        $optionsHelper->setTransient('vcv:wp-com:activation:request', true, 600);
         $licenseHelper = vchelper('License');
 
         if ($licenseHelper->isPremiumActivated()) {
