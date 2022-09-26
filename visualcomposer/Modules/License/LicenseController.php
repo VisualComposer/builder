@@ -39,7 +39,7 @@ class LicenseController extends Container implements Module
         /** @see \VisualComposer\Modules\License\LicenseController::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
 
-        // we use these server variables to check if user use our plugin in wordpress.org env
+        // we use these server variables to check if user use our plugin in wordpress.com env
         if (isset($_SERVER['ATOMIC_SITE_ID'])) {
             /** @see \VisualComposer\Modules\License\LicenseController::activateWpComSubscription */
             $this->addEvent('vcv:admin:inited', 'activateWpComSubscription');
