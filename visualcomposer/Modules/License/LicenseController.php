@@ -182,13 +182,18 @@ class LicenseController extends Container implements Module
      */
     protected function activateWpComSubscription()
     {
-        $activeSubscriptions = get_option('wpcom_active_subscriptions', []);
-        if (empty($activeSubscriptions) || !isset($activeSubscriptions['visualcomposer'])) {
-            return;
-        }
         $licenseHelper = vchelper('License');
 
         if ($licenseHelper->isPremiumActivated()) {
+            return;
+        }
+
+        $activeSubscriptions = get_option('wpcom_active_subscriptions', []);
+        if (empty($activeSubscriptions)) {
+            return;
+        }
+        // visualcomposer or visualcomposer-premium-wpcom
+        if (!isset($activeSubscriptions['visualcomposer']) && !isset($activeSubscriptions['visualcomposer-premium-wpcom'])) {
             return;
         }
 
