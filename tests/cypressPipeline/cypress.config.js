@@ -7,6 +7,7 @@ module.exports = defineConfig({
     wpPassword: '12345',
     dataPlugin: 'builder/plugin-wordpress.php',
     newPage: '/wp-admin/post-new.php?post_type=page&vcv-action=frontend',
+    vcvAdminAjaxUrl: '/wp-admin/admin-ajax.php?vcv-admin-ajax=1&action=vcv-admin-ajax',
     serverType: 'ci',
     checkSnapshots: false,
   },
@@ -20,6 +21,7 @@ module.exports = defineConfig({
   wpPassword: '12345',
   dataPlugin: 'builder/plugin-wordpress.php',
   newPage: '/wp-admin/post-new.php?post_type=page&vcv-action=frontend',
+  vcvAdminAjaxUrl: '/wp-admin/admin-ajax.php?vcv-admin-ajax=1&action=vcv-admin-ajax',
   serverType: 'ci',
   checkSnapshots: false,
   e2e: {

@@ -60,10 +60,8 @@
    * @param none
    */
   Cypress.Commands.add('createPage', () => {
+    cy.intercept('POST', `${Cypress.env('baseUrl')}${Cypress.env('vcvAdminAjaxUrl')}`).as('loadContentRequest')
     cy.visit(Cypress.env('newPage'))
-    cy.window().then((win) => {
-      cy.intercept('POST', win.vcvAdminAjaxUrl).as('loadContentRequest')
-    })
     cy.wait('@loadContentRequest')
     cy.wait(1000)
     cy.get('.blank-page-submit-button').click()
