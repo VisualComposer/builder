@@ -1,20 +1,48 @@
 import { getService, addService } from 'vc-cake'
+
+declare const Blob: {
+  prototype: Blob
+  new (): Blob
+}
+
+type ObjectProperty = string|number|boolean|[]
+
+type Argument = ObjectProperty|{
+  [item:string]: ObjectProperty
+}
+
+interface ArgumentsObject {
+  [item:string]: Argument
+}
+
+type Arguments = ArgumentsObject|Blob
+
+type AjaxPromise = Promise<string>&{key?:number}
+
+declare global {
+  interface Window {
+    jQuery: {
+      param: (obj:Arguments) => string
+    }
+  }
+}
+
 const utils = getService('utils')
-let processes = []
+let processes:AjaxPromise[] = []
 let id = 1
 const Service = {
-  http (url) {
+  http (url:string) {
     // A small example of object
     const core = {
       // Method that performs the ajax request
-      ajax: function (method, url, args, contentType) {
+      ajax: function (method:string, url:string, args:Arguments|undefined, contentType:string) {
         // Creating a promise
-        const promise = new Promise(function (resolve, reject) {
+        const promise:AjaxPromise = new Promise(function (resolve, reject) {
           // Instantiates the XMLHttpRequest
           const request = new window.XMLHttpRequest()
           request.open(method, url)
 
-          let sendArgs = ''
+          let sendArgs:string|Blob = ''
           const dataManager = getService('dataManager')
           if (dataManager.get('isEnvJsSaveZip')) {
             if (args instanceof Blob) {
@@ -42,7 +70,8 @@ const Service = {
           try {
             request.send(sendArgs)
           } catch (e) {
-            reject(this.statusText)
+            const error = e ? 'Error occurred: ' + e : 'Error occured'
+            reject(error)
           }
           request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
@@ -73,30 +102,30 @@ const Service = {
     // Adapter pattern
     return {
       url: url,
-      get (args) {
-        return this.ajax('GET', args)
+      get (args:Arguments) {
+        return this.ajax('GET', args, '')
       },
-      post (args) {
+      post (args:Arguments) {
         return this.ajax('POST', args, 'application/x-www-form-urlencoded')
       },
-      put (args) {
+      put (args:Arguments) {
         return this.ajax('PUT', args, 'application/x-www-form-urlencoded')
       },
-      delete (args) {
-        return this.ajax('DELETE', args)
+      delete (args:Arguments) {
+        return this.ajax('DELETE', args, '')
       },
-      ajax (method, args, contentType) {
+      ajax (method:string, args:Arguments|undefined, contentType:string) {
         return core.ajax(method, this.url, args, contentType)
       }
     }
   },
-  appServerRequest (args) {
+  appServerRequest (args:Arguments) {
     return this.getServerRequest('ajaxUrl', args)
   },
-  appAdminServerRequest (args) {
+  appAdminServerRequest (args:Arguments) {
     return this.getServerRequest('adminAjaxUrl', args)
   },
-  getServerRequest (type, args) {
+  getServerRequest (type:string, args:Arguments) {
     const dataManager = getService('dataManager')
     const url = dataManager.get(type)
     args = Object.assign({
@@ -118,9 +147,9 @@ const Service = {
 
     return this.http(url).post(args)
   },
-  loadScript (url, documentBody) {
+  loadScript (url:string, documentBody:HTMLElement) {
     return this.http(url).ajax('get', undefined, 'application/javascript').then((data) => {
-      const scriptNode = document.createElement('script')
+      const scriptNode:HTMLElement = document.createElement('script')
       scriptNode.innerHTML = data
       if (documentBody) {
         documentBody.appendChild(scriptNode)
