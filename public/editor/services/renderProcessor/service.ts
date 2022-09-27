@@ -1,29 +1,37 @@
 import { addService } from 'vc-cake'
 
-let processes = []
-const Service = {
-  add (promise) {
+interface RenderProcessor {
+  timeout: null | number,
+  clearTimeout: () => void,
+  purge: () => void,
+  add: (promise:boolean)=> void,
+  appAllDone: () => Promise<boolean>
+}
+
+let processes:boolean[] = []
+const Service:RenderProcessor = {
+  timeout: null,
+  add (promise:boolean) {
     processes.push(promise)
   },
-  appAllDone () {
+  appAllDone (): Promise<boolean> {
     this.clearTimeout()
-    const renderPromise = new window.Promise((resolve) => {
+    return new window.Promise<boolean>((resolve) => {
       this.timeout = window.setTimeout(() => {
         console.warn && console.warn('RenderProcess timed-out')
         this.purge()
-        resolve()
+        resolve(true)
       }, 60 * 1000)
 
       Promise.all(processes).then(() => {
         this.purge()
-        resolve()
+        resolve(true)
       }).catch((e) => {
         console.warn && console.warn('renderProcessor failed', e)
         this.purge()
-        resolve()
+        resolve(true)
       })
     })
-    return renderPromise
   },
   clearTimeout () {
     this.timeout && window.clearTimeout(this.timeout)
