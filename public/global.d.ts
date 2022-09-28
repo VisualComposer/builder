@@ -6,3 +6,5 @@ declare module '*.png' {
 }
 
 declare module 'react-custom-scrollbars'
+declare module 'base-64'
+declare module 'pako'
