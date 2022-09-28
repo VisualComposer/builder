@@ -5,8 +5,63 @@ import base64 from 'base-64'
 // compute once, optimization for recalculate styles
 const isRTL = window.getComputedStyle(document.body).direction === 'rtl'
 
+declare const Blob: {
+  prototype: Blob
+  new (blobParts:Uint8Array[], options:{type:string}): Blob
+}
+
+// disabling lint, because data can be a object with different properties
+type ObjectProperty = any // eslint-disable-line
+
+type Argument = ObjectProperty|{
+  [item:string]: ObjectProperty
+}
+
+interface ArgumentsObject {
+  [item:string]: Argument
+}
+
+interface AllElements {
+  // disabling lint, because element data can be a object with different properties
+  [item:string]: any // eslint-disable-line
+}
+
+interface AjaxData {
+  [item:string]: string
+}
+
+type AjaxCallback = (response: {status:number, response:string}) => void
+
+type Callback = (response:string) => void
+
+type Arguments = ArgumentsObject|Blob
+
+type Variable = {
+  key: string,
+  type: string,
+  value: []
+}
+
+declare global {
+  interface Window {
+    jQuery: {
+      param: (obj:Arguments) => string
+    },
+    tinyMCEPreInit: {
+      mceInit: {
+        [item:string]: {
+          wpautop: boolean
+        }
+      }
+    },
+    switchEditors: {
+      wpautop: (value:string) => string
+    }
+  }
+}
+
 const API = {
-  ajaxRequests: [],
+  ajaxRequests: <{tag:string, data:AjaxData, successCallback:Callback, errorCallback:Callback}[]>[],
   ajaxCall: false,
   base64encode: base64.encode,
   base64decode: base64.decode,
@@ -24,13 +79,13 @@ const API = {
 
     return uuid
   },
-  setCookie (cName, value, exDays = 256) {
+  setCookie (cName:string, value:string, exDays = 256) {
     const exDate = new Date()
     exDate.setDate(exDate.getDate() + exDays)
     const cValue = encodeURIComponent(value) + (exDays === null ? '' : '; expires=' + exDate.toUTCString())
     document.cookie = cName + '=' + cValue
   },
-  getCookie (cName) {
+  getCookie (cName:string) {
     let i, x, y
     const ARRcookies = document.cookie.split(';')
     for (i = 0; i < ARRcookies.length; i++) {
@@ -42,11 +97,11 @@ const API = {
       }
     }
   },
-  hasCookie (cName) {
+  hasCookie (cName:string) {
     return !!this.getCookie(cName)
   },
-  getRealWidth: ($el, $container) => {
-    const $tempEl = $el.cloneNode(true)
+  getRealWidth: ($el:HTMLElement, $container:HTMLElement) => {
+    const $tempEl = $el.cloneNode(true) as HTMLElement
     let realWidth = 0
 
     $tempEl.style.position = 'fixed'
@@ -63,10 +118,11 @@ const API = {
     $tempEl.remove()
     return realWidth
   },
-  compressData (data) {
+  compressData (data:Arguments) {
     const binaryStringBuffer = deflate(JSON.stringify(data))
     const dataManager = getService('dataManager')
 
+    // @ts-ignore accessing object property via bracket notation
     if (data['vcv-check-content-zip-type'] || dataManager.get('isBinaryContent')) {
       data = new Blob([new Uint8Array(binaryStringBuffer)], { type: 'application/octet-stream' })
     } else {
@@ -82,7 +138,7 @@ const API = {
 
     return data
   },
-  ajax: (data, successCallback, failureCallback) => {
+  ajax: (data:AjaxData, successCallback:AjaxCallback, failureCallback:AjaxCallback) => {
     const dataManager = getService('dataManager')
     const request = new window.XMLHttpRequest()
     request.open('POST', dataManager.get('adminAjaxUrl'), true)
@@ -101,7 +157,7 @@ const API = {
       }
     }
 
-    let sendArgs = window.jQuery.param(data)
+    let sendArgs:string|Blob = window.jQuery.param(data)
 
     if (dataManager.get('isEnvJsSaveZip')) {
       const utils = getService('utils')
@@ -127,7 +183,7 @@ const API = {
 
     return request
   },
-  normalizeHtml (data) {
+  normalizeHtml (data:string) {
     data = data
       .replace(/\s*\bdata-vcv-[^"<>]+"[^"<>]+"+/g, '')
       .replace(/<!--\[vcvSourceHtml]/g, '')
@@ -139,7 +195,7 @@ const API = {
     let helper = documentFragment.querySelector('vcvhelper, .vcvhelper')
 
     while (helper) {
-      const parentNode = helper.parentNode
+      const parentNode = helper.parentNode as HTMLElement
       const sourceHtml = helper.getAttribute('data-vcvs-html')
       if (sourceHtml) {
         const textNode = range.createContextualFragment(sourceHtml)
@@ -150,11 +206,10 @@ const API = {
     }
 
     const deleteAttribute = 'data-vce-delete-attr'
-    let deleteAttrElements = documentFragment.querySelectorAll(`[${deleteAttribute}]`)
-    deleteAttrElements = [].slice.call(deleteAttrElements)
+    const deleteAttrElements = Array.from(documentFragment.querySelectorAll(`[${deleteAttribute}]`))
     deleteAttrElements.forEach((node) => {
       const attributesToDelete = node.getAttribute(deleteAttribute)
-      attributesToDelete.split(' ').forEach((attr) => {
+      attributesToDelete?.split(' ').forEach((attr) => {
         node.removeAttribute(attr)
       })
       node.removeAttribute(deleteAttribute)
@@ -162,15 +217,16 @@ const API = {
 
     let html = ''
     let elementChildren = [].slice.call(documentFragment.childNodes)
-    elementChildren = elementChildren.filter((child) => {
+    elementChildren = elementChildren.filter((child: {nodeType: number}) => {
       return child.nodeType === document.ELEMENT_NODE || child.nodeType === document.COMMENT_NODE
     })
 
     for (let i = 0; i < elementChildren.length; i++) {
-      if (elementChildren[i].nodeType === document.ELEMENT_NODE) {
-        html += elementChildren[i].outerHTML
-      } else if (elementChildren[i].nodeType === document.COMMENT_NODE) {
-        html += `<!-- ${elementChildren[i].nodeValue.trim()} -->`
+      const elementChild:HTMLElement = elementChildren[i]
+      if (elementChild.nodeType === document.ELEMENT_NODE) {
+        html += elementChild.outerHTML
+      } else if (elementChild.nodeType === document.COMMENT_NODE && elementChild.nodeValue) {
+        html += `<!-- ${elementChild.nodeValue.trim()} -->`
       }
     }
     const urlRegex = /url\(\s*(['"]?)(.*?)\1\s*\)/g
@@ -184,7 +240,7 @@ const API = {
 
     return html
   },
-  getTextContent (data) {
+  getTextContent (data:string) {
     data = data
       .replace(/\s*\bdata-vcv-[^"<>]+"[^"<>]+"+/g, '')
       .replace(/<!--\[vcvSourceHtml]/g, '')
@@ -198,28 +254,28 @@ const API = {
     let helper = documentFragment.querySelector('style, script, noscript, meta, title, .vcv-ui-blank-row-container, .vcv-row-control-container')
 
     while (helper) {
-      const parentNode = helper.parentNode
+      const parentNode = helper.parentNode as HTMLElement
       parentNode.removeChild(helper)
       helper = documentFragment.querySelector('style, script, noscript, meta, title, .vcv-ui-blank-row-container, .vcv-row-control-container')
     }
 
-    return documentFragment.textContent.trim()
+    return documentFragment && documentFragment?.textContent?.trim()
   },
-  slugify (str) {
+  slugify (str:string) {
     str = str || ''
     return str.toString().toLowerCase()
       .replace(/[^\w\s-]/g, '') // remove non-word [a-z0-9_], non-whitespace, non-hyphen characters
       .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
       .replace(/^-+|-+$/g, '').trim() // remove leading, trailing -
   },
-  wpAutoP (string, id = 'content') {
+  wpAutoP (string:string, id = 'content') {
     if (window.tinyMCEPreInit.mceInit[id] && window.tinyMCEPreInit.mceInit[id].wpautop &&
       window.switchEditors && window.switchEditors.wpautop) {
       return window.switchEditors.wpautop(string)
     }
     return string
   },
-  checkIfElementIsHidden (el) {
+  checkIfElementIsHidden (el: {parent:string, id:string, hidden:boolean}):boolean {
     const documentManager = getService('document')
     if (el.hidden) {
       return true
@@ -238,9 +294,9 @@ const API = {
       return false
     }
   },
-  getVisibleElements (allElements) {
+  getVisibleElements (allElements:AllElements) {
     const visibleElements = Object.assign({}, allElements)
-    const checkIfHidden = (el) => {
+    const checkIfHidden = (el:{parent:string, id:string, hidden:boolean}):boolean => {
       if (el.hidden) {
         return true
       } else if (el.parent && allElements[el.parent]) {
@@ -265,12 +321,12 @@ const API = {
     })
     return visibleElements
   },
-  fixCorruptedElements (allElements) {
+  fixCorruptedElements (allElements:AllElements) {
     // it checks for corrupted element data, when it goes in loop - parent element is the child of his own child
     const elements = Object.assign({}, allElements)
-    let parentIds = []
-    const checkIfValidParent = (el) => {
-      if (el && el.parent) {
+    let parentIds:string[] = []
+    const checkIfValidParent = (el:{parent:string|boolean, id:string, hidden:boolean}):boolean => {
+      if (el && el.parent && typeof el.parent === 'string') {
         if (parentIds.indexOf(el.parent) >= 0) {
           el.parent = false
           return false
@@ -291,13 +347,16 @@ const API = {
     })
     return elements
   },
-  buildVariables (variables) {
+  buildVariables (variables:Variable[]) {
     if (variables.length) {
-      variables.forEach((item) => {
+      variables.forEach((item:Variable) => {
+        // @ts-ignore accessing object property via bracket notation
         if (typeof window[item.key] === 'undefined') {
           if (item.type === 'constant') {
+            // @ts-ignore accessing object property via bracket notation
             window[item.key] = function () { return item.value }
           } else {
+            // @ts-ignore accessing object property via bracket notation
             window[item.key] = item.value
           }
         }
@@ -307,7 +366,7 @@ const API = {
   isRTL () {
     return isRTL
   },
-  startDownload (tag, data, successCallback, errorCallback) {
+  startDownload (tag:string, data:AjaxData, successCallback:Callback, errorCallback:Callback) {
     this.ajaxRequests.push({ tag: tag, data: data, successCallback: successCallback, errorCallback: errorCallback })
     this.nextDownload()
   },
@@ -320,15 +379,15 @@ const API = {
     }
     this.ajaxCall = true
     const dataProcessor = getService('dataProcessor')
-    const req = this.ajaxRequests[0]
+    const req:{tag:string, data:AjaxData, successCallback:Callback, errorCallback:Callback} = this.ajaxRequests[0]
     dataProcessor.appAdminServerRequest(req.data).then(
-      (response) => {
+      (response:string) => {
         this.ajaxCall = false
         this.ajaxRequests.splice(0, 1)
         req.successCallback && req.successCallback(response)
         this.nextDownload()
       },
-      (response) => {
+      (response:string) => {
         this.ajaxCall = false
         this.ajaxRequests.splice(0, 1)
         req.errorCallback && req.errorCallback(response)
@@ -347,7 +406,7 @@ const API = {
 
     return new RegExp(/<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g)
   },
-  parseDynamicBlock (value) {
+  parseDynamicBlock (value:string) {
     if (value.match(API.getBlockRegexp())) {
       const blockInfo = value.split(API.getBlockRegexp())
       return {
@@ -363,8 +422,8 @@ const API = {
 
     return false
   },
-  generateQuerySelector (el) {
-    if (el.tagName.toLowerCase() === 'html') {
+  generateQuerySelector (el:HTMLElement):string {
+    if (el?.tagName.toLowerCase() === 'html') {
       return 'HTML'
     }
 
@@ -376,9 +435,11 @@ const API = {
         str += '.' + classes[i]
       }
     }
+    // @ts-ignore parentNode will never be null or falsy in this place, because of top condition
     return API.generateQuerySelector(el.parentNode) + ' > ' + str
   },
-  arrayMove (arr, oldIndex, newIndex) {
+  // disabling lint because array can contain any type of items
+  arrayMove (arr:any[], oldIndex:number, newIndex:number) { // eslint-disable-line
     const newArr = [...arr]
     while (oldIndex < 0) {
       oldIndex += newArr.length
