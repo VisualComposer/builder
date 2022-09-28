@@ -317,16 +317,15 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-
-            - v1-node-js-stores-tests-{{ arch }}-
+            - v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-node-js-stores-tests-{{ arch }}-{{ checksum "yarn.lock" }}
       - run: npm install -g n
       - run: n 14
       - run: yarn install
       - run: yarn build
       - run: yarn test -u
       - save_cache:
-          key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
     # The resource_class feature allows configuring CPU and RAM resources for each job. Different resource classes are available for different executors. https://circleci.com/docs/2.0/configuration-reference/#resourceclass
