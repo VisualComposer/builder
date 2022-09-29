@@ -60,9 +60,10 @@ class LicenseController extends Container implements Module
         License $licenseHelper,
         Options $optionsHelper
     ) {
+        $licenseKey = $requestHelper->input('vcv-license-key');
         $body = [
             'url' => VCV_PLUGIN_URL,
-            'license' => $requestHelper->input('vcv-license-key'),
+            'license' => $licenseKey,
         ];
 
         if (defined('VCV_AUTHOR_API_KEY')) {
@@ -99,6 +100,7 @@ class LicenseController extends Container implements Module
         if (!vcIsBadResponse($resultBody)) {
             $licenseType = $resultBody['license_type'];
             if ($licenseType !== 'free') {
+                $resultBody['license'] = $licenseKey;
                 $this->setLicenseOptions($resultBody);
 
                 $optionsHelper->deleteTransient('lastBundleUpdate');
@@ -141,6 +143,7 @@ class LicenseController extends Container implements Module
         $optionsHelper->deleteTransient('lastBundleUpdate');
         $optionsHelper->deleteTransient('elements:autoload:all');
         $optionsHelper->deleteTransient('addons:autoload:all');
+        $optionsHelper->deleteTransient('vcv:wp-com:activation:request');
         $licenseHelper->refresh('vcv-license');
 
         wp_safe_redirect(admin_url('admin.php?page=vcv-license'));
@@ -166,6 +169,7 @@ class LicenseController extends Container implements Module
             ->deleteTransient('siteAuthToken')
             ->deleteTransient('vcv:activation:request')
             ->deleteTransient('vcv:hub:action:request')
+            ->deleteTransient('vcv:wp-com:activation:request')
             ->delete('siteAuthRefreshToken')
             ->delete('siteAuthTokenTtl')
             ->delete('lastBundleUpdate')
