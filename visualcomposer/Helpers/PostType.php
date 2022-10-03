@@ -366,4 +366,25 @@ class PostType implements Helper
             'future',
         ];
     }
+
+    /**
+     * Check if post grid data source correspond certain type name.
+     *
+     * @param string $typeName
+     * @param array $payload
+     *
+     * @return bool
+     */
+    public function isPostGridDataSourceType($typeName, $payload)
+    {
+        if (empty($payload['atts']['source']['tag'])) {
+            return false;
+        }
+
+        if ($payload['atts']['source']['tag'] === $typeName) {
+            return true;
+        }
+
+        return false;
+    }
 }
