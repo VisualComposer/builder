@@ -77,7 +77,7 @@ define('VCV_PREFIX', 'vcv-');
 /**
  * Minimal required PHP version.
  */
-define('VCV_REQUIRED_PHP_VERSION', '7.4');
+define('VCV_REQUIRED_PHP_VERSION', '5.6');
 /**
  * Minimal required WordPress version.
  */

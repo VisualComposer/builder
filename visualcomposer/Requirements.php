@@ -24,9 +24,10 @@ class VcvCoreRequirements
         $messages = [];
         $die = false;
 
-        if (!self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION)) {
+        //TODO: Return VCV_REQUIRED_PHP_VERSION after few releases
+        if (!self::checkVersion(7.4, PHP_VERSION)) {
             $die = true;
-            $messages[] = sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
+            $messages[] = sprintf('PHP version %s or greater (recommended 7 or greater)', 7.4);
         }
 
         if (!self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'))) {
