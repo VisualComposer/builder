@@ -202,8 +202,8 @@ class LicenseController extends Container implements Module
         if (empty($activeSubscriptions)) {
             return;
         }
-        // visualcomposer or visualcomposer-premium-wpcom
-        if (!isset($activeSubscriptions['visualcomposer']) && !isset($activeSubscriptions['visualcomposer-premium-wpcom'])) {
+
+        if (!isset($activeSubscriptions['visualcomposer-wpcom'])) {
             return;
         }
 
