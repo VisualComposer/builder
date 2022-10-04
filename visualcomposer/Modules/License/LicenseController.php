@@ -158,6 +158,7 @@ class LicenseController extends Container implements Module
      */
     protected function unsetOptions(Options $optionsHelper, Notice $noticeHelper)
     {
+        global $wpdb;
         $noticeHelper->removeNotice('premium:deactivated');
         $noticeHelper->removeNotice('license:expiration');
 
@@ -178,6 +179,14 @@ class LicenseController extends Container implements Module
             ->delete('license-expiration')
             ->delete('license-key-token');
 
+        // Remove old transients for activation request
+        $wpdb->query(
+            $wpdb->prepare(
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s',
+                '_transient_' . VCV_PREFIX . VCV_VERSION . 'vcv:wp-com:activation:request%'
+            )
+        );
+
         return true;
     }
 
@@ -186,26 +195,24 @@ class LicenseController extends Container implements Module
      */
     protected function activateWpComSubscription()
     {
-        $optionsHelper = vchelper('Options');
-        // if transient exists skip
-        if ($optionsHelper->getTransient('vcv:wp-com:activation:request')) {
-            return;
-        }
-        $optionsHelper->setTransient('vcv:wp-com:activation:request', true, 600);
+
         $licenseHelper = vchelper('License');
 
         if ($licenseHelper->isPremiumActivated()) {
             return;
         }
+        $optionsHelper = vchelper('Options');
 
         $activeSubscriptions = get_option('wpcom_active_subscriptions', []);
         if (empty($activeSubscriptions)) {
             return;
         }
-
-        if (!isset($activeSubscriptions['visualcomposer-wpcom'])) {
+        $activeSubscriptionsChecksum = md5(wp_json_encode($activeSubscriptions));
+        // if transient exists skip, so nothing changed in subscriptions
+        if ($optionsHelper->getTransient('vcv:wp-com:activation:request:' . $activeSubscriptionsChecksum)) {
             return;
         }
+        $optionsHelper->setTransient('vcv:wp-com:activation:request:' . $activeSubscriptionsChecksum, true, 600);
 
         $body = [
             'wp_com_subscription_activation_request' => 1,
