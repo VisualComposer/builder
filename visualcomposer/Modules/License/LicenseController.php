@@ -203,7 +203,7 @@ class LicenseController extends Container implements Module
             return;
         }
 
-        if (isset($activeSubscriptions['visualcomposer-wpcom'])) {
+        if (!isset($activeSubscriptions['visualcomposer-wpcom'])) {
             return;
         }
 
