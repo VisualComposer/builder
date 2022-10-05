@@ -20,7 +20,6 @@ import Controls from 'public/components/elementControls/controls'
 import AppendControl from 'public/components/elementControls/appendControl'
 import ElementResizeControl from 'public/components/elementControls/elementResize'
 import Outlines from 'public/components/elementControls/outlines'
-import WorkspaceCont from 'public/components/workspace/workspaceCont'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
