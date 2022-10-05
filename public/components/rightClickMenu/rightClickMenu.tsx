@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { getStorage, getService, env } from 'vc-cake'
 import MenuDropdown from './menuDropdown'
 import { disableScroll, enableScroll } from '../../tools/disableScroll'
@@ -9,10 +9,16 @@ const layoutStorage = getStorage('layout')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
 
+export interface Root {
+  render(children: React.ReactNode): void;
+  unmount(): void;
+}
+
 const RightClickMenu = () => {
   const iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
   let menuWrapper: HTMLDivElement
   let iframeWindow: Window | null
+  let menuRoot: Root | null
 
   const createMenuWrapper = () => {
     menuWrapper = document.createElement('div')
@@ -32,7 +38,7 @@ const RightClickMenu = () => {
 
     enableScroll(iframeWindow)
 
-    ReactDOM.unmountComponentAtNode(menuWrapper)
+    menuRoot && menuRoot.unmount()
     layoutStorage.state('rightClickMenuActive').set(false)
   }
 
@@ -61,7 +67,10 @@ const RightClickMenu = () => {
       workspaceStorage.state('userInteractWith').set(id)
       disableScroll(iframeWindow)
       layoutStorage.state('rightClickMenuActive').set(true)
-      ReactDOM.render(<MenuDropdown id={id} position={{ top: e.clientY, left: e.clientX }} />, menuWrapper)
+      if (!menuRoot) {
+        menuRoot = createRoot(menuWrapper)
+      }
+      menuRoot.render(<MenuDropdown id={id} position={{ top: e.clientY, left: e.clientX }} />)
 
       return false
     }

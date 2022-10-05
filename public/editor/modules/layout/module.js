@@ -1,7 +1,7 @@
 /* global VCV_PLUGIN_UPDATE */
 import vcCake from 'vc-cake'
+import { createRoot } from 'react-dom/client'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
@@ -20,6 +20,7 @@ import Controls from 'public/components/elementControls/controls'
 import AppendControl from 'public/components/elementControls/appendControl'
 import ElementResizeControl from 'public/components/elementControls/elementResize'
 import Outlines from 'public/components/elementControls/outlines'
+import WorkspaceCont from 'public/components/workspace/workspaceCont'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -47,55 +48,56 @@ vcCake.add('contentLayout', (api) => {
   // Start notifications and editor popups
   const layoutOverlay = document.querySelector('.vcv-layout-overlay')
   if (layoutOverlay) {
-    ReactDOM.render(
+    const root = createRoot(layoutOverlay)
+    root.render(
       <Provider store={store}>
         <Notifications />
         <Popup />
         <FullPagePopupContainer />
         {dataManager.get('showInitialHelpers') && <Helpers />}
-      </Provider>,
-      layoutOverlay
+      </Provider>
     )
   }
   const controlsContainer = document.querySelector('.vcv-ui-outline-controls-wrapper')
   if (controlsContainer) {
-    ReactDOM.render(
+    const root = createRoot(controlsContainer)
+    root.render(
       <Provider store={store}>
         <Controls />
-      </Provider>,
-      controlsContainer
+      </Provider>
     )
   }
 
   const appendControlContainer = document.querySelector('.vcv-ui-append-control-wrapper')
   if (appendControlContainer) {
-    ReactDOM.render(
+    const root = createRoot(appendControlContainer)
+    root.render(
       <Provider store={store}>
         <AppendControl />
-      </Provider>,
-      appendControlContainer
+      </Provider>
     )
   }
 
   const elementResizeContainer = document.querySelector('.vcv-ui-element-resize-control-wrapper')
   if (elementResizeContainer) {
-    ReactDOM.render(
+    const root = createRoot(elementResizeContainer)
+    root.render(
       <Provider store={store}>
         <ElementResizeControl />
-      </Provider>,
-      elementResizeContainer
+      </Provider>
     )
   }
 
   const outlineContainer = document.querySelector('.vcv-ui-element-outline-container')
   if (outlineContainer) {
-    ReactDOM.render(
+    const root = createRoot(outlineContainer)
+    root.render(
       <Provider store={store}>
         <Outlines />
-      </Provider>,
-      outlineContainer
+      </Provider>
     )
   }
+  let domContainerRoot = null
 
   const renderLayout = (reload = false) => {
     workspaceIFrame.ignoreChange(reloadLayout)
@@ -110,11 +112,13 @@ vcCake.add('contentLayout', (api) => {
 
       !reload && dnd.init()
 
-      ReactDOM.render(
+      if (!domContainerRoot) {
+        domContainerRoot = createRoot(domContainer)
+      }
+      domContainerRoot.render(
         <Provider store={store}>
           <Editor api={api} />
-        </Provider>,
-        domContainer
+        </Provider>
       )
 
       RightClickMenu()
@@ -166,11 +170,11 @@ vcCake.add('contentLayout', (api) => {
       wrapper.innerHTML = '<div id=\'vcv-oops-screen-container\'></div>'
       const oopsContainer = document.getElementById('vcv-oops-screen-container')
       if (oopsContainer) {
-        ReactDOM.render(
+        const root = createRoot(oopsContainer)
+        root.render(
           <div className='vcv-screen-section'>
             <OopsScreen errorName={dataManager.get('frontEndError')} />
-          </div>,
-          oopsContainer
+          </div>
         )
       }
     }
@@ -206,9 +210,8 @@ vcCake.add('contentLayout', (api) => {
     if (type === 'reload') {
       createLoadingScreen()
       const iframe = window.document.getElementById('vcv-editor-iframe')
-      const domContainer = iframe.contentDocument.getElementById('vcv-editor')
-      if (domContainer) {
-        ReactDOM.unmountComponentAtNode(domContainer)
+      if (domContainerRoot) {
+        domContainerRoot.unmount()
       }
       iframe.onload = () => {
         assetsStorage.trigger('reset')

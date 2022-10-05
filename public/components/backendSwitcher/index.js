@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom'
 import React from 'react'
+import { createRoot } from 'react-dom/client'
 import FrontendClassicSwitcher from './lib/frontendClassicSwitcher'
 
 export default () => {
@@ -8,10 +8,10 @@ export default () => {
   const switcherContainer = document.createElement('div')
   switcherContainer.className = 'vcv-wpbackend-switcher-container'
   let render = false
-  const renderSwitcher = (switcherContainer) => {
-    ReactDOM.render(
-      <FrontendClassicSwitcher isGutenbergEditor={!!gutenbergEditor} />,
-      switcherContainer
+  const renderSwitcher = (switcher) => {
+    const root = createRoot(switcher)
+    root.render(
+      <FrontendClassicSwitcher isGutenbergEditor={!!gutenbergEditor} />
     )
   }
   if (titleDiv) {

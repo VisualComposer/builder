@@ -1,6 +1,6 @@
 import { add, getStorage, getService, env, setData, getData, onDataChange } from 'vc-cake'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
 import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
@@ -89,30 +89,30 @@ add('wordpressWorkspace', (api) => {
       }
     })
 
-    ReactDOM.render(
+    const root = createRoot(layoutHeader)
+    root.render(
       <Provider store={store}>
         <WorkspaceCont />
-      </Provider>,
-      layoutHeader
+      </Provider>
     )
   }
 
   // Start blank overlay
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
   const iframeContainer = document.querySelector('.vcv-layout-iframe-container')
+  const iframeContentRoot = createRoot(iframeContent)
 
   if (iframeContent) {
     const removeBlankIntro = () => {
-      ReactDOM.unmountComponentAtNode(iframeContent)
+      iframeContentRoot.unmount()
       workspaceStorage.state('blankPageIntro').set(false)
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
       iframeContainer.classList.remove('vcv-layout-iframe-container--intro')
     }
     const addBlankIntro = () => {
-      ReactDOM.render(
-        <BlankPageIntro unmountBlankPage={removeBlankIntro} />,
-        iframeContent
+      iframeContentRoot.render(
+        <BlankPageIntro unmountBlankPage={removeBlankIntro} />
       )
       iframeContainer.classList.add('vcv-layout-iframe-container--intro')
       workspaceStorage.state('navbarDisabled').set(true)
