@@ -446,8 +446,7 @@ class WpmlController extends Container implements Module
 
         $result = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT language_code FROM %sicl_translations WHERE element_id = %d",
-                $wpdb->prefix,
+                "SELECT language_code FROM " . $wpdb->prefix . "icl_translations WHERE element_id = %d",
                 $postId
             )
         );
