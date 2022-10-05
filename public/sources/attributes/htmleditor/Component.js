@@ -1,6 +1,6 @@
 import React from 'react'
 import HtmlEditor from './htmleditor'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import Attribute from '../attribute'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import classNames from 'classnames'
@@ -27,7 +27,8 @@ export default class HtmlEditorWrapper extends Attribute {
 
   constructor (props) {
     super(props)
-    this.tabsContainer = null
+    this.giphyRoot = null
+    this.stockImageRoot = null
     this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
     this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
     this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
@@ -116,24 +117,38 @@ export default class HtmlEditorWrapper extends Attribute {
     const _this = this
     /* eslint-enable */
     const CustomStockImagesView = window.wp.media.View.extend({
+      remove: function () {
+        _this.stockImageRoot && _this.stockImageRoot.unmount()
+        _this.stockImageRoot = null
+        return this
+      },
       /**
        * Stock images tab content render
        * @returns {CustomStockImagesView}
        */
       render: function () {
-        _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
+        if (!_this.stockImageRoot) {
+          _this.stockImageRoot = createRoot(this.$el.get(0))
+        }
+        _this.stockImageRoot.render(<Provider store={store}><StockMediaTab /></Provider>)
         return this
       }
     })
     const CustomGiphyView = window.wp.media.View.extend({
+      remove: function () {
+        _this.giphyRoot && _this.giphyRoot.unmount()
+        _this.giphyRoot = null
+        return this
+      },
       /**
        * Giphy tab content render
        * @returns {CustomGiphyView}
        */
       render: function () {
-        _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
+        if (!_this.giphyRoot) {
+          _this.giphyRoot = createRoot(this.$el.get(0))
+        }
+        _this.giphyRoot.render(<Provider store={store}><GiphyMediaTab /></Provider>)
         return this
       }
     })

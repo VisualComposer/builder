@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
-import ReactDOM from 'react-dom'
 import React from 'react'
+import { createRoot } from 'react-dom/client'
 
 import 'public/variables'
 import 'public/config/hub-services'
@@ -64,21 +64,22 @@ export const setupCake = () => {
     const hideScrollbar = true
     const addNotifications = true
     window.setTimeout(() => {
-      ReactDOM.render(
+      const hubContainer = document.querySelector('#vcv-hub')
+      const hubRoot = createRoot(hubContainer)
+      hubRoot.render(
         <Provider store={store}>
           <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vcdashboard' />
-        </Provider>,
-        document.querySelector('#vcv-hub')
+        </Provider>
       )
 
       const popupWrapper = document.createElement('div')
       document.body.appendChild(popupWrapper)
 
-      ReactDOM.render(
+      const popupRoot = createRoot(popupWrapper)
+      popupRoot.render(
         <Provider store={store}>
           <FullPopup />
-        </Provider>,
-        popupWrapper
+        </Provider>
       )
     })
   })
