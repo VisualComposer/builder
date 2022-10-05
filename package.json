@@ -67,7 +67,8 @@
         "ts-jest"
       ]
     },
-    "verbose": true
+    "verbose": true,
+    "setupFilesAfterEnv": ["./tests/jest/_jest-setup_.js"]
   },
   "resolutions": {
     "@babel/runtime": "7.18.9",
