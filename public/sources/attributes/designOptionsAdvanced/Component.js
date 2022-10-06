@@ -26,7 +26,6 @@ import {
 } from './helpers'
 
 const elementsStorage = getStorage('elements')
-const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const documentService = getService('document')
 
