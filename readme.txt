@@ -223,7 +223,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 == Changelog ==
 
 = 45.1.0 =
-*Release Date - 2022-10-06*
+*Release Date - 2022-10-13*
 
 ### Free:
 - Update: CSS Animations for elements improved (Contribution by Lucas Selsek)
@@ -256,6 +256,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 - Fix: An empty post title does not take space in the layout
 - Fix: Php directive "allow_url_fopen" works properly with the Visual Composer import/export
 - Fix: Theme Builder layouts work properly in block themes
+- Fix: Tab links are working properly when linking to another tab
 
 = 45.0.1 =
 *Release Date - 2022-09-01*
