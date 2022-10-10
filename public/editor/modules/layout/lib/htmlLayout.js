@@ -71,9 +71,11 @@ export default class HtmlLayout extends React.Component {
     let elementsList
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (this.props.data.length) {
+      const postData = getStorage('settings').state('postData').get()
+      const postId = postData.post_id
       elementsList = this.props.data.map((element) => {
         return (
-          <Element id={element.id} key={'element-wrapper-' + element.id} api={this.props.api} />
+          <Element id={element.id} key={`${postId}:element-wrapper-${element.id}`} postId={postId} api={this.props.api} />
         )
       })
     }
