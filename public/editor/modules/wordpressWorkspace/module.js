@@ -100,7 +100,10 @@ add('wordpressWorkspace', (api) => {
   // Start blank overlay
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
   const iframeContainer = document.querySelector('.vcv-layout-iframe-container')
-  const iframeContentRoot = createRoot(iframeContent)
+  let iframeContentRoot = null
+  if (iframeContent) {
+    iframeContentRoot = createRoot(iframeContent)
+  }
 
   if (iframeContent) {
     const removeBlankIntro = () => {
