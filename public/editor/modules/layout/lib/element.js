@@ -84,7 +84,8 @@ export default class Element extends React.Component {
       <ElementWrapper
         ref={this.elementComponentRef}
         id={id}
-        key={'vcvLayoutContentComponent' + id}
+        key={`vcvLayoutContentComponent${id}:${this.props.postId}`}
+        postId={this.props.postId}
         api={api}
         getEditorProps={this.getEditorProps}
       />
