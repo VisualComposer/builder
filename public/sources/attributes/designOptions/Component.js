@@ -834,9 +834,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   renderBoxModel () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].boxModel || {}
 
     return (
@@ -1007,10 +1004,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getAttachImageRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
-
     const fieldKey = 'attachImage'
     const value = this.state.devices[this.state.currentDevice].image || ''
 
@@ -1086,9 +1079,6 @@ export default class DesignOptions extends Attribute {
    */
   getBackgroundStyleRender () {
     const { devices, currentDevice } = this.state
-    if (devices[currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const imageData = devices[currentDevice].image || ''
 
     if (!this.isBackgroundActive(imageData)) {
@@ -1183,9 +1173,6 @@ export default class DesignOptions extends Attribute {
    */
   getBackgroundPositionRender () {
     const { devices, currentDevice } = this.state
-    if (devices[currentDevice].display || this.getHiddenState()) {
-      return null
-    }
 
     const imageData = devices[currentDevice].image || ''
 
@@ -1275,9 +1262,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBackgroundColorRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].backgroundColor || ''
     return (
       <div className='vcv-ui-form-group'>
@@ -1296,9 +1280,6 @@ export default class DesignOptions extends Attribute {
   }
 
   getBorderStyleRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
@@ -1352,9 +1333,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBorderColorRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
@@ -1393,9 +1371,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getAnimationRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].animation || ''
 
     let animationDelayHtml = null
@@ -1454,23 +1429,29 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   render () {
+    let isHidden = this.state.devices[this.state.currentDevice].display
+    if (!isHidden && this.state.currentDevice === 'all') {
+      isHidden = this.getHiddenState()
+    }
     return (
       <div className='advanced-design-options'>
         {this.getDevicesRender()}
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getDeviceVisibilityRender()}
-            {this.renderBoxModel()}
+            {!isHidden && this.renderBoxModel()}
           </div>
-          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            {this.getBackgroundColorRender()}
-            {this.getAttachImageRender()}
-            {this.getBackgroundStyleRender()}
-            {this.getBackgroundPositionRender()}
-            {this.getBorderStyleRender()}
-            {this.getBorderColorRender()}
-            {this.props.elementSelector ? null : this.getAnimationRender()}
-          </div>
+          {!isHidden && (
+            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+              {this.getBackgroundColorRender()}
+              {this.getAttachImageRender()}
+              {this.getBackgroundStyleRender()}
+              {this.getBackgroundPositionRender()}
+              {this.getBorderStyleRender()}
+              {this.getBorderColorRender()}
+              {this.props.elementSelector ? null : this.getAnimationRender()}
+            </div>
+          )}
         </div>
       </div>
     )

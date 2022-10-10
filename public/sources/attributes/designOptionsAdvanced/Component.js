@@ -289,9 +289,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundTypeRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const options = {
       values: [
         {
@@ -342,9 +339,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   renderBoxModel () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].boxModel || {}
 
     return (
@@ -500,8 +494,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (!backgroundTypeToSearch) {
       backgroundTypeToSearch = this.state.backgroundType
     }
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() ||
-      allowedBackgroundTypes.indexOf(backgroundTypeToSearch) === -1) {
+    if (allowedBackgroundTypes.indexOf(backgroundTypeToSearch) === -1) {
       return null
     }
     const value = this.state.devices[this.state.currentDevice].images || ''
@@ -582,7 +575,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       'imagesSlideshow'
     ]
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || this.getHiddenState() || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
+    if (allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -656,7 +649,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       'imagesSlideshow'
     ]
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || this.getHiddenState() || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
+    if (allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -738,7 +731,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomRender () {
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || this.getHiddenState() || deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
+    if (deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -776,7 +769,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomSpeedRender () {
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || this.getHiddenState() || deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
+    if (deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -812,7 +805,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomReverseRender () {
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || this.getHiddenState() || deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
+    if (deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -842,10 +835,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundColorRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
-
     const value = this.state.devices[this.state.currentDevice].backgroundColor || ''
     return (
       <div className='vcv-ui-form-group'>
@@ -868,10 +857,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getGradientOverlayRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
-
     const value = this.state.devices[this.state.currentDevice].gradientOverlay || false
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -891,7 +876,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getGradientTypeRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() || !this.state.devices[this.state.currentDevice].gradientOverlay) {
+    if (!this.state.devices[this.state.currentDevice].gradientOverlay) {
       return null
     }
 
@@ -929,7 +914,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientStartColorRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() || !this.state.devices[this.state.currentDevice].gradientOverlay) {
+    if (!this.state.devices[this.state.currentDevice].gradientOverlay) {
       return null
     }
 
@@ -955,7 +940,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientEndColorRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() || !this.state.devices[this.state.currentDevice].gradientOverlay) {
+    if (!this.state.devices[this.state.currentDevice].gradientOverlay) {
       return null
     }
 
@@ -981,9 +966,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBorderStyleRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
@@ -1031,9 +1013,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBorderColorRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
@@ -1061,8 +1040,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getSliderTimeoutRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() ||
-      this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow') {
+    if (this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow') {
       return null
     }
 
@@ -1092,8 +1070,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getSliderDirectionRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() ||
-      this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow' ||
+    if (this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow' ||
       this.state.devices[this.state.currentDevice].sliderEffect !== 'carousel') {
       return null
     }
@@ -1128,8 +1105,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getSliderEffectRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() ||
-      this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow') {
+    if (this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow') {
       return null
     }
 
@@ -1182,7 +1158,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientAngleRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() || !this.state.devices[this.state.currentDevice].gradientOverlay || this.state.devices[this.state.currentDevice].gradientType === 'radial') {
+    if (!this.state.devices[this.state.currentDevice].gradientOverlay || this.state.devices[this.state.currentDevice].gradientType === 'radial') {
       return null
     }
     const value = this.state.devices[this.state.currentDevice].gradientAngle
@@ -1207,9 +1183,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getAnimationRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState()) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].animation || ''
 
     let animationDelayHtml = null
@@ -1258,8 +1231,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getYoutubeVideoRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() ||
-      this.state.devices[this.state.currentDevice].backgroundType !== 'videoYoutube') {
+    if (this.state.devices[this.state.currentDevice].backgroundType !== 'videoYoutube') {
       return null
     }
 
@@ -1284,8 +1256,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getVimeoVideoRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() ||
-      this.state.devices[this.state.currentDevice].backgroundType !== 'videoVimeo') {
+    if (this.state.devices[this.state.currentDevice].backgroundType !== 'videoVimeo') {
       return null
     }
 
@@ -1317,8 +1288,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getEmbedVideoRender () {
-    if (this.state.devices[this.state.currentDevice].display || this.getHiddenState() ||
-      this.state.devices[this.state.currentDevice].backgroundType !== 'videoEmbed') {
+    if (this.state.devices[this.state.currentDevice].backgroundType !== 'videoEmbed') {
       return null
     }
 
@@ -1346,38 +1316,44 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   render () {
+    let isHidden = this.state.devices[this.state.currentDevice].display
+    if (!isHidden && this.state.currentDevice === 'all') {
+      isHidden = this.getHiddenState()
+    }
     return (
       <div className='advanced-design-options'>
         {this.getDevicesRender()}
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getDeviceVisibilityRender()}
-            {this.renderBoxModel()}
+            {!isHidden && this.renderBoxModel()}
           </div>
-          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            {this.getBorderStyleRender()}
-            {this.getBorderColorRender()}
-            {this.getBackgroundTypeRender()}
-            {this.getAttachImageRender()}
-            {this.getSliderEffectRender()}
-            {this.getSliderTimeoutRender()}
-            {this.getSliderDirectionRender()}
-            {this.getYoutubeVideoRender()}
-            {this.getVimeoVideoRender()}
-            {this.getEmbedVideoRender()}
-            {this.getBackgroundStyleRender()}
-            {this.getBackgroundPositionRender()}
-            {this.getBackgroundZoomRender()}
-            {this.getBackgroundZoomSpeedRender()}
-            {this.getBackgroundZoomReverseRender()}
-            {this.getBackgroundColorRender()}
-            {this.getGradientOverlayRender()}
-            {this.getGradientTypeRender()}
-            {this.getGradientStartColorRender()}
-            {this.getGradientEndColorRender()}
-            {this.getGradientAngleRender()}
-            {this.getAnimationRender()}
-          </div>
+          {!isHidden && (
+            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+              {this.getBorderStyleRender()}
+              {this.getBorderColorRender()}
+              {this.getBackgroundTypeRender()}
+              {this.getAttachImageRender()}
+              {this.getSliderEffectRender()}
+              {this.getSliderTimeoutRender()}
+              {this.getSliderDirectionRender()}
+              {this.getYoutubeVideoRender()}
+              {this.getVimeoVideoRender()}
+              {this.getEmbedVideoRender()}
+              {this.getBackgroundStyleRender()}
+              {this.getBackgroundPositionRender()}
+              {this.getBackgroundZoomRender()}
+              {this.getBackgroundZoomSpeedRender()}
+              {this.getBackgroundZoomReverseRender()}
+              {this.getBackgroundColorRender()}
+              {this.getGradientOverlayRender()}
+              {this.getGradientTypeRender()}
+              {this.getGradientStartColorRender()}
+              {this.getGradientEndColorRender()}
+              {this.getGradientAngleRender()}
+              {this.getAnimationRender()}
+            </div>
+          )}
         </div>
       </div>
     )
