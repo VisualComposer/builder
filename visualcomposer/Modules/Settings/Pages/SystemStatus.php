@@ -322,7 +322,7 @@ class SystemStatus extends Container implements Module
     protected function addWarningNotice(Notice $noticeHelper, SystemStatus $systemStatus, Status $statusHelper)
     {
         $screen = get_current_screen();
-        if (strpos($screen->id, $this->slug)) {
+        if (isset($screen->id) && strpos($screen->id, $this->slug)) {
             $statusHelper->checkSystemStatusAndSetFlag();
         }
         $notices = $noticeHelper->all();
