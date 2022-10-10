@@ -5,7 +5,6 @@ describe('Notifications section automation for release checklist', function () {
 
         cy.createPage()
         cy.get('.vcv-ui-navbar-control-content').contains('Insights & Notifications').click({ force: true })
-        cy.wait(5000)
         cy.get('.vcv-insight-title').contains('No content found')
         cy.get('.vcv-insight-description').contains('It seems this page has no content. Make sure to add elements or templates.')
 
