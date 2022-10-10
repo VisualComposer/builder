@@ -97,11 +97,9 @@ class GoPremium extends Container implements Module
         $screen = get_current_screen();
 
         $active = !$licenseHelper->isPremiumActivated()
-        && !strpos($screen->id, $this->slug)
-        && !strpos(
-            $screen->id,
-            'vcv-getting-started'
-        );
+            && isset($screen->id)
+            && !strpos($screen->id, $this->slug)
+            && !strpos($screen->id, 'vcv-getting-started');
 
         $active = vcfilter('vcv:modules:license:pages:goPremium:hubActivationNotice', $active);
 
