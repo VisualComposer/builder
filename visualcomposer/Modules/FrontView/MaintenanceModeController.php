@@ -99,7 +99,7 @@ class MaintenanceModeController extends Container implements Module
                 $template = get_index_template();
             }
             if ($template = apply_filters('template_include', $template)) {
-                include $template;
+                include_once $template;
             }
             exit;
         }
