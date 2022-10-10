@@ -15,7 +15,6 @@ import Number from '../number/Component'
 import Tooltip from 'public/components/tooltip/tooltip'
 
 const elementsStorage = getStorage('elements')
-const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const documentService = getService('document')
 const { getBlockRegexp } = getService('utils')
@@ -233,7 +232,7 @@ export default class DesignOptions extends Attribute {
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
-    this.handleElementVisibilityChange = this.handleElementVisibilityChange.bind(this)
+    this.getHiddenState = this.getHiddenState.bind(this)
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
@@ -275,6 +274,15 @@ export default class DesignOptions extends Attribute {
     } else {
       this.forceUpdate()
     }
+  }
+
+  getHiddenState () {
+    const id = this.props.elementAccessPoint.id
+    const element = documentService.get(id)
+    if (!element) {
+      return false
+    }
+    return element.hidden
   }
 
   /**
@@ -760,19 +768,14 @@ export default class DesignOptions extends Attribute {
     }
 
     if (this.state.currentDevice === 'all') {
-      const id = this.props.elementAccessPoint.id
-      const element = documentService.get(id)
-      if (!element) {
-        return null
-      }
-      const checked = !element.hidden
+      const checked = !this.getHiddenState()
 
       // TODO: Use correct localization here
       return (
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <div className='vcv-ui-form-switch-container'>
             <label className='vcv-ui-form-switch'>
-              <input type='checkbox' onChange={this.handleElementVisibilityChange} id='show_element' checked={checked} />
+              <input type='checkbox' onChange={this.deviceVisibilityChangeHandler.bind(this, 'currentDeviceVisible', !checked)} id='show_element' checked={checked} />
               <span className='vcv-ui-form-switch-indicator' />
               <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
               <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
@@ -804,10 +807,6 @@ export default class DesignOptions extends Attribute {
     )
   }
 
-  handleElementVisibilityChange () {
-    workspaceStorage.trigger('hide', this.props.elementAccessPoint.id)
-  }
-
   /**
    * Handle show on device toggle change
    * @returns {XML}
@@ -822,6 +821,12 @@ export default class DesignOptions extends Attribute {
     }
 
     this.updateValue(newState, fieldKey)
+
+    if (this.state.currentDevice === 'all') {
+      this.props.updater('hidden', !isVisible)
+    } else {
+      this.props.updater('hidden', false)
+    }
   }
 
   /**
@@ -829,9 +834,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   renderBoxModel () {
-    if (this.state.devices[this.state.currentDevice].display) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].boxModel || {}
 
     return (
@@ -1002,10 +1004,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getAttachImageRender () {
-    if (this.state.devices[this.state.currentDevice].display) {
-      return null
-    }
-
     const fieldKey = 'attachImage'
     const value = this.state.devices[this.state.currentDevice].image || ''
 
@@ -1081,9 +1079,6 @@ export default class DesignOptions extends Attribute {
    */
   getBackgroundStyleRender () {
     const { devices, currentDevice } = this.state
-    if (devices[currentDevice].display) {
-      return null
-    }
     const imageData = devices[currentDevice].image || ''
 
     if (!this.isBackgroundActive(imageData)) {
@@ -1178,9 +1173,6 @@ export default class DesignOptions extends Attribute {
    */
   getBackgroundPositionRender () {
     const { devices, currentDevice } = this.state
-    if (devices[currentDevice].display) {
-      return null
-    }
 
     const imageData = devices[currentDevice].image || ''
 
@@ -1270,9 +1262,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBackgroundColorRender () {
-    if (this.state.devices[this.state.currentDevice].display) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].backgroundColor || ''
     return (
       <div className='vcv-ui-form-group'>
@@ -1291,9 +1280,6 @@ export default class DesignOptions extends Attribute {
   }
 
   getBorderStyleRender () {
-    if (this.state.devices[this.state.currentDevice].display) {
-      return null
-    }
     const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
@@ -1347,9 +1333,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBorderColorRender () {
-    if (this.state.devices[this.state.currentDevice].display) {
-      return null
-    }
     const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
@@ -1388,9 +1371,6 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getAnimationRender () {
-    if (this.state.devices[this.state.currentDevice].display) {
-      return null
-    }
     const value = this.state.devices[this.state.currentDevice].animation || ''
 
     let animationDelayHtml = null
@@ -1449,23 +1429,29 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   render () {
+    let isHidden = this.state.devices[this.state.currentDevice].display
+    if (!isHidden && this.state.currentDevice === 'all') {
+      isHidden = this.getHiddenState()
+    }
     return (
       <div className='advanced-design-options'>
         {this.getDevicesRender()}
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getDeviceVisibilityRender()}
-            {this.renderBoxModel()}
+            {!isHidden && this.renderBoxModel()}
           </div>
-          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            {this.getBackgroundColorRender()}
-            {this.getAttachImageRender()}
-            {this.getBackgroundStyleRender()}
-            {this.getBackgroundPositionRender()}
-            {this.getBorderStyleRender()}
-            {this.getBorderColorRender()}
-            {this.props.elementSelector ? null : this.getAnimationRender()}
-          </div>
+          {!isHidden && (
+            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+              {this.getBackgroundColorRender()}
+              {this.getAttachImageRender()}
+              {this.getBackgroundStyleRender()}
+              {this.getBackgroundPositionRender()}
+              {this.getBorderStyleRender()}
+              {this.getBorderColorRender()}
+              {this.props.elementSelector ? null : this.getAnimationRender()}
+            </div>
+          )}
         </div>
       </div>
     )

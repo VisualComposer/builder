@@ -10,8 +10,7 @@
  * Copyright: (c) 2017 TechMill Ltd.
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
- * Requires at least: 4.6
- * Tested up to: 5.6
+ * Requires at least: 5.5
  * Text Domain: visualcomposer
  * Domain Path: /languages/
  */
@@ -82,7 +81,7 @@ define('VCV_REQUIRED_PHP_VERSION', '5.6');
 /**
  * Minimal required WordPress version.
  */
-define('VCV_REQUIRED_BLOG_VERSION', '4.6');
+define('VCV_REQUIRED_BLOG_VERSION', '5.5');
 if (!defined('VCV_AJAX_REQUEST')) {
     define('VCV_AJAX_REQUEST', 'vcv-ajax');
 }
