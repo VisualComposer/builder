@@ -18,6 +18,21 @@ const checkIsUnseenMessages = (allMessages, seenMessages) => {
   return !!unseenMessages.length
 }
 
+const controls = innerAPI.applyFilter('insightPanelsData', {
+  insights: {
+    index: 0,
+    type: 'insights',
+    title: 'Insights',
+    icon: 'lamp'
+  },
+  notifications: {
+    index: 1,
+    type: 'notifications',
+    title: 'Notifications',
+    icon: 'bell'
+  }
+})
+
 class MessagesButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
@@ -26,6 +41,8 @@ class MessagesButtonControl extends NavbarContent {
     }
     this.handleTabClick = this.handleTabClick.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
+
+    workspaceMessagesControls.set({ ...controls })
   }
 
   /* eslint-enable */
@@ -57,21 +74,6 @@ class MessagesButtonControl extends NavbarContent {
   }
 
   getControls () {
-    const controls = innerAPI.applyFilter('insightPanelsData', {
-      insights: {
-        index: 0,
-        type: 'insights',
-        title: 'Insights',
-        icon: 'lamp'
-      },
-      notifications: {
-        index: 1,
-        type: 'notifications',
-        title: 'Notifications',
-        icon: 'bell'
-      }
-    })
-    workspaceMessagesControls.set({ ...controls })
     const controlsArray = Object.keys(controls).map(key => controls[key])
 
     const subMenuIconClasses = classNames({
