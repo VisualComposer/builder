@@ -326,7 +326,6 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
                 <span />
               </span>
             </span>
-            
             <div
               className="vcv-ui-navbar-controls-set"
             >
@@ -380,7 +379,6 @@ exports[`Tests editor navbar Create navbar component snapshot 1`] = `
                   className="vcv-ui-navbar-control-content"
                 />
               </span>
-              
             </div>
             <span
               className="vcv-ui-navbar-control"

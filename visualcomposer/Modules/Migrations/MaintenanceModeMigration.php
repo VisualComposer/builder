@@ -39,9 +39,11 @@ class MaintenanceModeMigration extends MigrationsController implements Module
 
         $hubAddonsList = $optionsHelper->get('hubAddons');
 
-        unset($hubAddonsList['maintenanceMode']);
+        if (isset($hubAddonsList['maintenanceMode'])) {
+            unset($hubAddonsList['maintenanceMode']);
 
-        $optionsHelper->set('hubAddons', $hubAddonsList);
+            $optionsHelper->set('hubAddons', $hubAddonsList);
+        }
 
         return true;
     }
