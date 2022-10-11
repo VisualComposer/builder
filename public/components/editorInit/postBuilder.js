@@ -35,6 +35,7 @@ export default class PostBuilder {
       const id = wordpressDataStorage.state('id').get()
       wordpressDataStorage.trigger('save', id)
       wordpressDataStorage.state('id').set(false)
+      this.resolve && this.resolve(this.settings)
     })
     wordpressDataStorage.state('status').onChange((state) => {
       if (state && state.status === 'success') {
