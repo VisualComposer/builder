@@ -25,7 +25,7 @@ wp_enqueue_style('wp-admin');
 wp_enqueue_media();
 ?>
 <!DOCTYPE html>
-<html xmlns="https://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+<?php echo '<html xmlns="https://www.w3.org/1999/xhtml"' . ' ' .  get_language_attributes() . '>' ?>
 <head>
     <link rel="profile" href="https://gmpg.org/xfn/11" />
     <meta http-equiv="Content-Type" content="<?php echo esc_attr(get_bloginfo('html_type', 'display')); ?>; charset=<?php echo esc_attr(get_bloginfo('charset', 'display')); ?>" />

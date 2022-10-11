@@ -36,7 +36,7 @@ echo vcview('editor/frontend/header', array(
     'hookSuffix' => $hook_suffix,
     'globalsHelper' => $globalsHelper,
     'outputHelper' => $outputHelper,
-    'title' => sprintf(__('Visual Composer: %s', 'visualcomposer'), esc_html(get_the_title())),
+    'title' => __('Visual Composer: Update', 'visualcomposer'),
     'variables' => $variables,
 ));
 
