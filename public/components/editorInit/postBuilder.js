@@ -28,6 +28,7 @@ export default class PostBuilder {
    * Set up cake environment to load backend based content render
    */
   setupCake () {
+    console.log('setup cake')
     setupCake()
     const elementsStorage = getStorage('elements')
     const wordpressDataStorage = getStorage('wordpressData')
@@ -35,7 +36,6 @@ export default class PostBuilder {
       const id = wordpressDataStorage.state('id').get()
       wordpressDataStorage.trigger('save', id)
       wordpressDataStorage.state('id').set(false)
-      this.resolve && this.resolve(this.settings)
     })
     wordpressDataStorage.state('status').onChange((state) => {
       if (state && state.status === 'success') {
