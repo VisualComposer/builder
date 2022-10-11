@@ -277,6 +277,9 @@ export default class DesignOptions extends Attribute {
   }
 
   getHiddenState () {
+    if (!this.props.elementAccessPoint) {
+      return false
+    }
     const id = this.props.elementAccessPoint.id
     const element = documentService.get(id)
     if (!element) {
