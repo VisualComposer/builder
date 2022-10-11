@@ -44,7 +44,7 @@ wp_enqueue_media();
     do_action('admin_head');
     do_action('embed_head');
     wp_print_head_scripts();
-    if (is_array($extraOutput)) {
+    if (!empty($extraOutput) && is_array($extraOutput)) {
         foreach ($extraOutput as $output) {
             $outputHelper->printNotEscaped($output);
         }
