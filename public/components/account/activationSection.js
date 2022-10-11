@@ -57,8 +57,9 @@ export default class ActivationSectionProvider extends React.Component {
     }
 
     if (activePostUpdate + 1 < posts.length) {
-      this.setState({ activePostUpdate: activePostUpdate + 1 })
-      return this.doUpdatePostAction(postUpdater)
+      this.setState({ activePostUpdate: activePostUpdate + 1 }, () => {
+        this.doUpdatePostAction(postUpdater)
+      })
     } else {
       this.doneActions()
     }
@@ -148,8 +149,7 @@ export default class ActivationSectionProvider extends React.Component {
             this.doneActions()
           }
         } else {
-          this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 })
-          this.doAction()
+          this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 }, this.doAction)
         }
       } else {
         logError('Failed Update Action', {
@@ -189,8 +189,7 @@ export default class ActivationSectionProvider extends React.Component {
               this.doneActions()
             }
           } else {
-            this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 })
-            this.doAction()
+            this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 }, this.doAction)
           }
           return
         } catch (pe) {
@@ -226,8 +225,9 @@ export default class ActivationSectionProvider extends React.Component {
 
   doPostUpdate () {
     const postUpdater = new PostUpdater(dataManager.get('updateGlobalVariablesUrl'), dataManager.get('updateVendorUrl'), dataManager.get('updateWPBundleUrl'))
-    this.setState({ error: null })
-    return this.doUpdatePostAction(postUpdater)
+    this.setState({ error: null }, () => {
+      this.doUpdatePostAction(postUpdater)
+    })
   }
 
   doneActions () {
