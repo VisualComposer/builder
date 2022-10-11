@@ -28,7 +28,6 @@ export default class PostBuilder {
    * Set up cake environment to load backend based content render
    */
   setupCake () {
-    console.log('setup cake')
     setupCake()
     const elementsStorage = getStorage('elements')
     const wordpressDataStorage = getStorage('wordpressData')
