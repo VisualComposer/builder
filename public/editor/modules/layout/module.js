@@ -211,6 +211,7 @@ vcCake.add('contentLayout', (api) => {
       const iframe = window.document.getElementById('vcv-editor-iframe')
       if (domContainerRoot) {
         domContainerRoot.unmount()
+        domContainerRoot = null
       }
       iframe.onload = () => {
         assetsStorage.trigger('reset')
