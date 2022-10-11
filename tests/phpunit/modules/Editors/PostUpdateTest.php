@@ -53,7 +53,7 @@ class PostUpdateTest extends WP_UnitTestCase
         $exceptionCalled = false;
         try {
             ob_start();
-            // Should throw phpunit die excetion as UpdateFePage triggers DIE
+            // Should throw phpunit die exception as UpdateFePage triggers DIE
             vcfilter('vcv:editors:frontend:render', '');
             ob_end_clean();
         } catch (Exception $e) {
