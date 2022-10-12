@@ -28,10 +28,17 @@ class Controller extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminBarEditLink */
+        /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::addEditLinkToAdminBarOnFrontend */
         $this->wpAddAction(
             'admin_bar_menu',
-            'adminBarEditLink',
+            'addEditLinkToAdminBarOnFrontend',
+            1000
+        );
+
+        /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::addEditLinkToAdminBarOnAdminArea */
+        $this->wpAddAction(
+            'admin_bar_menu',
+            'addEditLinkToAdminBarOnAdminArea',
             1000
         );
 
@@ -78,7 +85,7 @@ class Controller extends Container implements Module
             $link .= sprintf(
                 ' <a href="%s">%s</a>',
                 $url,
-                __('Edit with Visual Composer', 'visualcomposer')
+                $this->getEditPostLinkText()
             );
         }
 
@@ -86,23 +93,18 @@ class Controller extends Container implements Module
     }
 
     /**
+     * Add link to admin bar when your log in and browse frontend site area.
+     *
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
-     * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    protected function adminBarEditLink(
+    protected function addEditLinkToAdminBarOnFrontend(
         $wpAdminBar,
         Frontend $frontendHelper,
-        UserCapabilities $userCapabilitiesHelper,
-        Url $urlHelper
+        UserCapabilities $userCapabilitiesHelper
     ) {
-        if (!is_object($wpAdminBar)) {
-            // @codingStandardsIgnoreStart
-            global $wp_admin_bar;
-            $wpAdminBar = $wp_admin_bar;
-            // @codingStandardsIgnoreEnd
-        }
+        $wpAdminBar = $this->getAdminBar($wpAdminBar);
 
         $sourceId = get_the_ID();
         if (
@@ -112,12 +114,27 @@ class Controller extends Container implements Module
             $url = $frontendHelper->getFrontendUrl($sourceId);
             $wpAdminBar->add_menu(
                 [
-                    'id' => __('Edit with Visual Composer', 'visualcomposer'),
-                    'title' => __('Edit with Visual Composer', 'visualcomposer'),
+                    'id' => 'edit-with-visual-composer',
+                    'title' => $this->getEditPostLinkText(),
                     'href' => $url,
                 ]
             );
         }
+    }
+
+    /**
+     * Add link to admin bat + New submenu area in wordpress admin dashboard.
+     *
+     * @param \WP_Admin_Bar $wpAdminBar
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     */
+    protected function addEditLinkToAdminBarOnAdminArea(
+        $wpAdminBar,
+        UserCapabilities $userCapabilitiesHelper,
+        Url $urlHelper
+    ) {
+        $wpAdminBar = $this->getAdminBar($wpAdminBar);
 
         $cpts = (array)get_post_types(['show_in_admin_bar' => true], 'objects');
         // Add any additional custom post types.
@@ -146,6 +163,27 @@ class Controller extends Container implements Module
     }
 
     /**
+     * Get admin bar object.
+     *
+     * @param object|null $wpAdminBar
+     *
+     * @return mixed
+     */
+    protected function getAdminBar($wpAdminBar)
+    {
+        if (is_object($wpAdminBar)) {
+            return $wpAdminBar;
+        }
+
+        // @codingStandardsIgnoreStart
+        global $wp_admin_bar;
+        $wpAdminBar = $wp_admin_bar;
+        // @codingStandardsIgnoreEnd
+
+        return $wpAdminBar;
+    }
+
+    /**
      * @param $actions
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
@@ -166,10 +204,20 @@ class Controller extends Container implements Module
             $actions['edit_vc5'] = sprintf(
                 '<a href="%s" class="vcv-edit-with-vcwb">%s</a>',
                 $url,
-                __('Edit with Visual Composer', 'visualcomposer')
+                $this->getEditPostLinkText()
             );
         }
 
         return $actions;
+    }
+
+    /**
+     * Get text for a Edit Post Link with our plugin.
+     *
+     * @return string|null
+     */
+    protected function getEditPostLinkText()
+    {
+        return __('Edit with Visual Composer', 'visualcomposer');
     }
 }
