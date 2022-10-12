@@ -122,6 +122,8 @@ add('wordpressWorkspace', (api) => {
     }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      workspaceStorage.state('navbarDisabled').set(false)
+      // Fix if navbar is still not loaded
       window.setTimeout(() => {
         workspaceStorage.state('navbarDisabled').set(false)
       }, 300)
