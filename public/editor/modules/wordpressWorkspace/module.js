@@ -122,7 +122,9 @@ add('wordpressWorkspace', (api) => {
     }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-      workspaceStorage.state('navbarDisabled').set(false)
+      window.setTimeout(() => {
+        workspaceStorage.state('navbarDisabled').set(false)
+      }, 1000)
       // Remove Current Post Source-CSS to avoid cascading issues
       const sourceCss = env('iframe').document.querySelector('link[id*="assets:source:main:styles"][href$="-' + dataManager.get('sourceID') + '"]')
       if (sourceCss) {
