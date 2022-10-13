@@ -97,33 +97,60 @@ class Controller extends Container implements Module
      *
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      */
     protected function addEditLinkToAdminBarOnFrontend(
         $wpAdminBar,
-        Frontend $frontendHelper,
-        UserCapabilities $userCapabilitiesHelper
+        Frontend $frontendHelper
     ) {
         $wpAdminBar = $this->getAdminBar($wpAdminBar);
-
         $sourceId = get_the_ID();
-        if (
-            $userCapabilitiesHelper->canEdit($sourceId)
-            && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => $sourceId])
-        ) {
-            $url = $frontendHelper->getFrontendUrl($sourceId);
-            $wpAdminBar->add_menu(
-                [
-                    'id' => 'edit-with-visual-composer',
-                    'title' => $this->getEditPostLinkText(),
-                    'href' => $url,
-                ]
-            );
+
+        if (!$this->isShowEditLinkToAdminBarOnFrontend($sourceId)) {
+            return;
         }
+
+        $url = $frontendHelper->getFrontendUrl($sourceId);
+        $wpAdminBar->add_menu(
+            [
+                'id' => 'edit-with-visual-composer',
+                'title' => $this->getEditPostLinkText(),
+                'href' => $url,
+            ]
+        );
     }
 
     /**
-     * Add link to admin bat + New submenu area in wordpress admin dashboard.
+     * Check if we need to show edit link to admin bar on frontend.
+     *
+     * @param int $sourceId
+     *
+     * @return bool
+     */
+    protected function isShowEditLinkToAdminBarOnFrontend($sourceId)
+    {
+        $accessUserCapabilitiesHelper = vchelper('AccessUserCapabilities');
+        if (!$accessUserCapabilitiesHelper->canEdit($sourceId)) {
+            return false;
+        }
+
+        if (is_front_page()) {
+            // wp settings reading section home page option
+            $pageOnFrontId = get_option('page_on_front');
+
+            if (!$pageOnFrontId) {
+                return false;
+            }
+        }
+
+        if (is_archive() || is_search() || is_404()) {
+            return false;
+        }
+
+        return vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => $sourceId]);
+    }
+
+    /**
+     * Add link to admin bar New+ submenu area in wordpress admin dashboard.
      *
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
