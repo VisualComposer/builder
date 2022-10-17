@@ -2391,7 +2391,7 @@ babel-eslint@10.1.0:
     eslint-visitor-keys "^1.0.0"
     resolve "^1.12.0"
 
-babel-jest@29.1.2, babel-jest@29.2.0, babel-jest@^29.2.0:
+babel-jest@29.2.0, babel-jest@^29.2.0:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-29.2.0.tgz#088624f037da90e69a06073305276cbd111d68a8"
   integrity sha512-c8FkrW1chgcbyBqOo7jFGpQYfVnb43JqjQGV+C2r94k2rZJOukYOZ6+csAqKE4ms+PHc+yevnONxs27jQIxylw==
@@ -3193,16 +3193,15 @@ css-loader@6.7.1:
     postcss-value-parser "^4.2.0"
     semver "^7.3.5"
 
-css-minimizer-webpack-plugin@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-3.1.1.tgz#27bafa3b75054713565b2266c64b0228acd18634"
-  integrity sha512-KlB8l5uoNcf9F7i5kXnkxoqJGd2BXH4f0+Lj2vSWSmuvMLYO1kNsJ1KHSzeDW8e45/whgSOPcKVT/3JopkT8dg==
+css-minimizer-webpack-plugin@4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-4.2.2.tgz#79f6199eb5adf1ff7ba57f105e3752d15211eb35"
+  integrity sha512-s3Of/4jKfw1Hj9CxEO1E5oXhQAxlayuHO2y/ML+C6I9sQ7FdzfEV6QgMLN3vI+qFsjJGIAFLKtQK7t8BOXAIyA==
   dependencies:
-    cssnano "^5.0.6"
-    jest-worker "^27.0.2"
-    p-limit "^3.0.2"
-    postcss "^8.3.5"
-    schema-utils "^3.1.0"
+    cssnano "^5.1.8"
+    jest-worker "^29.1.2"
+    postcss "^8.4.17"
+    schema-utils "^4.0.0"
     serialize-javascript "^6.0.0"
     source-map "^0.6.1"
 
@@ -3291,7 +3290,7 @@ cssnano-utils@^3.1.0:
   resolved "https://registry.yarnpkg.com/cssnano-utils/-/cssnano-utils-3.1.0.tgz#95684d08c91511edfc70d2636338ca37ef3a6861"
   integrity sha512-JQNR19/YZhz4psLX/rQ9M83e3z2Wf/HdJbryzte4a3NSuafyp9w/I4U+hx5C2S9g41qlstH7DEWnZaaj83OuEA==
 
-cssnano@5.1.13, cssnano@^5.0.2, cssnano@^5.0.6:
+cssnano@5.1.13, cssnano@^5.0.2, cssnano@^5.1.8:
   version "5.1.13"
   resolved "https://registry.yarnpkg.com/cssnano/-/cssnano-5.1.13.tgz#83d0926e72955332dc4802a7070296e6258efc0a"
   integrity sha512-S2SL2ekdEz6w6a2epXn4CmMKU4K3KpcyXLKfAYc9UQQqJRkD/2eLUG0vJ3Db/9OvO5GuAdgXw3pFbR6abqghDQ==
@@ -4001,7 +4000,7 @@ eslint-visitor-keys@^3.3.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-3.3.0.tgz#f6480fa6b1f30efe2d1968aa8ac745b862469826"
   integrity sha512-mQ+suqKJVyeuwGYHAdjMFqjCyfl8+Ldnxuyp3ldiMBFKkvytrXUZWaiPCEav8qDHKty44bD+qV1IP4T+w+xXRA==
 
-eslint@7.32.0, eslint@8.25.0:
+eslint@8.25.0:
   version "8.25.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.25.0.tgz#00eb962f50962165d0c4ee3327708315eaa8058b"
   integrity sha512-DVlJOZ4Pn50zcKW5bYH7GQK/9MsoQG2d5eDH0ebEkE8PbgzTTmtt/VTH9GGJ4BfeZCpBLqFfvsjX35UacUL83A==
@@ -4178,10 +4177,10 @@ expect@^29.2.0:
     jest-message-util "^29.2.0"
     jest-util "^29.2.0"
 
-exports-loader@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/exports-loader/-/exports-loader-3.1.0.tgz#a68040b902da8ef24f9f6db716be904ac2455284"
-  integrity sha512-zkMR5OHDn8qHq2w5BLv6SnLmUK5QAtPkjTA7CNIYBB9kIxBFIeA+TA1GcMw3p/vn5Avnmq80L7MviA4tZclRmQ==
+exports-loader@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/exports-loader/-/exports-loader-4.0.0.tgz#af34fe80a18f12fb0f42f435edd7df0fe9db49bb"
+  integrity sha512-4iqFFIAnlVAbkAUMHhWceyxK6N6dMDWpQFbSHLmiayGEPMXl2bgWD4D11GYi1VNuEQwJaHGdATcPYTnXpwzSmw==
   dependencies:
     source-map "^0.6.1"
 
@@ -5140,7 +5139,7 @@ jest-circus@^29.2.0:
     slash "^3.0.0"
     stack-utils "^2.0.3"
 
-jest-cli@29.1.2, jest-cli@29.2.0, jest-cli@^29.2.0:
+jest-cli@29.2.0, jest-cli@^29.2.0:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/jest-cli/-/jest-cli-29.2.0.tgz#c6ca40889d6671c38b1cf9119d3b653809f31a3a"
   integrity sha512-/581TzbXeO+5kbtSlhXEthGiVJCC8AP0jgT0iZINAAMW+tTFj2uWU7z+HNUH5yIYdHV7AvRr0fWLrmHJGIruHg==
@@ -5514,7 +5513,7 @@ jest-watcher@^29.2.0:
     jest-util "^29.2.0"
     string-length "^4.0.1"
 
-jest-worker@^27.0.2, jest-worker@^27.4.5:
+jest-worker@^27.4.5:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.5.1.tgz#8d146f0900e8973b106b6f73cc1e9a8cb86f8db0"
   integrity sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==
@@ -5523,7 +5522,7 @@ jest-worker@^27.0.2, jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jest-worker@^29.2.0:
+jest-worker@^29.1.2, jest-worker@^29.2.0:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-29.2.0.tgz#b2bd1a81fc7a1ae79a500b05f5feb0d1c0b1a19e"
   integrity sha512-mluOlMbRX1H59vGVzPcVg2ALfCausbBpxC8a2KWOzInhYHZibbHH8CB0C1JkmkpfurrkOYgF7FPmypuom1OM9A==
@@ -5702,7 +5701,7 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-klona@^2.0.4:
+klona@^2.0.4, klona@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
@@ -5732,10 +5731,10 @@ lazy-ass@^1.6.0:
   resolved "https://registry.yarnpkg.com/lazy-ass/-/lazy-ass-1.6.0.tgz#7999655e8646c17f089fdd187d150d3324d54513"
   integrity sha512-cc8oEVoctTvsFZ/Oje/kGnHbpWHYBe8IAJe4C0QNc3t8uM/0Y8+erSz/7Y1ALuXTEZTMvxXwO6YbX1ey3ujiZw==
 
-less-loader@10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/less-loader/-/less-loader-10.2.0.tgz#97286d8797dc3dc05b1d16b0ecec5f968bdd4e32"
-  integrity sha512-AV5KHWvCezW27GT90WATaDnfXBv99llDbtaj4bshq6DvAihMdNjaPDcUMa6EXKLRF+P2opFenJp89BXg91XLYg==
+less-loader@11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/less-loader/-/less-loader-11.1.0.tgz#a452384259bdf8e4f6d5fdcc39543609e6313f82"
+  integrity sha512-C+uDBV7kS7W5fJlUjq5mPBeBVhYpTIm5gB09APT9o3n/ILeaXVsiSFTbZpTJCJwQ/Crczfn3DmfQFwxYusWFug==
   dependencies:
     klona "^2.0.4"
 
@@ -5815,7 +5814,7 @@ loader-utils@^1.1.0:
     emojis-list "^3.0.0"
     json5 "^1.0.1"
 
-loader-utils@^2.0.0, loader-utils@~2.0.0:
+loader-utils@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.2.tgz#d6e3b4fb81870721ae4e0868ab11dd638368c129"
   integrity sha512-TM57VeHptv569d/GKh6TAYdzKblwDNiumOdkFnejjD0XwTH87K90w3O7AiJRqdQoXygvi1VQTJTLGhJl7WqA7A==
@@ -6624,14 +6623,14 @@ postcss-each@1.1.0:
     postcss "^6.0.9"
     postcss-value-parser "^3.3.0"
 
-postcss-loader@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-6.2.0.tgz#714370a3f567141cf4cadcdf9575f5234d186bc5"
-  integrity sha512-H9hv447QjQJVDbHj3OUdciyAXY3v5+UDduzEytAlZCVHCpNAAg/mCSwhYYqZr9BiGYhmYspU8QXxZwiHTLn3yA==
+postcss-loader@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-7.0.1.tgz#4c883cc0a1b2bfe2074377b7a74c1cd805684395"
+  integrity sha512-VRviFEyYlLjctSM93gAZtcJJ/iSkPZ79zWbN/1fSH+NisBByEiVLqpdVDrPLVSi8DX0oJo12kL/GppTBdKVXiQ==
   dependencies:
     cosmiconfig "^7.0.0"
-    klona "^2.0.4"
-    semver "^7.3.5"
+    klona "^2.0.5"
+    semver "^7.3.7"
 
 postcss-math@0.0.10:
   version "0.0.10"
@@ -6726,12 +6725,12 @@ postcss-modules-values@^4.0.0:
   dependencies:
     icss-utils "^5.0.0"
 
-postcss-nested@5.0.6:
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-5.0.6.tgz#466343f7fc8d3d46af3e7dba3fcd47d052a945bc"
-  integrity sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==
+postcss-nested@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-6.0.0.tgz#1572f1984736578f360cffc7eb7dca69e30d1735"
+  integrity sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==
   dependencies:
-    postcss-selector-parser "^6.0.6"
+    postcss-selector-parser "^6.0.10"
 
 postcss-normalize-charset@^5.1.0:
   version "5.1.0"
@@ -6827,7 +6826,7 @@ postcss-reduce-transforms@^5.1.0:
   dependencies:
     postcss-value-parser "^4.2.0"
 
-postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4, postcss-selector-parser@^6.0.5, postcss-selector-parser@^6.0.6, postcss-selector-parser@^6.0.9:
+postcss-selector-parser@^6.0.10, postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4, postcss-selector-parser@^6.0.5, postcss-selector-parser@^6.0.9:
   version "6.0.10"
   resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.0.10.tgz#79b61e2c0d1bfc2602d549e11d0876256f8df88d"
   integrity sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==
@@ -6865,7 +6864,7 @@ postcss-value-parser@^4.1.0, postcss-value-parser@^4.2.0:
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@8.4.16, postcss@8.4.18, postcss@^5.0.19, postcss@^5.0.4, postcss@^6.0.21, postcss@^6.0.23, postcss@^6.0.9, postcss@^6.x, postcss@^7.0.6, postcss@^8.2.1, postcss@^8.3.5, postcss@^8.4.7:
+postcss@8.4.16, postcss@8.4.18, postcss@^5.0.19, postcss@^5.0.4, postcss@^6.0.21, postcss@^6.0.23, postcss@^6.0.9, postcss@^6.x, postcss@^7.0.6, postcss@^8.2.1, postcss@^8.4.17, postcss@^8.4.7:
   version "8.4.16"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.16.tgz#33a1d675fac39941f5f445db0de4db2b6e01d43c"
   integrity sha512-ipHE1XBvKzm5xI7hiHCZJCSugxvsdq2mPnsq5+UF+VHCjiBvtDrlxJfMBToWaP9D5XlgNmcFGqoHmUn0EYEaRQ==
@@ -7066,7 +7065,7 @@ react-custom-scrollbars@4.2.1:
     prop-types "^15.5.10"
     raf "^3.1.0"
 
-react-datepicker@3.5.0, react-datepicker@4.8.0:
+react-datepicker@4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-4.8.0.tgz#11b8918d085a1ce4781eee4c8e4641b3cd592010"
   integrity sha512-u69zXGHMpxAa4LeYR83vucQoUCJQ6m/WBsSxmUMu/M8ahTSVMMyiyQzauHgZA2NUr9y0FUgOAix71hGYUb6tvg==
@@ -7845,13 +7844,12 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-svg-url-loader@7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-7.1.1.tgz#0cbdb30beb8679cb060c12eaf30085747fa7591f"
-  integrity sha512-NlsMCePODm7FQhU9aEZyGLPx5Xe1QRI1cSEUE6vTq5LJc9l9pStagvXoEIyZ9O3r00w6G3+Wbkimb+SC3DI/Aw==
+svg-url-loader@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-8.0.0.tgz#05d57af5b19d7caa39624a88e3cd535243634991"
+  integrity sha512-5doSXvl18hY1fGsRLdhWAU5jgzgxJ06/gc/26cpuDnN0xOz1HmmfhkpL29SSrdIvhtxQ1UwGzmk7wTT/l48mKw==
   dependencies:
     file-loader "~6.2.0"
-    loader-utils "~2.0.0"
 
 svgo@^2.7.0:
   version "2.8.0"
@@ -8226,16 +8224,15 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-util@0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/util/-/util-0.12.4.tgz#66121a31420df8f01ca0c464be15dfa1d1850253"
-  integrity sha512-bxZ9qtSlGUWSOy9Qa9Xgk11kSslpuZwaxCg4sNIDj6FLucDab2JxnHwyNTCpHMtK1MjoQiWQ6DiUMZYbSrO+Sw==
+util@0.12.5:
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/util/-/util-0.12.5.tgz#5f17a6059b73db61a875668781a1c2b136bd6fbc"
+  integrity sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==
   dependencies:
     inherits "^2.0.3"
     is-arguments "^1.0.4"
     is-generator-function "^1.0.7"
     is-typed-array "^1.1.3"
-    safe-buffer "^5.1.2"
     which-typed-array "^1.1.2"
 
 uuid@^8.3.2:
@@ -8266,10 +8263,10 @@ vc-helpers@0.0.4:
   resolved "https://registry.yarnpkg.com/vc-helpers/-/vc-helpers-0.0.4.tgz#4d7b321c449f11bee8833214a7e5ea04230a7286"
   integrity sha512-SIN8tVo6jTk6AYQ9UwMz7y51oIeDGxZ1LLbzjfwK0S6RTTu+hzx6dDZmaNgGd/sIh3QyM8DpF4C5GLoqxvJKQw==
 
-vc-webpack-vendors@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.3.2.tgz#89218a47a8d01cd316e2b19dd2f89179b03d3b0f"
-  integrity sha512-k76UbpxD0hCI6j91Th5Dp7oJw1ecQf3k7vo3KYrGbhbXNOvk4mApTHEPaNjcr2Jd8Y9BIpvSOSWB+tQTdn30kw==
+vc-webpack-vendors@3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.3.3.tgz#de3497c7e54ca9678d17b2becca7c9484e43f7cf"
+  integrity sha512-xGpCs/99TbEsz+7EYUS6KeUO0UxhSTTK0oKaED0QasUT54Y4cO/VxQBX8mPeU4nqccgU3yKGWJBQQzvJhiveSw==
   dependencies:
     "@babel/cli" "7.19.3"
     "@babel/core" "7.19.3"
@@ -8285,7 +8282,7 @@ vc-webpack-vendors@3.3.2:
     "@types/react-dom" "18.0.6"
     autoprefixer "10.4.12"
     babel-eslint "10.1.0"
-    babel-jest "29.1.2"
+    babel-jest "29.2.0"
     babel-loader "8.2.5"
     base-64 "1.0.0"
     buffer "6.0.3"
@@ -8297,20 +8294,20 @@ vc-webpack-vendors@3.3.2:
     create-react-class "15.7.0"
     crypto-browserify "3.12.0"
     css-loader "6.7.1"
-    css-minimizer-webpack-plugin "3.1.1"
+    css-minimizer-webpack-plugin "4.2.2"
     cssnano "5.1.13"
     cypress "10.10.0"
     cypress-log-to-output "1.1.2"
-    eslint "7.32.0"
+    eslint "8.25.0"
     event-emitter "0.3.5"
-    exports-loader "3.1.0"
+    exports-loader "4.0.0"
     file-loader "6.2.0"
     form-serialize "0.7.2"
     fs-extra "10.1.0"
     identity-obj-proxy "3.0.0"
-    jest-cli "29.1.2"
+    jest-cli "29.2.0"
     less "4.1.3"
-    less-loader "10.2.0"
+    less-loader "11.1.0"
     lodash "4.17.21"
     mini-css-extract-plugin "2.6.1"
     mobile-detect "1.4.5"
@@ -8328,9 +8325,9 @@ vc-webpack-vendors@3.3.2:
     postcss-custom-properties "12.1.9"
     postcss-each "1.1.0"
     postcss-functions "git+https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1"
-    postcss-loader "6.2.0"
+    postcss-loader "7.0.1"
     postcss-math "0.0.10"
-    postcss-nested "5.0.6"
+    postcss-nested "6.0.0"
     postcss-prefix-url "git+https://github.com/wpbakery/postcss-prefix-url.git#6c97a12d67e0cd6ecc49801bebca81cd56db0011"
     prop-types "15.8.1"
     raw-loader "1.0.0"
@@ -8338,7 +8335,7 @@ vc-webpack-vendors@3.3.2:
     react-addons-shallow-compare "15.6.3"
     react-color "2.19.3"
     react-custom-scrollbars "4.2.1"
-    react-datepicker "3.5.0"
+    react-datepicker "4.8.0"
     react-dom "18.2.0"
     react-redux "8.0.4"
     react-slick "0.29.0"
@@ -8349,13 +8346,13 @@ vc-webpack-vendors@3.3.2:
     stream-browserify "3.0.0"
     striptags "3.2.0"
     style-loader "3.3.1"
-    svg-url-loader "7.1.1"
+    svg-url-loader "8.0.0"
     terser-webpack-plugin "5.3.6"
     ts-loader "9.4.1"
     typescript "4.8.4"
     url "0.11.0"
     url-loader "4.1.1"
-    util "0.12.4"
+    util "0.12.5"
     vc-cake "1.1.1"
     vc-helpers "0.0.4"
     virtual-module-webpack-plugin "0.4.1"
