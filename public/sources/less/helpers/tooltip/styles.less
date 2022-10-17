@@ -94,8 +94,7 @@
 }
 
 .vcv-ui-editor-search-container .vcv-tooltip-container .vcv-ui-icon-question,
-.vcv-ui-panel-heading .vcv-tooltip-container .vcv-ui-icon-question,
-.vcv-ui-edit-form-section-header .vcv-tooltip-container .vcv-ui-icon-question {
+.vcv-ui-panel-heading .vcv-tooltip-container .vcv-ui-icon-question {
   &:hover {
     color: #fff;
   }
@@ -104,6 +103,17 @@
     color: #fff;
   }
 }
+
+.vcv-ui-edit-form-section-header .vcv-tooltip-container {
+  .vcv-ui-icon-question {
+    color: #C6CBD4;
+    &:hover,
+    &.vcv-ui-icon--active {
+      color: #16243F;
+    }
+  }
+}
+
 
 .vcv-ui-modal-header-tooltip {
   flex-grow: 1;

@@ -33,7 +33,6 @@ const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
       <AccordionPanel
         key='general'
         sectionTitle={generalText}
-        isChevron={true}
         classes='general-section'
         isExpanded={true}
       >
@@ -49,7 +48,6 @@ const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
       <AccordionPanel
         key='featuredImage'
         sectionTitle={featuredImage}
-        isChevron={true}
         classes='featured-image-section'
         isExpanded={false}
       >
@@ -67,7 +65,6 @@ const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
         key='categories'
         sectionTitle={categoriesTitle}
         tooltipText={categoriesDescription}
-        isChevron={true}
         classes='categories-section'
         isExpanded={false}
       >
@@ -84,7 +81,6 @@ const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
         key='tags'
         sectionTitle={tagsText}
         tooltipText={tagsDescription}
-        isChevron={true}
         classes='tags-section'
         isExpanded={false}
       >
@@ -102,7 +98,6 @@ const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
         key='excerpt'
         sectionTitle={settingName}
         tooltipText={excerptsAreOptional}
-        isChevron={true}
         classes='excerpt-section'
         isExpanded={false}
       >
@@ -117,7 +112,6 @@ const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
       <AccordionPanel
         key='discussion'
         sectionTitle={settingName}
-        isChevron={true}
         classes='discussion-section'
         isExpanded={false}
       >
@@ -132,7 +126,6 @@ const Sidebar: React.FC<Props> = ({ toggleSettings }) => {
       <AccordionPanel
         key='author'
         sectionTitle={authorTitle}
-        isChevron={true}
         classes='author-section'
         isExpanded={false}
       >
