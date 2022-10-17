@@ -399,6 +399,10 @@
   > .vcv-ui-edit-form-section-content {
     display: none;
   }
+
+  .vcv-ui-icon-chevron-thick {
+    transform: rotate(180deg);
+  }
 }
 
 .vcv-ui-edit-form-section-header {
@@ -406,9 +410,9 @@
   align-items: center;
   position: relative;
   padding: @edit-form-section-header-padding;
-  color: @edit-form-text-color-white;
-  background: @edit-form-section-header-background-color;
-  border-top: @edit-form-section-border;
+  color: #62666D;
+  background-color: transparent;
+  border-top: 1px solid #EAEAEA;
   white-space: nowrap;
   text-overflow: ellipsis;
   cursor: pointer;
@@ -416,7 +420,17 @@
   transition: background @transition-duration @transition-timing-function;
 
   &:hover {
-    background: @edit-form-section-header-background-hover-color;
+    .vcv-ui-icon-chevron-thick {
+      color: #62666D;
+    }
+  }
+
+  .vcv-ui-icon-chevron-thick {
+    margin-left: auto;
+    font-size: 9px;
+    color: #C6CBD4;
+    transition: color @vcv-transition-duration @vcv-transition-timing-function;
+    pointer-events: none;
   }
 }
 
@@ -424,20 +438,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-grow: 1;
 }
 
 .vcv-ui-edit-form-section-header-control {
   width: 22px;
   justify-content: center;
   cursor: pointer;
-  color: #fff;
+  color: #C6CBD4;
   font-size: 1.2em;
   transition: opacity .2s;
   display: inline-flex;
+  margin-left: 8px;
 
   &:hover {
-    opacity: .5;
+    color: #62666D;
   }
 
   .vcv-ui-icon {
@@ -450,12 +464,12 @@
   justify-content: center;
   margin-right: 7px;
   cursor: pointer;
-  color: #fff;
+  color: #C6CBD4;
   transition: opacity .2s;
   display: inline-flex;
 
   &:hover {
-    opacity: .5;
+    color: #62666D;
   }
 
   .vcv-ui-icon {
