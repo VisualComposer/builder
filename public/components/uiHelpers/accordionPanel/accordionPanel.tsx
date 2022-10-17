@@ -6,12 +6,11 @@ interface Props {
   children: React.ReactNode,
   sectionTitle: string,
   tooltipText?: string,
-  isChevron: boolean,
   classes: string,
   isExpanded: boolean
 }
 
-const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, isChevron = false, classes, isExpanded }) => {
+const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, classes, isExpanded }) => {
   const [isActive, setIsActive] = useState(isExpanded)
 
   const handleClickToggleSection = (e: React.MouseEvent) => {
@@ -39,7 +38,6 @@ const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, 
       </Tooltip>
     )
   }
-  const chevron = isChevron ? <i className='vcv-ui-icon vcv-ui-icon-chevron-thick' /> : null
 
   return (
     <div className={sectionClasses}>
@@ -48,7 +46,7 @@ const AccordionPanel: React.FC<Props> = ({ children, sectionTitle, tooltipText, 
           {sectionTitle}
         </span>
         {tooltip}
-        {chevron}
+        <i className='vcv-ui-icon vcv-ui-icon-chevron-thick' />
       </div>
       <div className='vcv-ui-edit-form-section-content'>
         {children}
