@@ -103,8 +103,8 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
 
     return (
       <div {...customProps} className={classes} {...editor}>
-        <div className={wrapperClasses}>
-          <div className={backgroundClasses} id={'el-' + id} {...doAll}>
+        <div id={'el-' + id} className={wrapperClasses}>
+          <div className={backgroundClasses} {...doAll}>
             <CustomTag className={innerClasses} {...innerCustomProps}>
               {headingHtml}
             </CustomTag>
