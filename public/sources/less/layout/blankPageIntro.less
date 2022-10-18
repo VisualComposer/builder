@@ -44,47 +44,8 @@
     }
   }
 
-  .vcv-ui-edit-form-section.vcv-ui-edit-form-section--closed .vcv-ui-icon-chevron-thick {
-    transform: rotate(180deg);
-  }
-
-  .vcv-ui-edit-form-section.vcv-ui-edit-form-section--closed .vcv-ui-edit-form-section-header {
-    border-bottom: @blank-page-intro-settings-accordion-border;
-  }
-
-  .vcv-ui-edit-form-section-header {
-    color: @blank-page-intro-settings-section-header-color;
-    background-color: transparent;
-    border-top: none;
-
-    &:hover {
-      background-color: transparent;
-      .vcv-ui-icon-chevron-thick {
-        color: @blank-page-intro-settings-section-header-color;
-      }
-    }
-
-    .vcv-ui-icon-chevron-thick {
-      font-size: 9px;
-      color: @blank-page-intro-icons-color;
-      margin-left: auto;
-      transition: color @vcv-transition-duration @vcv-transition-timing-function;
-      pointer-events: none;
-    }
-  }
-
   .vcv-ui-edit-form-section-content {
-    border-bottom: @blank-page-intro-settings-accordion-border;
     padding: 0 20px 20px;
-  }
-
-  .vcv-tooltip-container .vcv-ui-icon-question {
-    color: @blank-page-intro-icons-color;
-  }
-
-  .vcv-ui-edit-form-section-header-title {
-    flex-grow: 0;
-    margin: 0;
   }
 
   .vcv-ui-edit-form-section-header .vcv-tooltip-container .vcv-ui-icon-question.vcv-ui-icon--active {
@@ -194,11 +155,11 @@
 
 .blank-page-settings-title {
   flex: 1 0 auto;
+  margin-right: 13px;
 }
 
-.blank-page-settings-title,
-.vcv-ui-edit-form-section-header-title {
-  margin-right: 13px;
+.vcv-ui-edit-form-section-header-title,
+.blank-page-settings-title {
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -225,7 +186,6 @@
 .template-groups-container {
   flex: 1 0 auto;
   margin-top: 30px;
-  //margin-right: 12px;
   margin-bottom: 40px;
 }
 
