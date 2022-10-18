@@ -30,7 +30,8 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
                     $this->callback(
                         function ($page) use (&$argsCallbackCalled) {
                             $this->assertTrue(is_array($page));
-                            if (strpos($page['id'], 'Edit') !== false) {
+
+                            if (strpos($page['id'], 'edit') !== false) {
                                 $this->assertEquals('Edit with Visual Composer', $page['title']);
                                 $this->assertTrue(
                                     strpos($page['href'], 'vcv-action=frontend&vcv-source-id=') !== false
@@ -50,7 +51,8 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
 
                 /** @var \VisualComposer\Modules\Editors\EditPostLinks\Controller $module */
                 $module = vc_create_module_mock('\VisualComposer\Modules\Editors\EditPostLinks\Controller');
-                $module->call('adminBarEditLink', ['wpAdminBar' => $wpAdminBar]);
+                $module->call('addEditLinkToAdminBarOnFrontend', ['wpAdminBar' => $wpAdminBar]);
+                $module->call('addEditLinkToAdminBarOnAdminArea', ['wpAdminBar' => $wpAdminBar]);
             }
         }
         $GLOBALS['wp_query'] = $backup;
