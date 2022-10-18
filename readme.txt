@@ -223,7 +223,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 == Changelog ==
 
 = 45.1.0 =
-*Release Date - 2022-10-13*
+*Release Date - 2022-10-19*
 
 ### Free:
 - Update: CSS Animations for elements improved (Contribution by Lucas Selsek)
@@ -237,6 +237,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 - Fix: Translation of WordPress works properly with Visual Composer and WooCommerce installed
 
 ### Premium:
+- Compatibility: Theme Builder works properly with WooCommerce 7
 - Fix: Font Manager and post grid elements work properly
 - Fix: CounterUp element works properly
 - Fix: Template import works properly
