@@ -472,7 +472,7 @@
       css(element.parentElement, parseCss({ position: '', width: '', top: '', left: '' }, isFullWidth));
     }
 
-    const elementRect = element.getBoundingClientRect();
+    const elementRect = setTimeout(() =>{ element.getBoundingClientRect()}, 0);
 
     const body = document.body;
     const docEl = document.documentElement;

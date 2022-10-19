@@ -106,6 +106,24 @@ addStorage('wordpressData', (storage) => {
       if (featuredImageData) {
         featuredImageData.initialSet = true
       }
+      let postData = {}
+      if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
+        postData = responseData.postData
+      }
+      if (Object.prototype.hasOwnProperty.call(responseData, 'postFields')) {
+        const postFields = responseData.postFields
+        if (Object.prototype.hasOwnProperty.call(postFields, 'dynamicFieldCustomPostData')) {
+          const customPostData = postFields.dynamicFieldCustomPostData
+          Object.keys(customPostData).forEach((key) => {
+            const item = customPostData[key]
+            postData[key] = item.postData
+            postFields[key] = item.postFields
+          })
+        }
+        settingsStorage.state('postFields').set(postFields)
+      }
+      settingsStorage.state('postData').set(postData)
+
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
         empty = true
@@ -132,23 +150,6 @@ addStorage('wordpressData', (storage) => {
       if (responseData.elementsCssData) {
         cacheStorage.state('elementsCssCache').set(responseData.elementsCssData)
       }
-      let postData = {}
-      if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
-        postData = responseData.postData
-      }
-      if (Object.prototype.hasOwnProperty.call(responseData, 'postFields')) {
-        const postFields = responseData.postFields
-        if (Object.prototype.hasOwnProperty.call(postFields, 'dynamicFieldCustomPostData')) {
-          const customPostData = postFields.dynamicFieldCustomPostData
-          Object.keys(customPostData).forEach((key) => {
-            const item = customPostData[key]
-            postData[key] = item.postData
-            postFields[key] = item.postFields
-          })
-        }
-        settingsStorage.state('postFields').set(postFields)
-      }
-      settingsStorage.state('postData').set(postData)
 
       if (responseData.cssSettings && Object.prototype.hasOwnProperty.call(responseData.cssSettings, 'custom')) {
         settingsStorage.state('customCss').set(responseData.cssSettings.custom || '')

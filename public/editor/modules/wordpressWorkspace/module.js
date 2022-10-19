@@ -1,6 +1,6 @@
 import { add, getStorage, getService, env, setData, getData, onDataChange } from 'vc-cake'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
 import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
@@ -89,30 +89,33 @@ add('wordpressWorkspace', (api) => {
       }
     })
 
-    ReactDOM.render(
+    const root = createRoot(layoutHeader)
+    root.render(
       <Provider store={store}>
         <WorkspaceCont />
-      </Provider>,
-      layoutHeader
+      </Provider>
     )
   }
 
   // Start blank overlay
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
   const iframeContainer = document.querySelector('.vcv-layout-iframe-container')
+  let iframeContentRoot = null
+  if (iframeContent) {
+    iframeContentRoot = createRoot(iframeContent)
+  }
 
   if (iframeContent) {
     const removeBlankIntro = () => {
-      ReactDOM.unmountComponentAtNode(iframeContent)
+      iframeContentRoot.unmount()
       workspaceStorage.state('blankPageIntro').set(false)
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
       iframeContainer.classList.remove('vcv-layout-iframe-container--intro')
     }
     const addBlankIntro = () => {
-      ReactDOM.render(
-        <BlankPageIntro unmountBlankPage={removeBlankIntro} />,
-        iframeContent
+      iframeContentRoot.render(
+        <BlankPageIntro unmountBlankPage={removeBlankIntro} />
       )
       iframeContainer.classList.add('vcv-layout-iframe-container--intro')
       workspaceStorage.state('navbarDisabled').set(true)
@@ -120,6 +123,10 @@ add('wordpressWorkspace', (api) => {
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
       workspaceStorage.state('navbarDisabled').set(false)
+      // Fix if navbar is still not loaded
+      window.setTimeout(() => {
+        workspaceStorage.state('navbarDisabled').set(false)
+      }, 300)
       // Remove Current Post Source-CSS to avoid cascading issues
       const sourceCss = env('iframe').document.querySelector('link[id*="assets:source:main:styles"][href$="-' + dataManager.get('sourceID') + '"]')
       if (sourceCss) {
