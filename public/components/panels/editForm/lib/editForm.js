@@ -8,6 +8,8 @@ import PremiumTeaser from 'public/components/premiumTeasers/component'
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 import { getService, getStorage, env } from 'vc-cake'
 
+import PanelNavigation from '../../panelNavigation'
+
 const dataManager = getService('dataManager')
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
@@ -25,7 +27,9 @@ export default class EditForm extends React.Component {
 
   constructor (props) {
     super(props)
+    this.allTabs = this.updateTabs(this.props)
     this.state = {
+      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
       isEditFormSettingsOpened: false,
       isElementReplaceOpened: props.options && props.options.isReplaceOpened ? props.options.isReplaceOpened : false,
       isVisible: workspaceContentState.get() === 'editElement'
@@ -35,6 +39,7 @@ export default class EditForm extends React.Component {
     this.toggleShowReplace = this.toggleShowReplace.bind(this)
     this.getPremiumTeaser = this.getPremiumTeaser.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
+    this.setActiveTab = this.setActiveTab.bind(this)
   }
 
   componentDidMount () {
@@ -139,19 +144,18 @@ export default class EditForm extends React.Component {
   }
 
   getAccordionSections (activeTabIndex) {
-    return this.allTabs.map((tab, index) => {
-      return (
-        <EditFormSection
-          {...this.props}
-          sectionIndex={index}
-          activeTabIndex={activeTabIndex}
-          getSectionContentScrollbar={() => { return this.scrollbar }}
-          key={tab.key}
-          tab={tab}
-          getReplaceShownStatus={this.getReplaceShownStatus}
-        />
-      )
-    })
+    const activeTab = this.allTabs.find((tab, index) => index === activeTabIndex)
+    return (
+      <EditFormSection
+        {...this.props}
+        sectionIndex={activeTab.index}
+        activeTabIndex={activeTabIndex}
+        getSectionContentScrollbar={() => { return this.scrollbar }}
+        key={activeTab.key}
+        tab={activeTab}
+        getReplaceShownStatus={this.getReplaceShownStatus}
+      />
+    )
   }
 
   getPremiumTeaser () {
@@ -245,10 +249,25 @@ export default class EditForm extends React.Component {
     return showElementReplaceIcon
   }
 
+  setActiveTab (type, index, activeSubControl) {
+    this.setState({activeTabIndex: index})
+  }
+
+  getTabs () {
+    const tabs = {}
+    this.allTabs.forEach((tab, i) => {
+      let title = tab.data.settings.options.label || tab.data.settings.options.tabLabel
+      tabs[tab.fieldKey] = {
+        index: i,
+        title: title,
+        type: tab.fieldKey
+      }
+    })
+    return tabs
+  }
+
   render () {
-    this.allTabs = this.updateTabs(this.props)
-    const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened } = this.state
-    const activeTabIndex = this.getActiveTabIndex(this.props.activeTabId)
+    const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened, activeTabIndex } = this.state
     const activeTab = this.allTabs[activeTabIndex]
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
 
@@ -276,6 +295,7 @@ export default class EditForm extends React.Component {
       'vcv-ui-tree-view-content-accordion': true,
       'vcv-ui-state--hidden': !this.state.isVisible
     })
+    const tabs = this.getTabs()
 
     return (
       <div className={editFormClasses}>
@@ -290,6 +310,11 @@ export default class EditForm extends React.Component {
           getReplaceShownStatus={this.getReplaceShownStatus}
         />
         <div className='vcv-ui-tree-content'>
+          <PanelNavigation
+            controls={tabs}
+            activeSection={activeTab.fieldKey}
+            setActiveSection={this.setActiveTab}
+          />
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted} initialScrollTop={this.props.options && this.props.options.replaceElementScrollTop}>
               <div className='vcv-ui-tree-content-section-inner'>

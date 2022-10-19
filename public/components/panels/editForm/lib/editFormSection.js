@@ -365,18 +365,6 @@ export default class EditFormSection extends React.Component {
 
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
-        {!isEditFormSettings && (
-          <div
-            className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
-            ref={header => { this.sectionHeader = header }}
-          >
-            {backButton}
-            <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
-            {tooltip}
-            {innerElementReplaceIcon}
-            <i className='vcv-ui-icon vcv-ui-icon-chevron-thick' />
-          </div>
-        )}
         <form className='vcv-ui-edit-form-section-content' onSubmit={isEditFormSettings && this.onSettingsSave}>
           {isEditFormSettings ? (
             <EditFormSettings
