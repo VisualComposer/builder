@@ -140,6 +140,12 @@ class Controller extends Container implements Module
             if (!$pageOnFrontId) {
                 return false;
             }
+        } elseif (is_home()) {
+            // wp settings reading section blog page option
+            $pageOnBlogId = get_option('page_for_posts');
+            if ($pageOnBlogId) {
+                return false;
+            }
         }
 
         if (is_archive() || is_search() || is_404()) {
