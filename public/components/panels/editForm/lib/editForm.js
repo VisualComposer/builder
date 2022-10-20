@@ -277,8 +277,8 @@ export default class EditForm extends React.Component {
     return showElementReplaceIcon
   }
 
-  setActiveTab (type, index, activeSubControl) {
-    this.setState({activeTabIndex: index})
+  setActiveTab (type, index) {
+    this.setState({ activeTabIndex: index })
   }
 
   getTabs () {
@@ -287,7 +287,7 @@ export default class EditForm extends React.Component {
     // Show General tab if none of the permitted tabs are specified
     const isDeprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
     if (isDeprecatedTabs.length) {
-      tabs['general'] = {
+      tabs.general = {
         index: 0,
         title: 'General',
         type: 'general',
@@ -296,10 +296,9 @@ export default class EditForm extends React.Component {
     }
     this.allTabs.forEach((tab, i) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
-        let title = tab.data.settings.options.label || tab.data.settings.options.tabLabel
         tabs[tab.fieldKey] = {
           index: isDeprecatedTabs.length ? i + 1 : i,
-          title: title,
+          title: tab.data.settings.options.label || tab.data.settings.options.tabLabel,
           type: tab.fieldKey,
           key: tab.key
         }
