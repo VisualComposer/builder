@@ -750,6 +750,11 @@ export default class DndDataSet {
     if (e.target && e.target.closest('[data-vcv-content-editable-inline-mode]')) {
       return
     }
+    const isElementLocked = e.currentTarget.getAttribute('data-vcv-element-locked')
+    if (isElementLocked) {
+      return
+    }
+
     const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
     workspaceStorage.trigger('edit', id)
   }
