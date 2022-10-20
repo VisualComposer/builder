@@ -22,7 +22,7 @@ export default class Attribute extends React.Component {
 
     this.setFieldValue = this.setFieldValue.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.updateValue = lodash.debounce(this.updateValue.bind(this), 0)
+    this.updateNewValue = lodash.debounce(this.updateNewValue.bind(this), 0)
   }
 
   componentDidUpdate (prevProps) {
@@ -41,14 +41,14 @@ export default class Attribute extends React.Component {
     this.setFieldValue(event.currentTarget.value)
   }
 
-  updateValue () {
+  updateNewValue () {
     const { updater, fieldKey, fieldType } = this.props
     updater(fieldKey, this.state.value, null, fieldType)
   }
 
   setFieldValue (value) {
     this.setState({ value: value })
-    this.updateValue()
+    this.updateNewValue()
   }
 
   getCustomDevices () {
