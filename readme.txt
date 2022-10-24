@@ -3,8 +3,8 @@ Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,orkunaybek
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 7.4
 Requires at least: 5.5
-Tested up to: 6.0
-Stable tag: 45.0.1
+Tested up to: 6.0.2
+Stable tag: 45.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,43 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 45.1.0 =
+*Release Date - 2022-10-19*
+
+### Free:
+- Update: CSS Animations for elements improved (Contribution by Lucas Selsek)
+- Update: Plugin activation process improved
+- Update: Plugin code style updated
+- Compatibility: WPML and Visual Composer compatibility improved
+- Compatibility: Contact Form 7 works properly in Visual Composer
+- Compatibility: Yoast SEO breadcrumbs work properly in Visual Composer
+- Fix: Global Custom CSS works properly
+- Fix: Initial welcome survey works properly
+- Fix: Translation of WordPress works properly with Visual Composer and WooCommerce installed
+
+### Premium:
+- Compatibility: Theme Builder works properly with WooCommerce 7
+- Fix: Font Manager and post grid elements work properly
+- Fix: CounterUp element works properly
+- Fix: Template import works properly
+- Fix: Popups in a sitewide header work properly
+- Fix: Font Manager does not impact the CSS styles of the buttons
+- Fix: Font Manager does not apply unneeded underline for images and widgets
+- Fix: Disabling header and footer works properly
+- Fix: Popups added in the Theme Builder layouts work properly
+- Fix: Bulk import works properly
+- Fix: Dynamic content and ACF works properly
+- Fix: Layout width works properly with the Global Template element
+- Fix: Gap controls work properly in Twenty Twenty One theme
+- Fix: Replace option for headers, footers, and sidebars work properly
+- Fix: Link selection works properly in the Typewriter Heading element
+- Fix: Countdown Timer element works properly
+- Fix: Enabling filters for post grids works properly when working with pages
+- Fix: An empty post title does not take space in the layout
+- Fix: Php directive "allow_url_fopen" works properly with the Visual Composer import/export
+- Fix: Theme Builder layouts work properly in block themes
+- Fix: Tab links are working properly when linking to another tab
 
 = 45.0.1 =
 *Release Date - 2022-09-01*
