@@ -39,6 +39,7 @@ const RightClickMenu = () => {
     enableScroll(iframeWindow)
 
     menuRoot && menuRoot.unmount()
+    menuRoot = null
     layoutStorage.state('rightClickMenuActive').set(false)
   }
 
