@@ -156,7 +156,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Add link to admin bar New+ submenu area in wordpress admin dashboard.
+     * Add link to admin bar New+ submenu area in WordPress admin dashboard.
      *
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
