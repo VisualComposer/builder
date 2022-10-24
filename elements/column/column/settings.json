@@ -54,17 +54,6 @@
       "tooltip": "The sticky option makes the container and its content fixed at the top of the page."
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "metaCustomId",
-      "customClass"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "dividers": {
     "type": "divider",
     "access": "public",
@@ -83,16 +72,27 @@
       "tooltip": "Add outlined shades to an element."
     }
   },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Advanced"
+    }
+  },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
       "designOptionsAdvanced",
       "parallax",
       "boxShadow",
       "dividers",
-      "sticky"
+      "sticky",
+      "advancedTab"
     ]
   },
   "containerFor": {
