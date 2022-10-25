@@ -31,6 +31,7 @@ export default class EditForm extends React.Component {
     this.allTabs = this.updateTabs(this.props)
     this.state = {
       activeTabIndex: this.getActiveIndex(this.props.activeTabId, false),
+      activeSectionIndex: this.getActiveIndex(this.props.activeTabId, true),
       isEditFormSettingsOpened: false,
       isElementReplaceOpened: props.options && props.options.isReplaceOpened ? props.options.isReplaceOpened : false,
       isVisible: workspaceContentState.get() === 'editElement'
@@ -157,7 +158,7 @@ export default class EditForm extends React.Component {
         key={activeTab.key}
         tab={activeTab}
         accordion={isAccordion}
-        activeSectionIndex={isAccordion ? this.getActiveIndex(this.props.activeTabId, true) : 0}
+        activeSectionIndex={isAccordion ? this.state.activeSectionIndex : 0}
         getReplaceShownStatus={this.getReplaceShownStatus}
       />
     )
@@ -278,7 +279,7 @@ export default class EditForm extends React.Component {
   }
 
   setActiveTab (type, index) {
-    this.setState({ activeTabIndex: index })
+    this.setState({ activeTabIndex: index, activeSectionIndex: 0 })
   }
 
   getTabs () {
