@@ -315,10 +315,14 @@ export default class EditFormSection extends React.Component {
     }, dependenciesClasses)
 
     let tabTitle
-    if (this.props.options && this.props.options.nestedAttr) {
-      tabTitle = tab.data.options.label || tab.data.options.tabLabel
-    } else {
-      tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
+    try {
+      if (this.props.options && this.props.options.nestedAttr) {
+        tabTitle = tab.data.options.label || tab.data.options.tabLabel
+      } else {
+        tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
+      }
+    } catch (e) {
+      console.error(`The "${tab.fieldKey}" tab property is missing in settings.json file.`, e)
     }
 
     let showReplaceIcon = false
@@ -353,10 +357,14 @@ export default class EditFormSection extends React.Component {
 
     let tooltipText = null
     let tooltip = null
-    if (this.props.options && this.props.options.nestedAttr) {
-      tooltipText = tab.data.options.tooltip
-    } else {
-      tooltipText = tab.data.settings.options.tooltip
+    try {
+      if (this.props.options && this.props.options.nestedAttr) {
+        tooltipText = tab.data.options.tooltip
+      } else {
+        tooltipText = tab.data.settings.options.tooltip
+      }
+    } catch (e) {
+      console.error(`The "${tab.fieldKey}" tab property is missing in settings.json file.`, e)
     }
     if (tooltipText) {
       tooltip = (
