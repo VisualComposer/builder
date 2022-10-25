@@ -235,7 +235,7 @@
           .parent()
           .find('.vcv-ui-form-input')
           .clear()
-          .type(value)
+          .type(value, {delay: 100})
       })
   })
 
