@@ -49,6 +49,7 @@ describe('Keyboard shortcuts', function () {
         //* ID
         cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
         cy.setInput('Element ID', '{shift}AST')
+      cy.contains('.vcv-ui-navigation-slider-button', 'General').click()
         cy.getIframe('#vcv-editor-iframe').find('#AST')
 
         cy.wait(500)
