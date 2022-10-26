@@ -47,7 +47,9 @@ describe('Keyboard shortcuts', function () {
         // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
 
         //* ID
+        cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
         cy.setInput('Element ID', '{shift}AST')
+      cy.contains('.vcv-ui-navigation-slider-button', 'General').click()
         cy.getIframe('#vcv-editor-iframe').find('#AST')
 
         cy.wait(500)
@@ -118,7 +120,6 @@ describe('Keyboard shortcuts', function () {
         // Press Shift + S, check if settings tab opens
         cy.get('body').trigger('keydown', { shiftKey: true, keyCode: 83, which: 83 })
         cy.get('.vcv-ui-panel-heading').contains('Options')
-
 
         // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
         // Settings -> Custom CSS

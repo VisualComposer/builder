@@ -220,6 +220,17 @@
       "label": "Design Options"
     }
   },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Advanced"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -230,9 +241,7 @@
       "shape",
       "size",
       "alignment",
-      "addButton",
-      "metaCustomId",
-      "customClass"
+      "addButton"
     ],
     "options": {
       "label": "General"
@@ -244,7 +253,8 @@
     "value": [
       "editFormTab1",
       "button",
-      "designOptions"
+      "designOptions",
+      "advancedTab"
     ]
   },
   "relatedTo": {

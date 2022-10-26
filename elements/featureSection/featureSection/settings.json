@@ -207,12 +207,21 @@
       "imageAlignment",
       "backgroundColor",
       "reverseStacking",
-      "addButton",
+      "addButton"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
       "metaCustomId",
       "customClass"
     ],
     "options": {
-      "label": "General"
+      "label": "Advanced"
     }
   },
   "metaEditFormTabs": {
@@ -221,7 +230,8 @@
     "value": [
       "editFormTab1",
       "button",
-      "designOptions"
+      "designOptions",
+      "advancedTab"
     ]
   },
   "relatedTo": {

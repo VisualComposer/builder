@@ -118,7 +118,7 @@ export default class EditFormSection extends React.Component {
     return tabParams.map((param) => {
       let fieldType = param.data && param.data.type ? param.data.type.name : ''
       if (this.props.options.nestedAttr) {
-        fieldType = param.data.type
+        fieldType = typeof param.data.type === 'string' ? param.data.type : param.data.type.name || ''
       }
       const fieldOptions = this.checkContainerDependency(param)
       if (fieldOptions && fieldOptions.hide) {
@@ -317,7 +317,7 @@ export default class EditFormSection extends React.Component {
     let tabTitle
     try {
       if (this.props.options && this.props.options.nestedAttr) {
-        tabTitle = tab.data.options.label || tab.data.options.tabLabel
+        tabTitle = tab?.data?.options ? tab.data.options.label || tab.data.options.tabLabel : tab.data.settings.options.label || tab.data.settings.options.tabLabel
       } else {
         tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
       }
@@ -359,7 +359,7 @@ export default class EditFormSection extends React.Component {
     let tooltip = null
     try {
       if (this.props.options && this.props.options.nestedAttr) {
-        tooltipText = tab.data.options.tooltip
+        tooltipText = tab?.data?.options ? tab.data.options.tooltip : tab.data.settings.options.tooltip
       } else {
         tooltipText = tab.data.settings.options.tooltip
       }

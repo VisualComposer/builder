@@ -7,15 +7,24 @@
       "label": "Design Options"
     }
   },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Advanced"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
       "layout",
       "size",
-      "alignment",
-      "metaCustomId",
-      "customClass"
+      "alignment"
     ],
     "options": {
       "label": "General"
@@ -26,7 +35,8 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptions"
+      "designOptions",
+      "advancedTab"
     ]
   },
   "relatedTo": {

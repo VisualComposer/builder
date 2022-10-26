@@ -155,12 +155,21 @@
       "atts_before_title",
       "atts_after_title",
       "atts_before_widget",
-      "atts_after_widget",
+      "atts_after_widget"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
       "metaCustomId",
       "customClass"
     ],
     "options": {
-      "label": "General"
+      "label": "Advanced"
     }
   },
   "metaEditFormTabs": {
@@ -168,7 +177,8 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptions"
+      "designOptions",
+      "advancedTab"
     ]
   },
   "relatedTo": {
