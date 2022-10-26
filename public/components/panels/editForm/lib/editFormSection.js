@@ -21,7 +21,10 @@ export default class EditFormSection extends React.Component {
   static propTypes = {
     tab: PropTypes.object.isRequired,
     onAttributeChange: PropTypes.func.isRequired,
-    isRootElement: PropTypes.bool
+    isRootElement: PropTypes.bool,
+    accordion: PropTypes.bool,
+    activeTabIndex: PropTypes.number,
+    activeSectionIndex: PropTypes.number
   }
 
   static localizations = dataManager.get('localizations')
@@ -50,7 +53,7 @@ export default class EditFormSection extends React.Component {
 
   componentDidMount () {
     this._isMounted = true
-    if (this.props.tab.index === this.props.activeTabIndex) {
+    if (this.props.tab.index === this.props.activeTabIndex || this.props.tab.index === this.props.activeSectionIndex) {
       window.setTimeout(() => {
         this.checkSectionPosition()
       }, 0)
@@ -85,7 +88,7 @@ export default class EditFormSection extends React.Component {
       return
     }
     const { isActive } = this.state
-    if ((prevState && !prevState.isActive && isActive) || this.props.tab.index === this.props.activeTabIndex) {
+    if ((prevState && !prevState.isActive && isActive) || (this.props.tab.index === this.props.activeTabIndex || this.props.tab.index === this.props.activeSectionIndex)) {
       // will scroll to top
       const scrollbar = this.props.getSectionContentScrollbar()
       if (scrollbar) {
@@ -303,7 +306,7 @@ export default class EditFormSection extends React.Component {
   }
 
   render () {
-    const { tab, isEditFormSettings, isRootElement } = this.props
+    const { tab, isEditFormSettings, isRootElement, accordion } = this.props
     const { isActive, dependenciesClasses, isInnerElementReplaceOpened } = this.state
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
@@ -312,10 +315,14 @@ export default class EditFormSection extends React.Component {
     }, dependenciesClasses)
 
     let tabTitle
-    if (this.props.options && this.props.options.nestedAttr) {
-      tabTitle = tab.data.options.label || tab.data.options.tabLabel
-    } else {
-      tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
+    try {
+      if (this.props.options && this.props.options.nestedAttr) {
+        tabTitle = tab.data.options.label || tab.data.options.tabLabel
+      } else {
+        tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
+      }
+    } catch (e) {
+      console.error(`The "${tab.fieldKey}" tab property is missing in settings.json file.`, e)
     }
 
     let showReplaceIcon = false
@@ -350,10 +357,14 @@ export default class EditFormSection extends React.Component {
 
     let tooltipText = null
     let tooltip = null
-    if (this.props.options && this.props.options.nestedAttr) {
-      tooltipText = tab.data.options.tooltip
-    } else {
-      tooltipText = tab.data.settings.options.tooltip
+    try {
+      if (this.props.options && this.props.options.nestedAttr) {
+        tooltipText = tab.data.options.tooltip
+      } else {
+        tooltipText = tab.data.settings.options.tooltip
+      }
+    } catch (e) {
+      console.error(`The "${tab.fieldKey}" tab property is missing in settings.json file.`, e)
     }
     if (tooltipText) {
       tooltip = (
@@ -363,20 +374,24 @@ export default class EditFormSection extends React.Component {
       )
     }
 
+    let sectionHeader = null
+    if (accordion) {
+      sectionHeader = !isEditFormSettings && (
+        <div
+          className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
+          ref={header => { this.sectionHeader = header }}
+        >
+          {backButton}
+          <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
+          {tooltip}
+          {innerElementReplaceIcon}
+          <i className='vcv-ui-icon vcv-ui-icon-chevron-thick' />
+        </div>
+      )
+    }
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
-        {!isEditFormSettings && (
-          <div
-            className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
-            ref={header => { this.sectionHeader = header }}
-          >
-            {backButton}
-            <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
-            {tooltip}
-            {innerElementReplaceIcon}
-            <i className='vcv-ui-icon vcv-ui-icon-chevron-thick' />
-          </div>
-        )}
+        {sectionHeader}
         <form className='vcv-ui-edit-form-section-content' onSubmit={isEditFormSettings && this.onSettingsSave}>
           {isEditFormSettings ? (
             <EditFormSettings
