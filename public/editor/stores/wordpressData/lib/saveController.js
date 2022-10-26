@@ -58,7 +58,7 @@ export default class SaveController {
       const customStyles = data.elements[key].styleEditor
       if (customStyles?.all) {
         localStylesManager.add([{
-          src: customStyles.all.replace('[element-id]', `#el-${data.elements[key].id}`),
+          src: customStyles.all.replace(/\[element-id]/ig, `#el-${data.elements[key].id}`),
           pureCss: true
         }])
       }

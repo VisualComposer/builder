@@ -259,7 +259,7 @@ export default class CssBuilder {
     const file = this.window.document.getElementById(`vcv-custom-element-styles-${data.id}`)
     const css = data?.styleEditor?.all
     if (file && css) {
-      file.innerHTML = css.replace('[element-id]', `#el-${data.id}`).replace(/({font-family:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-weight:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-style:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({line-height:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({letter-spacing:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}')
+      file.innerHTML = css.replace(/\[element-id]/ig, `#el-${data.id}`).replace(/({font-family:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-weight:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-style:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({line-height:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({letter-spacing:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}')
     }
   }
 
