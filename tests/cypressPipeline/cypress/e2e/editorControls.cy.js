@@ -16,6 +16,7 @@ describe('Editor controls', function () {
       cy.setButtonGroup('Size', settings.size.name)
       cy.setSwitch('Stretch')
       cy.setColor(settings.backgroundColor)
+      cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
       cy.setClassAndId(settings.customId, settings.customClass)
       cy.setDO(settings.designOptions)
 
