@@ -28,7 +28,6 @@ export default class EditForm extends React.Component {
 
   constructor (props) {
     super(props)
-    this.allTabs = this.updateTabs(this.props)
     this.state = {
       activeTabIndex: this.getActiveIndex(this.props.activeTabId, false),
       activeSectionIndex: this.getActiveIndex(this.props.activeTabId, true),
@@ -309,6 +308,7 @@ export default class EditForm extends React.Component {
   }
 
   render () {
+    this.allTabs = this.updateTabs(this.props)
     const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened, activeTabIndex } = this.state
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
     const tabs = this.getTabs()

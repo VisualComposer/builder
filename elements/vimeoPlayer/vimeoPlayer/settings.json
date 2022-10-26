@@ -212,12 +212,21 @@
       "autopause",
       "autoplay",
       "color",
-      "loop",
+      "loop"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
       "metaCustomId",
       "customClass"
     ],
     "options": {
-      "label": "General"
+      "label": "Advanced"
     }
   },
   "metaEditFormTabs": {
@@ -225,7 +234,8 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptions"
+      "designOptions",
+      "advancedTab"
     ]
   },
   "relatedTo": {

@@ -71,12 +71,21 @@
       "fullHeight",
       "columnPosition",
       "equalHeight",
-      "contentPosition",
+      "contentPosition"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
       "metaCustomId",
       "customClass"
     ],
     "options": {
-      "label": "General"
+      "label": "Advanced"
     }
   },
   "metaEditFormTabs": {
@@ -89,7 +98,8 @@
       "parallax",
       "boxShadow",
       "dividers",
-      "sticky"
+      "sticky",
+      "advancedTab"
     ]
   },
   "relatedTo": {

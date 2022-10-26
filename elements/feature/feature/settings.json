@@ -80,12 +80,21 @@
     "access": "protected",
     "value": [
       "description",
-      "align",
+      "align"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
       "metaCustomId",
       "customClass"
     ],
     "options": {
-      "label": "General"
+      "label": "Advanced"
     }
   },
   "metaEditFormTabs": {
@@ -94,7 +103,8 @@
     "value": [
       "editFormTab1",
       "icon",
-      "designOptions"
+      "designOptions",
+      "advancedTab"
     ]
   },
   "relatedTo": {
