@@ -22,6 +22,10 @@ var Collector = {
       if (isDirectory && attribute[ 0 ] !== '_') {
         var componentPath = join(filePath, 'Component.js')
         var isComponentExists = fs.existsSync(componentPath)
+        if (!isComponentExists) {
+          componentPath = join(filePath, 'Component.tsx')
+          isComponentExists = fs.existsSync(componentPath)
+        }
         var getterPath = join(filePath, 'Getter.js')
         var isGetterExists = fs.existsSync(getterPath)
         var setterPath = join(filePath, 'Setter.js')
