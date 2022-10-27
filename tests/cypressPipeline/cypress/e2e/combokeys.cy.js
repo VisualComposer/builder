@@ -52,7 +52,7 @@ describe('Keyboard shortcuts', function () {
         cy.contains('.vcv-ui-navigation-slider-button', 'General').click()
         cy.getIframe('#vcv-editor-iframe').find('#AST')
 
-        cy.wait(500)
+        cy.wait(2000)
         //* tinyMCE editor field
         cy.getIframe('#vcv-wpeditor-output_ifr')
             .clear()
@@ -156,7 +156,7 @@ describe('Keyboard shortcuts', function () {
         // Press ctrl/command + shift + Z, check if this redo the last action
         cy.get('body').focus().trigger('keydown', { ctrlKey: true, shiftKey:true, keyCode: 90, which: 90 })
         cy.wait(2000)
-        cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('not.exist')
+        cy.getIframe('#vcv-editor-iframe').find('.vce-text-block p').contains('Typography is the art and technique').should('not.exist')
 
         // Press ctrl/command + S, check if the page is saved
         cy.window().then((win) => {
