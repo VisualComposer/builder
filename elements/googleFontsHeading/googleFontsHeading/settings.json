@@ -33,11 +33,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -246,7 +246,7 @@
       },
       "min": 0,
       "max": 180,
-      "measurement": "°",
+      "measurement": "\u00b0",
       "onChange": {
         "rules": {
           "colorType": {
@@ -350,5 +350,16 @@
     "type": "string",
     "access": "protected",
     "value": "googleFontsHeading"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

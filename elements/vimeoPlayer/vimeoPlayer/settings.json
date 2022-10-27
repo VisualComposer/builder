@@ -2,7 +2,7 @@
   "videoPlayer": {
     "type": "string",
     "access": "public",
-    "value": "https://vimeo.com/channels/staffpicks/181907337",
+    "value": "https:\/\/vimeo.com\/channels\/staffpicks\/181907337",
     "options": {
       "label": "Vimeo video link",
       "description": "Enter a link to the Vimeo video.",
@@ -222,11 +222,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -269,5 +269,16 @@
     "access": "protected",
     "type": "string",
     "value": "vimeoPlayer"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

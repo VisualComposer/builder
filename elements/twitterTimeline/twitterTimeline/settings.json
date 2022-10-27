@@ -25,11 +25,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -67,7 +67,7 @@
   "timelineUrl": {
     "type": "string",
     "access": "public",
-    "value": "https://twitter.com/Twitter",
+    "value": "https:\/\/twitter.com\/Twitter",
     "options": {
       "label": "Twitter timeline URL (Link)",
       "link": true
@@ -163,5 +163,16 @@
     "access": "protected",
     "type": "string",
     "value": "twitterTimeline"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

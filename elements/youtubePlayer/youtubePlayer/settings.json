@@ -2,7 +2,7 @@
   "videoPlayer": {
     "type": "string",
     "access": "public",
-    "value": "https://youtu.be/5Iz5bXIr0IY",
+    "value": "https:\/\/youtu.be\/5Iz5bXIr0IY",
     "options": {
       "label": "YouTube video link",
       "description": "Enter a link to the YouTube video.",
@@ -295,11 +295,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -342,5 +342,16 @@
     "access": "protected",
     "type": "string",
     "value": "youtubePlayer"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

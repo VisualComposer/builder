@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h1 style=\"text-transform:uppercase;text-align:center;\">tattoo shop</h1>\n<p style=\"text-align:center;\">A tattoo is a form of body modification, made by inserting indelible ink into the dermis layer of the skin to change the pigment.</p>",
+    "value": "<h1 style=\"text-transform:uppercase;text-align:center;\">tattoo shop<\/h1>\n<p style=\"text-align:center;\">A tattoo is a form of body modification, made by inserting indelible ink into the dermis layer of the skin to change the pigment.<\/p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -224,11 +224,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "editFormTab1": {
@@ -271,6 +271,17 @@
     "options": {
       "label": "Element ID",
       "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
     }
   }
 }

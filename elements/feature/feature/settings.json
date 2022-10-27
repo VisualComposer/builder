@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h3>VIDEO TUTORIALS</h3>\n<p>Take full control over your website with our new exciting page builder. You'll be grinning in delight when you see just how easy it is to create stunning layouts with little effort.</p>",
+    "value": "<h3>VIDEO TUTORIALS<\/h3>\n<p>Take full control over your website with our new exciting page builder. You'll be grinning in delight when you see just how easy it is to create stunning layouts with little effort.<\/p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -90,11 +90,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -121,6 +121,17 @@
     "options": {
       "label": "Element ID",
       "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
     }
   }
 }

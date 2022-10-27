@@ -57,9 +57,9 @@
     "type": "attachimage",
     "access": "public",
     "value": [
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/simpleImageSlider/image-slide-1.png",
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/simpleImageSlider/image-slide-2.png",
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/simpleImageSlider/image-slide-3.png"
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/simpleImageSlider\/image-slide-1.png",
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/simpleImageSlider\/image-slide-2.png",
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/simpleImageSlider\/image-slide-3.png"
     ],
     "options": {
       "multiple": true,
@@ -411,11 +411,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -503,10 +503,21 @@
       "libraries": [
         {
           "libPaths": [
-            "public/dist/simpleImageSlider.min.js"
+            "public\/dist\/simpleImageSlider.min.js"
           ]
         }
       ]
+    }
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
     }
   }
 }

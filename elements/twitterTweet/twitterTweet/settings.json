@@ -24,11 +24,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -66,7 +66,7 @@
   "tweetUrl": {
     "type": "string",
     "access": "public",
-    "value": "https://twitter.com/Interior/status/463440424141459456",
+    "value": "https:\/\/twitter.com\/Interior\/status\/463440424141459456",
     "options": {
       "label": "Twitter tweet URL (Link)",
       "link": true
@@ -153,5 +153,16 @@
     "access": "protected",
     "type": "string",
     "value": "twitterTweet"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

@@ -58,7 +58,7 @@
   "textBlock": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<p>Frequently asked questions (FAQ) or Questions and Answers (Q&A), are listed questions and answers, all supposed to be commonly asked in some context, and pertaining to a particular topic.</p>",
+    "value": "<p>Frequently asked questions (FAQ) or Questions and Answers (Q&A), are listed questions and answers, all supposed to be commonly asked in some context, and pertaining to a particular topic.<\/p>",
     "options": {
       "label": "Text block",
       "inline": true,
@@ -240,11 +240,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -300,7 +300,7 @@
     "value": {
       "libraries": [
         {
-          "libPaths": "public/dist/faqToggle.min.js"
+          "libPaths": "public\/dist\/faqToggle.min.js"
         }
       ]
     }
@@ -309,5 +309,16 @@
     "access": "protected",
     "type": "string",
     "value": "faqToggle"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

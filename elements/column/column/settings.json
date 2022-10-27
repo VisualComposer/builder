@@ -2,7 +2,10 @@
   "size": {
     "type": "object",
     "access": "public",
-    "value": { "all": "auto", "defaultSize": "auto" }
+    "value": {
+      "all": "auto",
+      "defaultSize": "auto"
+    }
   },
   "disableStacking": {
     "type": "string",
@@ -12,12 +15,16 @@
   "lastInRow": {
     "type": "object",
     "access": "public",
-    "value": { "all": false }
+    "value": {
+      "all": false
+    }
   },
   "firstInRow": {
     "type": "object",
     "access": "public",
-    "value": { "all": false }
+    "value": {
+      "all": false
+    }
   },
   "customClass": {
     "type": "string",
@@ -76,11 +83,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -132,5 +139,16 @@
     "type": "string",
     "access": "public",
     "value": false
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

@@ -2,7 +2,7 @@
   "flickrUrl": {
     "type": "string",
     "access": "public",
-    "value": "https://www.flickr.com/photos/thomasheaton/21171377373/",
+    "value": "https:\/\/www.flickr.com\/photos\/thomasheaton\/21171377373\/",
     "options": {
       "label": "Flickr URL (link) or embed code",
       "link": true
@@ -32,11 +32,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -134,5 +134,16 @@
     "access": "protected",
     "type": "string",
     "value": "flickrImage"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

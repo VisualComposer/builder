@@ -2,7 +2,7 @@
   "rawHtml": {
     "type": "rawCode",
     "access": "public",
-    "value": "<p><strong>HyperText Markup Language (HTML)</strong> is the standard markup language for creating web pages and web applications.</p>",
+    "value": "<p><strong>HyperText Markup Language (HTML)<\/strong> is the standard markup language for creating web pages and web applications.<\/p>",
     "options": {
       "label": "Raw HTML",
       "description": "Add a custom HTML code to the WordPress website via a raw code block that accepts HTML.",
@@ -40,11 +40,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -87,5 +87,16 @@
     "access": "protected",
     "type": "string",
     "value": "rawHtml"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

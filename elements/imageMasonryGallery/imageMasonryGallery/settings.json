@@ -3,12 +3,12 @@
     "type": "attachimage",
     "access": "public",
     "value": [
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/imageMasonryGallery/image-1.jpg",
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/imageMasonryGallery/image-2.jpg",
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/imageMasonryGallery/image-3.jpg",
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/imageMasonryGallery/image-4.jpg",
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/imageMasonryGallery/image-5.jpg",
-      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/imageMasonryGallery/image-6.jpg"
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/imageMasonryGallery\/image-1.jpg",
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/imageMasonryGallery\/image-2.jpg",
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/imageMasonryGallery\/image-3.jpg",
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/imageMasonryGallery\/image-4.jpg",
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/imageMasonryGallery\/image-5.jpg",
+      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/imageMasonryGallery\/image-6.jpg"
     ],
     "options": {
       "multiple": true,
@@ -78,11 +78,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -237,6 +237,17 @@
           ]
         }
       ]
+    }
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
     }
   }
 }
