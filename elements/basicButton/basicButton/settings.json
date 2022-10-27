@@ -169,7 +169,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "htmlAttributes"
+      "htmlAttributes",
+      "customCSS"
     ],
     "options": {
       "label": "Advanced",
@@ -284,5 +285,22 @@
     "options": {
       "label": "HTML Attributes"
     }
+  },
+  "customCSS": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "styleEditor"
+    ],
+    "options": {
+      "label": "Custom CSS",
+      "tooltip": "Add custom CSS to the element using the [element-id] placeholder."
+    }
+  },
+  "styleEditor": {
+    "type": "styleEditor",
+    "access": "public",
+    "value": [],
+    "options": []
   }
 }
