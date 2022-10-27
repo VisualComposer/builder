@@ -71,8 +71,8 @@ export default class EditForm extends React.Component {
     return activeTab > -1 && ((isPermitted && !isSection) || (!isPermitted && isSection)) ? activeTab : 0
   }
 
-  updateTabs (props) {
-    return this.editFormTabs(props).map((tab, index) => {
+  updateTabs (props, propName) {
+    return this.editFormTabs(props, propName).map((tab, index) => {
       return {
         fieldKey: tab.key,
         index: index,
@@ -90,9 +90,9 @@ export default class EditForm extends React.Component {
     })
   }
 
-  editFormTabs (props) {
+  editFormTabs (props, tabsProp = 'metaEditFormTabs') {
     const cookElement = props.elementAccessPoint.cook()
-    const group = cookElement.get('metaEditFormTabs')
+    const group = cookElement.get(tabsProp)
     if (props.options.nestedAttr) {
       const groups = []
       const attributes = cookElement.settings(props.options.fieldKey)
@@ -172,7 +172,14 @@ export default class EditForm extends React.Component {
       const activeTab = this.allTabs.find(tab => tab.fieldKey === activeTabName)
 
       if (activeTab && activeTab.fieldKey && this.permittedTabs.includes(activeTab.fieldKey)) {
-        return this.getSection(activeTab, activeTabIndex, false)
+        if (activeTab.data.settings.options.isSections) {
+          const sections = this.updateTabs(this.props, activeTabName)
+          return sections.map((tab) => {
+            return this.getSection(tab, activeTabIndex, true)
+          })
+        } else {
+          return this.getSection(activeTab, activeTabIndex, true)
+        }
       } else {
         const deprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
         return deprecatedTabs.map((tab) => {
