@@ -11,7 +11,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -30,11 +30,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -80,5 +80,16 @@
     "access": "protected",
     "type": "string",
     "value": "instagramImage"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }

@@ -98,7 +98,10 @@
           "buttonType": {
             "rule": "valueIn",
             "options": {
-              "values": ["outline-animated", "outline-animated-slidein"]
+              "values": [
+                "outline-animated",
+                "outline-animated-slidein"
+              ]
             }
           }
         },
@@ -197,13 +200,13 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options",
       "cssMixin": {
         "mixin": "designOptions",
         "property": "backgroundColor",
-        "selector":"do-background-color"
+        "selector": "do-background-color"
       }
     }
   },
@@ -233,11 +236,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -359,5 +362,16 @@
     "access": "protected",
     "type": "string",
     "value": "outlineButton"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
   }
 }
