@@ -246,7 +246,7 @@
       },
       "min": 0,
       "max": 180,
-      "measurement": "\u00b0",
+      "measurement": "°",
       "onChange": {
         "rules": {
           "colorType": {
