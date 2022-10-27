@@ -192,7 +192,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -217,11 +217,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes"
     ],
     "options": {
-      "label": "Advanced"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -248,6 +248,17 @@
     "options": {
       "label": "Element ID",
       "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
     }
   }
 }
