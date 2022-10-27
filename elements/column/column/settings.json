@@ -38,7 +38,7 @@
   "parallax": {
     "type": "parallax",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Parallax",
       "tooltip": "Enabling <a href=\"https://help.visualcomposer.com/docs/features/design-options/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point\" target=\"_blank\" rel=\"noopener noreferrer\">Parallax</a> creates a 3D scrolling effect on the page."
@@ -47,7 +47,7 @@
   "designOptionsAdvanced": {
     "type": "designOptionsAdvanced",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -55,7 +55,7 @@
   "sticky": {
     "type": "sticky",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Sticky",
       "tooltip": "The sticky option makes the container and its content fixed at the top of the page."
@@ -64,7 +64,7 @@
   "dividers": {
     "type": "divider",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Dividers",
       "tooltip": "Add pre-designed shapes to divide rows and columns."
@@ -73,7 +73,7 @@
   "boxShadow": {
     "type": "boxShadow",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Box Shadow",
       "tooltip": "Add outlined shades to an element."

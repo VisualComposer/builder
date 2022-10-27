@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h1 style=\"text-transform:uppercase;text-align:center;\">tattoo shop<\/h1>\n<p style=\"text-align:center;\">A tattoo is a form of body modification, made by inserting indelible ink into the dermis layer of the skin to change the pigment.<\/p>",
+    "value": "<h1 style=\"text-transform:uppercase;text-align:center;\">tattoo shop</h1>\n<p style=\"text-align:center;\">A tattoo is a form of body modification, made by inserting indelible ink into the dermis layer of the skin to change the pigment.</p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -215,7 +215,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }

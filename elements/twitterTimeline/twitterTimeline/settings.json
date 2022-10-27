@@ -2,7 +2,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -67,7 +67,7 @@
   "timelineUrl": {
     "type": "string",
     "access": "public",
-    "value": "https:\/\/twitter.com\/Twitter",
+    "value": "https://twitter.com/Twitter",
     "options": {
       "label": "Twitter timeline URL (Link)",
       "link": true

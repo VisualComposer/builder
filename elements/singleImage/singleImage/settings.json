@@ -54,7 +54,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -236,7 +236,7 @@
             }
           },
           "libPaths": [
-            "public\/dist\/singleImage.min.js"
+            "public/dist/singleImage.min.js"
           ]
         }
       ]

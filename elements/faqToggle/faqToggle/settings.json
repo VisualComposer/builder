@@ -58,7 +58,7 @@
   "textBlock": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<p>Frequently asked questions (FAQ) or Questions and Answers (Q&A), are listed questions and answers, all supposed to be commonly asked in some context, and pertaining to a particular topic.<\/p>",
+    "value": "<p>Frequently asked questions (FAQ) or Questions and Answers (Q&A), are listed questions and answers, all supposed to be commonly asked in some context, and pertaining to a particular topic.</p>",
     "options": {
       "label": "Text block",
       "inline": true,
@@ -213,7 +213,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -300,7 +300,7 @@
     "value": {
       "libraries": [
         {
-          "libPaths": "public\/dist\/faqToggle.min.js"
+          "libPaths": "public/dist/faqToggle.min.js"
         }
       ]
     }

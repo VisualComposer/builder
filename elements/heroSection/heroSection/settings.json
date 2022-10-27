@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h1 style=\"color: #fff;\">Highland Traditions of Scotland<\/h1>\n<p style=\"color: #fff;\">The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.<\/p>",
+    "value": "<h1 style=\"color: #fff;\">Highland Traditions of Scotland</h1>\n<p style=\"color: #fff;\">The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -69,11 +69,11 @@
   "backgroundImage": {
     "type": "attachimage",
     "access": "public",
-    "value": "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/heroSection\/hero-section-background.jpg",
+    "value": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/heroSection/hero-section-background.jpg",
     "options": {
       "multiple": false,
       "dynamicField": true,
-      "defaultValue": "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/heroSection\/hero-section-background.jpg",
+      "defaultValue": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/heroSection/hero-section-background.jpg",
       "onChange": {
         "rules": {
           "background": {
@@ -253,7 +253,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -317,7 +317,7 @@
     "value": {
       "libraries": [
         {
-          "libPaths": "public\/dist\/heroSection.min.js"
+          "libPaths": "public/dist/heroSection.min.js"
         }
       ]
     }

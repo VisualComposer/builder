@@ -2,7 +2,7 @@
   "videoPlayer": {
     "type": "string",
     "access": "public",
-    "value": "https:\/\/vimeo.com\/channels\/staffpicks\/181907337",
+    "value": "https://vimeo.com/channels/staffpicks/181907337",
     "options": {
       "label": "Vimeo video link",
       "description": "Enter a link to the Vimeo video.",
@@ -195,7 +195,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }

@@ -2,7 +2,7 @@
   "rawHtml": {
     "type": "rawCode",
     "access": "public",
-    "value": "<p><strong>HyperText Markup Language (HTML)<\/strong> is the standard markup language for creating web pages and web applications.<\/p>",
+    "value": "<p><strong>HyperText Markup Language (HTML)</strong> is the standard markup language for creating web pages and web applications.</p>",
     "options": {
       "label": "Raw HTML",
       "description": "Add a custom HTML code to the WordPress website via a raw code block that accepts HTML.",
@@ -21,7 +21,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }

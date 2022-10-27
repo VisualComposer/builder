@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h3>VIDEO TUTORIALS<\/h3>\n<p>Take full control over your website with our new exciting page builder. You'll be grinning in delight when you see just how easy it is to create stunning layouts with little effort.<\/p>",
+    "value": "<h3>VIDEO TUTORIALS</h3>\n<p>Take full control over your website with our new exciting page builder. You'll be grinning in delight when you see just how easy it is to create stunning layouts with little effort.</p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -70,7 +70,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }

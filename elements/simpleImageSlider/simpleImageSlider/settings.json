@@ -57,9 +57,9 @@
     "type": "attachimage",
     "access": "public",
     "value": [
-      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/simpleImageSlider\/image-slide-1.png",
-      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/simpleImageSlider\/image-slide-2.png",
-      "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/simpleImageSlider\/image-slide-3.png"
+      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/simpleImageSlider/image-slide-1.png",
+      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/simpleImageSlider/image-slide-2.png",
+      "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/simpleImageSlider/image-slide-3.png"
     ],
     "options": {
       "multiple": true,
@@ -376,7 +376,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -503,7 +503,7 @@
       "libraries": [
         {
           "libPaths": [
-            "public\/dist\/simpleImageSlider.min.js"
+            "public/dist/simpleImageSlider.min.js"
           ]
         }
       ]

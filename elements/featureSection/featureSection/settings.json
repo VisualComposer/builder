@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h1>Beyond Beach and Cloudy Waves<\/h1>\n<p>A beach is a landform along the coast of an ocean or sea, or the edge of a lake or river. Beaches typically occur in areas along the coast where wave or current action deposits and reworks sediments.<\/p>",
+    "value": "<h1>Beyond Beach and Cloudy Waves</h1>\n<p>A beach is a landform along the coast of an ocean or sea, or the edge of a lake or river. Beaches typically occur in areas along the coast where wave or current action deposits and reworks sediments.</p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -36,11 +36,11 @@
   "image": {
     "type": "attachimage",
     "access": "public",
-    "value": "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/featureSection\/feature-section-background.jpg",
+    "value": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/featureSection/feature-section-background.jpg",
     "options": {
       "multiple": false,
       "dynamicField": true,
-      "defaultValue": "https:\/\/cdn.hub.visualcomposer.com\/plugin-assets\/core-elements\/featureSection\/feature-section-background.jpg",
+      "defaultValue": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/featureSection/feature-section-background.jpg",
       "imageFilter": true
     }
   },
@@ -192,7 +192,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }

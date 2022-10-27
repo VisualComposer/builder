@@ -2,7 +2,7 @@
   "flickrUrl": {
     "type": "string",
     "access": "public",
-    "value": "https:\/\/www.flickr.com\/photos\/thomasheaton\/21171377373\/",
+    "value": "https://www.flickr.com/photos/thomasheaton/21171377373/",
     "options": {
       "label": "Flickr URL (link) or embed code",
       "link": true
@@ -11,7 +11,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }

@@ -2,7 +2,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -66,7 +66,7 @@
   "gridUrl": {
     "type": "string",
     "access": "public",
-    "value": "https:\/\/twitter.com\/Twitter\/timelines\/539487832448843776",
+    "value": "https://twitter.com/Twitter/timelines/539487832448843776",
     "options": {
       "label": "Twitter grid URL (Link)",
       "link": true
