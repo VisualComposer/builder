@@ -720,8 +720,7 @@
 
 
 
-   /** Set rawCode (Code Mirror editor) attribute value
-   * Sets value for the code attribute field in the Edit Form.
+   /** Set custom source(post id) as a dynamic content for Basic Button element
    *
    * @param type [string]
    * @param postId [string]
