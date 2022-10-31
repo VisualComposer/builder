@@ -215,7 +215,7 @@ class LicenseController extends Container implements Module
         }
         $blogId = null;
         if (class_exists('Jetpack_Options')) {
-            $blogId = Jetpack_Options::get_option('id');
+            $blogId = \Jetpack_Options::get_option('id');
         } else {
             return;
         }
