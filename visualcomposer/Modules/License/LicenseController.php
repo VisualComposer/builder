@@ -16,6 +16,7 @@ use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class LicenseController
@@ -24,6 +25,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 class LicenseController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * LicenseController constructor.
@@ -40,9 +42,9 @@ class LicenseController extends Container implements Module
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
 
         // we use these server variables to check if user use our plugin in wordpress.com env
-        if (isset($_SERVER['ATOMIC_SITE_ID'])) {
+        if (defined('IS_ATOMIC') && IS_ATOMIC && defined('ATOMIC_CLIENT_ID') && '2' === ATOMIC_CLIENT_ID) {
             /** @see \VisualComposer\Modules\License\LicenseController::activateWpComSubscription */
-            $this->addEvent('vcv:admin:inited', 'activateWpComSubscription');
+            $this->wpAddAction('plugins_loaded', 'activateWpComSubscription');
         }
     }
 
@@ -195,7 +197,6 @@ class LicenseController extends Container implements Module
      */
     protected function activateWpComSubscription()
     {
-
         $licenseHelper = vchelper('License');
 
         if ($licenseHelper->isPremiumActivated()) {
@@ -212,11 +213,17 @@ class LicenseController extends Container implements Module
         if ($optionsHelper->getTransient('vcv:wp-com:activation:request:' . $activeSubscriptionsChecksum)) {
             return;
         }
+        $blogId = null;
+        if (class_exists('Jetpack_Options')) {
+            $blogId = \Jetpack_Options::get_option('id');
+        } else {
+            return;
+        }
         $optionsHelper->setTransient('vcv:wp-com:activation:request:' . $activeSubscriptionsChecksum, true, 600);
 
         $body = [
             'wp_com_subscription_activation_request' => 1,
-            'blog-id' => get_current_blog_id(),
+            'blog-id' => $blogId,
         ];
 
         $url = vchelper('Url')->query(vcvenv('VCV_HUB_URL'), $body);
