@@ -12,9 +12,9 @@ if (!defined('ABSPATH')) {
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
-    vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpHead:before');
+    vcevent('vcv:resources:views:editor:templates:blankTemplate:wpHead:before');
     wp_head();
-    vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpHead:after');
+    vcevent('vcv:resources:views:editor:templates:blankTemplate:wpHead:after');
 
     $customLayoutWidth = vchelper('Options')->get('custom-page-templates-section-layout-width', '1140');
     $customLayoutWidth = (int)rtrim($customLayoutWidth, 'px');
@@ -60,9 +60,9 @@ while (have_posts()) :
     </div>
     <?php
 endwhile;
-vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpFooter:before');
+vcevent('vcv:resources:views:editor:templates:blankTemplate:wpFooter:before');
 wp_footer();
-vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpFooter:after');
+vcevent('vcv:resources:views:editor:templates:blankTemplate:wpFooter:after');
 ?>
 </body>
 </html>
