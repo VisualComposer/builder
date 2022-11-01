@@ -11,7 +11,12 @@ if (!defined('ABSPATH')) {
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php wp_head(); ?>
+
+    <?php
+    vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpHead:before');
+    wp_head();
+    vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpHead:after');
+    ?>
 </head>
 <body <?php body_class(); ?>>
 <?php
@@ -31,6 +36,9 @@ while (have_posts()) :
     </div>
     <?php
 endwhile;
-wp_footer(); ?>
+vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpFooter:before');
+wp_footer();
+vcfilter('vcv:resources:views:editor:templates:blankTemplate:wpFooter:after');
+?>
 </body>
 </html>
