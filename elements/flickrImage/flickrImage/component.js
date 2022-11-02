@@ -114,10 +114,10 @@ export default class FlickrImage extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    let { customClass, alignment, width, metaCustomId } = atts
+    let { customClass, alignment, width, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-flickr-image'
     const wrapperClasses = 'vce vce-flickr-image-wrapper'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const innerClasses = 'vce-flickr-image-inner'
     const innerCustomProps = {}
 

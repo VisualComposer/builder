@@ -100,11 +100,11 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, alignment, width, height, metaCustomId } = atts
+    const { customClass, alignment, width, height, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-google-maps'
     const innerClasses = 'vce-google-maps-inner'
     let wrapperClasses = 'vce-google-maps-wrapper vce'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const innerProps = {}
     const wrapperProps = {}
 

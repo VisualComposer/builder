@@ -122,11 +122,11 @@ export default class TwitterTimeline extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, alignment, width, metaCustomId } = atts
+    const { customClass, alignment, width, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-twitter-timeline'
     const wrapperClasses = 'vce-twitter-timeline-wrapper vce'
     const innerClasses = 'vce-twitter-timeline-inner'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {
