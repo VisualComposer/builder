@@ -146,10 +146,10 @@ export default class FacebookLike extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, alignment, metaCustomId } = atts
+    const { customClass, alignment, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-facebook-like'
     const innerClasses = 'vce-facebook-like-inner vce'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
 
     if (customClass) {
       classes += ` ${customClass}`

@@ -7,14 +7,14 @@ const vcvAPI = getService('api')
 export default class SimpleImageSlider extends vcvAPI.elementComponent {
   render () {
     const { id, atts, editor } = this.props
-    let { clickableOptions, showCaption, images, aspectRatio, customAspectRatio, scaleImage, shape, autoplay, autoplayDelay, effect, pointers, arrows, metaCustomId, customClass, backgroundImagePosition, arrowColor, arrowColorHover, pointerColor, pointerColorHover } = atts
+    let { clickableOptions, showCaption, images, aspectRatio, customAspectRatio, scaleImage, shape, autoplay, autoplayDelay, effect, pointers, arrows, metaCustomId, customClass, backgroundImagePosition, arrowColor, arrowColorHover, pointerColor, pointerColorHover, extraDataAttributes } = atts
 
     let containerClasses = 'vce-simple-image-slider'
     let wrapperClasses = 'vce-simple-image-slider-wrapper vce'
     let aspectClasses = 'vce-simple-image-slider-helper'
     const dotsClasses = 'vce-simple-image-slider-dots'
     const stylesVariables = {}
-    const containerProps = {}
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     const aspectProps = {}
     let aspectPercentage = 133
 

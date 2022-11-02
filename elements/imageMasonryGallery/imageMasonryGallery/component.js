@@ -97,10 +97,10 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { image, shape, customClass, metaCustomId, clickableOptions, showCaption, gap, columns } = atts
+    const { image, shape, customClass, metaCustomId, clickableOptions, showCaption, gap, columns, extraDataAttributes } = atts
     const containerClasses = ['vce-image-masonry-gallery']
     const wrapperClasses = ['vce-image-masonry-gallery-wrapper vce']
-    const containerProps = {}
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
 
     let CustomTag = 'div'
     const columnData = this.state && this.state.columnData

@@ -113,10 +113,10 @@ export default class ImageGallery extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { image, shape, clickableOptions, showCaption, customClass, metaCustomId, showCaptionGeneral, captionAlignment, gap, columns } = atts
+    const { image, shape, clickableOptions, showCaption, customClass, metaCustomId, showCaptionGeneral, captionAlignment, gap, columns, extraDataAttributes } = atts
     let containerClasses = 'vce-image-gallery'
     const wrapperClasses = 'vce-image-gallery-wrapper vce'
-    const containerProps = {}
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     let CustomTag = 'div'
     const imgSrc = this.state && this.state.imgSrc
 
