@@ -663,8 +663,7 @@ export default class ElementComponent extends React.Component {
     const customProps = {}
     if (dataAttributes) {
       // Diabling eslint because it messing up regexp
-      const s = '(\S+)' // eslint-disable-line
-      const attributeRegex = new RegExp('/' + s + '=(\"((?:\\.|[^"\\])*)")?' + s + '/g') // eslint-disable-line
+      const attributeRegex = /(\S+)=(\"((?:\\.|[^"\\])*)")?(\S+)/g // eslint-disable-line
       const attributes = dataAttributes.match(attributeRegex)
       if (attributes && attributes.length) {
         const charsRegex = /[\[\]\(\)\{\}",.?!&@$`'+*%#^_:;]+/g // eslint-disable-line
