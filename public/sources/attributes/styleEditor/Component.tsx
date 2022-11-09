@@ -42,15 +42,15 @@ const StyleEditorAttribute = forwardRef<HTMLTextAreaElement, Props>((props, ref)
     editor.setSize('100%', '50vh')
     editor.on('change', handleChange)
     codeEditor.current = editor
-  }, [props])
+  }, [])
 
   useEffect(() => {
     codeEditor?.current?.refresh()
-  }, [props.value])
+  }, [props])
 
   return (
     <div>
-      <textarea className="vcv-ui-style-ace-container" ref={editorWrapper} />
+      <textarea className='vcv-ui-style-ace-container' ref={editorWrapper} />
     </div>
   )
 })
