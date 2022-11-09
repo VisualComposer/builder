@@ -37,10 +37,10 @@ export default class WpWidgetsDefault extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, metaCustomId } = atts
+    const { customClass, metaCustomId, extraDataAttributes } = atts
     const containerClasses = ['vce-widgets-container']
 
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     if (customClass) {
       containerClasses.push(customClass)
     }

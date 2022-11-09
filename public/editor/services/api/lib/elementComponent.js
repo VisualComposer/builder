@@ -659,6 +659,24 @@ export default class ElementComponent extends React.Component {
     return pSBC(percentage, color1, color2, blend)
   }
 
+  getExtraDataAttributes (dataAttributes) {
+    const customProps = {}
+    if (dataAttributes) {
+      // Diabling eslint because it messing up regexp
+      const attributeRegex = /(\S+)=(\"((?:\\.|[^"\\])*)")?(\S+)/g // eslint-disable-line
+      const attributes = dataAttributes.match(attributeRegex)
+      if (attributes && attributes.length) {
+        const charsRegex = /[\[\]\(\)\{\}",.?!&@$`'+*%#^_:;]+/g // eslint-disable-line
+        attributes.forEach((attribute) => {
+          const sanitized = attribute.replaceAll(charsRegex, '')
+          const parsedAttribute = sanitized.split('=')
+          customProps[parsedAttribute[0].toLowerCase()] = parsedAttribute[1] || true
+        })
+      }
+    }
+    return customProps
+  }
+
   render () {
     return null
   }

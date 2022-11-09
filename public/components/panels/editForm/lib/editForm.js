@@ -28,6 +28,7 @@ export default class EditForm extends React.Component {
 
   constructor (props) {
     super(props)
+    this.allTabs = this.updateTabs(this.props)
     this.state = {
       activeTabIndex: this.getActiveIndex(this.props.activeTabId, false),
       activeSectionIndex: this.getActiveIndex(this.props.activeTabId, true),

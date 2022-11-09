@@ -26,9 +26,9 @@ export default class RawHtmlElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
+    const { customClass, metaCustomId, extraDataAttributes } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-html'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const wrapperClasses = 'vce-raw-html-wrapper'
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)

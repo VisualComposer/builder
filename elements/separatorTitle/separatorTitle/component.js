@@ -20,9 +20,10 @@ export default class SeparatorTitle extends vcvAPI.elementComponent {
       title,
       titleColor,
       customClass,
-      metaCustomId
+      metaCustomId,
+      extraDataAttributes
     } = atts
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     let separatorContainerClasses = ['vce', 'vce-separator-with-title-container']
     let separatorClasses = ['vce-separator-with-title']
     const lineClasses = ['vce-separator-with-title--line']
