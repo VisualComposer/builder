@@ -163,7 +163,8 @@
    * @param {node} element - Element for which resize events are initialised
    */
   function initResizeEvents(element) {
-    element.sticky.resizeListener = () => onResizeEvents(element);
+    // Require a timeout to make correct calulations just after the resize happens
+    element.sticky.resizeListener = () => setTimeout(() => onResizeEvents(element), 0);
     window.addEventListener('resize', element.sticky.resizeListener);
   }
 
@@ -472,7 +473,7 @@
       css(element.parentElement, parseCss({ position: '', width: '', top: '', left: '' }, isFullWidth));
     }
 
-    const elementRect = setTimeout(() =>{ element.getBoundingClientRect()}, 0);
+    const elementRect = element.getBoundingClientRect()
 
     const body = document.body;
     const docEl = document.documentElement;
