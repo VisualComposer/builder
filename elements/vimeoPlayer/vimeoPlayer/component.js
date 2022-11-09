@@ -25,7 +25,7 @@ export default class VimeoPlayerComponent extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
+    const { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-vim-video-player'
     let source, videoWidth, videoId
     const autopause = advanced && atts.autopause ? 1 : 0
@@ -33,7 +33,7 @@ export default class VimeoPlayerComponent extends vcvAPI.elementComponent {
     const loop = advanced && atts.loop ? 1 : 0
     const color = advanced ? atts.color.slice(1) : '00adef'
     const vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
 
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(` ${customClass}`)
