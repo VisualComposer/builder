@@ -25,6 +25,7 @@
     "access": "protected",
     "value": [
       "htmlAttributes",
+      "customAttributes",
       "customCSS"
     ],
     "options": {
@@ -56,13 +57,6 @@
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
-  },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
-    "value": [
-      "animate"
-    ]
   },
   "gridUrl": {
     "type": "string",
@@ -121,17 +115,6 @@
     "access": "protected",
     "value": true
   },
-  "metaBackendLabels": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      {
-        "value": [
-          "gridUrl"
-        ]
-      }
-    ]
-  },
   "metaCustomId": {
     "type": "customId",
     "access": "public",
@@ -173,5 +156,24 @@
     "access": "public",
     "value": [],
     "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=john data-age=28)"
+    }
   }
 }

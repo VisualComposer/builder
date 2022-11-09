@@ -100,10 +100,10 @@ export default class ColumnElement extends vcvAPI.elementComponent {
   render () {
     // import variables
     const { id, atts, editor, isBackend } = this.props
-    const { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky, boxShadow } = atts
+    const { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky, boxShadow, extraDataAttributes } = atts
 
     // import template js
-    const customColProps = {}
+    const customColProps = this.getExtraDataAttributes(extraDataAttributes)
     let innerProps = {}
     const classes = ['vce-col']
 

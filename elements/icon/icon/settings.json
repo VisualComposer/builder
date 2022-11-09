@@ -263,6 +263,7 @@
     "access": "protected",
     "value": [
       "htmlAttributes",
+      "customAttributes",
       "customCSS"
     ],
     "options": {
@@ -285,40 +286,6 @@
     "value": [
       "General",
       "Icon"
-    ]
-  },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
-    "value": [
-      "iconpicker",
-      "animate"
-    ]
-  },
-  "metaBackendLabels": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      {
-        "value": [
-          "iconPicker",
-          "iconUrl",
-          "shape",
-          "shapeColor"
-        ],
-        "options": {
-          "onChange": [
-            {
-              "rule": {
-                "attribute": "shape",
-                "value": "none"
-              },
-              "dependency": "shapeColor",
-              "action": "toggle"
-            }
-          ]
-        }
-      }
     ]
   },
   "metaCustomId": {
@@ -362,5 +329,24 @@
     "access": "public",
     "value": [],
     "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=john data-age=28)"
+    }
   }
 }
