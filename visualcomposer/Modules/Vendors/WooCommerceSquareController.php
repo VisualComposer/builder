@@ -15,7 +15,6 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class WooCommerceSquareController extends Container implements Module
 {
-
     use EventsFilters;
     use WpFiltersActions;
 
@@ -71,7 +70,6 @@ class WooCommerceSquareController extends Container implements Module
         ];
 
         if (in_array(get_post_type(), $hfsPostTypeList)) {
-
             add_filter('wc_gateway_square_credit_card_is_available', function ($isAvailable) {
 
                 if (self::$cacheInvocation) {
