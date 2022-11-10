@@ -15,10 +15,10 @@ export default class TextBlockElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { output, customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
+    const { output, customClass, metaCustomId, extraDataAttributes } = atts // destructuring assignment for attributes from settings.json with access public
     let textBlockClasses = 'vce-text-block'
     const wrapperClasses = 'vce-text-block-wrapper vce'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     if (typeof customClass === 'string' && customClass) {
       textBlockClasses = textBlockClasses.concat(' ' + customClass)
     }

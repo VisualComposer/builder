@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import classNames from 'classnames'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -10,9 +11,8 @@ export default class BasicSeparator extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { alignment, customClass, metaCustomId, style, color, width, thickness } = atts
-    const classNames = require('classnames')
-    const customProps = {}
+    const { alignment, customClass, metaCustomId, style, color, width, thickness, extraDataAttributes } = atts
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     let separator
 
     let containerClasses = ['vce', 'vce-separator-container']

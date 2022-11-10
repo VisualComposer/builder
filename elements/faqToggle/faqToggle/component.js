@@ -29,10 +29,10 @@ export default class FaqToggle extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { shape, customHoverColors, metaCustomId, customClass, iconColor, shapeColor, iconHoverColor, shapeHoverColor } = atts
+    const { shape, customHoverColors, metaCustomId, customClass, iconColor, shapeColor, iconHoverColor, shapeHoverColor, extraDataAttributes } = atts
 
     let containerClasses = 'vce-faq-toggle'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass

@@ -111,11 +111,11 @@ export default class TwitterTweet extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, alignment, width, metaCustomId } = atts
+    const { customClass, alignment, width, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-twitter-tweet'
     const wrapperClasses = 'vce-twitter-tweet-wrapper vce'
     const innerClasses = 'vce-twitter-tweet-inner'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {

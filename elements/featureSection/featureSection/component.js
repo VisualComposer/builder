@@ -1,5 +1,6 @@
 import React from 'react'
 import { getService } from 'vc-cake'
+import classNames from 'classnames'
 
 const vcvAPI = getService('api')
 const cook = getService('cook')
@@ -7,9 +8,8 @@ const cook = getService('cook')
 export default class FeatureSection extends vcvAPI.elementComponent {
   render () {
     const { id, atts, editor } = this.props
-    const { description, image, imageAlignment, reverseStacking, addButton, customClass, button, metaCustomId, backgroundImagePosition, backgroundColor } = atts
-    const classNames = require('classnames')
-    const containerProps = {}
+    const { description, image, imageAlignment, reverseStacking, addButton, customClass, button, metaCustomId, backgroundImagePosition, backgroundColor, extraDataAttributes } = atts
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
 
     const containerClasses = classNames({
       'vce-feature-section-container': true,

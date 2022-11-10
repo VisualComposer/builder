@@ -7,9 +7,9 @@ export default class IconElement extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features vce-var-icon'
     const { atts, editor, id } = this.props
-    const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId, iconColor, iconColorHover, shapeColor, shapeColorHover } = atts
+    const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId, iconColor, iconColorHover, shapeColor, shapeColorHover, extraDataAttributes } = atts
     let customProps = {}
-    const containerProps = {}
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     let customIconProps = {}
     let CustomTag = 'div'
     let CustomIconTag = 'span'

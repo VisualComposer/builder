@@ -112,11 +112,11 @@ export default class TwitterButton extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, alignment, metaCustomId } = atts
+    const { customClass, alignment, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-tweet-button'
     const innerClasses = 'vce-tweet-button-inner'
     const wrapperClasses = 'vce-tweet-button-wrapper vce'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
