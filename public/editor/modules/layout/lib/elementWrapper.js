@@ -77,7 +77,7 @@ const ElementWrapper = forwardRef((props, ref) => {
     }
 
     return !returnData ? <EmptyCommentElementWrapper /> : returnData
-  }, [cookElement, props.elementData, props.api, props.id])
+  }, [cookElement, props.elementData, props.api, props.id, props.postId])
 
   if (!cookElement) {
     return null

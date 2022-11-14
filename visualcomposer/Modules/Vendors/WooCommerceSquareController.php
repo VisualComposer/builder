@@ -18,6 +18,13 @@ class WooCommerceSquareController extends Container implements Module
     use EventsFilters;
     use WpFiltersActions;
 
+    /**
+     * Static cache that help find if HFS integration already invoke.
+     *
+     * @var bool
+     */
+    public static $cacheInvocation = false;
+
     public function __construct()
     {
         $this->wpAddAction('plugins_loaded', 'initialize', 16);
@@ -45,5 +52,34 @@ class WooCommerceSquareController extends Container implements Module
                 return $result;
             }
         );
+
+        add_action('wp_enqueue_scripts', [$this, 'removeDuplicateEnqueue']);
+    }
+
+    /**
+     * Remove duplicate enqueue styles for our HFS.
+     */
+    public function removeDuplicateEnqueue()
+    {
+        defined('HFS_POST_TYPE_LIST');
+
+        $hfsPostTypeList = [
+            'vcv_headers',
+            'vcv_footers',
+            'vcv_sidebars',
+        ];
+
+        if (in_array(get_post_type(), $hfsPostTypeList)) {
+            add_filter('wc_gateway_square_credit_card_is_available', function ($isAvailable) {
+
+                if (self::$cacheInvocation) {
+                    return false;
+                }
+
+                self::$cacheInvocation = true;
+
+                return true;
+            }, 10, 1);
+        }
     }
 }

@@ -20,10 +20,10 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    let { text, elementTag, font, fontSize, alignment, lineHeight, letterSpacing, link, colorType, customClass, metaCustomId, color, gradientStart, gradientEnd, gradientAngle } = atts
+    let { text, elementTag, font, fontSize, alignment, lineHeight, letterSpacing, link, colorType, customClass, metaCustomId, color, gradientStart, gradientEnd, gradientAngle, extraDataAttributes } = atts
     let classes = 'vce-google-fonts-heading'
     const wrapperClasses = 'vce-google-fonts-heading-wrapper'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const innerClasses = 'vce-google-fonts-heading-inner'
     const backgroundClasses = 'vce-google-fonts-heading--background vce'
     const innerCustomProps = {}

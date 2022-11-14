@@ -374,7 +374,7 @@ export default class RowElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor, isBackend } = this.props
-    const { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout, columnBackground, hidden, sticky, boxShadow } = atts
+    const { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout, columnBackground, hidden, sticky, boxShadow, extraDataAttributes } = atts
     const content = this.props.children
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
@@ -407,7 +407,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     const customRowProps = {
       style: {}
     }
-    const containerProps = {}
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     if (typeof customClass === 'string' && customClass) {
       classes.push(customClass)
     }

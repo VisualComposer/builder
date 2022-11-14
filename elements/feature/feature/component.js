@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import classNames from 'classnames'
 
 const vcvAPI = vcCake.getService('api')
 const Cook = vcCake.getService('cook')
@@ -7,10 +8,9 @@ const Cook = vcCake.getService('cook')
 export default class Feature extends vcvAPI.elementComponent {
   render () {
     const { id, atts, editor } = this.props
-    const { description, align, icon, customClass, metaCustomId } = atts
-    const classNames = require('classnames')
+    const { description, align, icon, customClass, metaCustomId, extraDataAttributes } = atts
     const customProps = {}
-    const customContainerProps = {}
+    const customContainerProps = this.getExtraDataAttributes(extraDataAttributes)
 
     let containerClasses = classNames({
       'vce-feature': true,

@@ -23,9 +23,10 @@ export default class SeparatorIcon extends vcvAPI.elementComponent {
       customClass,
       metaCustomId,
       separatorWidth,
-      separatorThickness
+      separatorThickness,
+      extraDataAttributes
     } = atts
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     let iconClasses = [`vce-icon-container ${iconPicker.icon}`]
     let iconWrapperClasses = ['vce-separator-with-icon--icon', 'vce-icon']
     let separatorContainerClasses = ['vce', 'vce-separator-with-icon-container']
