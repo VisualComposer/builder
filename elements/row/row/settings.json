@@ -96,11 +96,7 @@
     "value": [
       "layout",
       "editFormTab1",
-      "designOptionsAdvanced",
-      "parallax",
-      "boxShadow",
-      "dividers",
-      "sticky",
+      "designTab",
       "advancedTab"
     ]
   },
@@ -399,5 +395,20 @@
       "label": "Extra Data Attributes",
       "description": "Add data attributes to your element (ex. data-name=john data-age=28)"
     }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "designOptionsAdvanced",
+      "parallax",
+      "boxShadow",
+      "dividers",
+      "sticky"
+    ]
   }
 }
