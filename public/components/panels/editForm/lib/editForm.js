@@ -45,7 +45,7 @@ export default class EditForm extends React.Component {
   }
 
   componentDidMount () {
-    const activeId = this.props.activeTabId ||     Object.keys(this.getTabs())[0]
+    const activeId = this.props.activeTabId || Object.keys(this.getTabs())[0]
     const index = this.getTabs()[activeId]?.index
     this.setActiveTab(index)
     workspaceContentState.onChange(this.setVisibility)
@@ -305,7 +305,7 @@ export default class EditForm extends React.Component {
         key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`
       }
     }
-    let index = isDeprecatedTabs.length ? 1 : 0;
+    let index = isDeprecatedTabs.length ? 1 : 0
 
     this.allTabs.forEach((tab, i) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
@@ -315,7 +315,7 @@ export default class EditForm extends React.Component {
           type: tab.fieldKey,
           key: tab.key
         }
-        index++;
+        index++
       }
     })
     return tabs
