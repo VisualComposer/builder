@@ -182,7 +182,9 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1"
+      "editFormTab1",
+      "designTab",
+      "advancedTab"
     ]
   },
   "relatedTo": {
