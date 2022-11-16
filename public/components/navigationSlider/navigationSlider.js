@@ -98,7 +98,7 @@ export default class NavigationSlider extends React.Component {
 
   handleClick (data, event) {
     const { type, index, activeSubControl } = data
-    this.props.setActiveSection(index, activeSubControl)
+    this.props.setActiveSection(type, index, activeSubControl)
     workspaceSettingsTab.set(type)
     const clickedItem = event && event.target && event.target.closest('.vcv-ui-navigation-slider-item')
     this.navigationScrollHandler(clickedItem)
