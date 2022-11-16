@@ -47,7 +47,7 @@ export default class EditForm extends React.Component {
   componentDidMount () {
     const activeId = this.props.activeTabId || Object.keys(this.getTabs())[0]
     const index = this.getTabs()[activeId]?.index
-    this.setActiveTab(index)
+    this.setActiveTab(null, index)
     workspaceContentState.onChange(this.setVisibility)
   }
 
@@ -288,7 +288,7 @@ export default class EditForm extends React.Component {
     return showElementReplaceIcon
   }
 
-  setActiveTab (index) {
+  setActiveTab (type, index) {
     this.setState({ activeTabIndex: index, activeSectionIndex: 0 })
   }
 
