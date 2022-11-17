@@ -57,7 +57,13 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
     }
   }, [isLoading])
 
-  const handleItemClick = useCallback(() => {
+  const handleItemClick = useCallback((e:React.MouseEvent) => {
+    // we need it to prevent double click on a Windows environment
+    const target = e.target as HTMLElement
+    if (target.classList.contains('vcv-ui-form-dropdown')) {
+      e.preventDefault()
+      return
+    }
     if (itemData.control === 'dropdown') {
       if (itemData.type === 'vc-theme') {
         const newValue = dropdownValue.value ? dropdownValue : {
@@ -71,6 +77,13 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         if (templateDropdownValue) {
           setTemplateDropdownValue(templateDropdownValue)
         }
+      }
+    }
+    if (itemData.type === 'vc-theme' && !dropdownValue.value) {
+      itemData = {
+        type: 'vc-custom-layout',
+        value: 'default',
+        stretchedContent: false
       }
     }
     handleClick(index, itemData)
