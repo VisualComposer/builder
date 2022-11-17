@@ -79,7 +79,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
         }
       }
     }
-    if (itemData.type === 'vc-theme' && !dropdownValue.value) {
+
+    if (itemData.type === 'vc-theme' && (!dropdownValue.value || dropdownValue.value === 'default')) {
       itemData = {
         type: 'vc-custom-layout',
         value: 'default',
