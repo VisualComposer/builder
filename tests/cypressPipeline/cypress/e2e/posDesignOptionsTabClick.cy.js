@@ -4,7 +4,7 @@ describe('Post design option tab click', function () {
         cy.contains('.blank-page-submit-button', 'Get Started').click()
 
         cy.get('.vcv-ui-navbar-control-content').contains('Options').click({ force: true })
-        cy.contains('.vcv-ui-navigation-slider-button', 'Design Options').click()
+        cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
 
         //checking if editor shows up
         cy.getIframe('#vcv-editor-iframe').find('vcvtitle').contains('Visual Composer')
