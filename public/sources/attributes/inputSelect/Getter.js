@@ -4,7 +4,7 @@ export default (data, key, settings) => {
   const isCSSMixin = settings.options && settings.options.cssMixin
   const isValueObject = value && typeof value === 'object' && value.constructor === Object
   let valueContainsChars
-  let returnValue = {...value}
+  let returnValue = { ...value }
   if (isCSSMixin) {
     if (!isValueObject) {
       returnValue = {}
