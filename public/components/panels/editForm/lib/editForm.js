@@ -45,6 +45,9 @@ export default class EditForm extends React.Component {
   }
 
   componentDidMount () {
+    const activeId = this.props.activeTabId || Object.keys(this.getTabs())[0]
+    const index = this.getTabs()[activeId]?.index
+    this.setActiveTab(null, index)
     workspaceContentState.onChange(this.setVisibility)
   }
 
@@ -155,7 +158,7 @@ export default class EditForm extends React.Component {
         sectionIndex={activeTab.index}
         activeTabIndex={activeTabIndex}
         getSectionContentScrollbar={() => { return this.scrollbar }}
-        key={activeTab.key}
+        key={activeTab?.key}
         tab={activeTab}
         accordion={isAccordion}
         activeSectionIndex={isAccordion ? this.state.activeSectionIndex : 0}
@@ -302,14 +305,17 @@ export default class EditForm extends React.Component {
         key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`
       }
     }
+    let index = isDeprecatedTabs.length ? 1 : 0
+
     this.allTabs.forEach((tab, i) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
         tabs[tab.fieldKey] = {
-          index: isDeprecatedTabs.length ? i + 1 : i,
+          index: index,
           title: tab.data.settings.options.label || tab.data.settings.options.tabLabel,
           type: tab.fieldKey,
           key: tab.key
         }
+        index++
       }
     })
     return tabs
@@ -340,7 +346,7 @@ export default class EditForm extends React.Component {
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--centered': !isAddonEnabled,
       'vcv-ui-state--active': true
-    }, `vcv-ui-editor-plate-${activeTab.key}`)
+    }, activeTab?.key ? `vcv-ui-editor-plate-${activeTab.key}` : '')
 
     const editFormClasses = classNames({
       'vcv-ui-tree-view-content': true,
@@ -352,7 +358,7 @@ export default class EditForm extends React.Component {
     if (Object.keys(tabs).length > 1) {
       navigation = <PanelNavigation
         controls={tabs}
-        activeSection={activeTab.type}
+        activeSection={activeTab?.type}
         setActiveSection={this.setActiveTab}
       />
     }
