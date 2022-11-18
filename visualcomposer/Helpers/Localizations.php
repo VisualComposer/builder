@@ -2186,7 +2186,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'defaultLayoutDescription' => __(
-                'The theme default layout.',
+                'The theme default or theme builder layout.',
                 'visualcomposer'
             ),
             'blankLayoutDescription' => __(
