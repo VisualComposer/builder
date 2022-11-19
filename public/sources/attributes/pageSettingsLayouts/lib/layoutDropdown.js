@@ -182,7 +182,7 @@ export default class LayoutDropdown extends React.Component {
 
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
+        <span className='vcv-ui-form-group-heading-wrapper'>
           {this.props.layoutName}
           {spinnerHtml}
         </span>
