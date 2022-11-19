@@ -119,6 +119,7 @@
    * @param settings [object]
    */
   Cypress.Commands.add('setDO', (settings) => {
+    cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
     cy.get('.advanced-design-options .vcv-ui-form-switch-trigger-label')
       .contains('Simple controls')
       .then(($field) => {

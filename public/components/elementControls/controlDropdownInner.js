@@ -22,7 +22,7 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
   const pasteAfterText = localizations ? localizations.pasteAfter : 'Paste After'
   const removeText = localizations ? localizations.remove : 'Remove'
   const editText = localizations ? localizations.edit : 'Edit'
-  const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
+  const designOptionsText = localizations ? localizations.design : 'Design'
   const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
   const cookElement = options && cook.get(options)
   const elementCustomControls = cookElement.get('metaElementControls')
