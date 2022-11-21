@@ -743,3 +743,103 @@
 
       cy.wait(500)
      })
+
+  Cypress.Commands.add('switchPageLayout', (layoutName) => {
+    cy.get('.vcv-ui-start-layout-list-item[title="' + layoutName + '"]').click()
+    cy.wait(3000)
+  })
+
+  Cypress.Commands.add('saveAndViewPage', (layoutName) => {
+    cy.savePage()
+    cy.wait(5000)
+    cy.viewPage()
+  })
+
+  Cypress.Commands.add('activateOptionPanel', () => {
+    cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="settings-control"]').click()
+    cy.get('.vcv-ui-panel-heading-text').contains('Options')
+  })
+
+  Cypress.Commands.add('checkHeaderNotExistEditor', () => {
+    cy.getIframe('#vcv-editor-iframe').contains('header.vcv-header').should('not.exist')
+  })
+
+  Cypress.Commands.add('checkFooterNotExistEditor', () => {
+    cy.getIframe('#vcv-editor-iframe').contains('footer.vcv-footer').should('not.exist')
+  })
+
+  Cypress.Commands.add('checkSidebarNotExistEditor', () => {
+    cy.getIframe('#vcv-editor-iframe').contains('aside.vcv-sidebar').should('not.exist')
+  })
+
+  Cypress.Commands.add('checkHeaderNotExistViewPage', () => {
+    cy.contains('header.vcv-header').should('not.exist')
+  })
+
+  Cypress.Commands.add('checkFooterNotExistViewPage', () => {
+    cy.contains('footer.vcv-footer').should('not.exist')
+  })
+
+  Cypress.Commands.add('checkSidebarNotExistViewPage', () => {
+    cy.contains('aside.vcv-sidebar').should('not.exist')
+  })
+
+  Cypress.Commands.add('setHeaderEditor', () => {
+    cy.setSelect('Header', 'test-themeEditor-header')
+    cy.wait(2000)
+  })
+
+  Cypress.Commands.add('setFooterEditor', () => {
+    cy.setSelect('Footer', 'test-themeEditor-footer')
+    cy.wait(2000)
+  })
+
+  Cypress.Commands.add('setSidebarEditor', () => {
+    cy.setSelect('Sidebar', 'test-themeEditor-sidebar')
+    cy.wait(2000)
+  })
+
+  Cypress.Commands.add('checkHeaderEditor', () => {
+    cy.getIframe('#vcv-editor-iframe').find(`header.vcv-header`)
+      .contains('This is header')
+  })
+
+  Cypress.Commands.add('checkFooterEditor', () => {
+    cy.getIframe('#vcv-editor-iframe').find(`footer.vcv-footer`)
+      .contains('This is footer')
+  })
+
+  Cypress.Commands.add('checkSidebarEditor', () => {
+    cy.getIframe('#vcv-editor-iframe').find(`aside.vcv-sidebar`)
+      .contains('This is sidebar')
+  })
+
+  Cypress.Commands.add('checkHeaderViewPage', () => {
+    cy.get('header.vcv-header')
+      .contains('This is header')
+  })
+
+  Cypress.Commands.add('checkFooterViewPage', () => {
+    cy.get('footer.vcv-footer')
+      .contains('This is footer')
+  })
+
+  Cypress.Commands.add('checkSidebarViewPage', () => {
+    cy.get('aside.vcv-sidebar')
+      .contains('This is sidebar')
+  })
+
+  Cypress.Commands.add('clearGlobalHfs', () => {
+    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-clean-option=vcv-headerFooterSettings')
+    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-clean-option=vcv-headerFooterSettingsAllHeader')
+    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-clean-option=vcv-headerFooterSettingsAllFooter')
+    cy.wait(1000)
+  })
+
+  Cypress.Commands.add('cleanPostsDb', () => {
+    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-posts-db')
+    // Make sure DB clean was success
+    cy.window().then((window) => {
+      expect('Done').to.equal(window.document.body.textContent)
+    })
+  })
