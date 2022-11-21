@@ -729,13 +729,19 @@
     Cypress.Commands.add('setDFCustomSource', (type, postId) => {
       cy.addElement('Basic Button', true)
       cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Insert dynamic content"]').first().click()
+      cy.wait(200)
       cy.contains('label', 'Set custom post source').parent().click()
+      cy.wait(200)
       cy.get('.vcv-ui-tag-list-item-remove[title="Remove"]').click()
+      cy.wait(500)
       cy.contains('.vcv-ui-form-group-heading', 'Source').parent().parent().find('textarea').click({ force: true }).clear().type(postId)
       cy.get('.vcv-ui-suggest-box').children().first().click()
-      cy.wait(200)
+      cy.wait(500)
       cy.get('header').contains('Dynamic Content').parent().parent().find('select').select(type)
+      cy.wait(2000)
       cy.get('.vcv-ui-modal-action[title="Save"]').click()
+
+      cy.wait(500)
      })
 
   Cypress.Commands.add('switchPageLayout', (layoutName) => {

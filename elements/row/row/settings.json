@@ -94,7 +94,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "layout",
+      "layoutTab",
       "editFormTab1",
       "designTab",
       "advancedTab"
@@ -409,6 +409,17 @@
       "boxShadow",
       "dividers",
       "sticky"
+    ]
+  },
+  "layoutTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Layout",
+      "isSections": true
+    },
+    "value": [
+      "layout"
     ]
   }
 }
