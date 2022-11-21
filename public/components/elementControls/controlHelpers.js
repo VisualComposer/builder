@@ -102,6 +102,7 @@ export const ControlHelpers = {
       tag: vcElement.get('tag'),
       relatedTo: vcElement.get('relatedTo'),
       designOptions: 'designTab',
+      advanced: 'advancedTab',
       containerFor: vcElement.get('containerFor')
     }
   }

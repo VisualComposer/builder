@@ -23,12 +23,14 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
   const removeText = localizations ? localizations.remove : 'Remove'
   const editText = localizations ? localizations.edit : 'Edit'
   const designOptionsText = localizations ? localizations.design : 'Design'
+  const advancedText = localizations ? localizations.advanced : 'Advanced'
   const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
   const cookElement = options && cook.get(options)
   const elementCustomControls = cookElement.get('metaElementControls')
 
   const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
   const designOptionEvent = options.designOptions
+  const advancedEvent = options.advanced
 
   // prepare actions
   const actions = []
@@ -50,7 +52,7 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
       icon: 'vcv-ui-icon-row-layout',
       data: {
         vcControlEvent: 'edit',
-        vcControlEventOptions: 'layout'
+        vcControlEventOptions: 'layoutTab'
       }
     })
   }
@@ -138,6 +140,15 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
       data: {
         vcControlEvent: 'edit',
         vcControlEventOptions: designOptionEvent
+      }
+    })
+    actions.push({
+      label: advancedText,
+      title: `${options.title} ${advancedText}`,
+      icon: 'vcv-ui-icon-terminal',
+      data: {
+        vcControlEvent: 'edit',
+        vcControlEventOptions: advancedEvent
       }
     })
   }
