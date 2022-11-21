@@ -11,7 +11,7 @@ const LayoutsData = {
       icon: require('./defaultIcon'),
       label: localizations.defaultLayout || 'Default layout',
       control: 'button',
-      description: localizations.defaultLayoutDescription || 'The theme default layout.'
+      description: localizations.defaultLayoutDescription || 'The theme default or theme builder layout.'
     },
     {
       type: 'vc',
