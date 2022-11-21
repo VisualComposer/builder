@@ -171,9 +171,9 @@ export default class ActivitiesManager extends React.Component {
         keys.forEach((type) => {
           actions.forEach((action) => {
             const mountedWrapper = this.mount[listener.key][type]
-            if(mountedWrapper) {
+            if (mountedWrapper) {
               mountedWrapper.value = element[listener.key]
-            ActionsManager.do(action, ruleState, mountedWrapper, cookElement)
+              ActionsManager.do(action, ruleState, mountedWrapper, cookElement)
             }
           })
         })
