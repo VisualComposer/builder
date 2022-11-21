@@ -153,6 +153,7 @@ class Localizations extends Container implements Helper
             'edit' => __('Edit', 'visualcomposer'),
             'designOptions' => __('Design Options', 'visualcomposer'),
             'design' => __('Design', 'visualcomposer'),
+            'advanced' => __('Advanced', 'visualcomposer'),
             'clone' => __('Clone', 'visualcomposer'),
             'copy' => __('Copy', 'visualcomposer'),
             'paste' => __('Paste', 'visualcomposer'),
