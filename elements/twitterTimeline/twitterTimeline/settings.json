@@ -12,10 +12,7 @@
     "access": "protected",
     "value": [
       "timelineUrl",
-      "width",
-      "alignment",
-      "tweetCount",
-      "tweetTheme"
+      "tweetCount"
     ],
     "options": {
       "label": "General"
@@ -203,7 +200,20 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "width",
+      "alignment",
+      "tweetTheme"
     ]
   }
 }

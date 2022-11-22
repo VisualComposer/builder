@@ -265,16 +265,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "iconPicker",
-      "iconColor",
-      "iconShape",
-      "iconShapeColor",
-      "iconSize",
-      "separatorColor",
-      "separatorAlignment",
-      "separatorStyle",
-      "separatorThickness",
-      "separatorWidth"
+      "iconPicker"
     ],
     "options": {
       "label": "General"
@@ -378,7 +369,26 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "iconColor",
+      "iconShape",
+      "iconShapeColor",
+      "iconSize",
+      "separatorColor",
+      "separatorAlignment",
+      "separatorStyle",
+      "separatorThickness",
+      "separatorWidth"
     ]
   }
 }

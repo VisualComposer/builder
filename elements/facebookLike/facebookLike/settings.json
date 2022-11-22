@@ -20,23 +20,10 @@
       "isSections": true
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "layout",
-      "size",
-      "alignment"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
       "designTab",
       "advancedTab"
     ]
@@ -202,7 +189,20 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "layout",
+      "size",
+      "alignment"
     ]
   }
 }

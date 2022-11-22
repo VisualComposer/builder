@@ -65,10 +65,7 @@
     "value": [
       "clickableOptions",
       "showCaption",
-      "image",
-      "columns",
-      "gap",
-      "shape"
+      "image"
     ],
     "options": {
       "label": "General"
@@ -296,7 +293,20 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "columns",
+      "gap",
+      "shape"
     ]
   }
 }

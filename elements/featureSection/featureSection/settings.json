@@ -203,10 +203,6 @@
     "value": [
       "description",
       "image",
-      "backgroundImagePosition",
-      "imageAlignment",
-      "backgroundColor",
-      "reverseStacking",
       "addButton"
     ],
     "options": {
@@ -307,7 +303,21 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "backgroundImagePosition",
+      "imageAlignment",
+      "backgroundColor",
+      "reverseStacking"
     ]
   }
 }

@@ -205,13 +205,9 @@
     "access": "protected",
     "value": [
       "videoPlayer",
-      "size",
-      "customSize",
-      "alignment",
       "advanced",
       "autopause",
       "autoplay",
-      "color",
       "loop"
     ],
     "options": {
@@ -316,7 +312,21 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "size",
+      "customSize",
+      "alignment",
+      "color"
     ]
   }
 }

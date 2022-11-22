@@ -20,9 +20,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "flickrUrl",
-      "width",
-      "alignment"
+      "flickrUrl"
     ],
     "options": {
       "label": "General"
@@ -174,7 +172,19 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "width",
+      "alignment"
     ]
   }
 }
