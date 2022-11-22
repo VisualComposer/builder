@@ -244,7 +244,15 @@
     "access": "protected",
     "value": [
       "iconPicker",
-      "iconUrl"
+      "iconColor",
+      "iconUrl",
+      "size",
+      "shape",
+      "shapeColor",
+      "iconAlignment",
+      "toggleCustomHover",
+      "iconColorHover",
+      "shapeColorHover"
     ],
     "options": {
       "label": "General"
@@ -349,25 +357,7 @@
       "isSections": true
     },
     "value": [
-      "styleSection",
       "designOptions"
-    ]
-  },
-  "styleSection": {
-    "type": "group",
-    "access": "protected",
-    "options": {
-      "label": "Style"
-    },
-    "value": [
-      "iconColor",
-      "size",
-      "shape",
-      "shapeColor",
-      "iconAlignment",
-      "toggleCustomHover",
-      "iconColorHover",
-      "shapeColorHover"
     ]
   }
 }

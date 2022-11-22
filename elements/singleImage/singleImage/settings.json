@@ -65,7 +65,10 @@
     "value": [
       "clickableOptions",
       "showCaption",
-      "image"
+      "image",
+      "shape",
+      "size",
+      "alignment"
     ],
     "options": {
       "label": "General"
@@ -348,20 +351,7 @@
       "isSections": true
     },
     "value": [
-      "styleSection",
       "designOptions"
-    ]
-  },
-  "styleSection": {
-    "type": "group",
-    "access": "protected",
-    "options": {
-      "label": "Style"
-    },
-    "value": [
-      "shape",
-      "size",
-      "alignment"
     ]
   }
 }

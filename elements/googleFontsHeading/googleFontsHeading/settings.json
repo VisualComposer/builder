@@ -12,7 +12,17 @@
     "access": "protected",
     "value": [
       "text",
+      "font",
       "elementTag",
+      "colorType",
+      "color",
+      "gradientStart",
+      "gradientEnd",
+      "gradientAngle",
+      "fontSize",
+      "alignment",
+      "lineHeight",
+      "letterSpacing",
       "link"
     ],
     "options": {
@@ -398,27 +408,7 @@
       "isSections": true
     },
     "value": [
-      "styleSection",
       "designOptions"
-    ]
-  },
-  "styleSection": {
-    "type": "group",
-    "access": "protected",
-    "options": {
-      "label": "Style"
-    },
-    "value": [
-      "font",
-      "colorType",
-      "color",
-      "gradientStart",
-      "gradientEnd",
-      "gradientAngle",
-      "fontSize",
-      "alignment",
-      "lineHeight",
-      "letterSpacing"
     ]
   }
 }
