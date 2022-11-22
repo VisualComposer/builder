@@ -215,18 +215,7 @@
     "access": "protected",
     "value": [
       "buttonText",
-      "buttonUrl",
-      "alignment",
-      "shape",
-      "size",
-      "toggleStretchButton",
-      "buttonType",
-      "color",
-      "borderColor",
-      "hoverColorOutline",
-      "hoverColorAnimated",
-      "hoverBorder",
-      "hoverBackground"
+      "buttonUrl"
     ],
     "options": {
       "label": "General"
@@ -420,7 +409,28 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "alignment",
+      "shape",
+      "size",
+      "toggleStretchButton",
+      "buttonType",
+      "color",
+      "borderColor",
+      "hoverColorOutline",
+      "hoverColorAnimated",
+      "hoverBorder",
+      "hoverBackground"
     ]
   }
 }

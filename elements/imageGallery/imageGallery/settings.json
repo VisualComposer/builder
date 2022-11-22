@@ -72,10 +72,7 @@
       "showCaption",
       "image",
       "showCaptionGeneral",
-      "captionAlignment",
-      "columns",
-      "gap",
-      "shape"
+      "captionAlignment"
     ],
     "options": {
       "label": "General"
@@ -348,7 +345,20 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "columns",
+      "gap",
+      "shape"
     ]
   }
 }

@@ -239,10 +239,6 @@
     "value": [
       "description",
       "image",
-      "backgroundImagePosition",
-      "shape",
-      "size",
-      "alignment",
       "addButton"
     ],
     "options": {
@@ -330,7 +326,21 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "backgroundImagePosition",
+      "shape",
+      "size",
+      "alignment"
     ]
   }
 }

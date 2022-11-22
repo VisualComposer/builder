@@ -12,8 +12,6 @@
     "access": "protected",
     "value": [
       "gridUrl",
-      "width",
-      "alignment",
       "tweetCount"
     ],
     "options": {
@@ -184,7 +182,19 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "width",
+      "alignment"
     ]
   }
 }

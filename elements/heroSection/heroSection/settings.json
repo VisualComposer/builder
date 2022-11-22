@@ -263,11 +263,6 @@
     "access": "protected",
     "value": [
       "description",
-      "background",
-      "backgroundImage",
-      "backgroundImagePosition",
-      "backgroundColor",
-      "align",
       "addButton"
     ],
     "options": {
@@ -379,7 +374,22 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "background",
+      "backgroundImage",
+      "backgroundImagePosition",
+      "backgroundColor",
+      "align"
     ]
   }
 }
