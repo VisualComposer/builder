@@ -388,14 +388,8 @@
       "clickableOptions",
       "showCaption",
       "images",
-      "aspectRatio",
-      "customAspectRatio",
-      "scaleImage",
       "autoplay",
-      "autoplayDelay",
-      "effect",
-      "pointers",
-      "arrows"
+      "autoplayDelay"
     ],
     "options": {
       "label": "General"
@@ -572,9 +566,15 @@
     },
     "value": [
       "backgroundImagePosition",
+      "aspectRatio",
+      "customAspectRatio",
+      "scaleImage",
       "shape",
+      "effect",
+      "pointers",
       "pointerColor",
       "pointerColorHover",
+      "arrows",
       "arrowColor",
       "arrowColorHover"
     ]
