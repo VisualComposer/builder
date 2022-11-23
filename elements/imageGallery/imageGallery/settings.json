@@ -70,9 +70,7 @@
     "value": [
       "clickableOptions",
       "showCaption",
-      "image",
-      "showCaptionGeneral",
-      "captionAlignment"
+      "image"
     ],
     "options": {
       "label": "General"
@@ -358,6 +356,8 @@
     "value": [
       "columns",
       "gap",
+      "showCaptionGeneral",
+      "captionAlignment",
       "shape"
     ]
   }
