@@ -388,20 +388,8 @@
       "clickableOptions",
       "showCaption",
       "images",
-      "backgroundImagePosition",
-      "aspectRatio",
-      "customAspectRatio",
-      "scaleImage",
-      "shape",
       "autoplay",
-      "autoplayDelay",
-      "effect",
-      "pointers",
-      "pointerColor",
-      "pointerColorHover",
-      "arrows",
-      "arrowColor",
-      "arrowColorHover"
+      "autoplayDelay"
     ],
     "options": {
       "label": "General"
@@ -566,7 +554,29 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "backgroundImagePosition",
+      "aspectRatio",
+      "customAspectRatio",
+      "scaleImage",
+      "shape",
+      "effect",
+      "pointers",
+      "pointerColor",
+      "pointerColorHover",
+      "arrows",
+      "arrowColor",
+      "arrowColorHover"
     ]
   }
 }

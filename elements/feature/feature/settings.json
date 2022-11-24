@@ -79,8 +79,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "description",
-      "align"
+      "description"
     ],
     "options": {
       "label": "General"
@@ -180,7 +179,18 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "align"
     ]
   }
 }

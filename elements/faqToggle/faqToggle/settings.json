@@ -224,13 +224,7 @@
     "value": [
       "titleText",
       "elementTag",
-      "textBlock",
-      "iconColor",
-      "shape",
-      "shapeColor",
-      "customHoverColors",
-      "iconHoverColor",
-      "shapeHoverColor"
+      "textBlock"
     ],
     "options": {
       "label": "General"
@@ -367,7 +361,23 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "iconColor",
+      "shape",
+      "shapeColor",
+      "customHoverColors",
+      "iconHoverColor",
+      "shapeHoverColor"
     ]
   }
 }

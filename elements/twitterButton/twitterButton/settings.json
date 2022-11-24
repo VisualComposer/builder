@@ -17,9 +17,7 @@
       "tweetAccount",
       "hashtagTopic",
       "username",
-      "showUsername",
-      "tweetButtonSize",
-      "alignment"
+      "showUsername"
     ],
     "options": {
       "label": "General"
@@ -357,7 +355,19 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "tweetButtonSize",
+      "alignment"
     ]
   }
 }

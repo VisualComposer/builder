@@ -11,10 +11,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "tweetUrl",
-      "width",
-      "alignment",
-      "tweetTheme"
+      "tweetUrl"
     ],
     "options": {
       "label": "General"
@@ -193,7 +190,20 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "width",
+      "alignment",
+      "tweetTheme"
     ]
   }
 }
