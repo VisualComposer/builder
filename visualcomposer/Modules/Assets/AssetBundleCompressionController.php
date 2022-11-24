@@ -20,6 +20,9 @@ class AssetBundleCompressionController extends Container implements Module
 {
     use WpFiltersActions;
 
+    /**
+     * @var mixed|\VisualComposer\Helpers\Request
+     */
     protected $requestHelper;
 
     /**
@@ -47,21 +50,32 @@ class AssetBundleCompressionController extends Container implements Module
         @header('Content-Type: ' . $mimeType);
         $fileHelper = vchelper('File');
         $outputHelper = vchelper('Output');
-        if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === false) {
-            // browser cannot accept compressed content, so need output standard JS/CSS
-            $outputHelper->printNotEscaped($fileHelper->getContents($this->getBundlePath()));
+
+        if (!$this->isServerAcceptGzip() || $this->isPhpGzCompressionInProcess()) {
+            $isCompressed = false;
         } else {
-            if ($this->isPhpGzCompressionInProcess()) {
-                // let 3 party app gzip our content.
-                $outputHelper->printNotEscaped($fileHelper->getContents($this->getBundlePath()));
-            } else {
-                // output our gzip content.
-                @header("Content-Encoding: gzip");
-                $outputHelper->printNotEscaped($fileHelper->getContents($this->getBundlePath(true)));
-            }
+            // output our gzip content.
+            @header("Content-Encoding: gzip");
+            $isCompressed = true;
         }
 
+        $outputHelper->printNotEscaped($fileHelper->getContents($this->getBundlePath($isCompressed)));
+
         exit;
+    }
+
+    /**
+     * Check if server can accept gzip content.
+     *
+     * @return bool
+     */
+    protected function isServerAcceptGzip()
+    {
+        if (empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+            return false;
+        }
+
+        return strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false;
     }
 
     /**
@@ -87,7 +101,7 @@ class AssetBundleCompressionController extends Container implements Module
     }
 
     /**
-     * Check if php compression is already enabled.
+     * Check if php compression is already in process on a server.
      *
      * @return bool
      */
