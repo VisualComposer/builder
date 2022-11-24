@@ -8,7 +8,7 @@
       "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
   },
-  "rowLayout": {
+  "layout": {
     "type": "rowLayout",
     "access": "public",
     "value": [],
@@ -16,11 +16,11 @@
       "tooltip": "Control your grid layout: specify the number of columns within a row, adjust responsiveness and more."
     }
   },
-  "layout": {
+  "rowOptions": {
     "type": "group",
     "access": "public",
     "value": [
-      "rowLayout",
+      "layout",
       "rowWidth",
       "removeSpaces",
       "columnGap",
@@ -30,7 +30,8 @@
       "contentPosition"
     ],
     "options": {
-      "label": "Row Layout" }
+      "label": "Row Layout"
+    }
   },
   "dividers": {
     "type": "divider",
@@ -417,7 +418,7 @@
       "isSections": true
     },
     "value": [
-      "layout"
+      "rowOptions"
     ]
   }
 }
