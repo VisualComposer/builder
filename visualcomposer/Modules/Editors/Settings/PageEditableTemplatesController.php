@@ -115,7 +115,7 @@ class PageEditableTemplatesController extends Container implements Module
     {
         $id = get_queried_object_id();
 
-        if ( get_post_type($id) !== 'page') {
+        if (get_post_type($id) !== 'page') {
             return '';
         }
 
