@@ -49,7 +49,7 @@ class PageEditableTemplatesController extends Container implements Module
         $template = $requestHelper->input('vcv-template');
         $isThemeDefault = ($templateType === 'theme' && $template === 'default') || ($templateType === 'vc-custom-layout' && $template === 'theme:default');
         if ($frontendHelper->isPageEditable() && $isThemeDefault) {
-            return $this->getDefaultTheme();
+            return $this->getPageTemplate();
         }
 
         return $originalTemplate;
@@ -106,11 +106,19 @@ class PageEditableTemplatesController extends Container implements Module
 
     /**
      * This function is simplified for PageEditable function without current saved
+     *
      * @see \get_page_template()
+     *
+     * @return string Full path to page template file.
      */
-    protected function getDefaultTheme()
+    protected function getPageTemplate()
     {
         $id = get_queried_object_id();
+
+        if (get_post_type($id) !== 'page') {
+            return '';
+        }
+
         $pagename = get_query_var('pagename');
 
         if (!$pagename && $id) {
