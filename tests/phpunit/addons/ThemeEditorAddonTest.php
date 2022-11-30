@@ -12,27 +12,27 @@ class ThemeEditorAddonTest extends WP_UnitTestCase
             wp_set_current_user(1);
             $this->loadAddon('themeEditor');
             $this->loadAddon('themeBuilder');
+
+            $hfsList = ['header', 'footer', 'sidebar'];
+            foreach ($hfsList as $postName) {
+                $this->createHfs($postName);
+            }
+
+            $postId = $this->createPost();
+            update_post_meta($postId, '_vcv-page-template-type', 'vc-theme');
+
+            $headerId = get_posts(['fields' => 'ids','post_type' => 'vcv_headers']);
+            $this->assertIsNumeric($headerId[0]);
+
+            update_post_meta($postId, '_vcv-HeaderTemplateId', $headerId[0]);
+
+            $footerId = get_posts(['fields' => 'ids','post_type' => 'vcv_footers']);
+            $this->assertIsNumeric($footerId[0]);
+
+            update_post_meta($postId, '_vcv-FooterTemplateId', $footerId[0]);
+
+            $this->assertPageLayoutWithHfs($postId);
         }
-
-        $hfsList = ['header', 'footer', 'sidebar'];
-        foreach ($hfsList as $postName) {
-            $this->createHfs($postName);
-        }
-
-        $postId = $this->createPost();
-        update_post_meta($postId, '_vcv-page-template-type', 'vc-theme');
-
-        $headerId = get_posts(['fields' => 'ids','post_type' => 'vcv_headers']);
-        $this->assertIsNumeric($headerId[0]);
-
-        update_post_meta($postId, '_vcv-HeaderTemplateId', $headerId[0]);
-
-        $footerId = get_posts(['fields' => 'ids','post_type' => 'vcv_footers']);
-        $this->assertIsNumeric($footerId[0]);
-
-        update_post_meta($postId, '_vcv-FooterTemplateId', $footerId[0]);
-
-        $this->assertPageLayoutWithHfs($postId);
     }
 
     protected function loadAddon($addon)
