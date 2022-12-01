@@ -272,7 +272,7 @@ vcCake.add('contentLayout', (api) => {
             hasFooter = currentTemplate.footer
           }
         }
-        const isLayoutTheme = template.type === 'vc-custom-layout' && (template.value + '').indexOf('theme:') !== -1
+        const isLayoutTheme = template.type === 'vc-custom-layout' && (template.value + '').indexOf('theme:default') !== -1
         if (template.type === 'theme' || isLayoutTheme) {
           hasHeader = true
           hasFooter = true
