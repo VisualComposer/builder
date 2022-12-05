@@ -113,8 +113,7 @@ class YoastController extends Container implements Module
         $globalsHelper->set('wp_query', $copyWpQuery->query['queriedPage']);
         $globalsHelper->set('wp_the_query', $copyWpTheQuest->query['queriedPage']);
 
-        $repository = YoastSEO()->classes->get('Yoast\WP\SEO\Repositories\Indexable_Repository');
-        $model = $repository->for_current_page();
+        $model = YoastSEO()->meta->for_current_page()->indexable;
 
         if ($model) {
             $contextPresentation->model = $model;
