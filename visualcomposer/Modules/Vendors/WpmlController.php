@@ -99,7 +99,7 @@ class WpmlController extends Container implements Module
      *
      * @param array $package
      *
-     * @return array|mixed
+     * @return array
      */
     protected function prepareTranslationJobData($package)
     {
@@ -187,7 +187,7 @@ class WpmlController extends Container implements Module
      * @param array $fields
      * @param object $job
      *
-     * @return mixed
+     * @return int
      */
     protected function completeTranslationJobSaving($translatedPostId, $fields, $job)
     {
@@ -201,7 +201,7 @@ class WpmlController extends Container implements Module
 
         // We do not have vcv-pageContent field, stop translation
         if ($pageContentIndex === false) {
-            return $fields;
+            return $translatedPostId;
         }
 
         // @codingStandardsIgnoreLine
@@ -481,7 +481,7 @@ class WpmlController extends Container implements Module
      */
     protected function outputWpml()
     {
-        $available = (defined('ICL_SITEPRESS_VERSION')) ? true : false;
+        $available = defined('ICL_SITEPRESS_VERSION');
         evcview(
             'partials/constant-script',
             [
