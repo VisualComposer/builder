@@ -41,7 +41,13 @@ class DashboardController extends Container implements Module
         $globalsHelper = vchelper('Globals');
         $metaBoxesCopy = $globalsHelper->get('wp_meta_boxes');
 
-        $dashboardWidgets = isset($metaBoxesCopy['dashboard']) ? $metaBoxesCopy['dashboard']['normal']['core'] : $metaBoxesCopy['dashboard-network']['normal']['core'];
+        $dashboardWidgets = [];
+        if (!empty($metaBoxesCopy['dashboard']['normal']['core'])) {
+            $dashboardWidgets = $metaBoxesCopy['dashboard']['normal']['core'];
+        } elseif (!empty($metaBoxesCopy['dashboard-network']['normal']['core'])) {
+            $dashboardWidgets = $metaBoxesCopy['dashboard-network']['normal']['core'];
+        }
+
         $visualcomposerBlogDashboard = ['visualcomposer-blog-dashboard' => $dashboardWidgets['visualcomposer-blog-dashboard']];
 
         unset($dashboardWidgets['visualcomposer-blog-dashboard']);
