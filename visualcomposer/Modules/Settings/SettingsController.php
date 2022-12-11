@@ -148,6 +148,8 @@ class SettingsController extends Container implements Module
                 if ($tabsRegistry->get($page)) {
                     // Redirect if bundle update available
                     // Redirect only if slug !== vcv-settings (to allow reset)
+                    $optionsHelper = vchelper('Options');
+                    $optionsHelper->setTransient('redirect:update:url', $page, 60);
                     wp_safe_redirect(admin_url('admin.php?page=vcv-update'));
                     exit;
                 }
