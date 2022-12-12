@@ -87,7 +87,7 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
     const fontColorSelector = `${colorSelector}--${gradientAngle}--${gradientEndSelector}--${gradientStartSelector}`
 
     classes += ` vce-google-fonts-heading--${colorType}-${fontColorSelector}`
-    classes += ` vce-google-fonts-heading--font-family-${font.fontFamily.replace(' ', '-')}`
+    classes += ` vce-google-fonts-heading--font-family-${font.fontFamily.replaceAll(' ', '-')}`
 
     if (font && font.status === 'active') {
       const fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? 'normal' : font.fontStyle.style) : 'normal'
