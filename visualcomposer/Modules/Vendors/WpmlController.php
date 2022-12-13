@@ -36,8 +36,8 @@ class WpmlController extends Container implements Module
 
         $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
         $this->addFilter('vcv:frontend:url', 'addLangToLink');
-        $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
         $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
+        $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
         $this->addFilter('vcv:linkSelector:url', 'addLanguageDetails');
         $this->wpAddAction(
             'save_post',
@@ -507,10 +507,13 @@ class WpmlController extends Container implements Module
 
         global $wpdb;
 
+        $postType = 'post_' . get_post_type($postId);
+
         $result = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT language_code FROM " . $wpdb->prefix . "icl_translations WHERE element_id = %d",
-                $postId
+                "SELECT language_code FROM " . $wpdb->prefix . "icl_translations WHERE element_id = %d AND element_type = %s",
+                $postId,
+                $postType
             )
         );
 

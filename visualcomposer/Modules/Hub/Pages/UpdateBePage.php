@@ -60,7 +60,11 @@ class UpdateBePage extends Container implements Module
                 // Bundle Update not required, or Actions was empty
                 if ($requestHelper->input('page') === $this->getSlug()) {
                     $optionsHelper->set('bundleUpdateRequired', false);
-                    wp_safe_redirect(admin_url('admin.php?page=vcv-getting-started'));
+
+                    $transientUpdatePage = $optionsHelper->getTransient('redirect:update:url');
+                    $redirectPage = $transientUpdatePage ?: 'vcv-getting-started';
+
+                    wp_safe_redirect(admin_url('admin.php?page=' . $redirectPage));
                     exit;
                 }
             },
