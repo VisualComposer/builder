@@ -61,8 +61,9 @@ class UpdateBePage extends Container implements Module
                 if ($requestHelper->input('page') === $this->getSlug()) {
                     $optionsHelper->set('bundleUpdateRequired', false);
 
-                    $transientUpdatePage = $optionsHelper->getTransient('redirect:update:url');
-                    $redirectPage = $transientUpdatePage ?: 'vcv-getting-started';
+                    $redirectPage = empty($_COOKIE['vcv:redirect:update:url']) ? 'vcv-getting-started' : $_COOKIE['vcv:redirect:update:url'];
+
+                    unset($_COOKIE['vcv:redirect:update:url']);
 
                     wp_safe_redirect(admin_url('admin.php?page=' . $redirectPage));
                     exit;
