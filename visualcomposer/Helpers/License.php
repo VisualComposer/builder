@@ -128,6 +128,18 @@ class License extends Container implements Helper
     }
 
     /**
+     * Check if our premium license is activated or our hub term is agreed
+     *
+     * @return bool
+     */
+    public function isPremiumEnabled()
+    {
+        $optionsHelper = vchelper('Options');
+
+        return $this->isPremiumActivated() || $optionsHelper->get('agreeHubTerms');
+    }
+
+    /**
      * @return bool
      */
     public function isThemeActivated()

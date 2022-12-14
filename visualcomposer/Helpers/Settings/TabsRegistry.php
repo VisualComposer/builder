@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\License;
-use VisualComposer\Helpers\Options;
 
 class TabsRegistry extends Container implements Helper
 {
@@ -50,16 +49,13 @@ class TabsRegistry extends Container implements Helper
         'vcv-getting-started',
     ];
 
-    public function __construct(License $licenseHelper, Options $optionsHelper, Update $updateHelper)
+    public function __construct(License $licenseHelper, Update $updateHelper)
     {
         if (!$licenseHelper->isPremiumActivated() || $licenseHelper->isThemeActivated()) {
             $this->menuTree[] = 'vcv-activate-license';
         }
 
-        if (
-            ($licenseHelper->isPremiumActivated() || $optionsHelper->get('agreeHubTerms'))
-            && $optionsHelper->get('bundleUpdateRequired')
-        ) {
+        if ($updateHelper->isBundleUpdateRequired()) {
             $actions = $updateHelper->getRequiredActions();
             if (!empty($actions['actions']) || !empty($actions['posts'])) {
                 $this->menuTree[] = 'vcv-update';

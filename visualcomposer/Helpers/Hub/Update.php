@@ -303,4 +303,17 @@ class Update implements Helper
             vcevent('vcv:hub:process:action:hubTemplates', ['teasers' => $actions['hubTemplates']]);
         }
     }
+
+    /**
+     * Check if plugin updates is required.
+     *
+     * @return bool
+     */
+    public function isBundleUpdateRequired()
+    {
+        $licenseHelper = vchelper('License');
+        $optionsHelper = vchelper('Options');
+
+        return $licenseHelper->isPremiumEnabled() && $optionsHelper->get('bundleUpdateRequired');
+    }
 }
