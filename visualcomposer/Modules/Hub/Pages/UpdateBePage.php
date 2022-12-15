@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
-use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -40,49 +39,60 @@ class UpdateBePage extends Container implements Module
      */
     public function __construct()
     {
-        $this->wpAddAction(
-            'admin_menu',
-            function (License $licenseHelper, Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
-                if (
-                    ($licenseHelper->isPremiumActivated() || $optionsHelper->get('agreeHubTerms'))
-                    && $optionsHelper->get('bundleUpdateRequired')
-                ) {
-                    $actions = $updateHelper->getRequiredActions();
-                    if (!empty($actions['actions']) || !empty($actions['posts'])) {
-                        $this->call('addPage');
-
-                        return;
-                    }
-
-                    $optionsHelper->set('bundleUpdateRequired', false);
-                }
-
-                // Bundle Update not required, or Actions was empty
-                if ($requestHelper->input('page') === $this->getSlug()) {
-                    $optionsHelper->set('bundleUpdateRequired', false);
-
-                    $transientUpdatePage = $optionsHelper->getTransient('redirect:update:url');
-                    $redirectPage = $transientUpdatePage ?: 'vcv-getting-started';
-
-                    wp_safe_redirect(admin_url('admin.php?page=' . $redirectPage));
-                    exit;
-                }
-            },
-            40
-        );
+        $this->wpAddAction('admin_menu', 'addUpdatePage', 40);
+        $this->wpAddAction('admin_menu', 'redirectAfterUpdate', 41);
     }
 
     /**
+     * Add update page.
      *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Hub\Update $updateHelper
+     *
+     * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
-    protected function beforeRender()
+    protected function addUpdatePage(Options $optionsHelper, Update $updateHelper)
     {
-        wp_enqueue_script('vcv:wpUpdate:script');
-        wp_enqueue_style('vcv:wpVcSettings:style');
-        wp_enqueue_script('vcv:assets:runtime:script');
+        if (!$updateHelper->isBundleUpdateRequired()) {
+            return;
+        }
+
+        $actions = $updateHelper->getRequiredActions();
+        if (!empty($actions['actions']) || !empty($actions['posts'])) {
+            $this->call('addPage');
+            return;
+        }
+
+        $optionsHelper->set('bundleUpdateRequired', false);
     }
 
     /**
+     * Redirect user back to his initial settings page after our update.
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     */
+    protected function redirectAfterUpdate(Request $requestHelper, Options $optionsHelper)
+    {
+        // Bundle Update not required, or Actions was empty
+        if ($requestHelper->input('page') !== $this->getSlug()) {
+            return;
+        }
+
+        $optionsHelper->set('bundleUpdateRequired', false);
+
+        $redirectPage = empty($_COOKIE['vcv:redirect:update:url']) ? 'vcv-getting-started' : $_COOKIE['vcv:redirect:update:url'];
+
+        unset($_COOKIE['vcv:redirect:update:url']);
+
+        wp_safe_redirect(admin_url('admin.php?page=' . $redirectPage));
+        exit;
+    }
+
+    /**
+     * Add update page to menu.
+     *
      * @throws \Exception
      */
     protected function addPage()
@@ -99,6 +109,13 @@ class UpdateBePage extends Container implements Module
             'iconClass' => 'vcv-ui-icon-dashboard-update',
         ];
         $this->addSubmenuPage($page, false);
+    }
+
+    protected function beforeRender()
+    {
+        wp_enqueue_script('vcv:wpUpdate:script');
+        wp_enqueue_style('vcv:wpVcSettings:style');
+        wp_enqueue_script('vcv:assets:runtime:script');
     }
 
     /**
