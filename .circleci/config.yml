@@ -89,7 +89,6 @@ jobs:
         environment:
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
-    parallelism: 2
     steps:
       - checkout
       - run:
@@ -170,7 +169,6 @@ jobs:
         environment:
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
-    parallelism: 2
     steps:
       - checkout
       - run:
