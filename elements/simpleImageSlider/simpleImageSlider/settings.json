@@ -387,7 +387,6 @@
     "value": [
       "clickableOptions",
       "showCaption",
-      "images",
       "autoplay",
       "autoplayDelay"
     ],
@@ -412,6 +411,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "contentTab",
       "editFormTab1",
       "designTab",
       "advancedTab"
@@ -577,6 +577,27 @@
       "arrows",
       "arrowColor",
       "arrowColorHover"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "images"
     ]
   }
 }

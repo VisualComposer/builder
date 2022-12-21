@@ -64,8 +64,7 @@
     "access": "protected",
     "value": [
       "clickableOptions",
-      "showCaption",
-      "image"
+      "showCaption"
     ],
     "options": {
       "label": "General"
@@ -88,6 +87,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "contentTab",
       "editFormTab1",
       "designTab",
       "advancedTab"
@@ -307,6 +307,27 @@
       "columns",
       "gap",
       "shape"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "image"
     ]
   }
 }

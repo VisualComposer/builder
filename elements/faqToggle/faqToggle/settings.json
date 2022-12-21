@@ -218,18 +218,6 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "titleText",
-      "elementTag",
-      "textBlock"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
@@ -247,7 +235,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
+      "contentTab",
       "designTab",
       "advancedTab"
     ]
@@ -378,6 +366,29 @@
       "customHoverColors",
       "iconHoverColor",
       "shapeHoverColor"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "titleText",
+      "elementTag",
+      "textBlock"
     ]
   }
 }

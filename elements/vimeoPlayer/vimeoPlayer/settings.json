@@ -204,7 +204,6 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "videoPlayer",
       "advanced",
       "autopause",
       "autoplay",
@@ -231,6 +230,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "contentTab",
       "editFormTab1",
       "designTab",
       "advancedTab"
@@ -327,6 +327,27 @@
       "customSize",
       "alignment",
       "color"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "videoPlayer"
     ]
   }
 }

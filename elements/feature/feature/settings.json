@@ -75,16 +75,6 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "description"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
@@ -102,8 +92,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "icon",
+      "contentTab",
       "designTab",
       "advancedTab"
     ]
@@ -191,6 +180,28 @@
     },
     "value": [
       "align"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection",
+      "icon"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "description"
     ]
   }
 }

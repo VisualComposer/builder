@@ -145,22 +145,6 @@
       }
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "widgetKey",
-      "widget",
-      "customWidgetHtml",
-      "atts_before_title",
-      "atts_after_title",
-      "atts_before_widget",
-      "atts_after_widget"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
@@ -178,7 +162,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
+      "contentTab",
       "designTab",
       "advancedTab"
     ]
@@ -264,6 +248,33 @@
     },
     "value": [
       "designOptions"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "widgetKey",
+      "widget",
+      "customWidgetHtml",
+      "atts_before_title",
+      "atts_after_title",
+      "atts_before_widget",
+      "atts_after_widget"
     ]
   }
 }
