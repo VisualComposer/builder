@@ -55,7 +55,7 @@
           this.bgElement.style.bottom = elementRect.bottom - window.innerHeight + 'px';
         } else {
           var parallaxValue = this.speed * 2 * scrollPercent * -1 + this.speed;
-          if (this.reverse === 'true') {
+          if (this.reverse == 'true') {
             parallaxValue = parallaxValue * -1;
           }
           this.bgElement.style.transform = 'translateY(' + parallaxValue + 'vh)';
