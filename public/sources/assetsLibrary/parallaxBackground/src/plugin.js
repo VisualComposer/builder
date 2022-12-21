@@ -67,8 +67,6 @@
           this.speed = speed;
         }
         if ('vceAssetsParallaxReverse' in element.dataset) {
-          console.log('asd', element.dataset.vceAssetsParallaxReverse)
-          console.log('type',typeof element.dataset.vceAssetsParallaxReverse)
           this.reverse = element.dataset.vceAssetsParallaxReverse;
         }
         this.fixed = 'vceAssetsParallaxFixed' in element.dataset
