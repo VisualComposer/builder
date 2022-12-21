@@ -65,7 +65,7 @@ define('VCV_PLUGIN_BASE_NAME', plugin_basename(__FILE__));
 define('VCV_PLUGIN_FULL_PATH', __FILE__);
 /**
  * Plugin directory name: 'visualcomposer'
- *
+ */
 define('VCV_PLUGIN_DIRNAME', basename(dirname(VCV_PLUGIN_BASE_NAME)));
 define('VCV_PLUGIN_ASSETS_DIRNAME', 'visualcomposer-assets');
 /**
