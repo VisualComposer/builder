@@ -200,19 +200,6 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "advanced",
-      "autopause",
-      "autoplay",
-      "loop"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
@@ -231,7 +218,6 @@
     "access": "protected",
     "value": [
       "contentTab",
-      "editFormTab1",
       "designTab",
       "advancedTab"
     ]
@@ -347,7 +333,11 @@
       "label": "Content"
     },
     "value": [
-      "videoPlayer"
+      "videoPlayer",
+      "advanced",
+      "autopause",
+      "autoplay",
+      "loop"
     ]
   }
 }

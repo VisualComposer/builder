@@ -25,7 +25,6 @@
     "access": "protected",
     "value": [
       "contentTab",
-      "editFormTab1",
       "designTab",
       "advancedTab"
     ]

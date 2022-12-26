@@ -381,19 +381,6 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "clickableOptions",
-      "showCaption",
-      "autoplay",
-      "autoplayDelay"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
@@ -412,7 +399,6 @@
     "access": "protected",
     "value": [
       "contentTab",
-      "editFormTab1",
       "designTab",
       "advancedTab"
     ]
@@ -597,7 +583,11 @@
       "label": "Content"
     },
     "value": [
-      "images"
+      "clickableOptions",
+      "showCaption",
+      "images",
+      "autoplay",
+      "autoplayDelay"
     ]
   }
 }
