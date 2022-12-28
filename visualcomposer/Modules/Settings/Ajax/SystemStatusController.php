@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VcvEnv;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
@@ -32,6 +33,16 @@ class SystemStatusController extends Container implements Module
             'vcv:ajax:settings:systemStatus:checkPayloadProcessing:adminNonce',
             'checkPayloadProcessing'
         );
+        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::checkAwsConnection */
+        $this->addFilter(
+            'vcv:ajax:settings:systemStatus:checkAwsConnection:adminNonce',
+            'checkAwsConnection'
+        );
+        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::checkAccountConnection */
+        $this->addFilter(
+            'vcv:ajax:settings:systemStatus:checkAccountConnection:adminNonce',
+            'checkAccountConnection'
+        );
         $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
     }
 
@@ -41,7 +52,7 @@ class SystemStatusController extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
-     * @return mixed
+     * @return array
      */
     protected function checkPayloadProcessing(Request $requestHelper)
     {
@@ -53,6 +64,36 @@ class SystemStatusController extends Container implements Module
             $response['status'] = $checkPayload['toTest']['toTest2']['toTest3'] == 1;
             $response['data'] = $this->generateRandomString(5000000);
         }
+
+        return $response;
+    }
+
+    /**
+     * Ajax call processor for checking AWS connection.
+     *
+     * @return array
+     */
+    protected function checkAwsConnection()
+    {
+        $response = [];
+        $statusHelper = vchelper('Status');
+
+        $response['status'] = $statusHelper->getAwsConnection();
+
+        return $response;
+    }
+
+    /**
+     * Ajax call processor for checking AWS connection.
+     *
+     * @return array
+     */
+    protected function checkAccountConnection()
+    {
+        $response = [];
+        $statusHelper = vchelper('Status');
+
+        $response['status'] = $statusHelper->getAccountConnection();
 
         return $response;
     }
@@ -81,7 +122,7 @@ class SystemStatusController extends Container implements Module
 
         $variables[] = [
             'key' => 'VCV_JS_SAVE_ZIP',
-            'value' => \VcvEnv::get('VCV_JS_SAVE_ZIP', true),
+            'value' => VcvEnv::get('VCV_JS_SAVE_ZIP', true),
             'type' => 'constant',
         ];
 
