@@ -278,19 +278,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     customImageProps.alt = image && image.alt ? image.alt : ''
     customImageProps.title = image && image.title ? image.title : ''
 
-    let captionText = image && image.caption ? image.caption : ''
-
-    if (isDynamic) {
-      try {
-        const url = new URL(image.full)
-        const urlParams = new URLSearchParams(url.search)
-        customImageProps.alt = urlParams.get('alt') ? urlParams.get('alt') : ''
-        customImageProps.title = urlParams.get('title') ? urlParams.get('title') : ''
-        captionText = urlParams.get('caption') ? urlParams.get('caption') : ''
-      } catch (e) {
-        console.warn('URL is not valid, skipping', image, image.full)
-      }
-    }
+    const captionText = image && image.caption ? image.caption : ''
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass
