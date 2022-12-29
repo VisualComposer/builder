@@ -71,7 +71,7 @@ export const checkStatus = () => {
 
   dataProcessor.appAdminServerRequest({
     'vcv-action': 'settings:systemStatus:checkAwsConnection:adminNonce',
-    'vcv-nonce': dataManager.get('nonce'),
+    'vcv-nonce': dataManager.get('nonce')
   }).then((responseData) => {
     const json = getResponse(responseData)
 
@@ -86,7 +86,7 @@ export const checkStatus = () => {
 
   dataProcessor.appAdminServerRequest({
     'vcv-action': 'settings:systemStatus:checkAccountConnection:adminNonce',
-    'vcv-nonce': dataManager.get('nonce'),
+    'vcv-nonce': dataManager.get('nonce')
   }).then((responseData) => {
     const json = getResponse(responseData)
 
