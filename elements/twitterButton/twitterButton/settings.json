@@ -7,22 +7,6 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "buttonType",
-      "shareText",
-      "tweetText",
-      "tweetAccount",
-      "hashtagTopic",
-      "username",
-      "showUsername"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
@@ -40,7 +24,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
+      "contentTab",
       "designTab",
       "advancedTab"
     ]
@@ -366,8 +350,35 @@
       "label": "Style"
     },
     "value": [
+      "buttonType",
       "tweetButtonSize",
       "alignment"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "shareText",
+      "tweetText",
+      "tweetAccount",
+      "hashtagTopic",
+      "username",
+      "showUsername"
     ]
   }
 }
