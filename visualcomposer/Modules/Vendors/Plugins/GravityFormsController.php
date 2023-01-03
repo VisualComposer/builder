@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -14,9 +14,9 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
- * Plugin compatibility
+ * Backward compatibility with "Elementor" wordPress plugin.
  *
- * @see https://www.gravityforms.com/
+ * @see https://wordpress.org/plugins/gravity-forms-custom-post-types/
  */
 class GravityFormsController extends Container implements Module
 {
@@ -28,6 +28,7 @@ class GravityFormsController extends Container implements Module
             return;
         }
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\GravityFormsController::addInlineScripts */
         $this->wpAddAction('after_wp_tiny_mce', 'addInlineScripts');
 
         if (

@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -15,11 +15,11 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 
 /**
- * Backward compatibility with WooCommerce Multivendor Marketplace plugin.
+ * Backward compatibility with "WooCommerce Multivendor Marketplace" plugin.
  *
  * @see https://wordpress.org/plugins/wc-multivendor-marketplace
  */
-class WooCommerceMultivendorMarketplace extends Container implements Module
+class WooCommerceMultivendorMarketplaceController extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -35,6 +35,7 @@ class WooCommerceMultivendorMarketplace extends Container implements Module
             return;
         }
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WooCommerceMultivendorMarketplaceController::disableFallbackTemplate */
         $this->addFilter(
             'vcv:editor:settings:pageTemplatesLayouts:fallbackTemplate',
             'disableFallbackTemplate'

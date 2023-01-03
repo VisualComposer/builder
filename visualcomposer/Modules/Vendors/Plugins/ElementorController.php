@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -12,12 +12,18 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "Elementor" wordPress plugin.
+ *
+ * @see https://wordpress.org/plugins/elementor/
+ */
 class ElementorController extends Container implements Module
 {
     use WpFiltersActions;
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Vendors\Plugins\ElementorController::dequeueScripts */
         $this->wpAddAction('elementor/common/after_register_scripts', 'dequeueScripts');
     }
 

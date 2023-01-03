@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,11 +13,15 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "Woocommerce" wordPress plugin.
+ *
+ * @see https://wordpress.org/plugins/woocommerce/
+ */
 class WooCommerceController extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
-
     public function __construct()
     {
         $this->wpAddAction('plugins_loaded', 'initialize', 16);
