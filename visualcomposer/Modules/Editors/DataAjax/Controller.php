@@ -238,6 +238,8 @@ class Controller extends Container implements Module
             [
                 'https://' . $uploadUrl,
                 'http://' . $uploadUrl,
+                'https:\/\/' . str_replace('/', '\/', $uploadUrl),
+                'http:\/\/' . str_replace('/', '\/', $uploadUrl),
             ],
             '|!|vcvUploadUrl|!|',
             $content
