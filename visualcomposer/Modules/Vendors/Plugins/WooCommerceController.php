@@ -22,6 +22,7 @@ class WooCommerceController extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
+    
     public function __construct()
     {
         $this->wpAddAction('plugins_loaded', 'initialize', 16);
