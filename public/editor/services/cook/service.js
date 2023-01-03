@@ -594,9 +594,13 @@ const API = {
             value.full = dynamicFieldsData
             layoutAtts[fieldKey] = value
 
-            if (postData[additionalDataKey]) {
-              const additionalData = JSON.parse(postData[additionalDataKey])
-
+            let additionalData
+            if (blockAtts.sourceId && postData[blockAtts.sourceId] && postData[blockAtts.sourceId][additionalDataKey]) {
+              additionalData = JSON.parse(postData[blockAtts.sourceId][additionalDataKey])
+            } else if (postData[additionalDataKey]) {
+              additionalData = JSON.parse(postData[additionalDataKey])
+            }
+            if (additionalData) {
               layoutAtts.image.caption = additionalData['image-caption'] ? additionalData['image-caption'] : ''
               layoutAtts.image.alt = additionalData['image-alt'] ? additionalData['image-alt'] : ''
               layoutAtts.image.title = additionalData['image-title'] ? additionalData['image-title'] : ''
