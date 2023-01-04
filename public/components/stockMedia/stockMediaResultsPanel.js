@@ -43,7 +43,9 @@ class StockMediaResultsPanel extends React.Component {
     }
 
     this.resultsWrapperRef = React.createRef()
+    this.resultContainerRef = React.createRef()
 
+    this.showImages = this.showImages.bind(this)
     this.handleImageLoad = this.handleImageLoad.bind(this)
     this.handleClickDownloadImage = this.handleClickDownloadImage.bind(this)
     this.setColumnCount = this.setColumnCount.bind(this)
@@ -95,8 +97,8 @@ class StockMediaResultsPanel extends React.Component {
     })
 
     // check if already existing images fills the container
-    if (this.resultContainer) {
-      const scrollContainer = this.resultContainer.closest('.vcv-ui-scroll-content')
+    if (this.resultContainerRef?.current) {
+      const scrollContainer = this.resultContainerRef.current.closest('.vcv-ui-scroll-content')
       const clientRect = scrollContainer && scrollContainer.getBoundingClientRect()
       if (clientRect && clientRect.height >= scrollContainer.scrollHeight) {
         this.getImagesFromServer(this.props.searchValue, this.state.page)
@@ -175,7 +177,7 @@ class StockMediaResultsPanel extends React.Component {
             }
             this.prepareImages(result)
             if (result.results && result.results.length) {
-              this.showImages()
+              window.setTimeout(this.showImages, 500)
             }
           }
         },
@@ -256,7 +258,7 @@ class StockMediaResultsPanel extends React.Component {
   }
 
   showImages () {
-    const images = this.resultContainer && this.resultContainer.querySelectorAll('.vcv-stock-image-not-visible')
+    const images = this.resultContainerRef?.current && this.resultContainerRef.current.querySelectorAll('.vcv-stock-image-not-visible')
     const inAdvance = 100
     if (images && images.length) {
       images.forEach((img) => {
@@ -518,11 +520,11 @@ class StockMediaResultsPanel extends React.Component {
     if (requestInProgress && page === 1) {
       return loadingHtml
     }
-    const classNames = `vcv-stock-images-results-container vcv-stock-images-column-count--${columnCount}`
+    const classes = `vcv-stock-images-results-container vcv-stock-images-column-count--${columnCount}`
     let results = ''
     if (total > 0) {
       results = (
-        <div className={classNames} ref={(resultContainer) => { this.resultContainer = resultContainer }}>
+        <div className={classes} ref={this.resultContainerRef}>
           {this.getItems()}
         </div>
       )

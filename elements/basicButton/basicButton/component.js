@@ -12,12 +12,12 @@ export default class ButtonElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton, color, background, hoverColor, hoverBackground } = atts
+    const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton, color, background, hoverColor, hoverBackground, extraDataAttributes } = atts
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
     let classes = 'vce-button vce-button--style-basic'
-    let customProps = {}
+    let customProps = this.getExtraDataAttributes(extraDataAttributes)
     let CustomTag = 'button'
 
     if (buttonUrl && buttonUrl.url) {

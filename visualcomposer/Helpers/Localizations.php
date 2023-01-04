@@ -152,6 +152,8 @@ class Localizations extends Container implements Helper
             'rowLayout' => __('Row Layout', 'visualcomposer'),
             'edit' => __('Edit', 'visualcomposer'),
             'designOptions' => __('Design Options', 'visualcomposer'),
+            'design' => __('Design', 'visualcomposer'),
+            'advanced' => __('Advanced', 'visualcomposer'),
             'clone' => __('Clone', 'visualcomposer'),
             'copy' => __('Copy', 'visualcomposer'),
             'paste' => __('Paste', 'visualcomposer'),
@@ -431,6 +433,10 @@ class Localizations extends Container implements Helper
             'continueImport' => __('Continue importing', 'visualcomposer'),
             'backToImport' => __('Back to import', 'visualcomposer'),
             'startingImportProcess' => __('Starting import process...', 'visualcomposer'),
+            'skipImportMedia' => __('The server cannot process some media files. This can happen if the the server is busy or does not have enough resources to complete the task. Right now we skipped problem medias. But you can increase server resources and try to import again. List of medias that have issue below', 'visualcomposer'),
+            'importUpdatingMediaProcess' => __('Updating media data...', 'visualcomposer'),
+            'importMediaUpdateLeft' => __('files left', 'visualcomposer'),
+            'importDoneText' => __('Import Done. Go to', 'visualcomposer'),
             'backToParent' => __('Back to parent', 'visualcomposer'),
             'back' => __('Back', 'visualcomposer'),
             'manageContentInYourLibrary' => __('Manage content in your library', 'visualcomposer'),
@@ -2181,7 +2187,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'defaultLayoutDescription' => __(
-                'The theme default layout.',
+                'The theme default or theme builder layout.',
                 'visualcomposer'
             ),
             'blankLayoutDescription' => __(

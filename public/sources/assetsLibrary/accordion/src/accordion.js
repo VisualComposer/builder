@@ -343,8 +343,8 @@
       if ($target.length) {
         id = $target.attr('id')
       }
-      if (id && !(history.state && history.state.stateId)) {
-        history.pushState({ stateId: 'removeHash' }, '', '#' + id)
+      if (id) {
+        history.replaceState(null, null, '#' + id)
       }
     }
 
@@ -634,9 +634,9 @@
         Plugin.call($this, 'show', opt)
       }
 
-      if (!isCurrentPanel) {
+      if (isCurrentPanel) {
         // Clear the hash in the site URL (address bar)
-        history.replaceState({ stateId: 'removeHash' }, '', window.location.pathname)
+        history.replaceState(null, null, window.location.pathname + window.location.search)
       }
     }
 
@@ -869,9 +869,8 @@
     const Plugin = this.getPlugin()
     this.setActiveTab('add')
     this.setupAccordionProperty()
-    $(window).on(this.settings.accordionHashChangeEvent, this.hashNavigation)
     $(document).on(this.settings.accordionClickEventSelector, this.settings.accordionDataSelector, this.clickHandler)
-    $(document).on(this.settings.accordionReadyEventSelector, this.hashNavigation)
+    $(this.hashNavigation)
     $(document).on(this.settings.accordionAfterShowEventSelector, function (e, opt) {
       Plugin.call($(e.target), 'scrollToActive', opt)
     })

@@ -116,6 +116,10 @@ class PageTemplatesVariablesController extends Container implements Module
                 'label' => __('Default', 'visualcomposer'),
                 'value' => 'default',
             ],
+            [
+                'label' => __('Theme', 'visualcomposer'),
+                'value' => 'theme',
+            ],
         ];
         if (!empty($pageTemplates)) {
             foreach ($pageTemplates as $key => $template) {

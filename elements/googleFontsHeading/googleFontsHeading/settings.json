@@ -2,7 +2,7 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -23,12 +23,23 @@
       "alignment",
       "lineHeight",
       "letterSpacing",
-      "link",
-      "metaCustomId",
-      "customClass"
+      "link"
     ],
     "options": {
       "label": "General"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
+    ],
+    "options": {
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
@@ -36,7 +47,8 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptions"
+      "designTab",
+      "advancedTab"
     ]
   },
   "relatedTo": {
@@ -236,7 +248,7 @@
       },
       "min": 0,
       "max": 180,
-      "measurement": "°",
+      "measurement": "\u00b0",
       "onChange": {
         "rules": {
           "colorType": {
@@ -340,5 +352,63 @@
     "type": "string",
     "access": "protected",
     "value": "googleFontsHeading"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
+  },
+  "customCSS": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "styleEditor"
+    ],
+    "options": {
+      "label": "Custom CSS",
+      "tooltip": "Add custom CSS to the element using the [element-id] placeholder."
+    }
+  },
+  "styleEditor": {
+    "type": "styleEditor",
+    "access": "public",
+    "value": [],
+    "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=john data-age=28)"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "designOptions"
+    ]
   }
 }

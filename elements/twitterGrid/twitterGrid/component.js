@@ -123,11 +123,11 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, alignment, width, metaCustomId } = atts
+    const { customClass, alignment, width, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-twitter-grid'
     const innerClasses = 'vce-twitter-grid-inner'
     const wrapperClasses = 'vce-twitter-grid-wrapper vce'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {

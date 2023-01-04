@@ -125,7 +125,7 @@
         <exclude-pattern>./visualcomposer/Modules/Elements/Traits/AddShortcodeTrait.php</exclude-pattern>
         <exclude-pattern>./visualcomposer/Modules/Elements/Traits/ShortcodesTrait.php</exclude-pattern>
         <exclude-pattern>./visualcomposer/Modules/FrontView/FrontViewController.php</exclude-pattern>
-        <exclude-pattern>./visualcomposer/Modules/Vendors/WpmlController.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Modules/Vendors/Plugins/WpmlController.php</exclude-pattern>
     </rule>
     <rule ref="WordPress.WP.DeprecatedFunctions"/>
     <rule ref="WordPress.WP.DeprecatedClasses"/>

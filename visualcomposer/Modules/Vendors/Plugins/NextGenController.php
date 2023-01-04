@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -12,7 +12,12 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-class NextGen extends Container implements Module
+/**
+ * Backward compatibility with "NextGEN Gallery" wordPress plugin.
+ *
+ * @see https://wordpress.org/plugins/nextgen-gallery/
+ */
+class NextGenController extends Container implements Module
 {
     use WpFiltersActions;
 

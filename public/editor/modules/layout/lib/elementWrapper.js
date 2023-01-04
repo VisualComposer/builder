@@ -39,7 +39,14 @@ const ElementWrapper = forwardRef((props, ref) => {
     let returnData = null
     const currentElementId = props.id
     const elementsList = documentManager.children(props.id).map((childElement) => {
-      const elements = [<Element id={childElement.id} key={childElement.id} api={props.api} />]
+      const elements = [
+        <Element
+          id={childElement.id}
+          key={`${props.postId}:child:${childElement.id}`}
+          postId={props.postId}
+          api={props.api}
+        />
+      ]
       if (childElement.tag === 'column') {
         if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) || !props.elementData?.metaIsElementLocked) {
           elements.push(
@@ -70,7 +77,7 @@ const ElementWrapper = forwardRef((props, ref) => {
     }
 
     return !returnData ? <EmptyCommentElementWrapper /> : returnData
-  }, [cookElement, props.elementData, props.api, props.id])
+  }, [cookElement, props.elementData, props.api, props.id, props.postId])
 
   if (!cookElement) {
     return null

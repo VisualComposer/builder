@@ -20,10 +20,10 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    let { text, elementTag, font, fontSize, alignment, lineHeight, letterSpacing, link, colorType, customClass, metaCustomId, color, gradientStart, gradientEnd, gradientAngle } = atts
+    let { text, elementTag, font, fontSize, alignment, lineHeight, letterSpacing, link, colorType, customClass, metaCustomId, color, gradientStart, gradientEnd, gradientAngle, extraDataAttributes } = atts
     let classes = 'vce-google-fonts-heading'
     const wrapperClasses = 'vce-google-fonts-heading-wrapper'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const innerClasses = 'vce-google-fonts-heading-inner'
     const backgroundClasses = 'vce-google-fonts-heading--background vce'
     const innerCustomProps = {}
@@ -87,7 +87,7 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
     const fontColorSelector = `${colorSelector}--${gradientAngle}--${gradientEndSelector}--${gradientStartSelector}`
 
     classes += ` vce-google-fonts-heading--${colorType}-${fontColorSelector}`
-    classes += ` vce-google-fonts-heading--font-family-${font.fontFamily.replace(' ', '-')}`
+    classes += ` vce-google-fonts-heading--font-family-${font.fontFamily.replaceAll(' ', '-')}`
 
     if (font && font.status === 'active') {
       const fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? 'normal' : font.fontStyle.style) : 'normal'
@@ -103,8 +103,8 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
 
     return (
       <div {...customProps} className={classes} {...editor}>
-        <div className={wrapperClasses}>
-          <div className={backgroundClasses} id={'el-' + id} {...doAll}>
+        <div id={'el-' + id} className={wrapperClasses}>
+          <div className={backgroundClasses} {...doAll}>
             <CustomTag className={innerClasses} {...innerCustomProps}>
               {headingHtml}
             </CustomTag>

@@ -1,5 +1,6 @@
 import React from 'react'
 import Element from '../../layout/lib/element'
+import { getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 
 export default class HtmlLayout extends React.Component {
@@ -10,10 +11,12 @@ export default class HtmlLayout extends React.Component {
 
   render () {
     let elementsList
-    if (this.props.data) {
+    if (this.props.data && this.props.data.length) {
+      const postData = getStorage('settings').state('postData').get()
+      const postId = postData.post_id
       elementsList = this.props.data.map((element) => {
         return (
-          <Element id={element.id} key={element.id} api={this.props.api} />
+          <Element id={element.id} key={`${postId}:postUpdate:${element.id}`} postId={postId} api={this.props.api} />
         )
       })
     }

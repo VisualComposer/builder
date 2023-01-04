@@ -59,36 +59,31 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
+  "advancedTab": {
     "type": "group",
     "access": "protected",
     "value": [
-      "clickableOptions",
-      "showCaption",
-      "image",
-      "showCaptionGeneral",
-      "captionAlignment",
-      "columns",
-      "gap",
-      "shape",
-      "metaCustomId",
-      "customClass"
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
     ],
     "options": {
-      "label": "General"
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "designOptions"
+      "contentTab",
+      "designTab",
+      "advancedTab"
     ]
   },
   "relatedTo": {
@@ -280,5 +275,101 @@
     "access": "protected",
     "type": "string",
     "value": "imageGallery"
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
+  },
+  "customCSS": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "styleEditor"
+    ],
+    "options": {
+      "label": "Custom CSS",
+      "tooltip": "Add custom CSS to the element using the [element-id] placeholder."
+    }
+  },
+  "styleEditor": {
+    "type": "styleEditor",
+    "access": "public",
+    "value": [],
+    "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=john data-age=28)"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "styleSection",
+      "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "columns",
+      "gap",
+      "showCaptionGeneral",
+      "captionAlignment",
+      "shape"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "clickableOptions",
+      "showCaption",
+      "image"
+    ]
   }
 }

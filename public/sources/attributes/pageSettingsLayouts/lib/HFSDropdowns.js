@@ -45,7 +45,7 @@ export default class HFSDropdowns extends React.Component {
     })
 
     let currentLayoutData = {}
-    const isCustomLayoutTheme = currentLayout.type === 'vc-custom-layout' && (currentLayout.value + '').indexOf('theme:') !== -1
+    const isCustomLayoutTheme = currentLayout.type === 'vc-custom-layout' && (currentLayout.value + '').indexOf('theme:default') !== -1
     if (currentLayout.type === 'theme' || isCustomLayoutTheme) {
       currentLayoutData.header = true
       currentLayoutData.footer = true

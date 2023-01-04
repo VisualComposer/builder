@@ -2,8 +2,6 @@ import { getService } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 
 const dataManager = getService('dataManager')
-const $ = window.jQuery
-const $checkContainer = $('#vcv-large-content-status')
 
 const generateRandomString = (length) => {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'
@@ -37,19 +35,23 @@ const generateFakeData = () => {
   return data
 }
 
-const setStatus = (status) => {
+const setStatus = (status, id) => {
+  const systemStatusElement = document.getElementById(id)
+
   if (status === 'success') {
-    $checkContainer.addClass('good').removeClass('bad vcv-ui-wp-spinner').text('Success')
+    systemStatusElement.classList.add('good')
+    systemStatusElement.classList.remove('bad')
+    systemStatusElement.classList.remove('vcv-ui-wp-spinner')
+    systemStatusElement.innerHTML = 'Success'
   } else {
-    $checkContainer.addClass('bad').removeClass('good vcv-ui-wp-spinner').text('Failed')
+    systemStatusElement.classList.add('bad')
+    systemStatusElement.classList.remove('good')
+    systemStatusElement.classList.remove('vcv-ui-wp-spinner')
+    systemStatusElement.innerHTML = 'Failed'
   }
 }
 
 export const checkStatus = () => {
-  if (!$checkContainer.length) {
-    return
-  }
-
   const dataProcessor = getService('dataProcessor')
   dataProcessor.appAdminServerRequest({
     'vcv-action': 'settings:systemStatus:checkPayloadProcessing:adminNonce',
@@ -59,11 +61,41 @@ export const checkStatus = () => {
     const json = getResponse(responseData)
 
     if (json.status) {
-      setStatus('success')
+      setStatus('success', 'vcv-large-content-status')
     } else {
-      setStatus('fail')
+      setStatus('fail', 'vcv-large-content-status')
     }
   }, () => {
-    setStatus('fail')
+    setStatus('fail', 'vcv-large-content-status')
+  })
+
+  dataProcessor.appAdminServerRequest({
+    'vcv-action': 'settings:systemStatus:checkAwsConnection:adminNonce',
+    'vcv-nonce': dataManager.get('nonce')
+  }).then((responseData) => {
+    const json = getResponse(responseData)
+
+    if (json.status) {
+      setStatus('success', 'vcv-aws-status')
+    } else {
+      setStatus('fail', 'vcv-aws-status')
+    }
+  }, () => {
+    setStatus('fail', 'vcv-aws-status')
+  })
+
+  dataProcessor.appAdminServerRequest({
+    'vcv-action': 'settings:systemStatus:checkAccountConnection:adminNonce',
+    'vcv-nonce': dataManager.get('nonce')
+  }).then((responseData) => {
+    const json = getResponse(responseData)
+
+    if (json.status) {
+      setStatus('success', 'vcv-account-status')
+    } else {
+      setStatus('fail', 'vcv-account-status')
+    }
+  }, () => {
+    setStatus('fail', 'vcv-account-status')
   })
 }

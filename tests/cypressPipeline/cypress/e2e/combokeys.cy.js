@@ -4,7 +4,7 @@ const capitalA = '{shift}A'
 const capitalS = '{shift}S'
 const capitalT = '{shift}T'
 
-describe('Editor controls', function () {
+describe('Keyboard shortcuts', function () {
     it('Checks different keyboard shortcuts', function () {
         cy.createPage()
         cy.get('#add-content-search').should('have.focus')
@@ -47,9 +47,12 @@ describe('Editor controls', function () {
         // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
 
         //* ID
+        cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
         cy.setInput('Element ID', '{shift}AST')
+        cy.contains('.vcv-ui-navigation-slider-button', 'Content').click()
         cy.getIframe('#vcv-editor-iframe').find('#AST')
 
+        cy.wait(2000)
         //* tinyMCE editor field
         cy.getIframe('#vcv-wpeditor-output_ifr')
             .clear()
@@ -118,7 +121,6 @@ describe('Editor controls', function () {
         cy.get('body').trigger('keydown', { shiftKey: true, keyCode: 83, which: 83 })
         cy.get('.vcv-ui-panel-heading').contains('Options')
 
-
         // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
         // Settings -> Custom CSS
 
@@ -148,13 +150,13 @@ describe('Editor controls', function () {
 
         // Press ctrl/command + Z, check if this undo last action(editing text field text)
         cy.get('body').trigger('keydown', { ctrlKey: true, keyCode: 90, which: 90 })
-        cy.wait(200)
+        cy.wait(2000)
         cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('exist')
 
         // Press ctrl/command + shift + Z, check if this redo the last action
         cy.get('body').focus().trigger('keydown', { ctrlKey: true, shiftKey:true, keyCode: 90, which: 90 })
-        cy.wait(200)
-        cy.getIframe('#vcv-editor-iframe').find('.vce-text-block h2').contains('Typography is the art and technique').should('not.exist')
+        cy.wait(2000)
+        cy.getIframe('#vcv-editor-iframe').find('.vce-text-block p').contains('Typography is the art and technique').should('not.exist')
 
         // Press ctrl/command + S, check if the page is saved
         cy.window().then((win) => {

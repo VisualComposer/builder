@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -9,13 +9,17 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Container\BindingResolutionException;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Editors\Settings\TitleController;
 
+/**
+ * Backward compatibility with "Yoast" plugin.
+ *
+ * @see https://wordpress.org/plugins/wordpress-seo/
+ */
 class YoastController extends Container implements Module
 {
     use EventsFilters;
@@ -36,8 +40,10 @@ class YoastController extends Container implements Module
         if (!function_exists('YoastSEO')) {
             return;
         }
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\YoastController::initializeYoast */
         $this->addEvent('vcv:inited', 'initializeYoast', 11);
+
+        /** @see \VisualComposer\Modules\Vendors\Plugins\YoastController::overrideFrontendOutput */
         $this->wpAddFilter(
             'wpseo_frontend_presentation',
             'overrideFrontendOutput',
@@ -48,6 +54,7 @@ class YoastController extends Container implements Module
         $this->titleController = vcapp('EditorsSettingsTitleController');
         $this->preventRemovingTitleFromBreadcrumbs();
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\YoastController::fixYoastPremiumBreadcrumbs */
         if (defined('WPSEO_PREMIUM_FILE')) {
             $this->wpAddFilter(
                 'wpseo_frontend_presentation',
@@ -113,8 +120,7 @@ class YoastController extends Container implements Module
         $globalsHelper->set('wp_query', $copyWpQuery->query['queriedPage']);
         $globalsHelper->set('wp_the_query', $copyWpTheQuest->query['queriedPage']);
 
-        $repository = YoastSEO()->classes->get('Yoast\WP\SEO\Repositories\Indexable_Repository');
-        $model = $repository->for_current_page();
+        $model = YoastSEO()->meta->for_current_page()->indexable;
 
         if ($model) {
             $contextPresentation->model = $model;

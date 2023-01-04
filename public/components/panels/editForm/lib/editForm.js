@@ -8,6 +8,8 @@ import PremiumTeaser from 'public/components/premiumTeasers/component'
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 import { getService, getStorage, env } from 'vc-cake'
 
+import PanelNavigation from '../../panelNavigation'
+
 const dataManager = getService('dataManager')
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
@@ -22,10 +24,14 @@ export default class EditForm extends React.Component {
   }
 
   scrollbar = false
+  permittedTabs = ['layoutTab', 'contentTab', 'designTab', 'advancedTab']
 
   constructor (props) {
     super(props)
+    this.allTabs = this.updateTabs(this.props)
     this.state = {
+      activeTabIndex: this.getActiveIndex(this.props.activeTabId, false),
+      activeSectionIndex: this.getActiveIndex(this.props.activeTabId, true),
       isEditFormSettingsOpened: false,
       isElementReplaceOpened: props.options && props.options.isReplaceOpened ? props.options.isReplaceOpened : false,
       isVisible: workspaceContentState.get() === 'editElement'
@@ -35,9 +41,13 @@ export default class EditForm extends React.Component {
     this.toggleShowReplace = this.toggleShowReplace.bind(this)
     this.getPremiumTeaser = this.getPremiumTeaser.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
+    this.setActiveTab = this.setActiveTab.bind(this)
   }
 
   componentDidMount () {
+    const activeId = this.props.activeTabId || Object.keys(this.getTabs())[0]
+    const index = this.getTabs()[activeId]?.index
+    this.setActiveTab(null, index)
     workspaceContentState.onChange(this.setVisibility)
   }
 
@@ -55,15 +65,18 @@ export default class EditForm extends React.Component {
     this.scrollbar = scrollbar
   }
 
-  getActiveTabIndex (activeTabKey) {
+  getActiveIndex (activeTabKey, isSection) {
     const activeTab = this.allTabs && this.allTabs.findIndex((tab) => {
       return tab.fieldKey === activeTabKey
     })
-    return activeTab > -1 ? activeTab : 0
+    // Backwards compatibility
+    // Need to check if it's a tab or section
+    const isPermitted = this.permittedTabs.includes(activeTabKey)
+    return activeTab > -1 && ((isPermitted && !isSection) || (!isPermitted && isSection)) ? activeTab : 0
   }
 
-  updateTabs (props) {
-    return this.editFormTabs(props).map((tab, index) => {
+  updateTabs (props, propName) {
+    return this.editFormTabs(props, propName).map((tab, index) => {
       return {
         fieldKey: tab.key,
         index: index,
@@ -81,9 +94,9 @@ export default class EditForm extends React.Component {
     })
   }
 
-  editFormTabs (props) {
+  editFormTabs (props, tabsProp = 'metaEditFormTabs') {
     const cookElement = props.elementAccessPoint.cook()
-    const group = cookElement.get('metaEditFormTabs')
+    const group = cookElement.get(tabsProp)
     if (props.options.nestedAttr) {
       const groups = []
       const attributes = cookElement.settings(props.options.fieldKey)
@@ -138,20 +151,50 @@ export default class EditForm extends React.Component {
     return [tab]
   }
 
-  getAccordionSections (activeTabIndex) {
-    return this.allTabs.map((tab, index) => {
-      return (
-        <EditFormSection
-          {...this.props}
-          sectionIndex={index}
-          activeTabIndex={activeTabIndex}
-          getSectionContentScrollbar={() => { return this.scrollbar }}
-          key={tab.key}
-          tab={tab}
-          getReplaceShownStatus={this.getReplaceShownStatus}
-        />
-      )
-    })
+  getSection (activeTab, activeTabIndex, isAccordion) {
+    return (
+      <EditFormSection
+        {...this.props}
+        sectionIndex={activeTab.index}
+        activeTabIndex={activeTabIndex}
+        getSectionContentScrollbar={() => { return this.scrollbar }}
+        key={activeTab?.key}
+        tab={activeTab}
+        accordion={isAccordion}
+        activeSectionIndex={isAccordion ? this.state.activeSectionIndex : 0}
+        getReplaceShownStatus={this.getReplaceShownStatus}
+      />
+    )
+  }
+
+  getAccordionSections (activeTabIndex, realTabs) {
+    const tabsLength = Object.keys(realTabs).length
+    if (tabsLength > 1) {
+      // Backwards compatibility
+      // Show all attributes in General tab if none of the permitted tabs are specified
+      const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
+      const activeTab = this.allTabs.find(tab => tab.fieldKey === activeTabName)
+
+      if (activeTab && activeTab.fieldKey && this.permittedTabs.includes(activeTab.fieldKey)) {
+        if (activeTab.data.settings.options.isSections) {
+          const sections = this.updateTabs(this.props, activeTabName)
+          return sections.map((tab) => {
+            return this.getSection(tab, activeTabIndex, true)
+          })
+        } else {
+          return this.getSection(activeTab, activeTabIndex, true)
+        }
+      } else {
+        const deprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
+        return deprecatedTabs.map((tab) => {
+          return this.getSection(tab, activeTabIndex, true)
+        })
+      }
+    } else {
+      return this.allTabs.map((tab) => {
+        return this.getSection(tab, activeTabIndex, true)
+      })
+    }
   }
 
   getPremiumTeaser () {
@@ -245,12 +288,46 @@ export default class EditForm extends React.Component {
     return showElementReplaceIcon
   }
 
+  setActiveTab (type, index) {
+    this.setState({ activeTabIndex: index, activeSectionIndex: 0 })
+  }
+
+  getTabs () {
+    const tabs = {}
+    // Backwards compatibility
+    // Show General tab if none of the permitted tabs are specified
+    const isDeprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
+    if (isDeprecatedTabs.length) {
+      tabs.general = {
+        index: 0,
+        title: 'General',
+        type: 'general',
+        key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`
+      }
+    }
+    let index = isDeprecatedTabs.length ? 1 : 0
+
+    this.allTabs.forEach((tab, i) => {
+      if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
+        tabs[tab.fieldKey] = {
+          index: index,
+          title: tab.data.settings.options.label || tab.data.settings.options.tabLabel,
+          type: tab.fieldKey,
+          key: tab.key
+        }
+        index++
+      }
+    })
+    return tabs
+  }
+
   render () {
     this.allTabs = this.updateTabs(this.props)
-    const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened } = this.state
-    const activeTabIndex = this.getActiveTabIndex(this.props.activeTabId)
-    const activeTab = this.allTabs[activeTabIndex]
+    const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened, activeTabIndex } = this.state
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
+    const tabs = this.getTabs()
+    let activeTab = Object.keys(tabs).find(tab => tabs[tab].index === activeTabIndex)
+    activeTab = tabs[activeTab]
 
     let content = null
     if (isEditFormSettingsOpened) {
@@ -262,20 +339,29 @@ export default class EditForm extends React.Component {
     } else if (isElementReplaceOpened) {
       content = this.getReplaceElementBlock()
     } else {
-      content = this.getAccordionSections(activeTabIndex)
+      content = this.getAccordionSections(activeTabIndex, tabs)
     }
 
     const plateClass = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--centered': !isAddonEnabled,
       'vcv-ui-state--active': true
-    }, `vcv-ui-editor-plate-${activeTab.key}`)
+    }, activeTab?.key ? `vcv-ui-editor-plate-${activeTab.key}` : '')
 
     const editFormClasses = classNames({
       'vcv-ui-tree-view-content': true,
       'vcv-ui-tree-view-content-accordion': true,
       'vcv-ui-state--hidden': !this.state.isVisible
     })
+
+    let navigation = null
+    if (Object.keys(tabs).length > 1) {
+      navigation = <PanelNavigation
+        controls={tabs}
+        activeSection={activeTab?.type}
+        setActiveSection={this.setActiveTab}
+      />
+    }
 
     return (
       <div className={editFormClasses}>
@@ -290,6 +376,7 @@ export default class EditForm extends React.Component {
           getReplaceShownStatus={this.getReplaceShownStatus}
         />
         <div className='vcv-ui-tree-content'>
+          {navigation}
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted} initialScrollTop={this.props.options && this.props.options.replaceElementScrollTop}>
               <div className='vcv-ui-tree-content-section-inner'>

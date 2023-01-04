@@ -205,7 +205,9 @@ class Status implements Helper
      */
     public function getFileSystemStatus()
     {
-        return !(defined('FS_METHOD') && FS_METHOD !== 'direct');
+        $status = !(defined('FS_METHOD') && FS_METHOD !== 'direct');
+
+        return apply_filters('vcv:helpers:status:getFileSystemStatus', $status);
     }
 
     /**
@@ -309,8 +311,6 @@ class Status implements Helper
             $this->getWpVersionStatus(),
             $this->getUploadDirAccessStatus(),
             $this->getUploadMaxFileSizeStatus(),
-            $this->getAwsConnection(),
-            $this->getAccountConnection(),
             $this->getPostMaxSizeStatus(),
             $this->getMaxInputNestingLevelStatus(),
             $this->getMaxInputVarsStatus(),
@@ -328,10 +328,10 @@ class Status implements Helper
         $optionsHelper = vchelper('Options');
         $systemStatus = $this->getSystemStatus();
 
-        if (!$systemStatus) {
-            $optionsHelper->set('systemCheckFailing', true);
-        } else {
+        if ($systemStatus) {
             $optionsHelper->delete('systemCheckFailing');
+        } else {
+            $optionsHelper->set('systemCheckFailing', true);
         }
     }
 }

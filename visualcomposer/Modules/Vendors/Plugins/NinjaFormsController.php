@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -14,6 +14,11 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "Ninja Forms" wordPress plugin.
+ *
+ * @see https://wordpress.org/plugins/ninja-forms/
+ */
 class NinjaFormsController extends Container implements Module
 {
     use WpFiltersActions;
@@ -29,6 +34,7 @@ class NinjaFormsController extends Container implements Module
     protected function initialize(Request $requestHelper)
     {
         if (class_exists('Ninja_Forms') && $requestHelper->isAjax()) {
+            /** @see \VisualComposer\Modules\Vendors\Plugins\NinjaFormsController::replaceIds */
             $this->addFilter(
                 'vcv:ajax:elements:ajaxShortcode:adminNonce',
                 'replaceIds',

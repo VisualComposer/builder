@@ -54,3 +54,63 @@ function e2e_add_rewrite_rules()
         }
     );
 }
+
+function e2e_create_vcv_global_header()
+{
+    return e2e_create_post(
+        [
+            'post_title' => 'test-themeEditor-global-header',
+            'post_content' => 'This is global header',
+            'post_status' => 'publish',
+            'post_type' => 'vcv_headers',
+        ]
+    );
+}
+
+function e2e_create_vcv_global_footer()
+{
+    return e2e_create_post(
+        [
+            'post_title' => 'test-themeEditor-global-footer',
+            'post_content' => 'This is global footer',
+            'post_status' => 'publish',
+            'post_type' => 'vcv_footers',
+        ]
+    );
+}
+
+function e2e_create_vcv_header()
+{
+    return e2e_create_post(
+        [
+            'post_title' => 'test-themeEditor-header',
+            'post_content' => 'This is header',
+            'post_status' => 'publish',
+            'post_type' => 'vcv_headers',
+        ]
+    );
+}
+
+function e2e_create_vcv_footer()
+{
+    return e2e_create_post(
+        [
+            'post_title' => 'test-themeEditor-footer',
+            'post_content' => 'This is footer',
+            'post_status' => 'publish',
+            'post_type' => 'vcv_footers',
+        ]
+    );
+}
+
+function e2e_create_vcv_sidebar()
+{
+    return e2e_create_post(
+        [
+            'post_title' => 'test-themeEditor-sidebar',
+            'post_content' => 'This is sidebar',
+            'post_status' => 'publish',
+            'post_type' => 'vcv_sidebars',
+        ]
+    );
+}

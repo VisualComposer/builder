@@ -140,7 +140,7 @@ jobs:
       - run:
           name: Add free license to db
           command: |
-            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', '0b147957-48d2-4c15-b50e-f9f755bd8749', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', 'e4f39044-f4c8-4c43-bb73-bf09ebe3e0c2', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
@@ -219,7 +219,7 @@ jobs:
       - run:
           name: Add free license to db
           command: |
-            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', '0b147957-48d2-4c15-b50e-f9f755bd8749', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', 'e4f39044-f4c8-4c43-bb73-bf09ebe3e0c2', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
@@ -247,6 +247,7 @@ jobs:
         environment:
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
+    parallelism: 2
     steps:
       - checkout
       - run:
@@ -303,7 +304,7 @@ jobs:
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-agreeHubTerms', '1658314019', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
       - run: yarn run cypress install
-      - run: yarn run cypress run --project ./tests/cypressPipeline
+      - run: cd tests/cypressPipeline && npx cypress run --record --key 09ed9a2e-d563-4bc8-9314-0546c9e53a51 --parallel
       - store_artifacts:
           path: ./tests/cypressPipeline/cypress/snapshots
       - store_artifacts:
@@ -317,16 +318,15 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-
-            - v1-node-js-stores-tests-{{ arch }}-
+            - v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-node-js-stores-tests-{{ arch }}-{{ checksum "yarn.lock" }}
       - run: npm install -g n
       - run: n 14
       - run: yarn install
       - run: yarn build
       - run: yarn test -u
       - save_cache:
-          key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-node-js-stores-tests-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
     # The resource_class feature allows configuring CPU and RAM resources for each job. Different resource classes are available for different executors. https://circleci.com/docs/2.0/configuration-reference/#resourceclass

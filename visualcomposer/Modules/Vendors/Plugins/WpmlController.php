@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -14,6 +14,11 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "WPML" plugin.
+ *
+ * @see https://wpml.org/
+ */
 class WpmlController extends Container implements Module
 {
     use EventsFilters;
@@ -34,18 +39,24 @@ class WpmlController extends Container implements Module
 
         $this->localizationsHelper = vchelper('Localizations');
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addLangToLink */
         $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
         $this->addFilter('vcv:frontend:url', 'addLangToLink');
-        $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
         $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
+
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::setDataTrid */
+        $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addLanguageDetails */
         $this->addFilter('vcv:linkSelector:url', 'addLanguageDetails');
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::insertTrid */
         $this->wpAddAction(
             'save_post',
             'insertTrid'
         );
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::outputWpml */
         $this->wpAddAction('admin_print_scripts', 'outputWpml');
         if (class_exists('\SitePress')) {
-            /** @see \VisualComposer\Modules\Vendors\WpmlController::disableGutenberg */
+            /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::disableGutenberg */
             $this->wpAddAction(
                 'current_screen',
                 'disableGutenberg',
@@ -62,40 +73,32 @@ class WpmlController extends Container implements Module
                 ]
             );
         }
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::prepareTranslationJobData */
         $this->wpAddFilter(
             'wpml_tm_translation_job_data',
             'prepareTranslationJobData',
             11,
             2
         );
-
-        $this->wpAddFilter(
-            'wpml_tm_job_fields',
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::completeTranslationJobSaving */
+        $this->wpAddAction(
+            'wpml_pro_translation_completed',
             'completeTranslationJobSaving',
             11,
-            2
+            3
         );
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::launchOurUpdateAfterPostTranslation */
         $this->wpAddAction(
             'wpml_translation_job_saved',
-            function ($newPostId) {
-                $optionsHelper = vchelper('Options');
-                $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
-                if (!is_array($updatePosts)) {
-                    $updatePosts = [];
-                }
-                $updatePosts[] = $newPostId;
-                // Mark post as pending for update
-                $optionsHelper->set('hubAction:updatePosts', array_unique($updatePosts));
-                $optionsHelper->set('bundleUpdateRequired', 1);
-            }
+            'launchOurUpdateAfterPostTranslation',
+            10,
+            1
         );
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::createNotice */
         $this->wpAddAction('admin_notices', 'createNotice');
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::changeLanguageWhileUpdate */
         $this->addFilter('vcv:dataAjax:setData:sourceId', 'changeLanguageWhileUpdate', -1);
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addHandleIframeBodyClick */
         $this->addFilter(
             'vcv:resources:view:settings:pages:handleIframeBodyClick',
             'addHandleIframeBodyClick'
@@ -107,36 +110,45 @@ class WpmlController extends Container implements Module
      *
      * @param array $package
      *
-     * @return array|mixed
+     * @return array
      */
     protected function prepareTranslationJobData($package)
     {
-        if (!isset($package['contents'])) {
-            return $package;
-        }
-
         // Not a vc post.
-        if (!array_key_exists('field-vcv-pageContent-0', $package['contents'])) {
+        if (!isset($package['contents']['field-vcv-pageContent-0'])) {
             return $package;
         }
 
+        $pageContent = $package['contents']['field-vcv-pageContent-0'];
+
+        // Content Encoded in Base64 as it is safe to use in URL and JSON
+        $pageContent = json_decode(rawurldecode(base64_decode($pageContent['data'])), true);
+
+        $translations = [];
+
+        foreach ($pageContent['elements'] as $elementId => $valueElement) {
+            $translations = array_merge(
+                $translations,
+                $this->getElementTranslation($valueElement, [$elementId])
+            );
+        }
+
+        $package = $this->setNewContentForTranslationPackage($translations, $package);
+
+        return $this->removeVcvPageContent($package);
+    }
+
+    /**
+     * Remove vcv-pageContent from translation package.
+     *
+     * @param array $package
+     *
+     * @return array
+     */
+    protected function removeVcvPageContent($package)
+    {
         if (isset($package['contents']['field-vcv-pageContent-0'])) {
-            $pageContent = $package['contents']['field-vcv-pageContent-0'];
-
-
-            // Content Encoded in Base64 as it is safe to use in URL and JSON
-            // @codingStandardsIgnoreLine
-            $pageContent = json_decode(rawurldecode(base64_decode($pageContent['data'])), true);
-
-            $translations = [];
-            foreach ($pageContent['elements'] as $elementId => $valueElement) {
-                $translations = array_merge(
-                    $translations,
-                    $this->getTranslations($valueElement, [$elementId])
-                );
-            }
-
-            $package = $this->setNewContentForTranslationPackage($translations, $package);
+            unset($package['contents']['field-vcv-pageContent-0']);
         }
 
         return $package;
@@ -182,35 +194,52 @@ class WpmlController extends Container implements Module
     /**
      * Translate our vcv-pageContent editor meta.
      *
-     * @param $fields
-     * @param $job
+     * @param int $translatedPostId
+     * @param array $fields
+     * @param object $job
      *
-     * @return mixed
+     * @return int
      */
-    protected function completeTranslationJobSaving($fields, $job)
+    protected function completeTranslationJobSaving($translatedPostId, $fields, $job)
     {
-        // update JOB->elements (obj by reference)
         $dataHelper = vchelper('Data');
         $pageContentIndex = $dataHelper->arraySearch(
             $job->elements,
             'field_type',
-            'field-vcv-pageContent-0',
+            'field-vcv-pageContent-0-name',
             true
         );
 
-        // We have vcv-pageContent field continue translation
+        // We do not have vcv-pageContent field, stop translation
         if ($pageContentIndex === false) {
-            return $fields;
+            return $translatedPostId;
         }
 
-        $pageContent = json_decode(
-        // Content Encoded in Base64 as it is safe to use in URL and JSON
         // @codingStandardsIgnoreLine
-            rawurldecode(base64_decode($job->elements[ $pageContentIndex ]->field_data)),
-            true
-        );
-        $elements = $job->elements;
-        foreach ($elements as $index => $field) {
+        $pageContent = get_post_meta($job->original_doc_id, VCV_PREFIX . 'pageContent', true);
+        $pageContent = json_decode(rawurldecode($pageContent), true);
+
+        $pageContent = $this->insertTranslatedElementsToVcvPageContent($pageContent, $job->elements);
+
+        $pageContent = rawurlencode(wp_json_encode($pageContent));
+        update_post_meta($translatedPostId, VCV_PREFIX . 'pageContent', $pageContent);
+
+        return $translatedPostId;
+    }
+
+    /**
+     * Insert translated elements to vcv-pageContent.
+     *
+     * @param string $pageContent
+     * @param array $elements
+     *
+     * @return string
+     */
+    protected function insertTranslatedElementsToVcvPageContent($pageContent, $elements)
+    {
+        $dataHelper = vchelper('Data');
+
+        foreach ($elements as $field) {
             // @codingStandardsIgnoreLine
             $isFieldPostContent = isset($field->field_type)
                 && // @codingStandardsIgnoreLine
@@ -235,18 +264,14 @@ class WpmlController extends Container implements Module
 
                 $dataHelper->set($pageContent, $path, $value);
             }
-            unset($job->elements[ $index ]);
         }
 
-        // Encode back updated translation
-        // @codingStandardsIgnoreLine
-        $job->elements[ $pageContentIndex ]->field_data_translated = base64_encode(
-            rawurlencode(wp_json_encode($pageContent))
-        );
-
-        return $fields;
+        return $pageContent;
     }
 
+    /**
+     * Output about update post after translation.
+     */
     protected function createNotice()
     {
         global $pagenow;
@@ -276,9 +301,16 @@ class WpmlController extends Container implements Module
         }
     }
 
-    protected function getTranslations($element, $initialPath)
+    /**
+     * Translate vcv editor element.
+     *
+     * @param $element
+     * @param $initialPath
+     *
+     * @return array
+     */
+    protected function getElementTranslation($element, $initialPath)
     {
-
         $translations = [];
         foreach ($element as $attributeKey => $attributeValue) {
             $translatableAttributes = $this->localizationsHelper->getTranslatableAttributes($element);
@@ -286,7 +318,7 @@ class WpmlController extends Container implements Module
             $path = $initialPath;
             $path[] = $attributeKey;
             if (is_array($attributeValue)) {
-                $translations = array_merge($translations, $this->getTranslations($attributeValue, $path));
+                $translations = array_merge($translations, $this->getElementTranslation($attributeValue, $path));
             } elseif (is_string($attributeValue) && in_array($attributeKey, $translatableAttributes, true)) {
                 $translations[] = [
                     'path' => $path,
@@ -348,6 +380,14 @@ class WpmlController extends Container implements Module
         }
     }
 
+    /**
+     * Add lang to editor url.
+     *
+     * @param string $url
+     * @param array $payload
+     *
+     * @return mixed|string|null
+     */
     protected function addLangToLink($url, $payload)
     {
         global $sitepress;
@@ -374,6 +414,12 @@ class WpmlController extends Container implements Module
         return $url;
     }
 
+    /**
+     * Update wpml trid meta.
+     *
+     * @param int $id
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     */
     protected function insertTrid($id, Request $requestHelper)
     {
         $trid = $requestHelper->input('trid');
@@ -382,13 +428,31 @@ class WpmlController extends Container implements Module
         }
     }
 
+    /**
+     * Set wpml trid.
+     *
+     * @param $response
+     * @param $payload
+     *
+     * @return mixed
+     */
     protected function setDataTrid($response, $payload)
     {
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::checkTrid */
         $this->wpAddFilter('wpml_save_post_trid_value', 'checkTrid');
 
         return $response;
     }
 
+    /**
+     * Check wpml trid.
+     *
+     * @param $trid
+     * @param $payload
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @return mixed
+     */
     protected function checkTrid($trid, $payload, Request $requestHelper)
     {
         if (empty($trid)) {
@@ -399,7 +463,15 @@ class WpmlController extends Container implements Module
         return $trid;
     }
 
-    protected function addLanguageDetails($url, $payload)
+    /**
+     * Add language data to url.
+     *
+     * @param $urlInitial
+     * @param $payload
+     *
+     * @return false|mixed|string|\WP_Error|null
+     */
+    protected function addLanguageDetails($urlInitial, $payload)
     {
         $post = $payload['post'];
         $postLang = apply_filters('wpml_post_language_details', null, $post->ID);
@@ -416,9 +488,12 @@ class WpmlController extends Container implements Module
         return $url;
     }
 
+    /**
+     * Add our wpml specific script.
+     */
     protected function outputWpml()
     {
-        $available = (defined('ICL_SITEPRESS_VERSION')) ? true : false;
+        $available = defined('ICL_SITEPRESS_VERSION');
         evcview(
             'partials/constant-script',
             [
@@ -444,11 +519,13 @@ class WpmlController extends Container implements Module
 
         global $wpdb;
 
+        $postType = 'post_' . get_post_type($postId);
+
         $result = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT language_code FROM %sicl_translations WHERE element_id = %d",
-                $wpdb->prefix,
-                $postId
+                "SELECT language_code FROM " . $wpdb->prefix . "icl_translations WHERE element_id = %d AND element_type = %s",
+                $postId,
+                $postType
             )
         );
 
@@ -478,5 +555,23 @@ class WpmlController extends Container implements Module
         ";
 
         return $output;
+    }
+
+    /**
+     * Launch vcv post update after wpml post translation.
+     *
+     * @param int $newPostId
+     */
+    protected function launchOurUpdateAfterPostTranslation($newPostId)
+    {
+        $optionsHelper = vchelper('Options');
+        $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
+        if (!is_array($updatePosts)) {
+            $updatePosts = [];
+        }
+        $updatePosts[] = $newPostId;
+        // Mark post as pending for update
+        $optionsHelper->set('hubAction:updatePosts', array_unique($updatePosts));
+        $optionsHelper->set('bundleUpdateRequired', 1);
     }
 }

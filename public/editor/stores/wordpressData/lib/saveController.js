@@ -53,6 +53,17 @@ export default class SaveController {
       src: customCss,
       pureCss: true
     }])
+
+    Object.keys(data.elements).forEach((key) => {
+      const customStyles = data.elements[key].styleEditor
+      if (customStyles?.all) {
+        localStylesManager.add([{
+          src: customStyles.all.replace(/\[element-id]/ig, `#el-${data.elements[key].id}`),
+          pureCss: true
+        }])
+      }
+    })
+
     // localStylesManager.add(globalAssetsStorageInstance.getPageCssDataNG())
     promises.push(localStylesManager.compile().then((result) => {
       pageStylesCompiled = result

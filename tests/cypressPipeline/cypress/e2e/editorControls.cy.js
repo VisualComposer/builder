@@ -16,7 +16,9 @@ describe('Editor controls', function () {
       cy.setButtonGroup('Size', settings.size.name)
       cy.setSwitch('Stretch')
       cy.setColor(settings.backgroundColor)
+      cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
       cy.setClassAndId(settings.customId, settings.customClass)
+      cy.contains('.vcv-ui-navigation-slider-button', 'General').click()
       cy.setDO(settings.designOptions)
 
       // 2. Open Templates panel

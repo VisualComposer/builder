@@ -10,6 +10,9 @@ const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 
 add('insights', () => {
+  if (typeof (window as any).vcvRebuildPostSave !== 'undefined') {
+    return
+  }
   if (env('VCV_FT_INSIGHTS')) {
     const insightsChecksInstance = new InsightsChecks()
     const runChecksCallback = debounce(() => {

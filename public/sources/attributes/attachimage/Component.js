@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import classNames from 'classnames'
 import Attribute from '../attribute'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
@@ -50,6 +50,8 @@ export default class AttachImage extends Attribute {
     super(props)
     this.mediaUploader = null
     this.tabsContainer = null
+    this.giphyRoot = null
+    this.stockImageRoot = null
     this.uploadFileList = []
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
@@ -163,7 +165,8 @@ export default class AttachImage extends Attribute {
        * @returns {CustomStockImagesView}
        */
       remove: function () {
-        ReactDOM.unmountComponentAtNode(this.$el.get(0))
+        _this.stockImageRoot && _this.stockImageRoot.unmount()
+        _this.stockImageRoot = null
         window.setTimeout(() => {
           if (_this.mediaUploader.state() && _this.mediaUploader.state().get('library')) {
             _this.mediaUploader.state().get('library')._requery(true)
@@ -176,8 +179,10 @@ export default class AttachImage extends Attribute {
        * @returns {CustomStockImagesView}
        */
       render: function () {
-        _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
+        if (!_this.stockImageRoot) {
+          _this.stockImageRoot = createRoot(this.$el.get(0))
+        }
+        _this.stockImageRoot.render(<Provider store={store}><StockMediaTab /></Provider>)
         return this
       }
     })
@@ -187,7 +192,8 @@ export default class AttachImage extends Attribute {
        * @returns {CustomGiphyView}
        */
       remove: function () {
-        ReactDOM.unmountComponentAtNode(this.$el.get(0))
+        _this.giphyRoot && _this.giphyRoot.unmount()
+        _this.giphyRoot = null
         window.setTimeout(() => {
           if (_this.mediaUploader.state() && _this.mediaUploader.state().get('library')) {
             _this.mediaUploader.state().get('library')._requery(true)
@@ -200,8 +206,10 @@ export default class AttachImage extends Attribute {
        * @returns {CustomGiphyView}
        */
       render: function () {
-        _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
+        if (!_this.giphyRoot) {
+          _this.giphyRoot = createRoot(this.$el.get(0))
+        }
+        _this.giphyRoot.render(<Provider store={store}><GiphyMediaTab /></Provider>)
         return this
       }
     })
@@ -225,9 +233,8 @@ export default class AttachImage extends Attribute {
   }
 
   componentWillUnmount () {
-    if (this.tabsContainer) {
-      ReactDOM.unmountComponentAtNode(this.tabsContainer)
-    }
+    this.giphyRoot && this.giphyRoot.unmount()
+    this.stockImageRoot && this.stockImageRoot.unmount()
     document.removeEventListener('keyup', this.closeMediaPopup)
   }
 

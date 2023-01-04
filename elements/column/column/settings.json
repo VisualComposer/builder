@@ -2,7 +2,10 @@
   "size": {
     "type": "object",
     "access": "public",
-    "value": { "all": "auto", "defaultSize": "auto" }
+    "value": {
+      "all": "auto",
+      "defaultSize": "auto"
+    }
   },
   "disableStacking": {
     "type": "string",
@@ -12,12 +15,16 @@
   "lastInRow": {
     "type": "object",
     "access": "public",
-    "value": { "all": false }
+    "value": {
+      "all": false
+    }
   },
   "firstInRow": {
     "type": "object",
     "access": "public",
-    "value": { "all": false }
+    "value": {
+      "all": false
+    }
   },
   "customClass": {
     "type": "string",
@@ -31,7 +38,7 @@
   "parallax": {
     "type": "parallax",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Parallax",
       "tooltip": "Enabling <a href=\"https://help.visualcomposer.com/docs/features/design-options/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point\" target=\"_blank\" rel=\"noopener noreferrer\">Parallax</a> creates a 3D scrolling effect on the page."
@@ -40,7 +47,7 @@
   "designOptionsAdvanced": {
     "type": "designOptionsAdvanced",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Design Options"
     }
@@ -48,27 +55,16 @@
   "sticky": {
     "type": "sticky",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Sticky",
       "tooltip": "The sticky option makes the container and its content fixed at the top of the page."
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "metaCustomId",
-      "customClass"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "dividers": {
     "type": "divider",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Dividers",
       "tooltip": "Add pre-designed shapes to divide rows and columns."
@@ -77,22 +73,31 @@
   "boxShadow": {
     "type": "boxShadow",
     "access": "public",
-    "value": {},
+    "value": [],
     "options": {
       "label": "Box Shadow",
       "tooltip": "Add outlined shades to an element."
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
+    ],
+    "options": {
+      "label": "Advanced",
+      "isSections": true
     }
   },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "designOptionsAdvanced",
-      "parallax",
-      "boxShadow",
-      "dividers",
-      "sticky"
+      "designTab",
+      "advancedTab"
     ]
   },
   "containerFor": {
@@ -132,5 +137,67 @@
     "type": "string",
     "access": "public",
     "value": false
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
+  },
+  "customCSS": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "styleEditor"
+    ],
+    "options": {
+      "label": "Custom CSS",
+      "tooltip": "Add custom CSS to the element using the [element-id] placeholder."
+    }
+  },
+  "styleEditor": {
+    "type": "styleEditor",
+    "access": "public",
+    "value": [],
+    "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=john data-age=28)"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "designOptionsAdvanced",
+      "parallax",
+      "boxShadow",
+      "dividers",
+      "sticky"
+    ]
   }
 }

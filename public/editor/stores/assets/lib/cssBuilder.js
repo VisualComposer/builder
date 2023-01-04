@@ -113,6 +113,7 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data, useCache) // designOptions!
     this.addElementLocalAttributesCssMixins(data, useCache) // local element cssMixins folder
     this.addElementFiles(data, force)
+    this.addElementCustomCss(data)
 
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
@@ -146,6 +147,7 @@ export default class CssBuilder {
       this.addElementGlobalAttributesCssMixins(data) // designOptions!
       this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
       this.addElementFiles(data)
+      this.addElementCustomCss(data)
     }
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
@@ -156,6 +158,7 @@ export default class CssBuilder {
 
   destroy (id, tag) {
     this.removeCssElementMixinByElement(id)
+    this.removeElementCustomCss(id)
     this.removeAttributesCssByElement(id)
     this.window.vcv.trigger('ready', 'destroy', id, {}, tag)
     this.removeElementJobsFromStorage(id)
@@ -219,6 +222,11 @@ export default class CssBuilder {
       doStyleElement.id = `vcv-do-styles-${id}`
       this.window.document.body.insertBefore(doStyleElement, mixinsStylesDom)
     }
+    if (!this.window.document.getElementById(`vcv-custom-element-styles-${id}`)) {
+      const customStyleElement = this.window.document.createElement('style')
+      customStyleElement.id = `vcv-custom-element-styles-${id}`
+      this.window.document.body.insertBefore(customStyleElement, mixinsStylesDom)
+    }
 
     // Inner element css-styles and do
     const elementObject = cook.get(data)
@@ -238,7 +246,20 @@ export default class CssBuilder {
           innerDoStyleElement.id = `vcv-do-styles-${id}-${checksum}`
           this.window.document.body.insertBefore(innerDoStyleElement, mixinsStylesDom)
         }
+        if (!this.window.document.getElementById(`vcv-custom-element-styles-${id}-${checksum}`)) {
+          const innerCustomStyleElement = this.window.document.createElement('style')
+          innerCustomStyleElement.id = `vcv-custom-element-styles-${id}-${checksum}`
+          this.window.document.body.insertBefore(innerCustomStyleElement, mixinsStylesDom)
+        }
       }
+    }
+  }
+
+  addElementCustomCss (data) {
+    const file = this.window.document.getElementById(`vcv-custom-element-styles-${data.id}`)
+    const css = data?.styleEditor?.all
+    if (file && css) {
+      file.innerHTML = css.replace(/\[element-id]/ig, `#el-${data.id}`).replace(/({font-family:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-weight:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-style:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({line-height:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({letter-spacing:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}')
     }
   }
 
@@ -419,6 +440,11 @@ export default class CssBuilder {
 
   removeCssElementMixinByElement (id) {
     const node = this.window.document.getElementById(`vcv-do-styles-${id}`)
+    node && node.remove()
+  }
+
+  removeElementCustomCss (id) {
+    const node = this.window.document.getElementById(`vcv-custom-element-styles-${id}`)
     node && node.remove()
   }
 

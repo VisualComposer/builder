@@ -12,7 +12,10 @@ if (!defined('ABSPATH')) {
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
+    vcevent('vcv:resources:views:editor:templates:blankTemplate:wpHead:before');
     wp_head();
+    vcevent('vcv:resources:views:editor:templates:blankTemplate:wpHead:after');
+
     $customLayoutWidth = vchelper('Options')->get('custom-page-templates-section-layout-width', '1140');
     $customLayoutWidth = (int)rtrim($customLayoutWidth, 'px');
     if (empty($customLayoutWidth)) {
@@ -41,6 +44,10 @@ if (!defined('ABSPATH')) {
 </head>
 <body <?php body_class(); ?>>
 <?php
+if (function_exists('wp_body_open')) {
+    wp_body_open();
+}
+
 while (have_posts()) :
     the_post();
     ?>
@@ -53,6 +60,9 @@ while (have_posts()) :
     </div>
     <?php
 endwhile;
-wp_footer(); ?>
+vcevent('vcv:resources:views:editor:templates:blankTemplate:wpFooter:before');
+wp_footer();
+vcevent('vcv:resources:views:editor:templates:blankTemplate:wpFooter:after');
+?>
 </body>
 </html>
