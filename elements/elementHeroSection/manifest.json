@@ -1,8 +1,8 @@
 {
   "elements": {
-    "heroSection": {
+    "elementHeroSection": {
       "settings": {
-        "name": "Hero Section Deprecated",
+        "name": "Hero Section",
         "metaThumbnailUrl": "[publicPath]/thumbnail-hero-section.jpg",
         "metaPreviewUrl": "[publicPath]/preview-hero-section.jpg",
         "metaDescription": "Hero section with image background and 'Call to Action' message with a switchable button and position controls."
@@ -10,11 +10,10 @@
     }
   },
   "categories": {
-    "Deprecated": {
+    "Hero section": {
       "elements": [
-        "heroSection"
+        "elementHeroSection"
       ]
     }
   }
 }
-

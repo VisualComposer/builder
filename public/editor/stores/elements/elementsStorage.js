@@ -149,7 +149,12 @@ addStorage('elements', (storage) => {
         initChild.parent = data.id
         const childData = cook.get(initChild)
         if (childData) {
-          storage.trigger('add', childData.toJS(), true, { silent: true })
+          const childDataJS = childData.toJS()
+          if (initChild?.exclude) {
+            childDataJS.exclude = initChild?.exclude
+          }
+          storage.trigger('add', childDataJS, true, { silent: true })
+          storage.trigger('update', childDataJS.id, childDataJS)
         }
       })
     }

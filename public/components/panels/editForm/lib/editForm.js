@@ -46,7 +46,7 @@ export default class EditForm extends React.Component {
 
   componentDidMount () {
     const activeId = this.props.activeTabId || Object.keys(this.getTabs())[0]
-    const index = this.getTabs()[activeId]?.index
+    const index = this.getTabs()[activeId]?.index || 0
     this.setActiveTab(null, index)
     workspaceContentState.onChange(this.setVisibility)
   }
@@ -307,7 +307,7 @@ export default class EditForm extends React.Component {
     }
     let index = isDeprecatedTabs.length ? 1 : 0
 
-    this.allTabs.forEach((tab, i) => {
+    this.allTabs.forEach((tab) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
         tabs[tab.fieldKey] = {
           index: index,
