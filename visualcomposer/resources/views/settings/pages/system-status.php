@@ -301,7 +301,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('Connection with your account.', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo esc_attr($account['status']); ?>"><?php echo esc_html($account['text']); ?></td>
+                <td id="vcv-account-status" class="vcv-ui-wp-spinner"></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('AWS', 'visualcomposer') ?>:</td>
@@ -311,7 +311,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('The connection with the AWS.', 'visualcomposer') ?>
                     </span>
                 </td>
-                <td class="<?php echo esc_attr($aws['status']); ?>"><?php echo esc_html($aws['text']); ?></td>
+                <td id="vcv-aws-status" class="vcv-ui-wp-spinner"></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Large data transfer', 'visualcomposer') ?>:</td>

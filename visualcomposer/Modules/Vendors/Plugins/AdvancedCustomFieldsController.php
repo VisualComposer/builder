@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,24 +13,31 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-
-class AdvancedCustomFields extends Container implements Module
+/**
+ * Backward compatibility with "Essential Grid Gallery" wordPress plugin.
+ *
+ * @see https://wordpress.org/plugins/advanced-custom-fields/
+ */
+class AdvancedCustomFieldsController extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
-
 
     public function __construct()
     {
         $this->wpAddAction('plugins_loaded', 'initialize');
     }
 
+    /**
+     * Plugin compatibility hooks initialization.
+     */
     protected function initialize()
     {
         if (! class_exists('ACF')) {
             return;
         }
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\AdvancedCustomFieldsController::changeAcfDynamicLayoutValue */
         $this->addFilter(
             'vcv:addon:dynamicFields:fields:acfGetValue',
             'changeAcfDynamicLayoutValue'

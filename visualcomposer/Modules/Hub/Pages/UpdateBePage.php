@@ -40,7 +40,6 @@ class UpdateBePage extends Container implements Module
     public function __construct()
     {
         $this->wpAddAction('admin_menu', 'addUpdatePage', 40);
-        $this->wpAddAction('admin_menu', 'redirectAfterUpdate', 41);
     }
 
     /**
@@ -54,17 +53,18 @@ class UpdateBePage extends Container implements Module
      */
     protected function addUpdatePage(Options $optionsHelper, Update $updateHelper)
     {
-        if (!$updateHelper->isBundleUpdateRequired()) {
-            return;
+        if ($updateHelper->isBundleUpdateRequired()) {
+            $actions = $updateHelper->getRequiredActions();
+            if (!empty($actions['actions']) || !empty($actions['posts'])) {
+                $this->call('addPage');
+
+                return;
+            }
+
+            $optionsHelper->set('bundleUpdateRequired', false);
         }
 
-        $actions = $updateHelper->getRequiredActions();
-        if (!empty($actions['actions']) || !empty($actions['posts'])) {
-            $this->call('addPage');
-            return;
-        }
-
-        $optionsHelper->set('bundleUpdateRequired', false);
+        $this->call('redirectAfterUpdate');
     }
 
     /**

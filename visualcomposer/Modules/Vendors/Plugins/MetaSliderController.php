@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -14,6 +14,11 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "MetaSlider" wordPress plugin.
+ *
+ * @see https://wordpress.org/plugins/ml-slider/
+ */
 class MetaSliderController extends Container implements Module
 {
     use WpFiltersActions;
@@ -31,11 +36,13 @@ class MetaSliderController extends Container implements Module
     protected function initialize(Request $requestHelper)
     {
         if (class_exists('MetaSliderPlugin') && $requestHelper->isAjax()) {
+            /** @see \VisualComposer\Modules\Vendors\Plugins\MetaSliderController::addFilters */
             $this->addFilter(
                 'vcv:ajax:elements:ajaxShortcode:adminNonce',
                 'addFilters',
                 -1
             );
+            /** @see \VisualComposer\Modules\Vendors\Plugins\MetaSliderController::replaceIds */
             $this->addFilter(
                 'vcv:ajax:elements:ajaxShortcode:adminNonce',
                 'replaceIds',

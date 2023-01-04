@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -14,6 +14,11 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "WPML" plugin.
+ *
+ * @see https://wpml.org/
+ */
 class WpmlController extends Container implements Module
 {
     use EventsFilters;
@@ -34,18 +39,24 @@ class WpmlController extends Container implements Module
 
         $this->localizationsHelper = vchelper('Localizations');
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addLangToLink */
         $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
         $this->addFilter('vcv:frontend:url', 'addLangToLink');
         $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
+
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::setDataTrid */
         $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addLanguageDetails */
         $this->addFilter('vcv:linkSelector:url', 'addLanguageDetails');
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::insertTrid */
         $this->wpAddAction(
             'save_post',
             'insertTrid'
         );
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::outputWpml */
         $this->wpAddAction('admin_print_scripts', 'outputWpml');
         if (class_exists('\SitePress')) {
-            /** @see \VisualComposer\Modules\Vendors\WpmlController::disableGutenberg */
+            /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::disableGutenberg */
             $this->wpAddAction(
                 'current_screen',
                 'disableGutenberg',
@@ -62,32 +73,32 @@ class WpmlController extends Container implements Module
                 ]
             );
         }
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::prepareTranslationJobData */
         $this->wpAddFilter(
             'wpml_tm_translation_job_data',
             'prepareTranslationJobData',
             11,
             2
         );
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::completeTranslationJobSaving */
         $this->wpAddAction(
             'wpml_pro_translation_completed',
             'completeTranslationJobSaving',
             11,
             3
         );
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::launchOurUpdateAfterPostTranslation */
         $this->wpAddAction(
             'wpml_translation_job_saved',
             'launchOurUpdateAfterPostTranslation',
             10,
             1
         );
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::createNotice */
         $this->wpAddAction('admin_notices', 'createNotice');
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::changeLanguageWhileUpdate */
         $this->addFilter('vcv:dataAjax:setData:sourceId', 'changeLanguageWhileUpdate', -1);
-
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addHandleIframeBodyClick */
         $this->addFilter(
             'vcv:resources:view:settings:pages:handleIframeBodyClick',
             'addHandleIframeBodyClick'
@@ -427,6 +438,7 @@ class WpmlController extends Container implements Module
      */
     protected function setDataTrid($response, $payload)
     {
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::checkTrid */
         $this->wpAddFilter('wpml_save_post_trid_value', 'checkTrid');
 
         return $response;
@@ -454,12 +466,12 @@ class WpmlController extends Container implements Module
     /**
      * Add language data to url.
      *
-     * @param $url
+     * @param $urlInitial
      * @param $payload
      *
      * @return false|mixed|string|\WP_Error|null
      */
-    protected function addLanguageDetails($url, $payload)
+    protected function addLanguageDetails($urlInitial, $payload)
     {
         $post = $payload['post'];
         $postLang = apply_filters('wpml_post_language_details', null, $post->ID);

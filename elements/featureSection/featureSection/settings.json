@@ -197,18 +197,6 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "description",
-      "image",
-      "addButton"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
@@ -226,8 +214,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "button",
+      "contentTab",
       "designTab",
       "advancedTab"
     ]
@@ -318,6 +305,30 @@
       "imageAlignment",
       "backgroundColor",
       "reverseStacking"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection",
+      "button"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "description",
+      "image",
+      "addButton"
     ]
   }
 }
