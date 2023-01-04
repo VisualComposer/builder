@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,6 +13,11 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "WPForms" plugin.
+ *
+ * @see https://wordpress.org/plugins/wp-job-manager/
+ */
 class WpJobsManagerController extends Container implements Module
 {
     use WpFiltersActions;
@@ -38,6 +43,7 @@ class WpJobsManagerController extends Container implements Module
             }
         );
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\WpJobsManagerController::removeMetadataFromLayout */
         $this->wpAddAction(
             'vcv:addons:themeBuilder:mergeLayoutAndPostContent:before',
             'removeMetadataFromLayout'

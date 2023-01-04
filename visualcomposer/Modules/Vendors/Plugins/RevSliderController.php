@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -14,6 +14,11 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with "Slider Revolution" wordPress plugin.
+ *
+ * @see https://codecanyon.net/item/slider-revolution-responsive-wordpress-plugin/2751380
+ */
 class RevSliderController extends Container implements Module
 {
     use WpFiltersActions;
@@ -29,6 +34,7 @@ class RevSliderController extends Container implements Module
     protected function initialize(Request $requestHelper)
     {
         if (class_exists('RevSlider') && $requestHelper->isAjax()) {
+            /** @see \VisualComposer\Modules\Vendors\Plugins\RevSliderController::replaceIds */
             $this->addFilter(
                 'vcv:ajax:elements:ajaxShortcode:adminNonce',
                 'replaceIds',
