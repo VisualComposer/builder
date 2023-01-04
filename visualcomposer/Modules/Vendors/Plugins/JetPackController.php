@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -12,7 +12,12 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-class JetPack extends Container implements Module
+/**
+ * Backward compatibility with "Jetpack" wordPress plugin.
+ *
+ * @see https://wordpress.org/plugins/jetpack/
+ */
+class JetPackController extends Container implements Module
 {
     use WpFiltersActions;
 
@@ -24,6 +29,7 @@ class JetPack extends Container implements Module
             return;
         }
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\JetPackController::wpInsertPostData */
         $this->wpAddFilter(
             'wp_insert_post_data',
             'wpInsertPostData',
@@ -38,12 +44,14 @@ class JetPack extends Container implements Module
      */
     protected function wpInsertPostData($content)
     {
+        /** @see \VisualComposer\Modules\Vendors\Plugins\JetPackController::wpcomMarkdownTransformPre */
         $this->wpAddFilter(
             'wpcom_markdown_transform_pre',
             'wpcomMarkdownTransformPre',
             11
         );
 
+        /** @see \VisualComposer\Modules\Vendors\Plugins\JetPackController::wpcomMarkdownTransformPost */
         $this->wpAddFilter(
             'wpcom_markdown_transform_post',
             'wpcomMarkdownTransformPost',
