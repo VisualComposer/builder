@@ -466,12 +466,12 @@ class WpmlController extends Container implements Module
     /**
      * Add language data to url.
      *
-     * @param $url
+     * @param $urlInitial
      * @param $payload
      *
      * @return false|mixed|string|\WP_Error|null
      */
-    protected function addLanguageDetails($url, $payload)
+    protected function addLanguageDetails($urlInitial, $payload)
     {
         $post = $payload['post'];
         $postLang = apply_filters('wpml_post_language_details', null, $post->ID);
