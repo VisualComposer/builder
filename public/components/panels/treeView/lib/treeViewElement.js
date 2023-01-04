@@ -480,7 +480,7 @@ const TreeViewElement = (props) => {
     )
   }
 
-  const showDropdown = addChildControl || cloneControl || visibilityControl || copyControl || pasteControl
+  const showDropdown = (addChildControl || cloneControl || visibilityControl || copyControl || pasteControl) && !props.isEditOnly
   const sandwichControls = (
     <>
       {addChildControl}
@@ -497,9 +497,11 @@ const TreeViewElement = (props) => {
       <span className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-control-action--edit' title={editText} onClick={() => handleClickEdit('')}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
       </span>
-      <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={handleClickDelete}>
-        <i className='vcv-ui-icon vcv-ui-icon-trash' />
-      </span>
+      {!props.isEditOnly && (
+        <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={handleClickDelete}>
+          <i className='vcv-ui-icon vcv-ui-icon-trash' />
+        </span>
+      )}
       {showDropdown
         ? (
           <span
@@ -617,7 +619,7 @@ const TreeViewElement = (props) => {
     )
   }
 
-  if (isDraggable === undefined || isDraggable) {
+  if ((isDraggable === undefined || isDraggable) && !props.isEditOnly) {
     treeChildProps['data-vcv-dnd-element-expand-status'] = childExpand ? 'opened' : 'closed'
     dragControl = (
       <div className={dragHelperClasses} hidden={isElementLocked}>

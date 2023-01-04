@@ -35,6 +35,7 @@ class DefaultElements extends Container implements Helper
             'instagramImage',
             'googleMaps',
             'heroSection',
+            'elementHeroSection',
             'icon',
             'faqToggle',
             'feature',

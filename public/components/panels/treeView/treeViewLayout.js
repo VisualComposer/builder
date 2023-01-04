@@ -177,6 +177,7 @@ export default class TreeViewLayout extends React.Component {
             onUnmountCallback={this.handleElementUnmount}
             scrollValue={this.props.scrollValue}
             isAttribute={this.props.isAttribute}
+            isEditOnly={this.props.isEditOnly}
             updateElementsData={this.updateElementsData}
           />
         )
@@ -257,7 +258,7 @@ export default class TreeViewLayout extends React.Component {
     const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const removeAllText = localizations ? localizations.removeAll : 'Remove All'
-    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue()) || roleManager.can('editor_content_template_add', roleManager.defaultTrue())
+    const isAbleToAdd = (roleManager.can('editor_content_element_add', roleManager.defaultTrue()) || roleManager.can('editor_content_template_add', roleManager.defaultTrue())) && !this.props.isEditOnly
     let addElementControl = null
     if (isAbleToAdd) {
       addElementControl = (
