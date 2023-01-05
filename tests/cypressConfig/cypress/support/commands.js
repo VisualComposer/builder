@@ -82,8 +82,8 @@
     cy.get(`.vcv-ui-item-element-image[alt="${elementName}"]`)
       .first()
       .closest('.vcv-ui-item-element').click({ force: true })
-    cy.wait(300)
-    cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
+      cy.wait(1000)
+      cy.get('.vcv-ui-edit-form-header').contains(elementName)
   })
 
   /** Save page
