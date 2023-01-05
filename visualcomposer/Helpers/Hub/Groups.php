@@ -208,7 +208,6 @@ class Groups implements Helper
                 'categories' => [
                     'Deprecated',
                 ],
-                'elements' => ['heroSection'],
             ],
         ];
     }

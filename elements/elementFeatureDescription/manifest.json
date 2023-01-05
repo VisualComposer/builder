@@ -1,8 +1,8 @@
 {
   "elements": {
-    "featureDescription": {
+    "elementFeatureDescription": {
       "settings": {
-        "name": "(Deprecated) Feature Description",
+        "name": "Feature Description",
         "metaThumbnailUrl": "[publicPath]/thumbnail-feature-description.png",
         "metaPreviewUrl": "[publicPath]/preview-feature-description.png",
         "metaDescription": "Feature element with image and call to action button for further information."
@@ -10,9 +10,9 @@
     }
   },
   "categories": {
-    "Deprecated": {
+    "Feature Description": {
       "elements": [
-        "featureDescription"
+        "elementFeatureDescription"
       ]
     }
   }
