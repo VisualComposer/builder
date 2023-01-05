@@ -83,6 +83,7 @@
       .first()
       .closest('.vcv-ui-item-element').click({ force: true })
       cy.wait(1000)
+      
       cy.get('.vcv-ui-edit-form-header').contains(elementName)
   })
 
