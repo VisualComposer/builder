@@ -2,7 +2,6 @@ import React from 'react'
 import { getService } from 'vc-cake'
 
 const vcvAPI = getService('api')
-const cook = getService('cook')
 
 export default class FeatureDescription extends vcvAPI.elementComponent {
   validSize (size) {
@@ -60,7 +59,6 @@ export default class FeatureDescription extends vcvAPI.elementComponent {
     }
 
     imageClasses += ` vce-feature-description-image--background-position-${backgroundImagePosition.replace(' ', '-')}`
-
 
     if (image && image.filter && image.filter !== 'normal') {
       imageClasses += ` vce-image-filter--${image.filter}`
