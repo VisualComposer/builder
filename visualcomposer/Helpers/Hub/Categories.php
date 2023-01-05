@@ -215,13 +215,13 @@ class Categories implements Helper
             ],
             'Feature' => [
                 'title' => 'Feature',
-                'elements' => ['feature'],
+                'elements' => ['elementFeature'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
             'Feature section' => [
                 'title' => 'Feature Section',
-                'elements' => ['featureSection'],
+                'elements' => ['elementFeatureSection'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
@@ -564,6 +564,15 @@ class Categories implements Helper
                 'icon' => $urlHelper->to('public/categories/icons/Counter.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
             ],
+            'Deprecated' => [
+                'title' => 'Deprecated',
+                'elements' => [
+                    'heroSection',
+                    'feature',
+                    'featureDescription',
+                    'featureSection'
+                ],
+            ]
         ];
 
         $hubCategories = $optionHelper->get('hubCategories', []);
