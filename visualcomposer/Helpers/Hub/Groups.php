@@ -47,7 +47,7 @@ class Groups implements Helper
                     'wpWidgetsCustom',
                     'wpWidgetsDefault',
                     'widgetizedSidebar',
-                    'callToAction',
+                    'elementCallToAction',
                     'faqToggle',
                     'separator',
                     'socialProfileIcons',

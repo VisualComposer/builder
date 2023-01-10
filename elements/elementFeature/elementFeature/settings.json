@@ -52,7 +52,7 @@
     "value": [],
     "options": {
       "label": "Icon",
-      "editOnly": true
+      "controls": ["lock", "edit"]
     }
   },
   "initChildren": {

@@ -11,7 +11,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor, children } = this.props
-    const { description, backgroundImage, backgroundImagePosition, backgroundColor, align, addButton, customClass, background, metaCustomId, extraDataAttributes } = atts
+    const { description, backgroundImage, backgroundImagePosition, backgroundColor, align, customClass, background, metaCustomId, extraDataAttributes } = atts
     const customProps = {}
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
 
@@ -64,7 +64,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
                 <div className='vce-hero-section--content-container'>
                   {description}
                 </div>
-                {addButton && children}
+                {children}
               </div>
             </div>
           </div>
