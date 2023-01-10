@@ -6,12 +6,12 @@
 }
 
 .vce-hero-section--content {
+  box-sizing: border-box;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  padding-top: 75px;
-  padding-bottom: 75px;
+  padding: 75px 2%;
   color: #fff;
 }
 
@@ -46,15 +46,6 @@
   min-height: 450px;
 }
 
-.vce-hero-section--content {
-  margin-left: auto;
-  width: 100%;
-  padding-left: 2%;
-  padding-right: 2%;
-  margin-right: auto;
-  text-align: center;
-  box-sizing: border-box;
-}
 .vce-hero-section--content-container:not(:last-child) {
   margin-bottom: 35px;
 }

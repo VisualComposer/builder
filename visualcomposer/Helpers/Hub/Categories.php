@@ -520,7 +520,11 @@ class Categories implements Helper
             ],
             'Call To Action' => [
                 'title' => 'Call To Action',
-                'elements' => ['elementCallToAction', 'simpleCallToAction', 'outlineCallToAction', 'elementCallToActionWithIcon'],
+                'elements' => [
+                    'elementCallToAction',
+                    'simpleCallToAction',
+                    'outlineCallToAction',
+                    'elementCallToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
             ],
