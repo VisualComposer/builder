@@ -406,7 +406,9 @@ addStorage('wordpressData', (storage) => {
     if (data && !data.initialSet) {
       const currentPostData = settingsStorage.state('postData').get() || {}
       currentPostData.featured_image = data.urls && data.urls[0] && (data.urls[0].full || data.urls[0].large)
-      settingsStorage.state('postData').set(currentPostData)
+      if (currentPostData.featured_image !== undefined) {
+        settingsStorage.state('postData').set(currentPostData)
+      }
       // Trigger page design options to change
       assetsStorage.trigger('update:pageDesignOptions')
     }
