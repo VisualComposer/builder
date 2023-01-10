@@ -7,7 +7,7 @@ const vcvAPI = getService('api')
 export default class FeatureSection extends vcvAPI.elementComponent {
   render () {
     const { id, atts, editor, children } = this.props
-    const { description, image, imageAlignment, reverseStacking, addButton, customClass, metaCustomId, backgroundImagePosition, backgroundColor, extraDataAttributes } = atts
+    const { description, image, imageAlignment, reverseStacking, customClass, metaCustomId, backgroundImagePosition, backgroundColor, extraDataAttributes } = atts
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
 
     const containerClasses = classNames({
@@ -67,7 +67,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
               <div className='vce-feature-section-description'>
                 {description}
               </div>
-              {addButton && children}
+              {children}
             </div>
           </div>
         </div>

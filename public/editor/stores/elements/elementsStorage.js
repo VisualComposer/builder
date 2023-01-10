@@ -153,6 +153,9 @@ addStorage('elements', (storage) => {
           if (initChild?.exclude) {
             childDataJS.exclude = initChild?.exclude
           }
+          if (initChild?.hidden) {
+            workspaceStorage.trigger('hide', childDataJS.id)
+          }
           storage.trigger('add', childDataJS, true, { silent: true })
           storage.trigger('update', childDataJS.id, childDataJS)
         }

@@ -520,7 +520,7 @@ class Categories implements Helper
             ],
             'Call To Action' => [
                 'title' => 'Call To Action',
-                'elements' => ['callToAction', 'simpleCallToAction', 'outlineCallToAction', 'callToActionWithIcon'],
+                'elements' => ['elementCallToAction', 'simpleCallToAction', 'outlineCallToAction', 'elementCallToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
             ],
@@ -570,7 +570,9 @@ class Categories implements Helper
                     'heroSection',
                     'feature',
                     'featureDescription',
-                    'featureSection'
+                    'featureSection',
+                    'callToAction',
+                    'callToActionWithIcon'
                 ],
             ]
         ];

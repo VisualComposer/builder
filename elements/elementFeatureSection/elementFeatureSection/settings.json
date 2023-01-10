@@ -132,14 +132,6 @@
       "label": "Reverse stacking"
     }
   },
-  "addButton": {
-    "type": "toggle",
-    "access": "public",
-    "value": true,
-    "options": {
-      "label": "Add a button"
-    }
-  },
   "customClass": {
     "type": "string",
     "access": "public",
@@ -165,19 +157,7 @@
     "value": [],
     "options": {
       "label": "Button",
-      "editOnly": true,
-      "onChange": {
-        "rules": {
-          "addButton": {
-            "rule": "toggle"
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleSectionVisibility"
-          }
-        ]
-      }
+      "controls": ["lock", "edit", "visibility"]
     }
   },
   "designOptions": {
@@ -318,7 +298,6 @@
     "value": [
       "description",
       "image",
-      "addButton",
       "button"
     ]
   }
