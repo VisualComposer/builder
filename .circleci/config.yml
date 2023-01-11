@@ -12,7 +12,7 @@ jobs:
             - v1-node-codestyle-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm install -g n
       - run: n 14
-      - run: yarn install --frozen-lockfile
+      - run: yarn install
       - run: yarn lint
       - save_cache:
           key: v1-node-codestyle-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
