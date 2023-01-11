@@ -10,8 +10,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-node-codestyle-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-node-codestyle-{{ arch }}-{{ .Branch }}-
-            - v1-node-codestyle-{{ arch }}-
       - run: npm install -g n
       - run: n 14
       - run: yarn install --frozen-lockfile
