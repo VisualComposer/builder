@@ -116,8 +116,6 @@ jobs:
       - restore_cache:
           keys:
             - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-
-            - v1.1-node-e2e-{{ arch }}-
       - run:
           name: Install node modules
           command: yarn install --frozen-lockfile
@@ -195,8 +193,6 @@ jobs:
       - restore_cache:
           keys:
             - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-
-            - v1.1-node-e2e-{{ arch }}-
       - run:
           name: Install node modules
           command: yarn install --frozen-lockfile
@@ -277,8 +273,6 @@ jobs:
       - restore_cache:
           keys:
             - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-
-            - v1.1-node-e2e-{{ arch }}-
       - run:
           name: Install node modules
           command: yarn install --frozen-lockfile
