@@ -83,6 +83,7 @@
     "postcss-normalize-url": "git+https://github.com/pavelthq/postcss-normalize-url-7.0.2-normalize-url.git#master",
     "normalize-url": "7.0.3",
     "react-datepicker": "4.8.0",
+    "tinycolor2": "1.4.1",
     "ts-jest": "29.0.3",
     "jest": "29.2.0",
     "babel-jest": "29.2.0",
