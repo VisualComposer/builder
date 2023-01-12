@@ -54,7 +54,6 @@ class Popups implements Helper
             $foundPostsOk = vchelper('Plugin')->isHasCertainPostsNumber();
 
             $result = $isActivelyUsed && !$systemStatusFailing && $foundPostsOk;
-            $result = true;
         }
 
         self::$showFeedbackPopupCache = $result;
