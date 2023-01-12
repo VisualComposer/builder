@@ -693,23 +693,15 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'feedbackVoteHeadingText' => __(
-                'How disappointed would you be if this product no longer existed tomorrow?',
+                'How likely are you to recommend Visual Composer to friend or colleague?',
                 'visualcomposer'
             ),
             'veryDisappointed' => __(
-                'Very disappointed',
+                'Not likely at all',
                 'visualcomposer'
             ),
             'somewhatDisappointed' => __(
-                'Somewhat disappointed',
-                'visualcomposer'
-            ),
-            'disappointed' => __(
-                'Not disappointed (it really isn’t that useful)',
-                'visualcomposer'
-            ),
-            'feedbackVoteButtonText' => __(
-                'Submit Your Feedback',
+                'Extremely likely',
                 'visualcomposer'
             ),
             'negativeReviewHeadingText' => __(
