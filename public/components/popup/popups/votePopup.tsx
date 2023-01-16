@@ -12,8 +12,8 @@ const dataProcessor = getService('dataProcessor')
 const localizations = dataManager.get('localizations')
 const headingText = localizations ? localizations.feedbackVoteHeadingText : 'How likely are you to recommend Visual Composer to friend or colleague?'
 const buttonText = localizations ? localizations.feedbackVoteButtonText : 'Submit Your Feedback'
-const veryDisappointed = localizations ? localizations.veryDisappointed : 'Not likely at all'
-const extremelyLikely = localizations ? localizations.somewhatDisappointed : 'Extremely likely'
+// const veryDisappointed = localizations ? localizations.veryDisappointed : 'Not likely at all'
+// const extremelyLikely = localizations ? localizations.somewhatDisappointed : 'Extremely likely'
 
 const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimaryButtonClick, onClose }: VotePopupProps) => {
   const handlePrimaryButtonClick = () => {
