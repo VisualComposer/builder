@@ -92,6 +92,32 @@
   pointer-events: all;
 }
 
+.vcv-layout-feedback-popup {
+  font-family: Nunito, "Nunito Sans", sans-serif;
+  .vcv-layout-popup-container {
+    max-width: 380px;
+  }
+  .vcv-layout-popup-heading {
+    text-transform: unset;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: unset;
+    margin-bottom: 10px;
+  }
+  .vcv-layout-popup-content {
+    margin-bottom: 0;
+  }
+
+  .vcv-layout-popup-inner {
+    padding: 21px 17px;
+  }
+
+  .vcv-layout-popup-close {
+    right: 0px;
+    font-size: 17px;
+  }
+}
+
 .vcv-layout-dock--right {
   .vcv-layout-popup-container {
     margin-right: calc(@vcv-navbar-width + @vcv-popup-margin);
@@ -321,3 +347,18 @@
     margin-right: 38px;
   }
 }
+
+.vcv-ui-feedback-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vcv-ui-feedback-description {
+  display: flex;
+  justify-content: space-between;
+  color: #97A3CF;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
+
