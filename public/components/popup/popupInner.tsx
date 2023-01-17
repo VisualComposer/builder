@@ -4,7 +4,7 @@ import { PopupInnerProps } from './types'
 
 const dataManager = getService('dataManager')
 
-const PopupInner = ({ children, headingText, buttonText, onPrimaryButtonClick, customButtonProps, customButtonTag, badge, onClose }: PopupInnerProps) => {
+const PopupInner = ({ children, headingText, hasButton = true, buttonText, onPrimaryButtonClick, customButtonProps, customButtonTag, badge, onClose }: PopupInnerProps) => {
   const localizations = dataManager.get('localizations')
   const closeButtonText = localizations ? localizations.close : 'Close'
   const popupButtonText = buttonText || (localizations ? localizations.submit : 'Submit')
@@ -34,9 +34,13 @@ const PopupInner = ({ children, headingText, buttonText, onPrimaryButtonClick, c
       <div className='vcv-layout-popup-content'>
         {children}
       </div>
-      <ButtonTag className='vcv-layout-popup-btn' onClick={onPrimaryButtonClick} {...customButtonProps}>
-        {popupButtonText}
-      </ButtonTag>
+      {
+        hasButton && (
+          <ButtonTag className='vcv-layout-popup-btn' onClick={onPrimaryButtonClick} {...customButtonProps}>
+            {popupButtonText}
+          </ButtonTag>
+        )
+      }
     </div>
   )
 }
