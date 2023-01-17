@@ -47,7 +47,6 @@ class Popups implements Helper
         if (!get_user_meta($user->ID, 'vcv-feedback-score', true)) {
             // Actively used for more then 5 days
             $isActivelyUsed = vchelper('Plugin')->isActivelyUsed();
-            $isActivelyUsed = true;
             // System check is OK
             $systemStatusFailing = $optionsHelper->get('systemCheckFailing', false);
             // Have at least 3 posts with VCWB
