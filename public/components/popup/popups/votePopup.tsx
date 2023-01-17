@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dispatch } from 'redux' // eslint-disable-line
+import {Dispatch} from 'redux' // eslint-disable-line
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
 import { connect } from 'react-redux'
@@ -11,12 +11,18 @@ const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const localizations = dataManager.get('localizations')
 const headingText = localizations ? localizations.feedbackVoteHeadingText : 'How likely are you to recommend Visual Composer to friend or colleague?'
-const buttonText = localizations ? localizations.feedbackVoteButtonText : 'Submit Your Feedback'
-// const veryDisappointed = localizations ? localizations.veryDisappointed : 'Not likely at all'
-// const extremelyLikely = localizations ? localizations.somewhatDisappointed : 'Extremely likely'
+const veryDisappointed = localizations ? localizations.veryDisappointed : 'Not likely at all'
+const extremelyLikely = localizations ? localizations.somewhatDisappointed : 'Extremely likely'
 
-const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimaryButtonClick, onClose }: VotePopupProps) => {
-  const handlePrimaryButtonClick = () => {
+const VotePopup = ({
+  popups,
+  popupsSet,
+  popupVisibilitySet,
+  popupShown,
+  onPrimaryButtonClick,
+  onClose
+}: VotePopupProps) => {
+  const handleVote = () => {
     const checkedInput: HTMLInputElement | null = document.querySelector('input.vcv-layout-popup-checkbox:checked')
     if (!checkedInput) {
       return
@@ -55,73 +61,29 @@ const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimar
     onClose()
   }
 
+  const voteAmount = 10
+
   return (
     <PopupInner
       headingText={headingText}
-      buttonText={buttonText}
-      onPrimaryButtonClick={handlePrimaryButtonClick}
       onClose={handleCloseClick}
       popupName='votePopup'
+      hasButton={false}
+      onPrimaryButtonClick={handleVote}
     >
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='1' />
-        <label htmlFor='vcv-feedback-vote-very-disappointed' className='vcv-layout-popup-checkbox-label'>
-          1
-        </label>
+      <div className="vcv-ui-feedback-container">
+        {
+          [...Array(voteAmount)].map((e, i) => <label className='vcv-ui-feedback-radio' key={`vote-${i}`}>
+            <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value={i + 1} onChange={handleVote}/>
+            <span>
+              {i + 1}
+            </span>
+          </label>)
+        }
       </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='2' />
-        <label htmlFor='vcv-feedback-vote-somewhat-disappointed' className='vcv-layout-popup-checkbox-label'>
-          2
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='3' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          3
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='4' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          4
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='5' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          5
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='6' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          6
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='7' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          7
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='8' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          8
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='9' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          9
-        </label>
-      </div>
-      <div className='vcv-layout-popup-checkbox-option-wrapper'>
-        <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='10' />
-        <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
-          10
-        </label>
+      <div className='vcv-ui-feedback-description'>
+        <span>{veryDisappointed}</span>
+        <span>{extremelyLikely}</span>
       </div>
     </PopupInner>
   )
@@ -130,10 +92,10 @@ const VotePopup = ({ popups, popupsSet, popupVisibilitySet, popupShown, onPrimar
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   popupShown: (data: string) => dispatch(popupShown(data)),
   popupsSet: (data: Popups) => dispatch(popupsSet(data)), // eslint-disable-line
-  popupVisibilitySet: (data:boolean) => dispatch(popupVisibilitySet(data))
+  popupVisibilitySet: (data: boolean) => dispatch(popupVisibilitySet(data))
 })
 
-const mapStateToProps = (state:AppStateType) => ({
+const mapStateToProps = (state: AppStateType) => ({
   popups: state.editorPopup.popups
 })
 
