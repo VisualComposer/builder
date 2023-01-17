@@ -286,9 +286,9 @@ class Categories implements Helper
                     'imageMasonryGallery',
                     'multipleImageCollage',
                     'imageMasonryGalleryWithZoom',
-                    'imageMasonryGalleryWithIcon',
+                    'elementImageMasonryGalleryWithIcon',
                     'imageMasonryGalleryWithScaleUp',
-                    'imageGalleryWithIcon',
+                    'elementImageGalleryWithIcon',
                     'imageGalleryWithScaleUp',
                     'imageGalleryWithZoom',
                 ],
@@ -477,7 +477,7 @@ class Categories implements Helper
             ],
             'Hover Box' => [
                 'title' => 'Hover Box',
-                'elements' => ['flipBox', 'hoverBox', 'iconHoverBox', 'tallHoverBox'],
+                'elements' => ['elementFlipBox', 'elementHoverBox', 'elementIconHoverBox', 'tallHoverBox'],
                 'icon' => $urlHelper->to('public/categories/icons/Hover-Box.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hover-Box.svg'),
             ],
@@ -523,7 +523,7 @@ class Categories implements Helper
                 'elements' => [
                     'elementCallToAction',
                     'simpleCallToAction',
-                    'outlineCallToAction',
+                    'elementOutlineCallToAction',
                     'elementCallToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
@@ -576,7 +576,13 @@ class Categories implements Helper
                     'featureDescription',
                     'featureSection',
                     'callToAction',
-                    'callToActionWithIcon'
+                    'callToActionWithIcon',
+                    'flipBox',
+                    'hoverBox',
+                    'iconHoverBox',
+                    'imageGalleryWithIcon',
+                    'imageMasonryGalleryWithIcon',
+                    'outlineCallToAction'
                 ],
             ]
         ];
