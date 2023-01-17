@@ -31,8 +31,9 @@ export interface PopupInnerProps extends PopupProps {
   customButtonProps?: {
     [key:string]: string | boolean
   },
-  customButtonTag?: keyof JSX.IntrinsicElements
   badge?: JSX.Element
+  hasButton?: boolean
+  customButtonTag?: keyof JSX.IntrinsicElements
   buttonText?: string
 }
 

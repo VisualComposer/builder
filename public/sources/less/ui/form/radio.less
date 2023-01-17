@@ -101,3 +101,32 @@
     margin-left: @vcui-form-radio-content-padding;
   }
 }
+
+.vcv-ui-feedback-radio {
+  span {
+    display: block;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 25px;
+    text-align: center;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+  }
+
+  &:hover span {
+    border: 3px solid rgba(255, 255, 255, 1);
+  }
+
+  input {
+    z-index: -1;
+    position: absolute;
+    opacity: 0;
+
+    &:checked {
+      + span {
+        border: 3px solid rgba(255, 255, 255, 1);
+      }
+    }
+  }
+
+}
