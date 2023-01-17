@@ -100,4 +100,3 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(VotePopup)
-
