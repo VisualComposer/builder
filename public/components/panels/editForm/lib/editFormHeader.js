@@ -155,7 +155,7 @@ export default class EditFormHeader extends React.Component {
       this.props.handleReplaceElementToggle()
     } else {
       let accessPoint = elementAccessPointService.getInstance(parentElementId)
-      while (accessPoint.inner) {
+      while (accessPoint?.inner) {
         if (accessPoint.parentElementId) {
           accessPoint = elementAccessPointService.getInstance(parentElementId)
         } else {
