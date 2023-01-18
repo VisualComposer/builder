@@ -102,6 +102,6 @@ class Popups implements Helper
         }
         self::$showPremiumPromoPopupCache = $result;
 
-        return self::$showPremiumPromoPopupCache;
+        return vcfilter('vcv:helpers:popups:showPremiumPromoPopup', self::$showPremiumPromoPopupCache);
     }
 }
