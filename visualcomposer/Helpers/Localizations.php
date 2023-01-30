@@ -61,6 +61,8 @@ class Localizations extends Container implements Helper
             'addPremiumElement' => __('Visual Composer Hub', 'visualcomposer'),
             'addTemplate' => __('Add Template', 'visualcomposer'),
             'treeView' => __('Tree View', 'visualcomposer'),
+            'atarim' => __('Atarim', 'visualcomposer'),
+            'atarimPanelTitle' => __('Collaboration Tasks & Feedback', 'visualcomposer'),
             'undo' => __('Undo', 'visualcomposer'),
             'redo' => __('Redo', 'visualcomposer'),
             'responsiveView' => __('Responsive View', 'visualcomposer'),
