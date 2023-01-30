@@ -286,9 +286,9 @@ class PremiumTeasers extends Container implements Module
     protected function outputDashboardMenu()
     {
         $globalsHelper = vchelper('Globals');
-        $submenuCopy = $globalsHelper->get('submenu');
-        if (isset($submenuCopy['vcv-settings'])) {
-            $columnsData = array_column($submenuCopy['vcv-settings'], 2);
+        $submenu = $globalsHelper->get('submenu');
+        if (isset($submenu['vcv-settings'])) {
+            $columnsData = array_column($submenu['vcv-settings'], 2);
             $currentUserAccess = vchelper('AccessCurrentUser');
             $addons = vchelper('HubAddons')->getAddons();
             $outputHelper = vchelper('Output');
@@ -317,6 +317,7 @@ class PremiumTeasers extends Container implements Module
                     },
                     1
                 );
+                $submenu = $globalsHelper->get('submenu');
                 // After add_submenu_page called last index of $submenu['vcv-settings'] will be recently added item
                 // So we can adjust it to add extra-class to hide
                 $extraClass = 'vcv-submenu--' . vchelper('Str')->slugify($teaser['slug']);
@@ -324,9 +325,9 @@ class PremiumTeasers extends Container implements Module
                 if (isset($teaser['hideInWpMenu']) && $teaser['hideInWpMenu']) {
                     $extraClass .= ' vcv-ui-state--hidden';
                 }
-                $submenuCopy['vcv-settings'][1][4] = $extraClass;
+                $submenu['vcv-settings'][1][4] = $extraClass;
+                $globalsHelper->set('submenu', $submenu);
             }
-            $globalsHelper->set('submenu', $submenuCopy);
         }
     }
 
