@@ -8,6 +8,7 @@ import UndoRedoControl from './controls/undoRedoControl'
 import LayoutControl from './controls/layout/layoutControl'
 import SettingsButtonControl from './controls/settingsButtonControl'
 import MessagesButtonControl from './controls/messagesButtonControl'
+import AtarimButtonControl from './controls/atarimButtonControl'
 import ViewControl from './controls/viewControl'
 import Navbar from './navbar'
 import NavbarWrapper from './navbarWrapper'
@@ -44,7 +45,8 @@ export default class NavbarContainer extends React.Component {
           {addContentButton}
           <TreeViewControl visibility='pinned' />
           <UndoRedoControl isDropdown='true' />
-          {env('VCV_FT_INSIGHTS') ? <MessagesButtonControl isDropdown='true' /> : null}
+          {window.vcvIsAtarimActive && <AtarimButtonControl/>}
+          {env('VCV_FT_INSIGHTS') && <MessagesButtonControl isDropdown='true' />}
           <LayoutControl visibility='pinned' />
           {hubControl}
           <SettingsButtonControl isDropdown='true' />
