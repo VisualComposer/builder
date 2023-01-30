@@ -85,6 +85,7 @@ class FeedbackController extends Container implements Module
                 'vcv-value' => $feedbackValue,
                 'vcv-version' => VCV_VERSION,
                 'vcv-license-type' => $licenseType,
+                'vcv-site-url' => get_site_url(),
                 'vcv-user-id' => $licenseHelper->getHashedKey(get_site_url() . $user->ID),
             ]
         );
