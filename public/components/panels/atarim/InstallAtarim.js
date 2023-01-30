@@ -45,12 +45,8 @@ const TextPower = styled.span`
 `
 
 export default function InstallAtarim (props) {
-  const {
-
-  } = props
 
   React.useEffect(() => {
-    console.log('___???')
     const script = document.createElement('script')
     script.src = 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'
     script.async = true
