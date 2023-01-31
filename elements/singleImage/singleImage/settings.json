@@ -340,7 +340,7 @@
     "value": "",
     "options": {
       "label": "Extra Data Attributes",
-      "description": "Add data attributes to your element (ex. data-name=john data-age=28)"
+      "description": "Add data attributes to your element (ex. data-name=\"john\" data-age=\"28\")"
     }
   },
   "designTab": {
