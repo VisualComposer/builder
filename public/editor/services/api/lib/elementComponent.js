@@ -13,7 +13,7 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
-import { updateHtmlWithServer, renderInlineHtml } from 'public/tools/updateHtmlWithServer'
+import { updateHtmlWithServer, renderInlineHtml, addShortcodeToQueueUpdate } from 'public/tools/updateHtmlWithServer'
 import {
   getCssMixinsData,
   getInnerCssMixinsData,
@@ -78,6 +78,14 @@ export default class ElementComponent extends React.Component {
   updateShortcodeToHtml (content, ref, cb, action, options) {
     if (ref) {
       updateHtmlWithServer(content, ref, this.props.id, cb, action, options)
+    } else if (env('VCV_DEBUG')) {
+      console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
+    }
+  }
+
+  addShortcodeToQueueUpdate (content, ref, cb, action, options) {
+    if (ref) {
+      addShortcodeToQueueUpdate(content, ref, this.props.id, cb, action, options)
     } else if (env('VCV_DEBUG')) {
       console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
     }
