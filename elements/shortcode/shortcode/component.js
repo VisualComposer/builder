@@ -13,7 +13,13 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
+    const initialText = 'Insert [shortcode] of any WordPress plugin installed on your website.'
+
+    if (this.props.atts.shortcode === initialText) {
+      super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
+    } else {
+      super.addShortcodeToQueueUpdate(this.props.atts.shortcode, this.vcvhelper.current)
+    }
   }
 
   updateShortcodeElement () {
