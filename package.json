@@ -68,8 +68,12 @@
       ]
     },
     "verbose": true,
-    "setupFilesAfterEnv": ["./tests/jest/_jest-setup_.js"],
-    "modulePathIgnorePatterns": ["./tests/jest/_jest-setup_.js"]
+    "setupFilesAfterEnv": [
+      "./tests/jest/_jest-setup_.js"
+    ],
+    "modulePathIgnorePatterns": [
+      "./tests/jest/_jest-setup_.js"
+    ]
   },
   "resolutions": {
     "@babel/runtime": "7.19.4",
@@ -127,12 +131,14 @@
     "react-color": "2.19.3",
     "react-custom-scrollbars": "4.2.1",
     "react-datepicker": "4.8.0",
+    "react-icons": "^4.7.1",
     "react-redux": "8.0.4",
     "react-slick": "0.29.0",
     "react-sortable-hoc": "2.0.0",
     "react-textarea-autosize": "8.3.4",
     "reactcss": "1.2.3",
     "redux": "4.2.0",
+    "styled-components": "^5.3.6",
     "ts-jest": "29.0.3",
     "ts-loader": "9.4.1",
     "typescript": "4.8.4",
@@ -149,4 +155,3 @@
     "webpack-bundle-analyzer": "3.1.0"
   }
 }
-
