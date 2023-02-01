@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 7.4
 Requires at least: 5.5
 Tested up to: 6.0.2
-Stable tag: 45.1.1
+Stable tag: 45.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,15 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 45.1.2 =
+*Release Date - 2022-02-02*
+
+### Free:
+- New: pNPS survey added to the editor to collect your feedback
+- Compatibility: WPML is fully compatible with the editor
+- Fix: gZip works properly on different environments
+- Fix: A proper labels are displayed for all free users considering updating to Premium
 
 = 45.1.1 =
 *Release Date - 2022-11-01*
