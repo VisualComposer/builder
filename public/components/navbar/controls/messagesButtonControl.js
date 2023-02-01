@@ -18,7 +18,7 @@ const checkIsUnseenMessages = (allMessages, seenMessages) => {
   return !!unseenMessages.length
 }
 
-const controls = innerAPI.applyFilter('insightPanelsData', {
+const initControls = {
   insights: {
     index: 0,
     type: 'insights',
@@ -31,7 +31,18 @@ const controls = innerAPI.applyFilter('insightPanelsData', {
     title: 'Notifications',
     icon: 'bell'
   }
-})
+}
+
+if (!window.vcvIsAtarimActive) {
+  initControls.atarim = {
+    index: 2,
+    type: 'atarim',
+    title: 'Collaborate',
+    icon: 'atarim-comments'
+  }
+}
+
+const controls = innerAPI.applyFilter('insightPanelsData', initControls)
 
 class MessagesButtonControl extends NavbarContent {
   constructor (props) {

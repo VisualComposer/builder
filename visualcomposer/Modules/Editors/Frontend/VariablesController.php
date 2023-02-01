@@ -144,6 +144,11 @@ class VariablesController extends Container implements Module
                 'value' => set_url_scheme(get_permalink(get_the_ID())),
                 'type' => 'variable',
             ];
+            $variables[] = [
+                'key' => 'vcvIsAtarimActive',
+                'value' => defined('WPF_PLUGIN_NAME') ? true : false,
+                'type' => 'variable',
+            ];
         }
 
         return $variables;
