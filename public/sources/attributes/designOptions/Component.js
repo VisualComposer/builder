@@ -397,7 +397,7 @@ export default class DesignOptions extends Attribute {
           })
         } else {
           // image is empty
-          const imageValue = newValue[device].image && newValue[device].image.urls && newValue[device].image.urls[0] ? newValue[device].image.urls[0].full : false
+          const imageValue = newValue[device].image && newValue[device].image.urls && newValue[device].image.urls[0] ? newValue[device].image.urls[0].full : newValue[device]?.image[0]
           const isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
           if (!isDynamic && (!Object.prototype.hasOwnProperty.call(newValue[device], 'image') || ((!newValue[device].image.urls || newValue[device].image.urls.length === 0) && newValue[device].image.length === 0))) {
             delete newValue[device].image
@@ -534,7 +534,7 @@ export default class DesignOptions extends Attribute {
   }
 
   static getBackgroundMixin (newValue, device, newMixins, isSimple) {
-    if (newValue[device] && (newValue[device].backgroundColor || (newValue[device].image && newValue[device].image.urls && newValue[device].image.urls.length))) {
+    if (newValue[device] && (newValue[device].backgroundColor || (newValue[device].image && newValue[device].image.urls && newValue[device].image.urls.length) || newValue[device].image.length)) {
       const mixinName = `backgroundColorMixin:${device}`
       const mixinNameImage = newValue[device].lazyLoad ? `backgroundLazyImageMixin:${device}` : `backgroundImageMixin:${device}`
       newMixins[mixinName] = {}
@@ -552,7 +552,7 @@ export default class DesignOptions extends Attribute {
         }
       }
 
-      const imageValue = newValue[device].image && newValue[device].image.urls && newValue[device].image.urls[0] ? newValue[device].image.urls[0].full : false
+      const imageValue = newValue[device].image && newValue[device].image.urls && newValue[device].image.urls[0] ? newValue[device].image.urls[0].full : newValue[device]?.image[0]
       if (imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)) {
         const blockInfo = imageValue.split(blockRegexp)
         const blockAtts = JSON.parse(blockInfo[4])
@@ -567,6 +567,10 @@ export default class DesignOptions extends Attribute {
       } else if (newValue[device].image && newValue[device].image.urls && newValue[device].image.urls.length) {
         newMixins[mixinNameImage].variables.backgroundImage = {
           value: newValue[device].image.urls[0].full
+        }
+      } else if (newValue[device].image && newValue[device].image[0]) {
+        newMixins[mixinNameImage].variables.backgroundImage = {
+          value: newValue[device].image[0]
         }
       }
 
