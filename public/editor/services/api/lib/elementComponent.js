@@ -180,10 +180,18 @@ export default class ElementComponent extends React.Component {
         const doDevices = designOptions.device
         const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
 
+        Object.keys(doDevices).forEach((device) => {
+          if(doDevices[device].image.length) {
+            const dataAttribute = `data-vce-background-image-${device}`
+            propObj[dataAttribute] = doDevices[device].image
+            propObj['data-vce-background-image'] = Object.keys(doDevices)
+          }
+        })
+
         if (isLazyLoad) {
           let isImagesSet = false
           Object.keys(doDevices).forEach((device) => {
-            if (doDevices[device].image && doDevices[device].image.urls && doDevices[device].image.urls[0] && doDevices[device].image.urls[0].full) {
+         if (doDevices[device].image && doDevices[device].image.urls && doDevices[device].image.urls[0] && doDevices[device].image.urls[0].full) {
               const dataAttribute = `data-vce-background-image-${device}`
               propObj[dataAttribute] = doDevices[device].image.urls[0].full
               isImagesSet = true
@@ -197,6 +205,7 @@ export default class ElementComponent extends React.Component {
         }
       }
     }
+
 
     // checking all
     if (prop === 'all') {

@@ -11,7 +11,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor, children } = this.props
-    const { description, backgroundImage, backgroundImagePosition, backgroundColor, align, customClass, background, metaCustomId, extraDataAttributes } = atts
+    const { description, align, customClass, metaCustomId, extraDataAttributes } = atts
     const customProps = {}
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
 
@@ -20,53 +20,31 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
       'vce-hero-section-media--xs': true
     })
 
-    let wrapperClasses = classNames({
+    let elementClasses = classNames({
       vce: true,
       'vce-hero-section': true,
-      'vce-hero-section--min-height': false,
       'vce-hero-section--alignment-start': align === 'start',
       'vce-hero-section--alignment-end': align === 'end'
     })
 
-    let rowClasses = ['vce-hero-section--wrap-row']
 
     if (typeof customClass === 'string' && customClass) {
-      wrapperClasses = wrapperClasses.concat(' ' + customClass)
-    }
-
-    const rowStyles = {}
-    if (background === 'image' && backgroundImage) {
-      rowStyles.backgroundImage = `url(${this.getImageUrl(backgroundImage)})`
-    } else if (background === 'color') {
-      const backgroundColorSelector = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
-      rowClasses.push(`vce-hero-section--background-color-${backgroundColorSelector}`)
-    }
-
-    if (backgroundImagePosition) {
-      rowClasses.push(`vce-hero-section--background-position-${backgroundImagePosition.replace(' ', '-')}`)
+      elementClasses = elementClasses.concat(' ' + customClass)
     }
 
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
 
-    rowClasses = classNames(rowClasses)
-
     const doRest = this.applyDO('margin background border animation')
     const doPadding = this.applyDO('padding')
 
     return (
       <section className={containerClasses} {...editor} {...containerProps}>
-        <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-          <div className={rowClasses} style={rowStyles} {...customProps}>
-            <div className='vce-hero-section--wrap'>
-              <div className='vce-hero-section--content' {...doPadding}>
-                <div className='vce-hero-section--content-container'>
-                  {description}
-                </div>
-                {children}
-              </div>
-            </div>
+        <div className={elementClasses} id={'el-' + id} {...doRest} {...customProps}>
+          <div className="vce-hero-section--content" {...doPadding}>
+            {description}
+            {children}
           </div>
         </div>
       </section>
