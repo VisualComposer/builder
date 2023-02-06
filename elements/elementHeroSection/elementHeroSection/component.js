@@ -27,7 +27,6 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
       'vce-hero-section--alignment-end': align === 'end'
     })
 
-
     if (typeof customClass === 'string' && customClass) {
       elementClasses = elementClasses.concat(' ' + customClass)
     }
