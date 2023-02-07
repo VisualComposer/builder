@@ -189,7 +189,11 @@ class ParentPageController extends Container implements Module
         // Do not update post if `post_parent` is missing or not set
         if ($requestHelper->exists('vcv-settings-parent-page')) {
             $postParent = $requestHelper->input('vcv-settings-parent-page');
-            if (!empty($postParent) && 'none' !== $postParent) {
+            if (!empty($postParent)) {
+                if ('none' === $postParent) {
+                    $postParent = 0;
+                }
+
                 wp_update_post(['ID' => $currentPageId, 'post_parent' => $postParent]);
             }
         }
