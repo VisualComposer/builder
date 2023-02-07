@@ -97,34 +97,64 @@ class ParentPageController extends Container implements Module
 
     /**
      * @param $response
-     * @param $payload
-     *
-     * @param \VisualComposer\Helpers\PostType $postTypeHelper
      *
      * @return mixed
      */
     protected function outputPageList(
-        $response,
-        $payload,
-        PostType $postTypeHelper
+        $response
     ) {
-        $currentPost = $postTypeHelper->get();
-        // @codingStandardsIgnoreLine
-        if (isset($currentPost->post_type) && post_type_supports($currentPost->post_type, 'page-attributes')) {
-            $response = array_merge(
-                $response,
-                [
-                    vcview(
-                        'partials/variableTypes/variable',
-                        [
-                            'key' => 'VCV_PAGE_LIST',
-                            'value' => $this->getPageList(),
-                        ]
-                    ),
-                ]
-            );
+        if (!$this->isPageSupportPageAttributes()) {
+            return $response;
         }
+
+        $parent = get_post_parent();
+        if (empty($parent->ID)) {
+            $pageList = ["current" => "none", "all" => [['label' => __('None', 'visualcomposer'), "value" => "none"]]];
+        } else {
+            $pageList = ["current" => $parent->ID, "all" => [
+                ['label' => __('None', 'visualcomposer'), "value" => "none"],
+                [
+                    'label' => $parent->post_title,
+                    "value" => $parent->ID,
+                    "id" => $parent->ID,
+                    "parent" => 0
+                ]],
+            ];
+        }
+
+        $response = array_merge(
+            $response,
+            [
+                vcview(
+                    'partials/variableTypes/variable',
+                    [
+                        'key' => 'VCV_PAGE_LIST',
+                        'value' => $pageList,
+                    ]
+                ),
+            ]
+        );
         return $response;
+    }
+
+
+    /**
+     * Check if current page support page attributes.
+     *
+     * @return bool
+     */
+    protected function isPageSupportPageAttributes()
+    {
+        $postTypeHelper = vchelper('PostType');
+        $currentPost = $postTypeHelper->get();
+
+        // @codingStandardsIgnoreLine
+        if (!isset($currentPost->post_type)) {
+            return false;
+        }
+
+        // @codingStandardsIgnoreLine
+        return post_type_supports($currentPost->post_type, 'page-attributes');
     }
 
     /**
@@ -132,8 +162,16 @@ class ParentPageController extends Container implements Module
      */
     protected function getPageListForUpdate()
     {
+        $parent = get_post_parent();
+
         $pageList = $this->getPageList();
-        return ['status' => true, 'data' => $pageList['all']];
+        $result = ['status' => true, 'data' => $pageList['all']];
+
+        if (!empty($parent->ID)) {
+            $result['current'] = $parent->ID;
+        }
+
+        return $result;
     }
 
     /**
