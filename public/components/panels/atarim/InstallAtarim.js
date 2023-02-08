@@ -1,6 +1,11 @@
 /* eslint-disable */
 import React from 'react'
 import styled from 'styled-components'
+import { getService } from 'vc-cake'
+
+const dataProcessor = getService('dataProcessor')
+const dataManager = getService('dataManager')
+
 
 const InstallWrapper = styled.div`
     text-align: center;
@@ -46,6 +51,14 @@ const TextPower = styled.span`
 
 export default function InstallAtarim (props) {
 
+  const processCommentButtonClick = () => {
+
+    dataProcessor.appServerRequest({
+      'vcv-action': 'atarim:comment:button:click:adminNonce',
+      'vcv-nonce': dataManager.get('nonce')
+    })
+  }
+
   React.useEffect(() => {
     const script = document.createElement('script')
     script.src = 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'
@@ -67,7 +80,9 @@ export default function InstallAtarim (props) {
           to communicate with other users within your own website, <br/>
           seemlessly integrate to Visual Composer
         </TextContent>
-        <CommentButton>
+        <CommentButton
+          onClick={processCommentButtonClick()}
+        >
           Start Collaborating For Free
         </CommentButton>
         <div
