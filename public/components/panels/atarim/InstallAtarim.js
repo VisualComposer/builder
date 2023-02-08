@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import styled from 'styled-components'
 import { getService } from 'vc-cake'

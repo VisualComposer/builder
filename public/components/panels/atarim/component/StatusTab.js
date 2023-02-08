@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import styled from 'styled-components'
 import { commentUpdateDetails } from '../services/apiPath'
