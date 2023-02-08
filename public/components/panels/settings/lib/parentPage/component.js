@@ -1,5 +1,5 @@
 import React from 'react'
-import { getStorage, getService } from 'vc-cake'
+import { env, getStorage, getService } from 'vc-cake'
 import Dropdown from 'public/sources/attributes/dropdown/Component'
 
 const dataManager = getService('dataManager')
@@ -21,11 +21,47 @@ export default class ParentPage extends React.Component {
 
     settingsStorage.state('parentPage').set(currentParentPage)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
+
+    this.setAllPagesAjaxRequest()
   }
 
   changeLoadingState = (status) => {
     this.setState({
       isListLoading: status
+    })
+  }
+
+  setAllPagesAjaxRequest = () => {
+    const dataProcessor = getService('dataProcessor')
+
+    dataProcessor.appServerRequest({
+      'vcv-action': 'dropdown:parentPage:updateList:adminNonce',
+      'vcv-nonce': dataManager.get('nonce')
+    }).then((data) => {
+      try {
+        const jsonData = JSON.parse(data)
+
+        if (jsonData.data && jsonData.status) {
+          const allData = this.state.data
+          allData.all = jsonData.data
+
+          if (jsonData.current) {
+            allData.current = jsonData.current
+          }
+          this.valueChangeHandler('parentPage', allData.current)
+          this.setState({
+            data: allData
+          })
+        } else {
+          if (env('VCV_DEBUG')) {
+            console.warn('Page list error', jsonData)
+          }
+        }
+      } catch (e) {
+        if (env('VCV_DEBUG')) {
+          console.warn('Page list error', e)
+        }
+      }
     })
   }
 
@@ -40,7 +76,7 @@ export default class ParentPage extends React.Component {
     const { data, current } = this.state
     const dataList = data.all || data
     // Is current page id exist inside all page list
-    if (dataList && dataList.findIndex((item) => { return item.value === current }) > -1) {
+    if (dataList && dataList.findIndex((item) => { return parseInt(item.value) === parseInt(current) }) > -1) {
       return current
     }
     return 'none'
