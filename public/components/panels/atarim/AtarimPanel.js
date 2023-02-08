@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import { getData } from './services/apiResquest'
 import Sidebar from './SideBar'
