@@ -53,7 +53,7 @@ export default function InstallAtarim (props) {
 
   const processCommentButtonClick = () => {
 
-    dataProcessor.appServerRequest({
+    return dataProcessor.appServerRequest({
       'vcv-action': 'atarim:comment:button:click:adminNonce',
       'vcv-nonce': dataManager.get('nonce')
     })
