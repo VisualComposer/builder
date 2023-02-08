@@ -26,6 +26,10 @@ class Controller extends Container implements Module
     {
         $this->addEvent('vcv:inited', 'listenNotifications');
         $this->addFilter('vcv:dataAjax:getData', 'outputNotificationsData');
+        $this->addFilter(
+            'vcv:ajax:atarim:comment:button:click:adminNonce',
+            'saveClickAction'
+        );
     }
 
     /**
@@ -63,5 +67,19 @@ class Controller extends Container implements Module
         }
 
         return $response;
+    }
+
+    /**
+     * We need some actions after user click comment atarim button in our notification.
+     *
+     * @return array
+     */
+    protected function saveClickAction()
+    {
+        $optionsHelper = vchelper('Options');
+
+        $optionsHelper->set('atarim_message_button_active', 1);
+
+        return ['status' => true];
     }
 }
