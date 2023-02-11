@@ -20,6 +20,8 @@ class DefaultCapabilitiesMigration extends MigrationsController implements Modul
     {
         // Run migration only if role Manager addon is available and is enabled
         if (vcvenv('VCV_ADDON_ROLE_MANAGER_PARTS')) {
+            return false;
+        }
             $roleHelper = vchelper('AccessRole');
             $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
             $defaultCapabilities = $userCapabilitiesHelper->getDefaultCapabilities();
@@ -34,12 +36,11 @@ class DefaultCapabilitiesMigration extends MigrationsController implements Modul
 
                 foreach ($roleParts as $capPart => $capabilities) {
                     foreach ($capabilities as $cap) {
-                        $roleHelper->who($roleName)->part($capPart)->setCapRule($cap, true);
+                        $roleHelper->who($roleName)->part($capPart)->setCapRule($cap);
                     }
                 }
             }
 
-            return true;
-        }
+        return true;
     }
 }
