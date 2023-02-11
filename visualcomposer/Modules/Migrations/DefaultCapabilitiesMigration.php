@@ -24,7 +24,14 @@ class DefaultCapabilitiesMigration extends MigrationsController implements Modul
             $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
             $defaultCapabilities = $userCapabilitiesHelper->getDefaultCapabilities();
 
+            // for a security reason we decided to remove all default caps in some user roles.
+            $roleWithoutDefaultCaps = ['author', 'contributor'];
+
             foreach ($defaultCapabilities as $roleName => $roleParts) {
+                if (in_array($roleName, $roleWithoutDefaultCaps)) {
+                    continue;
+                }
+
                 foreach ($roleParts as $capPart => $capabilities) {
                     foreach ($capabilities as $cap) {
                         $roleHelper->who($roleName)->part($capPart)->setCapRule($cap, true);
