@@ -387,4 +387,104 @@ class PostType implements Helper
 
         return false;
     }
+
+    /**
+     * Update user role capabilities related to specific post type.
+     *
+     * @param string $postType
+     *
+     * @return void
+     */
+    public function updatePostTypeUserRoleCapabilities($postType)
+    {
+        $optionsHelper = vchelper('Options');
+        if ($optionsHelper->get($postType . '-capabilities-set')) {
+            return;
+        }
+
+        $roles = ['administrator', 'editor', 'author', 'contributor'];
+
+        foreach ($roles as $role) {
+            $roleObject = get_role($role);
+            if (!$roleObject) {
+                continue;
+            }
+
+            $capabilities = [
+                "read_{$postType}",
+                "edit_{$postType}",
+                "delete_{$postType}",
+                "edit_{$postType}s",
+                "delete_{$postType}s",
+            ];
+
+            if ($role === 'contributor') {
+                $capabilities = [
+                    "read_{$postType}",
+                    "edit_{$postType}s",
+                    "delete_{$postType}s",
+                ];
+            }
+
+            if (in_array($role, ['administrator', 'editor', 'author'])) {
+                $capabilities = array_merge(
+                    $capabilities,
+                    [
+                        "delete_published_{$postType}s",
+                        "publish_{$postType}s",
+                        "edit_published_{$postType}s",
+                    ]
+                );
+            }
+
+            if (in_array($role, ['administrator', 'editor'])) {
+                $capabilities = array_merge(
+                    $capabilities,
+                    [
+                        "read_private_{$postType}s",
+                        "edit_private_{$postType}s",
+                        "delete_private_{$postType}s",
+                        "delete_others_{$postType}s",
+                        "delete_{$postType}",
+                        "edit_others_{$postType}s",
+                        "create_{$postType}s"
+                    ]
+                );
+            }
+
+            if ($roleObject) {
+                foreach ($capabilities as $cap) {
+                    $roleObject->add_cap($cap);
+                }
+
+                $optionsHelper->set($postType . '-capabilities-set', 1);
+            }
+        }
+        // reset current user all caps
+        wp_get_current_user()->get_role_caps();
+    }
+
+    /**
+     * @param $postType
+     */
+    protected function updateCustomPostRoleCapabilityMigration($postType)
+    {
+        $optionsHelper = vchelper('Options');
+
+        // Capability migration for custom VC post types
+        if ($optionsHelper->get($postType . '-capability-migration')) {
+            return;
+        }
+
+        // @codingStandardsIgnoreStart
+        global $wp_roles;
+        $optionsHelper->delete($postType . '-capabilities-set');
+        $wp_roles->remove_cap('contributor', 'read_' . $postType);
+        $wp_roles->remove_cap('contributor', 'edit_' . $postType);
+        $wp_roles->remove_cap('contributor', 'delete_' . $postType);
+        $wp_roles->remove_cap('contributor', 'edit_' . $postType . 's');
+        $wp_roles->remove_cap('contributor', 'delete_' . $postType . 's');
+        $optionsHelper->set($postType . '-capability-migration', 1);
+        // @codingStandardsIgnoreEnd
+    }
 }
