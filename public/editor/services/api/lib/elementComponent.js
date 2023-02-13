@@ -83,7 +83,7 @@ export default class ElementComponent extends React.Component {
     }
   }
 
-  addShortcodeToQueueUpdate (content, ref, cb, action, options) {
+  addShortcodeElementToQueueUpdate (content, ref, cb, action, options) {
     if (ref) {
       addShortcodeToQueueUpdate(content, ref, this.props.id, cb, action, options)
     } else if (env('VCV_DEBUG')) {
