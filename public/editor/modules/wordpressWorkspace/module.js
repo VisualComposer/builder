@@ -6,6 +6,7 @@ import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { setShortcodeListHtmlServerRequest } from 'public/tools/updateHtmlWithServer'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -125,6 +126,7 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('navbarDisabled').set(false)
       // Fix if navbar is still not loaded
       window.setTimeout(() => {
+        setShortcodeListHtmlServerRequest()
         workspaceStorage.state('navbarDisabled').set(false)
       }, 300)
       // Remove Current Post Source-CSS to avoid cascading issues

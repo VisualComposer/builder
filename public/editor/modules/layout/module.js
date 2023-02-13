@@ -20,7 +20,6 @@ import Controls from 'public/components/elementControls/controls'
 import AppendControl from 'public/components/elementControls/appendControl'
 import ElementResizeControl from 'public/components/elementControls/elementResize'
 import Outlines from 'public/components/elementControls/outlines'
-import { setShortcodeListHtmlServerRequest } from 'public/tools/updateHtmlWithServer'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -299,7 +298,6 @@ vcCake.add('contentLayout', (api) => {
     }
   }
   api.on('editor:mount', function () {
-    setShortcodeListHtmlServerRequest()
     removeLoadingScreen()
   })
   wordpressDataStorage.state('status').onChange((result) => {
