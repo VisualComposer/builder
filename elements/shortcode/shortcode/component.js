@@ -18,7 +18,7 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
     if (this.props.atts.shortcode === initialText) {
       super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
     } else {
-      super.addShortcodeToQueueUpdate(this.props.atts.shortcode, this.vcvhelper.current)
+      super.addShortcodeElementToQueueUpdate(this.props.atts.shortcode, this.vcvhelper.current)
     }
   }
 
