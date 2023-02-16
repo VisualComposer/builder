@@ -42,6 +42,25 @@ function e2e_clean_posts()
     }
 }
 
+function e2e_clean_terms()
+{
+    $args = [
+        'hide_empty' => false,
+        'meta_query' => [
+            [
+                'key' => '_e2e-generated-test',
+                'value' => '1',
+                'compare' => '=',
+            ],
+        ],
+    ];
+    $termList = get_terms($args);
+
+    foreach ($termList as $term) {
+        wp_delete_term($term->term_id, $term->taxonomy);
+    }
+}
+
 function e2e_add_rewrite_rules()
 {
     add_filter(
