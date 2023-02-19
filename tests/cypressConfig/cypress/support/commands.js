@@ -867,3 +867,10 @@
       expect('Done').to.equal(window.document.body.textContent)
     })
   })
+  Cypress.Commands.add('cleanImages', () => {
+    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-images')
+    // Make sure clean was success
+    cy.window().then((window) => {
+      expect('Done').to.equal(window.document.body.textContent)
+    })
+  })
