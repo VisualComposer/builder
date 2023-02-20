@@ -1,6 +1,7 @@
 import { add, getStorage, getService, env, setData, getData, onDataChange } from 'vc-cake'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
 import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
@@ -108,6 +109,7 @@ add('wordpressWorkspace', (api) => {
 
   if (iframeContent) {
     const removeBlankIntro = () => {
+      ReactDOM.unmountComponentAtNode(iframeContent)
       iframeContentRoot.unmount()
       workspaceStorage.state('blankPageIntro').set(false)
       workspaceStorage.state('navbarDisabled').set(false)
