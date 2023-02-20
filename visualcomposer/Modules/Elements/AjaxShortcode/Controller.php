@@ -82,8 +82,11 @@ class Controller extends Container implements Module
 
         $shortcodeList = $requestHelper->input('vcv-shortcode-list');
 
-        foreach ($shortcodeList as $elementId => $shortcode) {
-            $response[$elementId] = $this->getShortcodeData($shortcode, $sourceId);
+        foreach ($shortcodeList as $shortcodeInitContent) {
+            $response[] = [
+                'shortcodeInitContent' => $shortcodeInitContent,
+                'shortcodeRenderContent' => $this->getShortcodeData($shortcodeInitContent, $sourceId),
+            ];
         }
 
         return $response;

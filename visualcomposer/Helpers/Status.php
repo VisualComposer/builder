@@ -124,12 +124,34 @@ class Status implements Helper
      */
     public function getMemoryLimitStatus()
     {
-        $memoryLimit = $this->getPhpVariable('memory_limit');
+        $memoryLimit = $this->getMemoryLimit();
+
         if ($memoryLimit === '-1') {
             return true;
         }
 
         return ($this->convertMbToBytes($memoryLimit) >= $this->defaultMemoryLimit * 1024 * 1024);
+    }
+
+    /**
+     * Get memory limit value
+     *
+     * @return string
+     */
+    public function getMemoryLimit()
+    {
+        $memoryLimit = (string)get_cfg_var('memory_limit');
+
+        // in case if someone do nusty things and use invalid memory_limit value in php.ini like 'memory_limit = here'
+        $isWrongMemoryLimitValue = wp_convert_hr_to_bytes($memoryLimit) === 0;
+        // we do not rely on get_cfg_var if it has value -1
+        $isInfiniteValue = $memoryLimit === '-1';
+
+        if ($isInfiniteValue || $isWrongMemoryLimitValue) {
+            $memoryLimit = $this->getPhpVariable('memory_limit');
+        }
+
+        return $memoryLimit;
     }
 
     /**

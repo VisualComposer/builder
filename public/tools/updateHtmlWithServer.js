@@ -65,18 +65,19 @@ export function addShortcodeToQueueUpdate (content, ref, id, cb, action, options
 }
 
 export function addServerRequestShortcodeToQueue (content, ref, id, cb, action = 'update', options = {}) {
-  window.vcv_server_request_shortcode_queue = window.vcv_server_request_shortcode_queue || {}
-  window.vcv_shortcode_reference_list = window.vcv_shortcode_reference_list || {}
+  window.vcv_server_request_shortcode_queue = window.vcv_server_request_shortcode_queue || []
+  window.vcv_shortcode_reference_list = window.vcv_shortcode_reference_list || []
 
-  window.vcv_server_request_shortcode_queue[id] = content
+  window.vcv_server_request_shortcode_queue.push(content)
 
-  window.vcv_shortcode_reference_list[id] = {
+  window.vcv_shortcode_reference_list.push({
+    id: id,
     ref: ref,
     cb: cb,
     action: action,
     options: options,
     content: content
-  }
+  })
 }
 
 export function setShortcodeListHtmlServerRequest () {
@@ -90,17 +91,28 @@ export function setShortcodeListHtmlServerRequest () {
     'vcv-source-id': dataManager.get('sourceID'),
     'vcv-nonce': dataManager.get('nonce')
   }).then((data) => {
-    const shortcodeReference = window.vcv_shortcode_reference_list
-    const jsonData = getResponse(data)
+    const shortcodeReferenceList = window.vcv_shortcode_reference_list
 
-    for (var id in jsonData) {
+    const shortcodeRenderResponse = getResponse(data)
+
+    for (var index in shortcodeRenderResponse) {
+      for (const shortcodeReference of shortcodeReferenceList) {
+        if (shortcodeRenderResponse[index].shortcodeInitContent === shortcodeReference.content) {
+          shortcodeReferenceList[index].renderedContent = shortcodeRenderResponse[index].shortcodeRenderContent
+        }
+      }
+    }
+
+    for (const shortcodeReference of shortcodeReferenceList) {
       const iframe = env('iframe')
 
-      const cb = shortcodeReference[id].cb
-      const ref = shortcodeReference[id].ref
-      const action = shortcodeReference[id].action
-      const options = shortcodeReference[id].options
-      const content = shortcodeReference[id].content
+      const cb = shortcodeReference.cb
+      const ref = shortcodeReference.ref
+      const action = shortcodeReference.action
+      const options = shortcodeReference.options
+      const content = shortcodeReference.content
+      const renderedContent = shortcodeReference.renderedContent
+      const id = shortcodeReference.id
 
       const finishCallback = () => {
         ((function (window) {
@@ -113,14 +125,9 @@ export function setShortcodeListHtmlServerRequest () {
           }, 500)
         })(iframe))
       }
+
       try {
-        if (jsonData) {
-          renderInlineHtml(content, jsonData[id], ref, id, finishCallback)
-        } else {
-          console.warn('failed to parse data', data)
-          ref && (ref.innerHTML = content)
-          finishCallback()
-        }
+        renderInlineHtml(content, renderedContent, ref, id, finishCallback)
       } catch (e) {
         console.warn('failed to parse json', e)
         ref && (ref.innerHTML = content)
