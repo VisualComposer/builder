@@ -20,19 +20,6 @@
     "access": "public",
     "value": false
   },
-  "backgroundColor": {
-    "type": "color",
-    "access": "public",
-    "value": "#b3a694",
-    "options": {
-      "label": "Background color",
-      "cssMixin": {
-        "mixin": "backgroundColor",
-        "property": "backgroundColor",
-        "namePattern": "[\\da-f]+"
-      }
-    }
-  },
   "image": {
     "type": "attachimage",
     "access": "public",
@@ -124,14 +111,6 @@
       ]
     }
   },
-  "reverseStacking": {
-    "type": "toggle",
-    "access": "public",
-    "value": false,
-    "options": {
-      "label": "Reverse stacking"
-    }
-  },
   "customClass": {
     "type": "string",
     "access": "public",
@@ -167,7 +146,14 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": [],
+    "value": {
+      "device" : {
+        "all" : {
+          "backgroundColor": "#555",
+          "paddingRight": "30px"
+        }
+      }
+    },
     "options": {
       "label": "Design Options"
     }
@@ -277,9 +263,7 @@
     },
     "value": [
       "backgroundImagePosition",
-      "imageAlignment",
-      "backgroundColor",
-      "reverseStacking"
+      "imageAlignment"
     ]
   },
   "contentTab": {
