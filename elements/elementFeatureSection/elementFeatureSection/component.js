@@ -7,66 +7,40 @@ const vcvAPI = getService('api')
 export default class FeatureSection extends vcvAPI.elementComponent {
   render () {
     const { id, atts, editor, children } = this.props
-    const { description, image, imageAlignment, reverseStacking, customClass, metaCustomId, backgroundImagePosition, backgroundColor, extraDataAttributes } = atts
-    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
+    const { description, image, imageAlignment, customClass, metaCustomId, backgroundImagePosition, extraDataAttributes } = atts
 
-    const containerClasses = classNames({
-      'vce-feature-section-container': true,
-      'vce-feature-section-media--xs': true
-    })
-
-    let wrapperClasses = classNames({
-      vce: true,
+    // Handle conditional classes
+    const elementClasses = classNames({
+      'vce': true,
       'vce-feature-section': true,
-      'vce-feature-section--min-height': true,
-      'vce-feature-section--reverse': reverseStacking
+      [customClass]: typeof customClass === 'string' && customClass
     })
 
-    let imageClasses = ['vce-feature-section-image']
-    let contentClasses = ['vce-feature-section-content']
+    const imageClasses = classNames({
+      'vce-feature-section-image': true,
+      [`vce-feature-section-image--alignment-${imageAlignment}`] : imageAlignment,
+      [`vce-feature-section-image--background-position-${backgroundImagePosition.replace(' ', '-')}`]: true,
+      [`vce-image-filter--${image.filter}`]: image?.filter && image.filter !== 'normal'
+    })
 
-    if (typeof customClass === 'string' && customClass) {
-      wrapperClasses += ` ${customClass}`
-    }
+    // Handle conditional props
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
+    metaCustomId && (containerProps.id = metaCustomId)
 
     const imageStyles = {}
+    image && (imageStyles.backgroundImage = `url(${this.getImageUrl(image)})`)
 
-    if (image) {
-      imageStyles.backgroundImage = `url(${this.getImageUrl(image)})`
-    }
-
-    if (imageAlignment) {
-      imageClasses.push(`vce-feature-section-image--alignment-${imageAlignment}`)
-    }
-
-    const backgroundColorSelector = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
-    wrapperClasses += ` vce-feature-section-background-color--${backgroundColorSelector}`
-
-    imageClasses.push(`vce-feature-section-image--background-position-${backgroundImagePosition.replace(' ', '-')}`)
-
-    if (metaCustomId) {
-      containerProps.id = metaCustomId
-    }
-
-    if (image && image.filter && image.filter !== 'normal') {
-      imageClasses.push(`vce-image-filter--${image.filter}`)
-    }
-
-    contentClasses = classNames(contentClasses)
-    imageClasses = classNames(imageClasses)
-
+    // Handle design options
     const doPadding = this.applyDO('padding')
-    const doRest = this.applyDO('margin background border animation')
+    const doRest = this.applyDO('margin background color border animation')
 
     return (
-      <section className={containerClasses} {...editor} {...containerProps}>
-        <div className={wrapperClasses} id={'el-' + id} {...doRest}>
+      <section className='vce-feature-section-container' {...editor} {...containerProps}>
+        <div className={elementClasses} id={'el-' + id} {...doRest}>
           <div className={imageClasses} style={imageStyles} />
-          <div className={contentClasses}>
+          <div className='vce-feature-section-content'>
             <div className='vce-feature-section-content-container' {...doPadding}>
-              <div className='vce-feature-section-description'>
-                {description}
-              </div>
+              {description}
               {children}
             </div>
           </div>
