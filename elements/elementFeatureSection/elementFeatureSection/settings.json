@@ -89,7 +89,7 @@
   "imageAlignment": {
     "type": "buttonGroup",
     "access": "public",
-    "value": "left",
+    "value": "1",
     "options": {
       "label": "Image alignment",
       "values": [
@@ -144,8 +144,7 @@
     "value": {
       "device" : {
         "all" : {
-          "backgroundColor": "#555",
-          "paddingRight": "30px"
+          "backgroundColor": "#B3A694"
         }
       }
     },
