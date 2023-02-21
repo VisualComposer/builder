@@ -12,18 +12,18 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
     // Handle conditional classes
     const elementClasses = classNames({
-      'vce': true,
+      vce: true,
       'vce-feature-section': true,
       [customClass]: typeof customClass === 'string' && customClass
     })
 
     const imageClasses = classNames({
       'vce-feature-section-image': true,
-       [`vce-image-filter--${image.filter}`]: image?.filter && image.filter !== 'normal'
+      [`vce-image-filter--${image.filter}`]: image?.filter && image.filter !== 'normal'
     })
 
     // Handle css variables
-    const cssVars = { backgroundImagePosition, imageAlignment, image: `url(${this.getImageUrl(image)})`}
+    const cssVars = { backgroundImagePosition, imageAlignment, image: `url(${this.getImageUrl(image)})` }
     const styleObj = setCssVariables(cssVars)
 
     // Handle conditional props

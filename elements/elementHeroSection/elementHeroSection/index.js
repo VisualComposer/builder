@@ -14,7 +14,7 @@ vcvAddElement(
   // css settings // css for element
   {
     css: require('raw-loader!./styles.css'),
-    editorCss: require('raw-loader!./editor.css'),
+    editorCss: require('raw-loader!./editor.css')
   },
   // javascript callback
   ''
