@@ -37,11 +37,6 @@
     "value": "center center",
     "options": {
       "label": "Image position",
-      "cssMixin": {
-        "mixin": "backgroundPosition",
-        "property": "backgroundPosition",
-        "namePattern": "[a-z]+"
-      },
       "values": [
         {
           "label": "Left top",
@@ -100,12 +95,12 @@
       "values": [
         {
           "label": "Left",
-          "value": "left",
+          "value": "1",
           "icon": "vcv-ui-icon-attribute-alignment-left"
         },
         {
           "label": "Right",
-          "value": "right",
+          "value": "3",
           "icon": "vcv-ui-icon-attribute-alignment-right"
         }
       ]

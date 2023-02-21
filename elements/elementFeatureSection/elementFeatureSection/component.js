@@ -1,6 +1,7 @@
 import React from 'react'
 import { getService } from 'vc-cake'
 import classNames from 'classnames'
+import { setCssVariables } from 'vc-helpers'
 
 const vcvAPI = getService('api')
 
@@ -18,26 +19,25 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
     const imageClasses = classNames({
       'vce-feature-section-image': true,
-      [`vce-feature-section-image--alignment-${imageAlignment}`] : imageAlignment,
-      [`vce-feature-section-image--background-position-${backgroundImagePosition.replace(' ', '-')}`]: true,
-      [`vce-image-filter--${image.filter}`]: image?.filter && image.filter !== 'normal'
+       [`vce-image-filter--${image.filter}`]: image?.filter && image.filter !== 'normal'
     })
+
+    // Handle css variables
+    const cssVars = { backgroundImagePosition, imageAlignment, image: `url(${this.getImageUrl(image)})`}
+    const styleObj = setCssVariables(cssVars)
 
     // Handle conditional props
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     metaCustomId && (containerProps.id = metaCustomId)
-
-    const imageStyles = {}
-    image && (imageStyles.backgroundImage = `url(${this.getImageUrl(image)})`)
 
     // Handle design options
     const doPadding = this.applyDO('padding')
     const doRest = this.applyDO('margin background color border animation')
 
     return (
-      <section className='vce-feature-section-container' {...editor} {...containerProps}>
+      <section className='vce-feature-section-container' {...editor} {...containerProps} style={styleObj}>
         <div className={elementClasses} id={'el-' + id} {...doRest}>
-          <div className={imageClasses} style={imageStyles} />
+          <div className={imageClasses} />
           <div className='vce-feature-section-content'>
             <div className='vce-feature-section-content-container' {...doPadding}>
               {description}
