@@ -20,6 +20,10 @@ add_action(
             // Clean previously created posts
             e2e_clean_posts();
         }
+        if (function_exists('e2e_clean_posts')) {
+            // Clean previously created posts
+            e2e_clean_terms();
+        }
     },
     1
 );
@@ -35,3 +39,26 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'clean-e2e-pos
         100
     );
 }
+
+if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'clean-e2e-terms-db') {
+    add_action(
+        'init',
+        function () {
+            e2e_clean_terms();
+            die('Done');
+        },
+        100
+    );
+}
+
+if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'clean-e2e-images') {
+    add_action(
+        'init',
+        function () {
+            e2e_clean_images();
+            die('Done');
+        },
+        100
+    );
+}
+

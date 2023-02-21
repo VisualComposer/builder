@@ -20,19 +20,6 @@
     "access": "public",
     "value": false
   },
-  "backgroundColor": {
-    "type": "color",
-    "access": "public",
-    "value": "#b3a694",
-    "options": {
-      "label": "Background color",
-      "cssMixin": {
-        "mixin": "backgroundColor",
-        "property": "backgroundColor",
-        "namePattern": "[\\da-f]+"
-      }
-    }
-  },
   "image": {
     "type": "attachimage",
     "access": "public",
@@ -50,11 +37,6 @@
     "value": "center center",
     "options": {
       "label": "Image position",
-      "cssMixin": {
-        "mixin": "backgroundPosition",
-        "property": "backgroundPosition",
-        "namePattern": "[a-z]+"
-      },
       "values": [
         {
           "label": "Left top",
@@ -113,23 +95,15 @@
       "values": [
         {
           "label": "Left",
-          "value": "left",
+          "value": "1",
           "icon": "vcv-ui-icon-attribute-alignment-left"
         },
         {
           "label": "Right",
-          "value": "right",
+          "value": "3",
           "icon": "vcv-ui-icon-attribute-alignment-right"
         }
       ]
-    }
-  },
-  "reverseStacking": {
-    "type": "toggle",
-    "access": "public",
-    "value": false,
-    "options": {
-      "label": "Reverse stacking"
     }
   },
   "customClass": {
@@ -167,7 +141,14 @@
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": [],
+    "value": {
+      "device" : {
+        "all" : {
+          "backgroundColor": "#555",
+          "paddingRight": "30px"
+        }
+      }
+    },
     "options": {
       "label": "Design Options"
     }
@@ -277,9 +258,7 @@
     },
     "value": [
       "backgroundImagePosition",
-      "imageAlignment",
-      "backgroundColor",
-      "reverseStacking"
+      "imageAlignment"
     ]
   },
   "contentTab": {
