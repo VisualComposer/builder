@@ -11,62 +11,30 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor, children } = this.props
-    const { description, backgroundImage, backgroundImagePosition, backgroundColor, align, customClass, background, metaCustomId, extraDataAttributes } = atts
-    const customProps = {}
-    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
+    const { description, align, customClass, metaCustomId, extraDataAttributes } = atts
 
-    const containerClasses = classNames({
-      'vce-hero-section-container': true,
-      'vce-hero-section-media--xs': true
-    })
-
-    let wrapperClasses = classNames({
+    // Handle conditional classes
+    const elementClasses = classNames({
       vce: true,
       'vce-hero-section': true,
-      'vce-hero-section--min-height': false,
-      'vce-hero-section--alignment-start': align === 'start',
-      'vce-hero-section--alignment-end': align === 'end'
+      [`vce-hero-section--alignment-${align}`]: align,
+      [customClass]: typeof customClass === 'string' && customClass
     })
 
-    let rowClasses = ['vce-hero-section--wrap-row']
+    // Handle conditional props
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
+    metaCustomId && (containerProps.id = metaCustomId)
 
-    if (typeof customClass === 'string' && customClass) {
-      wrapperClasses = wrapperClasses.concat(' ' + customClass)
-    }
-
-    const rowStyles = {}
-    if (background === 'image' && backgroundImage) {
-      rowStyles.backgroundImage = `url(${this.getImageUrl(backgroundImage)})`
-    } else if (background === 'color') {
-      const backgroundColorSelector = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
-      rowClasses.push(`vce-hero-section--background-color-${backgroundColorSelector}`)
-    }
-
-    if (backgroundImagePosition) {
-      rowClasses.push(`vce-hero-section--background-position-${backgroundImagePosition.replace(' ', '-')}`)
-    }
-
-    if (metaCustomId) {
-      containerProps.id = metaCustomId
-    }
-
-    rowClasses = classNames(rowClasses)
-
+    // Handle design options
     const doRest = this.applyDO('margin background border animation')
     const doPadding = this.applyDO('padding')
 
     return (
-      <section className={containerClasses} {...editor} {...containerProps}>
-        <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-          <div className={rowClasses} style={rowStyles} {...customProps}>
-            <div className='vce-hero-section--wrap'>
-              <div className='vce-hero-section--content' {...doPadding}>
-                <div className='vce-hero-section--content-container'>
-                  {description}
-                </div>
-                {children}
-              </div>
-            </div>
+      <section className='vce-hero-section-container vce-hero-section-media--xs' {...editor} {...containerProps}>
+        <div className={elementClasses} id={'el-' + id} {...doRest}>
+          <div className="vce-hero-section--content" {...doPadding}>
+            {description}
+            {children}
           </div>
         </div>
       </section>
