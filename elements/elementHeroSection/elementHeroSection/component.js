@@ -14,16 +14,10 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
     const { description, align, customClass, metaCustomId, extraDataAttributes } = atts
 
     // Handle conditional classes
-    const containerClasses = classNames({
-      'vce-hero-section-container': true,
-      'vce-hero-section-media--xs': true
-    })
-
     const elementClasses = classNames({
       'vce': true,
       'vce-hero-section': true,
-      'vce-hero-section--alignment-start': align === 'start',
-      'vce-hero-section--alignment-end': align === 'end',
+      [`vce-hero-section--alignment-${align}`]: align,
       [customClass]: typeof customClass === 'string' && customClass
     })
 
@@ -36,7 +30,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
     const doPadding = this.applyDO('padding')
 
     return (
-      <section className={containerClasses} {...editor} {...containerProps}>
+      <section className='vce-hero-section-container vce-hero-section-media--xs' {...editor} {...containerProps}>
         <div className={elementClasses} id={'el-' + id} {...doRest}>
           <div className="vce-hero-section--content" {...doPadding}>
             {description}
