@@ -15,7 +15,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
     // Handle conditional classes
     const elementClasses = classNames({
-      'vce': true,
+      vce: true,
       'vce-hero-section': true,
       [`vce-hero-section--alignment-${align}`]: align,
       [customClass]: typeof customClass === 'string' && customClass
