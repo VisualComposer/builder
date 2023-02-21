@@ -14,15 +14,7 @@ vcvAddElement(
   // css settings // css for element
   {
     css: require('raw-loader!./styles.css'),
-    editorCss: require('raw-loader!./editor.css'),
-    mixins: {
-      backgroundColor: {
-        mixin: require('raw-loader!./cssMixins/backgroundColor.pcss')
-      },
-      backgroundPosition: {
-        mixin: require('raw-loader!./cssMixins/backgroundPosition.pcss')
-      }
-    }
+    editorCss: require('raw-loader!./editor.css')
   },
   // javascript callback
   ''
