@@ -1,52 +1,29 @@
+.vce-hero-section-container {
+  display: flex;
+}
+
 .vce-hero-section {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  overflow: hidden;
-}
-
-.vce-hero-section--content {
-  box-sizing: border-box;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
   width: 100%;
-  padding: 75px 2%;
-  color: #fff;
-}
-
-.vce-hero-section--wrap-row {
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
+  justify-content: center;
   flex-direction: column;
   overflow: hidden;
-  width: 100%;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
   box-sizing: border-box;
   background-size: cover;
   background-position: center;
 }
 
-.vce-hero-section--wrap-row:before,
-.vce-hero-section--wrap-row:after {
-  content: " ";
-  display: table;
+.vce-hero-section--content {
+  box-sizing: border-box;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  padding: 75px 2%;
+  color: #fff;
 }
 
-.vce-hero-section--wrap-row:after {
-  clear: both;
-}
-
-.vce-hero-section--min-height .vce-hero-section--wrap-row {
-  min-height: 450px;
-}
-
-.vce-hero-section--content-container:not(:last-child) {
+.vce-hero-section--content .vcvhelper > * {
   margin-bottom: 35px;
 }
 
@@ -61,18 +38,6 @@
 
 .vce-hero-section--content h1 {
   margin-bottom: 35px;
-}
-
-.vce-hero-section--content-container > *:first-child,
-.vce-hero-section--content-container > .vcvhelper > *:first-child,
-.vce-hero-section--content-container > .vcvhelper > *:first-child {
-  margin-top: 0;
-}
-
-.vce-hero-section--content-container > *:last-child,
-.vce-hero-section--content-container > .vcvhelper:last-child > *:last-child,
-.vce-hero-section--content-container > .vcvhelper:last-child > *:last-child {
-  margin-bottom: 0;
 }
 
 .vce-hero-section--content .vce {
@@ -149,14 +114,14 @@
   unicode-bidi: embed;
 }
 
-.rtl .vce-hero-section--alignment-start .vce-hero-section--content,
-[dir="rtl"] .vce-hero-section--alignment-start .vce-hero-section--content,
-.rtl.vce-hero-section--alignment-start .vce-hero-section--content,
-[dir="rtl"].vce-hero-section--alignment-start .vce-hero-section--content,
-.rtl .vce-hero-section--alignment-end .vce-hero-section--content,
-[dir="rtl"] .vce-hero-section--alignment-end .vce-hero-section--content,
-.rtl.vce-hero-section--alignment-end .vce-hero-section--content,
-[dir="rtl"].vce-hero-section--alignment-end .vce-hero-section--content {
+.rtl .vce-hero-section--alignment-start,
+[dir="rtl"] .vce-hero-section--alignment-start,
+.rtl.vce-hero-section--alignment-start,
+[dir="rtl"].vce-hero-section--alignment-start,
+.rtl .vce-hero-section--alignment-end,
+[dir="rtl"] .vce-hero-section--alignment-end,
+.rtl.vce-hero-section--alignment-end,
+[dir="rtl"].vce-hero-section--alignment-end {
   text-align: right;
 }
 
@@ -168,13 +133,13 @@
   unicode-bidi: normal;
 }
 
-.ltr .vce-hero-section--alignment-end .vce-hero-section--content,
-[dir="ltr"] .vce-hero-section--alignment-end .vce-hero-section--content,
-.ltr.vce-hero-section--alignment-end .vce-hero-section--content,
-[dir="ltr"].vce-hero-section--alignment-end .vce-hero-section--content,
-.ltr .vce-hero-section--alignment-start .vce-hero-section--content,
-[dir="ltr"] .vce-hero-section--alignment-start .vce-hero-section--content,
-.ltr.vce-hero-section--alignment-start .vce-hero-section--content,
-[dir="ltr"].vce-hero-section--alignment-start .vce-hero-section--content {
+.ltr .vce-hero-section--alignment-end,
+[dir="ltr"] .vce-hero-section--alignment-end,
+.ltr.vce-hero-section--alignment-end,
+[dir="ltr"].vce-hero-section--alignment-end,
+.ltr .vce-hero-section--alignment-start,
+[dir="ltr"] .vce-hero-section--alignment-start,
+.ltr.vce-hero-section--alignment-start,
+[dir="ltr"].vce-hero-section--alignment-start {
   text-align: left;
 }
