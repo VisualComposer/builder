@@ -137,7 +137,7 @@ class SystemStatus extends Container implements Module
 
     public function getMemoryLimitStatusForView()
     {
-        $memoryLimit = $this->statusHelper->getPhpVariable('memory_limit');
+        $memoryLimit = $this->statusHelper->getMemoryLimit();
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
         if ($memoryLimit === '-1') {
