@@ -1,50 +1,16 @@
-/* eslint-disable */
 import React from 'react'
-import styled from 'styled-components'
+import { getService } from 'vc-cake'
 
-const InstallWrapper = styled.div`
-    text-align: center;
-    margin-top: 25px;
-    color: #272D3C;
-`
-const TextHeader = styled.div`
-    font-size: 20px;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 700;
-`
-const TextContent = styled.p`
-    font-size: 15px;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-`
-const CommentButton = styled.button`
-    color: #272D3C;
-    height: 36px;
-    font-size: 14px;
-    max-height: 36px;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    border-radius: 5px;
-    background-color: #3ed696;
-    box-sizing: border-box;
-    padding: 6px 16px;
-    width: 100%;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    margin: 15px 0;
-`
-const PowerByWraper = styled.div`
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-`
-const TextPower = styled.span`
-    font-size: 15px;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 600;
-    padding: 0 15px;
-`
+const dataProcessor = getService('dataProcessor')
+const dataManager = getService('dataManager')
 
-export default function InstallAtarim (props) {
+export default function InstallAtarim () {
+  const processCommentButtonClick = () => {
+    return dataProcessor.appServerRequest({
+      'vcv-action': 'atarim:comment:button:click:adminNonce',
+      'vcv-nonce': dataManager.get('nonce')
+    })
+  }
 
   React.useEffect(() => {
     const script = document.createElement('script')
@@ -57,26 +23,28 @@ export default function InstallAtarim (props) {
   }, [])
 
   return (
-    <div className='atarimWrapper'>
-      <InstallWrapper>
-        <TextHeader>
+    <div className='ia-container'>
+      <div className='ia-wrapper'>
+        <div className='ia-header'>
           Collaborate Visually <br/> Directly On Your Website
-        </TextHeader>
-        <TextContent>
-          Install Atarim's Visual Collaboration Plugin
+        </div>
+        <div className='ia-content'>
+          Install Atarim&apos;s Visual Collaboration Plugin
           to communicate with other users within your own website, <br/>
           seemlessly integrate to Visual Composer
-        </TextContent>
-        <CommentButton>
+        </div>
+        <button className='ia-comment-button'
+          onClick={processCommentButtonClick()}
+        >
           Start Collaborating For Free
-        </CommentButton>
+        </button>
         <div
           style={{ overflow: 'hidden', borderRadius: '15px', marginBottom: '15px' }}
         >
           <lottie-player src="https://lottie.host/e7d901c2-ba67-48fc-8b1c-1951f667f8de/niIYmAiy82.json" background="transparent" speed="1" style={{ width: '100%', height: '100%' }} loop autoplay></lottie-player>
         </div>
-        <PowerByWraper>
-          <TextPower>Powered by</TextPower>
+        <div className='ia-powerby-wrapper'>
+          <span className='ia-text-power'>Powered by</span>
           <svg style={{ width: '100px', padding: '0 5px' }} id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 292">
             <defs>
             </defs>
@@ -98,8 +66,8 @@ export default function InstallAtarim (props) {
               </g>
             </g>
           </svg>
-        </PowerByWraper>
-      </InstallWrapper>
+        </div>
+      </div>
     </div>
   )
 }
