@@ -85,7 +85,7 @@ export default class Content extends React.Component {
     })
 
     let closeButton = null
-    if (content === 'addHubElement' || content === 'messages' || content === 'settings') {
+    if (content === 'addHubElement' || content === 'messages' || content === 'settings' || content === 'atarim') {
       closeButton = (
         <span className={closeBtnClasses} title={closeTitle} onClick={this.handleClickCloseContent}>
           <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
