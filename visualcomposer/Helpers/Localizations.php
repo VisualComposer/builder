@@ -2248,6 +2248,18 @@ class Localizations extends Container implements Helper
                 'Edit Element',
                 'visualcomposer'
             ),
+            'removePluginPostTypeLinkConfirmation' => __(
+                'Do you really want to delete',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkFoundPost' => __(
+                'It seems that',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkActiveOn' => __(
+                'is activate on',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
