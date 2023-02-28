@@ -112,9 +112,11 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('blankPageIntro').set(false)
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
+      isBlankPageRendered = false
       iframeContainer.classList.remove('vcv-layout-iframe-container--intro')
     }
     const addBlankIntro = () => {
+      isBlankPageRendered = true
       iframeContentRoot.render(
         <BlankPageIntro unmountBlankPage={removeBlankIntro} />
       )
@@ -137,6 +139,7 @@ add('wordpressWorkspace', (api) => {
     }
     let documentElements
     let isBlankPageIntro = true
+    let isBlankPageRendered = false
     workspaceStorage.state('blankPageIntro').set(true)
 
     elementsStorage.state('document').onChange((data, elements) => {
@@ -155,7 +158,9 @@ add('wordpressWorkspace', (api) => {
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
-        removeBlankIntro()
+        if (isBlankPageRendered) {
+          removeBlankIntro()
+        }
         isBlankPageIntro = false
       } else {
         workspaceStorage.state('navbarDisabled').set(false)
