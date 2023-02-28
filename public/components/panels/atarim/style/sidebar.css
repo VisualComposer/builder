@@ -1,81 +1,44 @@
-.atarimWrapper {
-    padding: 10px;
-    height: 100%;
-    max-height: 100vh;
-    background-color: #fff;
-    overflow: auto;
-    overflow-x: hidden;
-    overflow-y: auto;
+.ia-container {
+  padding: 10px;
 }
-.atarimWrapper .sidebar-search-container {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
+.ia-wrapper {
+  text-align: center;
+  margin-top: 25px;
+  color: #272D3C;
 }
-.atarimWrapper .search-box{
-    font-size: 15px;
-    width: 100%;
-    padding: 0 7px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #8791B2;
-    border-radius: 4px
+.ia-header {
+  font-size: 20px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 700;
 }
-.atarimWrapper .close-icon {
-    font-size: 20px;
-    width: 16px;
-    height: 16px;
+.ia-content {
+  font-size: 15px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
 }
-.atarimWrapper .search-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
-    width: 100%;
-    border-style: hidden !important;
-    border: none !important;
-    margin: 0px;
-    height: auto;
-    font-weight: 400;
-    outline: none !important;
-    padding: 9px 10px;
-    background-color: inherit !important;
+.ia-comment-button {
+  color: #272D3C;
+  height: 36px;
+  font-size: 14px;
+  max-height: 36px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+  background-color: #3ed696;
+  box-sizing: border-box;
+  padding: 6px 16px;
+  width: 100%;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  margin: 15px 0;
 }
-.atarimWrapper .search-input:focus,
-.atarimWrapper .search-input:active {
-        border-color: transparent !important;
-        outline: none !important;
-        border-style: hidden !important;
-        border: none !important;
-        box-shadow: none !important;
-      }
-.atarimWrapper .deleteImage {
-    position: absolute;
-    color: #fff;
-    right: 5px;
-    top: 5px;
-    cursor: pointer;
+.ia-powerby-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
 }
-.atarimWrapper .deleteImage:hover {
-    color: #D51341;
-}
-.atarimWrapper .commentContent {
-    color: #272d3c;
-    font-size: 14px;
-    word-wrap: break-word;
-}
-.atarimWrapper .commentNote {
-    background-color: #fff6d6;
-    padding: 10px;
-    border-radius: 5px;
-}
-.atarimWrapper .commentNoteLink {
-    background-color: #fff6d6;
-    padding: 5px 2px;
-    border-radius: 5px;
-}
-.atarimWrapper .commentDeleted {
-    opacity: 0.7
-}
-.atarimWrapper .activeIcon {
-    color: #a0192b ;
+.ia-text-power {
+  font-size: 15px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  padding: 0 15px;
 }
