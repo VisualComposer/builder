@@ -36,8 +36,10 @@ class VcvCoreRequirements
         }
 
         return sprintf(
-            '%sTo run Visual Composer Website Builder your server needs to have: %s%s%s',
+            '%s%sTo run Visual Composer Website Builder your server needs to have:%s %s%s%s',
             '<div class="notice notice-error is-dismissible">',
+            '<p>',
+            '</p>',
             '<ul>',
             $messages,
             '</ul></div>'
