@@ -13,11 +13,16 @@ export function trashLinkActive () {
 
     for (const trashLink of trashLinkList) {
       const postId = trashLink.closest('.iedit').querySelector('.check-column input').value
-      const postTitle = trashLink.closest('.iedit').querySelector('.row-title').textContent
 
       if (!postId) {
         continue
       }
+
+      const row = trashLink.closest('.iedit').querySelector('.row-title')
+      if (!row) {
+        continue
+      }
+      const postTitle = row.textContent
 
       trashLink.addEventListener('click', function (event) {
         event.preventDefault()
@@ -37,25 +42,38 @@ export function trashLinkActive () {
         }).then((data) => {
           try {
             const jsonData = JSON.parse(data)
-
-            const deleteConfirm = localizations ? localizations.removePluginPostTypeLinkConfirmation : 'Do you really want to delete'
             const deleteSeems = localizations ? localizations.removePluginPostTypeLinkFoundPost : 'It seems that'
-            const deleteActive = localizations ? localizations.removePluginPostTypeLinkActiveOn : 'is activate on'
+            const deleteActive = localizations ? localizations.removePluginPostTypeLinkActiveOn : 'is activate on:'
 
             if (jsonData.status) {
-              let postList = deleteConfirm + ' "' + postTitle + '" \n\n'
-              postList += deleteSeems + ' "' + postTitle + '" ' + deleteActive + ' \n\n'
+              let postList = '<h3>' + deleteSeems + ' "' + postTitle + '" ' + deleteActive + ' </h3>'
+
+              postList += '<ul>'
               for (const post of jsonData.vcvPostList) {
-                postList += post[0] + '\n'
+                postList += '<li>' + post.post_title + ' (#' + post.ID + ')' + '</li>'
               }
+              postList += '</ul>'
 
-              const userConfirmation = confirm(postList)
+              const modalHtml = getModalHtml(postList, event.target.getAttribute('href'))
+              const dashboardContent = document.querySelector('.vcv-dashboards-section-content')
 
-              if (userConfirmation) {
-                window.location = event.target.getAttribute('href')
-              } else {
+              dashboardContent.insertAdjacentHTML('beforeend', modalHtml)
+
+              const closeButton = document.querySelector('.vcv-activation-survey.vcv-trash-post .vcv-ui-icon-close')
+              const submitButton = document.querySelector('.vcv-activation-survey.vcv-trash-post .survey-submit')
+
+              closeButton.addEventListener('click', function () {
                 iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
-              }
+                const modal = document.querySelector('.vcv-activation-survey.vcv-trash-post')
+                modal.remove()
+              })
+
+              submitButton.addEventListener('click', function () {
+                window.location = event.target.getAttribute('href')
+                iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
+                const modal = document.querySelector('.vcv-activation-survey.vcv-trash-post')
+                modal.remove()
+              })
             } else {
               window.location = event.target.getAttribute('href')
               iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
@@ -68,4 +86,28 @@ export function trashLinkActive () {
       })
     }
   }
+}
+
+function getModalHtml (postList) {
+  const dataManager = vcCake.getService('dataManager')
+  const localizations = dataManager.get('localizations')
+
+  const deleteConfirm = localizations ? localizations.removePluginPostTypeLinkConfirmation : 'Do you really want to delete'
+  const submit = localizations ? localizations.submit : 'Submit'
+
+  const html =
+    '<div class="vcv-activation-survey vcv-trash-post">' +
+      '<div class="vcv-ui-modal-overlay" data-modal="true">' +
+        '<div class="vcv-ui-modal-container">' +
+          '<div class="vcv-ui-modal">' +
+            '<span class="vcv-ui-modal-close" title="Close"><i class="vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close"></i></span>' +
+            '<h1 class="vcv-ui-modal-header-title">' + deleteConfirm + '</h1>' +
+            '<section class="vcv-ui-modal-content">' + postList + '</section>' +
+            '<footer class="vcv-ui-modal-footer"><button class="survey-submit">' + submit + '</button></footer>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>'
+
+  return html
 }
