@@ -103,6 +103,8 @@ class WpmlController extends Container implements Module
             'vcv:resources:view:settings:pages:handleIframeBodyClick',
             'addHandleIframeBodyClick'
         );
+
+        $this->addFilter('vcv:frontend:renderContent', 'applyObjectId');
     }
 
     /**
@@ -573,5 +575,22 @@ class WpmlController extends Container implements Module
         // Mark post as pending for update
         $optionsHelper->set('hubAction:updatePosts', array_unique($updatePosts));
         $optionsHelper->set('bundleUpdateRequired', 1);
+    }
+
+    /**
+     * Apply object id filter to render content.
+     *
+     * @param int $sourceId
+     *
+     * @return mixed|null
+     */
+    protected function applyObjectId($sourceId)
+    {
+        return apply_filters(
+            'wpml_object_id',
+            $sourceId,
+            get_post_type($sourceId),
+            true
+        );
     }
 }
