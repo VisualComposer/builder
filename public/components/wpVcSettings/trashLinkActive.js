@@ -40,6 +40,8 @@ export function trashLinkActive () {
           'vcv-source-id': postId,
           'vcv-nonce': dataManager.get('nonce')
         }).then((data) => {
+          iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
+
           try {
             const jsonData = JSON.parse(data)
             const deleteSeems = localizations ? localizations.removePluginPostTypeLinkFoundPost : 'It seems that'
@@ -57,30 +59,26 @@ export function trashLinkActive () {
               const modalHtml = getModalHtml(postList, event.target.getAttribute('href'))
               const dashboardContent = document.querySelector('.vcv-dashboards-section-content')
 
-              dashboardContent.insertAdjacentHTML('beforeend', modalHtml)
+              dashboardContent.insertAdjacentHTML('beforebegin', modalHtml)
 
               const closeButton = document.querySelector('.vcv-activation-survey.vcv-trash-post .vcv-ui-icon-close')
               const submitButton = document.querySelector('.vcv-activation-survey.vcv-trash-post .survey-submit')
 
               closeButton.addEventListener('click', function () {
-                iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
                 const modal = document.querySelector('.vcv-activation-survey.vcv-trash-post')
                 modal.remove()
               })
 
               submitButton.addEventListener('click', function () {
                 window.location = event.target.getAttribute('href')
-                iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
                 const modal = document.querySelector('.vcv-activation-survey.vcv-trash-post')
                 modal.remove()
               })
             } else {
               window.location = event.target.getAttribute('href')
-              iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
             }
           } catch (e) {
             window.location = event.target.getAttribute('href')
-            iframeLoader.classList.remove('vcv-dashboard-iframe-loader--visible')
           }
         })
       })
