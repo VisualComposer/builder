@@ -6,10 +6,11 @@ const dataManager = getService('dataManager')
 
 export default function InstallAtarim () {
   const processCommentButtonClick = () => {
-    return dataProcessor.appServerRequest({
+    dataProcessor.appServerRequest({
       'vcv-action': 'atarim:comment:button:click:adminNonce',
       'vcv-nonce': dataManager.get('nonce')
     })
+    window.open(`${window.location.origin}/wp-admin/plugin-install.php?s=atarim%2520visual%2520collaboration&tab=search&type=term`, '_blank')
   }
 
   React.useEffect(() => {
@@ -34,7 +35,7 @@ export default function InstallAtarim () {
           seemlessly integrate to Visual Composer
         </div>
         <button className='ia-comment-button'
-          onClick={processCommentButtonClick()}
+          onClick={() => processCommentButtonClick()}
         >
           Start Collaborating For Free
         </button>
