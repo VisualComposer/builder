@@ -2257,7 +2257,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'removePluginPostTypeLinkActiveOn' => __(
-                'is activate on',
+                'is activate on:',
                 'visualcomposer'
             ),
         ];
