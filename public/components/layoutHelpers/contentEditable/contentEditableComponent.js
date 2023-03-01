@@ -66,13 +66,10 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   componentDidMount () {
-    const initialText = '<h2>Typography is the art and technique</h2>\n' +
-      '<p>Typography is the art and technique of arranging type to make written language legible, readable and appealing when displayed. The arrangement of type involves selecting typefaces, point size, line length, line-spacing (leading), letter-spacing (tracking), and adjusting the space within letters pairs (kerning).</p>'
-
-    if (this.props.children === initialText) {
-      this.debouncedUpdateHtml(this.props.children)
-    } else {
+    if (window.vcvLoadingScreen) {
       addShortcodeToQueueUpdate(this.props.children, this.ref, this.props.id)
+    } else {
+      this.debouncedUpdateHtml(this.props.children)
     }
   }
 

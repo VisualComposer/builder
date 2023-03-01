@@ -19,7 +19,7 @@ class DefaultCapabilitiesMigration extends MigrationsController implements Modul
     protected function run()
     {
         // Run migration only if role Manager addon is available and is enabled
-        if (vcvenv('VCV_ADDON_ROLE_MANAGER_PARTS')) {
+        if (!vcvenv('VCV_ADDON_ROLE_MANAGER_PARTS')) {
             return false;
         }
 

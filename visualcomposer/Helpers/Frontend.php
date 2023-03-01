@@ -200,18 +200,11 @@ class Frontend implements Helper
 
     public function renderContent($sourceId)
     {
-        // @codingStandardsIgnoreLine
-        global $wp_version;
-
         if (!$sourceId || get_post_status($sourceId) !== 'publish') {
             return false;
         }
-        $sourceId = apply_filters(
-            'wpml_object_id',
-            $sourceId,
-            get_post_type($sourceId),
-            true
-        );
+
+        $sourceId = vcfilter('vcv:frontend:renderContent', $sourceId);
         vcevent('vcv:frontend:renderContent', $sourceId); // Used in Reset check
 
         $previousDynamicContent = VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
@@ -219,41 +212,70 @@ class Frontend implements Helper
         vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
 
         // @codingStandardsIgnoreLine
+        global $wp_version;
+
+        // @codingStandardsIgnoreLine
         if (version_compare($wp_version, '5.2', '>=')) {
-            $sourceContent = get_the_content('', false, $sourceId);
+            $content = get_the_content('', false, $sourceId);
         } else {
             $post = get_post($sourceId);
             setup_postdata($post);
-            $sourceContent = get_the_content('', false);
+            $content = get_the_content('', false);
             wp_reset_postdata();
         }
-        if (strpos($sourceContent, '<!--vcv no format-->') === false) {
+
+        if (strpos($content, '<!--vcv no format-->') === false) {
             // Call wpautop for non VCWB sourceId
-            $sourceContent = wpautop($sourceContent);
+            $content = wpautop($content);
         }
-        // Call the_content filter callbacks separately
-        if (function_exists('do_blocks')) {
-            $sourceContent = do_blocks($sourceContent);
-        }
-        $sourceContent = shortcode_unautop($sourceContent);
-        $sourceContent = prepend_attachment($sourceContent);
-        if (function_exists('wp_filter_content_tags')) {
-            $sourceContent = wp_filter_content_tags($sourceContent);
-        } else {
-            // @deprecated since WordPress 5.5
-            $sourceContent = wp_make_content_images_responsive($sourceContent);
-        }
-        $sourceContent = do_shortcode($sourceContent);
-        $sourceContent = convert_smilies($sourceContent);
-        $sourceContent = str_replace(
+
+        $content = $this->renderContentWordpressElements($content);
+
+        $content = str_replace(
             '<!--vcv no format-->',
             '',
-            $sourceContent
+            $content
         );
-        $sourceContent = vcfilter('vcv:frontend:content', $sourceContent);
+
+        $content = vcfilter('vcv:frontend:content', $content);
         VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
 
-        return $sourceContent;
+        return $content;
+    }
+
+    /**
+     * Render wordpress elements like shortcodes, blocks etc.
+     *
+     * @param string $content
+     *
+     * @return string
+     */
+    public function renderContentWordpressElements($content)
+    {
+        // Call the_content filter callbacks separately
+        if (function_exists('do_blocks')) {
+            $content = do_blocks($content);
+        }
+        $content = shortcode_unautop($content);
+        $content = prepend_attachment($content);
+        if (function_exists('wp_filter_content_tags')) {
+            $content = wp_filter_content_tags($content);
+        } else {
+            // @deprecated since WordPress 5.5
+            $content = wp_make_content_images_responsive($content);
+        }
+
+        // @codingStandardsIgnoreStart
+        global $wp_embed;
+        // render embed shortcodes
+        $content = $wp_embed->run_shortcode($content);
+        // render embed links
+        $content = $wp_embed->autoembed($content);
+
+        $content = do_shortcode($content);
+        $content = convert_smilies($content);
+
+        return $content;
     }
 
     public function getCurrentBlockId()

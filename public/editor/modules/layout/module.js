@@ -99,6 +99,7 @@ vcCake.add('contentLayout', (api) => {
   let domContainerRoot = null
 
   const renderLayout = (reload = false) => {
+    window.vcvLoadingScreen = true
     workspaceIFrame.ignoreChange(reloadLayout)
     workspaceIFrame.set(false)
     const iframe = document.getElementById('vcv-editor-iframe')
@@ -185,6 +186,8 @@ vcCake.add('contentLayout', (api) => {
     loadingOverlays.forEach((loadingOverlay) => {
       loadingOverlay.remove()
     })
+
+    window.vcvLoadingScreen = false
   }
 
   const createLoadingScreen = () => {
