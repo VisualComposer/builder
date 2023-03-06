@@ -50,6 +50,11 @@ class EnvController extends Container implements Module
             'key' => 'VCV_SITE_URL',
             'value' => get_site_url(),
         ];
+        $variables[] = [
+            'type' => 'constant',
+            'key' => 'VCV_ADMIN_URL',
+            'value' => get_admin_url(),
+        ];
 
         return $variables;
     }
