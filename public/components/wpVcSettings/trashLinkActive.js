@@ -35,7 +35,7 @@ export function trashLinkActive () {
 
         iframeLoader.classList.add('vcv-dashboard-iframe-loader--visible')
 
-        dataProcessor.appServerRequest({
+        dataProcessor.appAdminServerRequest({
           'vcv-action': 'wordpress:settings:process:plugin:post:type:' + postType + ':trash:adminNonce',
           'vcv-source-id': postId,
           'vcv-nonce': dataManager.get('nonce')
@@ -56,7 +56,7 @@ export function trashLinkActive () {
               }
               postList += '</ul>'
 
-              const modalHtml = getModalHtml(postList, event.target.getAttribute('href'))
+              const modalHtml = getModalHtml(postList)
               const dashboardContent = document.querySelector('.vcv-dashboards-section-content')
 
               dashboardContent.insertAdjacentHTML('beforebegin', modalHtml)
@@ -80,6 +80,9 @@ export function trashLinkActive () {
           } catch (e) {
             window.location = event.target.getAttribute('href')
           }
+        }, (error) => {
+          window.location = event.target.getAttribute('href')
+          console.warn('Failed to get the popup HTML', error)
         })
       })
     }
