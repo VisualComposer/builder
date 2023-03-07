@@ -108,7 +108,9 @@ add('wordpressWorkspace', (api) => {
 
   if (iframeContent) {
     const removeBlankIntro = () => {
-      iframeContentRoot.unmount()
+      if (isBlankPageRendered) {
+        iframeContentRoot.unmount()
+      }
       workspaceStorage.state('blankPageIntro').set(false)
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
@@ -158,9 +160,7 @@ add('wordpressWorkspace', (api) => {
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
-        if (isBlankPageRendered) {
-          removeBlankIntro()
-        }
+        removeBlankIntro()
         isBlankPageIntro = false
       } else {
         workspaceStorage.state('navbarDisabled').set(false)
