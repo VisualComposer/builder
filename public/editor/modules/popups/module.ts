@@ -2,7 +2,7 @@ import { add, getStorage, getService } from 'vc-cake'
 import { getPopupDataFromElement } from 'public/tools/popup'
 import store from 'public/editor/stores/store'
 import { popupAddInProgressSet } from 'public/editor/stores/popup/slice'
-import { ElementData } from 'public/global'
+import { ElementData } from 'public/types/data'
 
 const elementsStorage = getStorage('elements')
 const dataProcessor = getService('dataProcessor')
