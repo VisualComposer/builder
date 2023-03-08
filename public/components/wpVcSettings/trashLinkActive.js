@@ -48,11 +48,11 @@ export function trashLinkActive () {
             const deleteActive = localizations ? localizations.removePluginPostTypeLinkActiveOn : 'is activate on:'
 
             if (jsonData.status) {
-              let postList = '<h3>' + deleteSeems + ' "' + postTitle + '" ' + deleteActive + ' </h3>'
+              let postList = '<p class="vcv-ui-modal-text">' + deleteSeems + ' "<span class="vcv-ui-modal-text-page-name">' + postTitle + '</span>" ' + deleteActive + ' </p>'
 
-              postList += '<ul>'
+              postList += '<ul class="vcv-ui-modal-list">'
               for (const post of jsonData.vcvPostList) {
-                postList += '<li>' + post.post_title + ' (#' + post.ID + ')' + '</li>'
+                postList += '<li class="vcv-ui-modal-list-item">' + post.post_title + ' (#' + post.ID + ')' + '</li>'
               }
               postList += '</ul>'
 
@@ -93,8 +93,8 @@ function getModalHtml (postList) {
   const dataManager = vcCake.getService('dataManager')
   const localizations = dataManager.get('localizations')
 
-  const deleteConfirm = localizations ? localizations.removePluginPostTypeLinkConfirmation : 'Do you really want to delete'
-  const submit = localizations ? localizations.submit : 'Submit'
+  const deleteConfirm = localizations ? localizations.removePluginPostTypeLinkConfirmation : 'Are you sure you want to proceed?'
+  const submit = localizations ? localizations.proceed : 'Yes, proceed'
 
   const html =
     '<div class="vcv-activation-survey vcv-trash-post">' +
