@@ -1297,6 +1297,10 @@ class Localizations extends Container implements Helper
                 'Submit',
                 'visualcomposer'
             ),
+            'proceed' => __(
+                'Yes, proceed',
+                'visualcomposer'
+            ),
             'new' => __(
                 'New',
                 'visualcomposer'
@@ -2246,6 +2250,18 @@ class Localizations extends Container implements Helper
             ),
             'editElement' => __(
                 'Edit Element',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkConfirmation' => __(
+                'Are you sure you want to proceed?',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkFoundPost' => __(
+                'It seems that',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkActiveOn' => __(
+                'is activate on:',
                 'visualcomposer'
             ),
         ];
