@@ -1,0 +1,358 @@
+{
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "elementBasicButton"
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General",
+      "Buttons"
+    ]
+  },
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "buttonText": {
+    "type": "string",
+    "access": "public",
+    "value": "Apply Now",
+    "options": {
+      "label": "Button text",
+      "dynamicField": true
+    }
+  },
+  "buttonUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Link selection",
+      "description": "Opens the field to add a link to the element.",
+      "dynamicField": true
+    }
+  },
+  "toggleCustomHover": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Custom hover colors"
+    }
+  },
+  "hoverColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Title hover color",
+      "cssMixin": {
+        "mixin": "basicHoverColor",
+        "property": "hoverColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "hoverBackground": {
+    "type": "color",
+    "access": "public",
+    "value": "#4d70ac",
+    "options": {
+      "label": "Background hover color",
+      "cssMixin": {
+        "mixin": "basicHoverColor",
+        "property": "hoverBackground",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Title color",
+      "cssMixin": {
+        "mixin": "basicColor",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "background": {
+    "type": "color",
+    "access": "public",
+    "value": "#557cbf",
+    "options": {
+      "label": "Background color",
+      "cssMixin": {
+        "mixin": "basicColor",
+        "property": "background",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "shape": {
+    "type": "buttonGroup",
+    "access": "public",
+    "value": "square",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Square",
+          "value": "square",
+          "icon": "vcv-ui-icon-attribute-shape-square"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded",
+          "icon": "vcv-ui-icon-attribute-shape-rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round",
+          "icon": "vcv-ui-icon-attribute-shape-round"
+        }
+      ]
+    }
+  },
+  "alignment": {
+    "type": "buttonGroup",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left",
+          "icon": "vcv-ui-icon-attribute-alignment-left"
+        },
+        {
+          "label": "Center",
+          "value": "center",
+          "icon": "vcv-ui-icon-attribute-alignment-center"
+        },
+        {
+          "label": "Right",
+          "value": "right",
+          "icon": "vcv-ui-icon-attribute-alignment-right"
+        }
+      ]
+    }
+  },
+  "size": {
+    "type": "buttonGroup",
+    "access": "public",
+    "value": "medium",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Small",
+          "value": "small",
+          "text": "S"
+        },
+        {
+          "label": "Medium",
+          "value": "medium",
+          "text": "M"
+        },
+        {
+          "label": "Large",
+          "value": "large",
+          "text": "L"
+        }
+      ]
+    }
+  },
+  "toggleStretchButton": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Stretch"
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
+    }
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "alignment",
+      "shape",
+      "size",
+      "toggleStretchButton",
+      "color",
+      "background",
+      "toggleCustomHover",
+      "hoverColor",
+      "hoverBackground"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "buttonText",
+      "buttonUrl"
+    ]
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
+  },
+  "customCSS": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "styleEditor"
+    ],
+    "options": {
+      "label": "Custom CSS",
+      "tooltip": "Add custom CSS to the element using the [element-id] placeholder."
+    }
+  },
+  "styleEditor": {
+    "type": "styleEditor",
+    "access": "public",
+    "value": [],
+    "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
+    }
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "styleSection",
+      "designOptions"
+    ]
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
+    ],
+    "options": {
+      "label": "Advanced",
+      "isSections": true
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "contentTab",
+      "designTab",
+      "advancedTab"
+    ]
+  }
+}
