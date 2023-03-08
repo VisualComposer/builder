@@ -1,0 +1,120 @@
+/* ----------------------------------------------
+ * Basic Button
+ * ---------------------------------------------- */
+.vce-button--style-basic-container--align-left {
+  text-align: left;
+}
+.vce-button--style-basic-container--align-right {
+  text-align: right;
+}
+.vce-button--style-basic-container--align-center {
+  text-align: center;
+}
+.vce-button--style-basic-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+.vce-button--style-basic-wrapper .vce-button--style-basic {
+  box-shadow: none;
+}
+.vce-button--style-basic-wrapper .vce-button--style-basic:hover,
+.vce-button--style-basic-wrapper .vce-button--style-basic:focus,
+.vce-button--style-basic-wrapper .vce-button--style-basic:link {
+  box-shadow: none;
+}
+.vce-button--style-basic-wrapper--stretched {
+  width: 100%;
+}
+.vce-button--style-basic-wrapper--stretched .vce-button--style-basic {
+  width: 100%;
+}
+a.vce-button--style-basic,
+button.vce-button--style-basic {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
+  max-width: 100%;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  font-weight: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+  white-space: normal;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  line-height: normal;
+  border-radius: 0;
+  transition: all 0.2s ease-in-out;
+}
+a.vce-button--style-basic:hover,
+button.vce-button--style-basic:hover,
+a.vce-button--style-basic:focus,
+button.vce-button--style-basic:focus {
+  text-decoration: none;
+  outline: none;
+}
+button.vce-button--style-basic {
+  -webkit-appearance: none;
+}
+.vce-button--style-basic.vce-button--style-basic--size-small {
+  font-size: 11px;
+  padding: 10px 30px;
+}
+.vce-button--style-basic.vce-button--style-basic--size-medium {
+  font-size: 16px;
+  padding: 15px 43px;
+}
+.vce-button--style-basic.vce-button--style-basic--size-large {
+  font-size: 21px;
+  padding: 20px 56px;
+}
+a.vce-button--style-basic--border-rounded,
+a.vce-button--style-basic--border-round,
+a.vce-button--style-basic--border-square,
+button.vce-button--style-basic--border-rounded,
+button.vce-button--style-basic--border-round,
+button.vce-button--style-basic--border-square {
+  position: relative;
+  overflow: hidden;
+}
+.vce-button--style-basic--border-rounded,
+a.vce-button--style-basic--border-rounded,
+button.vce-button--style-basic--border-rounded {
+  border-radius: 5px;
+}
+.vce-button--style-basic--border-round,
+a.vce-button--style-basic--border-round,
+button.vce-button--style-basic--border-round {
+  border-radius: 4em;
+}
+.vce-button--style-basic--border-square,
+a.vce-button--style-basic--border-square,
+button.vce-button--style-basic--border-square {
+  border-radius: 0;
+}
+.rtl.vce-button--style-basic,
+[dir="rlt"].vce-button--style-basic,
+.rtl .vce-button--style-basic,
+[dir="rlt"] .vce-button--style-basic {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+.ltr.vce-button--style-basic,
+[dir="ltr"].vce-button--style-basic,
+.ltr .vce-button--style-basic,
+[dir="ltr"] .vce-button--style-basic {
+  direction: ltr;
+  unicode-bidi: normal;
+}

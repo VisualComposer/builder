@@ -1,0 +1,22 @@
+.vce-button--style-basic.vce-button.vce-button--style-basic--color-$selector {
+  a&,
+  button& {
+    &, &:not(:hover) {
+    @if $color != false {
+      color: $color;
+    }
+    @if $background != false {
+      background-color: $background;
+    }
+  }
+    &:hover,
+    &:focus {
+      @if $color != false {
+        color: $color;
+      }
+      @if $background != false {
+        background-color: color($background shade(10%));
+      }
+    }
+  }
+}
