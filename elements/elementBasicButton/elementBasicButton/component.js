@@ -38,7 +38,7 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
       'border-radius': shape,
       'text-align': alignment,
       'background-color': background,
-      'hover-background-color': this.getColorShade(-0.1, background),
+      'hover-background-color': this.getColorShade(-0.1, background)
     }
     const styleObj = setCssVariables(cssVars)
 
