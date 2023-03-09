@@ -108,7 +108,7 @@
   "shape": {
     "type": "buttonGroup",
     "access": "public",
-    "value": "square",
+    "value": "0",
     "options": {
       "label": "Shape",
       "values": [
