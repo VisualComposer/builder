@@ -45,16 +45,17 @@ export function trashLinkActive () {
           try {
             const jsonData = JSON.parse(data)
 
-            let modalHtml = ''
             if (jsonData.status) {
-              const deleteSeems = localizations ? localizations.removePluginPostTypeLinkFoundPost : 'It seems that'
-
+              let modalHtml = ''
               let modalContent = ''
-              if (jsonData.vcvPostList) {
+
+              if (jsonData.vcvPostList || jsonData.vcvGlobalSettingsList) {
+                const deleteSeems = localizations ? localizations.removePluginPostTypeLinkFoundPost : 'It seems that'
                 const deleteActive = localizations ? localizations.removePluginPostTypeLinkActiveOn : 'is activate on:'
-
                 modalContent += '<p class="vcv-ui-modal-text">' + deleteSeems + ' "<span class="vcv-ui-modal-text-page-name">' + postTitle + '</span>" ' + deleteActive + ' </p>'
+              }
 
+              if (jsonData.vcvPostList) {
                 modalContent += '<ul class="vcv-ui-modal-list">'
 
                 for (const [postId, postTitle] of Object.entries(jsonData.vcvPostList)) {
