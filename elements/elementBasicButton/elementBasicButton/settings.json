@@ -55,11 +55,6 @@
     "value": "#fff",
     "options": {
       "label": "Title hover color",
-      "cssMixin": {
-        "mixin": "basicHoverColor",
-        "property": "hoverColor",
-        "namePattern": "[\\da-f]+"
-      },
       "onChange": {
         "rules": {
           "toggleCustomHover": {
@@ -80,11 +75,6 @@
     "value": "#4d70ac",
     "options": {
       "label": "Background hover color",
-      "cssMixin": {
-        "mixin": "basicHoverColor",
-        "property": "hoverBackground",
-        "namePattern": "[\\da-f]+"
-      },
       "onChange": {
         "rules": {
           "toggleCustomHover": {
@@ -104,12 +94,7 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Title color",
-      "cssMixin": {
-        "mixin": "basicColor",
-        "property": "color",
-        "namePattern": "[\\da-f]+"
-      }
+      "label": "Title color"
     }
   },
   "background": {
@@ -117,12 +102,7 @@
     "access": "public",
     "value": "#557cbf",
     "options": {
-      "label": "Background color",
-      "cssMixin": {
-        "mixin": "basicColor",
-        "property": "background",
-        "namePattern": "[\\da-f]+"
-      }
+      "label": "Background color"
     }
   },
   "shape": {
@@ -134,17 +114,17 @@
       "values": [
         {
           "label": "Square",
-          "value": "square",
+          "value": "0",
           "icon": "vcv-ui-icon-attribute-shape-square"
         },
         {
           "label": "Rounded",
-          "value": "rounded",
+          "value": "5px",
           "icon": "vcv-ui-icon-attribute-shape-rounded"
         },
         {
           "label": "Round",
-          "value": "round",
+          "value": "4em",
           "icon": "vcv-ui-icon-attribute-shape-round"
         }
       ]
