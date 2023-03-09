@@ -35,7 +35,7 @@ export default function InstallAtarim () {
         <div
           style={{ overflow: 'hidden', borderRadius: '15px', marginBottom: '15px' }}
         >
-          <video autoPlay >
+          <video autoPlay loop >
             <source src="https://wpfeedback-image.s3.us-east-2.amazonaws.com/public_videos/Atarim+Welcome+Plugin+version.mp4" type="video/mp4"/> </video>
 
         </div>
