@@ -1,26 +1,26 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import classNames from 'classnames'
 
 const vcvAPI = vcCake.getService('api')
 
 export default class BasicButtonComponent extends vcvAPI.elementComponent {
-  getColorSelector (textColor, backgroundColor) {
-    const txtColor = [...textColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
-    const bgColor = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
-    return `${bgColor || 'empty'}--${txtColor || 'empty'}`
-  }
-
   render () {
     const { id, atts, editor } = this.props
     const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton, color, background, hoverColor, hoverBackground, extraDataAttributes } = atts
 
-    console.log('this.props',this.props)
+    const classes = classNames({
+      'vce': true,
+      'vce-button': true,
+      'vce-basic-button': true,
+      [customClass]: typeof customClass === 'string' && customClass,
+      [`vce-basic-button--size-${size}`]: size
+    })
 
-    let containerClasses = 'vce-button--style-basic-container'
-    let wrapperClasses = 'vce-button--style-basic-wrapper vce'
-    let classes = 'vce-button vce-button--style-basic'
     let customProps = this.getExtraDataAttributes(extraDataAttributes)
+    metaCustomId && (customProps.id = metaCustomId)
     let CustomTag = 'button'
+    const stylesVariables = {}
 
     if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
@@ -33,46 +33,45 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
       }
     }
 
-    if (typeof customClass === 'string' && customClass) {
-      containerClasses += ' ' + customClass
-    }
-
     if (shape) {
-      classes += ` vce-button--style-basic--border-${shape}`
+      stylesVariables['--border-radius'] = shape
     }
 
     if (alignment) {
-      containerClasses += ` vce-button--style-basic-container--align-${alignment}`
-    }
-
-    if (size) {
-      classes += ` vce-button--style-basic--size-${size}`
+      stylesVariables['--text-align'] = alignment
     }
 
     if (toggleStretchButton) {
-      wrapperClasses += ' vce-button--style-basic-wrapper--stretched'
+      stylesVariables['--button-width'] = '100%'
     }
 
-    classes += ` vce-button--style-basic--color-${this.getColorSelector(color, background)}`
-
-    if (toggleCustomHover) {
-      classes += ` vce-button--style-basic--hover-color-${this.getColorSelector(hoverColor, hoverBackground)}`
+    if (color) {
+      stylesVariables['--color'] = color
+      // By default make color darken by 10%
+      stylesVariables['--hover-color'] = this.getColorShade(-0.1, color)
     }
 
-    if (metaCustomId) {
-      customProps.id = metaCustomId
+    if (background) {
+      stylesVariables['--background-color'] = background
+      // By default make background color darken by 10%
+      stylesVariables['--hover-background-color'] = this.getColorShade(-0.1, background)
     }
 
-    const doMargin = this.applyDO('margin')
-    const doRest = this.applyDO('padding border background animation')
+    if (toggleCustomHover && hoverColor) {
+      stylesVariables['--hover-color'] = hoverColor
+    }
+
+    if (toggleCustomHover && hoverBackground) {
+      stylesVariables['--hover-background-color'] = hoverBackground
+    }
+
+    const doAll = this.applyDO('all')
 
     return (
-      <div className={containerClasses} {...editor}>
-        <span className={wrapperClasses} id={'el-' + id} {...doMargin}>
-          <CustomTag className={classes} {...customProps} {...doRest}>
-            {buttonText}
-          </CustomTag>
-        </span>
+      <div className='vce-basic-button-container' {...editor} id={'el-' + id} style={stylesVariables}>
+        <CustomTag className={classes} {...customProps} {...doAll}>
+          {buttonText}
+        </CustomTag>
       </div>
     )
   }
