@@ -1,6 +1,7 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
+import { setCssVariables } from 'vc-helpers'
 
 const vcvAPI = vcCake.getService('api')
 
@@ -10,9 +11,7 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
     const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton, color, background, hoverColor, hoverBackground, extraDataAttributes } = atts
 
     const classes = classNames({
-      'vce': true,
-      'vce-button': true,
-      'vce-basic-button': true,
+      'vce vce-button vce-basic-button': true,
       [customClass]: typeof customClass === 'string' && customClass,
       [`vce-basic-button--size-${size}`]: size
     })
@@ -20,7 +19,6 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
     let customProps = this.getExtraDataAttributes(extraDataAttributes)
     metaCustomId && (customProps.id = metaCustomId)
     let CustomTag = 'button'
-    const stylesVariables = {}
 
     if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
@@ -33,42 +31,33 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
       }
     }
 
-    if (shape) {
-      stylesVariables['--border-radius'] = shape
+    // Handle CSS variables
+    const cssVars = {
+      color,
+      'hover-color': this.getColorShade(-0.1, color),
+      'border-radius': shape,
+      'text-align': alignment,
+      'background-color': background,
+      'hover-background-color': this.getColorShade(-0.1, background),
     }
-
-    if (alignment) {
-      stylesVariables['--text-align'] = alignment
-    }
+    const styleObj = setCssVariables(cssVars)
 
     if (toggleStretchButton) {
-      stylesVariables['--button-width'] = '100%'
-    }
-
-    if (color) {
-      stylesVariables['--color'] = color
-      // By default make color darken by 10%
-      stylesVariables['--hover-color'] = this.getColorShade(-0.1, color)
-    }
-
-    if (background) {
-      stylesVariables['--background-color'] = background
-      // By default make background color darken by 10%
-      stylesVariables['--hover-background-color'] = this.getColorShade(-0.1, background)
+      styleObj['--button-width'] = '100%'
     }
 
     if (toggleCustomHover && hoverColor) {
-      stylesVariables['--hover-color'] = hoverColor
+      styleObj['--hover-color'] = hoverColor
     }
 
     if (toggleCustomHover && hoverBackground) {
-      stylesVariables['--hover-background-color'] = hoverBackground
+      styleObj['--hover-background-color'] = hoverBackground
     }
 
     const doAll = this.applyDO('all')
 
     return (
-      <div className='vce-basic-button-container' {...editor} id={'el-' + id} style={stylesVariables}>
+      <div className='vce-basic-button-container' {...editor} id={'el-' + id} style={styleObj}>
         <CustomTag className={classes} {...customProps} {...doAll}>
           {buttonText}
         </CustomTag>
