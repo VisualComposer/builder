@@ -2264,6 +2264,10 @@ class Localizations extends Container implements Helper
                 'is activate on:',
                 'visualcomposer'
             ),
+            'globalPluginOption' => __(
+                'plugin option',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

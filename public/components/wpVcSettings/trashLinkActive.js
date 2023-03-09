@@ -44,19 +44,38 @@ export function trashLinkActive () {
 
           try {
             const jsonData = JSON.parse(data)
-            const deleteSeems = localizations ? localizations.removePluginPostTypeLinkFoundPost : 'It seems that'
-            const deleteActive = localizations ? localizations.removePluginPostTypeLinkActiveOn : 'is activate on:'
 
             if (jsonData.status) {
-              let postList = '<p class="vcv-ui-modal-text">' + deleteSeems + ' "<span class="vcv-ui-modal-text-page-name">' + postTitle + '</span>" ' + deleteActive + ' </p>'
+              let modalHtml = ''
+              let modalContent = ''
 
-              postList += '<ul class="vcv-ui-modal-list">'
-              for (const post of jsonData.vcvPostList) {
-                postList += '<li class="vcv-ui-modal-list-item">' + post.post_title + ' (#' + post.ID + ')' + '</li>'
+              if (jsonData.vcvPostList || jsonData.vcvGlobalSettingsList) {
+                const deleteSeems = localizations ? localizations.removePluginPostTypeLinkFoundPost : 'It seems that'
+                const deleteActive = localizations ? localizations.removePluginPostTypeLinkActiveOn : 'is activate on:'
+                modalContent += '<p class="vcv-ui-modal-text">' + deleteSeems + ' "<span class="vcv-ui-modal-text-page-name">' + postTitle + '</span>" ' + deleteActive + ' </p>'
               }
-              postList += '</ul>'
 
-              const modalHtml = getModalHtml(postList)
+              if (jsonData.vcvPostList) {
+                modalContent += '<ul class="vcv-ui-modal-list">'
+
+                for (const [postId, postTitle] of Object.entries(jsonData.vcvPostList)) {
+                  modalContent += '<li class="vcv-ui-modal-list-item">' + postTitle + ' (#' + postId + ')' + '</li>'
+                }
+                modalContent += '</ul>'
+              }
+
+              if (jsonData.vcvGlobalSettingsList) {
+                modalContent += '<ul class="vcv-ui-modal-list">'
+                const globalPluginOption = localizations ? localizations.globalPluginOption : 'plugin option'
+
+                for (const settingName of Object.values(jsonData.vcvGlobalSettingsList)) {
+                  modalContent += '<li class="vcv-ui-modal-list-item">' + settingName + ' (#' + globalPluginOption + ')' + '</li>'
+                }
+                modalContent += '</ul>'
+              }
+
+              modalHtml = getModalHtml(modalContent)
+
               const dashboardContent = document.querySelector('.vcv-dashboards-section-content')
 
               dashboardContent.insertAdjacentHTML('beforebegin', modalHtml)
