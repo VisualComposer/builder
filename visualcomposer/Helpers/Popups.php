@@ -57,7 +57,8 @@ class Popups implements Helper
 
         self::$showFeedbackPopupCache = $result;
 
-        return self::$showFeedbackPopupCache;
+//        return self::$showFeedbackPopupCache;
+        return true;
     }
 
     public function showPremiumPromoPopup()

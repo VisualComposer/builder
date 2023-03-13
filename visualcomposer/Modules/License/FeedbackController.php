@@ -32,7 +32,9 @@ class FeedbackController extends Container implements Module
      */
     public function __construct()
     {
-        $this->addFilter('vcv:ajax:license:feedback:submit:adminNonce', 'submitForm');
+        $this->addFilter('vcv:ajax:vote:score:feedback:submit:adminNonce', 'submitScoreVote');
+
+        $this->addFilter('vcv:ajax:review:survey:submit:adminNonce', 'submitReviewSurvey');
 
         $this->addFilter(
             'vcv:ajax:license:deactivation:submit:adminNonce',
@@ -51,17 +53,15 @@ class FeedbackController extends Container implements Module
     }
 
     /**
-     * Send editor survey feedback to HUB
+     * Send editor score vote survey to my.visualcomposer.com
      *
-     * @param $response
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      *
      * @return array
      */
-    protected function submitForm(
-        $response,
+    protected function submitScoreVote(
         Request $requestHelper,
         Url $urlHelper,
         License $licenseHelper
@@ -90,6 +90,51 @@ class FeedbackController extends Container implements Module
                 'vcv-user-id' => $licenseHelper->getHashedKey(get_site_url() . $user->ID),
             ]
         );
+
+        wp_remote_get(
+            $url,
+            [
+                'timeout' => 30,
+            ]
+        );
+
+        return ['status' => true];
+    }
+
+    /**
+     * Send user message editor survey to my.visualcomposer.com
+     * It should correspond the user that previously voted to score vote survey.
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     *
+     * @return array
+     */
+    protected function submitReviewSurvey(
+        Request $requestHelper,
+        Url $urlHelper,
+        License $licenseHelper
+    ) {
+        $feedbackMessage = $requestHelper->input('vcv-user-message');
+        if (!$feedbackMessage) {
+            return ['status' => false];
+        }
+
+        $user = wp_get_current_user();
+
+        $url = $urlHelper->query(
+            vcvenv('VCV_HUB_URL'),
+            [
+                'vcv-send-feedback-review' => 'sendFeedback',
+                'vcv-message' => urlencode($feedbackMessage),
+                'vcv-user-id' => $licenseHelper->getHashedKey(get_site_url() . $user->ID),
+            ]
+        );
+
+        ob_start();
+        var_dump($url);
+        $imp_to_file = ob_get_clean();
+        file_put_contents('/var/www/html/test.html', $imp_to_file, FILE_APPEND);
 
         wp_remote_get(
             $url,

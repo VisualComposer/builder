@@ -43,7 +43,8 @@ class Localizations extends Container implements Helper
     ];
 
     /**
-     * @param $locale array
+     * Library of plugin localizations.
+     * Mostly we use it for JS.
      *
      * @return array
      */
@@ -2268,16 +2269,24 @@ class Localizations extends Container implements Helper
                 'Popup Settings',
                 'visualcomposer'
             ),
-            'popupSettings' => __(
-                'Popup Settings',
-                'visualcomposer'
-            ),
             'themeBuilderSettings' => __(
                 'Theme Builder Settings',
                 'visualcomposer'
             ),
             'layoutSettings' => __(
                 'Layouts Settings',
+                'visualcomposer'
+            ),
+            'reviewPositive' => __(
+                'What is the biggest value you get from Visual Composer?',
+                'visualcomposer'
+            ),
+            'reviewNeutral' => __(
+                'What is the one thing we should improve in Visual Composer?',
+                'visualcomposer'
+            ),
+            'reviewNegative' => __(
+                'What problems do you experience when using Visual Composer?',
                 'visualcomposer'
             ),
         ];
