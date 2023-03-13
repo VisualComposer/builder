@@ -25,12 +25,10 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
     if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
       const { url, title, targetBlank, relNofollow } = buttonUrl
-      customProps = {
-        href: url,
-        title: title,
-        target: targetBlank ? '_blank' : undefined,
-        rel: relNofollow ? 'nofollow' : undefined
-      }
+      customProps.href = url
+      customProps.title = title
+      customProps.target = targetBlank ? '_blank' : undefined
+      customProps.rel = relNofollow ? 'nofollow' : undefined
     }
 
     // Handle CSS variables
