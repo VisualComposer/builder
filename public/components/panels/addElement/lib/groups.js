@@ -197,8 +197,12 @@ export default class Groups extends React.Component {
         Groups.allGroups.unshift(presetElementsGroup)
       }
 
+      const deprecatedGroup = Groups.allGroups.find(group => group.title === 'Deprecated')
       // Most User Group
-      const mostUsedItems = allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
+      const mostUsedItems = allElements.filter(element => {
+        const isDeprecated = deprecatedGroup.elements.find(item => item.tag === element.tag)
+        return !isDeprecated && element.usageCount > 9
+      }).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
       if (mostUsedItems.length > 0) {
         const mostUsedElementsGroup = {
           id: 'usageCount',
