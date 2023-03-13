@@ -13,7 +13,7 @@ describe('Editor controls', function () {
       cy.setURL('Link selection', settings.buttonLink)
       cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
       cy.setButtonGroup('Alignment', settings.alignment)
-      cy.setButtonGroup('Shape', settings.shape.name)
+      cy.setButtonGroup('Shape', settings.shape.cssValue)
       cy.setButtonGroup('Size', settings.size.name)
       cy.setSwitch('Stretch')
       cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
