@@ -56,7 +56,7 @@ class Groups implements Helper
                     'globalTemplate',
                     'simpleContactForm',
                     'basicMenu',
-                    'icon',
+                    'elementIcon',
                     'imageGallery',
                     'imageMasonryGallery',
                     'simpleImageSlider',

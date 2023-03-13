@@ -38,6 +38,7 @@ class DefaultElements extends Container implements Helper
             'heroSection',
             'elementHeroSection',
             'icon',
+            'elementIcon',
             'faqToggle',
             'feature',
             'elementFeature',

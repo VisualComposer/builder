@@ -263,7 +263,7 @@ class Categories implements Helper
             ],
             'Icon' => [
                 'title' => 'Icon',
-                'elements' => ['icon', 'iconGroup'],
+                'elements' => ['elementIcon', 'iconGroup'],
                 'icon' => $urlHelper->to('public/categories/icons/Icon.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Icon.svg'),
             ],

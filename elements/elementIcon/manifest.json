@@ -1,8 +1,8 @@
 {
   "elements": {
-    "icon": {
+    "elementIcon": {
       "settings": {
-        "name": "(Deprecated) Icon",
+        "name": "Icon",
         "metaThumbnailUrl": "[publicPath]/thumbnail-icon.jpg",
         "metaPreviewUrl": "[publicPath]/preview-icon.jpg",
         "metaDescription": "Simple icon element with various icons from library and background shape control options."
@@ -10,9 +10,9 @@
     }
   },
   "categories": {
-    "Deprecated": {
+    "Icon": {
       "elements": [
-        "icon"
+        "elementIcon"
       ]
     }
   }
