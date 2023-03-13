@@ -2264,8 +2264,20 @@ class Localizations extends Container implements Helper
                 'is activate on:',
                 'visualcomposer'
             ),
-            'globalPluginOption' => __(
-                'plugin option',
+            'popupSettings' => __(
+                'Popup Settings',
+                'visualcomposer'
+            ),
+            'popupSettings' => __(
+                'Popup Settings',
+                'visualcomposer'
+            ),
+            'themeBuilderSettings' => __(
+                'Theme Builder Settings',
+                'visualcomposer'
+            ),
+            'layoutSettings' => __(
+                'Layouts Settings',
                 'visualcomposer'
             ),
         ];
