@@ -11,15 +11,16 @@ describe('Editor controls', function () {
       cy.addElement(ELEMENT_NAME, true)
       cy.setInput('Button text', settings.buttonText)
       cy.setURL('Link selection', settings.buttonLink)
+      cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
       cy.setButtonGroup('Alignment', settings.alignment)
       cy.setButtonGroup('Shape', settings.shape.name)
       cy.setButtonGroup('Size', settings.size.name)
       cy.setSwitch('Stretch')
+      cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
       cy.setColor(settings.backgroundColor)
+      cy.setDO(settings.designOptions)
       cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
       cy.setClassAndId(settings.customId, settings.customClass)
-      cy.contains('.vcv-ui-navigation-slider-button', 'General').click()
-      cy.setDO(settings.designOptions)
 
       // 2. Open Templates panel
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"').click()
