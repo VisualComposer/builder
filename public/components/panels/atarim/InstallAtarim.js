@@ -10,18 +10,11 @@ export default function InstallAtarim () {
       'vcv-action': 'atarim:comment:button:click:adminNonce',
       'vcv-nonce': dataManager.get('nonce')
     })
-    window.open(`${window.location.origin}/wp-admin/plugin-install.php?s=atarim%2520visual%2520collaboration&tab=search&type=term`, '_blank')
-  }
 
-  React.useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'
-    script.async = true
-    document.body.appendChild(script)
-    return () => {
-      document.body.removeChild(script)
+    if (window.VCV_ADMIN_URL) {
+      window.open(window.VCV_ADMIN_URL() + '/plugin-install.php?s=atarim%2520visual%2520collaboration&tab=search&type=term', '_blank')
     }
-  }, [])
+  }
 
   return (
     <div className='ia-container'>
@@ -42,7 +35,9 @@ export default function InstallAtarim () {
         <div
           style={{ overflow: 'hidden', borderRadius: '15px', marginBottom: '15px' }}
         >
-          <lottie-player src="https://lottie.host/e7d901c2-ba67-48fc-8b1c-1951f667f8de/niIYmAiy82.json" background="transparent" speed="1" style={{ width: '100%', height: '100%' }} loop autoplay></lottie-player>
+          <video autoPlay loop >
+            <source src="https://wpfeedback-image.s3.us-east-2.amazonaws.com/public_videos/Atarim+Welcome+Plugin+version.mp4" type="video/mp4"/> </video>
+
         </div>
         <div className='ia-powerby-wrapper'>
           <span className='ia-text-power'>Powered by</span>
