@@ -18,7 +18,7 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
     })
 
     // Handle conditional props
-    let customProps = this.getExtraDataAttributes(extraDataAttributes)
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     metaCustomId && (customProps.id = metaCustomId)
     let CustomTag = 'button'
 
