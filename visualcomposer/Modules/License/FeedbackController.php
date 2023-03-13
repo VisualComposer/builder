@@ -91,12 +91,12 @@ class FeedbackController extends Container implements Module
             ]
         );
 
-        wp_remote_get(
-            $url,
-            [
-                'timeout' => 30,
-            ]
-        );
+        // wp_remote_get(
+        //     $url,
+        //     [
+        //         'timeout' => 30,
+        //     ]
+        // );
 
         return ['status' => true];
     }

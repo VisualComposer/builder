@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Dispatch} from 'redux' // eslint-disable-line
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
@@ -10,7 +10,10 @@ import { AppStateType } from '../../../editor/stores/reducer'
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const localizations = dataManager.get('localizations')
-const headingText = localizations ? localizations.feedbackVoteHeadingText : 'How likely are you to recommend Visual Composer to friend or colleague?'
+const voteHeading = localizations ? localizations.feedbackVoteHeadingText : 'How likely are you to recommend Visual Composer to friend or colleague?'
+const reviewHeadingPositive = localizations ? 'test1' : 'test1'
+const reviewHeadingNeutral = localizations ? 'test2' : 'test2'
+const reviewHeadingNegative = localizations ? 'test3' : 'test3'
 const veryDisappointed = localizations ? localizations.veryDisappointed : 'Not likely at all'
 const extremelyLikely = localizations ? localizations.somewhatDisappointed : 'Extremely likely'
 
@@ -22,6 +25,9 @@ const VotePopup = ({
   onPrimaryButtonClick,
   onClose
 }: VotePopupProps) => {
+
+  const [headingText, setHeadingText] = useState(voteHeading);
+
   const handleVote = () => {
     const checkedInput: HTMLInputElement | null = document.querySelector('input.vcv-layout-popup-checkbox:checked')
     if (!checkedInput) {
@@ -41,15 +47,22 @@ const VotePopup = ({
     }
     popupsSet(popupState)
 
-    // Show review popup
-    const visibilityTimeout = setTimeout(() => {
-      popupVisibilitySet(true)
-      popupShown('reviewPopup')
+      const voteScore = parseInt(popupState.votePopup.voteValue)
 
-      window.clearTimeout(visibilityTimeout)
-    }, 2000)
+      if (voteScore <= 6) {
+        setHeadingText(reviewHeadingNegative)
+      } else if (voteScore > 6 && voteScore <= 8) {
+          setHeadingText(reviewHeadingNeutral)
+      } else {
+          setHeadingText(reviewHeadingPositive)
+      }
 
-    onPrimaryButtonClick()
+      popupContent = (
+            <div>
+                <input type="text" />
+                <button>Submit</button>
+            </div>
+      )
   }
 
   const handleCloseClick = () => {
@@ -61,9 +74,21 @@ const VotePopup = ({
     onClose()
   }
 
-  const voteAmount = 10
+    let popupContent = (
+        <div className="vcv-ui-feedback-container">
+            {
+                [...Array(10)].map((e, i) => <label className='vcv-ui-feedback-radio' key={`vote-${i}`}>
+                    <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value={i + 1} onChange={handleVote}/>
+                    <span>
+              {i + 1}
+            </span>
+                </label>)
+            }
+        </div>
+    )
 
-  return (
+
+    return (
     <PopupInner
       headingText={headingText}
       onClose={handleCloseClick}
@@ -71,16 +96,7 @@ const VotePopup = ({
       hasButton={false}
       onPrimaryButtonClick={handleVote}
     >
-      <div className="vcv-ui-feedback-container">
-        {
-          [...Array(voteAmount)].map((e, i) => <label className='vcv-ui-feedback-radio' key={`vote-${i}`}>
-            <input type='radio' className='vcv-layout-popup-checkbox' name='vcv-feedback' value={i + 1} onChange={handleVote}/>
-            <span>
-              {i + 1}
-            </span>
-          </label>)
-        }
-      </div>
+      {popupContent}
       <div className='vcv-ui-feedback-description'>
         <span>{veryDisappointed}</span>
         <span>{extremelyLikely}</span>
