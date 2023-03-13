@@ -1,0 +1,67 @@
+.vce-single-image-container {
+  --text-align: left;
+  --border-radius: 0;
+  text-align: var(--text-align);
+}
+
+a.vce-single-image-inner {
+  color: transparent;
+  border-bottom: 0;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+a.vce-single-image-inner:hover,
+a.vce-single-image-inner:focus {
+  text-decoration: none;
+  box-shadow: none;
+  border-bottom: 0;
+}
+
+.vce-single-image-inner {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 1;
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+}
+
+.vce-single-image-wrapper {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.vce-single-image-wrapper img {
+  vertical-align: top;
+  max-width: 100%;
+}
+
+.vce-single-image-wrapper figure {
+  margin: 0;
+}
+
+.vce-single-image-wrapper figcaption {
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.vce-single-image-wrapper figcaption[hidden] {
+  display: none;
+}
+
+.vce-single-image-inner.vce-single-image--absolute .vce-single-image:not([data-dynamic-natural-size="true"]) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
+.vce-single-image-container .vce-single-image-inner .vce-single-image {
+  box-shadow: none;
+}

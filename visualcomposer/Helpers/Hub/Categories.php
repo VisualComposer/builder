@@ -275,7 +275,7 @@ class Categories implements Helper
             ],
             'Single image' => [
                 'title' => 'Single Image',
-                'elements' => ['singleImage', 'hoverImage', 'phoneMockup', 'browserMockup', 'parallaxSingleImage', 'giphy', 'gifAnimation'],
+                'elements' => ['elementSingleImage', 'hoverImage', 'phoneMockup', 'browserMockup', 'parallaxSingleImage', 'giphy', 'gifAnimation'],
                 'icon' => $urlHelper->to('public/categories/icons/Single-Image.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Single-Image.svg'),
             ],
@@ -583,7 +583,8 @@ class Categories implements Helper
                     'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
                     'outlineCallToAction',
-                    'basicButton'
+                    'basicButton',
+                    'singleImage'
                 ],
             ]
         ];
