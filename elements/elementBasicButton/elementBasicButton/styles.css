@@ -1,4 +1,4 @@
-.vce-basic-button-container {
+.vce-button--basic-container {
   --text-align: left;
   --button-width: auto;
   --border-radius: 0;
@@ -9,10 +9,10 @@
   text-align: var(--text-align);
 }
 
-.vce-basic-button-container .vce-basic-button,
-.vce-basic-button-container .vce-basic-button:hover,
-.vce-basic-button-container .vce-basic-button:focus,
-.vce-basic-button-container .vce-basic-button:link {
+.vce-button--basic-container .vce-basic-button,
+.vce-button--basic-container .vce-basic-button:hover,
+.vce-button--basic-container .vce-basic-button:focus,
+.vce-button--basic-container .vce-basic-button:link {
   box-shadow: none;
 }
 
