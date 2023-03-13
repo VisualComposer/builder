@@ -1,8 +1,8 @@
 {
   "elements": {
-    "basicButton": {
+    "elementBasicButton": {
       "settings": {
-        "name": "(Deprecated) Basic Button",
+        "name": "Basic Button",
         "metaThumbnailUrl": "[publicPath]/thumbnail-basic-button.png",
         "metaPreviewUrl": "[publicPath]/preview-basic-button.png",
         "metaDescription": "Basic flat style button with hover effect to catch visitor's attention."
@@ -10,9 +10,9 @@
     }
   },
   "categories": {
-    "Deprecated": {
+    "Button": {
       "elements": [
-        "basicButton"
+        "elementBasicButton"
       ]
     }
   }

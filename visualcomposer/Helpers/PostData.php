@@ -60,7 +60,7 @@ class PostData implements Helper
         // @codingStandardsIgnoreLine
         if (isset($post) && $post->post_status !== 'trash') {
             // @codingStandardsIgnoreLine
-            $avatarData = get_avatar_data($post->post_author);
+            $avatarData = get_avatar_data($this->getPostAuthorId($post));
             if (isset($avatarData['url']) && !empty($avatarData['url'])) {
                 $url = $avatarData['url'];
             }
@@ -83,7 +83,20 @@ class PostData implements Helper
         }
 
         // @codingStandardsIgnoreLine
-        return get_the_author_meta('display_name', $post->post_author);
+        return get_the_author_meta('display_name', $this->getPostAuthorId($post));
+    }
+
+    public function getPostAuthorId($post)
+    {
+        global $wp_query;
+
+        // in case of we override author page with our layout
+        // we still need show current author data not layout author data
+        if (!empty($wp_query->query['queriedPage']->is_author)) {
+            return $wp_query->query['queriedPage']->query_vars['author'];
+        }
+
+        return $post->post_author;
     }
 
     public function getPostTitle($sourceId = '')
@@ -327,11 +340,11 @@ class PostData implements Helper
         }
 
         // @codingStandardsIgnoreLine
-        $authorName = get_the_author_meta('display_name', $post->post_author);
+        $authorName = get_the_author_meta('display_name', $this->getPostAuthorId($post));
         $actualValue = sprintf(
             '<a href="%1$s" rel="author">%2$s</a>',
             // @codingStandardsIgnoreLine
-            esc_url(get_author_posts_url($post->post_author)),
+            esc_url(get_author_posts_url($this->getPostAuthorId($post))),
             $authorName
         );
 
@@ -345,7 +358,7 @@ class PostData implements Helper
             return false;
         }
         //@codingStandardsIgnoreLine
-        $description = get_the_author_meta('description', $post->post_author);
+        $description = get_the_author_meta('description', $this->getPostAuthorId($post));
 
         return $description;
     }
