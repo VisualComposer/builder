@@ -10,12 +10,14 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
     const { id, atts, editor } = this.props
     const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton, color, background, hoverColor, hoverBackground, extraDataAttributes } = atts
 
+    // Handle conditional classes
     const classes = classNames({
       'vce vce-button vce-basic-button': true,
       [customClass]: typeof customClass === 'string' && customClass,
       [`vce-basic-button--size-${size}`]: size
     })
 
+    // Handle conditional props
     let customProps = this.getExtraDataAttributes(extraDataAttributes)
     metaCustomId && (customProps.id = metaCustomId)
     let CustomTag = 'button'
@@ -54,10 +56,11 @@ export default class BasicButtonComponent extends vcvAPI.elementComponent {
       styleObj['--hover-background-color'] = hoverBackground
     }
 
+    // Handle design options
     const doAll = this.applyDO('all')
 
     return (
-      <div className='vce-basic-button-container' {...editor} id={'el-' + id} style={styleObj}>
+      <div className='vce-button--basic-container' {...editor} id={'el-' + id} style={styleObj}>
         <CustomTag className={classes} {...customProps} {...doAll}>
           {buttonText}
         </CustomTag>
