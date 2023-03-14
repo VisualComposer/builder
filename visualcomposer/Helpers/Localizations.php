@@ -2268,10 +2268,6 @@ class Localizations extends Container implements Helper
                 'Popup Settings',
                 'visualcomposer'
             ),
-            'popupSettings' => __(
-                'Popup Settings',
-                'visualcomposer'
-            ),
             'themeBuilderSettings' => __(
                 'Theme Builder Settings',
                 'visualcomposer'
