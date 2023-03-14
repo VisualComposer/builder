@@ -188,7 +188,7 @@ class Categories implements Helper
                     'animatedTwoColorButton',
                     'separatedButton',
                     'basicShadowButton',
-                    'growShadowButton',
+                    'elementGrowShadowButton',
                     '3ColorButton',
                     'doubleTextButton',
                     'callToActionButton',
@@ -583,7 +583,8 @@ class Categories implements Helper
                     'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
                     'outlineCallToAction',
-                    'basicButton'
+                    'basicButton',
+                    'growShadowButton'
                 ],
             ]
         ];
