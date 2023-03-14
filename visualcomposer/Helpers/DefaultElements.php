@@ -57,6 +57,7 @@ class DefaultElements extends Container implements Helper
             'twitterGrid',
             'twitterTimeline',
             'twitterTweet',
+            'elementGoogleFontsHeading',
         ];
 
         return $elementsToRegister;
