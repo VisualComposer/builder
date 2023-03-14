@@ -13,10 +13,6 @@ export interface PopupProps {
   onPrimaryButtonClick: () => void
 }
 
-export interface ReviewPopupProps extends PopupProps {
-  popups: Popups
-}
-
 export interface VotePopupProps extends PopupProps {
   popupVisibilitySet: (status: boolean) => void
   popupShown: (popupName: string) => void

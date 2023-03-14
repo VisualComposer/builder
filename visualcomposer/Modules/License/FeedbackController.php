@@ -126,15 +126,10 @@ class FeedbackController extends Container implements Module
             vcvenv('VCV_HUB_URL'),
             [
                 'vcv-send-feedback-review' => 'sendFeedback',
-                'vcv-message' => urlencode($feedbackMessage),
+                'vcv-message' => rawurlencode($feedbackMessage),
                 'vcv-user-id' => $licenseHelper->getHashedKey(get_site_url() . $user->ID),
             ]
         );
-
-        ob_start();
-        var_dump($url);
-        $imp_to_file = ob_get_clean();
-        file_put_contents('/var/www/html/test.html', $imp_to_file, FILE_APPEND);
 
         wp_remote_get(
             $url,

@@ -22,7 +22,6 @@ const VotePopup = ({
   popupsSet,
   onClose
 }: VotePopupProps) => {
-
   const [headingText, setHeadingText] = useState(voteHeading)
   const [voteState, setVoteState] = useState('vote')
   const [popupState, setPopupState] = useState({})
@@ -72,7 +71,7 @@ const VotePopup = ({
   const handleReviewSubmit = (e) => {
     e.preventDefault()
 
-    if ( ! e ?. target ?. elements ?. userReview ?. value) {
+    if (!e?.target?.elements?.userReview?.value) {
       onClose()
     }
 
@@ -93,8 +92,8 @@ const VotePopup = ({
               [...Array(10)].map((e, i) => <label className="vcv-ui-feedback-radio" key={`vote-${i}`}>
                 <input type="radio" className="vcv-layout-popup-checkbox" name="vcv-feedback" value={i + 1} onChange={handleVote} />
                 <span>
-              {i + 1}
-            </span>
+                  {i + 1}
+                </span>
               </label>)
             }
           </div>
@@ -105,10 +104,11 @@ const VotePopup = ({
         </>
       )
     } else if (voteState === 'review') {
-      return(
+      const submit = localizations.submit ? localizations.submit : 'Submit'
+      return (
         <form onSubmit={handleReviewSubmit}>
-          <input type='text' maxlength='1000' name='userReview' />
-          <button type='submit'>Submit</button>
+          <input type='text' maxLength='1000' name='userReview' />
+          <button className='vcv-layout-popup-btn' type='submit'>{submit}</button>
         </form>
       )
     } else {
