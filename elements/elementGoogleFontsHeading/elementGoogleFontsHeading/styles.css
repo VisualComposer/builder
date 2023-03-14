@@ -1,0 +1,59 @@
+.vce-google-fonts-heading-container {
+  --alignment: left;
+  --color: default;
+  --gradientStart: #FF7200;
+  --gradientEnd: #5C00FF;
+  --gradientAngleDeg: 45deg;
+  --fontFamily: 'Lato', 'sans-serif';
+  --fontSize: default;
+  --fontStyle: default;
+  --lineHeight: default;
+  --letterSpacing: default;
+  text-align: var(--alignment);
+}
+
+.vcwb .vce-google-fonts-heading-container > h1.vce-google-fonts-heading-content,
+.vcwb .vce-google-fonts-heading-container > h2.vce-google-fonts-heading-content,
+.vcwb .vce-google-fonts-heading-container > h3.vce-google-fonts-heading-content,
+.vcwb .vce-google-fonts-heading-container > h4.vce-google-fonts-heading-content,
+.vcwb .vce-google-fonts-heading-container > h5.vce-google-fonts-heading-content,
+.vcwb .vce-google-fonts-heading-container > h6.vce-google-fonts-heading-content,
+.vcwb .vce-google-fonts-heading-container > p.vce-google-fonts-heading-content,
+.vcwb .vce-google-fonts-heading-container > div.vce-google-fonts-heading-content {
+  font-family: var(--fontFamily);
+  font-size: var(--fontSize);
+  font-style: var(--fontStyle);
+  line-height: var(--lineHeight);
+  letter-spacing: var(--letterSpacing);
+  padding: 0;
+  margin-bottom: 0;
+  max-width: 100%;
+}
+
+.vce-google-fonts-heading-container.vce-google-fonts-heading--color .vce-google-fonts-heading-content {
+  color: var(--color) !important;
+
+}
+.vce-google-fonts-heading-container.vce-google-fonts-heading--gradient .vce-google-fonts-heading-content {
+  background-image: linear-gradient(var(--gradientAngleDeg), var(--gradientStart), var(--gradientEnd));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+  caret-color: var(--gradientStart);
+}
+
+
+.vce-google-fonts-heading-content .medium-editor-placeholder {
+  background: inherit;
+}
+
+.vce-google-fonts-heading-link,
+.vce-google-fonts-heading-link:hover,
+.vce-google-fonts-heading-link:focus,
+.vce-google-fonts-heading-link:visited {
+  border: none;
+  text-decoration: inherit;
+  color: inherit;
+  background: inherit;
+}
+
