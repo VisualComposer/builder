@@ -107,9 +107,7 @@ class Groups implements Helper
                     'Button Group',
                     'Outline Button',
                 ],
-                'elements' => [
-                    'elementGrowShadowButton'
-                ],
+                'elements' => [],
             ],
             'E-Commerce' => [
                 'title' => 'E-Commerce',
