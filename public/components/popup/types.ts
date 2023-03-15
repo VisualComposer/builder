@@ -21,7 +21,7 @@ export interface VotePopupProps extends PopupProps {
 }
 
 export interface PopupInnerProps extends PopupProps {
-  children: JSX.Element | JSX.Element[],
+  children: JSX.Element | JSX.Element[] | null,
   headingText: string
   popupName: string
   customButtonProps?: {

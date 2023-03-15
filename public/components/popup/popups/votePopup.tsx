@@ -24,7 +24,6 @@ const VotePopup = ({
 }: VotePopupProps) => {
   const [headingText, setHeadingText] = useState(voteHeading)
   const [voteState, setVoteState] = useState('vote')
-  const [popupState, setPopupState] = useState({})
 
   const handleVote = useCallback(() => {
     const checkedInput: HTMLInputElement | null = document.querySelector('input.vcv-layout-popup-checkbox:checked')
@@ -39,7 +38,6 @@ const VotePopup = ({
 
     // Set vote value in storage so we can use it in the review popup
     const currentPopup = JSON.parse(JSON.stringify(popups)) || {}
-    setPopupState(currentPopup)
     Object.preventExtensions(currentPopup)
     if (currentPopup?.votePopup) {
       currentPopup.votePopup.voteValue = checkedInput.value
@@ -68,16 +66,20 @@ const VotePopup = ({
     onClose()
   }
 
-  const handleReviewSubmit = (e) => {
+  const handleReviewSubmit = (e:React.FormEvent) => {
     e.preventDefault()
 
-    if (!e?.target?.elements?.userReview?.value) {
+    const target = e.target as HTMLFormElement
+    const formData = new FormData(target)
+
+    const userReview = formData.get('userReview') as string
+    if (!userReview) {
       onClose()
     }
 
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'review:survey:submit:adminNonce',
-      'vcv-user-message': e.target.elements.userReview.value
+      'vcv-user-message': userReview
     })
 
     onClose()
@@ -107,7 +109,7 @@ const VotePopup = ({
       const submit = localizations.submit ? localizations.submit : 'Submit'
       return (
         <form onSubmit={handleReviewSubmit}>
-          <input type='text' maxLength='1000' name='userReview' />
+          <input type='text' maxLength={1000} name='userReview' />
           <button className='vcv-layout-popup-btn' type='submit'>{submit}</button>
         </form>
       )
@@ -120,7 +122,7 @@ const VotePopup = ({
     <PopupInner
       headingText={headingText}
       onClose={handleCloseClick}
-      popupName="votePopup"
+      popupName='votePopup'
       hasButton={false}
       onPrimaryButtonClick={handleVote}
     >
