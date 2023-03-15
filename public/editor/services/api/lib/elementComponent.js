@@ -13,7 +13,7 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
-import { updateHtmlWithServer, renderInlineHtml } from 'public/tools/updateHtmlWithServer'
+import { updateHtmlWithServer, renderInlineHtml, addShortcodeToQueueUpdate } from 'public/tools/updateHtmlWithServer'
 import {
   getCssMixinsData,
   getInnerCssMixinsData,
@@ -78,6 +78,14 @@ export default class ElementComponent extends React.Component {
   updateShortcodeToHtml (content, ref, cb, action, options) {
     if (ref) {
       updateHtmlWithServer(content, ref, this.props.id, cb, action, options)
+    } else if (env('VCV_DEBUG')) {
+      console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
+    }
+  }
+
+  addShortcodeElementToQueueUpdate (content, ref, cb, action, options) {
+    if (ref) {
+      addShortcodeToQueueUpdate(content, ref, this.props.id, cb, action, options)
     } else if (env('VCV_DEBUG')) {
       console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
     }
@@ -171,6 +179,14 @@ export default class ElementComponent extends React.Component {
       if (designOptions && Object.prototype.hasOwnProperty.call(designOptions, 'device')) {
         const doDevices = designOptions.device
         const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
+
+        Object.keys(doDevices).forEach((device) => {
+          if (doDevices[device].image && doDevices[device].image.length) {
+            const dataAttribute = `data-vce-background-image-${device}`
+            propObj[dataAttribute] = doDevices[device].image
+            propObj['data-vce-background-image'] = Object.keys(doDevices)
+          }
+        })
 
         if (isLazyLoad) {
           let isImagesSet = false
@@ -657,6 +673,27 @@ export default class ElementComponent extends React.Component {
 
   getColorShade = (percentage, color1, color2, blend) => {
     return pSBC(percentage, color1, color2, blend)
+  }
+
+  getExtraDataAttributes (dataAttributes) {
+    const customProps = {}
+    if (dataAttributes) {
+      // Disabling eslint because it messing up regexp
+      const attributeRegex = /(\S+)="[^"]+"/g // eslint-disable-line
+      const attributes = dataAttributes.match(attributeRegex)
+      if (attributes && attributes.length) {
+        const charsRegex = /[\[\]\(\)\{\}",.?!&@$`'+*%#^_:;]+/g // eslint-disable-line
+        const charsRegexData = /[\[\]\(\)\{\}"&]+/g // eslint-disable-line
+        attributes.forEach((attribute) => {
+          const parsedAttribute = attribute.split('=')
+          const sanitizedAtt = parsedAttribute[0].replaceAll(charsRegex, '')
+          const sanitizedData = parsedAttribute[1].replaceAll(charsRegexData, '')
+          customProps[sanitizedAtt.toLowerCase()] = sanitizedData || true
+        })
+      }
+    }
+
+    return customProps
   }
 
   render () {

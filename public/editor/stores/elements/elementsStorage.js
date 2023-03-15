@@ -88,6 +88,14 @@ addStorage('elements', (storage) => {
   storage.state('document').onChange((layoutData) => {
     innerAPI.dispatch('layoutChange', layoutData)
   })
+  const getParent = (elData) => {
+    const parent = documentManager.get(elData.parent)
+    if (parent.tag && parent.tag !== 'row') {
+      return getParent(parent)
+    } else {
+      return parent
+    }
+  }
   storage.on('add', (elementData, wrap = true, options = {}) => {
     const cookElement = cook.get(elementData)
     if (!cookElement) {
@@ -149,18 +157,17 @@ addStorage('elements', (storage) => {
         initChild.parent = data.id
         const childData = cook.get(initChild)
         if (childData) {
-          storage.trigger('add', childData.toJS(), true, { silent: true })
+          const childDataJS = childData.toJS()
+          if (initChild?.exclude) {
+            childDataJS.exclude = initChild?.exclude
+          }
+          if (initChild?.hidden) {
+            workspaceStorage.trigger('hide', childDataJS.id)
+          }
+          storage.trigger('add', childDataJS, true, { silent: true })
+          storage.trigger('update', childDataJS.id, childDataJS)
         }
       })
-    }
-
-    const getParent = (elData) => {
-      const parent = documentManager.get(elData.parent)
-      if (parent.tag && parent.tag !== 'row') {
-        return getParent(parent)
-      } else {
-        return parent
-      }
     }
 
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
@@ -199,6 +206,15 @@ addStorage('elements', (storage) => {
       }
     }
     documentManager.update(id, element)
+
+    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR') && dataManager.get('editorType') === 'popup') {
+      if (element.tag === 'column') {
+        const rowElement = getParent(element)
+        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
+        storage.trigger('update', rowElement.id, rowElement, '', options)
+      }
+    }
+
     const { disableUpdateAssets } = options || {}
     if (disableUpdateAssets !== true) {
       assetsStorage.trigger('updateElement', id, options)

@@ -6,6 +6,7 @@ import Scrollbar from 'public/components/scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
 import DefaultInsights from '../insights/defaultInsights'
 import NotificationsPanel from '../notifications/notificationsPanel'
+import InstallAtarim from '../atarim/InstallAtarim'
 import innerAPI from '../../api/innerAPI'
 
 const dataManager = getService('dataManager')
@@ -38,6 +39,12 @@ const MessagesPanel = ({ seenMessages, notifications, currentLevel }) => {
   innerAPI.mount('panelMessages:notifications', () => {
     return <NotificationsPanel key='panel-notifications' />
   })
+
+  if (!window.vcvIsAtarimActive) {
+    innerAPI.mount('panelMessages:atarim', () => {
+      return <InstallAtarim key='install-atarim' />
+    })
+  }
 
   useEffect(() => {
     workspaceContentState.onChange(handleSetVisibility)

@@ -88,7 +88,7 @@ export default class EditFormSection extends React.Component {
       return
     }
     const { isActive } = this.state
-    if ((prevState && !prevState.isActive && isActive) || (this.props.tab.index === this.props.activeTabIndex || this.props.tab.index === this.props.activeSectionIndex)) {
+    if ((prevState && !prevState.isActive && isActive) || (this.props.sectionIndex === this.props.activeSectionIndex)) {
       // will scroll to top
       const scrollbar = this.props.getSectionContentScrollbar()
       if (scrollbar) {
@@ -126,6 +126,13 @@ export default class EditFormSection extends React.Component {
       }
 
       const removeDependencies = fieldOptions && fieldOptions.removeDependencies
+
+      if (this.props?.options?.child) {
+        const element = documentService.get(this.props.elementAccessPoint.id)
+        if (element?.exclude?.indexOf(param.key) >= 0) {
+          return
+        }
+      }
 
       return (
         <Field

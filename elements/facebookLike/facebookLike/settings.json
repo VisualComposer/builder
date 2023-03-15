@@ -12,6 +12,7 @@
     "access": "protected",
     "value": [
       "htmlAttributes",
+      "customAttributes",
       "customCSS"
     ],
     "options": {
@@ -19,24 +20,11 @@
       "isSections": true
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "layout",
-      "size",
-      "alignment"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "designOptions",
+      "designTab",
       "advancedTab"
     ]
   },
@@ -101,13 +89,6 @@
         }
       ]
     }
-  },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
-    "value": [
-      "animate"
-    ]
   },
   "alignment": {
     "type": "buttonGroup",
@@ -180,5 +161,48 @@
     "access": "public",
     "value": [],
     "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "styleSection",
+      "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "layout",
+      "size",
+      "alignment"
+    ]
   }
 }

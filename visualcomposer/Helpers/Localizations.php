@@ -61,6 +61,8 @@ class Localizations extends Container implements Helper
             'addPremiumElement' => __('Visual Composer Hub', 'visualcomposer'),
             'addTemplate' => __('Add Template', 'visualcomposer'),
             'treeView' => __('Tree View', 'visualcomposer'),
+            'atarim' => __('Atarim', 'visualcomposer'),
+            'atarimPanelTitle' => __('Collaboration Tasks & Feedback', 'visualcomposer'),
             'undo' => __('Undo', 'visualcomposer'),
             'redo' => __('Redo', 'visualcomposer'),
             'responsiveView' => __('Responsive View', 'visualcomposer'),
@@ -152,6 +154,8 @@ class Localizations extends Container implements Helper
             'rowLayout' => __('Row Layout', 'visualcomposer'),
             'edit' => __('Edit', 'visualcomposer'),
             'designOptions' => __('Design Options', 'visualcomposer'),
+            'design' => __('Design', 'visualcomposer'),
+            'advanced' => __('Advanced', 'visualcomposer'),
             'clone' => __('Clone', 'visualcomposer'),
             'copy' => __('Copy', 'visualcomposer'),
             'paste' => __('Paste', 'visualcomposer'),
@@ -431,6 +435,10 @@ class Localizations extends Container implements Helper
             'continueImport' => __('Continue importing', 'visualcomposer'),
             'backToImport' => __('Back to import', 'visualcomposer'),
             'startingImportProcess' => __('Starting import process...', 'visualcomposer'),
+            'skipImportMedia' => __('The server cannot process some media files. This can happen if the the server is busy or does not have enough resources to complete the task. Right now we skipped problem medias. But you can increase server resources and try to import again. List of medias that have issue below', 'visualcomposer'),
+            'importUpdatingMediaProcess' => __('Updating media data...', 'visualcomposer'),
+            'importMediaUpdateLeft' => __('files left', 'visualcomposer'),
+            'importDoneText' => __('Import Done. Go to', 'visualcomposer'),
             'backToParent' => __('Back to parent', 'visualcomposer'),
             'back' => __('Back', 'visualcomposer'),
             'manageContentInYourLibrary' => __('Manage content in your library', 'visualcomposer'),
@@ -687,23 +695,15 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'feedbackVoteHeadingText' => __(
-                'How disappointed would you be if this product no longer existed tomorrow?',
+                'How likely are you to recommend Visual Composer to friend or colleague?',
                 'visualcomposer'
             ),
             'veryDisappointed' => __(
-                'Very disappointed',
+                'Not likely at all',
                 'visualcomposer'
             ),
             'somewhatDisappointed' => __(
-                'Somewhat disappointed',
-                'visualcomposer'
-            ),
-            'disappointed' => __(
-                'Not disappointed (it really isn’t that useful)',
-                'visualcomposer'
-            ),
-            'feedbackVoteButtonText' => __(
-                'Submit Your Feedback',
+                'Extremely likely',
                 'visualcomposer'
             ),
             'negativeReviewHeadingText' => __(
@@ -1295,6 +1295,10 @@ class Localizations extends Container implements Helper
             ),
             'submit' => __(
                 'Submit',
+                'visualcomposer'
+            ),
+            'proceed' => __(
+                'Yes, proceed',
                 'visualcomposer'
             ),
             'new' => __(
@@ -2181,7 +2185,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'defaultLayoutDescription' => __(
-                'The theme default layout.',
+                'The theme default or theme builder layout.',
                 'visualcomposer'
             ),
             'blankLayoutDescription' => __(
@@ -2246,6 +2250,30 @@ class Localizations extends Container implements Helper
             ),
             'editElement' => __(
                 'Edit Element',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkConfirmation' => __(
+                'Are you sure you want to proceed?',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkFoundPost' => __(
+                'It seems that',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkActiveOn' => __(
+                'is activate on:',
+                'visualcomposer'
+            ),
+            'popupSettings' => __(
+                'Popup Settings',
+                'visualcomposer'
+            ),
+            'themeBuilderSettings' => __(
+                'Theme Builder Settings',
+                'visualcomposer'
+            ),
+            'layoutSettings' => __(
+                'Layouts Settings',
                 'visualcomposer'
             ),
         ];

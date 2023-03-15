@@ -564,12 +564,15 @@ const API = {
         } else {
           blockInfo = dynamicValue.split(blockRegexp)
         }
+
+        const blockAtts = JSON.parse(blockInfo[4].trim())
+
         const dynamicFieldsData = API.dynamicFields.getDynamicFieldsData(
           {
             fieldKey: fieldKey,
             value: dynamicValue,
             blockName: blockInfo[3],
-            blockAtts: JSON.parse(blockInfo[4].trim()),
+            blockAtts: blockAtts,
             blockContent: blockInfo[7],
             beforeBlock: blockInfo[0] || '',
             afterBlock: blockInfo[14] || ''
@@ -585,8 +588,23 @@ const API = {
 
         if (['attachimage'].indexOf(typeName) !== -1) {
           if (value && value.full) {
+            const postData = settingsStorage.state('postData').get()
+            const additionalDataKey = blockAtts.value + '-additional'
+
             value.full = dynamicFieldsData
             layoutAtts[fieldKey] = value
+
+            let additionalData
+            if (blockAtts.sourceId && postData[blockAtts.sourceId] && postData[blockAtts.sourceId][additionalDataKey]) {
+              additionalData = JSON.parse(postData[blockAtts.sourceId][additionalDataKey])
+            } else if (postData[additionalDataKey]) {
+              additionalData = JSON.parse(postData[additionalDataKey])
+            }
+            if (additionalData) {
+              layoutAtts.image.caption = additionalData['image-caption'] ? additionalData['image-caption'] : ''
+              layoutAtts.image.alt = additionalData['image-alt'] ? additionalData['image-alt'] : ''
+              layoutAtts.image.title = additionalData['image-title'] ? additionalData['image-title'] : ''
+            }
           } else if (value.urls && value.urls[0]) {
             const newValue = { ids: [], urls: [{ full: dynamicFieldsData }] }
             if (value.urls[0] && value.urls[0].filter) {

@@ -16,23 +16,12 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "flickrUrl",
-      "width",
-      "alignment"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
     "value": [
       "htmlAttributes",
+      "customAttributes",
       "customCSS"
     ],
     "options": {
@@ -44,8 +33,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "designOptions",
+      "contentTab",
+      "designTab",
       "advancedTab"
     ]
   },
@@ -64,13 +53,6 @@
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
-  },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
-    "value": [
-      "animate"
-    ]
   },
   "alignment": {
     "type": "buttonGroup",
@@ -110,17 +92,6 @@
       "label": "Width",
       "description": "Enter image width (example: \"thumbnail\", \"medium\", \"large\", \"full\" or other sizes defined by theme). Alternatively enter width in pixels (example: 200). Minimal width 151px."
     }
-  },
-  "metaBackendLabels": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      {
-        "value": [
-          "flickrUrl"
-        ]
-      }
-    ]
   },
   "metaCustomId": {
     "type": "customId",
@@ -163,5 +134,68 @@
     "access": "public",
     "value": [],
     "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "styleSection",
+      "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "width",
+      "alignment"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "flickrUrl"
+    ]
   }
 }

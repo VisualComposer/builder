@@ -98,7 +98,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
+    const { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-yt-video-player'
     let source, videoWidth, videoId, loop
     const autoplay = advanced && atts.autoplay ? 1 : 0
@@ -108,7 +108,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
     let start = advanced && atts.start ? this.parseTime(atts.start) : 0
     const end = advanced && atts.end ? `&end=${this.parseTime(atts.end)}` : ''
     const ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
 
     if (advanced) {
       controls = atts.controls ? 1 : 0

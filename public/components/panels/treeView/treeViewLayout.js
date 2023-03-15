@@ -42,6 +42,7 @@ export default class TreeViewLayout extends React.Component {
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.getScrollbarContent = this.getScrollbarContent.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
+    this.hasElementControl = this.hasElementControl.bind(this)
     this.dnd = new TreeViewDndManager()
 
     const data = props.isAttribute ? documentManager.children(props.element.get('id')) : documentManager.children(false)
@@ -84,6 +85,10 @@ export default class TreeViewLayout extends React.Component {
     } else {
       workspaceContentState.ignoreChange(this.setVisibility)
     }
+  }
+
+  hasElementControl (control) {
+    return (this.props?.controls?.length && (this.props?.controls.indexOf(control) > -1)) || !this.props?.controls?.length
   }
 
   setVisibility (activePanel) {
@@ -177,6 +182,7 @@ export default class TreeViewLayout extends React.Component {
             onUnmountCallback={this.handleElementUnmount}
             scrollValue={this.props.scrollValue}
             isAttribute={this.props.isAttribute}
+            controls={this.props.controls}
             updateElementsData={this.updateElementsData}
           />
         )
@@ -257,7 +263,7 @@ export default class TreeViewLayout extends React.Component {
     const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const removeAllText = localizations ? localizations.removeAll : 'Remove All'
-    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue()) || roleManager.can('editor_content_template_add', roleManager.defaultTrue())
+    const isAbleToAdd = (roleManager.can('editor_content_element_add', roleManager.defaultTrue()) || roleManager.can('editor_content_template_add', roleManager.defaultTrue())) && this.hasElementControl('add')
     let addElementControl = null
     if (isAbleToAdd) {
       addElementControl = (

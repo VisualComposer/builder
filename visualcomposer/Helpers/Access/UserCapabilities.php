@@ -38,7 +38,8 @@ class UserCapabilities implements Helper
         }
         $hasAccess = $hasAccess && current_user_can('edit_post', $sourceId);
         // and has unfiltered_html capability
-        $hasAccess = $hasAccess && current_user_can('unfiltered_html');
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        $hasAccess = $hasAccess && $currentUserAccessHelper->isUserHasCap('unfiltered_html');
         // @codingStandardsIgnoreLine
         $hasAccess = $hasAccess && $this->isEditorEnabled($post->post_type);
 
@@ -64,7 +65,7 @@ class UserCapabilities implements Helper
         }
 
         // has unfiltered_html capability
-        $hasAccess = $hasAccess && $currentUserAccessHelper->wpAll('unfiltered_html')->get();
+        $hasAccess = $hasAccess && $currentUserAccessHelper->isUserHasCap('unfiltered_html');
 
         return $hasAccess;
     }

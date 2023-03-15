@@ -68,6 +68,10 @@ const TreeViewElement = (props) => {
   const controlsContentRef = useRef(null)
   const controlsTriggerRef = useRef(null)
 
+  const hasElementControl = useCallback((control) => {
+    return (props?.controls?.length && (props?.controls.indexOf(control) > -1)) || !props?.controls?.length
+  })
+
   const checkPaste = useCallback((data) => {
     if (data?.element || data.key === 'vcv-copy-data') {
       const copyData = data.key === 'vcv-copy-data' ? JSON.parse(data.newValue) : data
@@ -480,26 +484,32 @@ const TreeViewElement = (props) => {
     )
   }
 
-  const showDropdown = addChildControl || cloneControl || visibilityControl || copyControl || pasteControl
+  const showDropdown = (hasElementControl('addChild') && addChildControl) ||
+    (hasElementControl('clone') && cloneControl) ||
+    (hasElementControl('visibility') && visibilityControl) ||
+    (hasElementControl('copy') && copyControl) ||
+    (hasElementControl('paste') && pasteControl)
   const sandwichControls = (
     <>
-      {addChildControl}
-      {cloneControl}
-      {visibilityControl}
-      {copyControl}
-      {pasteControl}
+      {hasElementControl('addChild') && addChildControl}
+      {hasElementControl('clone') && cloneControl}
+      {hasElementControl('visibility') && visibilityControl}
+      {hasElementControl('copy') && copyControl}
+      {hasElementControl('paste') && pasteControl}
     </>
   )
 
   const baseControlsItems = isElementLocked ? null : (
     <div className='vcv-ui-tree-layout-control-actions'>
-      {lockControl}
+      {hasElementControl('lock') && lockControl}
       <span className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-control-action--edit' title={editText} onClick={() => handleClickEdit('')}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
       </span>
-      <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={handleClickDelete}>
-        <i className='vcv-ui-icon vcv-ui-icon-trash' />
-      </span>
+      {hasElementControl('remove') && (
+        <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={handleClickDelete}>
+          <i className='vcv-ui-icon vcv-ui-icon-trash' />
+        </span>
+      )}
       {showDropdown
         ? (
           <span
@@ -517,8 +527,8 @@ const TreeViewElement = (props) => {
     <>
       {baseControlsItems}
       <div className='vcv-ui-tree-layout-control-state-container'>
-        {lockIcon}
-        {hideIcon}
+        {hasElementControl('lock') && lockIcon}
+        {hasElementControl('visibility') && hideIcon}
       </div>
     </>
   )
@@ -617,7 +627,7 @@ const TreeViewElement = (props) => {
     )
   }
 
-  if (isDraggable === undefined || isDraggable) {
+  if ((isDraggable === undefined || isDraggable) && hasElementControl('drag')) {
     treeChildProps['data-vcv-dnd-element-expand-status'] = childExpand ? 'opened' : 'closed'
     dragControl = (
       <div className={dragHelperClasses} hidden={isElementLocked}>

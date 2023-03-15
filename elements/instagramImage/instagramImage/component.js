@@ -46,10 +46,10 @@ export default class InstagramImage extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, metaCustomId } = atts
+    const { customClass, metaCustomId, extraDataAttributes } = atts
     let classes = 'vce-instagram-image'
     const wrapperClasses = 'vce-instagram-image-wrapper vce'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass

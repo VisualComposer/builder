@@ -84,6 +84,7 @@
     "access": "protected",
     "value": [
       "htmlAttributes",
+      "customAttributes",
       "customCSS"
     ],
     "options": {
@@ -95,11 +96,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "designOptionsAdvanced",
-      "parallax",
-      "boxShadow",
-      "dividers",
-      "sticky",
+      "designTab",
       "advancedTab"
     ]
   },
@@ -168,5 +165,39 @@
     "access": "public",
     "value": [],
     "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "designOptionsAdvanced",
+      "parallax",
+      "boxShadow",
+      "dividers",
+      "sticky"
+    ]
   }
 }

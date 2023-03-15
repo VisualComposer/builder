@@ -2918,7 +2918,6 @@
   animation-name: vce-o-animate--rollIn;
 }
 
-/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 @-webkit-keyframes vce-o-animate--rollOut {
   from {
     opacity: 1;
@@ -3688,6 +3687,26 @@
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-xs"] {
     animation-name: vce-o-animate--zoomOutUp;
   }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleIn-xs"] {
+    animation-name: vce-o-animate--scaleIn;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInDown-xs"] {
+    animation-name: vce-o-animate--scaleInDown;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInLeft-xs"] {
+    animation-name: vce-o-animate--scaleInLeft;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInRight-xs"] {
+    animation-name: vce-o-animate--scaleInRight;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInUp-xs"] {
+    animation-name: vce-o-animate--scaleInUp;
+  }
 }
 
 @media (min-width: 544px) and (max-width: 767px) {
@@ -4071,6 +4090,26 @@
 
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-sm"] {
     animation-name: vce-o-animate--zoomOutUp;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleIn-sm"] {
+    animation-name: vce-o-animate--scaleIn;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInDown-sm"] {
+    animation-name: vce-o-animate--scaleInDown;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInLeft-sm"] {
+    animation-name: vce-o-animate--scaleInLeft;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInRight-sm"] {
+    animation-name: vce-o-animate--scaleInRight;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInUp-sm"] {
+    animation-name: vce-o-animate--scaleInUp;
   }
 }
 
@@ -4456,6 +4495,26 @@
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-md"] {
     animation-name: vce-o-animate--zoomOutUp;
   }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleIn-md"] {
+    animation-name: vce-o-animate--scaleIn;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInDown-md"] {
+    animation-name: vce-o-animate--scaleInDown;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInLeft-md"] {
+    animation-name: vce-o-animate--scaleInLeft;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInRight-md"] {
+    animation-name: vce-o-animate--scaleInRight;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInUp-md"] {
+    animation-name: vce-o-animate--scaleInUp;
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -4839,6 +4898,26 @@
 
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-lg"] {
     animation-name: vce-o-animate--zoomOutUp;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleIn-lg"] {
+    animation-name: vce-o-animate--scaleIn;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInDown-lg"] {
+    animation-name: vce-o-animate--scaleInDown;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInLeft-lg"] {
+    animation-name: vce-o-animate--scaleInLeft;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInRight-lg"] {
+    animation-name: vce-o-animate--scaleInRight;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInUp-lg"] {
+    animation-name: vce-o-animate--scaleInUp;
   }
 }
 
@@ -5224,4 +5303,25 @@
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-xl"] {
     animation-name: vce-o-animate--zoomOutUp;
   }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleIn-xl"] {
+    animation-name: vce-o-animate--scaleIn;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInDown-xl"] {
+    animation-name: vce-o-animate--scaleInDown;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInLeft-xl"] {
+    animation-name: vce-o-animate--scaleInLeft;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInRight-xl"] {
+    animation-name: vce-o-animate--scaleInRight;
+  }
+
+  [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--scaleInUp-xl"] {
+    animation-name: vce-o-animate--scaleInUp;
+  }
+
 }

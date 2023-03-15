@@ -159,7 +159,7 @@ class Categories implements Helper
             'Button' => [
                 'title' => 'Simple Button',
                 'elements' => [
-                    'basicButton',
+                    'elementBasicButton',
                     'basicButtonIcon',
                     'outlineButton',
                     'outlineButtonIcon',
@@ -215,13 +215,13 @@ class Categories implements Helper
             ],
             'Feature' => [
                 'title' => 'Feature',
-                'elements' => ['feature'],
+                'elements' => ['elementFeature'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
             'Feature section' => [
                 'title' => 'Feature Section',
-                'elements' => ['featureSection'],
+                'elements' => ['elementFeatureSection'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
@@ -257,7 +257,7 @@ class Categories implements Helper
             ],
             'Hero section' => [
                 'title' => 'Hero Section',
-                'elements' => ['heroSection'],
+                'elements' => ['elementHeroSection'],
                 'icon' => $urlHelper->to('public/categories/icons/Hero-Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hero-Section.svg'),
             ],
@@ -286,9 +286,9 @@ class Categories implements Helper
                     'imageMasonryGallery',
                     'multipleImageCollage',
                     'imageMasonryGalleryWithZoom',
-                    'imageMasonryGalleryWithIcon',
+                    'elementImageMasonryGalleryWithIcon',
                     'imageMasonryGalleryWithScaleUp',
-                    'imageGalleryWithIcon',
+                    'elementImageGalleryWithIcon',
                     'imageGalleryWithScaleUp',
                     'imageGalleryWithZoom',
                 ],
@@ -477,7 +477,7 @@ class Categories implements Helper
             ],
             'Hover Box' => [
                 'title' => 'Hover Box',
-                'elements' => ['flipBox', 'hoverBox', 'iconHoverBox', 'tallHoverBox'],
+                'elements' => ['elementFlipBox', 'elementHoverBox', 'elementIconHoverBox', 'tallHoverBox'],
                 'icon' => $urlHelper->to('public/categories/icons/Hover-Box.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hover-Box.svg'),
             ],
@@ -520,7 +520,11 @@ class Categories implements Helper
             ],
             'Call To Action' => [
                 'title' => 'Call To Action',
-                'elements' => ['callToAction', 'simpleCallToAction', 'outlineCallToAction', 'callToActionWithIcon'],
+                'elements' => [
+                    'elementCallToAction',
+                    'simpleCallToAction',
+                    'elementOutlineCallToAction',
+                    'elementCallToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
             ],
@@ -564,6 +568,24 @@ class Categories implements Helper
                 'icon' => $urlHelper->to('public/categories/icons/Counter.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
             ],
+            'Deprecated' => [
+                'title' => 'Deprecated',
+                'elements' => [
+                    'heroSection',
+                    'feature',
+                    'featureDescription',
+                    'featureSection',
+                    'callToAction',
+                    'callToActionWithIcon',
+                    'flipBox',
+                    'hoverBox',
+                    'iconHoverBox',
+                    'imageGalleryWithIcon',
+                    'imageMasonryGalleryWithIcon',
+                    'outlineCallToAction',
+                    'basicButton'
+                ],
+            ]
         ];
 
         $hubCategories = $optionHelper->get('hubCategories', []);

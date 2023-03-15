@@ -19,20 +19,29 @@ class DefaultCapabilitiesMigration extends MigrationsController implements Modul
     protected function run()
     {
         // Run migration only if role Manager addon is available and is enabled
-        if (vcvenv('VCV_ADDON_ROLE_MANAGER_PARTS')) {
-            $roleHelper = vchelper('AccessRole');
-            $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
-            $defaultCapabilities = $userCapabilitiesHelper->getDefaultCapabilities();
+        if (!vcvenv('VCV_ADDON_ROLE_MANAGER_PARTS')) {
+            return false;
+        }
 
-            foreach ($defaultCapabilities as $roleName => $roleParts) {
-                foreach ($roleParts as $capPart => $capabilities) {
-                    foreach ($capabilities as $cap) {
-                        $roleHelper->who($roleName)->part($capPart)->setCapRule($cap, true);
-                    }
-                }
+        $roleHelper = vchelper('AccessRole');
+        $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
+        $defaultCapabilities = $userCapabilitiesHelper->getDefaultCapabilities();
+
+        // for a security reason we decided to remove all default caps in some user roles.
+        $roleWithoutDefaultCaps = ['author', 'contributor'];
+
+        foreach ($defaultCapabilities as $roleName => $roleParts) {
+            if (in_array($roleName, $roleWithoutDefaultCaps)) {
+                continue;
             }
 
-            return true;
+            foreach ($roleParts as $capPart => $capabilities) {
+                foreach ($capabilities as $cap) {
+                    $roleHelper->who($roleName)->part($capPart)->setCapRule($cap);
+                }
+            }
         }
+
+        return true;
     }
 }

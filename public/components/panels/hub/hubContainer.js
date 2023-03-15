@@ -320,7 +320,7 @@ export default class HubContainer extends React.Component {
       elements = allCategories && allCategories[activeCategoryIndex] && allCategories[activeCategoryIndex].elements
     }
 
-    return elements ? elements.map((elementData) => { return this.getElementControl(elementData) }) : []
+    return elements ? elements.filter(elementData => !elementData.name.includes('Deprecated')).map((elementData) => { return this.getElementControl(elementData) }) : []
   }
 
   getSearchProps () {
@@ -345,12 +345,14 @@ export default class HubContainer extends React.Component {
     const allCategories = this.getAllCategories()
 
     return allCategories[this.state.activeCategoryIndex].elements.filter((elementData) => {
-      const elName = hubElementsService.getElementName(elementData)
-      if (elName.indexOf(searchValue) !== -1) {
-        return true
-      } else {
-        const elDescription = hubElementsService.getElementDescription(elementData)
-        return elDescription.indexOf(searchValue) !== -1
+      if (!elementData.name.includes('Deprecated')) {
+        const elName = hubElementsService.getElementName(elementData)
+        if (elName.indexOf(searchValue) !== -1) {
+          return true
+        } else {
+          const elDescription = hubElementsService.getElementDescription(elementData)
+          return elDescription.indexOf(searchValue) !== -1
+        }
       }
     }).sort((a, b) => {
       let firstIndex = hubElementsService.getElementName(a).indexOf(searchValue)

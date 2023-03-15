@@ -172,9 +172,7 @@ addStorage('wordpressData', (storage) => {
       }
 
       if (responseData.layoutType && dataManager.get('editorType') === 'vcv_layouts') {
-        if (!workspaceStorage.state('blankPageIntro').get()) {
-          settingsStorage.state('layoutType').set(responseData.layoutType)
-        }
+        settingsStorage.state('layoutType').set(responseData.layoutType)
       }
 
       if (responseData.notificationCenterData) {
@@ -406,7 +404,9 @@ addStorage('wordpressData', (storage) => {
     if (data && !data.initialSet) {
       const currentPostData = settingsStorage.state('postData').get() || {}
       currentPostData.featured_image = data.urls && data.urls[0] && (data.urls[0].full || data.urls[0].large)
-      settingsStorage.state('postData').set(currentPostData)
+      if (currentPostData.featured_image !== undefined) {
+        settingsStorage.state('postData').set(currentPostData)
+      }
       // Trigger page design options to change
       assetsStorage.trigger('update:pageDesignOptions')
     }

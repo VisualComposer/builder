@@ -26,9 +26,9 @@ export default class RawJs extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
+    const { customClass, metaCustomId, extraDataAttributes } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-js-container'
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     const wrapperClasses = 'vce-raw-js-wrapper'
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)

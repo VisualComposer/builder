@@ -256,7 +256,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image } = atts
+    const { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image, extraDataAttributes } = atts
     let containerClasses = 'vce-single-image-container'
     const wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner vce-single-image--absolute'
@@ -264,7 +264,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     const figureInnerClasses = 'vce-single-image-figure-inner'
 
     let customProps = {}
-    const containerProps = {}
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     const wrapperProps = {}
     let CustomTag = 'div'
     const customImageProps = {}
@@ -278,19 +278,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     customImageProps.alt = image && image.alt ? image.alt : ''
     customImageProps.title = image && image.title ? image.title : ''
 
-    let captionText = image && image.caption ? image.caption : ''
-
-    if (isDynamic) {
-      try {
-        const url = new URL(image.full)
-        const urlParams = new URLSearchParams(url.search)
-        customImageProps.alt = urlParams.get('alt') ? urlParams.get('alt') : ''
-        customImageProps.title = urlParams.get('title') ? urlParams.get('title') : ''
-        captionText = urlParams.get('caption') ? urlParams.get('caption') : ''
-      } catch (e) {
-        console.warn('URL is not valid, skipping', image, image.full)
-      }
-    }
+    const captionText = image && image.caption ? image.caption : ''
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass

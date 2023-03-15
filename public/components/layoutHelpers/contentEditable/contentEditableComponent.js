@@ -6,7 +6,7 @@ import lodash from 'lodash'
 import initializeTinymce from 'public/components/layoutHelpers/tinymce/tinymceVcvHtmleditorPlugin'
 import initializeJqueryPlugin from 'public/components/layoutHelpers/tinymce/fontFamily/tinymceFontsSelect.jquery'
 import getUsedFonts from 'public/components/layoutHelpers/tinymce/fontFamily/getUsedFonts.js'
-import { updateHtmlWithServerRequest } from 'public/tools/updateHtmlWithServer'
+import { addShortcodeToQueueUpdate, updateHtmlWithServerRequest } from 'public/tools/updateHtmlWithServer'
 
 const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
@@ -66,7 +66,11 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   componentDidMount () {
-    this.debouncedUpdateHtml(this.props.children)
+    if (window.vcvLoadingScreen) {
+      addShortcodeToQueueUpdate(this.props.children, this.ref, this.props.id)
+    } else {
+      this.debouncedUpdateHtml(this.props.children)
+    }
   }
 
   componentWillUnmount () {

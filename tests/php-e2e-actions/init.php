@@ -17,15 +17,15 @@ if (isset($_GET['php-e2e'])) {
     require_once rtrim($abspath, '\\/') . '/wp-includes/plugin.php';
     require_once 'helpers.php';
     // ACTIONS goes here:
-    $files = glob(__DIR__ . '/actions/{,*/,*/*/,*/*/*/}*.php', GLOB_BRACE);
+    $files = glob(__DIR__ . '/actions/*.php');
+
     if (is_array($files) && !empty($files)) {
         foreach ($files as $file) {
             require_once $file;
         }
     }
     $devElementsActions = glob(
-        $pluginDir . '/devElements/tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
-        GLOB_BRACE
+        $pluginDir . '/devElements/tests/php-e2e-actions/actions/*.php'
     );
     if (is_array($devElementsActions) && !empty($devElementsActions)) {
         foreach ($devElementsActions as $file) {
@@ -33,9 +33,9 @@ if (isset($_GET['php-e2e'])) {
         }
     }
     $devAddonsActions = glob(
-        $pluginDir . '/devAddons/tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
-        GLOB_BRACE
+        $pluginDir . '/devAddons/tests/php-e2e-actions/actions/*.php'
     );
+
     if (is_array($devAddonsActions) && !empty($devAddonsActions)) {
         foreach ($devAddonsActions as $file) {
             require_once $file;

@@ -24,6 +24,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
 /**
  * Skip loading when installing.
  *
@@ -111,11 +112,25 @@ define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_AS
 
 require_once $dir . '/visualcomposer/Requirements.php';
 
+$errorMessages = false;
 if (!defined('DOING_AJAX') || !DOING_AJAX) {
     $requirements = new VcvCoreRequirements();
-    $requirements->coreChecks();
+    $errorMessages = $requirements->getCoreRequirementsErrorMessages();
 }
+
 // !! PHP 5.4 Required under this line (parse error otherwise).
 
-// Bootstrap the system.
-require $dir . '/bootstrap/autoload.php';
+if ($errorMessages) {
+    add_action('admin_notices', function () use ($errorMessages) {
+        echo wp_kses($errorMessages, [
+            'div' => ['class' => []],
+            'ul' => ['class' => []],
+            'li' => [],
+            'p' => [],
+            'b' => [],
+        ]);
+    });
+} else {
+    // Bootstrap the system.
+    require $dir . '/bootstrap/autoload.php';
+}

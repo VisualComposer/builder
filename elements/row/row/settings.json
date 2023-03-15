@@ -13,8 +13,24 @@
     "access": "public",
     "value": [],
     "options": {
-      "label": "Row Layout",
       "tooltip": "Control your grid layout: specify the number of columns within a row, adjust responsiveness and more."
+    }
+  },
+  "rowOptions": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "layout",
+      "rowWidth",
+      "removeSpaces",
+      "columnGap",
+      "fullHeight",
+      "columnPosition",
+      "equalHeight",
+      "contentPosition"
+    ],
+    "options": {
+      "label": "Row Layout"
     }
   },
   "dividers": {
@@ -61,27 +77,12 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "rowWidth",
-      "removeSpaces",
-      "columnGap",
-      "fullHeight",
-      "columnPosition",
-      "equalHeight",
-      "contentPosition"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
     "value": [
       "htmlAttributes",
+      "customAttributes",
       "customCSS"
     ],
     "options": {
@@ -93,13 +94,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "layout",
-      "editFormTab1",
-      "designOptionsAdvanced",
-      "parallax",
-      "boxShadow",
-      "dividers",
-      "sticky",
+      "layoutTab",
+      "designTab",
       "advancedTab"
     ]
   },
@@ -379,5 +375,50 @@
     "access": "public",
     "value": [],
     "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "designOptionsAdvanced",
+      "parallax",
+      "boxShadow",
+      "dividers",
+      "sticky"
+    ]
+  },
+  "layoutTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Layout",
+      "isSections": true
+    },
+    "value": [
+      "rowOptions"
+    ]
   }
 }

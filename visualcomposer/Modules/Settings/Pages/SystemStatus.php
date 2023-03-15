@@ -137,7 +137,7 @@ class SystemStatus extends Container implements Module
 
     public function getMemoryLimitStatusForView()
     {
-        $memoryLimit = $this->statusHelper->getPhpVariable('memory_limit');
+        $memoryLimit = $this->statusHelper->getMemoryLimit();
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
         if ($memoryLimit === '-1') {
@@ -239,22 +239,6 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($curlStatus)];
     }
 
-    protected function getAwsConnectionStatusForView()
-    {
-        $check = $this->statusHelper->getAwsConnection();
-        $textResponse = $check ? __('Success', 'visualcomposer') : __('Connection with AWS was unsuccessful', 'visualcomposer');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
-    }
-
-    protected function getAccountConnectionStatusForView()
-    {
-        $check = $this->statusHelper->getAccountConnection();
-        $textResponse = $check ? __('Success', 'visualcomposer') : __('Connection with Account was unsuccessful', 'visualcomposer');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
-    }
-
     protected function getPluginFolderStatusForView()
     {
         $check = VCV_PLUGIN_DIRNAME === 'visualcomposer';
@@ -283,14 +267,9 @@ class SystemStatus extends Container implements Module
             'fsMethod' => $this->getFileSystemStatusForView(),
             'zipExt' => $this->getZipStatusForView(),
             'curlExt' => $this->getCurlStatusForView(),
-            'account' => $this->getAccountConnectionStatusForView(),
-            'aws' => $this->getAwsConnectionStatusForView(),
         ];
     }
 
-    /**
-     *
-     */
     protected function beforeRender()
     {
         $this->statusHelper->checkSystemStatusAndSetFlag();
@@ -347,6 +326,11 @@ class SystemStatus extends Container implements Module
         }
     }
 
+    /**
+     * Ajax process action to refresh button on system status page.
+     *
+     * @param \VisualComposer\Helpers\Status $statusHelper
+     */
     protected function refreshStatusPage(Status $statusHelper)
     {
         $statusHelper->checkSystemStatusAndSetFlag();

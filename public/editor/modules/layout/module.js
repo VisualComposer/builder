@@ -99,6 +99,7 @@ vcCake.add('contentLayout', (api) => {
   let domContainerRoot = null
 
   const renderLayout = (reload = false) => {
+    window.vcvLoadingScreen = true
     workspaceIFrame.ignoreChange(reloadLayout)
     workspaceIFrame.set(false)
     const iframe = document.getElementById('vcv-editor-iframe')
@@ -185,6 +186,8 @@ vcCake.add('contentLayout', (api) => {
     loadingOverlays.forEach((loadingOverlay) => {
       loadingOverlay.remove()
     })
+
+    window.vcvLoadingScreen = false
   }
 
   const createLoadingScreen = () => {
@@ -272,7 +275,7 @@ vcCake.add('contentLayout', (api) => {
             hasFooter = currentTemplate.footer
           }
         }
-        const isLayoutTheme = template.type === 'vc-custom-layout' && (template.value + '').indexOf('theme:') !== -1
+        const isLayoutTheme = template.type === 'vc-custom-layout' && (template.value + '').indexOf('theme:default') !== -1
         if (template.type === 'theme' || isLayoutTheme) {
           hasHeader = true
           hasFooter = true

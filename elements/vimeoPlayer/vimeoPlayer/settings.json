@@ -200,29 +200,12 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "videoPlayer",
-      "size",
-      "customSize",
-      "alignment",
-      "advanced",
-      "autopause",
-      "autoplay",
-      "color",
-      "loop"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
   "advancedTab": {
     "type": "group",
     "access": "protected",
     "value": [
       "htmlAttributes",
+      "customAttributes",
       "customCSS"
     ],
     "options": {
@@ -234,8 +217,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "designOptions",
+      "contentTab",
+      "designTab",
       "advancedTab"
     ]
   },
@@ -244,17 +227,6 @@
     "access": "protected",
     "value": [
       "General"
-    ]
-  },
-  "metaBackendLabels": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      {
-        "value": [
-          "videoPlayer"
-        ]
-      }
     ]
   },
   "metaCustomId": {
@@ -298,5 +270,74 @@
     "access": "public",
     "value": [],
     "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "styleSection",
+      "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "size",
+      "customSize",
+      "alignment",
+      "color"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "videoPlayer",
+      "advanced",
+      "autopause",
+      "autoplay",
+      "loop"
+    ]
   }
 }

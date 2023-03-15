@@ -13,7 +13,11 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
+    if (window.vcvLoadingScreen) {
+      super.addShortcodeElementToQueueUpdate(this.props.atts.shortcode, this.vcvhelper.current)
+    } else {
+      super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
+    }
   }
 
   updateShortcodeElement () {
@@ -29,11 +33,11 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor } = this.props
-    const { shortcode, customClass, metaCustomId } = atts
+    const { shortcode, customClass, metaCustomId, extraDataAttributes } = atts
     let shortcodeClasses = 'vce-shortcode'
     const wrapperClasses = 'vce-shortcode-wrapper vce'
 
-    const customProps = {}
+    const customProps = this.getExtraDataAttributes(extraDataAttributes)
     if (typeof customClass === 'string' && customClass) {
       shortcodeClasses = shortcodeClasses.concat(' ' + customClass)
     }
