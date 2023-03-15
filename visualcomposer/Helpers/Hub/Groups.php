@@ -41,7 +41,7 @@ class Groups implements Helper
                 ],
                 'elements' => [
                     'elementBasicButton',
-                    'outlineButton',
+                    'elementOutlineButton',
                     'singleImage',
                     'shortcode',
                     'wpWidgetsCustom',
