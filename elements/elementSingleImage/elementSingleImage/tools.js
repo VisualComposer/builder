@@ -79,7 +79,7 @@ export const getSizes = (atts, img) => {
 
   let parsedSize = ''
 
-  if (size.match(/\d+(x)\d+/)) {
+  if (size.match(/\d{1,}(?:x)\d{1,}/)) {
     parsedSize = parseSize(size, shape === 'round', img.width, img.height)
   } else {
     parsedSize = checkRelatedSize(size)
