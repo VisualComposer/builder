@@ -2,10 +2,11 @@ import React from 'react'
 import { getService } from 'vc-cake'
 import classNames from 'classnames'
 import { setCssVariables } from 'vc-helpers'
+import { getSizes, getImageShortcode } from './tools'
 
 const vcvAPI = getService('api')
 const renderProcessor = getService('renderProcessor')
-const { getBlockRegexp, parseDynamicBlock } = getService('utils')
+const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 
 export default class SingleImageElement extends vcvAPI.elementComponent {
@@ -53,102 +54,6 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
   }
 
-  parseSize (size, isRound, naturalWidth, naturalHeight) {
-    let crop = true
-    if (typeof size === 'string') {
-      size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase().split('x')
-    } else if (typeof size === 'object') {
-      crop = size.crop
-      size = [size.width, size.height]
-    }
-
-    naturalWidth = parseInt(naturalWidth)
-    naturalHeight = parseInt(naturalHeight)
-
-    const cropHorizontal = parseInt(size[0]) < naturalWidth
-    const cropVertical = parseInt(size[1]) < naturalHeight
-
-    if (crop) {
-      size[0] = parseInt(size[0]) < naturalWidth ? parseInt(size[0]) : naturalWidth
-      size[1] = parseInt(size[1]) < naturalHeight ? parseInt(size[1]) : naturalHeight
-    } else {
-      size[0] = cropHorizontal ? parseInt(size[0]) : naturalWidth
-      size[1] = cropVertical ? parseInt(size[1]) : naturalHeight
-
-      if (cropHorizontal && !cropVertical) {
-        const prop = size[0] / naturalWidth
-        size[1] = parseInt(naturalHeight * prop)
-      }
-
-      if (cropVertical && !cropHorizontal) {
-        const prop = size[1] / naturalHeight
-        size[0] = parseInt(naturalWidth * prop)
-      }
-
-      if (cropVertical && cropHorizontal) {
-        if (naturalHeight < naturalWidth) {
-          const prop = size[0] / naturalWidth
-          size[1] = parseInt(naturalHeight * prop)
-        } else {
-          const prop = size[1] / naturalHeight
-          size[0] = parseInt(naturalWidth * prop)
-        }
-      }
-    }
-
-    if (isRound) {
-      const smallestSize = size[0] >= size[1] ? size[1] : size[0]
-      size = {
-        width: smallestSize,
-        height: smallestSize
-      }
-    } else {
-      size = {
-        width: size[0],
-        height: size[1]
-      }
-    }
-    return size
-  }
-
-  checkRelatedSize (size) {
-    let relatedSize = null
-    if (window.vcvImageSizes && window.vcvImageSizes[size]) {
-      relatedSize = window.vcvImageSizes[size]
-    }
-    return relatedSize
-  }
-
-  getSizes (atts, img) {
-    if (!img) {
-      return {
-        width: '',
-        height: ''
-      }
-    }
-    let { size, shape } = atts
-    size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
-
-    let parsedSize = ''
-
-    if (size.match(/\d+(x)\d+/)) {
-      parsedSize = this.parseSize(size, shape === 'round', img.width, img.height)
-    } else {
-      parsedSize = this.checkRelatedSize(size)
-
-      if (parsedSize) {
-        parsedSize = this.parseSize(parsedSize, shape === 'round', img.width, img.height)
-      } else {
-        parsedSize = this.parseSize({ width: img.width, height: img.height }, shape === 'round', img.width, img.height)
-      }
-    }
-
-    return {
-      width: parsedSize.width,
-      height: parsedSize.height
-    }
-  }
-
   setImage (props) {
     const imgSrc = this.getImageUrl(props.atts.image)
 
@@ -178,7 +83,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   setImageState (e) {
     const img = e.currentTarget
-    const sizes = this.getSizes(this.props.atts, img)
+    const sizes = getSizes(this.props.atts, img)
 
     this.setState({
       imgElement: img,
@@ -192,7 +97,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   resetImageSizeState () {
-    const sizes = this.getSizes(this.props.atts, this.state.imgElement)
+    const sizes = getSizes(this.props.atts, this.state.imgElement)
     this.setState({
       parsedWidth: sizes.width,
       parsedHeight: sizes.height
@@ -201,46 +106,6 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   setError () {
     this.resolve && this.resolve(false)
-  }
-
-  getImageShortcode (options) {
-    const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes } = options
-
-    let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props['data-img-src']}" data-attachment-id="${props['data-attachment-id']}" `
-
-    let alt = props.alt
-    let title = props.title
-    if (isDefaultImage) {
-      shortcode += ' data-default-image="true"'
-    }
-
-    if (isDynamicImage) {
-      const blockInfo = parseDynamicBlock(this.props.rawAtts.image.full)
-      shortcode += ` data-dynamic="${blockInfo.blockAtts.value}"`
-      try {
-        const url = new URL(blockInfo.blockAtts.currentValue)
-        const urlParams = new URLSearchParams(url.search)
-
-        if (urlParams.get('alt')) {
-          alt = urlParams.get('alt')
-        }
-
-        if (urlParams.get('title')) {
-          title = urlParams.get('title')
-        }
-      } catch (e) {
-        // In case if dynamicField (noValue)
-        console.warn('URL is not valid, skipping', blockInfo, blockInfo.blockAtts.currentValue)
-      }
-
-      if (naturalSizes) {
-        shortcode += ' data-dynamic-natural-size="true"'
-      }
-    }
-
-    shortcode += ` alt="${alt}" title="${title}" ]`
-
-    return shortcode
   }
 
   render () {
@@ -347,7 +212,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
     if (imgSrc) {
       imgElement = (
-        <img className={`${imageClasses} vcvhelper`} src={imgSrc} {...customImageProps} data-vcvs-html={this.getImageShortcode(shortcodeOptions)} />
+        <img className={`${imageClasses} vcvhelper`} src={imgSrc} {...customImageProps} data-vcvs-html={getImageShortcode(shortcodeOptions, this.props.rawAtts.image, this.state)} />
       )
     }
 
