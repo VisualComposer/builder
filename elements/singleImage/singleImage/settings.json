@@ -1,4 +1,21 @@
 {
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "singleImage"
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 4
+  },
   "image": {
     "type": "attachimage",
     "access": "public",
@@ -50,63 +67,6 @@
         }
       ]
     }
-  },
-  "designOptions": {
-    "type": "designOptions",
-    "access": "public",
-    "value": [],
-    "options": {
-      "label": "Design Options"
-    }
-  },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "clickableOptions",
-      "showCaption",
-      "image",
-      "shape",
-      "size",
-      "alignment"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
-  "advancedTab": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "htmlAttributes",
-      "customAttributes",
-      "customCSS"
-    ],
-    "options": {
-      "label": "Advanced",
-      "isSections": true
-    }
-  },
-  "metaEditFormTabs": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "editFormTab1",
-      "designTab",
-      "advancedTab"
-    ]
-  },
-  "relatedTo": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "General"
-    ]
-  },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 4
   },
   "customClass": {
     "type": "string",
@@ -217,11 +177,6 @@
       "label": "Element ID",
       "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
     }
-  },
-  "tag": {
-    "access": "protected",
-    "type": "string",
-    "value": "singleImage"
   },
   "metaPublicJs": {
     "access": "protected",
@@ -343,6 +298,18 @@
       "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
     }
   },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "shape",
+      "size",
+      "alignment"
+    ]
+  },
   "designTab": {
     "type": "group",
     "access": "protected",
@@ -351,7 +318,50 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "clickableOptions",
+      "showCaption",
+      "image"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
+    ],
+    "options": {
+      "label": "Advanced",
+      "isSections": true
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "contentTab",
+      "designTab",
+      "advancedTab"
     ]
   }
 }
