@@ -188,23 +188,23 @@
   "shape": {
     "type": "buttonGroup",
     "access": "public",
-    "value": "0",
+    "value": "square",
     "options": {
       "label": "Shape",
       "values": [
         {
           "label": "Square",
-          "value": "0",
+          "value": "square",
           "icon": "vcv-ui-icon-attribute-shape-square"
         },
         {
           "label": "Rounded",
-          "value": "5px",
+          "value": "rounded",
           "icon": "vcv-ui-icon-attribute-shape-rounded"
         },
         {
           "label": "Round",
-          "value": "4em",
+          "value": "round",
           "icon": "vcv-ui-icon-attribute-shape-round"
         }
       ]
