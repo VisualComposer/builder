@@ -210,63 +210,6 @@
       ]
     }
   },
-  "designOptions": {
-    "type": "designOptions",
-    "access": "public",
-    "value": [],
-    "options": {
-      "label": "Design Options",
-      "cssMixin": {
-        "mixin": "designOptions",
-        "property": "backgroundColor",
-        "selector": "do-background-color"
-      }
-    }
-  },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "buttonText",
-      "buttonUrl",
-      "alignment",
-      "shape",
-      "size",
-      "toggleStretchButton",
-      "buttonType",
-      "color",
-      "borderColor",
-      "hoverColorOutline",
-      "hoverColorAnimated",
-      "hoverBorder",
-      "hoverBackground"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
-  "advancedTab": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "htmlAttributes",
-      "customAttributes",
-      "customCSS"
-    ],
-    "options": {
-      "label": "Advanced",
-      "isSections": true
-    }
-  },
-  "metaEditFormTabs": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "editFormTab1",
-      "designTab",
-      "advancedTab"
-    ]
-  },
   "alignment": {
     "type": "buttonGroup",
     "access": "public",
@@ -412,6 +355,26 @@
       "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
     }
   },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "alignment",
+      "shape",
+      "size",
+      "toggleStretchButton",
+      "buttonType",
+      "color",
+      "borderColor",
+      "hoverColorOutline",
+      "hoverColorAnimated",
+      "hoverBorder",
+      "hoverBackground"
+    ]
+  },
   "designTab": {
     "type": "group",
     "access": "protected",
@@ -420,7 +383,65 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Design Options",
+      "cssMixin": {
+        "mixin": "designOptions",
+        "property": "backgroundColor",
+        "selector": "do-background-color"
+      }
+    }
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "buttonText",
+      "buttonUrl"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
+    ],
+    "options": {
+      "label": "Advanced",
+      "isSections": true
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "contentTab",
+      "designTab",
+      "advancedTab"
     ]
   }
 }
