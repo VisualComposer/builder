@@ -30,7 +30,6 @@ class DefaultElements extends Container implements Helper
             'shortcode',
             'outlineButton',
             // 36v+
-            'elementBasicButton',
             'facebookLike',
             'flickrImage',
             'instagramImage',
