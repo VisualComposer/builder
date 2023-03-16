@@ -57,7 +57,6 @@ class DefaultElements extends Container implements Helper
             'twitterGrid',
             'twitterTimeline',
             'twitterTweet',
-            'elementOutlineButton'
         ];
 
         return $elementsToRegister;

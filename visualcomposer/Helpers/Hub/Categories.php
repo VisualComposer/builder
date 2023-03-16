@@ -161,7 +161,7 @@ class Categories implements Helper
                 'elements' => [
                     'elementBasicButton',
                     'basicButtonIcon',
-                    'elementOutlineButton',
+                    'outlineButton',
                     'outlineButtonIcon',
                     'gradientButton',
                     'animatedOutlineButton',
@@ -584,7 +584,6 @@ class Categories implements Helper
                     'imageMasonryGalleryWithIcon',
                     'outlineCallToAction',
                     'basicButton',
-                    'outlineButton'
                 ],
             ]
         ];
