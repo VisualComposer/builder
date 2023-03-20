@@ -138,18 +138,18 @@ export default class ElementAttribute extends Attribute {
     const tabs = element.get('metaEditFormTabs')
     if (tabs && tabs.each) {
       return tabs.each(ElementAttribute.editFormTabsIterator.bind(this, element)).flat()
-      }
-      return []
+    }
+    return []
   }
 
   static editFormTabsIterator (element, item) {
-    if(item !== 'advancedTab') {
-      if(Array.isArray(element.get(item).value) && element.get(item).value.length) {
+    if (item !== 'advancedTab') {
+      if (Array.isArray(element.get(item).value) && element.get(item).value.length) {
         return element.get(item).value.map(item => ({
-            key: item,
-            value: element.get(item),
-            data: element.settings(item)
-          })
+          key: item,
+          value: element.get(item),
+          data: element.settings(item)
+        })
         )
       } else {
         return [{
