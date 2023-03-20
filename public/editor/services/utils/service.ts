@@ -3,9 +3,6 @@ import { deflate } from 'pako'
 import base64 from 'base-64'
 import { EditorWindow } from 'public/types/window'
 
-// compute once, optimization for recalculate styles
-const isRTL = window.getComputedStyle(document.body).direction === 'rtl'
-
 declare const window: EditorWindow
 declare const Blob: {
   prototype: Blob
@@ -43,6 +40,9 @@ type Variable = {
   type: string,
   value: []
 }
+
+// compute once, optimization for recalculate styles
+const isRTL = window.getComputedStyle(document.body).direction === 'rtl'
 
 const API = {
   ajaxRequests: <{tag:string, data:AjaxData, successCallback:Callback, errorCallback:Callback}[]>[],
