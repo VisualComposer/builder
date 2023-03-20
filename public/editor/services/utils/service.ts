@@ -250,7 +250,7 @@ const API = {
     return str.toString().toLowerCase()
       .replace(/[^\w\s-]/g, '') // remove non-word [a-z0-9_], non-whitespace, non-hyphen characters
       .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
-      .replace(/(^-+)|(-+)$/g, '').trim() // remove leading, trailing -
+      .replace(/(\s+$)|(^\s+)/g, '').trim() // remove leading, trailing -
   },
   wpAutoP (string:string, id = 'content') {
     if (window.tinyMCEPreInit.mceInit[id] && window.tinyMCEPreInit.mceInit[id].wpautop &&
