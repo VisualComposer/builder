@@ -72,8 +72,7 @@ describe('Editor controls', function () {
 
       cy.wait(1500)
 
-      cy.get(`.${settings.customClass}`)
-      cy.get('.vce-button--basic-container')
+      cy.get(`.${settings.customClass}.vce-button--style-basic-container--align-${settings.alignment}`)
         .should('have.css', 'text-align', settings.alignment)
 
       cy.get(`#${settings.customId}`)
@@ -89,7 +88,7 @@ describe('Editor controls', function () {
         .and('have.attr', 'href', `http://${settings.buttonLink.url}`)
         .and('have.attr', 'target', '_blank')
 
-      cy.get('.vce-button--basic-container')
+      cy.get('.vce-button--style-basic-wrapper-stretched')
         .then((element) => {
           let contentContainerWidth
           cy.window().then((window) => {
