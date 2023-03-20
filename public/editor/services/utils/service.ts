@@ -1,10 +1,12 @@
 import { getService, addService } from 'vc-cake'
 import { deflate } from 'pako'
 import base64 from 'base-64'
+import { EditorWindow } from 'public/types/window'
 
 // compute once, optimization for recalculate styles
 const isRTL = window.getComputedStyle(document.body).direction === 'rtl'
 
+declare const window: EditorWindow
 declare const Blob: {
   prototype: Blob
   new (blobParts:Uint8Array[], options:{type:string}): Blob
@@ -40,24 +42,6 @@ type Variable = {
   key: string,
   type: string,
   value: []
-}
-
-declare global {
-  interface Window {
-    jQuery: {
-      param: (obj:Arguments) => string
-    },
-    tinyMCEPreInit: {
-      mceInit: {
-        [item:string]: {
-          wpautop: boolean
-        }
-      }
-    },
-    switchEditors: {
-      wpautop: (value:string) => string
-    }
-  }
 }
 
 const API = {
