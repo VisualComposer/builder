@@ -75,7 +75,7 @@ const API = {
     for (i = 0; i < ARRcookies.length; i++) {
       x = ARRcookies[i].substr(0, ARRcookies[i].indexOf('='))
       y = ARRcookies[i].substr(ARRcookies[i].indexOf('=') + 1)
-      x = x.replace(/^\s+|\s+$/g, '')
+      x = x.replace(/(^\s+|\s+)$/g, '')
       if (x === cName) {
         return decodeURIComponent(y)
       }
@@ -250,7 +250,7 @@ const API = {
     return str.toString().toLowerCase()
       .replace(/[^\w\s-]/g, '') // remove non-word [a-z0-9_], non-whitespace, non-hyphen characters
       .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
-      .replace(/^-+|-+$/g, '').trim() // remove leading, trailing -
+      .replace(/(^-+)|(-+)$/g, '').trim() // remove leading, trailing -
   },
   wpAutoP (string:string, id = 'content') {
     if (window.tinyMCEPreInit.mceInit[id] && window.tinyMCEPreInit.mceInit[id].wpautop &&
