@@ -24,6 +24,7 @@ const VotePopup = ({
 }: VotePopupProps) => {
   const [headingText, setHeadingText] = useState(voteHeading)
   const [voteState, setVoteState] = useState('vote')
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const handleVote = useCallback(() => {
     const checkedInput: HTMLInputElement | null = document.querySelector('input.vcv-layout-popup-checkbox:checked')
@@ -72,7 +73,7 @@ const VotePopup = ({
     const target = e.target as HTMLFormElement
     const formData = new FormData(target)
 
-    const userReview = formData.get('userReview') as string
+    const userReview = formData.get('vcv-user-review') as string
     if (!userReview) {
       onClose()
     }
@@ -83,6 +84,14 @@ const VotePopup = ({
     })
 
     onClose()
+  }
+
+  const handleTexareaChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value) {
+      setIsDisabled(false)
+    } else {
+      setIsDisabled(true)
+    }
   }
 
   const popupContent = () => {
@@ -108,9 +117,9 @@ const VotePopup = ({
     } else if (voteState === 'review') {
       const submit = localizations.submit ? localizations.submit : 'Submit'
       return (
-        <form onSubmit={handleReviewSubmit}>
-          <input type='text' maxLength={1000} name='userReview' />
-          <button className='vcv-layout-popup-btn' type='submit'>{submit}</button>
+        <form className='vcv-layout-popup--review-form' onSubmit={handleReviewSubmit}>
+          <textarea className='vcv-layout-popup-textarea' maxLength={1000} name='vcv-user-review' onChange={handleTexareaChange} />
+          <button className='vcv-layout-popup-btn' type='submit' disabled={isDisabled}>{submit}</button>
         </form>
       )
     } else {
