@@ -88,7 +88,7 @@ describe('Editor controls', function () {
         .and('have.attr', 'href', `http://${settings.buttonLink.url}`)
         .and('have.attr', 'target', '_blank')
 
-      cy.get('.vce-button--style-basic-wrapper-stretched')
+      cy.get('.vce-button--style-basic-wrapper--stretched')
         .then((element) => {
           let contentContainerWidth
           cy.window().then((window) => {
