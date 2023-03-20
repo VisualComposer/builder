@@ -197,8 +197,12 @@ export default class Groups extends React.Component {
         Groups.allGroups.unshift(presetElementsGroup)
       }
 
+      const deprecatedGroup = Groups.allGroups.find(group => group.title === 'Deprecated')
       // Most User Group
-      const mostUsedItems = allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
+      const mostUsedItems = allElements.filter(element => {
+        const isDeprecated = deprecatedGroup.elements.find(item => item.tag === element.tag)
+        return !isDeprecated && element.usageCount > 9
+      }).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
       if (mostUsedItems.length > 0) {
         const mostUsedElementsGroup = {
           id: 'usageCount',
@@ -322,14 +326,17 @@ export default class Groups extends React.Component {
   getSearchResults (searchValue) {
     searchValue = searchValue.toLowerCase().trim()
     const allElements = [...new Set(this.getElements())]
+    const deprecatedGroup = this.getGroups().find(group => group.title === 'Deprecated')
 
     return allElements.filter((elementData) => {
-      const elName = hubElementsService.getElementName(elementData)
-      if (elName.indexOf(searchValue) !== -1) {
-        return true
-      } else {
-        const elDescription = hubElementsService.getElementDescription(elementData)
-        return elDescription.indexOf(searchValue) !== -1
+      if (!deprecatedGroup?.elements.find(element => element.tag === elementData.tag)) {
+        const elName = hubElementsService.getElementName(elementData)
+        if (elName.indexOf(searchValue) !== -1) {
+          return true
+        } else {
+          const elDescription = hubElementsService.getElementDescription(elementData)
+          return elDescription.indexOf(searchValue) !== -1
+        }
       }
     }).sort((a, b) => {
       let firstIndex = hubElementsService.getElementName(a).indexOf(searchValue)
@@ -348,25 +355,27 @@ export default class Groups extends React.Component {
     const allElements = []
 
     allGroups.forEach((groupData) => {
-      const groupElements = []
-      groupData.elements.forEach((element) => {
-        groupElements.push(this.getElementControl(element))
-      })
-      groupElements.sort((a, b) => {
-        const x = a.props.name
-        const y = b.props.name
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0))
-      })
-      allElements.push(
-        <ElementsGroup
-          key={`vcv-element-category-${groupData.id}`}
-          groupData={groupData}
-          isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
-          onGroupToggle={this.handleGroupToggle}
-        >
-          {groupElements}
-        </ElementsGroup>
-      )
+      if (groupData.title !== 'Deprecated') {
+        const groupElements = []
+        groupData.elements.forEach((element) => {
+          groupElements.push(this.getElementControl(element))
+        })
+        groupElements.sort((a, b) => {
+          const x = a.props.name
+          const y = b.props.name
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+        })
+        allElements.push(
+          <ElementsGroup
+            key={`vcv-element-category-${groupData.id}`}
+            groupData={groupData}
+            isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
+            onGroupToggle={this.handleGroupToggle}
+          >
+            {groupElements}
+          </ElementsGroup>
+        )
+      }
     })
 
     return allElements

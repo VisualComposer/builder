@@ -19,32 +19,39 @@ class Popups implements Helper
 
     protected static $showPremiumPromoPopupCache;
 
+    /**
+     * It a score from 1-10 rating popup survey.
+     *
+     * @note The survey should show up to all users: free and premium.
+     * @note The survey should show up to users who previously submitted answers to our previous surveys version.
+     * @note The survey should appear to the user after 5 days after activation.
+     *
+     * @return bool
+     */
     public function showFeedbackPopup()
     {
         if (!is_null(self::$showFeedbackPopupCache)) {
             return self::$showFeedbackPopupCache;
         }
 
+        $user = wp_get_current_user();
+
+        if (empty($user->ID)) {
+            return self::$showFeedbackPopupCache;
+        }
+
         $optionsHelper = vchelper('Options');
         $result = false;
         // do only if feedback not sent previously
-        if (!$optionsHelper->get('feedback-sent')) {
-            // Actively used for more then 1 month
+
+        if (!get_user_meta($user->ID, 'vcv-feedback-score', true)) {
+            // Actively used for more then 5 days
             $isActivelyUsed = vchelper('Plugin')->isActivelyUsed();
             // System check is OK
             $systemStatusFailing = $optionsHelper->get('systemCheckFailing', false);
             // Have at least 3 posts with VCWB
-            $vcvPosts = new \WP_Query(
-                [
-                    'post_type' => 'any',
-                    'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
-                    'posts_per_page' => 3,
-                    'meta_key' => VCV_PREFIX . 'pageContent',
-                    'suppress_filters' => true,
-                ]
-            );
-            // @codingStandardsIgnoreLine
-            $foundPostsOk = (int)$vcvPosts->found_posts >= 3;
+            $foundPostsOk = vchelper('Plugin')->isHasCertainPostsNumber();
+
             $result = $isActivelyUsed && !$systemStatusFailing && $foundPostsOk;
         }
 
@@ -63,29 +70,38 @@ class Popups implements Helper
         $optionsHelper = vchelper('Options');
         $licenseHelper = vchelper('License');
         // Only if Free license activated and popup never shown before (never closed actually)
-        if (!$licenseHelper->isPremiumActivated() && empty($optionsHelper->get('premium-promo-popup-closed'))) {
-            // 3 days delay if feedback popup is closed
-            // 14 days delay after free license activated
-            $showFeedbackPopup = $this->showFeedbackPopup();
-            if (!$showFeedbackPopup) {
-                // Only if false (so it is not yet shown or already sent)
-                $feedbackSent = $optionsHelper->get('feedback-sent');
-                if (!empty($feedbackSent)) {
-                    // Check 3 days delay
-                    $result = (time() - 3 * DAY_IN_SECONDS) > (int)$feedbackSent;
-                } else {
-                    // Not sent yet, and not shown yet (feedback)
-                    $result = true;
-                }
-            }
+        if ($licenseHelper->isPremiumActivated() || !empty($optionsHelper->get('premium-promo-popup-closed'))) {
+            self::$showPremiumPromoPopupCache = $result;
+            return self::$showPremiumPromoPopupCache;
+        }
 
-            if ($result) {
-                // Show only if current license-type (free) used for at least 14 days
-                $result = vchelper('Plugin')->isActivelyUsed(14);
+        // 3 days delay if feedback popup is closed
+        // 14 days delay after free license activated
+        $showFeedbackPopup = $this->showFeedbackPopup();
+        if ($showFeedbackPopup) {
+            self::$showPremiumPromoPopupCache = $result;
+            return self::$showPremiumPromoPopupCache;
+        }
+
+        // Only if false (so it is not yet shown or already sent)
+        $user = wp_get_current_user();
+        if (!empty($user->ID)) {
+            $feedbackTime = get_user_meta($user->ID, 'vcv-feedback-score-time', true);
+            if (!empty($feedbackTime)) {
+                // Check 3 days delay
+                $result = (time() - 3 * DAY_IN_SECONDS) < (int)$feedbackTime;
+            } else {
+                // Not sent yet, and not shown yet (feedback)
+                $result = true;
             }
+        }
+
+        if ($result) {
+            // Show only if current license-type (free) used for at least 14 days
+            $result = vchelper('Plugin')->isActivelyUsed(14);
         }
         self::$showPremiumPromoPopupCache = $result;
 
-        return self::$showPremiumPromoPopupCache;
+        return vcfilter('vcv:helpers:popups:showPremiumPromoPopup', self::$showPremiumPromoPopupCache);
     }
 }

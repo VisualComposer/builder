@@ -82,8 +82,9 @@
     cy.get(`.vcv-ui-item-element-image[alt="${elementName}"]`)
       .first()
       .closest('.vcv-ui-item-element').click({ force: true })
-    cy.wait(300)
-    cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
+      cy.wait(1000)
+      
+      cy.get('.vcv-ui-edit-form-header').contains(elementName)
   })
 
   /** Save page
@@ -98,6 +99,21 @@
     cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
       .parent()
       .click({ force: true })
+
+    cy.wait('@saveRequest')
+  })
+
+  /** Update page
+   * Clicks on the Update Page icon in the navbar.
+   *
+   * @param none
+   */
+  Cypress.Commands.add('updatePage', () => {
+    cy.window().then((win) => {
+      cy.intercept('POST', win.vcvAdminAjaxUrl).as('saveRequest')
+    })
+
+    cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control-content span', 'Update').parent().click({ force: true })
 
     cy.wait('@saveRequest')
   })
@@ -839,6 +855,21 @@
   Cypress.Commands.add('cleanPostsDb', () => {
     cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-posts-db')
     // Make sure DB clean was success
+    cy.window().then((window) => {
+      expect('Done').to.equal(window.document.body.textContent)
+    })
+  })
+
+  Cypress.Commands.add('cleanTermsDb', () => {
+    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-terms-db')
+    // Make sure DB clean was success
+    cy.window().then((window) => {
+      expect('Done').to.equal(window.document.body.textContent)
+    })
+  })
+  Cypress.Commands.add('cleanImages', () => {
+    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-images')
+    // Make sure clean was success
     cy.window().then((window) => {
       expect('Done').to.equal(window.document.body.textContent)
     })

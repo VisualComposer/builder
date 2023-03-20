@@ -40,14 +40,14 @@ class Groups implements Helper
                     'Social Videos',
                 ],
                 'elements' => [
-                    'basicButton',
+                    'elementBasicButton',
                     'outlineButton',
                     'singleImage',
                     'shortcode',
                     'wpWidgetsCustom',
                     'wpWidgetsDefault',
                     'widgetizedSidebar',
-                    'callToAction',
+                    'elementCallToAction',
                     'faqToggle',
                     'separator',
                     'socialProfileIcons',
@@ -90,8 +90,8 @@ class Groups implements Helper
                 'elements' => [
                     'bannerElement',
                     'instagramImage',
-                    'flipBox',
-                    'iconHoverBox',
+                    'elementFlipBox',
+                    'elementIconHoverBox',
                     'tallHoverBox',
                     'simpleImageSlider',
                     'timelineSlideshow',
@@ -202,6 +202,12 @@ class Groups implements Helper
                     'Grids',
                 ],
                 'elements' => [],
+            ],
+            'Deprecated' => [
+                'title' => 'Deprecated',
+                'categories' => [
+                    'Deprecated',
+                ],
             ],
         ];
     }

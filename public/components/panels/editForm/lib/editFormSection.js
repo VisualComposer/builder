@@ -127,6 +127,13 @@ export default class EditFormSection extends React.Component {
 
       const removeDependencies = fieldOptions && fieldOptions.removeDependencies
 
+      if (this.props?.options?.child) {
+        const element = documentService.get(this.props.elementAccessPoint.id)
+        if (element?.exclude?.indexOf(param.key) >= 0) {
+          return
+        }
+      }
+
       return (
         <Field
           {...this.props}

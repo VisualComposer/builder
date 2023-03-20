@@ -1,0 +1,91 @@
+.vce-feature-section-container{
+  --backgroundImagePosition: center center;
+  --imageAlignment: 1;
+  --image: url("https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/featureSection/feature-section-background.jpg")
+}
+.vce-feature-section {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-direction: column;
+      -webkit-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: center;
+      -webkit-justify-content: center;
+          justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-height: 450px;
+}
+.vce-feature-section--reverse {
+  -ms-flex-direction: column-reverse;
+      -webkit-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+.vce-feature-section-image {
+  -ms-flex: 1 0 300px;
+      -webkit-flex: 1 0 300px;
+          flex: 1 0 300px;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: var(--backgroundImagePosition);
+  -ms-flex-order: var(--imageAlignment);
+  -webkit-order: var(--imageAlignment);
+  order: var(--imageAlignment);
+}
+.vce-feature-section-content {
+  -ms-flex: 1 0 auto;
+      -webkit-flex: 1 0 auto;
+          flex: 1 0 auto;
+  -ms-flex-order: 2;
+      -webkit-order: 2;
+          order: 2;
+  background-position: center;
+  padding: 30px 0;
+  color: #fff;
+}
+.vce-feature-section-content h1 {
+  color: inherit;
+}
+.vce-feature-section-content-container {
+  padding: 30px;
+}
+.vce-feature-section .vce {
+  margin-bottom: 0;
+}
+@media (min-width: 768px) {
+  .vce-feature-section {
+    -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+            flex-direction: row;
+  }
+  .vce-feature-section-image {
+    -ms-flex: 1 1 50%;
+        -webkit-flex: 1 1 50%;
+            flex: 1 1 50%;
+  }
+  .vce-feature-section-content {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex: 1 1 50%;
+        -webkit-flex: 1 1 50%;
+            flex: 1 1 50%;
+    -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+            flex-direction: column;
+    -ms-flex-pack: center;
+        -webkit-justify-content: center;
+            justify-content: center;
+    -ms-flex-align: start;
+        -webkit-align-items: flex-start;
+            align-items: flex-start;
+  }
+  .vce-feature-section-content-container {
+    padding: 0;
+    max-width: 585px;
+    width: 66.66666667%;
+    margin: 0 auto;
+  }
+}

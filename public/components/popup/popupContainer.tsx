@@ -51,6 +51,7 @@ const PopupContainer = ({ activePopup, allPopupsHidden, isPopupVisible, popupVis
 
   const popupClasses = classNames({
     'vcv-layout-popup': true,
+    'vcv-layout-feedback-popup': activePopup === 'votePopup',
     'vcv-layout-popup--visible': isPopupVisible,
     'vcv-layout-popup--action-clicked': actionClicked,
     'vcv-layout-popup--pricing-popup': activePopup === 'pricingPopup'

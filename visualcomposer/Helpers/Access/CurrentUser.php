@@ -243,4 +243,17 @@ class CurrentUser extends Container implements Helper
 
         return array_merge($defaultAccess, $vcwbCaps);
     }
+
+    /**
+     * Check if current user has a certain capability.
+     *
+     * @return bool
+     */
+    public function isUserHasCap($cap)
+    {
+        $user = wp_get_current_user();
+        $roleObject = get_role($user->roles[0]);
+
+        return $roleObject->has_cap($cap);
+    }
 }

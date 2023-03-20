@@ -6,6 +6,7 @@ import BlankPageIntro from 'public/components/blankPageIntro/blankPageIntro'
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { setShortcodeListHtmlServerRequest } from 'public/tools/updateHtmlWithServer'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -111,9 +112,11 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('blankPageIntro').set(false)
       workspaceStorage.state('navbarDisabled').set(false)
       isBlankPageIntro = false
+      isBlankPageRendered = false
       iframeContainer.classList.remove('vcv-layout-iframe-container--intro')
     }
     const addBlankIntro = () => {
+      isBlankPageRendered = true
       iframeContentRoot.render(
         <BlankPageIntro unmountBlankPage={removeBlankIntro} />
       )
@@ -125,6 +128,7 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('navbarDisabled').set(false)
       // Fix if navbar is still not loaded
       window.setTimeout(() => {
+        setShortcodeListHtmlServerRequest()
         workspaceStorage.state('navbarDisabled').set(false)
       }, 300)
       // Remove Current Post Source-CSS to avoid cascading issues
@@ -135,6 +139,7 @@ add('wordpressWorkspace', (api) => {
     }
     let documentElements
     let isBlankPageIntro = true
+    let isBlankPageRendered = false
     workspaceStorage.state('blankPageIntro').set(true)
 
     elementsStorage.state('document').onChange((data, elements) => {
@@ -153,7 +158,9 @@ add('wordpressWorkspace', (api) => {
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
-        removeBlankIntro()
+        if (isBlankPageRendered) {
+          removeBlankIntro()
+        }
         isBlankPageIntro = false
       } else {
         workspaceStorage.state('navbarDisabled').set(false)

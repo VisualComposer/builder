@@ -1,0 +1,286 @@
+{
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "elementFeatureSection"
+  },
+  "description": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "<h1>Beyond Beach and Cloudy Waves</h1>\n<p>A beach is a landform along the coast of an ocean or sea, or the edge of a lake or river. Beaches typically occur in areas along the coast where wave or current action deposits and reworks sediments.</p>",
+    "options": {
+      "label": "Description",
+      "inline": true,
+      "dynamicField": true,
+      "skinToggle": "darkTextSkin"
+    }
+  },
+  "darkTextSkin": {
+    "type": "toggleSmall",
+    "access": "public",
+    "value": false
+  },
+  "image": {
+    "type": "attachimage",
+    "access": "public",
+    "value": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/featureSection/feature-section-background.jpg",
+    "options": {
+      "multiple": false,
+      "dynamicField": true,
+      "defaultValue": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/featureSection/feature-section-background.jpg",
+      "imageFilter": true
+    }
+  },
+  "backgroundImagePosition": {
+    "type": "buttonGroup",
+    "access": "public",
+    "value": "center center",
+    "options": {
+      "label": "Image position",
+      "values": [
+        {
+          "label": "Left top",
+          "value": "left top",
+          "icon": "vcv-ui-icon-attribute-background-position-left-top"
+        },
+        {
+          "label": "Center top",
+          "value": "center top",
+          "icon": "vcv-ui-icon-attribute-background-position-center-top"
+        },
+        {
+          "label": "Right top",
+          "value": "right top",
+          "icon": "vcv-ui-icon-attribute-background-position-right-top"
+        },
+        {
+          "label": "Left center",
+          "value": "left center",
+          "icon": "vcv-ui-icon-attribute-background-position-left-center"
+        },
+        {
+          "label": "Center center",
+          "value": "center center",
+          "icon": "vcv-ui-icon-attribute-background-position-center-center"
+        },
+        {
+          "label": "Right center",
+          "value": "right center",
+          "icon": "vcv-ui-icon-attribute-background-position-right-center"
+        },
+        {
+          "label": "Left bottom",
+          "value": "left bottom",
+          "icon": "vcv-ui-icon-attribute-background-position-left-bottom"
+        },
+        {
+          "label": "Center bottom",
+          "value": "center bottom",
+          "icon": "vcv-ui-icon-attribute-background-position-center-bottom"
+        },
+        {
+          "label": "Right bottom",
+          "value": "right bottom",
+          "icon": "vcv-ui-icon-attribute-background-position-right-bottom"
+        }
+      ]
+    }
+  },
+  "imageAlignment": {
+    "type": "buttonGroup",
+    "access": "public",
+    "value": "1",
+    "options": {
+      "label": "Image alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "1",
+          "icon": "vcv-ui-icon-attribute-alignment-left"
+        },
+        {
+          "label": "Right",
+          "value": "3",
+          "icon": "vcv-ui-icon-attribute-alignment-right"
+        }
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
+    }
+  },
+  "initChildren": {
+    "access": "protected",
+    "type": "object",
+    "value": [
+      {
+        "tag": "outlineButton",
+        "alignment": "left"
+      }
+    ]
+  },
+  "button": {
+    "type": "treeView",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Button",
+      "controls": [
+        "lock",
+        "edit",
+        "visibility"
+      ]
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {
+      "device" : {
+        "all" : {
+          "backgroundColor": "#B3A694"
+        }
+      }
+    },
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
+    ],
+    "options": {
+      "label": "Advanced",
+      "isSections": true
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "contentTab",
+      "designTab",
+      "advancedTab"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "htmlAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "HTML Attributes"
+    }
+  },
+  "customCSS": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "styleEditor"
+    ],
+    "options": {
+      "label": "Custom CSS",
+      "tooltip": "Add custom CSS to the element using the [element-id] placeholder."
+    }
+  },
+  "styleEditor": {
+    "type": "styleEditor",
+    "access": "public",
+    "value": [],
+    "options": []
+  },
+  "customAttributes": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "extraDataAttributes"
+    ],
+    "options": {
+      "label": "Custom Attributes"
+    }
+  },
+  "extraDataAttributes": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra Data Attributes",
+      "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
+    }
+  },
+  "designTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Design",
+      "isSections": true
+    },
+    "value": [
+      "styleSection",
+      "designOptions"
+    ]
+  },
+  "styleSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "backgroundImagePosition",
+      "imageAlignment"
+    ]
+  },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "description",
+      "image",
+      "button"
+    ]
+  }
+}

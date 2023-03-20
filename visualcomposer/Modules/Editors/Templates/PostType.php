@@ -22,7 +22,8 @@ class PostType extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Templates\PostType::registerTemplatesPostType */
         $this->addEvent('vcv:inited', 'registerTemplatesPostType', 10);
-        $this->addEvent('vcv:inited', 'coreCapabilities');
+        /** @see \VisualComposer\Modules\Editors\Templates\PostType::setCoreCapabilities */
+        $this->addEvent('vcv:inited', 'setCoreCapabilities');
     }
 
     /**
@@ -68,87 +69,12 @@ class PostType extends Container implements Module
         );
     }
 
-    protected function coreCapabilities()
+    /**
+     * Set user capabilities specific for current post type.
+     */
+    protected function setCoreCapabilities()
     {
-        $optionsHelper = vchelper('Options');
-
-        // Capability migration for custom VC post types
-        if (!$optionsHelper->get($this->postType . '-capability-migration')) {
-            // @codingStandardsIgnoreStart
-            global $wp_roles;
-            $optionsHelper->delete($this->postType . '-capabilities-set');
-            $wp_roles->remove_cap('contributor', 'read_' . $this->postType);
-            $wp_roles->remove_cap('contributor', 'edit_' . $this->postType);
-            $wp_roles->remove_cap('contributor', 'delete_' . $this->postType);
-            $wp_roles->remove_cap('contributor', 'edit_' . $this->postType . 's');
-            $wp_roles->remove_cap('contributor', 'delete_' . $this->postType . 's');
-            $optionsHelper->set($this->postType . '-capability-migration', 1);
-            // @codingStandardsIgnoreEnd
-        }
-
-        if ($optionsHelper->get($this->postType . '-capabilities-set')) {
-            return;
-        }
-
-        $roles = ['administrator', 'editor'];
-
-        foreach ($roles as $role) {
-            $roleObject = get_role($role);
-            if (!$roleObject) {
-                continue;
-            }
-
-            $capabilities = [
-                "read_{$this->postType}",
-                "edit_{$this->postType}",
-                "delete_{$this->postType}",
-                "edit_{$this->postType}s",
-                "delete_{$this->postType}s",
-            ];
-
-            if ($role === 'contributor') {
-                $capabilities = [
-                    "read_{$this->postType}",
-                    "edit_{$this->postType}s",
-                    "delete_{$this->postType}s",
-                ];
-            }
-
-            if (in_array($role, ['administrator', 'editor', 'author'])) {
-                $capabilities = array_merge(
-                    $capabilities,
-                    [
-                        "delete_published_{$this->postType}s",
-                        "publish_{$this->postType}s",
-                        "edit_published_{$this->postType}s",
-                    ]
-                );
-            }
-
-            if (in_array($role, ['administrator', 'editor'])) {
-                $capabilities = array_merge(
-                    $capabilities,
-                    [
-                        "read_private_{$this->postType}s",
-                        "edit_private_{$this->postType}s",
-                        "delete_private_{$this->postType}s",
-                        "delete_others_{$this->postType}s",
-                        "delete_{$this->postType}",
-                        "edit_others_{$this->postType}s",
-                        "create_{$this->postType}s"
-                    ]
-                );
-            }
-
-            if ($roleObject) {
-                foreach ($capabilities as $cap) {
-                    $roleObject->add_cap($cap);
-                }
-
-                $optionsHelper->set($this->postType . '-capabilities-set', 1);
-            }
-        }
-        // reset current user all caps
-        wp_get_current_user()->get_role_caps();
+        $postTypeHelper = vchelper('PostType');
+        $postTypeHelper->updatePostTypeUserRoleCapabilities($this->postType);
     }
 }

@@ -4,6 +4,7 @@ import 'public/editor/services/utils/service'
 import 'public/editor/services/dataProcessor/service'
 import { hoverTooltip } from './components/wpVcSettings/helpTooltips'
 import { checkStatus } from './components/wpVcSettings/statusCheck'
+import { trashLinkActive } from './components/wpVcSettings/trashLinkActive'
 import { initEditors } from './components/wpVcSettings/editors'
 import { hfSectionToggle } from './components/wpVcSettings/hfSectionToggle'
 import { dropdownEditLink } from './components/wpVcSettings/dropdownEditLink'
@@ -26,6 +27,8 @@ import { maintenanceMode } from './components/wpVcSettings/maintenanceMode'
       deactivationFeedbackPopup()
     }
     if (isSettingsPage(current)) {
+      trashLinkActive()
+
       if (window.VCV_DASHBOARD_REACT_RENDER) {
         // Need to wait for font manager to build (react)
         window.document.addEventListener('vcv-dashboard-rendered', () => {

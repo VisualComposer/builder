@@ -61,6 +61,8 @@ class Localizations extends Container implements Helper
             'addPremiumElement' => __('Visual Composer Hub', 'visualcomposer'),
             'addTemplate' => __('Add Template', 'visualcomposer'),
             'treeView' => __('Tree View', 'visualcomposer'),
+            'atarim' => __('Atarim', 'visualcomposer'),
+            'atarimPanelTitle' => __('Collaboration Tasks & Feedback', 'visualcomposer'),
             'undo' => __('Undo', 'visualcomposer'),
             'redo' => __('Redo', 'visualcomposer'),
             'responsiveView' => __('Responsive View', 'visualcomposer'),
@@ -693,23 +695,15 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'feedbackVoteHeadingText' => __(
-                'How disappointed would you be if this product no longer existed tomorrow?',
+                'How likely are you to recommend Visual Composer to friend or colleague?',
                 'visualcomposer'
             ),
             'veryDisappointed' => __(
-                'Very disappointed',
+                'Not likely at all',
                 'visualcomposer'
             ),
             'somewhatDisappointed' => __(
-                'Somewhat disappointed',
-                'visualcomposer'
-            ),
-            'disappointed' => __(
-                'Not disappointed (it really isn’t that useful)',
-                'visualcomposer'
-            ),
-            'feedbackVoteButtonText' => __(
-                'Submit Your Feedback',
+                'Extremely likely',
                 'visualcomposer'
             ),
             'negativeReviewHeadingText' => __(
@@ -1301,6 +1295,10 @@ class Localizations extends Container implements Helper
             ),
             'submit' => __(
                 'Submit',
+                'visualcomposer'
+            ),
+            'proceed' => __(
+                'Yes, proceed',
                 'visualcomposer'
             ),
             'new' => __(
@@ -2252,6 +2250,30 @@ class Localizations extends Container implements Helper
             ),
             'editElement' => __(
                 'Edit Element',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkConfirmation' => __(
+                'Are you sure you want to proceed?',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkFoundPost' => __(
+                'It seems that',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkActiveOn' => __(
+                'is activate on:',
+                'visualcomposer'
+            ),
+            'popupSettings' => __(
+                'Popup Settings',
+                'visualcomposer'
+            ),
+            'themeBuilderSettings' => __(
+                'Theme Builder Settings',
+                'visualcomposer'
+            ),
+            'layoutSettings' => __(
+                'Layouts Settings',
                 'visualcomposer'
             ),
         ];

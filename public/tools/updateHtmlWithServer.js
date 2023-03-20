@@ -53,12 +53,96 @@ export function updateHtmlWithServer (content, ref, id, cb, action, options) {
   }
 }
 
+export function addShortcodeToQueueUpdate (content, ref, id, cb, action, options) {
+  if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+    ref.innerHTML = spinnerHtml
+    addServerRequestShortcodeToQueue(content, ref, id, cb, action, options)
+  } else {
+    ref && (ref.innerHTML = content)
+    requests[id] = null
+    cb && cb.constructor === Function && cb()
+  }
+}
+
+export function addServerRequestShortcodeToQueue (content, ref, id, cb, action = 'update', options = {}) {
+  window.vcv_server_request_shortcode_queue = window.vcv_server_request_shortcode_queue || []
+  window.vcv_shortcode_reference_list = window.vcv_shortcode_reference_list || []
+
+  window.vcv_server_request_shortcode_queue.push(content)
+
+  window.vcv_shortcode_reference_list.push({
+    id: id,
+    ref: ref,
+    cb: cb,
+    action: action,
+    options: options,
+    content: content
+  })
+}
+
+export function setShortcodeListHtmlServerRequest () {
+  if (!window.vcv_server_request_shortcode_queue || !window.vcv_shortcode_reference_list) {
+    return
+  }
+
+  dataProcessor.appServerRequest({
+    'vcv-action': 'elements:ajaxShortcodes:get:html:all:adminNonce',
+    'vcv-shortcode-list': window.vcv_server_request_shortcode_queue,
+    'vcv-source-id': dataManager.get('sourceID'),
+    'vcv-nonce': dataManager.get('nonce')
+  }).then((data) => {
+    const shortcodeReferenceList = window.vcv_shortcode_reference_list
+
+    const shortcodeRenderResponse = getResponse(data)
+
+    for (var index in shortcodeRenderResponse) {
+      for (const shortcodeReference of shortcodeReferenceList) {
+        if (shortcodeRenderResponse[index].shortcodeInitContent === shortcodeReference.content) {
+          shortcodeReferenceList[index].renderedContent = shortcodeRenderResponse[index].shortcodeRenderContent
+        }
+      }
+    }
+
+    for (const shortcodeReference of shortcodeReferenceList) {
+      const iframe = env('iframe')
+
+      const cb = shortcodeReference.cb
+      const ref = shortcodeReference.ref
+      const action = shortcodeReference.action
+      const options = shortcodeReference.options
+      const content = shortcodeReference.content
+      const renderedContent = shortcodeReference.renderedContent
+      const id = shortcodeReference.id
+
+      const finishCallback = () => {
+        ((function (window) {
+          window.setTimeout(() => {
+            const freezeReady = dataManager.get('freezeReady')
+            freezeReady && freezeReady(id, false)
+            window.vcv && window.vcv.trigger('ready', action, id, options)
+            requests[id] = null
+            cb && cb.constructor === Function && cb()
+          }, 500)
+        })(iframe))
+      }
+
+      try {
+        renderInlineHtml(content, renderedContent, ref, id, finishCallback)
+      } catch (e) {
+        console.warn('failed to parse json', e)
+        ref && (ref.innerHTML = content)
+        finishCallback()
+      }
+    }
+  })
+}
+
 export function updateHtmlWithServerRequest (content, ref, id, cb, action = 'update', options = {}) {
   requests[id] = dataProcessor.appServerRequest({
     'vcv-action': 'elements:ajaxShortcode:adminNonce',
     'vcv-shortcode-string': content,
-    'vcv-nonce': dataManager.get('nonce'),
-    'vcv-source-id': dataManager.get('sourceID')
+    'vcv-source-id': dataManager.get('sourceID'),
+    'vcv-nonce': dataManager.get('nonce')
   }).then((data) => {
     const iframe = env('iframe')
     const finishCallback = () => {

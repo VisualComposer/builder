@@ -13,7 +13,11 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
+    if (window.vcvLoadingScreen) {
+      super.addShortcodeElementToQueueUpdate(this.props.atts.shortcode, this.vcvhelper.current)
+    } else {
+      super.updateShortcodeToHtml(this.props.atts.shortcode, this.vcvhelper.current)
+    }
   }
 
   updateShortcodeElement () {
