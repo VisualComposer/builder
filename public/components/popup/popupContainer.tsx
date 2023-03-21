@@ -3,7 +3,6 @@ import { Dispatch } from 'redux' // eslint-disable-line
 import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
 import VotePopup from './popups/votePopup'
-import ReviewPopup from './popups/reviewPopup'
 import DataCollectionPopup from './popups/dataCollectionPopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
@@ -66,8 +65,6 @@ const PopupContainer = ({ activePopup, allPopupsHidden, isPopupVisible, popupVis
 
   if (activePopup === 'votePopup') {
     activePopupHtml = <VotePopup {...popupProps} />
-  } else if (activePopup === 'reviewPopup') {
-    activePopupHtml = <ReviewPopup {...popupProps} />
   } else if (activePopup === 'dataCollectionPopup') {
     activePopupHtml = <DataCollectionPopup {...popupProps} />
   } else if (activePopup === 'premiumPromoPopup') {
