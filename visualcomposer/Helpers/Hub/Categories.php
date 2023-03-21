@@ -159,7 +159,7 @@ class Categories implements Helper
             'Button' => [
                 'title' => 'Simple Button',
                 'elements' => [
-                    'elementBasicButton',
+                    'basicButton',
                     'basicButtonIcon',
                     'outlineButton',
                     'outlineButtonIcon',
@@ -583,7 +583,6 @@ class Categories implements Helper
                     'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
                     'outlineCallToAction',
-                    'basicButton',
                 ],
             ]
         ];
