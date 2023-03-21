@@ -40,7 +40,7 @@ class Groups implements Helper
                     'Social Videos',
                 ],
                 'elements' => [
-                    'elementBasicButton',
+                    'basicButton',
                     'outlineButton',
                     'singleImage',
                     'shortcode',

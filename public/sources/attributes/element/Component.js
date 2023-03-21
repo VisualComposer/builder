@@ -135,18 +135,31 @@ export default class ElementAttribute extends Attribute {
   }
 
   static editFormTabs (element) {
-    const group = element.get('metaEditFormTabs')
-    if (group && group.each) {
-      return group.each(ElementAttribute.editFormTabsIterator.bind(this, element))
+    const tabs = element.get('metaEditFormTabs')
+    if (tabs && tabs.each) {
+      return tabs.each(ElementAttribute.editFormTabsIterator.bind(this, element)).flat()
     }
     return []
   }
 
   static editFormTabsIterator (element, item) {
-    return {
-      key: item,
-      value: element.get(item),
-      data: element.settings(item)
+    if (item !== 'advancedTab') {
+      if (Array.isArray(element.get(item).value) && element.get(item).value.length) {
+        return element.get(item).value.map(item => ({
+          key: item,
+          value: element.get(item),
+          data: element.settings(item)
+        })
+        )
+      } else {
+        return [{
+          key: item,
+          value: element.get(item),
+          data: element.settings(item)
+        }]
+      }
+    } else {
+      return []
     }
   }
 
@@ -154,7 +167,7 @@ export default class ElementAttribute extends Attribute {
     const value = element.get(tabName)
     const settings = element.settings(tabName)
     if (settings.settings.type === 'group' && value && value.each) {
-      return value.each(ElementAttribute.editFormTabsIterator.bind(this, element))
+      return value.each(ElementAttribute.editFormTabsIterator.bind(this, element)).flat()
     }
     // In case if tab is single param holder
     return [{

@@ -1,4 +1,17 @@
 {
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "basicButton"
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General",
+      "Buttons"
+    ]
+  },
   "groups": {
     "type": "string",
     "access": "protected",
@@ -137,64 +150,6 @@
       ]
     }
   },
-  "designOptions": {
-    "type": "designOptions",
-    "access": "public",
-    "value": [],
-    "options": {
-      "label": "Design Options"
-    }
-  },
-  "editFormTab1": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "buttonText",
-      "buttonUrl",
-      "alignment",
-      "shape",
-      "size",
-      "toggleStretchButton",
-      "color",
-      "background",
-      "toggleCustomHover",
-      "hoverColor",
-      "hoverBackground"
-    ],
-    "options": {
-      "label": "General"
-    }
-  },
-  "advancedTab": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "htmlAttributes",
-      "customAttributes",
-      "customCSS"
-    ],
-    "options": {
-      "label": "Advanced",
-      "isSections": true
-    }
-  },
-  "metaEditFormTabs": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "editFormTab1",
-      "designTab",
-      "advancedTab"
-    ]
-  },
-  "relatedTo": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "General",
-      "Buttons"
-    ]
-  },
   "alignment": {
     "type": "buttonGroup",
     "access": "public",
@@ -271,10 +226,42 @@
       "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
     }
   },
-  "tag": {
+  "styleSection": {
+    "type": "group",
     "access": "protected",
-    "type": "string",
-    "value": "basicButton"
+    "options": {
+      "label": "Style"
+    },
+    "value": [
+      "alignment",
+      "shape",
+      "size",
+      "toggleStretchButton",
+      "color",
+      "background",
+      "toggleCustomHover",
+      "hoverColor",
+      "hoverBackground"
+    ]
+  },
+  "contentSection": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content"
+    },
+    "value": [
+      "buttonText",
+      "buttonUrl"
+    ]
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Design Options"
+    }
   },
   "htmlAttributes": {
     "type": "group",
@@ -323,6 +310,17 @@
       "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
     }
   },
+  "contentTab": {
+    "type": "group",
+    "access": "protected",
+    "options": {
+      "label": "Content",
+      "isSections": true
+    },
+    "value": [
+      "contentSection"
+    ]
+  },
   "designTab": {
     "type": "group",
     "access": "protected",
@@ -331,7 +329,30 @@
       "isSections": true
     },
     "value": [
+      "styleSection",
       "designOptions"
+    ]
+  },
+  "advancedTab": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "htmlAttributes",
+      "customAttributes",
+      "customCSS"
+    ],
+    "options": {
+      "label": "Advanced",
+      "isSections": true
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "contentTab",
+      "designTab",
+      "advancedTab"
     ]
   }
 }
