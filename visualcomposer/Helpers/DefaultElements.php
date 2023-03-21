@@ -35,15 +35,11 @@ class DefaultElements extends Container implements Helper
             'instagramImage',
             'googleMaps',
             'heroSection',
-            'elementHeroSection',
             'icon',
             'faqToggle',
             'feature',
-            'elementFeature',
             'featureDescription',
-            'elementFeatureDescription',
             'featureSection',
-            'elementFeatureSection',
             'imageGallery',
             'imageMasonryGallery',
             'simpleImageSlider',
@@ -56,6 +52,10 @@ class DefaultElements extends Container implements Helper
             'twitterGrid',
             'twitterTimeline',
             'twitterTweet',
+            'elementFeature',
+            'elementFeatureSection',
+            'elementFeatureDescription',
+            'elementHeroSection',
         ];
 
         return $elementsToRegister;
