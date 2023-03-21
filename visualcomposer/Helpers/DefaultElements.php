@@ -30,21 +30,16 @@ class DefaultElements extends Container implements Helper
             'shortcode',
             'outlineButton',
             // 36v+
-            'elementBasicButton',
             'facebookLike',
             'flickrImage',
             'instagramImage',
             'googleMaps',
             'heroSection',
-            'elementHeroSection',
             'icon',
             'faqToggle',
             'feature',
-            'elementFeature',
             'featureDescription',
-            'elementFeatureDescription',
             'featureSection',
-            'elementFeatureSection',
             'imageGallery',
             'imageMasonryGallery',
             'simpleImageSlider',
@@ -57,7 +52,10 @@ class DefaultElements extends Container implements Helper
             'twitterGrid',
             'twitterTimeline',
             'twitterTweet',
-            'elementGoogleFontsHeading',
+            'elementFeature',
+            'elementFeatureSection',
+            'elementFeatureDescription',
+            'elementHeroSection',
         ];
 
         return $elementsToRegister;

@@ -159,7 +159,7 @@ class Categories implements Helper
             'Button' => [
                 'title' => 'Simple Button',
                 'elements' => [
-                    'elementBasicButton',
+                    'basicButton',
                     'basicButtonIcon',
                     'outlineButton',
                     'outlineButtonIcon',
@@ -297,7 +297,7 @@ class Categories implements Helper
             ],
             'Text block' => [
                 'title' => 'Text Block',
-                'elements' => ['textBlock', 'elementGoogleFontsHeading', 'typewriterHeading', 'marqueeElement', 'doubleTitle'],
+                'elements' => ['textBlock', 'googleFontsHeading', 'typewriterHeading', 'marqueeElement', 'doubleTitle'],
                 'icon' => $urlHelper->to('public/categories/icons/Text-Block.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Text-Block.svg'),
             ],
@@ -583,8 +583,6 @@ class Categories implements Helper
                     'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
                     'outlineCallToAction',
-                    'basicButton',
-                    'googleFontsHeading'
                 ],
             ]
         ];
