@@ -6,6 +6,7 @@
     "url": "visualcomposer.com"
   },
   "shape": {
+    "name": "rounded",
     "cssValue": "5px"
   },
   "size": {

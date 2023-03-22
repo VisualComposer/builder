@@ -254,6 +254,10 @@
   }
 }
 
+.vcv-layout-popup--review-form .vcv-layout-popup-btn {
+  width: 100%;
+}
+
 .vcv-layout-popup-text {
   margin: 0 0 15px;
   font-size: 13px;
@@ -263,6 +267,37 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-style: italic;
+}
+
+.vcv-layout-popup-content .vcv-layout-popup-textarea {
+  font-family: 'Nunito Sans', sans-serif;
+  background-color: #fff;
+  background-image: none;
+  border: none;
+  border-radius: 3px;
+  margin: 0 0 15px;
+  color: #5c5b5b;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 10px 14px;
+  width: 100%;
+  height: 100px;
+  box-shadow: none;
+  transition: none;
+  resize: none;
+
+  &:focus,
+  &:hover {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #c5c5c5;
+    font-style: italic;
+  }
 }
 
 .vcv-layout-popup-checkbox-option-wrapper {
