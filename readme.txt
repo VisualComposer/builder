@@ -223,13 +223,13 @@ It is both! Visual Composer’s free version works like a page builder where you
 == Changelog ==
 
 = 45.1.3 =
-*Release Date - 2022-03-22*
+*Release Date - 2023-03-22*
 
 ### Free:
 - New: Integration with Atarim for better collaboration when developing websites and working with clients
 
 = 45.1.2 =
-*Release Date - 2022-02-02*
+*Release Date - 2023-02-02*
 
 ### Free:
 - New: pNPS survey added to the editor to collect your feedback
