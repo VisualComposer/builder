@@ -3,7 +3,7 @@ Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,orkunaybek
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 7.4
 Requires at least: 5.5
-Tested up to: 6.0.2
+Tested up to: 6.1.1
 Stable tag: 45.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
