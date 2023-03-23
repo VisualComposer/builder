@@ -19,7 +19,43 @@ addStorage('elements', (storage) => {
     historyStorage.trigger('add', documentManager.all())
   }
   let substituteIds = {}
-  const recursiveElementsRebuild = (cookElement) => {
+  const setInitChildren = (initChildren, parentId, deprecatedChildElement, callback) => {
+    const childrenData = []
+    initChildren.forEach((initChild) => {
+      initChild.parent = parentId
+      const childData = deprecatedChildElement || cook.get(initChild)
+
+      if (childData) {
+        const childDataJS = deprecatedChildElement || childData.toJS()
+        if (initChild?.exclude) {
+          childDataJS.exclude = initChild?.exclude
+        }
+        if (initChild?.hidden) {
+          workspaceStorage.trigger('hide', childDataJS.id)
+        }
+        storage.trigger('add', childDataJS, true, { silent: true })
+        storage.trigger('update', childDataJS.id, childDataJS)
+
+        documentManager.create(childDataJS, {
+          insertAfter: false
+        })
+        childrenData.push(childDataJS)
+      }
+    })
+    if (callback) {
+      callback(childrenData)
+    }
+  }
+
+  /**
+   * Parse cookElement, update attribute values conditionally,
+   * return cookElement.toJS()
+   *
+   * @param cookElement
+   * @param callback
+   * @returns {*}
+   */
+  const getElementToJS = (cookElement, callback) => {
     if (!cookElement) {
       return cookElement
     }
@@ -31,8 +67,18 @@ addStorage('elements', (storage) => {
       if (attributeSettings.settings.type === 'element') {
         const value = cookElement.get(attrKey)
         const innerElement = cook.get(value)
-        const innerElementValue = recursiveElementsRebuild(innerElement)
+        const innerElementValue = getElementToJS(innerElement)
         cookElement.set(attrKey, innerElementValue)
+
+        // checks if element has childElementBC attribute for Backwards Compatibility
+        // required for child elements (after the migration from "element" to "treeView")
+        // set childElementBC value to true, once new child elements are rendered
+        // it will only run on page load, after save the new value will be applied
+        if (elementAttributes.includes('childElementBC') && !cookElement.settings('childElementBC').settings.value) {
+          innerElementValue.parent = cookGetAll.id
+          setInitChildren(cookElement.get('initChildren'), cookGetAll.id, innerElementValue, callback)
+          cookElement.set('childElementBC', true)
+        }
       }
     })
 
@@ -57,10 +103,23 @@ addStorage('elements', (storage) => {
             env('VCV_DEBUG') === true && console.warn(`Element with key ${key} removed, failed to get parent element`)
             newData = sanitizeData(newData)
           } else {
-            newData[key] = recursiveElementsRebuild(cookElement)
+            let childElements = null
+            const getChildElements = (children) => {
+              childElements = children
+            }
+
+            newData[key] = getElementToJS(cookElement, getChildElements)
+
+            if (childElements && childElements.length) {
+              childElements.forEach((element) => {
+                if (!element.newElement) {
+                  newData[element.id] = {...element, ...{newElement: true}}
+                }
+              })
+            }
           }
         } else {
-          newData[key] = recursiveElementsRebuild(cookElement)
+          newData[key] = getElementToJS(cookElement)
         }
       }
     })
@@ -111,7 +170,7 @@ addStorage('elements', (storage) => {
       storage.state('elementAddList').set(elementAddList)
     }
 
-    elementData = recursiveElementsRebuild(cookElement)
+    elementData = getElementToJS(cookElement)
     const editorType = dataManager.get('editorType')
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
@@ -153,21 +212,7 @@ addStorage('elements', (storage) => {
     const initChildren = cookElement.get('initChildren')
 
     if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements) {
-      initChildren.forEach((initChild) => {
-        initChild.parent = data.id
-        const childData = cook.get(initChild)
-        if (childData) {
-          const childDataJS = childData.toJS()
-          if (initChild?.exclude) {
-            childDataJS.exclude = initChild?.exclude
-          }
-          if (initChild?.hidden) {
-            workspaceStorage.trigger('hide', childDataJS.id)
-          }
-          storage.trigger('add', childDataJS, true, { silent: true })
-          storage.trigger('update', childDataJS.id, childDataJS)
-        }
-      })
+      setInitChildren(initChildren, data.id, '', null)
     }
 
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
@@ -402,7 +447,7 @@ addStorage('elements', (storage) => {
       return
     }
 
-    elementData = recursiveElementsRebuild(cookElement)
+    elementData = getElementToJS(cookElement)
     const data = documentManager.create(elementData, {
       insertAfter: false,
       // used to insert element with same order in parent
