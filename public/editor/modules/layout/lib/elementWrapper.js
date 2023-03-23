@@ -39,7 +39,6 @@ const ElementWrapper = forwardRef((props, ref) => {
     let returnData = null
     const currentElementId = props.id
     const elementsList = documentManager.children(props.id).map((childElement) => {
-
       const initChildrenOptions = cookElement.settings('initChildren')?.settings?.options
       const isEditorPropsExist = initChildrenOptions && Object.prototype.hasOwnProperty.call(initChildrenOptions, 'editorProps')
 
