@@ -163,7 +163,10 @@
         "hoverColorAnimated": "#fff",
         "hoverBackgroundBorder": "#cbbc95"
       }
-    ]
+    ],
+    "options": {
+      "editorProps": false
+    }
   },
   "childElementBC": {
     "type": "toggle",

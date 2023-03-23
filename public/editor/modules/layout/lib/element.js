@@ -80,7 +80,6 @@ export default class Element extends React.Component {
   render () {
     const { api, id } = this.props
 
-    console.log('this.props.disableControls', this.props)
     return (
       <ElementWrapper
         ref={this.elementComponentRef}

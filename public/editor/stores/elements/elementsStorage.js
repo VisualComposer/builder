@@ -76,6 +76,7 @@ addStorage('elements', (storage) => {
         // it will only run on page load, after save the new value will be applied
         if (elementAttributes.includes('childElementBC') && !cookElement.settings('childElementBC').settings.value) {
           innerElementValue.parent = cookGetAll.id
+          // TODO fix for multiple elements, `innerElementValue` is a single element
           setInitChildren(cookElement.get('initChildren'), cookGetAll.id, innerElementValue, callback)
           cookElement.set('childElementBC', true)
         }
