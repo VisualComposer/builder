@@ -2,7 +2,6 @@ import React from 'react'
 import { getService } from 'vc-cake'
 
 const vcvAPI = getService('api')
-const cook = getService('cook')
 
 export default class FeatureDescription extends vcvAPI.elementComponent {
   validSize (size) {

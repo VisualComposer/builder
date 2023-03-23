@@ -114,7 +114,7 @@ addStorage('elements', (storage) => {
             if (childElements && childElements.length) {
               childElements.forEach((element) => {
                 if (!element.newElement) {
-                  newData[element.id] = {...element, ...{newElement: true}}
+                  newData[element.id] = { ...element, ...{ newElement: true } }
                 }
               })
             }
