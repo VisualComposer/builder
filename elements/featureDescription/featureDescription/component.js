@@ -11,7 +11,7 @@ export default class FeatureDescription extends vcvAPI.elementComponent {
 
   render () {
     const { id, atts, editor, children } = this.props
-    const { description, image, button, shape, alignment, size, metaCustomId, customClass, backgroundImagePosition, extraDataAttributes } = atts
+    const { description, image, shape, alignment, size, metaCustomId, customClass, backgroundImagePosition, extraDataAttributes } = atts
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     let containerClasses = 'vce-feature-description vce'
 
