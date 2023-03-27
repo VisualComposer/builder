@@ -47,16 +47,34 @@
     }
   },
   "icon": {
-    "type": "element",
+    "type": "treeView",
     "access": "public",
-    "value": {
-      "tag": "icon",
-      "iconAlignment": "center"
-    },
+    "value": [],
     "options": {
-      "category": "Icon",
-      "tabLabel": "Icon"
+      "label": "Icon",
+      "controls": [
+        "lock",
+        "edit"
+      ]
     }
+  },
+  "initChildren": {
+    "access": "protected",
+    "type": "object",
+    "value": [
+      {
+        "tag": "icon",
+        "iconAlignment": "center"
+      }
+    ],
+    "options": {
+      "editorProps": false
+    }
+  },
+  "childElementBC": {
+    "type": "toggle",
+    "value": false,
+    "access": "public"
   },
   "customClass": {
     "type": "string",
@@ -190,8 +208,7 @@
       "isSections": true
     },
     "value": [
-      "contentSection",
-      "icon"
+      "contentSection"
     ]
   },
   "contentSection": {
@@ -201,7 +218,8 @@
       "label": "Content"
     },
     "value": [
-      "description"
+      "description",
+      "icon"
     ]
   }
 }
