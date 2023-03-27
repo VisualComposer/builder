@@ -98,7 +98,6 @@ const ElementWrapper = forwardRef((props, ref) => {
 
   const ElementComponent = props.elementData.tag === 'row' ? ElementInner : ContentComponent
 
-  console.log('getContent()', getContent())
   return (
     <ElementComponent
       {...props}
