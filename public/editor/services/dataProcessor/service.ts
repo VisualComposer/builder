@@ -1,5 +1,7 @@
 import { getService, addService } from 'vc-cake'
+import { EditorWindow } from 'public/types/window'
 
+declare const window: EditorWindow
 declare const Blob: {
   prototype: Blob
   new (): Blob
@@ -18,14 +20,6 @@ interface ArgumentsObject {
 type Arguments = ArgumentsObject|Blob
 
 type AjaxPromise = Promise<string>&{key?:number}
-
-declare global {
-  interface Window {
-    jQuery: {
-      param: (obj:Arguments) => string
-    }
-  }
-}
 
 const utils = getService('utils')
 let processes:AjaxPromise[] = []
