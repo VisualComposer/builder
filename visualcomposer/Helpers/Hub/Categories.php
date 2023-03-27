@@ -521,7 +521,7 @@ class Categories implements Helper
             'Call To Action' => [
                 'title' => 'Call To Action',
                 'elements' => [
-                    'elementCallToAction',
+                    'callToAction',
                     'simpleCallToAction',
                     'elementOutlineCallToAction',
                     'elementCallToActionWithIcon'],
@@ -574,7 +574,6 @@ class Categories implements Helper
                     'heroSection',
                     'feature',
                     'featureSection',
-                    'callToAction',
                     'callToActionWithIcon',
                     'flipBox',
                     'iconHoverBox',
