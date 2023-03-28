@@ -173,6 +173,19 @@
     "value": false,
     "access": "public"
   },
+  "button": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "outlineButton",
+      "alignment": "center",
+      "shape": "round",
+      "color": "#cbbc95",
+      "borderColor": "#cbbc95",
+      "hoverColorAnimated": "#fff",
+      "hoverBackgroundBorder": "#cbbc95"
+    }
+  },
   "buttonElement": {
     "type": "treeView",
     "access": "public",
