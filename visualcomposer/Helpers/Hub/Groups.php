@@ -90,7 +90,7 @@ class Groups implements Helper
                 'elements' => [
                     'bannerElement',
                     'instagramImage',
-                    'elementFlipBox',
+                    'flipBox',
                     'elementIconHoverBox',
                     'tallHoverBox',
                     'simpleImageSlider',
