@@ -184,6 +184,38 @@
       "borderColor": "#cbbc95",
       "hoverColorAnimated": "#fff",
       "hoverBackgroundBorder": "#cbbc95"
+    },
+    "options": {
+      "category": "Button",
+      "tabLabel": "Button",
+      "merge": {
+        "attributes": [
+          {
+            "key": "alignment",
+            "type": "string"
+          },
+          {
+            "key": "buttonText",
+            "type": "string"
+          },
+          {
+            "key": "buttonUrl",
+            "type": "object"
+          }
+        ]
+      },
+      "onChange": {
+        "rules": {
+          "addButton": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleSectionVisibility"
+          }
+        ]
+      }
     }
   },
   "buttonElement": {
