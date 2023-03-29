@@ -19,31 +19,67 @@ addStorage('elements', (storage) => {
     historyStorage.trigger('add', documentManager.all())
   }
   let substituteIds = {}
-  const setInitChildren = (initChildren, parentId, deprecatedChildElement, callback) => {
-    const childrenData = []
-    initChildren.forEach((initChild) => {
-      initChild.parent = parentId
-      const childData = deprecatedChildElement || cook.get(initChild)
 
-      if (childData) {
-        const childDataJS = deprecatedChildElement || childData.toJS()
-        if (initChild?.exclude) {
-          childDataJS.exclude = initChild?.exclude
-        }
-        if (initChild?.hidden) {
-          workspaceStorage.trigger('hide', childDataJS.id)
-        }
-        storage.trigger('add', childDataJS, true, { silent: true })
-        storage.trigger('update', childDataJS.id, childDataJS)
+  /**
+   * Created to handle BC for the elements that doesn't have toggles anymore and use treeView visibility option instead
+   Checks for 'toggle' value of elements and assign it to treeView children's 'hidden' option
+   * @param cookElement
+   * @param attrKey
+   */
+  const getBcElement = (cookElement, attrKey, innerElementValue) => {
+    let newInnerElementValue = innerElementValue
+    innerElementValue.parent = cookElement.getAll().id
+    const rules = cookElement.settings(attrKey)?.settings?.options?.onChange?.rules
+    if (rules) {
+      for (const [key, value] of Object.entries(rules)) {
+        if (value?.rule === 'toggle') {
+          newInnerElementValue = {
+            ...innerElementValue,
+            hidden: !cookElement.get(key)
 
-        documentManager.create(childDataJS, {
-          insertAfter: false
-        })
-        childrenData.push(childDataJS)
+          }
+        }
+        if (value?.rule === 'value') {
+          newInnerElementValue = {
+            ...innerElementValue,
+            hidden: cookElement.get(key) !== attrKey
+          }
+        }
       }
+    }
+    return newInnerElementValue
+  }
+  const addChildElement = (initChild, parentId, callback) => {
+    initChild.parent = parentId
+    const childData = cook.get(initChild)
+    let childDataJS = childData?.toJS()
+    if (initChild?.exclude) {
+      childDataJS = {
+        ...childDataJS,
+        exclude: initChild?.exclude
+      }
+    }
+    if (initChild?.hidden) {
+      workspaceStorage.trigger('hide', childDataJS.id)
+    }
+
+    storage.trigger('add', childDataJS, true, { silent: true })
+    storage.trigger('update', childDataJS.id, childDataJS)
+
+    documentManager.create(childDataJS, {
+      insertAfter: false
     })
     if (callback) {
-      callback(childrenData)
+      callback(childDataJS)
+    }
+  }
+  const setInitChildren = (initChildren, parentId, deprecatedChildElement, callback) => {
+    if (deprecatedChildElement) {
+      addChildElement(deprecatedChildElement, parentId, callback)
+    } else {
+      initChildren.forEach((initChild) => {
+        addChildElement(initChild, parentId, callback)
+      })
     }
   }
 
@@ -74,18 +110,21 @@ addStorage('elements', (storage) => {
         // required for child elements (after the migration from "element" to "treeView")
         // set childElementBC value to true, once new child elements are rendered
         // it will only run on page load, after save the new value will be applied
-        if (elementAttributes.includes('childElementBC') && !cookElement.settings('childElementBC').settings.value) {
-          innerElementValue.parent = cookGetAll.id
-          // TODO fix for multiple elements, `innerElementValue` is a single element
-          setInitChildren(cookElement.get('initChildren'), cookGetAll.id, innerElementValue, callback)
-          cookElement.set('childElementBC', true)
+        if (elementAttributes.includes('childElementBC') && !cookElement.get('childElementBC') && callback) {
+          const bcElement = getBcElement(cookElement, attrKey, innerElementValue)
+          const initChildren = cookElement.get('initChildren')
+          setInitChildren(initChildren, cookGetAll.id, bcElement, callback)
         }
       }
     })
 
+    if (elementAttributes.includes('childElementBC') && !cookElement.get('childElementBC') && callback) {
+      cookElement.set('childElementBC', true)
+    }
+
     return cookElement.toJS()
   }
-  const sanitizeData = (data) => {
+  const sanitizeData = (data, isLoadContent = false) => {
     let newData = Object.assign({}, data || {})
     const allKeys = Object.keys(data)
     allKeys.forEach((key) => {
@@ -102,14 +141,15 @@ addStorage('elements', (storage) => {
           if (!Object.prototype.hasOwnProperty.call(data, parent)) {
             delete newData[key]
             env('VCV_DEBUG') === true && console.warn(`Element with key ${key} removed, failed to get parent element`)
-            newData = sanitizeData(newData)
+            newData = sanitizeData(newData, isLoadContent)
           } else {
-            let childElements = null
+            const childElements = []
             const getChildElements = (children) => {
-              childElements = children
+              childElements.push(children)
             }
+            const callback = isLoadContent && getChildElements
 
-            newData[key] = getElementToJS(cookElement, getChildElements)
+            newData[key] = getElementToJS(cookElement, callback)
 
             if (childElements && childElements.length) {
               childElements.forEach((element) => {
@@ -428,7 +468,7 @@ addStorage('elements', (storage) => {
     async: true
   })
   storage.on('reset', (data) => {
-    const sanitizedData = sanitizeData(data)
+    const sanitizedData = sanitizeData(data, true)
     documentManager.reset(sanitizedData)
     historyStorage.trigger('init', sanitizedData)
     storage.state('document').set(documentManager.children(false), sanitizedData)

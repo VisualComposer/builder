@@ -27,7 +27,7 @@ addStorage('elementSettings', (storage) => {
     let settingsCloneJsonString = JSON.stringify(settings)
 
     if (allElementsSettings[settings.tag.value]) {
-      settingsCloneJsonString = settingsCloneJsonString.replace('[assetsPath]/', allElementsSettings[settings.tag.value].assetsPath).replace('[assetsPath]', allElementsSettings[settings.tag.value])
+      settingsCloneJsonString = settingsCloneJsonString.replaceAll('[assetsPath]/', allElementsSettings[settings.tag.value].assetsPath)
     }
 
     const dataSettings = JSON.parse(settingsCloneJsonString)
