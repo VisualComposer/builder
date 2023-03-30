@@ -150,22 +150,28 @@
       ]
     }
   },
-  "addButton": {
-    "type": "toggle",
-    "access": "public",
-    "value": true,
+  "initChildren": {
+    "access": "protected",
+    "type": "object",
+    "value": [
+      {
+        "tag": "outlineButton",
+        "alignment": "center",
+        "shape": "round",
+        "color": "#cbbc95",
+        "borderColor": "#cbbc95",
+        "hoverColorAnimated": "#fff",
+        "hoverBackgroundBorder": "#cbbc95"
+      }
+    ],
     "options": {
-      "label": "Add a button"
+      "editorProps": false
     }
   },
-  "customClass": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Extra class name",
-      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
-    }
+  "childElementBC": {
+    "type": "toggle",
+    "value": false,
+    "access": "public"
   },
   "button": {
     "type": "element",
@@ -210,6 +216,28 @@
           }
         ]
       }
+    }
+  },
+  "buttonElement": {
+    "type": "treeView",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Button",
+      "controls": [
+        "lock",
+        "edit",
+        "visibility"
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
   },
   "designOptions": {
@@ -338,8 +366,7 @@
       "isSections": true
     },
     "value": [
-      "contentSection",
-      "button"
+      "contentSection"
     ]
   },
   "contentSection": {
@@ -351,7 +378,7 @@
     "value": [
       "description",
       "image",
-      "addButton"
+      "buttonElement"
     ]
   }
 }

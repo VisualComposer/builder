@@ -39,12 +39,16 @@ const ElementWrapper = forwardRef((props, ref) => {
     let returnData = null
     const currentElementId = props.id
     const elementsList = documentManager.children(props.id).map((childElement) => {
+      const initChildrenOptions = cookElement.settings('initChildren')?.settings?.options
+      const isEditorPropsExist = initChildrenOptions && Object.prototype.hasOwnProperty.call(initChildrenOptions, 'editorProps')
+
       const elements = [
         <Element
           id={childElement.id}
           key={`${props.postId}:child:${childElement.id}`}
           postId={props.postId}
           api={props.api}
+          disableControls={isEditorPropsExist && !initChildrenOptions.editorProps}
         />
       ]
       if (childElement.tag === 'column') {
