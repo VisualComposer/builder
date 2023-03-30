@@ -47,6 +47,18 @@
     }
   },
   "icon": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "icon",
+      "iconAlignment": "center"
+    },
+    "options": {
+      "category": "Icon",
+      "tabLabel": "Icon"
+    }
+  },
+  "iconElement": {
     "type": "treeView",
     "access": "public",
     "value": [],
@@ -219,7 +231,7 @@
     },
     "value": [
       "description",
-      "icon"
+      "iconElement"
     ]
   }
 }
