@@ -573,6 +573,7 @@ class Categories implements Helper
                 'elements' => [
                     'heroSection',
                     'feature',
+                    'featureDescription',
                     'featureSection',
                     'callToAction',
                     'flipBox',
