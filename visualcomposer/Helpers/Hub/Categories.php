@@ -215,13 +215,13 @@ class Categories implements Helper
             ],
             'Feature' => [
                 'title' => 'Feature',
-                'elements' => ['feature'],
+                'elements' => ['elementFeature'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
             'Feature section' => [
                 'title' => 'Feature Section',
-                'elements' => ['featureSection'],
+                'elements' => ['elementFeatureSection'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
@@ -257,7 +257,7 @@ class Categories implements Helper
             ],
             'Hero section' => [
                 'title' => 'Hero Section',
-                'elements' => ['heroSection'],
+                'elements' => ['elementHeroSection'],
                 'icon' => $urlHelper->to('public/categories/icons/Hero-Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hero-Section.svg'),
             ],
@@ -286,9 +286,9 @@ class Categories implements Helper
                     'imageMasonryGallery',
                     'multipleImageCollage',
                     'imageMasonryGalleryWithZoom',
-                    'imageMasonryGalleryWithIcon',
+                    'elementImageMasonryGalleryWithIcon',
                     'imageMasonryGalleryWithScaleUp',
-                    'imageGalleryWithIcon',
+                    'elementImageGalleryWithIcon',
                     'imageGalleryWithScaleUp',
                     'imageGalleryWithZoom',
                 ],
@@ -477,7 +477,7 @@ class Categories implements Helper
             ],
             'Hover Box' => [
                 'title' => 'Hover Box',
-                'elements' => ['flipBox', 'hoverBox', 'iconHoverBox', 'tallHoverBox'],
+                'elements' => ['elementFlipBox', 'elementHoverBox', 'elementIconHoverBox', 'tallHoverBox'],
                 'icon' => $urlHelper->to('public/categories/icons/Hover-Box.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hover-Box.svg'),
             ],
@@ -521,10 +521,10 @@ class Categories implements Helper
             'Call To Action' => [
                 'title' => 'Call To Action',
                 'elements' => [
-                    'callToAction',
+                    'elementCallToAction',
                     'simpleCallToAction',
-                    'outlineCallToAction',
-                    'callToActionWithIcon'],
+                    'elementOutlineCallToAction',
+                    'elementCallToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
             ],
@@ -567,6 +567,22 @@ class Categories implements Helper
                 'elements' => ['counterUp', 'countdownTimer'],
                 'icon' => $urlHelper->to('public/categories/icons/Counter.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
+            ],
+            'Deprecated' => [
+                'title' => 'Deprecated',
+                'elements' => [
+                    'heroSection',
+                    'feature',
+                    'featureSection',
+                    'callToAction',
+                    'callToActionWithIcon',
+                    'flipBox',
+                    'hoverBox',
+                    'iconHoverBox',
+                    'imageGalleryWithIcon',
+                    'imageMasonryGalleryWithIcon',
+                    'outlineCallToAction',
+                ],
             ]
         ];
 
