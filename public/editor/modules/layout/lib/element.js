@@ -74,7 +74,7 @@ export default class Element extends React.Component {
     if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && cookElement.get('metaIsElementLocked')) {
       editor['data-vcv-element-locked'] = true
     }
-    return editor
+    return !this.props.disableControls ? editor : {}
   }
 
   render () {

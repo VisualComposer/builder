@@ -572,7 +572,6 @@ class Categories implements Helper
                 'title' => 'Deprecated',
                 'elements' => [
                     'heroSection',
-                    'featureDescription',
                     'featureSection',
                     'callToAction',
                     'callToActionWithIcon',
