@@ -91,7 +91,7 @@ class Groups implements Helper
                     'bannerElement',
                     'instagramImage',
                     'elementFlipBox',
-                    'elementIconHoverBox',
+                    'iconHoverBox',
                     'tallHoverBox',
                     'simpleImageSlider',
                     'timelineSlideshow',
