@@ -22,9 +22,10 @@ import {
 import { spinnerHtml } from 'public/tools/spinnerHtml'
 import pSBC from 'public/tools/psbc.min.js'
 
+const cook = getService('cook')
 const assetsStorage = getStorage('assets')
 const { getBlockRegexp } = getService('utils')
-const { getDynamicFieldsData } = getService('cook').dynamicFields
+const { getDynamicFieldsData } = cook.dynamicFields
 const blockRegexp = getBlockRegexp()
 const elementsSettingsStorage = getStorage('elementsSettings')
 const dataManager = getService('dataManager')
@@ -694,6 +695,17 @@ export default class ElementComponent extends React.Component {
     }
 
     return customProps
+  }
+
+  // Get initChildren element by tag to render specific child
+  getChildByTag (tag) {
+    if (!this.props.children) {
+      return null
+    }
+    const childrenIdList = this.props.children.map(item => item[0].props?.id)
+    let currentChildIndex = childrenIdList.findIndex(id => cook.getById(id).get('tag') === tag)
+    currentChildIndex = currentChildIndex < 0 ? 0 : currentChildIndex
+    return this.props.children[currentChildIndex]
   }
 
   render () {
