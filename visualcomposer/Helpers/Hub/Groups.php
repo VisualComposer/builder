@@ -203,6 +203,12 @@ class Groups implements Helper
                 ],
                 'elements' => [],
             ],
+            'Deprecated' => [
+                'title' => 'Deprecated',
+                'categories' => [
+                    'Deprecated',
+                ],
+            ],
         ];
     }
 
