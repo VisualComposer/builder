@@ -523,7 +523,7 @@ class Categories implements Helper
                 'elements' => [
                     'elementCallToAction',
                     'simpleCallToAction',
-                    'elementOutlineCallToAction',
+                    'outlineCallToAction',
                     'elementCallToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
@@ -580,7 +580,6 @@ class Categories implements Helper
                     'iconHoverBox',
                     'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
-                    'outlineCallToAction',
                 ],
             ]
         ];
