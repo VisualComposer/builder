@@ -2,7 +2,6 @@ import React from 'react'
 import { getService } from 'vc-cake'
 
 const vcvAPI = getService('api')
-const cook = getService('cook')
 
 export default class FeatureDescription extends vcvAPI.elementComponent {
   validSize (size) {
@@ -10,8 +9,8 @@ export default class FeatureDescription extends vcvAPI.elementComponent {
   }
 
   render () {
-    const { id, atts, editor } = this.props
-    const { description, image, addButton, button, shape, alignment, size, metaCustomId, customClass, backgroundImagePosition, extraDataAttributes } = atts
+    const { id, atts, editor, children } = this.props
+    const { description, image, shape, alignment, size, metaCustomId, customClass, backgroundImagePosition, extraDataAttributes } = atts
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
     let containerClasses = 'vce-feature-description vce'
 
@@ -61,12 +60,6 @@ export default class FeatureDescription extends vcvAPI.elementComponent {
 
     imageClasses += ` vce-feature-description-image--background-position-${backgroundImagePosition.replace(' ', '-')}`
 
-    let buttonOutput = ''
-    if (addButton) {
-      const Button = cook.get(button)
-      buttonOutput = Button.render(null, false)
-    }
-
     if (image && image.filter && image.filter !== 'normal') {
       imageClasses += ` vce-image-filter--${image.filter}`
     }
@@ -82,7 +75,7 @@ export default class FeatureDescription extends vcvAPI.elementComponent {
           <div className='vce-feature-description-content'>
             {description}
           </div>
-          {buttonOutput}
+          {children}
         </div>
       </div>
     )
