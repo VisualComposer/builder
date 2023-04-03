@@ -215,7 +215,7 @@ class Categories implements Helper
             ],
             'Feature' => [
                 'title' => 'Feature',
-                'elements' => ['elementFeature'],
+                'elements' => ['feature'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
@@ -477,7 +477,7 @@ class Categories implements Helper
             ],
             'Hover Box' => [
                 'title' => 'Hover Box',
-                'elements' => ['elementFlipBox', 'hoverBox', 'iconHoverBox', 'tallHoverBox'],
+                'elements' => ['flipBox', 'hoverBox', 'iconHoverBox', 'tallHoverBox'],
                 'icon' => $urlHelper->to('public/categories/icons/Hover-Box.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hover-Box.svg'),
             ],
@@ -521,10 +521,10 @@ class Categories implements Helper
             'Call To Action' => [
                 'title' => 'Call To Action',
                 'elements' => [
-                    'elementCallToAction',
+                    'callToAction',
                     'simpleCallToAction',
-                    'elementOutlineCallToAction',
-                    'elementCallToActionWithIcon'],
+                    'outlineCallToAction',
+                    'callToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
             ],
@@ -572,14 +572,9 @@ class Categories implements Helper
                 'title' => 'Deprecated',
                 'elements' => [
                     'heroSection',
-                    'feature',
                     'featureSection',
-                    'callToAction',
-                    'callToActionWithIcon',
-                    'flipBox',
                     'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
-                    'outlineCallToAction',
                 ],
             ]
         ];
