@@ -524,7 +524,7 @@ class Categories implements Helper
                     'callToAction',
                     'simpleCallToAction',
                     'elementOutlineCallToAction',
-                    'elementCallToActionWithIcon'],
+                    'callToActionWithIcon'],
                 'icon' => $urlHelper->to('public/categories/icons/Call-To-Action.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Call-To-Action.svg'),
             ],
@@ -573,7 +573,6 @@ class Categories implements Helper
                 'elements' => [
                     'heroSection',
                     'featureSection',
-                    'callToActionWithIcon',
                     'flipBox',
                     'iconHoverBox',
                     'imageGalleryWithIcon',
