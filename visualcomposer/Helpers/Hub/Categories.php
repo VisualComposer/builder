@@ -286,7 +286,7 @@ class Categories implements Helper
                     'imageMasonryGallery',
                     'multipleImageCollage',
                     'imageMasonryGalleryWithZoom',
-                    'elementImageMasonryGalleryWithIcon',
+                    'imageMasonryGalleryWithIcon',
                     'imageMasonryGalleryWithScaleUp',
                     'elementImageGalleryWithIcon',
                     'imageGalleryWithScaleUp',
@@ -579,7 +579,6 @@ class Categories implements Helper
                     'flipBox',
                     'iconHoverBox',
                     'imageGalleryWithIcon',
-                    'imageMasonryGalleryWithIcon',
                     'outlineCallToAction',
                 ],
             ]
