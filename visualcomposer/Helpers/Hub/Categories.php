@@ -477,7 +477,7 @@ class Categories implements Helper
             ],
             'Hover Box' => [
                 'title' => 'Hover Box',
-                'elements' => ['flipBox', 'hoverBox', 'elementIconHoverBox', 'tallHoverBox'],
+                'elements' => ['flipBox', 'hoverBox', 'iconHoverBox', 'tallHoverBox'],
                 'icon' => $urlHelper->to('public/categories/icons/Hover-Box.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hover-Box.svg'),
             ],
@@ -573,7 +573,6 @@ class Categories implements Helper
                 'elements' => [
                     'heroSection',
                     'featureSection',
-                    'iconHoverBox',
                     'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
                 ],
