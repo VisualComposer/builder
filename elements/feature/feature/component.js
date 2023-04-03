@@ -3,20 +3,17 @@ import vcCake from 'vc-cake'
 import classNames from 'classnames'
 
 const vcvAPI = vcCake.getService('api')
-const Cook = vcCake.getService('cook')
 
 export default class Feature extends vcvAPI.elementComponent {
   render () {
-    const { id, atts, editor } = this.props
-    const { description, align, icon, customClass, metaCustomId, extraDataAttributes } = atts
+    const { id, atts, editor, children } = this.props
+    const { description, align, customClass, metaCustomId, extraDataAttributes } = atts
     const customProps = {}
     const customContainerProps = this.getExtraDataAttributes(extraDataAttributes)
 
     let containerClasses = classNames({
       'vce-feature': true,
-      'vce-feature--alignment--left': align === 'left',
-      'vce-feature--alignment--right': align === 'right',
-      'vce-feature--alignment--center': align === 'center'
+      [`vce-feature--alignment--${align}`]: align
     })
 
     let wrapperClasses = ['vce', 'vce-feature--wrap-row']
@@ -30,15 +27,12 @@ export default class Feature extends vcvAPI.elementComponent {
       customContainerProps.id = metaCustomId
     }
 
-    const Icon = Cook.get(icon)
-    const iconOutput = Icon.render(null, false)
-
     const doAll = this.applyDO('all')
 
     return (
       <section className={containerClasses} {...editor} {...customContainerProps}>
         <div className={wrapperClasses} id={'el-' + id} {...customProps} {...doAll}>
-          {iconOutput}
+          {children}
           {description}
         </div>
       </section>
