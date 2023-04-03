@@ -288,7 +288,7 @@ class Categories implements Helper
                     'imageMasonryGalleryWithZoom',
                     'elementImageMasonryGalleryWithIcon',
                     'imageMasonryGalleryWithScaleUp',
-                    'elementImageGalleryWithIcon',
+                    'imageGalleryWithIcon',
                     'imageGalleryWithScaleUp',
                     'imageGalleryWithZoom',
                 ],
@@ -573,7 +573,6 @@ class Categories implements Helper
                 'elements' => [
                     'heroSection',
                     'featureSection',
-                    'imageGalleryWithIcon',
                     'imageMasonryGalleryWithIcon',
                 ],
             ]
