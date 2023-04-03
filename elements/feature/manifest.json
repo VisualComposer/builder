@@ -1,1 +1,19 @@
-{"elements":{"feature":{"settings":{"name":"(Deprecated) Feature","metaThumbnailUrl":"[publicPath]/thumbnail-feature.jpg","metaPreviewUrl":"[publicPath]/preview-feature.jpg","metaDescription":"Feature element with an icon, title and description. Icon element contains controls for various background shapes."}}},"categories":{"Deprecated":{"elements":["feature"]}}}
+{
+  "elements": {
+    "feature": {
+      "settings": {
+        "name": "Feature",
+        "metaThumbnailUrl": "[publicPath]/thumbnail-feature.jpg",
+        "metaPreviewUrl": "[publicPath]/preview-feature.jpg",
+        "metaDescription": "Feature element with an icon, title and description. Icon element contains controls for various background shapes."
+      }
+    }
+  },
+  "categories": {
+    "Feature": {
+      "elements": [
+        "feature"
+      ]
+    }
+  }
+}
