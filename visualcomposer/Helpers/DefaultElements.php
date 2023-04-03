@@ -54,7 +54,6 @@ class DefaultElements extends Container implements Helper
             'twitterTweet',
             'elementFeature',
             'elementFeatureSection',
-            'elementFeatureDescription',
             'elementHeroSection',
         ];
 
