@@ -257,7 +257,7 @@ class Categories implements Helper
             ],
             'Hero section' => [
                 'title' => 'Hero Section',
-                'elements' => ['elementHeroSection'],
+                'elements' => ['heroSection'],
                 'icon' => $urlHelper->to('public/categories/icons/Hero-Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Hero-Section.svg'),
             ],
@@ -571,7 +571,6 @@ class Categories implements Helper
             'Deprecated' => [
                 'title' => 'Deprecated',
                 'elements' => [
-                    'heroSection',
                     'featureSection',
                 ],
             ]
