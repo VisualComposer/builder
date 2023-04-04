@@ -14,10 +14,10 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
     const containerClasses = classNames({
       'vce-feature-section-container': true,
-      'vce-feature-section-media--xs': true,
+      'vce-feature-section-media--xs': true
     })
 
-    let wrapperClasses = classNames({
+    const wrapperClasses = classNames({
       vce: true,
       'vce-feature-section': true,
       'vce-feature-section--min-height': true,
@@ -26,16 +26,16 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       [`${customClass}`]: typeof customClass === 'string' && customClass
     })
 
-    let imageClasses = classNames({
+    const imageClasses = classNames({
       'vce-feature-section-image': true,
       [`vce-feature-section-image--alignment-${imageAlignment}`]: imageAlignment,
       [`vce-feature-section-image--background-position-${backgroundImagePosition.replace(' ', '-')}`]: backgroundImagePosition,
       [`vce-image-filter--${image.filter}`]: image && image.filter && image.filter !== 'normal'
     })
 
-    let contentClasses = classNames({
-      'vce-feature-section-content':  true,
-       })
+    const contentClasses = classNames({
+      'vce-feature-section-content': true
+    })
 
     const imageStyles = {}
 
