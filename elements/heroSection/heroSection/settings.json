@@ -250,6 +250,37 @@
       }
     }
   },
+  "buttonElement": {
+    "type": "treeView",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Button",
+      "controls": [
+        "lock",
+        "edit",
+        "visibility"
+      ]
+    }
+  },
+  "initChildren": {
+    "access": "protected",
+    "type": "object",
+    "value": [
+      {
+        "tag": "basicButton",
+        "alignment": "center"
+      }
+    ],
+    "options": {
+      "editorProps": false
+    }
+  },
+  "childElementBC": {
+    "type": "toggle",
+    "value": false,
+    "access": "public"
+  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -388,8 +419,7 @@
       "isSections": true
     },
     "value": [
-      "contentSection",
-      "button"
+      "contentSection"
     ]
   },
   "contentSection": {
@@ -400,7 +430,7 @@
     },
     "value": [
       "description",
-      "addButton"
+      "buttonElement"
     ]
   }
 }
