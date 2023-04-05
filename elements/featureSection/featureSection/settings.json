@@ -282,6 +282,37 @@
       "description": "Add data attributes to your element (ex. data-name=\"John Lennon\" data-age=\"28\")"
     }
   },
+  "initChildren": {
+    "access": "protected",
+    "type": "object",
+    "value": [
+      {
+        "tag": "outlineButton",
+        "alignment": "left"
+      }
+    ],
+    "options": {
+      "editorProps": false
+    }
+  },
+  "childElementBC": {
+    "type": "toggle",
+    "value": false,
+    "access": "public"
+  },
+  "buttonElement": {
+    "type": "treeView",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Button",
+      "controls": [
+        "lock",
+        "edit",
+        "visibility"
+      ]
+    }
+  },
   "designTab": {
     "type": "group",
     "access": "protected",
@@ -315,8 +346,7 @@
       "isSections": true
     },
     "value": [
-      "contentSection",
-      "button"
+      "contentSection"
     ]
   },
   "contentSection": {
@@ -328,7 +358,7 @@
     "value": [
       "description",
       "image",
-      "addButton"
+      "buttonElement"
     ]
   }
 }
