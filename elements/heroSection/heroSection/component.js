@@ -2,7 +2,6 @@ import React from 'react'
 import { getService } from 'vc-cake'
 import classNames from 'classnames'
 
-const Cook = getService('cook')
 const vcvAPI = getService('api')
 
 export default class HeroSectionElement extends vcvAPI.elementComponent {
@@ -11,8 +10,8 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
   }
 
   render () {
-    const { id, atts, editor } = this.props
-    const { description, backgroundImage, backgroundImagePosition, backgroundColor, align, addButton, customClass, button, background, metaCustomId, extraDataAttributes } = atts
+    const { id, atts, editor, children } = this.props
+    const { description, backgroundImage, backgroundImagePosition, backgroundColor, align, customClass, background, metaCustomId, extraDataAttributes } = atts
     const customProps = {}
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
 
@@ -47,12 +46,6 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
       rowClasses.push(`vce-hero-section--background-position-${backgroundImagePosition.replace(' ', '-')}`)
     }
 
-    let buttonOutput = ''
-    if (addButton) {
-      const Button = Cook.get(button)
-      buttonOutput = Button ? Button.render(null, false) : null
-    }
-
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
@@ -71,7 +64,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
                 <div className='vce-hero-section--content-container'>
                   {description}
                 </div>
-                {buttonOutput}
+                {children}
               </div>
             </div>
           </div>

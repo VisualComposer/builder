@@ -33,10 +33,6 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       [`vce-image-filter--${image.filter}`]: image && image.filter && image.filter !== 'normal'
     })
 
-    const contentClasses = classNames({
-      'vce-feature-section-content': true
-    })
-
     const imageStyles = {}
 
     if (image) {
@@ -54,7 +50,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       <section className={containerClasses} {...editor} {...containerProps}>
         <div className={wrapperClasses} id={'el-' + id} {...doRest}>
           <div className={imageClasses} style={imageStyles} />
-          <div className={contentClasses}>
+          <div className='vce-feature-section-content'>
             <div className='vce-feature-section-content-container' {...doPadding}>
               <div className='vce-feature-section-description'>
                 {description}
