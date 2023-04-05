@@ -48,7 +48,8 @@ class WooCommerceSquareController extends Container implements Module
                 if ($closureInfo instanceof \ReflectionMethod) {
                     if (
                         !empty($closureInfo->getDeclaringClass()->getName()) &&
-                        strpos($closureInfo->getDeclaringClass()->getName(), 'SV_WC_Payment_Gateway')
+                        strpos($closureInfo->getDeclaringClass()->getName(), 'SV_WC_Payment_Gateway') ||
+                        strpos($closureInfo->getDeclaringClass()->getName(), 'Square\Framework\PaymentGateway\Payment_Gateway')
                     ) {
                         return true;
                     }
@@ -58,16 +59,15 @@ class WooCommerceSquareController extends Container implements Module
             }
         );
 
-        add_action('wp_enqueue_scripts', [$this, 'removeDuplicateEnqueue']);
+        add_action('wp_enqueue_scripts', [$this, 'removeDuplicateEnqueueForHfs'], 30, 1);
+        add_action('wp_enqueue_scripts', [$this, 'removeDuplicateEnqueueForEmptyGlobalHfs'], 30, 1);
     }
 
     /**
      * Remove duplicate enqueue styles for our HFS.
      */
-    public function removeDuplicateEnqueue()
+    public function removeDuplicateEnqueueForHfs()
     {
-        defined('HFS_POST_TYPE_LIST');
-
         $hfsPostTypeList = [
             'vcv_headers',
             'vcv_footers',
@@ -83,7 +83,28 @@ class WooCommerceSquareController extends Container implements Module
 
                 self::$cacheInvocation = true;
 
-                return true;
+                return $isAvailable;
+            }, 10, 1);
+        }
+    }
+
+    public function removeDuplicateEnqueueForEmptyGlobalHfs()
+    {
+        $optionsHelper = vchelper('Options');
+
+        $globalHfSetting = $optionsHelper->get('headerFooterSettings');
+        $globalFooter = $optionsHelper->get('headerFooterSettingsAllFooter');
+
+        if ($globalHfSetting === 'allSite' && empty($globalFooter)) {
+            add_filter('wc_gateway_square_credit_card_is_available', function ($isAvailable) {
+
+                if (self::$cacheInvocation) {
+                    return false;
+                }
+
+                self::$cacheInvocation = true;
+
+                return $isAvailable;
             }, 10, 1);
         }
     }
