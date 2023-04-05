@@ -221,7 +221,7 @@ class Categories implements Helper
             ],
             'Feature section' => [
                 'title' => 'Feature Section',
-                'elements' => ['elementFeatureSection'],
+                'elements' => ['featureSection'],
                 'icon' => $urlHelper->to('public/categories/icons/Feature.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Feature.svg'),
             ],
@@ -568,12 +568,6 @@ class Categories implements Helper
                 'icon' => $urlHelper->to('public/categories/icons/Counter.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
             ],
-            'Deprecated' => [
-                'title' => 'Deprecated',
-                'elements' => [
-                    'featureSection',
-                ],
-            ]
         ];
 
         $hubCategories = $optionHelper->get('hubCategories', []);
