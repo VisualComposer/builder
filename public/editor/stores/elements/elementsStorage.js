@@ -210,7 +210,11 @@ addStorage('elements', (storage) => {
       elementAddList.push(elementData.id)
       storage.state('elementAddList').set(elementAddList)
     }
-
+    const cookGetAll = cookElement.getAll()
+    const elementAttributes = Object.keys(cookGetAll)
+    if (elementAttributes.includes('childElementBC') && !cookElement.get('childElementBC')) {
+      cookElement.set('childElementBC', true)
+    }
     elementData = getElementToJS(cookElement)
     const editorType = dataManager.get('editorType')
     if (wrap && !cookElement.get('parent')) {
