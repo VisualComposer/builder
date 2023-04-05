@@ -32,7 +32,7 @@ export default class EditFormSection extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: true,
+      isActive: !this.props.accordion,
       dependenciesClasses: [],
       name: '',
       error: false,
@@ -318,7 +318,8 @@ export default class EditFormSection extends React.Component {
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
-      'vcv-ui-edit-form-section--closed': !isActive
+      'vcv-ui-edit-form-section--closed': !isActive,
+      'vcv-ui-edit-form-section--single': !accordion
     }, dependenciesClasses)
 
     let tabTitle
