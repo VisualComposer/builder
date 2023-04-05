@@ -30,6 +30,7 @@ export default class EditForm extends React.Component {
     super(props)
     this.allTabs = this.updateTabs(this.props)
     this.state = {
+      tabs: this.getTabs(),
       activeTabIndex: this.getActiveIndex(this.props.activeTabId, false),
       activeSectionIndex: this.getActiveIndex(this.props.activeTabId, true),
       isEditFormSettingsOpened: false,
@@ -45,8 +46,9 @@ export default class EditForm extends React.Component {
   }
 
   componentDidMount () {
-    const activeId = this.props.activeTabId || Object.keys(this.getTabs())[0]
-    const index = this.getTabs()[activeId]?.index || 0
+    const tabs = this.state.tabs
+    const activeId = this.props.activeTabId || Object.keys(tabs)[0]
+    const index = tabs[activeId]?.index || 0
     this.setActiveTab(null, index)
     workspaceContentState.onChange(this.setVisibility)
   }
@@ -178,21 +180,24 @@ export default class EditForm extends React.Component {
       if (activeTab && activeTab.fieldKey && this.permittedTabs.includes(activeTab.fieldKey)) {
         if (activeTab.data.settings.options.isSections) {
           const sections = this.updateTabs(this.props, activeTabName)
+          const isAccordion = sections.length > 1
           return sections.map((tab) => {
-            return this.getSection(tab, activeTabIndex, true)
+            return this.getSection(tab, activeTabIndex, isAccordion)
           })
         } else {
-          return this.getSection(activeTab, activeTabIndex, true)
+          return this.getSection(activeTab, activeTabIndex, false)
         }
       } else {
         const deprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
+        const isAccordion = deprecatedTabs.length > 1
         return deprecatedTabs.map((tab) => {
-          return this.getSection(tab, activeTabIndex, true)
+          return this.getSection(tab, activeTabIndex, isAccordion)
         })
       }
     } else {
+      const isAccordion = this.allTabs.length > 1
       return this.allTabs.map((tab) => {
-        return this.getSection(tab, activeTabIndex, true)
+        return this.getSection(tab, activeTabIndex, isAccordion)
       })
     }
   }
@@ -325,7 +330,7 @@ export default class EditForm extends React.Component {
     this.allTabs = this.updateTabs(this.props)
     const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened, activeTabIndex } = this.state
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
-    const tabs = this.getTabs()
+    const tabs = this.state.tabs
     let activeTab = Object.keys(tabs).find(tab => tabs[tab].index === activeTabIndex)
     activeTab = tabs[activeTab]
 
