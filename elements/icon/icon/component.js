@@ -1,89 +1,56 @@
 import React from 'react'
 import vcCake from 'vc-cake'
-import pSBC from './tools'
+import classNames from 'classnames'
+import { setCssVariables } from 'vc-helpers'
 const vcvAPI = vcCake.getService('api')
 
 export default class IconElement extends vcvAPI.elementComponent {
   render () {
-    let classes = 'vce-features vce-var-icon'
     const { atts, editor, id } = this.props
     const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId, iconColor, iconColorHover, shapeColor, shapeColorHover, extraDataAttributes } = atts
-    let customProps = {}
-    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
-    let customIconProps = {}
-    let CustomTag = 'div'
-    let CustomIconTag = 'span'
-    const { url, title, targetBlank, relNofollow } = iconUrl
+
     const iconClasses = `vce-icon-container ${iconPicker.icon}`
-    const stylesVariables = {}
 
-    if (url) {
-      if (shape !== 'none') {
-        CustomTag = 'a'
-        customProps = {
-          href: url,
-          title: title,
-          target: targetBlank ? '_blank' : undefined,
-          rel: relNofollow ? 'nofollow' : undefined
-        }
-      } else {
-        CustomIconTag = 'a'
-        customIconProps = {
-          href: url,
-          title: title,
-          target: targetBlank ? '_blank' : undefined,
-          rel: relNofollow ? 'nofollow' : undefined
-        }
-      }
-    } else {
-      CustomTag = 'div'
-      CustomIconTag = 'span'
+    const classes = classNames({
+      'vce-features vce-var-icon': true,
+      [`vce-features--style-${shape}`]: shape,
+      [`vce-features--size-${size}`]: size,
+      [customClass]: typeof customClass === 'string' && customClass
+    })
+
+    // Handle tag & conditional props
+    const containerProps = this.getExtraDataAttributes(extraDataAttributes)
+    const { url, title, targetBlank, relNofollow } = iconUrl
+    const linkProps = {
+      href: url,
+      title: title,
+      target: targetBlank ? '_blank' : undefined,
+      rel: relNofollow ? 'nofollow' : undefined
     }
+    const hasShape = shape !== 'none'
+    const CustomTag = url && hasShape ? 'a' : 'div'
+    const CustomIconTag = url && !hasShape ? 'a' : 'span'
+    const customProps = url && hasShape ? linkProps : {}
+    const customIconProps = url && !hasShape ? linkProps : {}
+    metaCustomId && (containerProps.id = metaCustomId)
 
-    if (shape) {
-      classes += ` vce-features--style-${shape}`
-    }
-
-    if (size) {
-      classes += ` vce-features--size-${size}`
-    }
-
-    if (typeof customClass === 'string' && customClass) {
-      classes += ' ' + customClass
-    }
-
-    if (iconAlignment) {
-      stylesVariables['--text-align'] = iconAlignment
-    }
-
-    if (iconColor) {
-      stylesVariables['--iconColor'] = iconColor
-      stylesVariables['--iconColorHover'] = iconColor
-    }
-
-    if (shapeColor) {
-      stylesVariables['--shapeColor'] = shapeColor
-      stylesVariables['--shapeColorHover'] = shapeColor
-      stylesVariables['--linkColorHover'] = pSBC(-0.2, shapeColor)
-    }
-
+    // Handle CSS variables
+    const cssVars = { iconAlignment, iconColor, iconColorHover: iconColor, shapeColor, shapeColorHover: shapeColor }
     if (iconColorHover && toggleCustomHover) {
-      stylesVariables['--iconColorHover'] = iconColorHover
+      cssVars.iconColorHover = iconColorHover
     }
-
+    if (shapeColor) {
+      cssVars.linkColorHover = this.getColorShade(-0.2, shapeColor)
+    }
     if (shapeColorHover && toggleCustomHover) {
-      stylesVariables['--shapeColorHover'] = shapeColorHover
-      stylesVariables['--linkColorHover'] = shapeColorHover
+      cssVars.shapeColorHover = shapeColorHover
     }
-
-    if (metaCustomId) {
-      containerProps.id = metaCustomId
-    }
+    const styleObj = setCssVariables(cssVars)
 
     const doAll = this.applyDO('all')
 
     return (
-      <div className={classes} {...editor} {...containerProps} style={stylesVariables}>
+      <div className={classes} {...editor} {...containerProps} style={styleObj}>
         <div id={'el-' + id} className='vce vce-features-icon-wrapper' {...doAll}>
           <CustomTag className='vce-features--icon vce-icon' {...customProps}>
             <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 769 769'>
