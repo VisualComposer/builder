@@ -16,6 +16,7 @@ const hubStorage = getStorage('hubAddons')
 const hubAddonsStorage = getStorage('hubAddons')
 const roleManager = getService('roleManager')
 const elementAccessPointService = getService('elementAccessPoint')
+const cook = getService('cook')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -278,7 +279,18 @@ export default class EditFormHeader extends React.Component {
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
+    let parentButton = null
+
     if (isNested || isEditFormSettingsOpened || isElementReplaceOpened) {
+      const parentId = elementAccessPoint.cook()?.toJS()?.parent
+      const parentElement = cook.getById(parentId)
+      const parentIconSrc = hubElementsService.getElementIcon(parentElement.get('tag'))
+      const parentTitle = `Parent: ${parentElement.get('name')}`
+
+      if (parentIconSrc) {
+        parentButton = <img className='vcv-ui-edit-form-parent-button' onClick={this.handleClickGoBack} src={parentIconSrc} title={parentTitle} />
+      }
+
       backButton = (
         <span className='vcv-ui-edit-form-back-button' onClick={this.handleClickGoBack} title={backToParentTitle}>
           <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
@@ -460,6 +472,7 @@ export default class EditFormHeader extends React.Component {
 
     return (
       <div className='vcv-ui-edit-form-header'>
+        {parentButton}
         {backButton}
         {sectionImage}
         {headerTitle}
