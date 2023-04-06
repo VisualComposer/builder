@@ -15,6 +15,7 @@ const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspace = getStorage('workspace')
 const workspaceContentState = workspace.state('content')
+const workspaceEditFormState = workspace.state('editForm')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -29,8 +30,9 @@ export default class EditForm extends React.Component {
   constructor (props) {
     super(props)
     this.allTabs = this.updateTabs(this.props)
+    const editFormState = workspaceEditFormState.get() && workspaceEditFormState.get()[this.props.elementAccessPoint.id]
     this.state = {
-      tabs: this.getTabs(),
+      tabs: editFormState || this.getTabs(),
       activeTabIndex: this.getActiveIndex(this.props.activeTabId, false),
       activeSectionIndex: this.getActiveIndex(this.props.activeTabId, true),
       isEditFormSettingsOpened: false,
@@ -43,6 +45,7 @@ export default class EditForm extends React.Component {
     this.getPremiumTeaser = this.getPremiumTeaser.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
     this.setActiveTab = this.setActiveTab.bind(this)
+    this.toggleSection = this.toggleSection.bind(this)
   }
 
   componentDidMount () {
@@ -51,6 +54,14 @@ export default class EditForm extends React.Component {
     const index = tabs[activeId]?.index || 0
     this.setActiveTab(null, index)
     workspaceContentState.onChange(this.setVisibility)
+
+    const elementId = this.props.elementAccessPoint.id
+    let currentEditFormState = workspaceEditFormState.get()
+    if (!currentEditFormState) {
+      currentEditFormState = {}
+    }
+    currentEditFormState[elementId] = tabs
+    workspaceEditFormState.set(currentEditFormState)
   }
 
   componentWillUnmount () {
@@ -83,6 +94,7 @@ export default class EditForm extends React.Component {
         fieldKey: tab.key,
         index: index,
         data: tab.data,
+        isActive: false,
         isVisible: true,
         pinned: tab.data.settings && tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: this.editFormTabParams(props, tab),
@@ -163,8 +175,10 @@ export default class EditForm extends React.Component {
         key={activeTab?.key}
         tab={activeTab}
         accordion={isAccordion}
+        isActive={activeTab.isActive}
         activeSectionIndex={isAccordion ? this.state.activeSectionIndex : 0}
         getReplaceShownStatus={this.getReplaceShownStatus}
+        toggleSection={this.toggleSection}
       />
     )
   }
@@ -179,7 +193,7 @@ export default class EditForm extends React.Component {
 
       if (activeTab && activeTab.fieldKey && this.permittedTabs.includes(activeTab.fieldKey)) {
         if (activeTab.data.settings.options.isSections) {
-          const sections = this.updateTabs(this.props, activeTabName)
+          const sections = this.state.tabs[activeTabName].sections
           const isAccordion = sections.length > 1
           return sections.map((tab) => {
             return this.getSection(tab, activeTabIndex, isAccordion)
@@ -254,6 +268,7 @@ export default class EditForm extends React.Component {
           }
         }}
         onAttributeChange={() => false}
+        toggleSection={this.toggleSection}
       />
     )
   }
@@ -270,6 +285,15 @@ export default class EditForm extends React.Component {
       isElementReplaceOpened: !this.state.isElementReplaceOpened,
       isEditFormSettingsOpened: false
     })
+  }
+
+  toggleSection (isActive, sectionName) {
+    const elementId = this.props.elementAccessPoint.id
+    const currentEditFormState = workspaceEditFormState.get()
+    const currentTabName = Object.keys(this.state.tabs).find(tab => this.state.tabs[tab].index === this.state.activeTabIndex)
+    const currentSectionIndex = currentEditFormState[elementId][currentTabName].sections.findIndex(section => section.fieldKey === sectionName)
+    currentEditFormState[elementId][currentTabName].sections[currentSectionIndex].isActive = isActive
+    workspaceEditFormState.set(currentEditFormState)
   }
 
   getReplaceElementBlock () {
@@ -307,18 +331,24 @@ export default class EditForm extends React.Component {
         index: 0,
         title: 'General',
         type: 'general',
-        key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`
+        key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`,
+        sections: this.allTabs
       }
     }
     let index = isDeprecatedTabs.length ? 1 : 0
 
     this.allTabs.forEach((tab) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
+        const sections = this.updateTabs(this.props, tab.fieldKey)
+        if (sections.length === 1) {
+          sections[0].isActive = true
+        }
         tabs[tab.fieldKey] = {
           index: index,
           title: tab.data.settings.options.label || tab.data.settings.options.tabLabel,
           type: tab.fieldKey,
-          key: tab.key
+          key: tab.key,
+          sections: sections
         }
         index++
       }

@@ -24,7 +24,9 @@ export default class EditFormSection extends React.Component {
     isRootElement: PropTypes.bool,
     accordion: PropTypes.bool,
     activeTabIndex: PropTypes.number,
-    activeSectionIndex: PropTypes.number
+    activeSectionIndex: PropTypes.number,
+    toggleSection: PropTypes.func,
+    isActive: PropTypes.bool
   }
 
   static localizations = dataManager.get('localizations')
@@ -32,7 +34,7 @@ export default class EditFormSection extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: !this.props.accordion,
+      isActive: props.isActive,
       dependenciesClasses: [],
       name: '',
       error: false,
@@ -106,6 +108,7 @@ export default class EditFormSection extends React.Component {
   handleClickToggleSection (e) {
     if (e.currentTarget === e.target || (e.target && e.target.classList && e.target.classList.contains('vcv-ui-edit-form-section-header-title'))) {
       this.setState({ isActive: !this.state.isActive })
+      this.props.toggleSection(!this.state.isActive, this.props.tab.fieldKey)
     }
   }
 
