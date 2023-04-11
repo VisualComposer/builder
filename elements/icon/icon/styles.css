@@ -8,8 +8,8 @@
   --shapeColor: #3CB878;
   --shapeColorHover: #3CB878;
   --linkColorHover: #36a56b;
-  --text-align: left;
-  text-align: var(--text-align);
+  --iconAlignment: left;
+  text-align: var(--iconAlignment);
 }
 .vce-features a {
   outline: none;
