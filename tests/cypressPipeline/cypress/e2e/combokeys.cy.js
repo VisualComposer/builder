@@ -9,7 +9,7 @@ describe('Keyboard shortcuts', function () {
         cy.createPage()
         cy.get('#add-content-search').should('have.focus')
 
-        // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
+        // Try Shift + A, S and T combinations, check if it only types capital letters and the current section is still open
 
         // Add elements search input
         cy.get('#add-content-search[placeholder="Search for content elements"]')
@@ -44,10 +44,11 @@ describe('Keyboard shortcuts', function () {
         // Add Text Block element
         cy.addElement('Text Block')
 
-        // Try Shift + A, S and T combinations, check if it only type capital letters and the current section is still open
+        // Try Shift + A, S and T combinations, check if it only types capital letters and the current section is still open
 
         //* ID
         cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
+        cy.contains('.vcv-ui-edit-form-section-header-title', 'HTML Attributes').click()
         cy.setInput('Element ID', '{shift}AST')
         cy.contains('.vcv-ui-navigation-slider-button', 'Content').click()
         cy.getIframe('#vcv-editor-iframe').find('#AST')
