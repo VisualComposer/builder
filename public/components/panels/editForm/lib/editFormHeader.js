@@ -163,7 +163,9 @@ export default class EditFormHeader extends React.Component {
           break
         }
       }
-      workspaceStorage.trigger('edit', accessPoint.id, accessPoint.tag, options)
+      if (accessPoint) {
+        workspaceStorage.trigger('edit', accessPoint?.id, accessPoint.tag, options)
+      }
     }
   }
 
