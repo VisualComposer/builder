@@ -165,17 +165,17 @@ export default class EditForm extends React.Component {
     return [tab]
   }
 
-  getSection (activeTab, activeTabIndex, isAccordion) {
+  getSection (activeSection, activeTabIndex, isAccordion) {
     return (
       <EditFormSection
         {...this.props}
-        sectionIndex={activeTab.index}
+        sectionIndex={activeSection.index}
         activeTabIndex={activeTabIndex}
         getSectionContentScrollbar={() => { return this.scrollbar }}
-        key={activeTab?.key}
-        tab={activeTab}
+        key={activeSection?.key}
+        tab={activeSection}
         accordion={isAccordion}
-        isActive={activeTab.isActive}
+        isActive={activeSection.isActive}
         activeSectionIndex={isAccordion ? this.state.activeSectionIndex : 0}
         getReplaceShownStatus={this.getReplaceShownStatus}
         toggleSection={this.toggleSection}
@@ -189,29 +189,29 @@ export default class EditForm extends React.Component {
       // Backwards compatibility
       // Show all attributes in General tab if none of the permitted tabs are specified
       const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
-      const activeTab = this.allTabs.find(tab => tab.fieldKey === activeTabName)
+      const activeSection = this.allTabs.find(tab => tab.fieldKey === activeTabName)
 
-      if (activeTab && activeTab.fieldKey && this.permittedTabs.includes(activeTab.fieldKey)) {
-        if (activeTab.data.settings.options.isSections) {
+      if (activeSection && activeSection.fieldKey && this.permittedTabs.includes(activeSection.fieldKey)) {
+        if (activeSection.data.settings.options.isSections) {
           const sections = this.state.tabs[activeTabName].sections
           const isAccordion = sections.length > 1
-          return sections.map((tab) => {
-            return this.getSection(tab, activeTabIndex, isAccordion)
+          return sections.map((section) => {
+            return this.getSection(section, activeTabIndex, isAccordion)
           })
         } else {
-          return this.getSection(activeTab, activeTabIndex, false)
+          return this.getSection(activeSection, activeTabIndex, false)
         }
       } else {
-        const deprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
-        const isAccordion = deprecatedTabs.length > 1
-        return deprecatedTabs.map((tab) => {
-          return this.getSection(tab, activeTabIndex, isAccordion)
+        const deprecatedSections = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
+        const isAccordion = deprecatedSections.length > 1
+        return deprecatedSections.map((section) => {
+          return this.getSection(section, activeTabIndex, isAccordion)
         })
       }
     } else {
       const isAccordion = this.allTabs.length > 1
-      return this.allTabs.map((tab) => {
-        return this.getSection(tab, activeTabIndex, isAccordion)
+      return this.allTabs.map((section) => {
+        return this.getSection(section, activeTabIndex, isAccordion)
       })
     }
   }
@@ -294,6 +294,7 @@ export default class EditForm extends React.Component {
     const currentSectionIndex = currentEditFormState[elementId][currentTabName].sections.findIndex(section => section.fieldKey === sectionName)
     currentEditFormState[elementId][currentTabName].sections[currentSectionIndex].isActive = isActive
     workspaceEditFormState.set(currentEditFormState)
+    this.setState({ tabs: currentEditFormState[elementId] })
   }
 
   getReplaceElementBlock () {
@@ -318,7 +319,7 @@ export default class EditForm extends React.Component {
   }
 
   setActiveTab (type, index) {
-    this.setState({ activeTabIndex: index, activeSectionIndex: 0 })
+    this.setState({ activeTabIndex: index })
   }
 
   getTabs () {
@@ -357,7 +358,6 @@ export default class EditForm extends React.Component {
   }
 
   render () {
-    this.allTabs = this.updateTabs(this.props)
     const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened, activeTabIndex } = this.state
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
     const tabs = this.state.tabs
