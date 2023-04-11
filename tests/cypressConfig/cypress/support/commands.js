@@ -97,7 +97,7 @@
       .first()
       .closest('.vcv-ui-item-element').click({ force: true })
       cy.wait(1000)
-      
+
       cy.get('.vcv-ui-edit-form-header').contains(elementName)
   })
 
@@ -749,309 +749,63 @@
     cy.get('#add-element-search').clear().type(element)
  })
 
+/** Set custom source(post id) as a dynamic content for Basic Button element
+*
+* @param type [string]
+* @param postId [string]
+*/
+Cypress.Commands.add('setDFCustomSource', (type, postId) => {
+  cy.addElement('Basic Button', true)
+  cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Insert dynamic content"]').first().click()
+  cy.wait(200)
+  cy.contains('label', 'Set custom post source').parent().click()
+  cy.wait(200)
+  cy.get('.vcv-ui-tag-list-item-remove[title="Remove"]').click()
+  cy.wait(500)
+  cy.contains('.vcv-ui-form-group-heading', 'Source').parent().parent().find('textarea').click({ force: true }).clear().type(postId)
+  cy.get('.vcv-ui-suggest-box').children().first().click()
+  cy.wait(500)
+  cy.get('header').contains('Dynamic Content').parent().parent().find('select').select(type)
+  cy.wait(2000)
+  cy.get('.vcv-ui-modal-action[title="Save"]').click()
 
+  cy.wait(500)
+})
 
-   /** Set custom source(post id) as a dynamic content for Basic Button element
-   *
-   * @param type [string]
-   * @param postId [string]
-   */
-    Cypress.Commands.add('setDFCustomSource', (type, postId) => {
-      cy.addElement('Basic Button', true)
-      cy.contains('.vcv-ui-form-group-heading', 'Button text').parent().parent().find('span[title="Insert dynamic content"]').first().click()
-      cy.wait(200)
-      cy.contains('label', 'Set custom post source').parent().click()
-      cy.wait(200)
-      cy.get('.vcv-ui-tag-list-item-remove[title="Remove"]').click()
-      cy.wait(500)
-      cy.contains('.vcv-ui-form-group-heading', 'Source').parent().parent().find('textarea').click({ force: true }).clear().type(postId)
-      cy.get('.vcv-ui-suggest-box').children().first().click()
-      cy.wait(500)
-      cy.get('header').contains('Dynamic Content').parent().parent().find('select').select(type)
-      cy.wait(2000)
-      cy.get('.vcv-ui-modal-action[title="Save"]').click()
+Cypress.Commands.add('saveAndViewPage', (layoutName) => {
+  cy.savePage()
+  cy.wait(5000)
+  cy.viewPage()
+})
 
-      cy.wait(500)
-     })
+Cypress.Commands.add('activateOptionPanel', () => {
+  cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="settings-control"]').click()
+  cy.get('.vcv-ui-panel-heading-text').contains('Options')
+})
 
-  Cypress.Commands.add('switchPageLayout', (layoutName) => {
-    cy.get('.vcv-ui-start-layout-list-item[title="' + layoutName + '"]').click()
-    cy.wait(3000)
+Cypress.Commands.add('cleanPostsDb', () => {
+  cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-posts-db')
+  // Make sure DB clean was success
+  cy.window().then((window) => {
+    expect('Done').to.equal(window.document.body.textContent)
   })
+})
 
-  Cypress.Commands.add('saveAndViewPage', (layoutName) => {
-    cy.savePage()
-    cy.wait(5000)
-    cy.viewPage()
+Cypress.Commands.add('cleanTermsDb', () => {
+  cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-terms-db')
+  // Make sure DB clean was success
+  cy.window().then((window) => {
+    expect('Done').to.equal(window.document.body.textContent)
   })
-
-  Cypress.Commands.add('activateOptionPanel', () => {
-    cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="settings-control"]').click()
-    cy.get('.vcv-ui-panel-heading-text').contains('Options')
+})
+Cypress.Commands.add('cleanImages', () => {
+  cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-images')
+  // Make sure clean was success
+  cy.window().then((window) => {
+    expect('Done').to.equal(window.document.body.textContent)
   })
+})
 
-  Cypress.Commands.add('checkHeaderNotExistEditor', () => {
-    cy.getIframe('#vcv-editor-iframe').contains('header.vcv-header').should('not.exist')
-  })
-
-  Cypress.Commands.add('checkFooterNotExistEditor', () => {
-    cy.getIframe('#vcv-editor-iframe').contains('footer.vcv-footer').should('not.exist')
-  })
-
-  Cypress.Commands.add('checkSidebarNotExistEditor', () => {
-    cy.getIframe('#vcv-editor-iframe').contains('aside.vcv-sidebar').should('not.exist')
-  })
-
-  Cypress.Commands.add('checkHeaderNotExistViewPage', () => {
-    cy.contains('header.vcv-header').should('not.exist')
-  })
-
-  Cypress.Commands.add('checkFooterNotExistViewPage', () => {
-    cy.contains('footer.vcv-footer').should('not.exist')
-  })
-
-  Cypress.Commands.add('checkSidebarNotExistViewPage', () => {
-    cy.contains('aside.vcv-sidebar').should('not.exist')
-  })
-
-  Cypress.Commands.add('setHeaderEditor', () => {
-    cy.setSelect('Header', 'test-themeEditor-header')
-    cy.wait(4000)
-  })
-
-  Cypress.Commands.add('setFooterEditor', () => {
-    cy.setSelect('Footer', 'test-themeEditor-footer')
-    cy.wait(4000)
-  })
-
-  Cypress.Commands.add('setSidebarEditor', () => {
-    cy.setSelect('Sidebar', 'test-themeEditor-sidebar')
-    cy.wait(4000)
-  })
-
-  Cypress.Commands.add('checkHeaderEditor', () => {
-    cy.getIframe('#vcv-editor-iframe').find(`header.vcv-header`)
-      .contains('This is header')
-  })
-
-  Cypress.Commands.add('checkFooterEditor', () => {
-    cy.getIframe('#vcv-editor-iframe').find(`footer.vcv-footer`)
-      .contains('This is footer')
-  })
-
-  Cypress.Commands.add('checkSidebarEditor', () => {
-    cy.getIframe('#vcv-editor-iframe').find(`aside.vcv-sidebar`)
-      .contains('This is sidebar')
-  })
-
-  Cypress.Commands.add('checkHeaderViewPage', () => {
-    cy.get('header.vcv-header')
-      .contains('This is header')
-  })
-
-  Cypress.Commands.add('checkFooterViewPage', () => {
-    cy.get('footer.vcv-footer')
-      .contains('This is footer')
-  })
-
-  Cypress.Commands.add('checkSidebarViewPage', () => {
-    cy.get('aside.vcv-sidebar')
-      .contains('This is sidebar')
-  })
-
-  Cypress.Commands.add('clearGlobalHfs', () => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-clean-option=vcv-headerFooterSettings')
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-clean-option=vcv-headerFooterSettingsAllHeader')
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-clean-option=vcv-headerFooterSettingsAllFooter')
-    cy.wait(1000)
-  })
-
-  Cypress.Commands.add('cleanPostsDb', () => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-posts-db')
-    // Make sure DB clean was success
-    cy.window().then((window) => {
-      expect('Done').to.equal(window.document.body.textContent)
-    })
-  })
-
-  Cypress.Commands.add('cleanTermsDb', () => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-terms-db')
-    // Make sure DB clean was success
-    cy.window().then((window) => {
-      expect('Done').to.equal(window.document.body.textContent)
-    })
-  })
-  Cypress.Commands.add('cleanImages', () => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=clean-e2e-images')
-    // Make sure clean was success
-    cy.window().then((window) => {
-      expect('Done').to.equal(window.document.body.textContent)
-    })
-  })
-
-  Cypress.Commands.add('checkDynamicFieldsVisibility', (updatedData, isEditor) => {
-    cy.log('Check Dynamic Field Visibility')
-
-    for (const fieldTag in updatedData) {
-      let find = ''
-      let contains = ''
-      if (fieldTag === 'post_categories' || fieldTag === 'post_tags') {
-        find = '.' + fieldTag + ' .vce p a'
-        contains = updatedData[fieldTag][0]
-      } else if (fieldTag === 'post_author_link') {
-        find = '.' + fieldTag + ' .vce p a'
-        contains = updatedData[fieldTag]
-      } else if (fieldTag === 'customMetaField::') {
-        find = '.customMetaField' + ' .vce p'
-        contains = updatedData[fieldTag]
-      } else if (updatedData[fieldTag]) {
-        find = '.' + fieldTag + ' .vce p'
-        contains = updatedData[fieldTag]
-      }
-
-      if (isEditor) {
-        cy.getIframe('#vcv-editor-iframe').find(find).contains(contains)
-      } else {
-        cy.get(find).contains(contains)
-      }
-    }
-  })
-
-  Cypress.Commands.add('checkDynamicFieldsImageTypeVisibility', (updatedData, isEditor) => {
-    cy.log('Check Dynamic Field Visibility on Page')
-
-    for (const fieldTag in updatedData) {
-
-      if (fieldTag === 'post_id') {
-        continue
-      }
-
-      const find = '.' + fieldTag + ' .vce-single-image-inner img'
-      const contains = updatedData[fieldTag]
-
-      if (isEditor) {
-        cy.getIframe('#vcv-editor-iframe').find(find).should('have.attr', 'src').should('include', contains)
-      } else {
-        cy.get(find).should('have.attr', 'src').should('include', contains)
-      }
-    }
-  })
-
-  // Add elements to editor and replace it with dynamic fields.
-  Cypress.Commands.add('addTextBlockElementsAndReplaceItWithDynamicFields', (settings, updatedData) => {
-    let index = 0
-    for (const fieldTag in updatedData) {
-      cy.log('Add element with dynamic field: ' + fieldTag)
-
-      const textBlockElement = settings.elements[1].name
-      if (index === 0) {
-        cy.addElement(textBlockElement)
-      } else {
-        cy.addElement(textBlockElement, true)
-      }
-
-      index++
-
-      cy.contains('.vcv-ui-form-group', 'Content')
-        .then(($field) => {
-          cy.wrap($field)
-            .find('.vcv-ui-dynamic-field-control').click({ force: true })
-        })
-
-      // wait dynamic modal to open
-      cy.contains('.vcv-ui-form-dropdown', 'Select a custom field').then(() => {
-        cy.get('.vcv-ui-form-dropdown').select(fieldTag, { force: true })
-
-        cy.get('.vcv-ui-form-dropdown').find('option:selected').should("have.value", fieldTag).then(() => {
-          // should have it in other case time to time we close the modal with default value
-          cy.wait(1000)
-          if ('customMetaField::' === fieldTag) {
-            cy.get('.vcv-ui-form-field-dynamic-extra').type('vcvTestMeta')
-          }
-
-          // click close modal button (we accept value after it)
-          cy.get('.vcv-ui-modal-action-icon.vcv-ui-icon.vcv-ui-icon-save').click({ force: true })
-        })
-      })
-
-      // we need it to more easy find element in DOM
-      cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click({ force: true })
-
-      if (fieldTag === 'customMetaField::') {
-        cy.setClassAndId(fieldTag, 'customMetaField')
-      } else {
-        cy.setClassAndId(fieldTag, fieldTag)
-      }
-    }
-  })
-  
-  // Add elements to editor and replace it with dynamic fields.
-  Cypress.Commands.add('addSingleImageElementsAndReplaceItWithDynamicFields', (settings, updatedData) => {
-    let index = 0
-    for (const fieldTag in updatedData) {
-      cy.log('Add element with dynamic field: ' + fieldTag)
-
-      if ( fieldTag === 'post_id' ) {
-        continue
-      }
-
-      const imageElement = settings.elements[2].name
-      if (index === 0) {
-        cy.addElement(imageElement)
-      } else {
-        cy.addElement(imageElement, true)
-      }
-
-      index++
-
-      cy.contains('.vcv-ui-form-group', 'single-image.jpg')
-        .then(($field) => {
-          cy.wrap($field)
-            .find('.vcv-ui-dynamic-field-control').click({ force: true })
-        })
-
-      // wait dynamic modal to open
-      cy.contains('.vcv-ui-modal-container', 'Select a custom field').then(() => {
-        cy.get('.vcv-ui-modal-container .vcv-ui-form-dropdown').select(fieldTag, { force: true })
-
-        cy.get('.vcv-ui-modal-container .vcv-ui-form-dropdown').find('option:selected').should("have.value", fieldTag).then(() => {
-          // should have it in other case time to time we close the modal with default value
-          cy.wait(1000)
-
-          // click close modal button (we accept value after it)
-          cy.get('.vcv-ui-modal-action-icon.vcv-ui-icon.vcv-ui-icon-save').click({ force: true })
-        })
-      })
-
-      // we need it to more easy find element in DOM
-      cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click({ force: true })
-
-      cy.setClassAndId(fieldTag, fieldTag)
-    }
-  })
-
-  Cypress.Commands.add('viewPostEditorByPostId', (postId) => {
-    cy.visit('/wp-admin/post.php?post=' + postId + '&action=edit&vcv-action=frontend&vcv-source-id=' + postId)
-  })
-
-  Cypress.Commands.add('createEmptyDynamicFieldsPost', () => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=test-dynamicFields-create-post')
-  })
-
-  Cypress.Commands.add('createEmptyDynamicFieldsImageTypePost', () => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=test-dynamicFields-create-image-type-post')
-  })
-
-  Cypress.Commands.add('fillDynamicFieldsPostWithData', (postId) => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=test-dynamicFields-fill-post&post-id=' + postId)
-  })
-
-  Cypress.Commands.add('fillDynamicFieldsPostWithImageData', (postId) => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=test-dynamicFields-fill-post-with-image-data&post-id=' + postId)
-  })
-
-  // if we change some site data during test
-  // we should keep initial values in cookie and than return it back
-  Cypress.Commands.add('returnPresetSiteData', () => {
-    cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=test-dynamicFields-return-pretest-data')
-  })
+Cypress.Commands.add('viewPostEditorByPostId', (postId) => {
+  cy.visit('/wp-admin/post.php?post=' + postId + '&action=edit&vcv-action=frontend&vcv-source-id=' + postId)
+})
