@@ -148,7 +148,16 @@ addStorage('elements', (storage) => {
               childElements.push(children)
             }
             const callback = isLoadContent && getChildElements
+            const editorType = dataManager.get('editorType')
+            const elData = cookElement.toJS()
 
+            if (editorType === 'popup' && isLoadContent && elData.tag === 'column') {
+              window.setTimeout(() => {
+                const rowElement = getParent(elData)
+                rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
+                storage.trigger('update', rowElement.id, rowElement, '')
+              }, 0)
+            }
             newData[key] = getElementToJS(cookElement, callback)
 
             if (childElements && childElements.length) {
