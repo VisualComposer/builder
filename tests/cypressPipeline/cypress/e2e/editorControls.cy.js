@@ -17,7 +17,6 @@ describe('Editor controls', function () {
       cy.setButtonGroup('Shape', settings.shape.name)
       cy.setButtonGroup('Size', settings.size.name)
       cy.setSwitch('Stretch')
-      cy.contains('.vcv-ui-edit-form-section-header-title', 'Design Options').click()
       cy.setColor(settings.backgroundColor)
       cy.setDO(settings.designOptions)
       cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
