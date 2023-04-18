@@ -43,7 +43,7 @@
   -ms-flex-order: 2;
       -webkit-order: 2;
           order: 2;
-  background-color: #b3a694;
+  /*background-color: #b3a694;*/
   background-position: center;
   padding: 30px 0;
   color: #fff;
