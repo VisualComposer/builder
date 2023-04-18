@@ -280,25 +280,7 @@ class Controller extends Container implements Module
         kses_remove_filters();
         remove_filter('content_save_pre', 'balanceTags', 50);
 
-        if ($isPreview && !empty($previewPost)) {
-            // @codingStandardsIgnoreLine
-            if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
-                // @codingStandardsIgnoreLine
-                $post->post_status = 'draft';
-                // @codingStandardsIgnoreLine
-                wp_update_post($post);
-                $this->updatePostMeta($sourceId);
-
-                $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePostMeta($previewSourceId);
-            } else {
-                $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePostMeta($previewSourceId);
-            }
-        } else {
-            wp_update_post($post);
-            $this->updatePostMeta($sourceId);
-        }
+        $this->updateSavedPostData($post, $sourceId, $isPreview, $previewPost);
 
         $this->saveUsageStatistic($sourceId);
 
@@ -319,6 +301,36 @@ class Controller extends Container implements Module
         ob_get_clean();
 
         return array_merge($response, $responseExtra);
+    }
+
+    /**
+     * Update post data when process post saving.
+     *
+     * @param object $post
+     * @param int $sourceId
+     * @param bool $isPreview
+     * @param object $previewPost
+     */
+    public function updateSavedPostData($post, $sourceId, $isPreview, $previewPost)
+    {
+        if ($isPreview && !empty($previewPost)) {
+            // @codingStandardsIgnoreLine
+            if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
+                // @codingStandardsIgnoreLine
+                $post->post_status = 'draft';
+                wp_update_post($post);
+                $this->updatePostMeta($sourceId);
+
+                $previewSourceId = wp_update_post($previewPost[0]);
+                $this->updatePostMeta($previewSourceId);
+            } else {
+                $previewSourceId = wp_update_post($previewPost[0]);
+                $this->updatePostMeta($previewSourceId);
+            }
+        } else {
+            wp_update_post($post);
+            $this->updatePostMeta($sourceId);
+        }
     }
 
     /**
