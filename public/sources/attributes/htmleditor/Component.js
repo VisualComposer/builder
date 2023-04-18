@@ -338,6 +338,7 @@ export default class HtmlEditorWrapper extends Attribute {
         />
         {dynamicComponent}
         {this.getExtraToggle()}
+        <div className='vcv-ui-form-wp-tinymce-clearfix'></div>
       </div>
     )
   }
