@@ -20,6 +20,10 @@
   left: 0;
 }
 
+.vcv-ui-form-wp-tinymce-clearfix {
+  clear: both;
+}
+
 .mce-content-body .mce-reset {
   margin: 0;
   padding: 0;
