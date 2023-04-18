@@ -170,12 +170,12 @@ class Controller extends Container implements Module
             return ['status' => false]; // sourceId must be provided
         }
 
-        $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $payload['sourceId']);
-
-        list($accessCheck, $sourceId) = $this->checkSourceId($sourceId);
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
+
+        $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $payload['sourceId']);
+        list($accessCheck, $sourceId) = $this->checkSourceId($sourceId);
 
         if (!is_array($response)) {
             $response = [];
@@ -186,19 +186,29 @@ class Controller extends Container implements Module
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
-                if ($requestHelper->input('vcv-updatePost') === '1') {
-                    vchelper('Events')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId, $payload);
-                }
+                $this->fireRemoveUpdatePost($sourceId, $payload);
 
                 return $this->updatePostData($post, $sourceId, $response);
             }
         }
-        if (!is_array($response)) {
-            $response = [];
-        }
-        $response['status'] = false;
 
-        return $response;
+        return ['status' => false];
+    }
+
+    /**
+     * Fire event to remove post update.
+     *
+     * @param int $sourceId
+     * @param array $payload
+     */
+    protected function fireRemoveUpdatePost($sourceId, $payload)
+    {
+        $requestHelper = vchelper('Request');
+        if ($requestHelper->input('vcv-updatePost') !== '1') {
+            return;
+        }
+
+        vchelper('Events')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId, $payload);
     }
 
     protected function updatePostData($post, $sourceId, $response)
@@ -209,7 +219,6 @@ class Controller extends Container implements Module
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $requestHelper = vchelper('Request');
         $assetsHelper = vchelper('Assets');
-        $optionsHelper = vchelper('Options');
         $previewHelper = vchelper('Preview');
 
         $dataDecoded = $requestHelper->inputJson('vcv-data');
@@ -291,32 +300,13 @@ class Controller extends Container implements Module
             $this->updatePostMeta($sourceId);
         }
 
-        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
-        if ($isAllowed) {
-            $licenseType = $requestHelper->input('vcv-license-type');
-            $elements = $requestHelper->input('vcv-elements');
-            vcevent(
-                'vcv:saveUsageStats',
-                [
-                    'response' => [],
-                    'payload' => ['sourceId' => $sourceId, 'elements' => $elements, 'licenseType' => $licenseType],
-                ]
-            );
-        }
+        $this->saveUsageStatistic($sourceId);
 
         //bring it back once you're done posting
         $postTypeHelper->setupPost($sourceId);
-        $responseExtra = $filterHelper->fire(
-            'vcv:dataAjax:setData',
-            [
-                'status' => true,
-            ],
-            [
-                'sourceId' => $sourceId,
-                'post' => $post,
-                'data' => $requestHelper->input('vcv-data'),
-            ]
-        );
+
+        $responseExtra = $this->getExtraResponse($sourceId, $post);
+
         // Clearing wp cache
         wp_cache_flush();
         vcevent(
@@ -329,6 +319,56 @@ class Controller extends Container implements Module
         ob_get_clean();
 
         return array_merge($response, $responseExtra);
+    }
+
+    /**
+     * Fire up ajax set data event.
+     *
+     * @param int $sourceId
+     * @param object $post
+     *
+     * @return array
+     */
+    public function getExtraResponse($sourceId, $post)
+    {
+        $filterHelper = vchelper('Filters');
+        $requestHelper = vchelper('Request');
+
+        return $filterHelper->fire(
+            'vcv:dataAjax:setData',
+            [
+                'status' => true,
+            ],
+            [
+                'sourceId' => $sourceId,
+                'post' => $post,
+                'data' => $requestHelper->input('vcv-data'),
+            ]
+        );
+    }
+
+    /**
+     * Fire up user stats event.
+     *
+     * @param int $sourceId
+     */
+    public function saveUsageStatistic($sourceId)
+    {
+        $optionsHelper = vchelper('Options');
+        $requestHelper = vchelper('Request');
+
+        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
+        if ($isAllowed) {
+            $licenseType = $requestHelper->input('vcv-license-type');
+            $elements = $requestHelper->input('vcv-elements');
+            vcevent(
+                'vcv:saveUsageStats',
+                [
+                    'response' => [],
+                    'payload' => ['sourceId' => $sourceId, 'elements' => $elements, 'licenseType' => $licenseType],
+                ]
+            );
+        }
     }
 
     protected function updatePostMeta($sourceId)
