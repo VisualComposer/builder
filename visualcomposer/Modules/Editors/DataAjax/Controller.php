@@ -211,6 +211,15 @@ class Controller extends Container implements Module
         vchelper('Events')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId, $payload);
     }
 
+    /**
+     * Main plugin action to update post data.
+     *
+     * @param object $post
+     * @param int $sourceId
+     * @param array $response
+     *
+     * @return array
+     */
     protected function updatePostData($post, $sourceId, $response)
     {
         ob_start();
@@ -280,27 +289,35 @@ class Controller extends Container implements Module
         kses_remove_filters();
         remove_filter('content_save_pre', 'balanceTags', 50);
 
-        $this->updateSavedPostData($post, $sourceId, $isPreview, $previewPost);
+        $is_updated = $this->updateSavedPostData($post, $sourceId, $isPreview, $previewPost);
 
-        $this->saveUsageStatistic($sourceId);
+        if ($is_updated) {
+            $this->saveUsageStatistic($sourceId);
 
-        //bring it back once you're done posting
-        $postTypeHelper->setupPost($sourceId);
+            //bring it back once you're done posting
+            $postTypeHelper->setupPost($sourceId);
 
-        $responseExtra = $this->getExtraResponse($sourceId, $post);
+            $responseExtra = $this->getExtraResponse($sourceId, $post);
 
-        // Clearing wp cache
-        wp_cache_flush();
-        vcevent(
-            'vcv:api:postSaved',
-            ['sourceId' => $sourceId, 'post' => $post]
-        );
-        // Flush global $post cache
-        $postTypeHelper->setupPost($sourceId);
-        $responseExtra['postData'] = $postTypeHelper->getPostData();
+            // Clearing wp cache
+            wp_cache_flush();
+            vcevent(
+                'vcv:api:postSaved',
+                ['sourceId' => $sourceId, 'post' => $post]
+            );
+            // Flush global $post cache
+            $postTypeHelper->setupPost($sourceId);
+            $responseExtra['postData'] = $postTypeHelper->getPostData();
+        }
         ob_get_clean();
 
-        return array_merge($response, $responseExtra);
+        if ($is_updated) {
+            $response = array_merge($response, $responseExtra);
+        } else {
+            $response = ['status' => false];
+        }
+
+        return $response;
     }
 
     /**
@@ -310,27 +327,44 @@ class Controller extends Container implements Module
      * @param int $sourceId
      * @param bool $isPreview
      * @param object $previewPost
+     *
+     * @return bool
      */
     public function updateSavedPostData($post, $sourceId, $isPreview, $previewPost)
     {
+        $isUpdated = true;
         if ($isPreview && !empty($previewPost)) {
             // @codingStandardsIgnoreLine
             if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
                 // @codingStandardsIgnoreLine
                 $post->post_status = 'draft';
-                wp_update_post($post);
-                $this->updatePostMeta($sourceId);
+                $updateResult = wp_update_post($post);
+                if (!is_wp_error($updateResult) && $updateResult) {
+                    $this->updatePostMeta($sourceId);
 
-                $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePostMeta($previewSourceId);
+                    $previewSourceId = wp_update_post($previewPost[0]);
+                    $this->updatePostMeta($previewSourceId);
+                } else {
+                    $isUpdated = false;
+                }
             } else {
                 $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePostMeta($previewSourceId);
+                if (!is_wp_error($previewSourceId) && $previewSourceId) {
+                    $this->updatePostMeta($previewSourceId);
+                } else {
+                    $isUpdated = false;
+                }
             }
         } else {
-            wp_update_post($post);
-            $this->updatePostMeta($sourceId);
+            $updateResult = wp_update_post($post);
+            if (!is_wp_error($updateResult) && $updateResult) {
+                $this->updatePostMeta($sourceId);
+            } else {
+                $isUpdated = false;
+            }
         }
+
+        return $isUpdated;
     }
 
     /**
