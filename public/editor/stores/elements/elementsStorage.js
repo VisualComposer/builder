@@ -52,7 +52,7 @@ addStorage('elements', (storage) => {
   const addChildElement = (initChild, parentId, callback) => {
     initChild.parent = parentId
     const childData = cook.get(initChild)
-    let childDataJS = childData?.toJS()
+    let childDataJS = { ...childData?.toJS(), isInitChild: true }
     if (initChild?.exclude) {
       childDataJS = {
         ...childDataJS,
