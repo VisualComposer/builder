@@ -245,6 +245,12 @@ addStorage('workspace', (storage) => {
       return
     }
 
+    // Updating parent for changes related to child visibility
+    if (element?.isInitChild) {
+      const parentElement = documentManager.get(element?.parent)
+      elementsStorage.trigger('update', element?.parent, parentElement)
+    }
+
     const newElement = element
     newElement.hidden = !element.hidden
     elementsStorage.trigger('update', id, newElement, '', { hidden: element.hidden, action: 'hide' })
