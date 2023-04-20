@@ -170,12 +170,12 @@ class Controller extends Container implements Module
             return ['status' => false]; // sourceId must be provided
         }
 
-        $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $payload['sourceId']);
-
-        list($accessCheck, $sourceId) = $this->checkSourceId($sourceId);
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
+
+        $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $payload['sourceId']);
+        list($accessCheck, $sourceId) = $this->checkSourceId($sourceId);
 
         if (!is_array($response)) {
             $response = [];
@@ -186,21 +186,40 @@ class Controller extends Container implements Module
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
-                if ($requestHelper->input('vcv-updatePost') === '1') {
-                    vchelper('Events')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId, $payload);
-                }
+                $this->fireRemoveUpdatePost($sourceId, $payload);
 
                 return $this->updatePostData($post, $sourceId, $response);
             }
         }
-        if (!is_array($response)) {
-            $response = [];
-        }
-        $response['status'] = false;
 
-        return $response;
+        return ['status' => false];
     }
 
+    /**
+     * Fire event to remove post update.
+     *
+     * @param int $sourceId
+     * @param array $payload
+     */
+    protected function fireRemoveUpdatePost($sourceId, $payload)
+    {
+        $requestHelper = vchelper('Request');
+        if ($requestHelper->input('vcv-updatePost') !== '1') {
+            return;
+        }
+
+        vchelper('Events')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId, $payload);
+    }
+
+    /**
+     * Main plugin action to update post data.
+     *
+     * @param object $post
+     * @param int $sourceId
+     * @param array $response
+     *
+     * @return array
+     */
     protected function updatePostData($post, $sourceId, $response)
     {
         ob_start();
@@ -209,7 +228,6 @@ class Controller extends Container implements Module
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $requestHelper = vchelper('Request');
         $assetsHelper = vchelper('Assets');
-        $optionsHelper = vchelper('Options');
         $previewHelper = vchelper('Preview');
 
         $dataDecoded = $requestHelper->inputJson('vcv-data');
@@ -271,25 +289,119 @@ class Controller extends Container implements Module
         kses_remove_filters();
         remove_filter('content_save_pre', 'balanceTags', 50);
 
+        $is_updated = $this->updateSavedPostData($post, $sourceId, $isPreview, $previewPost);
+
+        if ($is_updated) {
+            $this->saveUsageStatistic($sourceId);
+
+            //bring it back once you're done posting
+            $postTypeHelper->setupPost($sourceId);
+
+            $responseExtra = $this->getExtraResponse($sourceId, $post);
+
+            // Clearing wp cache
+            wp_cache_flush();
+            vcevent(
+                'vcv:api:postSaved',
+                ['sourceId' => $sourceId, 'post' => $post]
+            );
+            // Flush global $post cache
+            $postTypeHelper->setupPost($sourceId);
+            $responseExtra['postData'] = $postTypeHelper->getPostData();
+        }
+        ob_get_clean();
+
+        if ($is_updated) {
+            $response = array_merge($response, $responseExtra);
+        } else {
+            $response = ['status' => false];
+        }
+
+        return $response;
+    }
+
+    /**
+     * Update post data when process post saving.
+     *
+     * @param object $post
+     * @param int $sourceId
+     * @param bool $isPreview
+     * @param object $previewPost
+     *
+     * @return bool
+     */
+    public function updateSavedPostData($post, $sourceId, $isPreview, $previewPost)
+    {
+        $isUpdated = true;
         if ($isPreview && !empty($previewPost)) {
             // @codingStandardsIgnoreLine
             if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
                 // @codingStandardsIgnoreLine
                 $post->post_status = 'draft';
-                // @codingStandardsIgnoreLine
-                wp_update_post($post);
-                $this->updatePostMeta($sourceId);
+                $updateResult = wp_update_post($post);
+                if (!is_wp_error($updateResult) && $updateResult) {
+                    $this->updatePostMeta($sourceId);
 
-                $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePostMeta($previewSourceId);
+                    $previewSourceId = wp_update_post($previewPost[0]);
+                    $this->updatePostMeta($previewSourceId);
+                } else {
+                    $isUpdated = false;
+                }
             } else {
                 $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePostMeta($previewSourceId);
+                if (!is_wp_error($previewSourceId) && $previewSourceId) {
+                    $this->updatePostMeta($previewSourceId);
+                } else {
+                    $isUpdated = false;
+                }
             }
         } else {
-            wp_update_post($post);
-            $this->updatePostMeta($sourceId);
+            $updateResult = wp_update_post($post);
+            if (!is_wp_error($updateResult) && $updateResult) {
+                $this->updatePostMeta($sourceId);
+            } else {
+                $isUpdated = false;
+            }
         }
+
+        return $isUpdated;
+    }
+
+    /**
+     * Fire up ajax set data event.
+     *
+     * @param int $sourceId
+     * @param object $post
+     *
+     * @return array
+     */
+    public function getExtraResponse($sourceId, $post)
+    {
+        $filterHelper = vchelper('Filters');
+        $requestHelper = vchelper('Request');
+
+        return $filterHelper->fire(
+            'vcv:dataAjax:setData',
+            [
+                'status' => true,
+            ],
+            [
+                'sourceId' => $sourceId,
+                'post' => $post,
+                'data' => $requestHelper->input('vcv-data'),
+            ]
+        );
+    }
+
+    /**
+     * Fire up user stats event.
+     *
+     * @param int $sourceId
+     */
+    public function saveUsageStatistic($sourceId)
+    {
+        $optionsHelper = vchelper('Options');
+        $requestHelper = vchelper('Request');
 
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         if ($isAllowed) {
@@ -303,32 +415,6 @@ class Controller extends Container implements Module
                 ]
             );
         }
-
-        //bring it back once you're done posting
-        $postTypeHelper->setupPost($sourceId);
-        $responseExtra = $filterHelper->fire(
-            'vcv:dataAjax:setData',
-            [
-                'status' => true,
-            ],
-            [
-                'sourceId' => $sourceId,
-                'post' => $post,
-                'data' => $requestHelper->input('vcv-data'),
-            ]
-        );
-        // Clearing wp cache
-        wp_cache_flush();
-        vcevent(
-            'vcv:api:postSaved',
-            ['sourceId' => $sourceId, 'post' => $post]
-        );
-        // Flush global $post cache
-        $postTypeHelper->setupPost($sourceId);
-        $responseExtra['postData'] = $postTypeHelper->getPostData();
-        ob_get_clean();
-
-        return array_merge($response, $responseExtra);
     }
 
     protected function updatePostMeta($sourceId)

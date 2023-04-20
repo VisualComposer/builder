@@ -102,6 +102,8 @@ class Frontend implements Helper
     }
 
     /**
+     * Check if current page is our plugin editor.
+     *
      * @return bool
      */
     public function isPageEditable()
