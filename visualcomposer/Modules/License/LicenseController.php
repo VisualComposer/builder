@@ -99,7 +99,7 @@ class LicenseController extends Container implements Module
             return ['status' => false, 'response' => $resultBody];
         }
 
-        if (!vcIsBadResponse($resultBody)) {
+        if (!vcIsBadResponse($result)) {
             $licenseType = $resultBody['license_type'];
             if ($licenseType !== 'free') {
                 $resultBody['license'] = $licenseKey;
