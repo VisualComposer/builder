@@ -191,24 +191,14 @@ export default class EditForm extends React.Component {
       // Backwards compatibility
       // Show all attributes in General tab if none of the permitted tabs are specified
       const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
-      const activeSection = this.allTabs.find(tab => tab.fieldKey === activeTabName)
-
-      if (activeSection && activeSection.fieldKey && this.permittedTabs.includes(activeSection.fieldKey)) {
-        if (activeSection.data.settings.options.isSections) {
-          const sections = this.state.tabs[activeTabName].sections
-          const isAccordion = sections.length > 1
-          return sections.map((section) => {
-            return this.getSection(section, activeTabIndex, isAccordion)
-          })
-        } else {
-          return this.getSection(activeSection, activeTabIndex, false)
-        }
-      } else {
-        const deprecatedSections = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
-        const isAccordion = deprecatedSections.length > 1
-        return deprecatedSections.map((section) => {
+      const sections = realTabs[activeTabName].sections
+      const isAccordion = sections.length > 1
+      if (isAccordion) {
+        return sections.map((section) => {
           return this.getSection(section, activeTabIndex, isAccordion)
         })
+      } else {
+        return this.getSection(sections[0], activeTabIndex, false)
       }
     } else {
       const isAccordion = this.allTabs.length > 1
@@ -296,7 +286,7 @@ export default class EditForm extends React.Component {
     const currentTabName = Object.keys(this.state.tabs).find(tab => this.state.tabs[tab].index === this.state.activeTabIndex)
     for (const id in currentEditFormState) {
       const element = currentEditFormState[id]
-      if (element[currentTabName].sections.length > 1) {
+      if (element[currentTabName] && element[currentTabName].sections.length > 1) {
         element[currentTabName].sections.forEach(section => {
           if (section.fieldKey === sectionName) {
             section.isActive = isActive
@@ -346,7 +336,7 @@ export default class EditForm extends React.Component {
         title: 'General',
         type: 'general',
         key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`,
-        sections: this.allTabs
+        sections: isDeprecatedTabs
       }
     }
     let index = isDeprecatedTabs.length ? 1 : 0
