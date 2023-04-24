@@ -14,7 +14,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
- * Backward compatibility with "Essential Grid Gallery" wordPress plugin.
+ * Backward compatibility with "Advanced custom fields" wordPress plugin.
  *
  * @see https://wordpress.org/plugins/advanced-custom-fields/
  */

@@ -110,7 +110,7 @@ class Color extends Attribute {
     const { format } = this.props.options
     const { updater, fieldKey } = this.props
     const color = tinycolor(sketchValue.rgb)
-    let value = ''
+    let value = 'rgba(0, 0, 0, 0)'
 
     if (color.toString(format || 'rgb') !== this.getEmptyColor()) {
       // update color value

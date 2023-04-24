@@ -30,7 +30,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       'vce-feature-section-image': true,
       [`vce-feature-section-image--alignment-${imageAlignment}`]: imageAlignment,
       [`vce-feature-section-image--background-position-${backgroundImagePosition.replace(' ', '-')}`]: backgroundImagePosition,
-      [`vce-image-filter--${image.filter}`]: image && image.filter && image.filter !== 'normal'
+      [`vce-image-filter--${image?.filter}`]: image?.filter !== 'normal'
     })
 
     const imageStyles = {}

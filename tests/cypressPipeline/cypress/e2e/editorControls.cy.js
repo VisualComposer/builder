@@ -12,14 +12,15 @@ describe('Editor controls', function () {
       cy.setInput('Button text', settings.buttonText)
       cy.setURL('Link selection', settings.buttonLink)
       cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
+      cy.contains('.vcv-ui-edit-form-section-header-title', 'Style').click()
       cy.setButtonGroup('Alignment', settings.alignment)
       cy.setButtonGroup('Shape', settings.shape.name)
       cy.setButtonGroup('Size', settings.size.name)
       cy.setSwitch('Stretch')
-      cy.contains('.vcv-ui-navigation-slider-button', 'Design').click()
       cy.setColor(settings.backgroundColor)
       cy.setDO(settings.designOptions)
       cy.contains('.vcv-ui-navigation-slider-button', 'Advanced').click()
+      cy.contains('.vcv-ui-edit-form-section-header-title', 'HTML Attributes').click()
       cy.setClassAndId(settings.customId, settings.customClass)
 
       // 2. Open Templates panel

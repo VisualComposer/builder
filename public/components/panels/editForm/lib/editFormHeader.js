@@ -148,22 +148,30 @@ export default class EditFormHeader extends React.Component {
   }
 
   handleClickGoBack () {
-    const { parentElementId, options } = this.props.options
-    // If multiple nesting used we can goBack only to ROOT
     if (this.props.isEditFormSettingsOpened) {
       this.props.handleEditFormSettingsToggle()
     } else if (this.props.isElementReplaceOpened) {
       this.props.handleReplaceElementToggle()
-    } else {
-      let accessPoint = elementAccessPointService.getInstance(parentElementId)
-      while (accessPoint?.inner) {
-        if (accessPoint.parentElementId) {
-          accessPoint = elementAccessPointService.getInstance(parentElementId)
-        } else {
-          break
-        }
+    }
+  }
+
+  handleClickGoParent (parentId) {
+    const { parentElementId, options } = this.props.options
+    // If multiple nesting used we can goBack only to ROOT
+    let accessPoint = elementAccessPointService.getInstance(parentElementId)
+    if (!accessPoint) {
+      accessPoint = elementAccessPointService.getInstance(parentId)
+    }
+
+    while (accessPoint?.inner) {
+      if (accessPoint.parentElementId) {
+        accessPoint = elementAccessPointService.getInstance(parentElementId)
+      } else {
+        break
       }
-      workspaceStorage.trigger('edit', accessPoint.id, accessPoint.tag, options)
+    }
+    if (accessPoint) {
+      workspaceStorage.trigger('edit', accessPoint?.id, accessPoint.tag, options)
     }
   }
 
@@ -263,8 +271,6 @@ export default class EditFormHeader extends React.Component {
     const {
       elementAccessPoint,
       options,
-      isEditFormSettingsOpened,
-      isElementReplaceOpened,
       handleReplaceElementToggle
     } = this.props
 
@@ -280,19 +286,19 @@ export default class EditFormHeader extends React.Component {
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
     let parentButton = null
+    const parentId = elementAccessPoint.cook()?.toJS()?.parent
+    const parentElement = cook.getById(parentId)
 
-    if (isNested || isEditFormSettingsOpened || isElementReplaceOpened) {
-      const parentId = elementAccessPoint.cook()?.toJS()?.parent
-      const parentElement = cook.getById(parentId)
+    if (parentElement) {
       const parentIconSrc = hubElementsService.getElementIcon(parentElement.get('tag'))
       const parentTitle = `Parent: ${parentElement.get('name')}`
 
       if (parentIconSrc) {
-        parentButton = <img className='vcv-ui-edit-form-parent-button' onClick={this.handleClickGoBack} src={parentIconSrc} title={parentTitle} />
+        parentButton = <img className='vcv-ui-edit-form-parent-button' onClick={() => this.handleClickGoParent(parentId)} src={parentIconSrc} title={parentTitle} />
       }
 
       backButton = (
-        <span className='vcv-ui-edit-form-back-button' onClick={this.handleClickGoBack} title={backToParentTitle}>
+        <span className='vcv-ui-edit-form-back-button' onClick={() => this.handleClickGoParent(parentId)} title={backToParentTitle}>
           <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
         </span>
       )
