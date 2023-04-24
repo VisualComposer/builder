@@ -247,6 +247,7 @@ export default class EditForm extends React.Component {
         isRootElement={isRootElement || isContainerElement}
         sectionIndex={0}
         activeTabIndex={0}
+        isActive={true}
         getSectionContentScrollbar={() => { return this.scrollbar }}
         elementId={this.props.elementAccessPoint.id}
         tab={{
