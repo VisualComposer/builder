@@ -246,7 +246,9 @@ export default class DesignOptions extends Attribute {
 
   componentDidMount () {
     window.setTimeout(() => {
-      this.getDefaultStyles()
+      this.setState({
+        defaultStyles: this.getDefaultStyles()
+      })
     }, 200)
 
     if (!this.props.elementSelector) {
@@ -269,7 +271,9 @@ export default class DesignOptions extends Attribute {
   handleElementChange (data, source, options) {
     if (!options || options.action !== 'hide') {
       setTimeout(() => {
-        this.getDefaultStyles()
+        this.setState({
+          defaultStyles: this.getDefaultStyles()
+        })
       }, 200)
     } else {
       this.forceUpdate()
@@ -849,7 +853,7 @@ export default class DesignOptions extends Attribute {
           api={this.props.api}
           fieldKey='boxModel'
           updater={this.boxModelChangeHandler}
-          placeholder={this.state.defaultStyles}
+          placeholder={this.state.defaultStyles ? this.state.defaultStyles : this.getDefaultStyles()}
           value={value}
         />
       </div>
@@ -915,10 +919,7 @@ export default class DesignOptions extends Attribute {
       }
     }
 
-    const parsedStyles = this.parseStyles(mainDefaultStyles)
-    this.setState({
-      defaultStyles: parsedStyles
-    })
+    return this.parseStyles(mainDefaultStyles)
   }
 
   /**
