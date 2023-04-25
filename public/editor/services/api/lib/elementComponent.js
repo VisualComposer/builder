@@ -168,8 +168,7 @@ export default class ElementComponent extends React.Component {
 
   applyDO (prop) {
     let propObj = {}
-
-    if (prop === 'all' || prop.indexOf('background') > -1) {
+    const setBackgroundImageProps = () => {
       if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
         propObj = Object.assign({}, propObj, this.getImageData())
       }
@@ -205,6 +204,23 @@ export default class ElementComponent extends React.Component {
           }
         }
       }
+    }
+
+    if (prop.includes('backgroundColor')) {
+      prop += ` el-${this.props.id}`
+      propObj['data-vce-do-apply'] = prop
+      return propObj
+    }
+
+    if (prop.includes('backgroundImage')) {
+      setBackgroundImageProps()
+      prop += ` el-${this.props.id}`
+      propObj['data-vce-do-apply'] = prop
+      return propObj
+    }
+
+    if (prop === 'all' || prop.indexOf('background') > -1) {
+      setBackgroundImageProps()
     }
 
     // checking all

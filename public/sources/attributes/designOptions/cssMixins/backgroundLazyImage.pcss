@@ -1,15 +1,27 @@
 #$selector[data-vce-do-apply*="all"],
 #$selector [data-vce-do-apply*="all"],
-#$selector[data-vce-do-apply*="background"],
-#$selector [data-vce-do-apply*="background"],
+#$selector[data-vce-do-apply*="background"]:not([data-vce-do-apply*="backgroundColor"]),
+#$selector [data-vce-do-apply*="background"]:not([data-vce-do-apply*="backgroundColor"]),
 #clone-$selector[data-vce-do-apply*="all"],
 #clone-$selector [data-vce-do-apply*="all"],
-#clone-$selector[data-vce-do-apply*="background"],
-#clone-$selector [data-vce-do-apply*="background"] {
+#clone-$selector[data-vce-do-apply*="background"]:not([data-vce-do-apply*="backgroundColor"]),
+#clone-$selector [data-vce-do-apply*="background"]:not([data-vce-do-apply*="backgroundColor"]) {
   &[data-vce-do-apply*="$selector"] {
     @media (--$(device)-only) {
       @if $backgroundImage != false {
-        background-image: var(--$(selector)-$(device)-backgroundImage);
+        background-image: url($backgroundImage);
+      }
+
+      @if $backgroundPosition != false {
+        background-position: $backgroundPosition;
+      }
+
+      @if $backgroundSize != false {
+        background-size: $backgroundSize;
+      }
+
+      @if $backgroundRepeat != false {
+        background-repeat: $backgroundRepeat;
       }
     }
   }
@@ -27,6 +39,18 @@
     @media (--$(device)-only) {
       @if $backgroundImage != false {
         background-image: url($backgroundImage);
+      }
+
+      @if $backgroundPosition != false {
+        background-position: $backgroundPosition;
+      }
+
+      @if $backgroundSize != false {
+        background-size: $backgroundSize;
+      }
+
+      @if $backgroundRepeat != false {
+        background-repeat: $backgroundRepeat;
       }
     }
   }
