@@ -26,6 +26,11 @@ uksort(
         return $roleFirstPos - $roleSecondPos;
     }
 );
+
+if (is_multisite()) {
+    $editableRoles = ['super-administrator' => ['name' => 'Super Administrator']] + $editableRoles;
+}
+
 $roleAccessHelper = vchelper('AccessRole');
 $outputHelper = vchelper('Output');
 $accessParts = $roleAccessHelper->getAvailableParts();
@@ -145,7 +150,7 @@ left: -69px;
     }
     foreach ($editableRoles as $roleKey => $details) {
         $roleObject = get_role($roleKey);
-        if (!$roleObject) {
+        if (!$roleObject && $roleKey !== 'super-administrator') {
             continue;
         }
         $name = translate_user_role($details['name']);
@@ -158,7 +163,7 @@ left: -69px;
    </div>
    <div class="vcv-dashboard-accordion-item-content">';
         // IF role doesn't have cap `unfiltered_html` show notice
-        if (!$roleObject->has_cap('unfiltered_html')) {
+        if ($roleObject && !$roleObject->has_cap('unfiltered_html')) {
             echo '<div class="notice inline notice-warning" style="display:block !important;padding: 5px 12px;"><span>' . sprintf(
                 // translators: %1$s - role name, %2$s - link to help page, %3$s - capability, %4$s - </a>
                 __(
@@ -191,6 +196,11 @@ left: -69px;
                 '<p class="description admin-description">%s</p>',
                 esc_html__('All other features are enabled for the Administrator user role.', 'visualcomposer')
             );
+        } elseif ($roleKey === 'super-administrator') {
+            echo sprintf(
+                '<p class="description">%s</p>',
+                esc_html__('All features are enabled for the Super Administrator user role.', 'visualcomposer')
+            );
         } elseif ($roleKey === 'subscriber') {
             echo sprintf(
                 '<p class="description">%s</p>',
@@ -199,7 +209,7 @@ left: -69px;
         } elseif (!$roleObject->has_cap('edit_posts')) {
             echo sprintf(
                 '<p class="description">%s</p>',
-                esc_html__('All options are disabled for this user role. No `edit_posts` capability enabled.', 'visualcomposer')
+                esc_html__('All features are disabled for this user role. No `edit_posts` capability enabled.', 'visualcomposer')
             );
         } else {
             $presetPart = 'role_presets';
