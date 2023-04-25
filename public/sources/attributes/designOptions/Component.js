@@ -144,6 +144,15 @@ export default class DesignOptions extends Attribute {
         },
         backgroundImage: {
           value: false
+        },
+        backgroundPosition: {
+          value: false
+        },
+        backgroundRepeat: {
+          value: false
+        },
+        backgroundSize: {
+          value: false
         }
       }
     },
@@ -155,6 +164,15 @@ export default class DesignOptions extends Attribute {
         },
         backgroundImage: {
           value: false
+        },
+        backgroundPosition: {
+          value: false
+        },
+        backgroundRepeat: {
+          value: false
+        },
+        backgroundSize: {
+          value: false
         }
       }
     },
@@ -165,15 +183,6 @@ export default class DesignOptions extends Attribute {
           value: 'all'
         },
         backgroundColor: {
-          value: false
-        },
-        backgroundPosition: {
-          value: false
-        },
-        backgroundRepeat: {
-          value: false
-        },
-        backgroundSize: {
           value: false
         }
       }
@@ -583,43 +592,43 @@ export default class DesignOptions extends Attribute {
         const sizeState = sizeStyles.indexOf(newValue[device].backgroundStyle) >= 0
 
         if (sizeState) {
-          newMixins[mixinName].variables.backgroundRepeat = {
+          newMixins[mixinNameImage].variables.backgroundRepeat = {
             value: false
           }
           switch (newValue[device].backgroundStyle) {
             case 'full-width':
-              newMixins[mixinName].variables.backgroundSize = {
+              newMixins[mixinNameImage].variables.backgroundSize = {
                 value: '100% auto'
               }
               break
             case 'full-height':
-              newMixins[mixinName].variables.backgroundSize = {
+              newMixins[mixinNameImage].variables.backgroundSize = {
                 value: 'auto 100%'
               }
               break
             default:
-              newMixins[mixinName].variables.backgroundRepeat = {
+              newMixins[mixinNameImage].variables.backgroundRepeat = {
                 value: 'no-repeat'
               }
-              newMixins[mixinName].variables.backgroundSize = {
+              newMixins[mixinNameImage].variables.backgroundSize = {
                 value: newValue[device].backgroundStyle
               }
-              newMixins[mixinName].variables.backgroundPosition = {
+              newMixins[mixinNameImage].variables.backgroundPosition = {
                 value: DesignOptions.defaultState.backgroundPosition
               }
           }
         } else {
-          newMixins[mixinName].variables.backgroundRepeat = {
+          newMixins[mixinNameImage].variables.backgroundRepeat = {
             value: newValue[device].backgroundStyle
           }
-          newMixins[mixinName].variables.backgroundSize = {
+          newMixins[mixinNameImage].variables.backgroundSize = {
             value: false
           }
         }
       }
 
       if (newValue[device].backgroundPosition) {
-        newMixins[mixinName].variables.backgroundPosition = {
+        newMixins[mixinNameImage].variables.backgroundPosition = {
           value: newValue[device].backgroundPosition
         }
       }
@@ -1168,6 +1177,10 @@ export default class DesignOptions extends Attribute {
    * @return bool
    */
   isBackgroundActive (imageData) {
+    if (imageData && !imageData.urls) {
+      return true
+    }
+
     if (!imageData || !imageData.urls || imageData.urls.length === 0) {
       return false
     }
