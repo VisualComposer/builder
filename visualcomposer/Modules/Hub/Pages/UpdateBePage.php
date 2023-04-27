@@ -43,7 +43,7 @@ class UpdateBePage extends Container implements Module
     }
 
     /**
-     * Add update page.
+     * We use it to launch update process in plugin settings.
      *
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Hub\Update $updateHelper

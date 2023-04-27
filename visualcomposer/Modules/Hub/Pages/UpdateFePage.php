@@ -33,6 +33,8 @@ class UpdateFePage extends Container implements Module
     }
 
     /**
+     * We use it to launch update process in our editor page.
+     *
      * @param $response
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Hub\Update $updateHelper
