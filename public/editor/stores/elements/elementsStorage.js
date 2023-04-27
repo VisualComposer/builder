@@ -296,7 +296,7 @@ addStorage('elements', (storage) => {
     }
     documentManager.update(id, element)
 
-    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR') && dataManager.get('editorType') === 'popup') {
+    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (element.tag === 'column') {
         window.setTimeout(() => {
           const rowElement = getParent(element)
