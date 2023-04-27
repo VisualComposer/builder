@@ -90,23 +90,7 @@ class Update implements Helper
      */
     public function getUpdatePosts()
     {
-        $optionsHelper = vchelper('Options');
-        $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
-        $canUpdate = [];
-
-        $accessUserCapabilitiesHelper = vchelper('AccessUserCapabilities');
-        foreach ($updatePosts as $updatePost) {
-            if (empty($updatePost)) {
-                continue;
-            }
-            $post = get_post($updatePost);
-            // @codingStandardsIgnoreLine
-            if ($post && $post->post_status !== 'trash' && $accessUserCapabilitiesHelper->canEdit($post->ID)) {
-                $canUpdate[] = $updatePost;
-            }
-        }
-
-        return $canUpdate;
+        return vchelper('Options')->get('hubAction:updatePosts', []);
     }
 
     public function getVariables()

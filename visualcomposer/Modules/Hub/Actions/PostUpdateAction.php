@@ -21,8 +21,12 @@ class PostUpdateAction extends Container implements Module
 
     public function __construct()
     {
+
+        /** @see \VisualComposer\Helpers\Hub\Bundle::doAction */
         $this->addFilter('vcv:hub:findUpdatePosts:element/*', 'getUpdateablePosts');
+        /** @see PostUpdateAction::removePostFromUpdatesList */
         $this->addEvent('vcv:hub:removePostUpdate:post/*', 'removePostFromUpdatesList');
+        /** @see PostUpdateAction::ajaxSkipPost */
         $this->addFilter('vcv:ajax:hub:action:postUpdate:skipPost:adminNonce', 'ajaxSkipPost');
     }
 
@@ -31,7 +35,7 @@ class PostUpdateAction extends Container implements Module
         $event = $payload['action'];
         $vcvPosts = new WP_Query(
             [
-                'post_type' => get_post_types(['public' => true], 'names'),
+                'post_type' => get_post_types(['public' => true]),
                 'post_status' => ['publish', 'pending', 'draft', 'auto-draft'],
                 'posts_per_page' => -1,
                 'meta_key' => VCV_PREFIX . 'pageContent',

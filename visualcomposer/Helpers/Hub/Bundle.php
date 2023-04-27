@@ -303,6 +303,8 @@ class Bundle implements Helper
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
         if (
+            // we use last_post_update in elements json
+            // to check if we need to update posts that contain this element
             isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')
         ) {
             $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
