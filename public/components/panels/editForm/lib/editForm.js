@@ -211,6 +211,9 @@ export default class EditForm extends React.Component {
     } else {
       const isAccordion = this.allTabs.length > 1
       return this.allTabs.map((section) => {
+        if (!isAccordion) {
+          section.isActive = true
+        }
         return this.getSection(section, activeTabIndex, isAccordion)
       })
     }
@@ -359,9 +362,11 @@ export default class EditForm extends React.Component {
   }
 
   render () {
+    // Need to update all tabs for paramsGroup attribute and nested elements
+    this.allTabs = this.updateTabs(this.props)
     const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened, activeTabIndex } = this.state
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
-    const tabs = this.state.tabs
+    const tabs = this.props?.options?.nestedAttr ? this.getTabs() : this.state.tabs
     let activeTab = Object.keys(tabs).find(tab => tabs[tab].index === activeTabIndex)
     activeTab = tabs[activeTab]
 
