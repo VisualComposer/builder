@@ -288,6 +288,7 @@ export default class EditFormHeader extends React.Component {
     let parentButton = null
     const parentId = elementAccessPoint.cook()?.toJS()?.parent
     const parentElement = cook.getById(parentId)
+    let sectionImageSrc = hubElementsService.getElementIcon(elementAccessPoint.tag)
 
     if (parentElement) {
       const parentIconSrc = hubElementsService.getElementIcon(parentElement.get('tag'))
@@ -295,6 +296,9 @@ export default class EditFormHeader extends React.Component {
 
       if (parentIconSrc) {
         parentButton = <img className='vcv-ui-edit-form-parent-button' onClick={() => this.handleClickGoParent(parentId)} src={parentIconSrc} title={parentTitle} />
+      }
+      if (isNested && options.activeParamGroupTitle) {
+        parentButton = <img className='vcv-ui-edit-form-parent-button' onClick={() => this.handleClickGoParent(parentId)} src={sectionImageSrc} title={content} />
       }
 
       backButton = (
@@ -308,9 +312,11 @@ export default class EditFormHeader extends React.Component {
       content = options.activeParamGroupTitle
     }
 
-    const sectionImageSrc = hubElementsService.getElementIcon(elementAccessPoint.tag)
     let sectionImage = null
     if (sectionImageSrc) {
+      if (isNested && options.activeParamGroupTitle) {
+        sectionImageSrc = hubElementsService.getElementIcon({})
+      }
       sectionImage = <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />
     }
 
