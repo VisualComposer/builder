@@ -176,7 +176,7 @@ export default class SaveController {
         'vcv-updatePost': '1'
       }
 
-      if (dataManager.get('dataCollectionEnabled')) {
+      if (dataManager.get('dataCollectionEnabled') || window.vcvIsDataCollectionEnabled) {
         const licenseType = dataManager.get('isPremiumActivated') ? 'Premium' : 'Free'
         const elementTeaser = dataManager.get('hubGetTeaser')
         let allElements = elementTeaser[0].elements
