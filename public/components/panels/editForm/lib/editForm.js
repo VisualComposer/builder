@@ -16,6 +16,7 @@ const hubElementsStorage = getStorage('hubElements')
 const workspace = getStorage('workspace')
 const workspaceContentState = workspace.state('content')
 const workspaceEditFormState = workspace.state('editForm')
+const workspaceEditFormSectionsState = workspace.state('editFormSections')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -90,11 +91,12 @@ export default class EditForm extends React.Component {
 
   updateTabs (props, propName) {
     return this.editFormTabs(props, propName).map((tab, index) => {
+      const sectionsState = workspaceEditFormSectionsState.get()
       return {
         fieldKey: tab.key,
         index: index,
         data: tab.data,
-        isActive: false,
+        isActive: !!(sectionsState && sectionsState[tab.key]),
         isVisible: true,
         pinned: tab.data.settings && tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: this.editFormTabParams(props, tab),
@@ -189,24 +191,14 @@ export default class EditForm extends React.Component {
       // Backwards compatibility
       // Show all attributes in General tab if none of the permitted tabs are specified
       const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
-      const activeSection = this.allTabs.find(tab => tab.fieldKey === activeTabName)
-
-      if (activeSection && activeSection.fieldKey && this.permittedTabs.includes(activeSection.fieldKey)) {
-        if (activeSection.data.settings.options.isSections) {
-          const sections = this.state.tabs[activeTabName].sections
-          const isAccordion = sections.length > 1
-          return sections.map((section) => {
-            return this.getSection(section, activeTabIndex, isAccordion)
-          })
-        } else {
-          return this.getSection(activeSection, activeTabIndex, false)
-        }
-      } else {
-        const deprecatedSections = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
-        const isAccordion = deprecatedSections.length > 1
-        return deprecatedSections.map((section) => {
+      const sections = realTabs[activeTabName].sections
+      const isAccordion = sections.length > 1
+      if (isAccordion) {
+        return sections.map((section) => {
           return this.getSection(section, activeTabIndex, isAccordion)
         })
+      } else {
+        return this.getSection(sections[0], activeTabIndex, false)
       }
     } else {
       const isAccordion = this.allTabs.length > 1
@@ -294,11 +286,22 @@ export default class EditForm extends React.Component {
   toggleSection (isActive, sectionName) {
     const elementId = this.props.elementAccessPoint.id
     const currentEditFormState = workspaceEditFormState.get()
+    const currentEditFormSectionState = workspaceEditFormSectionsState.get() || {}
     const currentTabName = Object.keys(this.state.tabs).find(tab => this.state.tabs[tab].index === this.state.activeTabIndex)
-    const currentSectionIndex = currentEditFormState[elementId][currentTabName].sections.findIndex(section => section.fieldKey === sectionName)
-    currentEditFormState[elementId][currentTabName].sections[currentSectionIndex].isActive = isActive
+    for (const id in currentEditFormState) {
+      const element = currentEditFormState[id]
+      if (element[currentTabName] && element[currentTabName].sections.length > 1) {
+        element[currentTabName].sections.forEach(section => {
+          if (section.fieldKey === sectionName) {
+            section.isActive = isActive
+          }
+        })
+      }
+    }
+    currentEditFormSectionState[sectionName] = isActive
     workspaceEditFormState.set(currentEditFormState)
     this.setState({ tabs: currentEditFormState[elementId] })
+    workspaceEditFormSectionsState.set(currentEditFormSectionState)
   }
 
   getReplaceElementBlock () {
@@ -337,7 +340,7 @@ export default class EditForm extends React.Component {
         title: 'General',
         type: 'general',
         key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`,
-        sections: this.allTabs
+        sections: isDeprecatedTabs
       }
     }
     let index = isDeprecatedTabs.length ? 1 : 0
