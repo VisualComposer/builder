@@ -393,7 +393,7 @@ class Controller extends Container implements Module
     protected function getNewElements($previousElements, $elements)
     {
         $newElements = [];
-        if ($previousElements) {
+        if ($previousElements && is_array($previousElements) && is_array($elements)) {
             $mergedElements = array_merge($previousElements, $elements);
             foreach ($mergedElements as $key => $value) {
                 if (!isset($elements[ $key ])) {
