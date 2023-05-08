@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h1>Beyond Beach and Cloudy Waves</h1>\n<p>A beach is a landform along the coast of an ocean or sea, or the edge of a lake or river. Beaches typically occur in areas along the coast where wave or current action deposits and reworks sediments.</p>",
+    "value": "<h1 style=\"color: #fff;\">Beyond Beach and Cloudy Waves</h1>\n<p style=\"color: #fff;\">A beach is a landform along the coast of an ocean or sea, or the edge of a lake or river. Beaches typically occur in areas along the coast where wave or current action deposits and reworks sediments.</p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -18,7 +18,7 @@
   "darkTextSkin": {
     "type": "toggleSmall",
     "access": "public",
-    "value": false
+    "value": true
   },
   "imageAlignment": {
     "type": "buttonGroup",
