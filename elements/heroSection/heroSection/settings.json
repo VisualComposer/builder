@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h1 style=\"color: #fff;\">Highland Traditions of Scotland</h1>\n<p style=\"color: #fff;\">The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
+    "value": "<h1 style=\"color: #fff;text-align:center;\">Highland Traditions of Scotland</h1>\n<p style=\"color: #fff;text-align:center;\">The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
     "options": {
       "label": "Description",
       "inline": true,
