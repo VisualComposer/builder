@@ -75,7 +75,8 @@ const LayoutItem: React.FC<Props> = ({ itemData, handleClick, isActive, index })
       }
       if (itemData.type === 'myTemplate') {
         if (templateDropdownValue) {
-          setTemplateDropdownValue(templateDropdownValue)
+          const newValue = templateDropdownValue
+          setTemplateDropdownValue(newValue)
         }
       }
     }

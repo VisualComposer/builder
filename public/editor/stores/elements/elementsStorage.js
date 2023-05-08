@@ -148,16 +148,6 @@ addStorage('elements', (storage) => {
               childElements.push(children)
             }
             const callback = isLoadContent && getChildElements
-            const editorType = dataManager.get('editorType')
-            const elData = cookElement.toJS()
-
-            if (editorType === 'popup' && isLoadContent && elData.tag === 'column') {
-              window.setTimeout(() => {
-                const rowElement = getParent(elData)
-                rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
-                storage.trigger('update', rowElement.id, rowElement, '')
-              }, 0)
-            }
             newData[key] = getElementToJS(cookElement, callback)
 
             if (childElements && childElements.length) {
@@ -306,11 +296,13 @@ addStorage('elements', (storage) => {
     }
     documentManager.update(id, element)
 
-    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR') && dataManager.get('editorType') === 'popup') {
+    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (element.tag === 'column') {
-        const rowElement = getParent(element)
-        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
-        storage.trigger('update', rowElement.id, rowElement, '', options)
+        window.setTimeout(() => {
+          const rowElement = getParent(element)
+          rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
+          storage.trigger('update', rowElement.id, rowElement, '', options)
+        }, 0)
       }
     }
 
