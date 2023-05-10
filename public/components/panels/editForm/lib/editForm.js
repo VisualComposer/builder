@@ -186,29 +186,15 @@ export default class EditForm extends React.Component {
   }
 
   getAccordionSections (activeTabIndex, realTabs) {
-    const tabsLength = Object.keys(realTabs).length
-    if (tabsLength > 1) {
-      // Backwards compatibility
-      // Show all attributes in General tab if none of the permitted tabs are specified
-      const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
-      const sections = realTabs[activeTabName].sections
-      const isAccordion = sections.length > 1
-      if (isAccordion) {
-        return sections.map((section) => {
-          return this.getSection(section, activeTabIndex, isAccordion)
-        })
-      } else {
-        return this.getSection(sections[0], activeTabIndex, false)
+    const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
+    const sections = realTabs[activeTabName].sections
+    const isAccordion = sections.length > 1
+    return sections.map((section) => {
+      if (!isAccordion) {
+        section.isActive = true
       }
-    } else {
-      const isAccordion = this.allTabs.length > 1
-      return this.allTabs.map((section) => {
-        if (!isAccordion) {
-          section.isActive = true
-        }
-        return this.getSection(section, activeTabIndex, isAccordion)
-      })
-    }
+      return this.getSection(section, activeTabIndex, isAccordion)
+    })
   }
 
   getPremiumTeaser () {
