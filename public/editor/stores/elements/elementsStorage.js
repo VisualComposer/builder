@@ -514,7 +514,6 @@ addStorage('elements', (storage) => {
     async: true
   })
   storage.on('reset', (data) => {
-    console.log('element reset')
     const sanitizedData = sanitizeData(data, true)
     documentManager.reset(sanitizedData)
     historyStorage.trigger('init', sanitizedData)
