@@ -186,16 +186,10 @@ export default class EditForm extends React.Component {
   }
 
   getAccordionSections (activeTabIndex, realTabs) {
-    const tabsLength = Object.keys(realTabs).length
-    let tabs = this.allTabs
-    if (tabsLength > 1) {
-      // Backwards compatibility
-      // Show all attributes in General tab if none of the permitted tabs are specified
-      const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
-      tabs = realTabs[activeTabName].sections
-    }
-    const isAccordion = tabs.length > 1
-    return tabs.map((section) => {
+    const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
+    const sections = realTabs[activeTabName].sections
+    const isAccordion = sections.length > 1
+    return sections.map((section) => {
       if (!isAccordion) {
         section.isActive = true
       }
