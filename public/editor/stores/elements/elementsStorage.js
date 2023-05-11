@@ -285,14 +285,7 @@ addStorage('elements', (storage) => {
     const initChildren = cookElement.get('initChildren')
     const isChildVisible = getChildVisibility(cookElement)
 
-    console.log('=======')
-    console.log('wrap', wrap)
-    console.log('initChildren', initChildren)
-    console.log('options', options)
-    console.log('isChildVisible', isChildVisible)
-    console.log('initChildren.settings', cookElement.settings('initChildren').settings)
     if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements && isChildVisible) {
-      console.log('setInitChildren', data)
       setInitChildren(initChildren, data.id, '', null)
     }
 
