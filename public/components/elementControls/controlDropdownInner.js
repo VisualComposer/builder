@@ -133,15 +133,17 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
 
   // edit design options control
   if (!isCenterControls) {
-    actions.push({
-      label: designOptionsText,
-      title: `${options.title} ${designOptionsText}`,
-      icon: 'vcv-ui-icon-brush-alt',
-      data: {
-        vcControlEvent: 'edit',
-        vcControlEventOptions: designOptionEvent
-      }
-    })
+    if (options.tag !== 'div') {
+      actions.push({
+        label: designOptionsText,
+        title: `${options.title} ${designOptionsText}`,
+        icon: 'vcv-ui-icon-brush-alt',
+        data: {
+          vcControlEvent: 'edit',
+          vcControlEventOptions: designOptionEvent
+        }
+      })
+    }
     actions.push({
       label: advancedText,
       title: `${options.title} ${advancedText}`,
