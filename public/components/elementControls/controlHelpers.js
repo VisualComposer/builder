@@ -13,7 +13,8 @@ export const ControlHelpers = {
     let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
       const isContainerForGeneral = vcElement.containerFor().indexOf('General') > -1
-      colorIndex = isContainerForGeneral ? 1 : 0
+      const isDiv = vcElement.tag !== 'div'
+      colorIndex = isContainerForGeneral && !isDiv ? 1 : 0
     }
     return colorIndex
   },
