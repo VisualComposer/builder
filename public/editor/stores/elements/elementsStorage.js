@@ -49,6 +49,30 @@ addStorage('elements', (storage) => {
     }
     return newInnerElementValue
   }
+  /**
+   * Required for elements with initChildren that are toggled via standalone attribute.
+   * Checks the value of the togglable attribute and returns a boolean value
+   * @param cookElement
+   * @returns isVisible {boolean}
+   */
+  const getChildVisibility = (cookElement) => {
+    const dependencyProperty = cookElement.settings('initChildren').settings?.options?.visibilityDependency
+    let isVisible = !!dependencyProperty
+
+    if (dependencyProperty) {
+      const dependencyAttributeRules = cookElement.settings(dependencyProperty).settings?.options?.onChange?.rules
+      if (dependencyAttributeRules) {
+        for (const ruleKey in dependencyAttributeRules) {
+          const rule = dependencyAttributeRules[ruleKey].rule
+          if (rule === 'toggle' && !cookElement.get(ruleKey)) {
+            isVisible = false
+          }
+        }
+      }
+    }
+
+    return isVisible
+  }
   const addChildElement = (initChild, parentId, callback) => {
     initChild.parent = parentId
     const childData = cook.get(initChild)
@@ -254,8 +278,9 @@ addStorage('elements', (storage) => {
     })
 
     const initChildren = cookElement.get('initChildren')
+    const isChildVisible = getChildVisibility(cookElement)
 
-    if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements) {
+    if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements && isChildVisible) {
       setInitChildren(initChildren, data.id, '', null)
     }
 
@@ -293,6 +318,21 @@ addStorage('elements', (storage) => {
         rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking })
         element.layout.layoutData = undefined
       }
+    }
+
+    const updatedCookElement = cook.get(element)
+    const initChildren = updatedCookElement.get('initChildren')
+    const isChildVisible = getChildVisibility(updatedCookElement)
+    const dependencyProperty = cookElement.settings('initChildren').settings?.options?.visibilityDependency
+
+    // If dependency toggle is on, but children don't exist in document, add child element
+    if (initChildren && !documentManager.children(id).length && isChildVisible) {
+      setInitChildren(initChildren, id, '', null)
+      // Trigger state update to update TreeView attribute in EditForm
+      storage.state('document').set(documentManager.children(false))
+    } else if (initChildren && documentManager.children(id).length && !isChildVisible && dependencyProperty) {
+    // If dependency toggle is off, but children exist in document, remove child element
+      documentManager.children(id).forEach(child => storage.trigger('remove', child.id))
     }
     documentManager.update(id, element)
 
@@ -335,8 +375,9 @@ addStorage('elements', (storage) => {
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
     const initChildren = parent && cook.get(parent).get('initChildren')
-    // remove parent if it must have children by default (initChildren)
-    if (parent && initChildren && initChildren.length && !documentManager.children(parent.id).length) {
+    const hasDependencyProperty = parent && cook.get(parent).settings('initChildren').settings?.options?.visibilityDependency
+    // remove parent if it must have children by default but doesn't have a dependency (initChildren)
+    if (parent && initChildren && initChildren.length && !documentManager.children(parent.id).length && !hasDependencyProperty) {
       storage.trigger('remove', parent.id)
       // close editForm if deleted element is opened in edit form
       const settings = workspaceStorage.state('settings').get()
