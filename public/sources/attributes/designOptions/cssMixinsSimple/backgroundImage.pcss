@@ -3,5 +3,17 @@ $selector {
     @if $backgroundImage != false {
       background-image: url($backgroundImage);
     }
+
+    @if $backgroundPosition != false {
+      background-position: $backgroundPosition;
+    }
+
+    @if $backgroundSize != false {
+      background-size: $backgroundSize;
+    }
+
+    @if $backgroundRepeat != false {
+      background-repeat: $backgroundRepeat;
+    }
   }
 }

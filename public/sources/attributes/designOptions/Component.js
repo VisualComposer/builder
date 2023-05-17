@@ -185,15 +185,6 @@ export default class DesignOptions extends Attribute {
         backgroundColor: {
           value: false
         },
-        backgroundPosition: {
-          value: false
-        },
-        backgroundRepeat: {
-          value: false
-        },
-        backgroundSize: {
-          value: false
-        }
       }
     },
     animationDelayMixin: {
