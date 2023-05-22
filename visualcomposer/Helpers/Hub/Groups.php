@@ -127,7 +127,9 @@ class Groups implements Helper
                     'Accordions',
                     'Tabs',
                 ],
-                'elements' => [],
+                'elements' => [
+                    'div',
+                ],
             ],
             'Theme Builder' => [
                 'title' => 'Theme Builder',
