@@ -252,7 +252,16 @@ class CurrentUser extends Container implements Helper
     public function isUserHasCap($cap)
     {
         $user = wp_get_current_user();
+
+        if ( empty($user->roles[0]) ) {
+            return false;
+        }
+
         $roleObject = get_role($user->roles[0]);
+
+        if (!is_object($roleObject) || method_exists($roleObject, 'has_cap') ) {
+            return false;
+        }
 
         return $roleObject->has_cap($cap);
     }
