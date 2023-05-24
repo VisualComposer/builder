@@ -68,10 +68,13 @@ class Assets22Migration extends MigrationsController implements Module
             true
         );
         if (!is_wp_error($result) && $result) {
-            $resultMove = $fileHelper->getFileSystem()->move(
-                VCV_PLUGIN_ASSETS_DIR_PATH . '-temp',
-                VCV_PLUGIN_ASSETS_DIR_PATH
-            );
+            $fileSystem = $fileHelper->getFileSystem();
+            if ($fileSystem) {
+                $resultMove = $fileSystem->move(
+                    VCV_PLUGIN_ASSETS_DIR_PATH . '-temp',
+                    VCV_PLUGIN_ASSETS_DIR_PATH
+                );
+            }
             $responseMove = !is_wp_error($resultMove) && $result;
 
             return $responseMove;

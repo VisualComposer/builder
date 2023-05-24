@@ -26,29 +26,55 @@ class File implements Helper
             return false;
         }
 
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
         // get content from using file system
-        return $this->getFileSystem()->get_contents($filePath);
+        return $fileSystem->get_contents($filePath);
     }
 
     public function exists($filePath)
     {
-        return $this->getFileSystem()->exists($filePath);
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
+        return $fileSystem->exists($filePath);
     }
 
     public function isFile($filePath)
     {
-        return $this->getFileSystem()->is_file($filePath);
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
+        return $fileSystem->is_file($filePath);
     }
 
     public function isDir($filePath)
     {
-        return $this->getFileSystem()->is_dir($filePath);
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
+        return $fileSystem->is_dir($filePath);
     }
 
     public function rename($oldName, $newName)
     {
         $this->checkDir(dirname($newName));
-        return $this->getFileSystem()->move($oldName, $newName);
+
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
+        return $fileSystem->move($oldName, $newName);
     }
 
     /**
@@ -60,8 +86,14 @@ class File implements Helper
     public function setContents($filePath, $contents)
     {
         $this->checkDir(dirname($filePath));
+
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
         // set content using file system
-        return $this->getFileSystem()->put_contents($filePath, $contents);
+        return $fileSystem->put_contents($filePath, $contents);
     }
 
     /**
@@ -99,12 +131,17 @@ class File implements Helper
     }
 
     /**
+     * Get wp filesystem object.
+     *
+     * @note we always should check if we have access to filesystem before ise it.
+     *
      * @return \WP_Filesystem_Base|bool
      */
     public function getFileSystem()
     {
         // @codingStandardsIgnoreLine
         global $wp_filesystem;
+
         $status = true;
         // @codingStandardsIgnoreLine
         if (!$wp_filesystem || !is_object($wp_filesystem)) {
