@@ -11,6 +11,7 @@ import { getService, getStorage, env } from 'vc-cake'
 import PanelNavigation from '../../panelNavigation'
 
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspace = getStorage('workspace')
@@ -321,7 +322,7 @@ export default class EditForm extends React.Component {
 
   getTabs () {
     const tabs = {}
-    const contentAllowed = !window.VCV_USER_ACCESS().edit_window && window.VCV_USER_ACCESS().edit_window_contentTab
+    const contentAllowed = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && roleManager.can('edit_window_contentTab', roleManager.defaultAdmin())
     // Backwards compatibility
     // Show General tab if none of the permitted tabs are specified
     const isDeprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
@@ -338,8 +339,8 @@ export default class EditForm extends React.Component {
 
     let allowedTabs = this.allTabs
     // Apply user roles
-    if (!window.VCV_USER_ACCESS().edit_window) {
-      allowedTabs = this.allTabs.filter(tab => window.VCV_USER_ACCESS()[`edit_window_${tab.fieldKey}`])
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+      allowedTabs = this.allTabs.filter(tab => roleManager.can(`edit_window_${tab.fieldKey}`, roleManager.defaultAdmin()))
     }
     allowedTabs.forEach((tab) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
