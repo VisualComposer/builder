@@ -263,10 +263,10 @@ class CurrentUser extends Container implements Helper
 
         $roleObject = get_role($user->roles[0]);
 
-        if (!is_object($roleObject) || !method_exists($roleObject, 'has_cap')) {
-            $result = false;
-        } else {
+        if (is_object($roleObject) && method_exists($roleObject, 'has_cap')) {
             $result = $roleObject->has_cap($cap);
+        } else {
+            $result = false;
         }
 
         return $result;
