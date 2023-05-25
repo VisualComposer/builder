@@ -134,3 +134,4 @@ if ($errorMessages) {
     // Bootstrap the system.
     require $dir . '/bootstrap/autoload.php';
 }
+
