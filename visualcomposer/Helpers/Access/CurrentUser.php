@@ -252,8 +252,23 @@ class CurrentUser extends Container implements Helper
     public function isUserHasCap($cap)
     {
         $user = wp_get_current_user();
+
+        if (is_multisite() && is_super_admin($user->ID)) {
+            return true;
+        }
+
+        if (empty($user->roles[0])) {
+            return false;
+        }
+
         $roleObject = get_role($user->roles[0]);
 
-        return $roleObject->has_cap($cap);
+        if (!is_object($roleObject) || !method_exists($roleObject, 'has_cap')) {
+            $result = false;
+        } else {
+            $result = $roleObject->has_cap($cap);
+        }
+
+        return $result;
     }
 }
