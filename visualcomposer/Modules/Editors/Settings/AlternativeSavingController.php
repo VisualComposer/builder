@@ -27,6 +27,11 @@ class AlternativeSavingController extends Container implements Module
 
     protected $slug = 'vcv-settings';
 
+    /**
+     * @var string
+     */
+    protected $optionVcvSlug;
+
     public function __construct()
     {
         $this->optionGroup = $this->slug;
