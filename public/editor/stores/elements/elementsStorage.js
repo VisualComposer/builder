@@ -251,7 +251,7 @@ addStorage('elements', (storage) => {
       if (wrapperTag) {
         const wrapperData = cook.get({ tag: wrapperTag })
         elementData.parent = wrapperData.toJS().id
-        if (wrapperData) {
+        if (wrapperData && options?.action !== 'merge') {
           storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
         }
       } else if (editorType === 'popup') {
@@ -503,8 +503,19 @@ addStorage('elements', (storage) => {
         element.parent = substituteIds[element.parent]
       }
       delete element.order
-      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: true })
-      mergeChildrenLayout(data, oldId, false)
+
+      let skipInitialExtraElements = false
+      if (!element.parent) {
+        const cookElement = cook.get(element)
+        const parentWrapper = cookElement.get('parentWrapper')
+        const wrapperTag = parentWrapper === undefined || parentWrapper === '' ? 'column' : parentWrapper
+        const wrapperData = wrapperTag && cook.get({ tag: wrapperTag })
+        if (wrapperData) {
+          skipInitialExtraElements = true
+        }
+      }
+      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: skipInitialExtraElements })
+      mergeChildrenLayout(data, oldId, wrap)
     })
   }
   storage.on('merge', (content, wrap) => {
