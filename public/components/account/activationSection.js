@@ -58,7 +58,9 @@ export default class ActivationSectionProvider extends React.Component {
 
     if (activePostUpdate + 1 < posts.length) {
       this.setState({ activePostUpdate: activePostUpdate + 1 }, () => {
-        this.doUpdatePostAction(postUpdater)
+        this.doUpdatePostAction(postUpdater).catch(e => {
+          console.warn(e)
+        })
       })
     } else {
       this.doneActions()
@@ -226,7 +228,9 @@ export default class ActivationSectionProvider extends React.Component {
   doPostUpdate () {
     const postUpdater = new PostUpdater(dataManager.get('updateGlobalVariablesUrl'), dataManager.get('updateVendorUrl'), dataManager.get('updateWPBundleUrl'))
     this.setState({ error: null }, () => {
-      this.doUpdatePostAction(postUpdater)
+      this.doUpdatePostAction(postUpdater).catch(e => {
+        console.warn(e)
+      })
     })
   }
 

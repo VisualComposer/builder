@@ -16,6 +16,7 @@ const hubStorage = getStorage('hubAddons')
 const hubAddonsStorage = getStorage('hubAddons')
 const roleManager = getService('roleManager')
 const elementAccessPointService = getService('elementAccessPoint')
+const cook = getService('cook')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -147,22 +148,30 @@ export default class EditFormHeader extends React.Component {
   }
 
   handleClickGoBack () {
-    const { parentElementId, options } = this.props.options
-    // If multiple nesting used we can goBack only to ROOT
     if (this.props.isEditFormSettingsOpened) {
       this.props.handleEditFormSettingsToggle()
     } else if (this.props.isElementReplaceOpened) {
       this.props.handleReplaceElementToggle()
-    } else {
-      let accessPoint = elementAccessPointService.getInstance(parentElementId)
-      while (accessPoint?.inner) {
-        if (accessPoint.parentElementId) {
-          accessPoint = elementAccessPointService.getInstance(parentElementId)
-        } else {
-          break
-        }
+    }
+  }
+
+  handleClickGoParent (parentId) {
+    const { parentElementId, options } = this.props.options
+    // If multiple nesting used we can goBack only to ROOT
+    let accessPoint = elementAccessPointService.getInstance(parentElementId)
+    if (!accessPoint) {
+      accessPoint = elementAccessPointService.getInstance(parentId)
+    }
+
+    while (accessPoint?.inner) {
+      if (accessPoint.parentElementId) {
+        accessPoint = elementAccessPointService.getInstance(parentElementId)
+      } else {
+        break
       }
-      workspaceStorage.trigger('edit', accessPoint.id, accessPoint.tag, options)
+    }
+    if (accessPoint) {
+      workspaceStorage.trigger('edit', accessPoint?.id, accessPoint.tag, options)
     }
   }
 
@@ -262,8 +271,6 @@ export default class EditFormHeader extends React.Component {
     const {
       elementAccessPoint,
       options,
-      isEditFormSettingsOpened,
-      isElementReplaceOpened,
       handleReplaceElementToggle
     } = this.props
 
@@ -278,9 +285,24 @@ export default class EditFormHeader extends React.Component {
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
-    if (isNested || isEditFormSettingsOpened || isElementReplaceOpened) {
+    let parentButton = null
+    const parentId = elementAccessPoint.cook()?.toJS()?.parent
+    const parentElement = cook.getById(parentId)
+    let sectionImageSrc = hubElementsService.getElementIcon(elementAccessPoint.tag)
+
+    if (parentElement) {
+      const parentIconSrc = hubElementsService.getElementIcon(parentElement.get('tag'))
+      const parentTitle = `Parent: ${parentElement.get('name')}`
+
+      if (parentIconSrc) {
+        parentButton = <img className='vcv-ui-edit-form-parent-button' onClick={() => this.handleClickGoParent(parentId)} src={parentIconSrc} title={parentTitle} />
+      }
+      if (isNested && options.activeParamGroupTitle) {
+        parentButton = <img className='vcv-ui-edit-form-parent-button' onClick={() => this.handleClickGoParent(parentId)} src={sectionImageSrc} title={content} />
+      }
+
       backButton = (
-        <span className='vcv-ui-edit-form-back-button' onClick={this.handleClickGoBack} title={backToParentTitle}>
+        <span className='vcv-ui-edit-form-back-button' onClick={() => this.handleClickGoParent(parentId)} title={backToParentTitle}>
           <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
         </span>
       )
@@ -290,9 +312,11 @@ export default class EditFormHeader extends React.Component {
       content = options.activeParamGroupTitle
     }
 
-    const sectionImageSrc = hubElementsService.getElementIcon(elementAccessPoint.tag)
     let sectionImage = null
     if (sectionImageSrc) {
+      if (isNested && options.activeParamGroupTitle) {
+        sectionImageSrc = hubElementsService.getElementIcon({})
+      }
       sectionImage = <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />
     }
 
@@ -460,6 +484,7 @@ export default class EditFormHeader extends React.Component {
 
     return (
       <div className='vcv-ui-edit-form-header'>
+        {parentButton}
         {backButton}
         {sectionImage}
         {headerTitle}

@@ -67,6 +67,8 @@ const TreeViewElement = (props) => {
   const spanRef = useRef(null)
   const controlsContentRef = useRef(null)
   const controlsTriggerRef = useRef(null)
+  const controlsContainerRef = useRef(null)
+  const sandwichItemsRef = useRef(null)
 
   const hasElementControl = useCallback((control) => {
     return (props?.controls?.length && (props?.controls.indexOf(control) > -1)) || !props?.controls?.length
@@ -484,23 +486,20 @@ const TreeViewElement = (props) => {
     )
   }
 
-  const showDropdown = (hasElementControl('addChild') && addChildControl) ||
-    (hasElementControl('clone') && cloneControl) ||
-    (hasElementControl('visibility') && visibilityControl) ||
-    (hasElementControl('copy') && copyControl) ||
-    (hasElementControl('paste') && pasteControl)
+  const conrolItems = [(hasElementControl('addChild') && addChildControl),
+    (hasElementControl('clone') && cloneControl),
+    (hasElementControl('visibility') && visibilityControl),
+    (hasElementControl('copy') && copyControl),
+    (hasElementControl('paste') && pasteControl)]
+
   const sandwichControls = (
-    <>
-      {hasElementControl('addChild') && addChildControl}
-      {hasElementControl('clone') && cloneControl}
-      {hasElementControl('visibility') && visibilityControl}
-      {hasElementControl('copy') && copyControl}
-      {hasElementControl('paste') && pasteControl}
-    </>
+    <div ref={sandwichItemsRef}>
+      {conrolItems}
+    </div>
   )
 
-  const baseControlsItems = isElementLocked ? null : (
-    <div className='vcv-ui-tree-layout-control-actions'>
+  const baseControlsItems = (showDropdown) => isElementLocked ? null : (
+    <div className='vcv-ui-tree-layout-control-actions' ref={controlsContainerRef}>
       {hasElementControl('lock') && lockControl}
       <span className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-control-action--edit' title={editText} onClick={() => handleClickEdit('')}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
@@ -510,22 +509,31 @@ const TreeViewElement = (props) => {
           <i className='vcv-ui-icon vcv-ui-icon-trash' />
         </span>
       )}
-      {showDropdown
-        ? (
-          <span
-            className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
-            onMouseEnter={handleSandwichMouseEnter}
-            onMouseLeave={handleSandwichMouseLeave}
-          >
-            <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
-          </span>
-        ) : null}
+      {showDropdown ? sandwichMenu : conrolItems}
     </div>
   )
 
+  const controlsContainerWidth = controlsContainerRef?.current?.getBoundingClientRect()?.width || 0
+  const controlsItems = controlsContainerRef.current ? Array.from(controlsContainerRef.current.children) : []
+  let controlsItemsWidth = 0
+  controlsItems.forEach((item) => {
+    controlsItemsWidth += item.getBoundingClientRect().width
+  })
+  const sandwichItemsWidth = sandwichItemsRef?.current?.getBoundingClientRect()?.width || 0
+  const showDropdown = controlsContainerWidth < controlsItemsWidth + sandwichItemsWidth
+
+  const sandwichMenu =
+      <span
+        className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
+        onMouseEnter={handleSandwichMouseEnter}
+        onMouseLeave={handleSandwichMouseLeave}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
+      </span>
+
   const baseControls = (
     <>
-      {baseControlsItems}
+      {baseControlsItems(showDropdown)}
       <div className='vcv-ui-tree-layout-control-state-container'>
         {hasElementControl('lock') && lockIcon}
         {hasElementControl('visibility') && hideIcon}

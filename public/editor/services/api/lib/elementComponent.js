@@ -22,9 +22,10 @@ import {
 import { spinnerHtml } from 'public/tools/spinnerHtml'
 import pSBC from 'public/tools/psbc.min.js'
 
+const cook = getService('cook')
 const assetsStorage = getStorage('assets')
 const { getBlockRegexp } = getService('utils')
-const { getDynamicFieldsData } = getService('cook').dynamicFields
+const { getDynamicFieldsData } = cook.dynamicFields
 const blockRegexp = getBlockRegexp()
 const elementsSettingsStorage = getStorage('elementsSettings')
 const dataManager = getService('dataManager')
@@ -167,8 +168,7 @@ export default class ElementComponent extends React.Component {
 
   applyDO (prop) {
     let propObj = {}
-
-    if (prop === 'all' || prop.indexOf('background') > -1) {
+    const setBackgroundImageProps = () => {
       if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
         propObj = Object.assign({}, propObj, this.getImageData())
       }
@@ -204,6 +204,23 @@ export default class ElementComponent extends React.Component {
           }
         }
       }
+    }
+
+    if (prop.includes('backgroundColor')) {
+      prop += ` el-${this.props.id}`
+      propObj['data-vce-do-apply'] = prop
+      return propObj
+    }
+
+    if (prop.includes('backgroundImage')) {
+      setBackgroundImageProps()
+      prop += ` el-${this.props.id}`
+      propObj['data-vce-do-apply'] = prop
+      return propObj
+    }
+
+    if (prop === 'all' || prop.indexOf('background') > -1) {
+      setBackgroundImageProps()
     }
 
     // checking all
@@ -694,6 +711,17 @@ export default class ElementComponent extends React.Component {
     }
 
     return customProps
+  }
+
+  // Get initChildren element by tag to render specific child
+  getChildByTag (tag) {
+    if (!this.props.children || !this.props.children.length) {
+      return null
+    }
+    const childrenIdList = this.props.children.map(item => item[0].props?.id)
+    let currentChildIndex = childrenIdList.findIndex(id => cook.getById(id).get('tag') === tag)
+    currentChildIndex = currentChildIndex < 0 ? 0 : currentChildIndex
+    return this.props.children[currentChildIndex]
   }
 
   render () {

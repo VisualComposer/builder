@@ -3,12 +3,11 @@ import { getService } from 'vc-cake'
 import classNames from 'classnames'
 
 const vcvAPI = getService('api')
-const cook = getService('cook')
 
 export default class FeatureSection extends vcvAPI.elementComponent {
   render () {
-    const { id, atts, editor } = this.props
-    const { description, image, imageAlignment, reverseStacking, addButton, customClass, button, metaCustomId, backgroundImagePosition, backgroundColor, extraDataAttributes } = atts
+    const { id, atts, editor, children } = this.props
+    const { description, imageAlignment, reverseStacking, customClass, metaCustomId, extraDataAttributes } = atts
     const containerProps = this.getExtraDataAttributes(extraDataAttributes)
 
     const containerClasses = classNames({
@@ -16,65 +15,37 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       'vce-feature-section-media--xs': true
     })
 
-    let wrapperClasses = classNames({
+    const wrapperClasses = classNames({
       vce: true,
       'vce-feature-section': true,
       'vce-feature-section--min-height': true,
-      'vce-feature-section--reverse': reverseStacking
+      'vce-feature-section--reverse': reverseStacking,
+      [`${customClass}`]: typeof customClass === 'string' && customClass
     })
 
-    let imageClasses = ['vce-feature-section-image']
-    let contentClasses = ['vce-feature-section-content']
-
-    if (typeof customClass === 'string' && customClass) {
-      wrapperClasses += ` ${customClass}`
-    }
-
-    const imageStyles = {}
-
-    if (image) {
-      imageStyles.backgroundImage = `url(${this.getImageUrl(image)})`
-    }
-
-    if (imageAlignment) {
-      imageClasses.push(`vce-feature-section-image--alignment-${imageAlignment}`)
-    }
-
-    const backgroundColorSelector = [...backgroundColor.matchAll(/[\da-f]+/gi)].map(match => match[0]).join('-')
-    wrapperClasses += ` vce-feature-section-background-color--${backgroundColorSelector}`
-
-    imageClasses.push(`vce-feature-section-image--background-position-${backgroundImagePosition.replace(' ', '-')}`)
-
-    let buttonOutput = ''
-    if (addButton) {
-      const Button = cook.get(button)
-      buttonOutput = Button.render(null, false)
-    }
+    const imageClasses = classNames({
+      'vce-feature-section-image': true,
+      [`vce-feature-section-image--alignment-${imageAlignment}`]: imageAlignment
+    })
 
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
 
-    if (image && image.filter && image.filter !== 'normal') {
-      imageClasses.push(`vce-image-filter--${image.filter}`)
-    }
-
-    contentClasses = classNames(contentClasses)
-    imageClasses = classNames(imageClasses)
-
     const doPadding = this.applyDO('padding')
-    const doRest = this.applyDO('margin background border animation')
+    const doImage = this.applyDO('backgroundImage')
+    const doRest = this.applyDO('margin border animation backgroundColor')
 
     return (
       <section className={containerClasses} {...editor} {...containerProps}>
         <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-          <div className={imageClasses} style={imageStyles} />
-          <div className={contentClasses}>
+          <div className={imageClasses} {...doImage} />
+          <div className='vce-feature-section-content'>
             <div className='vce-feature-section-content-container' {...doPadding}>
               <div className='vce-feature-section-description'>
                 {description}
               </div>
-              {buttonOutput}
+              {children}
             </div>
           </div>
         </div>

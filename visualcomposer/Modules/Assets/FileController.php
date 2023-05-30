@@ -124,8 +124,9 @@ class FileController extends Container implements Module
         if ($bundleUrl) {
             if (!empty($previousCssFile) && empty($previousCssHash)) {
                 $assetsPath = $assetsHelper->getFilePath($previousCssFile);
-                if (!empty($assetsPath)) {
-                    $fileHelper->getFileSystem()->delete($assetsPath);
+                $fileSystem = $fileHelper->getFileSystem();
+                if ($fileSystem && !empty($assetsPath)) {
+                    $fileSystem->delete($assetsPath);
                 }
             }
         }

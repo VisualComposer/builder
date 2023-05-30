@@ -47,7 +47,7 @@ class Groups implements Helper
                     'wpWidgetsCustom',
                     'wpWidgetsDefault',
                     'widgetizedSidebar',
-                    'elementCallToAction',
+                    'callToAction',
                     'faqToggle',
                     'separator',
                     'socialProfileIcons',
@@ -90,8 +90,9 @@ class Groups implements Helper
                 'elements' => [
                     'bannerElement',
                     'instagramImage',
-                    'elementFlipBox',
-                    'elementIconHoverBox',
+                    'hoverBox',
+                    'iconHoverBox',
+                    'flipBox',
                     'tallHoverBox',
                     'simpleImageSlider',
                     'timelineSlideshow',
@@ -126,7 +127,9 @@ class Groups implements Helper
                     'Accordions',
                     'Tabs',
                 ],
-                'elements' => [],
+                'elements' => [
+                    'div',
+                ],
             ],
             'Theme Builder' => [
                 'title' => 'Theme Builder',

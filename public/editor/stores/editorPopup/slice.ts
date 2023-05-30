@@ -36,10 +36,6 @@ const initialState: popupStore = {
       visible: dataManager?.get('showFeedbackForm'),
       priority: 1
     },
-    reviewPopup: {
-      visible: false,
-      priority: 2
-    },
     dataCollectionPopup: {
       visible: dataManager?.get('showDataCollectionPopup'),
       priority: 3

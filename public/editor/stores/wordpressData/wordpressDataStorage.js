@@ -172,9 +172,7 @@ addStorage('wordpressData', (storage) => {
       }
 
       if (responseData.layoutType && dataManager.get('editorType') === 'vcv_layouts') {
-        if (!workspaceStorage.state('blankPageIntro').get()) {
-          settingsStorage.state('layoutType').set(responseData.layoutType)
-        }
+        settingsStorage.state('layoutType').set(responseData.layoutType)
       }
 
       if (responseData.notificationCenterData) {

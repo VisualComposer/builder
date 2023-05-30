@@ -19,7 +19,108 @@ addStorage('elements', (storage) => {
     historyStorage.trigger('add', documentManager.all())
   }
   let substituteIds = {}
-  const recursiveElementsRebuild = (cookElement) => {
+
+  /**
+   * Created to handle BC for the elements that doesn't have toggles anymore and use treeView visibility option instead
+   Checks for 'toggle' value of elements and assign it to treeView children's 'hidden' option
+   * @param cookElement
+   * @param attrKey
+   */
+  const getBcElement = (cookElement, attrKey, innerElementValue) => {
+    let newInnerElementValue = innerElementValue
+    innerElementValue.parent = cookElement.getAll().id
+    const rules = cookElement.settings(attrKey)?.settings?.options?.onChange?.rules
+    if (rules) {
+      for (const [key, value] of Object.entries(rules)) {
+        if (value?.rule === 'toggle') {
+          newInnerElementValue = {
+            ...innerElementValue,
+            hidden: !cookElement.get(key)
+
+          }
+        }
+        if (value?.rule === 'value') {
+          newInnerElementValue = {
+            ...innerElementValue,
+            hidden: cookElement.get(key) !== attrKey
+          }
+        }
+      }
+    }
+    return newInnerElementValue
+  }
+  /**
+   * Required for elements with initChildren that are toggled via standalone attribute.
+   * Checks the value of the togglable attribute and returns a boolean value
+   * @param cookElement
+   * @returns isVisible {boolean}
+   */
+  const getChildVisibility = (cookElement) => {
+    const initChildren = cookElement.settings('initChildren')
+    const isVisibilityDependency = initChildren.settings?.options && Object.prototype.hasOwnProperty.call(initChildren.settings?.options, 'visibilityDependency')
+    if (!isVisibilityDependency) {
+      return true
+    }
+    const dependencyProperty = isVisibilityDependency && initChildren.settings?.options?.visibilityDependency
+    let isVisible = !!dependencyProperty
+
+    if (dependencyProperty) {
+      const dependencyAttributeRules = cookElement.settings(dependencyProperty).settings?.options?.onChange?.rules
+      if (dependencyAttributeRules) {
+        for (const ruleKey in dependencyAttributeRules) {
+          const rule = dependencyAttributeRules[ruleKey].rule
+          if (rule === 'toggle' && !cookElement.get(ruleKey)) {
+            isVisible = false
+          }
+        }
+      }
+    }
+
+    return isVisible
+  }
+  const addChildElement = (initChild, parentId, callback) => {
+    initChild.parent = parentId
+    const childData = cook.get(initChild)
+    let childDataJS = { ...childData?.toJS(), isInitChild: true }
+    if (initChild?.exclude) {
+      childDataJS = {
+        ...childDataJS,
+        exclude: initChild?.exclude
+      }
+    }
+    if (initChild?.hidden) {
+      workspaceStorage.trigger('hide', childDataJS.id)
+    }
+
+    storage.trigger('add', childDataJS, true, { silent: true })
+    storage.trigger('update', childDataJS.id, childDataJS)
+
+    documentManager.create(childDataJS, {
+      insertAfter: false
+    })
+    if (callback) {
+      callback(childDataJS)
+    }
+  }
+  const setInitChildren = (initChildren, parentId, deprecatedChildElement, callback) => {
+    if (deprecatedChildElement) {
+      addChildElement(deprecatedChildElement, parentId, callback)
+    } else {
+      initChildren.forEach((initChild) => {
+        addChildElement(initChild, parentId, callback)
+      })
+    }
+  }
+
+  /**
+   * Parse cookElement, update attribute values conditionally,
+   * return cookElement.toJS()
+   *
+   * @param cookElement
+   * @param callback
+   * @returns {*}
+   */
+  const getElementToJS = (cookElement, callback) => {
     if (!cookElement) {
       return cookElement
     }
@@ -31,14 +132,28 @@ addStorage('elements', (storage) => {
       if (attributeSettings.settings.type === 'element') {
         const value = cookElement.get(attrKey)
         const innerElement = cook.get(value)
-        const innerElementValue = recursiveElementsRebuild(innerElement)
+        const innerElementValue = getElementToJS(innerElement)
         cookElement.set(attrKey, innerElementValue)
+
+        // checks if element has childElementBC attribute for Backwards Compatibility
+        // required for child elements (after the migration from "element" to "treeView")
+        // set childElementBC value to true, once new child elements are rendered
+        // it will only run on page load, after save the new value will be applied
+        if (elementAttributes.includes('childElementBC') && !cookElement.get('childElementBC') && callback) {
+          const bcElement = getBcElement(cookElement, attrKey, innerElementValue)
+          const initChildren = cookElement.get('initChildren')
+          setInitChildren(initChildren, cookGetAll.id, bcElement, callback)
+        }
       }
     })
 
+    if (elementAttributes.includes('childElementBC') && !cookElement.get('childElementBC') && callback) {
+      cookElement.set('childElementBC', true)
+    }
+
     return cookElement.toJS()
   }
-  const sanitizeData = (data) => {
+  const sanitizeData = (data, isLoadContent = false) => {
     let newData = Object.assign({}, data || {})
     const allKeys = Object.keys(data)
     allKeys.forEach((key) => {
@@ -55,12 +170,25 @@ addStorage('elements', (storage) => {
           if (!Object.prototype.hasOwnProperty.call(data, parent)) {
             delete newData[key]
             env('VCV_DEBUG') === true && console.warn(`Element with key ${key} removed, failed to get parent element`)
-            newData = sanitizeData(newData)
+            newData = sanitizeData(newData, isLoadContent)
           } else {
-            newData[key] = recursiveElementsRebuild(cookElement)
+            const childElements = []
+            const getChildElements = (children) => {
+              childElements.push(children)
+            }
+            const callback = isLoadContent && getChildElements
+            newData[key] = getElementToJS(cookElement, callback)
+
+            if (childElements && childElements.length) {
+              childElements.forEach((element) => {
+                if (!element.newElement) {
+                  newData[element.id] = { ...element, ...{ newElement: true } }
+                }
+              })
+            }
           }
         } else {
-          newData[key] = recursiveElementsRebuild(cookElement)
+          newData[key] = getElementToJS(cookElement)
         }
       }
     })
@@ -110,8 +238,12 @@ addStorage('elements', (storage) => {
       elementAddList.push(elementData.id)
       storage.state('elementAddList').set(elementAddList)
     }
-
-    elementData = recursiveElementsRebuild(cookElement)
+    const cookGetAll = cookElement.getAll()
+    const elementAttributes = Object.keys(cookGetAll)
+    if (elementAttributes.includes('childElementBC') && !cookElement.get('childElementBC')) {
+      cookElement.set('childElementBC', true)
+    }
+    elementData = getElementToJS(cookElement)
     const editorType = dataManager.get('editorType')
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
@@ -119,7 +251,7 @@ addStorage('elements', (storage) => {
       if (wrapperTag) {
         const wrapperData = cook.get({ tag: wrapperTag })
         elementData.parent = wrapperData.toJS().id
-        if (wrapperData) {
+        if (wrapperData && options?.action !== 'merge') {
           storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
         }
       } else if (editorType === 'popup') {
@@ -151,23 +283,10 @@ addStorage('elements', (storage) => {
     })
 
     const initChildren = cookElement.get('initChildren')
+    const isChildVisible = getChildVisibility(cookElement)
 
-    if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements) {
-      initChildren.forEach((initChild) => {
-        initChild.parent = data.id
-        const childData = cook.get(initChild)
-        if (childData) {
-          const childDataJS = childData.toJS()
-          if (initChild?.exclude) {
-            childDataJS.exclude = initChild?.exclude
-          }
-          if (initChild?.hidden) {
-            workspaceStorage.trigger('hide', childDataJS.id)
-          }
-          storage.trigger('add', childDataJS, true, { silent: true })
-          storage.trigger('update', childDataJS.id, childDataJS)
-        }
-      })
+    if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements && isChildVisible) {
+      setInitChildren(initChildren, data.id, '', null)
     }
 
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
@@ -205,13 +324,30 @@ addStorage('elements', (storage) => {
         element.layout.layoutData = undefined
       }
     }
+
+    const updatedCookElement = cook.get(element)
+    const initChildren = updatedCookElement.get('initChildren')
+    const isChildVisible = getChildVisibility(updatedCookElement)
+    const dependencyProperty = cookElement.settings('initChildren').settings?.options?.visibilityDependency
+
+    // If dependency toggle is on, but children don't exist in document, add child element
+    if (initChildren && !documentManager.children(id).length && isChildVisible) {
+      setInitChildren(initChildren, id, '', null)
+      // Trigger state update to update TreeView attribute in EditForm
+      storage.state('document').set(documentManager.children(false))
+    } else if (initChildren && documentManager.children(id).length && !isChildVisible && dependencyProperty) {
+    // If dependency toggle is off, but children exist in document, remove child element
+      documentManager.children(id).forEach(child => storage.trigger('remove', child.id))
+    }
     documentManager.update(id, element)
 
-    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR') && dataManager.get('editorType') === 'popup') {
+    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (element.tag === 'column') {
-        const rowElement = getParent(element)
-        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
-        storage.trigger('update', rowElement.id, rowElement, '', options)
+        window.setTimeout(() => {
+          const rowElement = getParent(element)
+          rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking })
+          storage.trigger('update', rowElement.id, rowElement, '', options)
+        }, 0)
       }
     }
 
@@ -244,8 +380,9 @@ addStorage('elements', (storage) => {
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
     const initChildren = parent && cook.get(parent).get('initChildren')
-    // remove parent if it must have children by default (initChildren)
-    if (parent && initChildren && initChildren.length && !documentManager.children(parent.id).length) {
+    const hasDependencyProperty = parent && cook.get(parent).settings('initChildren').settings?.options?.visibilityDependency
+    // remove parent if it must have children by default but doesn't have a dependency (initChildren)
+    if (parent && initChildren && initChildren.length && !documentManager.children(parent.id).length && !hasDependencyProperty) {
       storage.trigger('remove', parent.id)
       // close editForm if deleted element is opened in edit form
       const settings = workspaceStorage.state('settings').get()
@@ -366,8 +503,19 @@ addStorage('elements', (storage) => {
         element.parent = substituteIds[element.parent]
       }
       delete element.order
-      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: true })
-      mergeChildrenLayout(data, oldId, false)
+
+      let skipInitialExtraElements = false
+      if (!element.parent) {
+        const cookElement = cook.get(element)
+        const parentWrapper = cookElement.get('parentWrapper')
+        const wrapperTag = parentWrapper === undefined || parentWrapper === '' ? 'column' : parentWrapper
+        const wrapperData = wrapperTag && cook.get({ tag: wrapperTag })
+        if (wrapperData) {
+          skipInitialExtraElements = true
+        }
+      }
+      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: skipInitialExtraElements })
+      mergeChildrenLayout(data, oldId, wrap)
     })
   }
   storage.on('merge', (content, wrap) => {
@@ -382,7 +530,7 @@ addStorage('elements', (storage) => {
     async: true
   })
   storage.on('reset', (data) => {
-    const sanitizedData = sanitizeData(data)
+    const sanitizedData = sanitizeData(data, true)
     documentManager.reset(sanitizedData)
     historyStorage.trigger('init', sanitizedData)
     storage.state('document').set(documentManager.children(false), sanitizedData)
@@ -402,7 +550,7 @@ addStorage('elements', (storage) => {
       return
     }
 
-    elementData = recursiveElementsRebuild(cookElement)
+    elementData = getElementToJS(cookElement)
     const data = documentManager.create(elementData, {
       insertAfter: false,
       // used to insert element with same order in parent

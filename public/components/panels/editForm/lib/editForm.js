@@ -15,6 +15,8 @@ const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspace = getStorage('workspace')
 const workspaceContentState = workspace.state('content')
+const workspaceEditFormState = workspace.state('editForm')
+const workspaceEditFormSectionsState = workspace.state('editFormSections')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -29,7 +31,9 @@ export default class EditForm extends React.Component {
   constructor (props) {
     super(props)
     this.allTabs = this.updateTabs(this.props)
+    const editFormState = workspaceEditFormState.get() && workspaceEditFormState.get()[this.props.elementAccessPoint.id]
     this.state = {
+      tabs: editFormState || this.getTabs(),
       activeTabIndex: this.getActiveIndex(this.props.activeTabId, false),
       activeSectionIndex: this.getActiveIndex(this.props.activeTabId, true),
       isEditFormSettingsOpened: false,
@@ -42,13 +46,23 @@ export default class EditForm extends React.Component {
     this.getPremiumTeaser = this.getPremiumTeaser.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
     this.setActiveTab = this.setActiveTab.bind(this)
+    this.toggleSection = this.toggleSection.bind(this)
   }
 
   componentDidMount () {
-    const activeId = this.props.activeTabId || Object.keys(this.getTabs())[0]
-    const index = this.getTabs()[activeId]?.index || 0
+    const tabs = this.state.tabs
+    const activeId = this.props.activeTabId || Object.keys(tabs)[0]
+    const index = tabs[activeId]?.index || 0
     this.setActiveTab(null, index)
     workspaceContentState.onChange(this.setVisibility)
+
+    const elementId = this.props.elementAccessPoint.id
+    let currentEditFormState = workspaceEditFormState.get()
+    if (!currentEditFormState) {
+      currentEditFormState = {}
+    }
+    currentEditFormState[elementId] = tabs
+    workspaceEditFormState.set(currentEditFormState)
   }
 
   componentWillUnmount () {
@@ -77,10 +91,12 @@ export default class EditForm extends React.Component {
 
   updateTabs (props, propName) {
     return this.editFormTabs(props, propName).map((tab, index) => {
+      const sectionsState = workspaceEditFormSectionsState.get()
       return {
         fieldKey: tab.key,
         index: index,
         data: tab.data,
+        isActive: !!(sectionsState && sectionsState[tab.key]),
         isVisible: true,
         pinned: tab.data.settings && tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: this.editFormTabParams(props, tab),
@@ -151,50 +167,34 @@ export default class EditForm extends React.Component {
     return [tab]
   }
 
-  getSection (activeTab, activeTabIndex, isAccordion) {
+  getSection (activeSection, activeTabIndex, isAccordion) {
     return (
       <EditFormSection
         {...this.props}
-        sectionIndex={activeTab.index}
+        sectionIndex={activeSection.index}
         activeTabIndex={activeTabIndex}
         getSectionContentScrollbar={() => { return this.scrollbar }}
-        key={activeTab?.key}
-        tab={activeTab}
+        key={activeSection?.key}
+        tab={activeSection}
         accordion={isAccordion}
+        isActive={activeSection.isActive}
         activeSectionIndex={isAccordion ? this.state.activeSectionIndex : 0}
         getReplaceShownStatus={this.getReplaceShownStatus}
+        toggleSection={this.toggleSection}
       />
     )
   }
 
   getAccordionSections (activeTabIndex, realTabs) {
-    const tabsLength = Object.keys(realTabs).length
-    if (tabsLength > 1) {
-      // Backwards compatibility
-      // Show all attributes in General tab if none of the permitted tabs are specified
-      const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
-      const activeTab = this.allTabs.find(tab => tab.fieldKey === activeTabName)
-
-      if (activeTab && activeTab.fieldKey && this.permittedTabs.includes(activeTab.fieldKey)) {
-        if (activeTab.data.settings.options.isSections) {
-          const sections = this.updateTabs(this.props, activeTabName)
-          return sections.map((tab) => {
-            return this.getSection(tab, activeTabIndex, true)
-          })
-        } else {
-          return this.getSection(activeTab, activeTabIndex, true)
-        }
-      } else {
-        const deprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
-        return deprecatedTabs.map((tab) => {
-          return this.getSection(tab, activeTabIndex, true)
-        })
+    const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
+    const sections = realTabs[activeTabName].sections
+    const isAccordion = sections.length > 1
+    return sections.map((section) => {
+      if (!isAccordion) {
+        section.isActive = true
       }
-    } else {
-      return this.allTabs.map((tab) => {
-        return this.getSection(tab, activeTabIndex, true)
-      })
-    }
+      return this.getSection(section, activeTabIndex, isAccordion)
+    })
   }
 
   getPremiumTeaser () {
@@ -236,6 +236,7 @@ export default class EditForm extends React.Component {
         isRootElement={isRootElement || isContainerElement}
         sectionIndex={0}
         activeTabIndex={0}
+        isActive={true}
         getSectionContentScrollbar={() => { return this.scrollbar }}
         elementId={this.props.elementAccessPoint.id}
         tab={{
@@ -249,6 +250,7 @@ export default class EditForm extends React.Component {
           }
         }}
         onAttributeChange={() => false}
+        toggleSection={this.toggleSection}
       />
     )
   }
@@ -265,6 +267,27 @@ export default class EditForm extends React.Component {
       isElementReplaceOpened: !this.state.isElementReplaceOpened,
       isEditFormSettingsOpened: false
     })
+  }
+
+  toggleSection (isActive, sectionName) {
+    const elementId = this.props.elementAccessPoint.id
+    const currentEditFormState = workspaceEditFormState.get()
+    const currentEditFormSectionState = workspaceEditFormSectionsState.get() || {}
+    const currentTabName = Object.keys(this.state.tabs).find(tab => this.state.tabs[tab].index === this.state.activeTabIndex)
+    for (const id in currentEditFormState) {
+      const element = currentEditFormState[id]
+      if (element[currentTabName] && element[currentTabName].sections.length > 1) {
+        element[currentTabName].sections.forEach(section => {
+          if (section.fieldKey === sectionName) {
+            section.isActive = isActive
+          }
+        })
+      }
+    }
+    currentEditFormSectionState[sectionName] = isActive
+    workspaceEditFormState.set(currentEditFormState)
+    this.setState({ tabs: currentEditFormState[elementId] })
+    workspaceEditFormSectionsState.set(currentEditFormSectionState)
   }
 
   getReplaceElementBlock () {
@@ -289,7 +312,7 @@ export default class EditForm extends React.Component {
   }
 
   setActiveTab (type, index) {
-    this.setState({ activeTabIndex: index, activeSectionIndex: 0 })
+    this.setState({ activeTabIndex: index })
   }
 
   getTabs () {
@@ -302,18 +325,24 @@ export default class EditForm extends React.Component {
         index: 0,
         title: 'General',
         type: 'general',
-        key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`
+        key: `edit-form-tab-${this.props.elementAccessPoint.id}-0-general`,
+        sections: isDeprecatedTabs
       }
     }
     let index = isDeprecatedTabs.length ? 1 : 0
 
     this.allTabs.forEach((tab) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
+        const sections = this.updateTabs(this.props, tab.fieldKey)
+        if (sections.length === 1) {
+          sections[0].isActive = true
+        }
         tabs[tab.fieldKey] = {
           index: index,
           title: tab.data.settings.options.label || tab.data.settings.options.tabLabel,
           type: tab.fieldKey,
-          key: tab.key
+          key: tab.key,
+          sections: sections
         }
         index++
       }
@@ -322,10 +351,11 @@ export default class EditForm extends React.Component {
   }
 
   render () {
+    // Need to update all tabs for paramsGroup attribute and nested elements
     this.allTabs = this.updateTabs(this.props)
     const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened, activeTabIndex } = this.state
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
-    const tabs = this.getTabs()
+    const tabs = this.props?.options?.nestedAttr ? this.getTabs() : this.state.tabs
     let activeTab = Object.keys(tabs).find(tab => tabs[tab].index === activeTabIndex)
     activeTab = tabs[activeTab]
 

@@ -43,7 +43,8 @@ class Localizations extends Container implements Helper
     ];
 
     /**
-     * @param $locale array
+     * Library of plugin localizations.
+     * Mostly we use it for JS.
      *
      * @return array
      */
@@ -107,7 +108,6 @@ class Localizations extends Container implements Helper
             'getMoreElements' => __('Get More Elements', 'visualcomposer'),
             'getMoreTemplates' => __('Get More Templates', 'visualcomposer'),
             'noTemplatesFound' => __(
-            // @codingStandardsIgnoreLine
                 'There are no templates yet. Save the current layout as a template or download templates from Visual Composer Hub.',
                 'visualcomposer'
             ),
@@ -128,7 +128,6 @@ class Localizations extends Container implements Helper
             'blankPageTitleHeadingPart1' => __('Name Your ', 'visualcomposer'),
             'blankPageTitleHeadingPart2' => __('and Start Building', 'visualcomposer'),
             'blankPageHelperText' => __(
-            // @codingStandardsIgnoreLine
                 'Start by adding an element to the layout or select one of the pre-defined templates.',
                 'visualcomposer'
             ),
@@ -136,17 +135,14 @@ class Localizations extends Container implements Helper
             "blankHeaderTitle" => __('Design your header here as a part of your layout. You can also download header templates from the Visual Composer Hub.', 'visualcomposer'),
             "blankFooterTitle" => __('Design your footer here as a part of your layout. You can also download footer templates from the Visual Composer Hub.', 'visualcomposer'),
             'addTemplateHelperText' => __(
-            // @codingStandardsIgnoreLine
                 'Didn\'t find a perfect template? Get a premium license to download templates from the Visual Composer Hub.',
                 'visualcomposer'
             ),
             'addElementHelperText' => __(
-            // @codingStandardsIgnoreLine
                 'Didn\'t find an element? Get a premium license to download elements from the Visual Composer Hub.',
                 'visualcomposer'
             ),
             'hubHelperText' => __(
-            // @codingStandardsIgnoreLine
                 'Get a premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.',
                 'visualcomposer'
             ),
@@ -181,12 +177,10 @@ class Localizations extends Container implements Helper
             'frontendEditor' => __('Edit with Visual Composer', 'visualcomposer'),
             'classicEditor' => __('Classic Editor', 'visualcomposer'),
             'openFrontendEditorFromClassic' => __(
-            // @codingStandardsIgnoreLine
                 'You are switching to Visual Composer. Visual Composer will load the latest version of the content created with the website builder.',
                 'visualcomposer'
             ),
             'enableClassicEditorConfirmMessage' => __(
-            // @codingStandardsIgnoreLine
                 'You are switching to the Classic Editor. The content created with Visual Composer will be copied to Classic Editor (style changes may apply). Any changes made in the Classic Editor will not be synced with the Visual Composer layout. Do you want to proceed?',
                 'visualcomposer'
             ),
@@ -267,7 +261,6 @@ class Localizations extends Container implements Helper
             'postUpdateAjaxRequestError' => __('Failed to load: {file}', 'visualcomposer') . ' #10077',
             'none' => __('None', 'visualcomposer'),
             'mobileTooltipText' => __(
-            // @codingStandardsIgnoreLine
                 'Double-tap on an element to open the edit window. Tap and hold to initiate drag and drop.',
                 'visualcomposer'
             ),
@@ -308,7 +301,6 @@ class Localizations extends Container implements Helper
             ),
             'defaultErrorElementDownload' => __('Failed to download the element', 'visualcomposer'),
             'feOopsMessageDefault' => __(
-            // @codingStandardsIgnoreLine
                 'It seems that something went wrong with loading the content. Make sure you are loading the correct content and try again.',
                 'visualcomposer'
             ),
@@ -316,7 +308,6 @@ class Localizations extends Container implements Helper
             'feOopsTryAgainButtonText' => __('Try Again', 'visualcomposer'),
             'feOopsReportAnIssueButtonText' => __('Report an Issue', 'visualcomposer'),
             'feOopsMessagePageForPosts' => __(
-            // @codingStandardsIgnoreLine
                 'It seems you are trying to edit the archive page which displays post archives instead of content. Before the edit, make sure to convert it to a static page via your WordPress admin.',
                 'visualcomposer'
             ),
@@ -468,15 +459,15 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'settingsGlobalTemplateCustomJsLocal' => __(
-                'Add custom JavaScript code to insert it locally on this page in <footer>. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
+                'Add custom JavaScript code to insert it locally on this page in footer. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
                 'visualcomposer'
             ),
             'settingsCustomJsLocal' => __(
-                'Add custom JavaScript code to insert it locally on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
+                'Add custom JavaScript code to insert it locally on this page in header or footer. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
                 'visualcomposer'
             ),
             'settingsCustomJsGlobal' => __(
-                'Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
+                'Add custom JavaScript code to insert it globally on every page in header or footer. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
                 'visualcomposer'
             ),
             'openEditForm' => __('Open the Edit Form', 'visualcomposer'),
@@ -1295,6 +1286,10 @@ class Localizations extends Container implements Helper
             ),
             'submit' => __(
                 'Submit',
+                'visualcomposer'
+            ),
+            'proceed' => __(
+                'Yes, proceed',
                 'visualcomposer'
             ),
             'new' => __(
@@ -2246,6 +2241,42 @@ class Localizations extends Container implements Helper
             ),
             'editElement' => __(
                 'Edit Element',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkConfirmation' => __(
+                'Are you sure you want to proceed?',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkFoundPost' => __(
+                'It seems that',
+                'visualcomposer'
+            ),
+            'removePluginPostTypeLinkActiveOn' => __(
+                'is activate on:',
+                'visualcomposer'
+            ),
+            'popupSettings' => __(
+                'Popup Settings',
+                'visualcomposer'
+            ),
+            'themeBuilderSettings' => __(
+                'Theme Builder Settings',
+                'visualcomposer'
+            ),
+            'layoutSettings' => __(
+                'Layouts Settings',
+                'visualcomposer'
+            ),
+            'reviewPositive' => __(
+                'What is the biggest value you get from Visual Composer?',
+                'visualcomposer'
+            ),
+            'reviewNeutral' => __(
+                'What is the one thing we should improve in Visual Composer?',
+                'visualcomposer'
+            ),
+            'reviewNegative' => __(
+                'What problems do you experience when using Visual Composer?',
                 'visualcomposer'
             ),
         ];

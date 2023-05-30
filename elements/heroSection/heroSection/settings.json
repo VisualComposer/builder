@@ -7,7 +7,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<h1 style=\"color: #fff;\">Highland Traditions of Scotland</h1>\n<p style=\"color: #fff;\">The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
+    "value": "<h1 style=\"color: #fff;text-align:center;\">Highland Traditions of Scotland</h1>\n<p style=\"color: #fff;text-align:center;\">The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
     "options": {
       "label": "Description",
       "inline": true,
@@ -19,153 +19,6 @@
     "type": "toggleSmall",
     "access": "public",
     "value": true
-  },
-  "background": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "image",
-    "options": {
-      "label": "Background type",
-      "values": [
-        {
-          "label": "Background image",
-          "value": "image"
-        },
-        {
-          "label": "Background color",
-          "value": "color"
-        }
-      ]
-    }
-  },
-  "backgroundColor": {
-    "type": "color",
-    "access": "public",
-    "value": " #e7b460",
-    "options": {
-      "label": "Background color",
-      "cssMixin": {
-        "mixin": "backgroundColor",
-        "property": "backgroundColor",
-        "namePattern": "[\\da-f]+"
-      },
-      "onChange": {
-        "rules": {
-          "background": {
-            "rule": "!value",
-            "options": {
-              "value": "image"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
-    }
-  },
-  "backgroundImage": {
-    "type": "attachimage",
-    "access": "public",
-    "value": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/heroSection/hero-section-background.jpg",
-    "options": {
-      "multiple": false,
-      "dynamicField": true,
-      "defaultValue": "https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/heroSection/hero-section-background.jpg",
-      "onChange": {
-        "rules": {
-          "background": {
-            "rule": "!value",
-            "options": {
-              "value": "color"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      },
-      "url": false
-    }
-  },
-  "backgroundImagePosition": {
-    "type": "buttonGroup",
-    "access": "public",
-    "value": "center center",
-    "options": {
-      "label": "Image position",
-      "cssMixin": {
-        "mixin": "backgroundPosition",
-        "property": "backgroundPosition",
-        "namePattern": "[a-z]+"
-      },
-      "values": [
-        {
-          "label": "Left top",
-          "value": "left top",
-          "icon": "vcv-ui-icon-attribute-background-position-left-top"
-        },
-        {
-          "label": "Center top",
-          "value": "center top",
-          "icon": "vcv-ui-icon-attribute-background-position-center-top"
-        },
-        {
-          "label": "Right top",
-          "value": "right top",
-          "icon": "vcv-ui-icon-attribute-background-position-right-top"
-        },
-        {
-          "label": "Left center",
-          "value": "left center",
-          "icon": "vcv-ui-icon-attribute-background-position-left-center"
-        },
-        {
-          "label": "Center center",
-          "value": "center center",
-          "icon": "vcv-ui-icon-attribute-background-position-center-center"
-        },
-        {
-          "label": "Right center",
-          "value": "right center",
-          "icon": "vcv-ui-icon-attribute-background-position-right-center"
-        },
-        {
-          "label": "Left bottom",
-          "value": "left bottom",
-          "icon": "vcv-ui-icon-attribute-background-position-left-bottom"
-        },
-        {
-          "label": "Center bottom",
-          "value": "center bottom",
-          "icon": "vcv-ui-icon-attribute-background-position-center-bottom"
-        },
-        {
-          "label": "Right bottom",
-          "value": "right bottom",
-          "icon": "vcv-ui-icon-attribute-background-position-right-bottom"
-        }
-      ],
-      "onChange": {
-        "rules": {
-          "background": {
-            "rule": "value",
-            "options": {
-              "value": "image"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
-    }
   },
   "align": {
     "type": "buttonGroup",
@@ -250,10 +103,48 @@
       }
     }
   },
+  "buttonElement": {
+    "type": "treeView",
+    "access": "public",
+    "value": [],
+    "options": {
+      "label": "Button",
+      "controls": [
+        "lock",
+        "edit",
+        "visibility"
+      ]
+    }
+  },
+  "initChildren": {
+    "access": "protected",
+    "type": "object",
+    "value": [
+      {
+        "tag": "basicButton",
+        "alignment": "center"
+      }
+    ],
+    "options": {
+      "editorProps": false
+    }
+  },
+  "childElementBC": {
+    "type": "toggle",
+    "value": false,
+    "access": "public"
+  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
-    "value": [],
+    "value": {
+      "device": {
+        "all": {
+          "backgroundColor": "#e7b460",
+          "image": ["https://cdn.hub.visualcomposer.com/plugin-assets/core-elements/heroSection/hero-section-background.jpg"]
+        }
+      }
+    },
     "options": {
       "label": "Design Options"
     }
@@ -373,10 +264,6 @@
       "label": "Style"
     },
     "value": [
-      "background",
-      "backgroundImage",
-      "backgroundImagePosition",
-      "backgroundColor",
       "align"
     ]
   },
@@ -388,8 +275,7 @@
       "isSections": true
     },
     "value": [
-      "contentSection",
-      "button"
+      "contentSection"
     ]
   },
   "contentSection": {
@@ -400,7 +286,7 @@
     },
     "value": [
       "description",
-      "addButton"
+      "buttonElement"
     ]
   }
 }

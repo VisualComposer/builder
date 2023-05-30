@@ -136,7 +136,6 @@ jobs:
       - run:
           name: Add free license to db
           command: |
-            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', 'e4f39044-f4c8-4c43-bb73-bf09ebe3e0c2', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
@@ -213,7 +212,6 @@ jobs:
       - run:
           name: Add free license to db
           command: |
-            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', 'e4f39044-f4c8-4c43-bb73-bf09ebe3e0c2', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
