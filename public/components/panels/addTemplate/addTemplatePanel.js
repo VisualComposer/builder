@@ -462,7 +462,7 @@ export default class AddTemplatePanel extends React.Component {
       const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter(job => !job.hidden)
       const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
 
-      elementsStorage.trigger('merge', elements)
+      elementsStorage.trigger('merge', elements, true)
 
       const handleJobsChange = (data) => {
         const addedElements = elementsStorage.state('elementAddList').get()

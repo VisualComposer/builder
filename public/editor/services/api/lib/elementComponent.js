@@ -715,7 +715,7 @@ export default class ElementComponent extends React.Component {
 
   // Get initChildren element by tag to render specific child
   getChildByTag (tag) {
-    if (!this.props.children) {
+    if (!this.props.children || !this.props.children.length) {
       return null
     }
     const childrenIdList = this.props.children.map(item => item[0].props?.id)
