@@ -220,4 +220,27 @@ class Role implements Helper, Immutable
 
         return get_role($this->getRoleName());
     }
+
+    /**
+     * Check if capability is set for role.
+     *
+     * @param string $rule
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function issetCapRule($rule)
+    {
+        $roleRule = $this->getStateKey() . '_' . $rule;
+        if (! $this->getRole()) {
+            return false;
+        }
+
+        $role = $this->getRole();
+        if (empty($role->capabilities)) {
+            return false;
+        }
+
+        return isset($role->capabilities[$roleRule]);
+    }
 }
