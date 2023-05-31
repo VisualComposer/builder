@@ -504,17 +504,7 @@ addStorage('elements', (storage) => {
       }
       delete element.order
 
-      let skipInitialExtraElements = false
-      if (!element.parent) {
-        const cookElement = cook.get(element)
-        const parentWrapper = cookElement.get('parentWrapper')
-        const wrapperTag = parentWrapper === undefined || parentWrapper === '' ? 'column' : parentWrapper
-        const wrapperData = wrapperTag && cook.get({ tag: wrapperTag })
-        if (wrapperData) {
-          skipInitialExtraElements = true
-        }
-      }
-      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: skipInitialExtraElements })
+      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: true })
       mergeChildrenLayout(data, oldId, wrap)
     })
   }
@@ -522,7 +512,7 @@ addStorage('elements', (storage) => {
     const layoutData = JSON.parse(JSON.stringify(content))
     const editorType = dataManager.get('editorType')
     mergeChildrenLayout(layoutData, false, editorType === 'popup' || wrap)
-    storage.state('document').set(documentManager.children(false), 'merge')
+    storage.state('document').set(documentManager.children(false), content)
     substituteIds = {}
     updateTimeMachine()
   }, {
