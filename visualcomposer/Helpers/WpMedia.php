@@ -272,6 +272,10 @@ class WpMedia implements Helper
 
     public function checkIsImage($string)
     {
+        if (!is_string($string)) {
+            return false;
+        }
+
         $re = '/(\.png|jpg|jpeg|gif)$/';
 
         return preg_match($re, strtolower($string));
@@ -279,6 +283,10 @@ class WpMedia implements Helper
 
     public function checkIsVideo($string)
     {
+        if (!is_string($string)) {
+            return false;
+        }
+
         $re = '/(\.mp4|avi|flv|wmv|mov)$/';
 
         return preg_match($re, strtolower($string));
