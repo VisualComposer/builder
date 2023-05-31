@@ -11,6 +11,7 @@ import { getService, getStorage, env } from 'vc-cake'
 import PanelNavigation from '../../panelNavigation'
 
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspace = getStorage('workspace')
@@ -187,14 +188,18 @@ export default class EditForm extends React.Component {
 
   getAccordionSections (activeTabIndex, realTabs) {
     const activeTabName = Object.keys(realTabs).find(tab => realTabs[tab].index === activeTabIndex)
-    const sections = realTabs[activeTabName].sections
-    const isAccordion = sections.length > 1
-    return sections.map((section) => {
-      if (!isAccordion) {
-        section.isActive = true
-      }
-      return this.getSection(section, activeTabIndex, isAccordion)
-    })
+    const sections = realTabs[activeTabName]?.sections
+    if (sections) {
+      const isAccordion = sections.length > 1
+      return sections.map((section) => {
+        if (!isAccordion) {
+          section.isActive = true
+        }
+        return this.getSection(section, activeTabIndex, isAccordion)
+      })
+    } else {
+      return null
+    }
   }
 
   getPremiumTeaser () {
@@ -317,10 +322,11 @@ export default class EditForm extends React.Component {
 
   getTabs () {
     const tabs = {}
+    const contentAllowed = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && roleManager.can('editor_edit_window_contentTab', roleManager.defaultAdmin())
     // Backwards compatibility
     // Show General tab if none of the permitted tabs are specified
     const isDeprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
-    if (isDeprecatedTabs.length) {
+    if (isDeprecatedTabs.length && contentAllowed) {
       tabs.general = {
         index: 0,
         title: 'General',
@@ -329,9 +335,14 @@ export default class EditForm extends React.Component {
         sections: isDeprecatedTabs
       }
     }
-    let index = isDeprecatedTabs.length ? 1 : 0
+    let index = contentAllowed && isDeprecatedTabs.length ? 1 : 0
 
-    this.allTabs.forEach((tab) => {
+    let allowedTabs = this.allTabs
+    // Apply user roles
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+      allowedTabs = this.allTabs.filter(tab => roleManager.can(`editor_edit_window_${tab.fieldKey}`, roleManager.defaultAdmin()))
+    }
+    allowedTabs.forEach((tab) => {
       if (this.permittedTabs.includes(tab.fieldKey) && tab.params.length) {
         const sections = this.updateTabs(this.props, tab.fieldKey)
         if (sections.length === 1) {
@@ -408,17 +419,21 @@ export default class EditForm extends React.Component {
         <div className='vcv-ui-tree-content'>
           {navigation}
           <div className='vcv-ui-tree-content-section'>
-            <Scrollbar ref={this.scrollBarMounted} initialScrollTop={this.props.options && this.props.options.replaceElementScrollTop}>
-              <div className='vcv-ui-tree-content-section-inner'>
-                <div className='vcv-ui-editor-plates-container'>
-                  <div className='vcv-ui-editor-plates'>
-                    <div className={plateClass}>
-                      {content}
+            {
+              content
+                ? <Scrollbar ref={this.scrollBarMounted} initialScrollTop={this.props.options && this.props.options.replaceElementScrollTop}>
+                  <div className='vcv-ui-tree-content-section-inner'>
+                    <div className='vcv-ui-editor-plates-container'>
+                      <div className='vcv-ui-editor-plates'>
+                        <div className={plateClass}>
+                          {content}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </Scrollbar>
+                </Scrollbar>
+                : (<div className="vcv-ui-edit-form-section-no-tabs">You are not allowed to edit this element. Please contact the Administrator of your website.</div>)
+            }
           </div>
         </div>
       </div>
