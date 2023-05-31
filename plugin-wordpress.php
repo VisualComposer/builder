@@ -120,6 +120,7 @@ if (!defined('DOING_AJAX') || !DOING_AJAX) {
 
 // !! PHP 5.4 Required under this line (parse error otherwise).
 
+
 if ($errorMessages) {
     add_action('admin_notices', function () use ($errorMessages) {
         echo wp_kses($errorMessages, [
