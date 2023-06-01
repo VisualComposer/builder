@@ -14,7 +14,7 @@ jobs:
           php-version: '7.4'
       - name: Get the version
         id: get_version
-        run: echo "name=VERSION::${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+        run: echo "{name}=VERSION::${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
       - name: Get the branch
         id: get_branch
         run: |
