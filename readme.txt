@@ -1,10 +1,10 @@
 === Visual Composer Website Builder, Landing Page Builder, Custom Theme Builder, Maintenance Mode & Coming Soon Pages ===
-Contributors: VisualComposer,veidenbaums,nikitahl,pavelvisualcomposer,orkunaybek,mrdollar4444,sqarf,dmytrokovalov,konutis,seahunter,alperbulut,slavavc,filipsmasolovs,cagdasdag,cozmoslabs
+Contributors: VisualComposer,veidenbaums,nikitahl,orkunaybek,mrdollar4444,sqarf,dmytrokovalov,pavelvisualcomposer,konutis,seahunter,alperbulut,slavavc,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 7.4
 Requires at least: 5.5
-Tested up to: 6.1.1
-Stable tag: 45.1.3
+Tested up to: 6.2.2
+Stable tag: 45.2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,64 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 45.2.0 =
+*Release Date - 2023-06-01*
+
+### Free:
+- New: Custom CSS option is available for all elements in the element edit window
+- New: Data attributes are available for all elements  in the element edit window
+- New: Navigation to parent element is available for all elements
+- New: Element window has tabs for content, design, layout, and advanced attributes
+- Update: Improved editor load speed
+- Update: User satisfaction survey updated
+- Compatibility: The editor works properly with Easy Content Tables
+- Compatibility: The editor works properly with the One User Avatar
+- Fix: Visual Composer works properly with a multisite environment
+- Fix: Posts with no content work properly in the editor
+- Fix: Editor works properly on specifically preconfigured server environments
+- Fix: Status check works properly and does not deactivate the plugin
+- Fix: Memory limit displays properly on the system status page
+- Fix: The editor works properly with multiple shortcodes
+- Fix: CSS animations work properly with custom responsiveness enabled
+- Fix: A large amount of content works properly with WPML
+- Fix: Gzip works properly on different server environments
+- Fix: Element update works properly with the newest version of the plugin
+- Fix: Instant update works properly for nested elements
+- Fix: Right-click controls work properly
+- Fix: Hidden elements don't produce extra space
+- Fix: The editor works properly with One-Click Demo Import
+- Fix: The editor works properly with PHP 8.1
+- Fix: The toggle to hide elements in Design Options works properly
+
+### Premium:
+- New: Div container element is available
+- New: Editor recognizes usage of global templates, popups, and layout before deletion
+- Update: The Search element improved for ADA compliance
+- Compatibility: Theme Builder works properly with WooCommerce 7
+- Fix: Custom excerpt length works properly for grid (loop) elements
+- Fix: Adding a popup via link selector works properly
+- Fix: Layout options work properly for posts
+- Fix: Header, footer, and sidebar assigning works properly
+- Fix: Search queries and categorizing work properly in the layout builder
+- Fix: Global template width works properly in page layouts
+- Fix: YouTube videos work properly in the header
+- Fix: Role manager presets work properly on the initial save
+- Fix: Featured Image Post Grid title is clickable
+- Fix: Template importing works properly
+- Fix: HubSpot element works properly for different user roles
+- Fix: Captions work properly with custom fields
+- Fix: Settings reset does not remove the custom header and footer settings
+- Fix: Importing and exporting options work properly with Global Templates
+- Fix: All Google Fonts work properly with the Font Manager
+- Fix: Post list element displays a proper WordPress date format
+- Fix: Custom fields with no value are not displayed publicly
+- Fix: Custom layout controls work properly
+- Fix: Locked elements are not accessible with double-click
+- Fix: Spacing for headers in the header builder works properly
+- Fix: wp_body_open hook is available for the layout builder layouts
+- Fix: Post grid elements work properly with sticky posts enabled
+- Fix: Tab links are working properly when linking to another tab
 
 = 45.1.3 =
 *Release Date - 2023-03-22*
