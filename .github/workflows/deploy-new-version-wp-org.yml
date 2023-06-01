@@ -14,11 +14,11 @@ jobs:
           php-version: '7.4'
       - name: Get the version
         id: get_version
-        run: echo "name=VERSION::${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+        run: echo "{name}=VERSION::${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
       - name: Get the branch
         id: get_branch
         run: |
-          echo "name=BRANCH::$(echo ${GITHUB_REF##*/}" >> $GITHUB_OUTPUT | perl -pe 's/(?(?=-)(\-.+$)|(\.\d+$))/.x/')
+          echo "{name}=BRANCH::$(echo ${GITHUB_REF##*/}" >> $GITHUB_OUTPUT | perl -pe 's/(?(?=-)(\-.+$)|(\.\d+$))/.x/')
       - name: Checkout code
         run: |
           GIT_SSL_NO_VERIFY=true git clone -b ${{ steps.get_branch.outputs.BRANCH }} --single-branch https://github.com/VisualComposer/builder.git --depth 1
