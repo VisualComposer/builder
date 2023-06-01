@@ -14,11 +14,11 @@ jobs:
         uses: actions/checkout@master
       - name: Get the version
         id: get_version
-        run: echo "name=VERSION::${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Build project
         run: |
           yarn install
-          node _infrastructure/vcwb-builder/builder plugin -b ${{ steps.get_version.outputs.VERSION }} --isDev -p ./_infrastructure
+          node _infrastructure/vcwb-builder/builder plugin -b ${{ env.VERSION }} --isDev -p ./_infrastructure
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
