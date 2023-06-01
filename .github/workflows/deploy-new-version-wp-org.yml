@@ -21,7 +21,7 @@ jobs:
           echo "name=BRANCH:${GITHUB_REF##*/}" >> $GITHUB_OUTPUT | perl -pe 's/(?(?=-)(\-.+$)|(\.\d+$))/.x/' $GITHUB_OUTPUT
       - name: Checkout code
         run: |
-          GIT_SSL_NO_VERIFY=true git clone -b ${{ steps.get_branch.outputs.BRANCH }} --single-branch https://github.com/VisualComposer/builder.git --depth 1
+          GIT_SSL_NO_VERIFY=true git clone -b ${{ env.BRANCH }} --single-branch https://github.com/VisualComposer/builder.git --depth 1
       - name: Build project
         run: |
           yarn --cwd ./builder install
