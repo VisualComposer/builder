@@ -79,7 +79,7 @@ jobs:
           WP_PASSWORD: ${{ secrets.wordpressOrgPassword }}
         run: |
           cd ./visualcomposer-wordpress-org
-          svn add --force ./tags/${{ GITHUB_OUTPUT }} > /dev/null
+          svn add --force ./tags/$GITHUB_OUTPUT > /dev/null
           svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm % > /dev/null
           svn ci -m "Plugin ${{ steps.get_version.outputs.VERSION }} version" --username "$WP_USERNAME" --password "$WP_PASSWORD"
   deploy-trunk:
