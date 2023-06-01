@@ -18,10 +18,10 @@ jobs:
       - name: Get the branch
         id: get_branch
         run: |
-          BRANCH=$(echo ${GITHUB_REF##*/} | perl -pe ‘s/(?(?=-)(\-.+$)|(\.\d+$))/.x/’)
-            echo “BRANCH=$BRANCH” >> $GITHUB_ENV
-            echo “GITHUB_REF: $GITHUB_REF”
-            echo “BRANCH: $BRANCH”
+          BRANCH=$(echo ${GITHUB_REF##*/} | perl -pe 's/(?(?=-)(\-.+$)|(\.\d+$))/.x/')
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "BRANCH: $BRANCH"
       - name: Checkout code
         run: |
           GIT_SSL_NO_VERIFY=true git clone -b ${{ env.BRANCH }} --single-branch https://github.com/VisualComposer/builder.git --depth 1
