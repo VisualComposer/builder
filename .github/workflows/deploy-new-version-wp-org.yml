@@ -28,7 +28,7 @@ jobs:
       - name: Build project
         run: |
           yarn --cwd ./builder install
-          node ./builder/_infrastructure/vcwb-builder/builder plugin -b ${{ steps.get_version.outputs.VERSION }}  -p ./
+          node ./builder/_infrastructure/vcwb-builder/builder plugin -b ${{ env.VERSION }}  -p ./
       - name: Upload plugin zip
         uses: actions/upload-artifact@v1
         with:
@@ -70,9 +70,9 @@ jobs:
       - name: Unzip visualcomposer
         run: unzip $GITHUB_WORKSPACE/visualcomposer.zip/visualcomposer.zip -d ./
       - name: Create new directory
-        run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ steps.get_version.outputs.VERSION }}
+        run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ env.VERSION }}
       - name: Copy files to trunk directory
-        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ steps.get_version.outputs.VERSION }} --delete
+        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ env.VERSION }} --delete
       - name: Update svn repository
         env:
           WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
@@ -81,7 +81,7 @@ jobs:
           cd ./visualcomposer-wordpress-org
           run: svn add --force ./tags/${{ env.VERSION }} > /dev/null
           svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm % > /dev/null
-          svn ci -m "Plugin ${{ steps.get_version.outputs.VERSION }} version" --username "$WP_USERNAME" --password "$WP_PASSWORD"
+          svn ci -m "Plugin ${{ env.VERSION }} version" --username "$WP_USERNAME" --password "$WP_PASSWORD"
   deploy-trunk:
     name: Update trunk on WordPress.org
     needs: [build-dev-plugin, deploy]
