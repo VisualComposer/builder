@@ -14,7 +14,7 @@ jobs:
           php-version: '7.4'
       - name: Get the version
         id: get_version
-        run: echo "name=VERSION::${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Get the branch
         id: get_branch
         run: |
@@ -28,7 +28,7 @@ jobs:
       - name: Build project
         run: |
           yarn --cwd ./builder install
-          node ./builder/_infrastructure/vcwb-builder/builder plugin -b ${{ steps.get_version.outputs.VERSION }}  -p ./
+          node ./builder/_infrastructure/vcwb-builder/builder plugin -b ${{ env.VERSION }}  -p ./
       - name: Upload plugin zip
         uses: actions/upload-artifact@v1
         with:
@@ -64,24 +64,24 @@ jobs:
           name: visualcomposer.zip
       - name: Get the version
         id: get_version
-        run: echo "name=VERSION::${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Checkout Wordpress.org svn repository
         run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
       - name: Unzip visualcomposer
         run: unzip $GITHUB_WORKSPACE/visualcomposer.zip/visualcomposer.zip -d ./
       - name: Create new directory
-        run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ steps.get_version.outputs.VERSION }}
+        run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ env.VERSION }}
       - name: Copy files to trunk directory
-        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ steps.get_version.outputs.VERSION }} --delete
+        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ env.VERSION }} --delete
       - name: Update svn repository
         env:
           WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
           WP_PASSWORD: ${{ secrets.wordpressOrgPassword }}
         run: |
           cd ./visualcomposer-wordpress-org
-          svn add --force ./tags/${{ steps.get_version.outputs.VERSION }} > /dev/null
+          svn add --force ./tags/${{ env.VERSION }} > /dev/null
           svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm % > /dev/null
-          svn ci -m "Plugin ${{ steps.get_version.outputs.VERSION }} version" --username "$WP_USERNAME" --password "$WP_PASSWORD"
+          svn ci -m "Plugin ${{ env.VERSION }} version" --username "$WP_USERNAME" --password "$WP_PASSWORD"
   deploy-trunk:
     name: Update trunk on WordPress.org
     needs: [build-dev-plugin, deploy]
