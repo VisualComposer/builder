@@ -1,5 +1,5 @@
 import React from 'react'
-import { getService, getStorage } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 import ControlAction from './controlAction'
 import { ControlHelpers } from './controlHelpers'
 
@@ -35,6 +35,14 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
   // prepare actions
   const actions = []
 
+  const canEditTab = (tab) => {
+    let canEditTab = true
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+      canEditTab = roleManager.can(`editor_edit_window_${tab}`, roleManager.defaultAdmin())
+    }
+    return canEditTab
+  }
+
   // edit general control
   actions.push({
     label: editText,
@@ -46,7 +54,7 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
   })
 
   // add controls for row
-  if (options.tag === 'row') {
+  if (options.tag === 'row' && canEditTab('layoutTab')) {
     actions.push({
       label: rowLayoutText,
       icon: 'vcv-ui-icon-row-layout',
@@ -133,7 +141,7 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
 
   // edit design options control
   if (!isCenterControls) {
-    if (options.tag !== 'div') {
+    if (options.tag !== 'div' && canEditTab('designTab')) {
       actions.push({
         label: designOptionsText,
         title: `${options.title} ${designOptionsText}`,
@@ -144,15 +152,18 @@ export default function ControlDropdownInner ({ elementId, isCenterControls, isR
         }
       })
     }
-    actions.push({
-      label: advancedText,
-      title: `${options.title} ${advancedText}`,
-      icon: 'vcv-ui-icon-terminal',
-      data: {
-        vcControlEvent: 'edit',
-        vcControlEventOptions: advancedEvent
-      }
-    })
+
+    if (canEditTab('advancedTab')) {
+      actions.push({
+        label: advancedText,
+        title: `${options.title} ${advancedText}`,
+        icon: 'vcv-ui-icon-terminal',
+        data: {
+          vcControlEvent: 'edit',
+          vcControlEventOptions: advancedEvent
+        }
+      })
+    }
   }
 
   // remove control
