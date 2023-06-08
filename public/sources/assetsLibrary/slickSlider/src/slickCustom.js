@@ -839,8 +839,7 @@ import './slickCustom.less';
     var _ = this;
 
     if (_.shouldClick === false) {
-      event.stopImmediatePropagation();
-      event.stopPropagation();
+      event.preventDefault()
     }
 
   };
@@ -1461,7 +1460,7 @@ import './slickCustom.less';
     _.$list[0].addEventListener('touchcancel', _.swipeHandlerEnd, supportsPassive ? { passive: true } : false)
     _.$list[0].addEventListener('mouseleave', _.swipeHandlerEnd, supportsPassive ? { passive: true } : false)
 
-    _.$list[0].addEventListener('click', _.clickHandler, supportsPassive ? {passive: true} : false)
+    _.$list[0].addEventListener('click', _.clickHandler, false)
 
     $(document).on(_.visibilityChange, $.proxy(_.visibility, _));
 
