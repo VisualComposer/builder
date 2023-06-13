@@ -368,8 +368,43 @@ const API = {
       (response:string) => {
         this.ajaxCall = false
         this.ajaxRequests.splice(0, 1)
-        req.successCallback && req.successCallback(response)
-        this.nextDownload()
+
+        const parseResponse = JSON.parse(response)
+
+        const isProcessAdditionalActions =
+          parseResponse.additionalActionList &&
+          Object.keys(parseResponse.additionalActionList).length > 0
+
+        if (isProcessAdditionalActions) {
+          const dataManager = getService('dataManager')
+          let actionNumber = Object.keys(parseResponse.additionalActionList).length
+          for (const [id, path] of Object.entries(parseResponse.additionalActionList)) {
+            dataProcessor.appAdminServerRequest({
+              'vcv-action': 'hub:update:attachment:meta:adminNonce',
+              'vcv-attachment-id': id,
+              'vcv-attachment-path': path,
+              'vcv-nonce': dataManager.get('nonce')
+            }).then(() => {
+              actionNumber--
+
+              if (actionNumber === 0) {
+                req.successCallback && req.successCallback(response)
+                this.nextDownload()
+              }
+            }, () => {
+              // error processing
+              actionNumber--
+
+              if (actionNumber === 0) {
+                req.successCallback && req.successCallback(response)
+                this.nextDownload()
+              }
+            })
+          }
+        } else {
+          req.successCallback && req.successCallback(response)
+          this.nextDownload()
+        }
       },
       (response:string) => {
         this.ajaxCall = false
@@ -379,6 +414,7 @@ const API = {
       }
     )
   },
+
   getShortcodesRegexp () {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   },
