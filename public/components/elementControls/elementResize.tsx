@@ -134,6 +134,11 @@ const ElementResize: React.FC<Props> = (props) => {
       const bounding = row.parentElement.getBoundingClientRect()
       let distance = isLeft ? (e.clientX - bounding.x - iframeOffset) : (e.clientX - (bounding.x + bounding.width) - iframeOffset) * -1
 
+      // Prevent Resizer to overflow popup container
+      const editorType = dataManager.get('editorType')
+      if (editorType === 'popup' && distance < -47) {
+        return
+      }
       // Snap to grid
       if (distance > -5 && distance < 5) {
         distance = 0
