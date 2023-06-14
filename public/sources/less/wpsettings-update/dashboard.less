@@ -312,7 +312,7 @@
     font-size: @vcv-dashboard-h2-font-size;
   }
 
-  a:not(.vcv-notice-link) {
+  a {
     text-decoration: none;
     color: @vcv-dashboard-link-color;
     transition: @transition-duration;
@@ -325,6 +325,16 @@
     &:focus {
       outline: none;
       box-shadow: none;
+    }
+  }
+
+  .vcv-notice-link {
+    text-decoration: underline;
+    color: #2271b1;
+    transition: color .05s ease-in-out;
+
+    &:hover {
+      color: #135e96;
     }
   }
 
