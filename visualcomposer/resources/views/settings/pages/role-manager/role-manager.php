@@ -164,14 +164,14 @@ left: -69px;
    <div class="vcv-dashboard-accordion-item-content">';
         // IF role doesn't have cap `unfiltered_html` show notice
         if ($roleObject && !$roleObject->has_cap('unfiltered_html')) {
-            echo '<div class="notice inline notice-warning update-nag" style="display:inline-block !important;padding: 1px 12px;"><p>' . sprintf(
+            echo '<div class="notice inline notice-warning update-nag" style="display:inline-block !important;padding: 1px 12px;"><p style="font-size: 14px">' . sprintf(
                 // translators: %1$s - role name, %2$s - link to help page, %3$s - capability, %4$s - </a>
                 __(
                     'To enable Visual Composer for %1$s, %2$senable ‘%3$s’ capability%4$s for the exact user.',
                     'visualcomposer'
                 ),
                 $name,
-                '<a href="https://help.visualcomposer.com/docs/how-tos/how-to-enable-unfiltered_html/" target="_blank" rel="noopener noreferrer">',
+                '<a class="vcv-notice-link" href="https://help.visualcomposer.com/docs/how-tos/how-to-enable-unfiltered_html/" target="_blank" rel="noopener noreferrer">',
                 '<strong>unfiltered_html</strong>',
                 '</a>'
             ) . '</p>
