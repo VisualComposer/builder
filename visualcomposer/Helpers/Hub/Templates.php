@@ -288,16 +288,20 @@ class Templates implements Helper
     public function isMenuExist($templateElements)
     {
         foreach ($templateElements as $element) {
-            if (isset($element['menuSource']) && !empty($element['menuSource'])) {
-                $menusFromKey = get_terms(
-                    [
-                        'taxonomy' => 'nav_menu',
-                        'slug' => $element['menuSource'],
-                    ]
-                );
-                if (empty($menusFromKey)) {
-                    $templateElements[ $element['id'] ]['menuSource'] = '';
-                }
+            // we need this line to reduce size of array, cos on some env we have memory limit error
+            unset($element['designOptions']);
+            if (!empty($element['menuSource'])) {
+                continue;
+            }
+
+            $menusFromKey = get_terms(
+                [
+                    'taxonomy' => 'nav_menu',
+                    'slug' => $element['menuSource'],
+                ]
+            );
+            if (empty($menusFromKey)) {
+                $templateElements[ $element['id'] ]['menuSource'] = '';
             }
         }
 
