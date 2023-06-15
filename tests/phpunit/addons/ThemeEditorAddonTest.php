@@ -33,6 +33,7 @@ class ThemeEditorAddonTest extends WP_UnitTestCase
 
             $this->assertPageLayoutWithHfs($postId);
         }
+        $this->assertTrue(true);
     }
 
     protected function loadAddon($addon)

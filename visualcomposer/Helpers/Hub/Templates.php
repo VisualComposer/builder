@@ -290,7 +290,7 @@ class Templates implements Helper
         foreach ($templateElements as $element) {
             // we need this line to reduce size of array, cos on some env we have memory limit error
             unset($element['designOptions']);
-            if (!empty($element['menuSource'])) {
+            if (empty($element['menuSource'])) {
                 continue;
             }
 
