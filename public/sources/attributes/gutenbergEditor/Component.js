@@ -78,7 +78,7 @@ export default class GutenbergEditorComponent extends Attribute {
     const editor = wpData.dispatch('core/editor')
     const postEdit = wpData.dispatch('core/edit-post')
     // selectEditor.isPublishSidebarOpened = () => { return true }
-    editor.setupEditor(newPost)
+    editor.setupEditor(newPost, {content:value})
     editor.disablePublishSidebar()
     editor.lockPostSaving()
     postEdit.closeGeneralSidebar()
