@@ -228,6 +228,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 ### Free:
 - Fix: Template download works properly for different environments
 - Fix: Notifications inside the Visual Composer dashboard have been improved for design consistency
+- Fix: Gutenberg content editing works properly
 
 ### Premium:
 - New: Role Manager controls user access to the edit element window tabs
