@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 7.4
 Requires at least: 5.5
 Tested up to: 6.2.2
-Stable tag: 45.2.0
+Stable tag: 45.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,20 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 45.3.0 =
+*Release Date - 2023-06-19*
+
+### Free:
+- Fix: Template download works properly for different environments
+- Fix: Notifications inside the Visual Composer dashboard have been improved for design consistency
+
+### Premium:
+- New: Role Manager controls user access to the edit element window tabs
+- Fix: Row resizing controls work properly in Popup Builder
+- Fix: Naming consistency improved for the post grid elements
+- Fix: Template import from previous versions of the editor works properly
+- Fix: Sliders work properly when using mouse to switch slides
 
 = 45.2.0 =
 *Release Date - 2023-06-01*
