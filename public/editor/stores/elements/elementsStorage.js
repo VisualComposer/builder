@@ -70,7 +70,7 @@ addStorage('elements', (storage) => {
       if (dependencyAttributeRules) {
         for (const ruleKey in dependencyAttributeRules) {
           const rule = dependencyAttributeRules[ruleKey].rule
-          if (rule === 'toggle' && !cookElement.get(ruleKey)) {
+          if ((rule === 'toggle' && !cookElement.get(ruleKey)) || (rule === '!toggle' && cookElement.get(ruleKey))) {
             isVisible = false
           }
         }
@@ -179,8 +179,9 @@ addStorage('elements', (storage) => {
             }
             const callback = isLoadContent && getChildElements
             newData[key] = getElementToJS(cookElement, callback)
+            const isChildVisible = getChildVisibility(cookElement)
 
-            if (childElements && childElements.length) {
+            if (isChildVisible && childElements && childElements.length) {
               childElements.forEach((element) => {
                 if (!element.newElement) {
                   let elementID = element.id
