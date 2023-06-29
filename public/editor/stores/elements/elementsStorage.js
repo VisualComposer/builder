@@ -70,7 +70,9 @@ addStorage('elements', (storage) => {
       if (dependencyAttributeRules) {
         for (const ruleKey in dependencyAttributeRules) {
           const rule = dependencyAttributeRules[ruleKey].rule
-          if ((rule === 'toggle' && !cookElement.get(ruleKey)) || (rule === '!toggle' && cookElement.get(ruleKey))) {
+          const ruleValue = cookElement.get(ruleKey)
+
+          if ((rule === 'toggle' && !ruleValue) || (rule === '!toggle' && ruleValue)) {
             isVisible = false
           }
         }
