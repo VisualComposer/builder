@@ -191,7 +191,7 @@ export default class InsightsChecks {
     const images = env('iframe').document.body.querySelectorAll('img')
     let allImagesHasAlt = true
     images.forEach((image: HTMLImageElement) => {
-      if (!image.alt || image.alt === '') {
+      if ((!image.alt || image.alt === '') && !image.classList.contains('vce-lb-image')) {
         const altMissingTitle = this.localizations.insightsImageAltAttributeMissingTitle
         const description = this.localizations.insightsImageAltAttributeMissingDescription
         const elementId = InsightsChecks.getElementId(image)
