@@ -107,7 +107,7 @@ class ParentPageController extends Container implements Module
             return $response;
         }
 
-        $parentId = wp_get_post_parent_id();
+        $parentId = wp_get_post_parent_id(get_the_ID());
         if ($parentId) {
             $pageList = ["current" => $parentId, "all" => [
                 ['label' => __('None', 'visualcomposer'), "value" => "none"],
