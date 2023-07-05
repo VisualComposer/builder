@@ -25,6 +25,7 @@ addStorage('elements', (storage) => {
    Checks for 'toggle' value of elements and assign it to treeView children's 'hidden' option
    * @param cookElement
    * @param attrKey
+   * @param innerElementValue
    */
   const getBcElement = (cookElement, attrKey, innerElementValue) => {
     let newInnerElementValue = innerElementValue
@@ -69,7 +70,9 @@ addStorage('elements', (storage) => {
       if (dependencyAttributeRules) {
         for (const ruleKey in dependencyAttributeRules) {
           const rule = dependencyAttributeRules[ruleKey].rule
-          if (rule === 'toggle' && !cookElement.get(ruleKey)) {
+          const ruleValue = cookElement.get(ruleKey)
+
+          if ((rule === 'toggle' && !ruleValue) || (rule === '!toggle' && ruleValue)) {
             isVisible = false
           }
         }
@@ -155,8 +158,8 @@ addStorage('elements', (storage) => {
   }
   const sanitizeData = (data, isLoadContent = false) => {
     let newData = Object.assign({}, data || {})
-    const allKeys = Object.keys(data)
-    allKeys.forEach((key) => {
+    const elementsKeys = Object.keys(data)
+    elementsKeys.forEach((key) => {
       if (!Object.prototype.hasOwnProperty.call(newData, key)) {
         return
       }
@@ -178,11 +181,25 @@ addStorage('elements', (storage) => {
             }
             const callback = isLoadContent && getChildElements
             newData[key] = getElementToJS(cookElement, callback)
+            const isChildVisible = getChildVisibility(cookElement)
 
-            if (childElements && childElements.length) {
+            if (isChildVisible && childElements && childElements.length) {
               childElements.forEach((element) => {
                 if (!element.newElement) {
-                  newData[element.id] = { ...element, ...{ newElement: true } }
+                  let elementID = element.id
+                  let elementData = { ...element, ...{ newElement: true } }
+                  // Condition for BC
+                  // some child elements like Video Player play/pause buttons
+                  // had duplicated ids when cloned (prior to version 45.2)
+                  // we check if element id exists, and replace it with a new one.
+                  if (!newData[elementID]) {
+                    const cloneElementData = Object.assign({}, elementData)
+                    delete cloneElementData.id
+                    const newElementData = cook.get(cloneElementData).toJS()
+                    elementData = { ...newElementData, ...{ newElement: true } }
+                    elementID = elementData.id
+                  }
+                  newData[elementID] = elementData
                 }
               })
             }

@@ -77,7 +77,7 @@ import './lightbox.css';
   // Attach event handlers to the new DOM elements. click click click
   Lightbox.prototype.build = function () {
     var self = this;
-    window.jQuery('<div id="vce-lightboxOverlay" class="vce-lightboxOverlay"></div><div id="vce-lightbox" class="vce-lightbox"><div class="vce-lb-outerContainer"><div class="vce-lb-container"><img class="vce-lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="vce-lb-nav"><a class="vce-lb-prev" href="" ></a><a class="vce-lb-next" href="" ></a></div><div class="vce-lb-loader"><a class="vce-lb-cancel"></a></div></div></div><div class="vce-lb-dataContainer"><div class="vce-lb-data"><div class="vce-lb-details"><span class="vce-lb-caption"></span><span class="vce-lb-number"></span></div><div class="vce-lb-closeContainer"><a class="vce-lb-close"></a></div></div></div></div>').appendTo(window.jQuery('body'));
+    window.jQuery('<div id="vce-lightboxOverlay" class="vce-lightboxOverlay"></div><div id="vce-lightbox" class="vce-lightbox"><div class="vce-lb-outerContainer"><div class="vce-lb-container"><img class="vce-lb-image" alt="Lightbox library placeholder image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="vce-lb-nav"><a class="vce-lb-prev" href="" aria-label="Previous image"></a><a class="vce-lb-next" href="" aria-label="Next image"></a></div><div class="vce-lb-loader"><a class="vce-lb-cancel" aria-label="Close image preview"></a></div></div></div><div class="vce-lb-dataContainer"><div class="vce-lb-data"><div class="vce-lb-details"><span class="vce-lb-caption"></span><span class="vce-lb-number"></span></div><div class="vce-lb-closeContainer"><a class="vce-lb-close" aria-label="Close image preview"></a></div></div></div></div>').appendTo(window.jQuery('body'));
 
     // Cache jQuery objects
     this.$lightbox = window.jQuery('#vce-lightbox');
@@ -153,10 +153,12 @@ import './lightbox.css';
 
     function addToAlbum ($link) {
       var filterClass = Array.prototype.slice.call($link.get(0).classList).find(function (item) { return item.match(/vce\-image\-filter\-\-/) }) || ''
+      var $image = $link.find('img')
       self.album.push({
         link: $link.attr('href'),
         title: $link.attr('data-title') || $link.attr('title'),
-        filterClass: filterClass
+        filterClass: filterClass,
+        alt: $image.attr('alt')
       });
     }
 
@@ -239,6 +241,7 @@ import './lightbox.css';
       var windowWidth;
 
       $image.attr('src', self.album[ imageNumber ].link);
+      $image.attr('alt', self.album[ imageNumber ].alt);
       var filterClass = Array.prototype.slice.call($image.get(0).classList).find(function (item) { return item.match(/vce\-image\-filter\-\-/) }) || ''
       filterClass && $image.removeClass(filterClass)
       self.album[ imageNumber ].filterClass && ($image.addClass(self.album[ imageNumber ].filterClass));
