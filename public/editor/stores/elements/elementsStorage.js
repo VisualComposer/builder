@@ -183,6 +183,15 @@ addStorage('elements', (storage) => {
             newData[key] = getElementToJS(cookElement, callback)
             const isChildVisible = getChildVisibility(cookElement)
 
+            // BC check if parent element has disabled children
+            // Some element's components were updated,
+            // in a way to render child elements conditionally
+            // older elements may still have child elements rendered while they are disabled in the main element
+            const parentCookElement = newData[parent] && cook.get(newData[parent])
+            if (parentCookElement && !getChildVisibility(parentCookElement)) {
+              delete newData[key]
+            }
+
             if (isChildVisible && childElements && childElements.length) {
               childElements.forEach((element) => {
                 if (!element.newElement) {
