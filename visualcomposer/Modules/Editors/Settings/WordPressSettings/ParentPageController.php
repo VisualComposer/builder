@@ -107,19 +107,19 @@ class ParentPageController extends Container implements Module
             return $response;
         }
 
-        $parent = get_post_parent();
-        if (empty($parent->ID)) {
-            $pageList = ["current" => "none", "all" => [['label' => __('None', 'visualcomposer'), "value" => "none"]]];
-        } else {
-            $pageList = ["current" => $parent->ID, "all" => [
+        $parentId = wp_get_post_parent_id(get_the_ID());
+        if ($parentId) {
+            $pageList = ["current" => $parentId, "all" => [
                 ['label' => __('None', 'visualcomposer'), "value" => "none"],
                 [
-                    'label' => $parent->post_title,
-                    "value" => $parent->ID,
-                    "id" => $parent->ID,
+                    'label' => get_the_title($parentId),
+                    "value" => $parentId,
+                    "id" => $parentId,
                     "parent" => 0
                 ]],
             ];
+        } else {
+            $pageList = ["current" => "none", "all" => [['label' => __('None', 'visualcomposer'), "value" => "none"]]];
         }
 
         $response = array_merge(
