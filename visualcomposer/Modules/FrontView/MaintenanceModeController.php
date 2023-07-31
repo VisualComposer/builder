@@ -107,11 +107,6 @@ class MaintenanceModeController extends Container implements Module
 
     protected function headers()
     {
-        // Default headers for 503 maintenance
-        @header('HTTP/1.1 503 Service Temporarily Unavailable');
-        @header('Status: 503 Service Temporarily Unavailable');
-        // 30min delay
-        @header('Retry-After: 1800');
 
         // Set Disable WordPress caching
         if (!defined('DONOTCACHEPAGE')) {
