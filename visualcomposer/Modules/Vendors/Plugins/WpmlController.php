@@ -105,6 +105,13 @@ class WpmlController extends Container implements Module
         );
 
         $this->addFilter('vcv:frontend:renderContent', 'applyObjectId');
+
+        $this->wpAddFilter(
+            'wpml_pb_should_body_be_translated',
+            'blockBodyTranslations',
+            10,
+            2
+        );
     }
 
     /**
@@ -592,5 +599,25 @@ class WpmlController extends Container implements Module
             get_post_type($sourceId),
             true
         );
+    }
+
+    /**
+     * Prevent body translations for vcv posts.
+     * We use it in some specific wpml cases to prevent some duplicate translation
+     * that take additional credits from users
+     *
+     * @param bool $isBodyTranslate
+     * @param \WP_Post $post
+     *
+     * @return bool
+     */
+    protected function blockBodyTranslations($isBodyTranslate, $post)
+    {
+        $frontendHelper = vchelper('Frontend');
+        if (empty($post->ID) || ! $frontendHelper->isVcvPost($post->ID)) {
+            return $isBodyTranslate;
+        }
+
+        return false;
     }
 }
