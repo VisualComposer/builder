@@ -39,24 +39,24 @@ class WpmlController extends Container implements Module
 
         $this->localizationsHelper = vchelper('Localizations');
 
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addLangToLink */
+        /** @see WpmlController::addLangToLink */
         $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
         $this->addFilter('vcv:frontend:url', 'addLangToLink');
         $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
 
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::setDataTrid */
+        /** @see WpmlController::setDataTrid */
         $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addLanguageDetails */
+        /** @see WpmlController::addLanguageDetails */
         $this->addFilter('vcv:linkSelector:url', 'addLanguageDetails');
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::insertTrid */
+        /** @see WpmlController::insertTrid */
         $this->wpAddAction(
             'save_post',
             'insertTrid'
         );
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::outputWpml */
+        /** @see WpmlController::outputWpml */
         $this->wpAddAction('admin_print_scripts', 'outputWpml');
         if (class_exists('\SitePress')) {
-            /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::disableGutenberg */
+            /** @see WpmlController::disableGutenberg */
             $this->wpAddAction(
                 'current_screen',
                 'disableGutenberg',
@@ -73,44 +73,49 @@ class WpmlController extends Container implements Module
                 ]
             );
         }
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::prepareTranslationJobData */
+        /** @see WpmlController::prepareTranslationJobData */
         $this->wpAddFilter(
             'wpml_tm_translation_job_data',
             'prepareTranslationJobData',
             11,
             2
         );
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::completeTranslationJobSaving */
+        /** @see WpmlController::completeTranslationJobSaving */
         $this->wpAddAction(
             'wpml_pro_translation_completed',
             'completeTranslationJobSaving',
             11,
             3
         );
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::launchOurUpdateAfterPostTranslation */
+        /** @see WpmlController::launchOurUpdateAfterPostTranslation */
         $this->wpAddAction(
             'wpml_translation_job_saved',
             'launchOurUpdateAfterPostTranslation',
             10,
             1
         );
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::createNotice */
+        /** @see WpmlController::createNotice */
         $this->wpAddAction('admin_notices', 'createNotice');
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::changeLanguageWhileUpdate */
+        /** @see WpmlController::changeLanguageWhileUpdate */
         $this->addFilter('vcv:dataAjax:setData:sourceId', 'changeLanguageWhileUpdate', -1);
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::addHandleIframeBodyClick */
+        /** @see WpmlController::addHandleIframeBodyClick */
         $this->addFilter(
             'vcv:resources:view:settings:pages:handleIframeBodyClick',
             'addHandleIframeBodyClick'
         );
-
+        /** @see WpmlController::applyObjectId */
         $this->addFilter('vcv:frontend:renderContent', 'applyObjectId');
-
+        /** @see WpmlController::blockBodyTranslations */
         $this->wpAddFilter(
             'wpml_pb_should_body_be_translated',
             'blockBodyTranslations',
             10,
             2
+        );
+        /** @see WpmlController::overrideLayoutWithTranslation */
+        $this->addFilter(
+            'vcv:addons:themeBuilder:getLayoutId',
+            'overrideLayoutWithTranslation'
         );
     }
 
@@ -342,7 +347,7 @@ class WpmlController extends Container implements Module
     /**
      * Disable the gutenberg
      *
-     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param Request $requestHelper
      */
     protected function disableGutenberg(Request $requestHelper)
     {
@@ -409,10 +414,7 @@ class WpmlController extends Container implements Module
             }
 
             if ($sitepress->get_current_language() !== 'all' && $postTypeSupported) {
-                if (
-                    isset($payload['query'], $payload['query']['vcv-action'])
-                    && $payload['query']['vcv-action'] === 'frontend'
-                ) {
+                if (isset($payload['query']['vcv-action']) && $payload['query']['vcv-action'] === 'frontend') {
                     return add_query_arg(['lang' => $sitepress->get_current_language()], $url);
                 } else {
                     return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());
@@ -427,7 +429,7 @@ class WpmlController extends Container implements Module
      * Update wpml trid meta.
      *
      * @param int $id
-     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param Request $requestHelper
      */
     protected function insertTrid($id, Request $requestHelper)
     {
@@ -441,13 +443,12 @@ class WpmlController extends Container implements Module
      * Set wpml trid.
      *
      * @param $response
-     * @param $payload
      *
      * @return mixed
      */
-    protected function setDataTrid($response, $payload)
+    protected function setDataTrid($response)
     {
-        /** @see \VisualComposer\Modules\Vendors\Plugins\WpmlController::checkTrid */
+        /** @see WpmlController::checkTrid */
         $this->wpAddFilter('wpml_save_post_trid_value', 'checkTrid');
 
         return $response;
@@ -458,7 +459,7 @@ class WpmlController extends Container implements Module
      *
      * @param $trid
      * @param $payload
-     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param Request $requestHelper
      *
      * @return mixed
      */
@@ -619,5 +620,25 @@ class WpmlController extends Container implements Module
         }
 
         return false;
+    }
+
+    /**
+     * Override layout id with translation id.
+     *
+     * @param int $layoutId
+     * @return int
+     */
+    protected function overrideLayoutWithTranslation($layoutId)
+    {
+        $type = get_post_type($layoutId);
+        $currentLang = apply_filters('wpml_current_language', null);
+
+        $layoutTranslatedId = apply_filters('wpml_object_id', $layoutId, $type, false, $currentLang);
+
+        if (!empty($type) && !empty($currentLang) && !empty($layoutTranslatedId)) {
+            $layoutId = $layoutTranslatedId;
+        }
+
+        return $layoutId;
     }
 }
