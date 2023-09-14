@@ -468,7 +468,7 @@ export default class AddTemplatePanel extends React.Component {
         const addedElements = elementsStorage.state('elementAddList').get()
         const addedElementsCount = addedElements.length
         const visibleJobs = data.elements.filter(element => !element.hidden)
-        if (existingJobsCount + addedElementsCount === visibleJobs.length) {
+        if (existingJobsCount + addedElementsCount <= visibleJobs.length) {
           const jobsInProgress = data.elements.find(element => element.jobs)
           if (jobsInProgress) {
             return
