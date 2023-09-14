@@ -145,7 +145,7 @@ const BlankPageIntro: React.FC<Props> = ({ unmountBlankPage }) => {
         const addedElements = elementsStorage.state('elementAddList').get()
         const addedElementsCount = addedElements.length
         const visibleJobs = data.elements.filter((element: { hidden: boolean }) => !element.hidden)
-        if (existingJobsCount + addedElementsCount === visibleJobs.length) {
+        if (existingJobsCount + addedElementsCount <= visibleJobs.length) {
           const jobsInProgress = data.elements.find((element: { jobs: [] }) => element.jobs)
           if (jobsInProgress) {
             return
