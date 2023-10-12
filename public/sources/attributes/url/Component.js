@@ -78,6 +78,9 @@ class Url extends Attribute {
   }
 
   componentDidUpdate (prevProps) {
+    if (!lodash.isEqual(prevProps, this.props)) {
+      this.setState(this.updateState(this.props))
+    }
     if (this.state.isSaveInProgress) {
       if (!this.props.isPopupAddInProgress && this.props.isPopupAddInProgress !== prevProps.isPopupAddInProgress) {
         this.setState({
