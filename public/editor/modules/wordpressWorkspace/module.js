@@ -174,9 +174,9 @@ add('wordpressWorkspace', (api) => {
         const visibleJobs = data.elements.filter(element => !element.hidden)
         const visibleElements = utils.getVisibleElements(documentElements)
         const documentIds = Object.keys(visibleElements)
-        if (documentIds.length === visibleJobs.length) {
-          const jobsInprogress = data.elements.find(element => element.jobs)
-          if (jobsInprogress) {
+        if (documentIds.length <= visibleJobs.length) {
+          const jobsInProgress = data.elements.find(element => element.jobs)
+          if (jobsInProgress) {
             return
           }
           removeOverlay()
