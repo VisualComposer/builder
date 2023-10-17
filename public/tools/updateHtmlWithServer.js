@@ -43,7 +43,7 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
 }
 
 export function updateHtmlWithServer (content, ref, id, cb, action, options) {
-  if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+  if (content && (content.match(getShortcodesRegexp()) || content.match(/src="https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
     ref.innerHTML = spinnerHtml
     updateHtmlWithServerRequest(content, ref, id, cb, action, options)
   } else {
@@ -54,7 +54,7 @@ export function updateHtmlWithServer (content, ref, id, cb, action, options) {
 }
 
 export function addShortcodeToQueueUpdate (content, ref, id, cb, action, options) {
-  if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+  if (content && (content.match(getShortcodesRegexp()) || content.match(/src="https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
     ref.innerHTML = spinnerHtml
     addServerRequestShortcodeToQueue(content, ref, id, cb, action, options)
   } else {
