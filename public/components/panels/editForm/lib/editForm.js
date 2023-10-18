@@ -322,7 +322,7 @@ export default class EditForm extends React.Component {
 
   getTabs () {
     const tabs = {}
-    const contentAllowed = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && roleManager.can('editor_edit_window_contentTab', roleManager.defaultAdmin())
+    const contentAllowed = env('VCV_ADDON_ROLE_MANAGER_ENABLED') ? roleManager.can('editor_edit_window_contentTab', roleManager.defaultAdmin()) : true
     // Backwards compatibility
     // Show General tab if none of the permitted tabs are specified
     const isDeprecatedTabs = this.allTabs.filter(tab => !this.permittedTabs.includes(tab.fieldKey))
