@@ -41,14 +41,14 @@ export default class Attribute extends React.Component {
     this.setFieldValue(event.currentTarget.value)
   }
 
-  updateNewValue () {
+  updateNewValue (value) {
     const { updater, fieldKey, fieldType } = this.props
-    updater(fieldKey, this.state.value, null, fieldType)
+    updater(fieldKey, value, null, fieldType)
   }
 
   setFieldValue (value) {
     this.setState({ value: value })
-    this.updateNewValue()
+    this.updateNewValue(value)
   }
 
   getCustomDevices () {
