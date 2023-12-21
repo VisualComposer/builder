@@ -171,7 +171,7 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   handleChangeQtagsEditor (e) {
-    const value = e.target.value.replace(/\n/g, '<br>')
+    const value = e.target.value.replace(/([^>])\n([^<]|<\/\w+>)/g, '<br>') // only insert <br> after a regular text and not after closing html tag
     this.props.setFieldValue(value)
   }
 
