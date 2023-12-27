@@ -142,11 +142,6 @@
     <rule ref="Generic.PHP.BacktickOperator"/>
     <rule ref="Generic.PHP.Syntax"/>
     <rule ref="WordPress.WP.GlobalVariablesOverride"/>
-    <rule ref="WordPress.PHP.NoSilencedErrors">
-        <properties>
-            <property name="usePHPFunctionsList" value="false"/>
-        </properties>
-    </rule>
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
     <file>./plugin-wordpress.php</file>
