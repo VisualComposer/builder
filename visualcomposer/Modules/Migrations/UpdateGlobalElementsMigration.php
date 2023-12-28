@@ -80,9 +80,8 @@ class UpdateGlobalElementsMigration extends MigrationsController implements Modu
 
                 if (!empty($previousCssFile) && empty($previousCssHash)) {
                     $assetsPath = $assetsHelper->getFilePath($previousCssFile);
-                    $fileSystem = $fileHelper->getFileSystem();
-                    if ($fileSystem && !empty($assetsPath)) {
-                        $fileSystem->delete($assetsPath);
+                    if (!empty($assetsPath)) {
+                        $fileHelper->fileSystem->delete($assetsPath);
                     }
                 }
             }

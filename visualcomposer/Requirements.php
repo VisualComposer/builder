@@ -53,7 +53,7 @@ class VcvCoreRequirements
      */
     public function getCoreChecksMessage()
     {
-        $messages = [];
+        $messages = array();
 
         //TODO: Return VCV_REQUIRED_PHP_VERSION after few releases
         if (!self::checkVersion(7.4, PHP_VERSION)) {
@@ -72,6 +72,9 @@ class VcvCoreRequirements
         }
         if (!function_exists('zlib_decode')) {
             $messages[] = 'The zip extension must be loaded zlib_decode() is not defined';
+        }
+        if (!$this->checkFileSystemStatus()) {
+            $messages[] = 'Wordpress file system should be enabled, try to define FS_METHOD constant in wp-config.php or check your server filesystem configurations';
         }
 
         return $messages;
@@ -105,5 +108,26 @@ class VcvCoreRequirements
         }
 
         return true;
+    }
+
+    /**
+     * Get filesystem status.
+     *
+     * @return false
+     */
+    public function checkFileSystemStatus()
+    {
+        // @codingStandardsIgnoreLine
+        global $wp_filesystem;
+
+        $status = true;
+        // @codingStandardsIgnoreLine
+        if (!$wp_filesystem || !is_object($wp_filesystem)) {
+            require_once(ABSPATH . '/wp-admin/includes/file.php');
+            $status = WP_Filesystem(false, false, true);
+        }
+
+        // @codingStandardsIgnoreLine
+        return $status ? $wp_filesystem : false;
     }
 }
