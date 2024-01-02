@@ -410,7 +410,6 @@ export default class AttachImage extends Attribute {
     ids && ids.forEach(function (id) {
       if (id) {
         const attachment = window.wp.media.attachment(id)
-        attachment.fetch()
         if (attachment) {
           selection.add([attachment])
         }
