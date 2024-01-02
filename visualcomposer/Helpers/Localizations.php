@@ -2279,6 +2279,14 @@ class Localizations extends Container implements Helper
                 'What problems do you experience when using Visual Composer?',
                 'visualcomposer'
             ),
+            'dontHaveMenu' => __(
+                'You don’t have any menus yet. Create your first menu',
+                'visualcomposer'
+            ),
+            'dontHaveMenuHere' => __(
+                'here',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

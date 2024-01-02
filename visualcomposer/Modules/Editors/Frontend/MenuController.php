@@ -32,9 +32,10 @@ class MenuController extends Container implements Module
             'endBuffer'
         );
 
+        $wpMenuHelper = vchelper('WpMenu');
         $this->addFilter(
             'vcv:ajax:dropdown:menu:updateList:adminNonce',
-            'getMenuList',
+            [$wpMenuHelper, 'getMenuList'],
             11
         );
     }
@@ -171,32 +172,5 @@ class MenuController extends Container implements Module
             }
             $globalsHelper->set('submenu', $submenuCopy);
         }
-    }
-
-    /**
-     * Return all menus
-     *
-     * @return array
-     */
-    protected function getMenuList()
-    {
-        $menuList = get_terms('nav_menu');
-
-        $values = [];
-        foreach ($menuList as $key => $menu) {
-            $values[] = [
-                'label' => $menu->name,
-                'value' => $menu->slug,
-            ];
-        }
-
-        if (empty($values)) {
-            $values[] = [
-                'label' => __('Select your menu', 'visualcomposer'),
-                'value' => '',
-            ];
-        }
-
-        return ['status' => true, 'data' => $values];
     }
 }
