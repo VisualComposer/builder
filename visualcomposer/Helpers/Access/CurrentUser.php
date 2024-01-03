@@ -251,7 +251,7 @@ class CurrentUser extends Container implements Helper
      *
      * @return bool
      */
-    public function isUserCap($cap)
+    public function hasUserCap($cap)
     {
         $user = wp_get_current_user();
 
@@ -264,7 +264,7 @@ class CurrentUser extends Container implements Helper
         }
 
         foreach ($user->roles as $user_role) {
-            if ($this->isUserRoleCap($user_role, $cap)) {
+            if ($this->hasUserRoleCap($user_role, $cap)) {
                 return true;
             }
         }
@@ -280,7 +280,7 @@ class CurrentUser extends Container implements Helper
      *
      * @return bool
      */
-    public function isUserRoleCap($user_role, $cap)
+    public function hasUserRoleCap($user_role, $cap)
     {
         $roleObject = get_role($user_role);
 
