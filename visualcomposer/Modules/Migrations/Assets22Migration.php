@@ -27,15 +27,11 @@ class Assets22Migration extends MigrationsController implements Module
 
     protected function run(File $fileHelper, Options $optionsHelper)
     {
-        // check if folder doesnt exists in wp-content/uploads/visualcomposer-assets
+        // check if folder doesn't exist in wp-content/uploads/visualcomposer-assets
         // check if folder exists in wp-content/visualcomposer-assets
-        $fileSystem = $fileHelper->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
         if (
-            !$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
-            && $fileSystem->is_dir(
+            !$fileHelper->fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
+            && $fileHelper->fileSystem->is_dir(
                 WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
             )
         ) {
@@ -68,13 +64,10 @@ class Assets22Migration extends MigrationsController implements Module
             true
         );
         if (!is_wp_error($result) && $result) {
-            $fileSystem = $fileHelper->getFileSystem();
-            if ($fileSystem) {
-                $resultMove = $fileSystem->move(
-                    VCV_PLUGIN_ASSETS_DIR_PATH . '-temp',
-                    VCV_PLUGIN_ASSETS_DIR_PATH
-                );
-            }
+            $resultMove = $fileHelper->fileSystem->move(
+                VCV_PLUGIN_ASSETS_DIR_PATH . '-temp',
+                VCV_PLUGIN_ASSETS_DIR_PATH
+            );
             $responseMove = !is_wp_error($resultMove) && $result;
 
             return $responseMove;

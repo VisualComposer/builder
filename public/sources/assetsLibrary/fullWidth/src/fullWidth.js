@@ -12,6 +12,7 @@
   const headerFooterLayout = '.vcv-content--header-footer'
   const blankLayout = '.vcv-content--blank'
   const customContainerSelector = '.vce-full-width-custom-container'
+  const layoutContent = '.vce-layouts-wp-content-area-container'
 
   function getFullWidthElements() {
     const visibleElements = []
@@ -42,7 +43,7 @@
           }
         });
       };
-      
+
       hiddenElements.forEach(function (element) {
         let observer = new window.IntersectionObserver(callback, options)
         observer.observe(element)
@@ -60,6 +61,7 @@
     }
     fullWidthElements.forEach(function (element) {
       const mainBody = document.body
+      const layoutArea = document.querySelector(layoutContent)
       const elementParent = element.parentElement
       const elementContent = element.querySelector('[data-vce-element-content="true"]')
 
@@ -67,7 +69,8 @@
       const elMarginRight = parseInt(window.getComputedStyle(element, null)['margin-right'], 10)
       let offset, width
 
-      if (!element.closest('[data-vce-element-content]') && (element.closest(headerFooterLayout) || element.closest(blankLayout))) {
+      if (!element.closest('[data-vce-element-content]') && (element.closest(headerFooterLayout) || element.closest(blankLayout)) // Remove paddings if HF layout
+        || layoutArea && layoutArea.closest('[data-vce-element-content]')) { // Remove paddings if layout has wrapper row
         if (!element.getAttribute('data-vce-stretch-content') && !element.getAttribute('data-vce-section-stretch-content')) { // Fix BC for row paddings
           elementContent.style['padding-left'] = ''
           elementContent.style['padding-right'] = ''
