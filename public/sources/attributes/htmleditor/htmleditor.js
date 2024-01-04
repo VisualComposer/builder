@@ -8,7 +8,7 @@ import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
 import { getService } from 'vc-cake'
 import lodash from 'lodash'
-import wpautop from './wpautop'
+import wpautop from './wpautop.min'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
