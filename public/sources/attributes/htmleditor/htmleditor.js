@@ -8,6 +8,7 @@ import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
 import { getService } from 'vc-cake'
 import lodash from 'lodash'
+import wpautop from './wpautop'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
@@ -171,8 +172,9 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   handleChangeQtagsEditor (e) {
-    const value = e.target.value.replace(/([^>])\n([^<]|<\/\w+>)/g, '<br>') // only insert <br> after a regular text and not after closing html tag
-    this.props.setFieldValue(value)
+    // use a WordPress wpautop function (ported from PHP) to format the text to match the tinyMCE style
+    const formattedValue = wpautop(e.target.value)
+    this.props.setFieldValue(formattedValue)
   }
 
   skinChange (fieldKey, isDark) {
