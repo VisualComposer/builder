@@ -1,5 +1,5 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
-import { debounce } from 'lodash'
+import { debounce, cloneDeep } from 'lodash'
 import { rebuildRawLayout } from './lib/tools'
 import ModuleAPI from 'vc-cake/lib/module-api-constructor'
 import innerAPI from 'public/components/api/innerAPI'
@@ -535,7 +535,7 @@ addStorage('elements', (storage) => {
     })
   }
   storage.on('merge', (content, wrap) => {
-    const layoutData = JSON.parse(JSON.stringify(content))
+    const layoutData = cloneDeep(content)
     const editorType = dataManager.get('editorType')
     mergeChildrenLayout(layoutData, false, editorType === 'popup' || wrap)
     storage.state('document').set(documentManager.children(false), content)

@@ -1,4 +1,4 @@
-import { defaultsDeep } from 'lodash'
+import { defaultsDeep, cloneDeep } from 'lodash'
 export default class TimeMachine {
   constructor (name, limit = 0) {
     Object.defineProperties(this, {
@@ -125,9 +125,9 @@ export default class TimeMachine {
 
   get () {
     if (this.stackPosition < 1) {
-      return JSON.parse(JSON.stringify(this.zeroState))
+      return cloneDeep(this.zeroState)
     } else {
-      return JSON.parse(JSON.stringify(this.stack[this.stackPosition - 1]))
+      return cloneDeep(this.stack[this.stackPosition - 1])
     }
   }
 
