@@ -1,5 +1,6 @@
 import store from 'public/editor/stores/store'
 import { set, reset, update, remove, appendTo, moveBefore, moveAfter, clone } from 'public/editor/stores/document/slice'
+import { cloneDeep } from 'lodash'
 
 const vcCake = require('vc-cake')
 const createKey = vcCake.getService('utils').createKey
@@ -15,7 +16,7 @@ const dataStore = {
     const documentData = store.getState().document.documentData
     return Object.keys(documentData)
       // @ts-ignore accessing object property via bracket notation
-      .map((id) => JSON.parse(JSON.stringify(documentData[id])))
+      .map((id) => cloneDeep(documentData[id]))
       .filter((el) => el.parent === id)
       .sort((a, b) => a.order - b.order)
   },
@@ -43,7 +44,7 @@ const api = {
 
     store.dispatch(set([id, obj, options]))
 
-    return JSON.parse(JSON.stringify(obj))
+    return cloneDeep(obj)
   },
   delete: function (id:string) {
     let deleted:string[] = []
@@ -62,10 +63,10 @@ const api = {
   get: function (id:string) {
     // @ts-ignore accessing object property via bracket notation
     const data = store.getState().document.documentData[id]
-    return data ? JSON.parse(JSON.stringify(data)) : null
+    return data ? cloneDeep(data) : null
   },
   children: function (id:string) {
-    return JSON.parse(JSON.stringify(dataStore.getChildren(id)))
+    return cloneDeep(dataStore.getChildren(id))
   },
   moveBefore: function (id:string, beforeId:string) {
     store.dispatch(moveBefore([id, beforeId]))
@@ -117,7 +118,7 @@ const api = {
     return descendantData
   },
   all: function () {
-    return JSON.parse(JSON.stringify(store.getState().document.documentData))
+    return cloneDeep(store.getState().document.documentData)
   },
   // disabling lint, because data can be any element object with different properties
   reset: function (data:any) { // eslint-disable-line
@@ -130,7 +131,7 @@ const api = {
     const data = store.getState().document.documentData
     return Object.keys(data).map((key) => {
       // @ts-ignore accessing object property via bracket notation
-      return JSON.parse(JSON.stringify(data[key])) // disabling lint, because data can be any element object with different properties
+      return cloneDeep(data[key]) // disabling lint, because data can be any element object with different properties
     }).filter(callback)
   },
   getTopParent: function (id:string):string {
@@ -144,7 +145,7 @@ const api = {
       // @ts-ignore accessing object property via bracket notation
       if (data[key].tag === tag) {
         // @ts-ignore accessing object property via bracket notation
-        itemsByTag[key] = JSON.parse(JSON.stringify(data[key]))
+        itemsByTag[key] = cloneDeep(data[key])
       }
     })
     return itemsByTag
