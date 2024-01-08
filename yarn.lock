@@ -4701,10 +4701,10 @@ immer@^9.0.7:
   resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.17.tgz#7cfe8fbb8b461096444e9da7a5ec4a67c6c4adf4"
   integrity sha512-+hBruaLSQvkPfxRiTLK/mi4vLH+/VQS6z2KJahdoxlleFOI8ARqzOF17uy12eFDlqWmPoygwc5evgwcp+dlHhg==
 
-immutable@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0.tgz#b86f78de6adef3608395efb269a91462797e2c23"
-  integrity sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw==
+immutable@4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.3.4.tgz#2e07b33837b4bb7662f288c244d1ced1ef65a78f"
+  integrity sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
@@ -8143,12 +8143,12 @@ v8-to-istanbul@^9.0.1:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
 
-vc-cake@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/vc-cake/-/vc-cake-1.1.1.tgz#5d936b3a09f11723517cd0dcadaed7039203c364"
-  integrity sha512-6jaR+9eDpOXnSbmVEa1fVHHUy9qa7l6+krhOtigtfEdPD5hN8AQ/24VoMjgIjZz0qo14V4Ur5PqZVmnToOk9dQ==
+vc-cake@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vc-cake/-/vc-cake-1.1.2.tgz#947036ffc0254c2df0a0240925a3fc7f26b4e63a"
+  integrity sha512-LBAAI3Ul/fo61aqwPuYsOuA53JiWQ+pPKC65Edf+XTijVqDsuhP+fraHMn8v9b5m/Aa3NyfTUtsKFr1MSAFEcA==
   dependencies:
-    immutable "4.0.0"
+    immutable "4.3.4"
     lodash "4.17.21"
     murmurhash "2.0.0"
 
@@ -8157,10 +8157,10 @@ vc-helpers@0.0.4:
   resolved "https://registry.yarnpkg.com/vc-helpers/-/vc-helpers-0.0.4.tgz#4d7b321c449f11bee8833214a7e5ea04230a7286"
   integrity sha512-SIN8tVo6jTk6AYQ9UwMz7y51oIeDGxZ1LLbzjfwK0S6RTTu+hzx6dDZmaNgGd/sIh3QyM8DpF4C5GLoqxvJKQw==
 
-vc-webpack-vendors@3.3.5:
-  version "3.3.5"
-  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.3.5.tgz#58760e06831f7579fefe37b0365d29e4126adc16"
-  integrity sha512-hhQv8W+KLFCRHfann88g/RP9zHNFJKbLEZPBL1tqtt5b1HZvZwF58RD5VEhHyvBUvx7oC7taxIgqUQ2thrNobw==
+vc-webpack-vendors@3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.3.6.tgz#d42bd00646e89cb47189735dbd2c31c84bf7d4e1"
+  integrity sha512-+n0TQq4dKto1aUToOCHuqdGKrN1xO4aunEQB84SmxLGxoy7b6BneLBunLZ0ad9klH/Af9r2ZLiF9wiMxnqlhAQ==
   dependencies:
     "@babel/cli" "7.19.3"
     "@babel/core" "7.19.3"
@@ -8247,7 +8247,7 @@ vc-webpack-vendors@3.3.5:
     url "0.11.0"
     url-loader "4.1.1"
     util "0.12.5"
-    vc-cake "1.1.1"
+    vc-cake "1.1.2"
     vc-helpers "0.0.4"
     virtual-module-webpack-plugin "0.4.1"
     webfontloader "1.6.28"
