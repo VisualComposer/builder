@@ -369,8 +369,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   debouncedUpdateHtml (content) {
-    const videoUrlPattern = /https?:\/\/(?:www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|vimeo\.com\/|dailymotion\.com\/video\/)[\w-]+/
-    if (content && (content.match(getShortcodesRegexp()) || content.match(videoUrlPattern) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
       // Instantly update HTML but also request server for additional rendering in background
       this.ref && (this.ref.innerHTML = content)
       this.debouncedUpdateHtmlWithServerRequest(content)
