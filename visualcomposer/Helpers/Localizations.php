@@ -2287,6 +2287,10 @@ class Localizations extends Container implements Helper
                 'here',
                 'visualcomposer'
             ),
+            'selectNinjaFormsSource' => __(
+                'Select Ninja Forms source',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
