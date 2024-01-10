@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { popupShown, popupsSet, popupVisibilitySet } from '../../../editor/stores/editorPopup/slice'
 import { Popups, VotePopupProps } from '../types'
 import { AppStateType } from '../../../editor/stores/reducer'
+import { cloneDeep } from 'lodash'
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -38,14 +39,14 @@ const VotePopup = ({
     })
 
     // Set vote value in storage so we can use it in the review popup
-    const currentPopup = JSON.parse(JSON.stringify(popups)) || {}
+    const currentPopup = cloneDeep(popups) || {}
     Object.preventExtensions(currentPopup)
     if (currentPopup?.votePopup) {
       currentPopup.votePopup.voteValue = checkedInput.value
     }
     popupsSet(currentPopup)
 
-    const voteScore = parseInt(currentPopup.votePopup.voteValue)
+    const voteScore = parseInt(currentPopup.votePopup.voteValue ?? '0', 10)
 
     if (voteScore <= 6) {
       setHeadingText(reviewHeadingNegative)
