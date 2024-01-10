@@ -8,7 +8,6 @@ const shortcodeAssetsStorage = getStorage('shortcodeAssets')
 const { getShortcodesRegexp } = getService('utils')
 
 const requests = {}
-const videoUrlPattern = /https?:\/\/(?:www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|vimeo\.com\/|dailymotion\.com\/video\/)[\w-]+/
 
 export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
   const iframe = env('iframe')
@@ -44,7 +43,7 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
 }
 
 export function updateHtmlWithServer (content, ref, id, cb, action, options) {
-  if (content && (content.match(getShortcodesRegexp()) || content.match(videoUrlPattern) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+  if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
     ref.innerHTML = spinnerHtml
     updateHtmlWithServerRequest(content, ref, id, cb, action, options)
   } else {
@@ -55,7 +54,7 @@ export function updateHtmlWithServer (content, ref, id, cb, action, options) {
 }
 
 export function addShortcodeToQueueUpdate (content, ref, id, cb, action, options) {
-  if (content && (content.match(getShortcodesRegexp()) || content.match(videoUrlPattern) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+  if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
     ref.innerHTML = spinnerHtml
     addServerRequestShortcodeToQueue(content, ref, id, cb, action, options)
   } else {
