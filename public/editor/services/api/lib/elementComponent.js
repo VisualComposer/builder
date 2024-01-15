@@ -13,7 +13,11 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
-import { updateHtmlWithServer, renderInlineHtml, addShortcodeToQueueUpdate } from 'public/tools/updateHtmlWithServer'
+import {
+  renderInlineHtml,
+  addShortcodeToQueueUpdate,
+  setShortcodeListHtmlServerRequest
+} from 'public/tools/updateHtmlWithServer'
 import {
   getCssMixinsData,
   getInnerCssMixinsData,
@@ -78,15 +82,12 @@ export default class ElementComponent extends React.Component {
 
   updateShortcodeToHtml (content, ref, cb, action, options) {
     if (ref) {
-      updateHtmlWithServer(content, ref, this.props.id, cb, action, options)
-    } else if (env('VCV_DEBUG')) {
-      console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
-    }
-  }
-
-  addShortcodeElementToQueueUpdate (content, ref, cb, action, options) {
-    if (ref) {
       addShortcodeToQueueUpdate(content, ref, this.props.id, cb, action, options)
+      // only when add new element or edit existing
+      // on page loading we process ajax after removeOverlay for all elements on a page together
+      if (getStorage('wordpressData').state('status').get().status === 'changed') {
+        setShortcodeListHtmlServerRequest()
+      }
     } else if (env('VCV_DEBUG')) {
       console.error('The ref argument in updateShortcodeToHtml method is undefined: ', ref)
     }
