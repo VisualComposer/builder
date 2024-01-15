@@ -73,7 +73,7 @@ const ElementWrapper = forwardRef((props, ref) => {
           returnData = <EmptyCommentElementWrapper />
         } else {
           returnData =
-            <EmptyCommentElementWrapper><ContentControls api={props.api} id={currentElementId} /></EmptyCommentElementWrapper>
+            <EmptyCommentElementWrapper isControls={true}><ContentControls api={props.api} id={currentElementId} /></EmptyCommentElementWrapper>
         }
       } else {
         returnData = <EmptyCommentElementWrapper />
