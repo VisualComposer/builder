@@ -1,7 +1,6 @@
 /* eslint-disable no-eval */
 import vcCake from 'vc-cake'
 import postcss from 'postcss'
-// import postcssClean from 'postcss-clean'
 import postcssCustomProps from 'postcss-custom-properties'
 import postcssAdvancedVars from 'postcss-advanced-variables'
 import postcssColor from 'postcss-color-function'
@@ -50,7 +49,6 @@ const plugin = postcss.plugin('postcss-math', () => {
 })
 mainPlugins.push(plugin())
 
-// mainPlugins.push(postcssMath())
 mainPlugins.push(functions({
   functions: {
     rawUrl: (path) => {
@@ -61,7 +59,6 @@ mainPlugins.push(functions({
 mainPlugins.push(postcssColor)
 mainPlugins.push(postcssNested)
 
-// mainPlugins.push(postcssClean)
 
 class StylesManager {
   constructor (styles = []) {
