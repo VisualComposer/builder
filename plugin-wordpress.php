@@ -34,6 +34,7 @@ if (defined('WP_INSTALLING') && WP_INSTALLING) {
     return;
 }
 
+
 /**
  * Check for plugin conflict.
  */
