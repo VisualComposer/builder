@@ -59,7 +59,6 @@ mainPlugins.push(functions({
 mainPlugins.push(postcssColor)
 mainPlugins.push(postcssNested)
 
-
 class StylesManager {
   constructor (styles = []) {
     this.styles = styles
