@@ -6,7 +6,7 @@ import lodash from 'lodash'
 import initializeTinymce from 'public/components/layoutHelpers/tinymce/tinymceVcvHtmleditorPlugin'
 import initializeJqueryPlugin from 'public/components/layoutHelpers/tinymce/fontFamily/tinymceFontsSelect.jquery'
 import getUsedFonts from 'public/components/layoutHelpers/tinymce/fontFamily/getUsedFonts.js'
-import { addServerRequestShortcodeToQueue, addShortcodeToQueueUpdate, setShortcodeListHtmlServerRequest }
+import { addServerRequestShortcodeToQueue, addShortcodeToQueueUpdate, setShortcodeListHtmlServerRequest, isWeNeedContentServerRender }
   from 'public/tools/updateHtmlWithServer'
 
 const documentManager = vcCake.getService('document')
@@ -370,7 +370,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   debouncedUpdateHtml (content) {
-    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+    if (isWeNeedContentServerRender(content)) {
       // Instantly update HTML but also request server for additional rendering in background
       this.ref && (this.ref.innerHTML = content)
       this.debouncedUpdateHtmlWithServerRequest(content)
