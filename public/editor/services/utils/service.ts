@@ -418,6 +418,9 @@ const API = {
   getShortcodesRegexp () {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   },
+  getEmbedRegexp () {
+    return new RegExp('https?:\\/\\/')
+  },
   getBlockRegexp (onlyVcvDynamic = true) {
     // NOTE!! This should be used only for dynamic fields!
     if (onlyVcvDynamic) {
