@@ -2291,6 +2291,14 @@ class Localizations extends Container implements Helper
                 'Select Ninja Forms source',
                 'visualcomposer'
             ),
+            'logoIsNotSet' => sprintf(
+            // translators: %s: customize.php url
+                __(
+                    'Logo is not set. Please <a href="%s" target="_blank">set a logo</a>.',
+                    'visualcomposer'
+                ),
+                esc_url(admin_url('customize.php'))
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
