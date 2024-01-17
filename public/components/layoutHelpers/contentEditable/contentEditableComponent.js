@@ -13,7 +13,6 @@ const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
-const { getShortcodesRegexp } = vcCake.getService('utils')
 
 export default class ContentEditableComponent extends React.Component {
   static propTypes = {
@@ -63,7 +62,7 @@ export default class ContentEditableComponent extends React.Component {
     this.debouncedUpdateHtml = lodash.debounce(this.debouncedUpdateHtml, 500)
 
     // Request server only once in 3s
-    this.debouncedUpdateHtmlWithServerRequest = lodash.debounce(this.debouncedUpdateHtmlWithServerRequest, 3000)
+    this.debouncedUpdateHtmlWithServerRequest = lodash.debounce(this.debouncedUpdateHtmlWithServerRequest, 4000)
   }
 
   componentDidMount () {
@@ -370,15 +369,14 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   debouncedUpdateHtml (content) {
+    this.ref && (this.ref.innerHTML = content)
+
     if (isWeNeedContentServerRender(content)) {
-      // Instantly update HTML but also request server for additional rendering in background
-      this.ref && (this.ref.innerHTML = content)
       this.debouncedUpdateHtmlWithServerRequest(content)
-    } else {
-      this.ref && (this.ref.innerHTML = content)
     }
   }
 
+  // Instantly update HTML but also request server for additional rendering in background
   debouncedUpdateHtmlWithServerRequest (content) {
     addServerRequestShortcodeToQueue(content, this.ref, this.props.id)
     setShortcodeListHtmlServerRequest()
