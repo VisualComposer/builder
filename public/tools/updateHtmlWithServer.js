@@ -58,15 +58,23 @@ export function isWeNeedContentServerRender (content) {
     return false
   }
 
-  if (content.match(getShortcodesRegexp()) || content.match(getEmbedRegexp())) {
+  if (content.match(getShortcodesRegexp())) {
     return true
   }
 
-  if (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1) {
+  if (isContentHasGutenbergBlock(content)) {
+    return true
+  }
+
+  if (content.replace(/<a\b[^>]*>(.*?)<\/a>/gi, '').match(getEmbedRegexp())) {
     return true
   }
 
   return false
+}
+
+export function isContentHasGutenbergBlock (content) {
+  return content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1
 }
 
 export function addServerRequestShortcodeToQueue (content, ref, id, cb, action = 'update', options = {}) {
