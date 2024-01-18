@@ -62,7 +62,7 @@ export default class ContentEditableComponent extends React.Component {
     this.debouncedUpdateHtml = lodash.debounce(this.debouncedUpdateHtml, 500)
 
     // Request server only once in 3s
-    this.debouncedUpdateHtmlWithServerRequest = lodash.debounce(this.debouncedUpdateHtmlWithServerRequest, 4000)
+    this.debouncedUpdateHtmlWithServerRequest = lodash.debounce(this.debouncedUpdateHtmlWithServerRequest, 3000)
   }
 
   componentDidMount () {

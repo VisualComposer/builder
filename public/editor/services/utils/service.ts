@@ -419,7 +419,7 @@ const API = {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   },
   getEmbedRegexp () {
-    return new RegExp('https?:\\/\\/')
+    return new RegExp('https?:\\/\\/', 'g')
   },
   getBlockRegexp (onlyVcvDynamic = true) {
     // NOTE!! This should be used only for dynamic fields!
