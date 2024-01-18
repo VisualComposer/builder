@@ -25,7 +25,7 @@ class ResizeController extends Container implements Module
     {
         $parsedContent = preg_replace_callback(
             // Regex pattern allowing for nested square brackets within the attributes.
-            '/\[vcvSingleImage([^\]]*"(?:[^"]|\\\\")*"[^\]]*|\[[^\]]*\])]/si',
+            '/\[vcvSingleImage ([^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*)\]/si',
             function ($matches) {
                 return vchelper('Image')->parseImage($matches);
             },
