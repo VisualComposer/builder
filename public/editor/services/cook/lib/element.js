@@ -41,7 +41,6 @@ export default class Element {
     let element = elements ? elements[tag] : null
 
     if (!element) {
-      // vcCake.env('VCV_DEBUG') === true && console.warn(`Element ${tag} is not registered in system`, data)
       element = {
         settings: {
           metaDescription: '',
