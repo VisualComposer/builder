@@ -66,7 +66,8 @@ export function isWeNeedContentServerRender (content) {
     return true
   }
 
-  if (content.replace(/href\s*=\s*["'][^"']*["']/g, '').match(getEmbedRegexp())) {
+  const isRemoveHrefAndHasEmbed = content.replace(/href\s*=\s*["'][^"']*["']/g, '').match(getEmbedRegexp())
+  if (isRemoveHrefAndHasEmbed) {
     return true
   }
 
