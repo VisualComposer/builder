@@ -39,7 +39,7 @@ class UserCapabilities implements Helper
         $hasAccess = $hasAccess && current_user_can('edit_post', $sourceId);
         // and has unfiltered_html capability
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        $hasAccess = $hasAccess && $currentUserAccessHelper->isUserHasCap('unfiltered_html');
+        $hasAccess = $hasAccess && $currentUserAccessHelper->hasUserCap('unfiltered_html');
         // @codingStandardsIgnoreLine
         $hasAccess = $hasAccess && $this->isEditorEnabled($post->post_type);
 
@@ -65,7 +65,7 @@ class UserCapabilities implements Helper
         }
 
         // has unfiltered_html capability
-        $hasAccess = $hasAccess && $currentUserAccessHelper->isUserHasCap('unfiltered_html');
+        $hasAccess = $hasAccess && $currentUserAccessHelper->hasUserCap('unfiltered_html');
 
         return $hasAccess;
     }
