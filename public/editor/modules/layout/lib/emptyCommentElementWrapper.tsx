@@ -1,11 +1,13 @@
 /* global NodeListOf, ChildNode */
 import React, { useEffect } from 'react'
+import classNames from 'classnames'
 
 interface EmptyCommentElementWrapperProps {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  isControls?: boolean
 }
 
-export default function EmptyCommentElementWrapper ({ children }: EmptyCommentElementWrapperProps) {
+export default function EmptyCommentElementWrapper ({ children, isControls }: EmptyCommentElementWrapperProps) {
   const ref = React.useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function EmptyCommentElementWrapper ({ children }: EmptyCommentEl
 
     return () => {
       if (ref && current && current.parentNode) {
-        // for each siblings clear comments
+        // for each sibling clear comments
         const siblings: NodeListOf<ChildNode> = current.parentNode.childNodes // global firestore
         for (let i = 0; i < siblings.length; i++) {
           // if comment contains emptyCommentElementWrapper text
@@ -29,8 +31,11 @@ export default function EmptyCommentElementWrapper ({ children }: EmptyCommentEl
     }
   }, [])
 
+  const classes = classNames({
+    'vcv-row-control-wrapper': isControls
+  })
   return (
-    <div ref={ref}>
+    <div ref={ref} className={classes}>
       {children}
     </div>
   )

@@ -16,6 +16,20 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 class File implements Helper
 {
     /**
+     * File system object.
+     *
+     * @note we always have object of file system cos we check it in our plugin requirements.
+     *
+     * @var object WP_Filesystem_Base
+     */
+    public $fileSystem;
+
+    public function __construct()
+    {
+        $this->fileSystem = $this->getFileSystem();
+    }
+
+    /**
      * @param $filePath
      *
      * @return bool|string
@@ -26,55 +40,30 @@ class File implements Helper
             return false;
         }
 
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
         // get content from using file system
-        return $fileSystem->get_contents($filePath);
+        return $this->fileSystem->get_contents($filePath);
     }
 
     public function exists($filePath)
     {
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
-        return $fileSystem->exists($filePath);
+        return $this->fileSystem->exists($filePath);
     }
 
     public function isFile($filePath)
     {
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
-        return $fileSystem->is_file($filePath);
+        return $this->fileSystem->is_file($filePath);
     }
 
     public function isDir($filePath)
     {
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
-        return $fileSystem->is_dir($filePath);
+        return $this->fileSystem->is_dir($filePath);
     }
 
     public function rename($oldName, $newName)
     {
         $this->checkDir(dirname($newName));
 
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
-        return $fileSystem->move($oldName, $newName);
+        return $this->fileSystem->move($oldName, $newName);
     }
 
     /**
@@ -87,13 +76,8 @@ class File implements Helper
     {
         $this->checkDir(dirname($filePath));
 
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
         // set content using file system
-        return $fileSystem->put_contents($filePath, $contents);
+        return $this->fileSystem->put_contents($filePath, $contents);
     }
 
     /**
@@ -111,23 +95,15 @@ class File implements Helper
     public function download($url)
     {
         require_once(ABSPATH . '/wp-admin/includes/file.php');
-        $downloadedArchive = download_url($url);
-
-        return $downloadedArchive;
+        return download_url($url);
     }
 
     public function unzip($file, $destination, $overwrite = false)
     {
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
         if ($overwrite && is_dir($destination)) {
-            $fileSystem->delete($destination);
+            $this->fileSystem->delete($destination);
         }
-        $result = unzip_file($file, $destination);
-
-        return $result;
+        return unzip_file($file, $destination);
     }
 
     /**
@@ -155,12 +131,7 @@ class File implements Helper
 
     public function removeDirectory($dir, $recursive = true)
     {
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
-        return $fileSystem->rmdir($dir, $recursive);
+        return $this->fileSystem->rmdir($dir, $recursive);
     }
 
     public function removeFile($file)
@@ -170,10 +141,6 @@ class File implements Helper
 
     public function copyDirectory($from, $to, $overwrite = true)
     {
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
         if ($overwrite) {
             $this->removeDirectory($to);
         }
@@ -184,12 +151,7 @@ class File implements Helper
 
     public function copyFile($from, $to, $overwrite = true)
     {
-        $fileSystem = $this->getFileSystem();
-        if (!$fileSystem) {
-            return false;
-        }
-
-        return $fileSystem->copy($from, $to, $overwrite);
+        return $this->fileSystem->copy($from, $to, $overwrite);
     }
 
     public function createDirectory($dir)
@@ -211,8 +173,8 @@ class File implements Helper
             return $remoteContent;
         }
 
-        // in case when file is on localhost but all other cases do not working for him
-        // we try get file path to uploads from url and then get his content.
+        // in case when file is on localhost but all other cases do not working for it.
+        // we try to get file path to uploads from url and then get his content.
         $remoteContent = $this->getContentsUrlAsLocalUpload($url);
         if ($remoteContent) {
             return $remoteContent;

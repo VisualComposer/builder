@@ -93,7 +93,7 @@
     "babel-jest": "29.2.0",
     "jest-environment-jsdom": "29.2.0",
     "jest-cli": "29.2.0",
-    "vc-cake": "1.1.1",
+    "vc-cake": "1.1.2",
     "css-declaration-sorter": "6.3.0",
     "color-blend": "git+https://github.com/wpbakery/color-blend.git#bc6cd57f764cb4478e5f652045f325282dbf3b39",
     "postcss-functions": "git+https://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1",
@@ -140,7 +140,7 @@
     "ts-jest": "29.0.3",
     "ts-loader": "9.4.1",
     "typescript": "4.8.4",
-    "vc-webpack-vendors": "3.3.5",
+    "vc-webpack-vendors": "3.3.6",
     "webfontloader": "1.6.28"
   },
   "devDependencies": {},

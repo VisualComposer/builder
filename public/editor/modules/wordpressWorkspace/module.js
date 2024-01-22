@@ -162,6 +162,7 @@ add('wordpressWorkspace', (api) => {
           removeBlankIntro()
         }
         isBlankPageIntro = false
+        workspaceStorage.state('navbarDisabled').set(false)
       } else {
         workspaceStorage.state('navbarDisabled').set(false)
       }

@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getService } from 'vc-cake'
+import { cloneDeep } from 'lodash'
 
 interface ElementData {
   id: string,
   parent?: string,
   order: number,
-  metaChildCounter: number
+  metaChildCounter: number,
+  metaCustomId: string|boolean
 }
 
 interface State {
@@ -51,7 +53,7 @@ const moveBeforeAfter = (state: State, id: string, moveId: string) => {
 
 const getChildren = (state: State, id: string) => {
   return Object.keys(state.documentData)
-    .map((id) => JSON.parse(JSON.stringify(state.documentData[id])))
+    .map((id) => cloneDeep(state.documentData[id]))
     .filter((el) => el.parent === id)
     .sort((a, b) => a.order - b.order)
 }
@@ -63,7 +65,7 @@ const cloneElement = (state: State, id: string, cloneId: string, parent: string,
     return false
   }
 
-  const clone = JSON.parse(JSON.stringify(obj))
+  const clone = cloneDeep(obj)
   clone.id = cloneId
 
   if (typeof parent !== 'undefined') {
@@ -119,7 +121,7 @@ const slice = createSlice({
       const newData = action.payload[1]
 
       if (state.documentData[id]) {
-        state.documentData[id] = JSON.parse(JSON.stringify({ ...state.documentData[id], ...newData }))
+        state.documentData[id] = cloneDeep({ ...state.documentData[id], ...newData })
       }
     },
     remove: (state: State, action) => {

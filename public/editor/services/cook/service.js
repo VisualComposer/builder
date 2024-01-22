@@ -493,7 +493,7 @@ const API = {
 
       let value = null
       if (typeof atts[fieldKey] === 'object' && atts[fieldKey] !== null && !(atts[fieldKey] instanceof Array)) {
-        value = JSON.parse(JSON.stringify(atts[fieldKey]))
+        value = lodash.cloneDeep(atts[fieldKey])
       } else {
         value = atts[fieldKey]
       }
