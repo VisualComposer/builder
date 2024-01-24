@@ -70,6 +70,26 @@ class UserCapabilities implements Helper
         return $hasAccess;
     }
 
+    /**
+     * Check if last user who edit post has unfiltered_html capability.
+     *
+     * @return bool
+     */
+    public function isLastPostEditorCanUnfilteredHtml($post_id)
+    {
+        $is_unfiltered_html = false;
+        $last_id = get_post_meta($post_id, '_edit_last', true);
+        if ($last_id) {
+            $last_user = get_userdata($last_id);
+
+            if ($last_user && $last_user->has_cap('unfiltered_html')) {
+                $is_unfiltered_html = true;
+            }
+        }
+
+        return $is_unfiltered_html;
+    }
+
     public function getPrefixedCapabilities()
     {
         if (!empty(self::$prefixedCapabilities)) {
