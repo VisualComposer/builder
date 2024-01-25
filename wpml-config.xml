@@ -38,6 +38,7 @@
         <custom-field action="copy-once">_vcv-pageDesignOptionsData</custom-field>
         <custom-field action="copy-once">_vcv-pageDesignOptionsCompiledCss</custom-field>
         <custom-field action="copy-once">_vcv-settingsPopup</custom-field>
+        <custom-field action="copy-once">vcv-layoutType</custom-field>
     </custom-fields>
     <custom-types>
         <custom-type translate="1" display-as-translated="1">vcv_templates</custom-type>

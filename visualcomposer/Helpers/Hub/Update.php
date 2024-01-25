@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\PostType;
 
 class Update implements Helper
 {
@@ -57,10 +58,13 @@ class Update implements Helper
         foreach ($posts as $id) {
             $post = get_post($id);
             if (!is_null($post)) {
+                $postTypeHelper = vchelper('PostType');
+                $editorTypeSlug = $postTypeHelper->getEditorTypeToByPostTypeDependecy( get_post_type($id) );
                 $result[] = [
                     'id' => $id,
                     'editableLink' => $frontendHelper->getEditableUrl($id),
                     'name' => get_the_title($id),
+                    'postType' => $editorTypeSlug,
                 ];
             }
         }
