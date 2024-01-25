@@ -293,17 +293,6 @@ class PostType implements Helper
             }
         }
 
-        /*
-        $postTypesList[] = [
-            'value' => 'custom',
-            'label' => __('Custom Query', 'visualcomposer'),
-        ];
-        $postTypesList[] = [
-            'value' => 'ids',
-            'label' => __('List of IDs', 'visualcomposer'),
-        ];
-        */
-
         return $postTypesList;
     }
 
@@ -467,7 +456,7 @@ class PostType implements Helper
     /**
      * @param $postType
      */
-    protected function updateCustomPostRoleCapabilityMigration($postType)
+    public function updateCustomPostRoleCapabilityMigration($postType)
     {
         $optionsHelper = vchelper('Options');
 
@@ -486,5 +475,24 @@ class PostType implements Helper
         $wp_roles->remove_cap('contributor', 'delete_' . $postType . 's');
         $optionsHelper->set($postType . '-capability-migration', 1);
         // @codingStandardsIgnoreEnd
+    }
+
+    /**
+     * Get editor type name base on plugin custom post type.
+     *
+     * @param string $post_type
+     * @return string
+     */
+    public function getEditorTypeToByPostTypeDependecy($post_type) {
+        $dependentList = [
+            'vcv_headers' => 'header',
+            'vcv_footers' => 'footer',
+            'vcv_sidebars' => 'sidebar',
+            'vcv_templates' => 'template',
+            'vcv_popups' => 'popup',
+            'vcv_layouts' => 'vcv_layouts'
+        ];
+
+        return isset($dependentList[$post_type]) ? $dependentList[$post_type] : 'default';
     }
 }

@@ -26,6 +26,9 @@ export default class ActivationSectionProvider extends React.Component {
     const postData = postUpdateActions[activePostUpdate]
     const posts = postUpdateActions
 
+    dataManager.set('editorType', postData.postType)
+    window.VCV_EDITOR_TYPE = function () { return postData.postType }
+
     let ready = false
     const to = window.setTimeout(() => {
       this.setState({ showSkipPostButton: true })
