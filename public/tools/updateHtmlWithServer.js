@@ -5,7 +5,7 @@ import { spinnerHtml } from 'public/tools/spinnerHtml'
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const shortcodeAssetsStorage = getStorage('shortcodeAssets')
-const { getShortcodesRegexp } = getService('utils')
+const { getShortcodesRegexp, getEmbedRegexp } = getService('utils')
 
 const requests = {}
 
@@ -43,7 +43,7 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
 }
 
 export function addShortcodeToQueueUpdate (content, ref, id, cb, action, options) {
-  if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+  if (isWeNeedContentServerRender(content)) {
     ref.innerHTML = spinnerHtml
     addServerRequestShortcodeToQueue(content, ref, id, cb, action, options)
   } else {
@@ -51,6 +51,31 @@ export function addShortcodeToQueueUpdate (content, ref, id, cb, action, options
     requests[id] = null
     cb && cb.constructor === Function && cb()
   }
+}
+
+export function isWeNeedContentServerRender (content) {
+  if (!content) {
+    return false
+  }
+
+  if (content.match(getShortcodesRegexp())) {
+    return true
+  }
+
+  if (isContentHasGutenbergBlock(content)) {
+    return true
+  }
+
+  const isRemoveHrefAndHasEmbed = content.replace(/href\s*=\s*["'][^"']*["']/g, '').match(getEmbedRegexp())
+  if (isRemoveHrefAndHasEmbed) {
+    return true
+  }
+
+  return false
+}
+
+export function isContentHasGutenbergBlock (content) {
+  return content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1
 }
 
 export function addServerRequestShortcodeToQueue (content, ref, id, cb, action = 'update', options = {}) {

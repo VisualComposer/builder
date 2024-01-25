@@ -6,14 +6,13 @@ import lodash from 'lodash'
 import initializeTinymce from 'public/components/layoutHelpers/tinymce/tinymceVcvHtmleditorPlugin'
 import initializeJqueryPlugin from 'public/components/layoutHelpers/tinymce/fontFamily/tinymceFontsSelect.jquery'
 import getUsedFonts from 'public/components/layoutHelpers/tinymce/fontFamily/getUsedFonts.js'
-import { addServerRequestShortcodeToQueue, addShortcodeToQueueUpdate, setShortcodeListHtmlServerRequest }
+import { addServerRequestShortcodeToQueue, addShortcodeToQueueUpdate, setShortcodeListHtmlServerRequest, isWeNeedContentServerRender }
   from 'public/tools/updateHtmlWithServer'
 
 const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
-const { getShortcodesRegexp } = vcCake.getService('utils')
 
 export default class ContentEditableComponent extends React.Component {
   static propTypes = {
@@ -370,15 +369,14 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   debouncedUpdateHtml (content) {
-    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
-      // Instantly update HTML but also request server for additional rendering in background
-      this.ref && (this.ref.innerHTML = content)
+    this.ref && (this.ref.innerHTML = content)
+
+    if (isWeNeedContentServerRender(content)) {
       this.debouncedUpdateHtmlWithServerRequest(content)
-    } else {
-      this.ref && (this.ref.innerHTML = content)
     }
   }
 
+  // Instantly update HTML but also request server for additional rendering in background
   debouncedUpdateHtmlWithServerRequest (content) {
     addServerRequestShortcodeToQueue(content, this.ref, this.props.id)
     setShortcodeListHtmlServerRequest()
