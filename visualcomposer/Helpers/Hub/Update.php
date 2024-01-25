@@ -59,7 +59,7 @@ class Update implements Helper
             $post = get_post($id);
             if (!is_null($post)) {
                 $postTypeHelper = vchelper('PostType');
-                $editorTypeSlug = $postTypeHelper->getEditorTypeToByPostTypeDependecy( get_post_type($id) );
+                $editorTypeSlug = $postTypeHelper->getEditorTypeToByPostTypeDependecy(get_post_type($id));
                 $result[] = [
                     'id' => $id,
                     'editableLink' => $frontendHelper->getEditableUrl($id),
