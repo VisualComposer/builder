@@ -483,7 +483,7 @@ class PostType implements Helper
      * @param string $post_type
      * @return string
      */
-    public function getEditorTypeToByPostTypeDependecy($post_type)
+    public function getEditorTypeByPostTypeDependecy($post_type)
     {
         $dependentList = [
             'vcv_headers' => 'header',
