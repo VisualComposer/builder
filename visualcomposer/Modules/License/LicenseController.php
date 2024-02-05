@@ -205,7 +205,7 @@ class LicenseController extends Container implements Module
         $optionsHelper = vchelper('Options');
 
         $activeSubscriptions = get_option('wpcom_active_subscriptions', []);
-        if (empty($activeSubscriptions)) {
+        if (empty($activeSubscriptions['visualcomposer-wpcom'])) {
             return;
         }
         $activeSubscriptionsChecksum = md5(wp_json_encode($activeSubscriptions));
@@ -213,7 +213,7 @@ class LicenseController extends Container implements Module
         if ($optionsHelper->getTransient('vcv:wp-com:activation:request:' . $activeSubscriptionsChecksum)) {
             return;
         }
-        $blogId = null;
+
         if (class_exists('Jetpack_Options')) {
             $blogId = \Jetpack_Options::get_option('id');
         } else {
