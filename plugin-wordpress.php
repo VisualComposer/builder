@@ -89,6 +89,7 @@ if (!defined('VCV_AJAX_REQUEST')) {
 if (!defined('VCV_ADMIN_AJAX_REQUEST')) {
     define('VCV_ADMIN_AJAX_REQUEST', 'vcv-admin-ajax');
 }
+
 if (!defined('VCV_LAZY_LOAD')) {
     define('VCV_LAZY_LOAD', false);
 }
