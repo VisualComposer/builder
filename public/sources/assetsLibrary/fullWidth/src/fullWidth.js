@@ -70,14 +70,14 @@
       let offset, width
 
       if (!element.closest('[data-vce-element-content]') && (element.closest(headerFooterLayout) || element.closest(blankLayout)) // Remove paddings if HF layout
-        || layoutArea && layoutArea.closest('[data-vce-element-content]')) { // Remove paddings if layout has wrapper row
+       ) { // Remove paddings if layout has wrapper row
         if (!element.getAttribute('data-vce-stretch-content') && !element.getAttribute('data-vce-section-stretch-content')) { // Fix BC for row paddings
           elementContent.style['padding-left'] = ''
           elementContent.style['padding-right'] = ''
         }
         return
       }
-
+    
       if (!element.closest('[data-vce-element-content]') && (element.closest(headerZone) || element.closest(footerZone) || element.closest(headerFooterEditor))) {
         return
       }
@@ -98,7 +98,7 @@
         element.style.left = offset + 'px'
       }
 
-      if (!element.getAttribute('data-vce-stretch-content') && !element.getAttribute('data-vce-section-stretch-content')) {
+      if (!layoutArea?.closest('[data-vce-element-content]') && !element.getAttribute('data-vce-stretch-content') && !element.getAttribute('data-vce-section-stretch-content')) {
         let padding = -1 * offset
         if (padding < 0) {
           padding = 0
