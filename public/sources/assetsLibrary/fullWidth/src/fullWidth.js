@@ -19,7 +19,6 @@
     const hiddenElements = []
     fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"]:not([data-vcv-do-helper-clone]),[data-vce-full-width-section="true"]:not([data-vcv-do-helper-clone])'))
 
-    console.log('fullwidthEl', fullWidthElements)
     fullWidthElements.forEach(function (element) {
       if (element.offsetHeight && element.offsetWidth) {
         visibleElements.push(element)
@@ -78,7 +77,6 @@
         }
         return
       }
-
     
       if (!element.closest('[data-vce-element-content]') && (element.closest(headerZone) || element.closest(footerZone) || element.closest(headerFooterEditor))) {
         return
@@ -100,7 +98,6 @@
         element.style.left = offset + 'px'
       }
 
-      
       if (!layoutArea?.closest('[data-vce-element-content]') && !element.getAttribute('data-vce-stretch-content') && !element.getAttribute('data-vce-section-stretch-content')) {
         let padding = -1 * offset
         if (padding < 0) {
