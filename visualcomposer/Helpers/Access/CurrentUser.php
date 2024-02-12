@@ -255,39 +255,6 @@ class CurrentUser extends Container implements Helper
     {
         $user = wp_get_current_user();
 
-        if (is_multisite() && is_super_admin($user->ID)) {
-            return true;
-        }
-
-        if (!is_array($user->roles) || [] === $user->roles) {
-            return false;
-        }
-
-        foreach ($user->roles as $user_role) {
-            if ($this->hasUserRoleCap($user_role, $cap)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Check if user role has a certain capability.
-     *
-     * @param string $user_role
-     * @param string $cap
-     *
-     * @return bool
-     */
-    public function hasUserRoleCap($user_role, $cap)
-    {
-        $roleObject = get_role($user_role);
-
-        if (!is_object($roleObject) || !method_exists($roleObject, 'has_cap')) {
-            return false;
-        }
-
-        return $roleObject->has_cap($cap);
+        return $user->has_cap($cap);
     }
 }
