@@ -163,7 +163,7 @@ left: -69px;
    </div>
    <div class="vcv-dashboard-accordion-item-content">';
         // IF role doesn't have cap `unfiltered_html` show notice
-        if ($roleObject && !$roleObject->has_cap('unfiltered_html')) {
+        if ((defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML) || $roleObject && !$roleObject->has_cap('unfiltered_html')) {
             echo '<div class="notice inline notice-warning update-nag" style="display:inline-block !important;padding: 1px 12px;"><p style="font-size: 14px">' . sprintf(
                 // translators: %1$s - role name, %2$s - link to help page, %3$s - capability, %4$s - </a>
                 __(
