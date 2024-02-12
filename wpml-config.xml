@@ -5,9 +5,6 @@
         <custom-field action="copy-once">_vcv-sourceChecksum</custom-field>
         <custom-field action="copy-once">vcvSourceCssFileUrl</custom-field>
         <custom-field action="copy-once">vcv-be-editor</custom-field>
-        <custom-field action="copy-once">_vcv-page-template</custom-field>
-        <custom-field action="copy-once">_vcv-page-template-type</custom-field>
-        <custom-field action="copy-once">_vcv-page-template-stretch</custom-field>
         <custom-field action="copy-once">_vcv-pageTitleDisabled</custom-field>
         <custom-field action="copy-once">_vcv-popupData</custom-field>
         <custom-field action="copy-once">_vcv-HeaderTemplateId</custom-field>
@@ -39,6 +36,9 @@
         <custom-field action="copy-once">_vcv-pageDesignOptionsCompiledCss</custom-field>
         <custom-field action="copy-once">_vcv-settingsPopup</custom-field>
         <custom-field action="copy-once">vcv-layoutType</custom-field>
+        <custom-field action="copy">_vcv-page-template</custom-field>
+        <custom-field action="copy">_vcv-page-template-type</custom-field>
+        <custom-field action="copy">_vcv-page-template-stretch</custom-field>
     </custom-fields>
     <custom-types>
         <custom-type translate="1" display-as-translated="1">vcv_templates</custom-type>
