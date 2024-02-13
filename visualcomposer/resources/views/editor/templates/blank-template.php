@@ -26,18 +26,23 @@ if (!defined('ABSPATH')) {
     <!-- Override the main container width styles -->
     <style>
         @media (min-width: 1200px) {
-            div.vcv-content--boxed .entry-content > [data-vce-boxed-width="true"],
-            div.vcv-content--boxed .vcv-layouts-html > [data-vce-boxed-width="true"],
-            div.vcv-content--boxed .entry-content .vcv-layouts-html > [data-vce-boxed-width="true"],
+            div.vcv-content--boxed .entry-content [data-vce-boxed-width="true"],
+            .vcv-content--boxed .vcv-layouts-html [data-vce-boxed-width="true"],
+            div.vcv-content--boxed  > [data-vce-boxed-width="true"],
+            div.vcv-content--boxed .entry-content  > [data-vce-boxed-width="true"],
             div.vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
             div.vcv-header > [data-vce-boxed-width="true"],
+            .vcv-content--boxed .entry-content .vce-layouts-wp-content-area-container .vce-row-container > .vce-row[data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > .vce-row-content,
             div.vcv-footer > [data-vce-boxed-width="true"],
             div.vcv-content--boxed .entry-content > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
-            div.vcv-content--boxed .vcv-layouts-html > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
+            .vcv-content--boxed > .vce-row-container > .vce-row[data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > .vce-row-content,
+            div.vcv-content--boxed  > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
             div.vcv-editor-theme-hf .vcv-layouts-html > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
             div.vcv-header > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
             div.vcv-footer > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"] {
                 max-width: <?php echo esc_attr($customLayoutWidth) . 'px' ?> !important;
+                margin-right: auto;
+                margin-left: auto;
             }
         }
     </style>
