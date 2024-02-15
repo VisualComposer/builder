@@ -3,8 +3,8 @@ Contributors: VisualComposer,veidenbaums,nikitahl,orkunaybek,mrdollar4444,sqarf,
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 7.4
 Requires at least: 5.5
-Tested up to: 6.3.2
-Stable tag: 45.6.0
+Tested up to: 6.4.3
+Stable tag: 45.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,30 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 45.7.0 =
+*Release Date - 2024-02-15*
+
+### Free:
+- Update: Editor performance improved
+- Update: Editor performance on Safari has been improved
+- Update: Performance improvement for operating with large number of assets from the Media Library
+- Fix: DISALLOW_UNFILTERED_HTML is applied now properly 
+- Fix: Sanitization and escaping of user data improved
+- Fix: RSS feed validation works properly
+- Fix: Fonts loading and display works properly in TinyMCE
+- Fix: Content duplication has been prevented when working with Image galleries
+- Fix: The editor now works properly in case the user has multiple roles
+- Fix: Switching between TinyMCE editor modes does not affect content display
+- Fix: Show/Hide option works properly
+
+### Premium:
+- Compatibility: Compatibility with WPML improved for the archive pages
+- Fix: Logo widget works properly with no logo added to the website
+- Fix: Column controls for post grid elements work properly
+- Fix: Menu replace after source deletion works properly
+- Fix: Menu element dropdown works properly on Windows devices
+- Fix: Post title element works properly with theme title disabled
 
 = 45.6.0 =
 *Release Date - 2023-10-19*
