@@ -292,7 +292,6 @@ class Controller extends Container implements Module
         $is_updated = $this->updateSavedPostData($post, $sourceId, $isPreview, $previewPost);
 
         if ($is_updated) {
-
             //bring it back once you're done posting
             $postTypeHelper->setupPost($sourceId);
 
