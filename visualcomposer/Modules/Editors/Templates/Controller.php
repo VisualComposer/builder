@@ -225,15 +225,6 @@ class Controller extends Container implements Module
                     [],
                     ['tag' => 'template/' . $id]
                 );
-                // Data usage statistics
-                $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
-                if ($isAllowed) {
-                    $sourceId = $requestHelper->input('vcv-source-id');
-                    vcevent(
-                        'vcv:saveTemplateUsage',
-                        ['response' => [], 'payload' => ['sourceId' => $sourceId, 'templateId' => $id]]
-                    );
-                }
 
                 return $template;
             }
