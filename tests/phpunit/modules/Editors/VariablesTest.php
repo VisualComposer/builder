@@ -196,16 +196,6 @@ class VariablesTest extends WP_UnitTestCase
         return $postId;
     }
 
-    public function testDataUsageVariables()
-    {
-        $dataHelper = vchelper('Data');
-        $variables = vcfilter('vcv:editor:variables', []);
-
-        $variableKeys = $dataHelper->arrayColumn($variables, 'key');
-        $this->assertContains('VCV_SHOW_DATA_COLLECTION_POPUP', $variableKeys, 'VCV_SHOW_DATA_COLLECTION_POPUP');
-        $this->assertContains('vcvIsDataCollectionEnabled', $variableKeys, 'vcvIsDataCollectionEnabled');
-    }
-
     public function testInitialHelpersVariables()
     {
         wp_set_current_user(1);

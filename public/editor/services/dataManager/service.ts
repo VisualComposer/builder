@@ -23,7 +23,6 @@ const dataManager = {
       pageTemplates: () => { return window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : '' },
       showFeedbackForm: () => { return window.VCV_SHOW_FEEDBACK_FORM && window.VCV_SHOW_FEEDBACK_FORM() },
       showInitialHelpers: () => { return window.VCV_SHOW_INITIAL_HELPERS && window.VCV_SHOW_INITIAL_HELPERS() },
-      showDataCollectionPopup: () => { return window.VCV_SHOW_DATA_COLLECTION_POPUP && window.VCV_SHOW_DATA_COLLECTION_POPUP() },
       hubGetElements: () => { return window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {} },
       elementsGlobalsUrl: () => { return window.vcvElementsGlobalsUrl },
       activationType: () => { return window.vcvActivationType },
