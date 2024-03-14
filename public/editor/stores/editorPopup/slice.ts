@@ -36,10 +36,6 @@ const initialState: popupStore = {
       visible: dataManager?.get('showFeedbackForm'),
       priority: 1
     },
-    dataCollectionPopup: {
-      visible: dataManager?.get('showDataCollectionPopup'),
-      priority: 3
-    },
     pricingPopup: {
       visible: !!dataManager?.get('showPricingPopup'),
       priority: 4

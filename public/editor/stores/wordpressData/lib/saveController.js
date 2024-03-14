@@ -12,7 +12,6 @@ const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
 const renderProcessor = vcCake.getService('renderProcessor')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-const documentManager = vcCake.getService('document')
 const dataManager = vcCake.getService('dataManager')
 
 export default class SaveController {
@@ -174,44 +173,6 @@ export default class SaveController {
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
-      }
-
-      if (dataManager.get('dataCollectionEnabled') || window.vcvIsDataCollectionEnabled) {
-        const licenseType = dataManager.get('isPremiumActivated') ? 'Premium' : 'Free'
-        const elementTeaser = dataManager.get('hubGetTeaser')
-        let allElements = elementTeaser[0].elements
-        const defaultElements = [
-          { tag: 'row', bundleType: ['free', 'premium'] },
-          { tag: 'column', bundleType: ['free', 'premium'] },
-          { tag: 'textBlock', bundleType: ['free', 'premium'] },
-          { tag: 'singleImage', bundleType: ['free', 'premium'] },
-          { tag: 'basicButton', bundleType: ['free', 'premium'] },
-          { tag: 'googleFontsHeading', bundleType: ['free', 'premium'] },
-          { tag: 'youtubePlayer', bundleType: ['free', 'premium'] },
-          { tag: 'vimeoPlayer', bundleType: ['free', 'premium'] },
-          { tag: 'separator', bundleType: ['free', 'premium'] },
-          { tag: 'wpWidgetsCustom', bundleType: ['free', 'premium'] },
-          { tag: 'wpWidgetsDefault', bundleType: ['free', 'premium'] },
-          { tag: 'shortcode', bundleType: ['free', 'premium'] },
-          { tag: 'outlineButton', bundleType: ['free', 'premium'] }
-        ]
-        allElements = allElements.concat(defaultElements)
-        const elements = documentManager.all()
-        const elementStats = {}
-        Object.keys(elements).forEach(key => {
-          const tag = elements[key].tag
-          if (Object.prototype.hasOwnProperty.call(elementStats, tag)) {
-            elementStats[tag].count += 1
-          } else {
-            const result = allElements.filter(element => element.tag === tag)[0]
-            if (result) {
-              const elementType = result.bundleType.includes('free') ? 'Free' : 'Premium'
-              elementStats[tag] = { pageId: dataManager.get('sourceID'), name: tag, count: 1, type: elementType, action: 'Added', license: licenseType }
-            }
-          }
-        })
-        requestData['vcv-elements'] = JSON.stringify(elementStats)
-        requestData['vcv-license-type'] = licenseType
       }
 
       if (options && options.title) {

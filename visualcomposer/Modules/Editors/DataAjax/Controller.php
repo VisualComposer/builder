@@ -292,8 +292,6 @@ class Controller extends Container implements Module
         $is_updated = $this->updateSavedPostData($post, $sourceId, $isPreview, $previewPost);
 
         if ($is_updated) {
-            $this->saveUsageStatistic($sourceId);
-
             //bring it back once you're done posting
             $postTypeHelper->setupPost($sourceId);
 
@@ -391,30 +389,6 @@ class Controller extends Container implements Module
                 'data' => $requestHelper->input('vcv-data'),
             ]
         );
-    }
-
-    /**
-     * Fire up user stats event.
-     *
-     * @param int $sourceId
-     */
-    public function saveUsageStatistic($sourceId)
-    {
-        $optionsHelper = vchelper('Options');
-        $requestHelper = vchelper('Request');
-
-        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
-        if ($isAllowed) {
-            $licenseType = $requestHelper->input('vcv-license-type');
-            $elements = $requestHelper->input('vcv-elements');
-            vcevent(
-                'vcv:saveUsageStats',
-                [
-                    'response' => [],
-                    'payload' => ['sourceId' => $sourceId, 'elements' => $elements, 'licenseType' => $licenseType],
-                ]
-            );
-        }
     }
 
     protected function updatePostMeta($sourceId)
