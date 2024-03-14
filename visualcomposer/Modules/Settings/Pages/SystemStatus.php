@@ -182,7 +182,7 @@ class SystemStatus extends Container implements Module
         $maxInputVarsCheck = $this->statusHelper->getMaxInputVarsStatus();
 
         // translators: %1$s: default max_input_vars., %2$s: max_input_vars.
-        $textResponse = $maxInputVarsCheck ? $maxInputVars : sprintf(__('max_input_vars should be %1$s, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputVars(), $maxInputVars);
+        $textResponse = $maxInputVarsCheck ? $maxInputVars : sprintf(__('max_input_vars should be %1$s, currently it is %2$s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputVarsStatus(), $maxInputVars);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxInputVarsCheck)];
     }
