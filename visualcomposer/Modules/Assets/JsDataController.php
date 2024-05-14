@@ -89,11 +89,11 @@ class JsDataController extends Container implements Module
     public function sanitizeJsFields($postID)
     {
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return $postID;
+            return;
         }
 
         if (current_user_can('unfiltered_html')) {
-            return $postID;
+            return;
         }
 
         if (isset($_POST['meta']) && is_array($_POST['meta'])) {
@@ -106,7 +106,5 @@ class JsDataController extends Container implements Module
                 }
             }
         }
-
-        return $postID;
     }
 }
