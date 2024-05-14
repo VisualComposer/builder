@@ -12,10 +12,12 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class JsDataController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct()
     {
@@ -27,6 +29,7 @@ class JsDataController extends Container implements Module
             'vcv:dataAjax:setData',
             'setData'
         );
+        $this->wpAddAction('save_post', 'sanitizeJsFields');
     }
 
     protected function getData($response, $payload, Options $optionsHelper)
@@ -75,5 +78,39 @@ class JsDataController extends Container implements Module
 
         $jsInputFooter = $requestHelper->input('vcv-settings-global-footer-js', '');
         $optionsHelper->set('settingsGlobalJsFooter', $jsInputFooter);
+    }
+
+    /**
+     * Sanitize JS fields to prevent add scripts for users without unfiltered_html capability
+     *
+     * @param $postID
+     * @return void
+     */
+    public function sanitizeJsFields($postID)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        if (current_user_can('unfiltered_html')) {
+            return;
+        }
+
+        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce('_wpnonce')) {
+            return;
+        }
+
+        if (!isset($_POST['meta']) || ! is_array($_POST['meta'])) {
+            return;
+        }
+
+        foreach ($_POST['meta'] as $metaValues) {
+            if (isset($metaValues['key']) && isset($metaValues['value'])) {
+                if ($metaValues['key'] === VCV_PREFIX . 'settingsLocalJsHead' || $metaValues['key'] === VCV_PREFIX . 'settingsLocalJsFooter') {
+                    $sanitizedValue = wp_kses($metaValues['value'], array());
+                    update_post_meta($postID, $metaValues['key'], $sanitizedValue);
+                }
+            }
+        }
     }
 }
