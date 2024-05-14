@@ -96,7 +96,7 @@ class JsDataController extends Container implements Module
             return;
         }
 
-        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce('_wpnonce')) {
+        if (!isset($_POST['_wpnonce']) || !check_admin_referer('update-post_' . $postID)) {
             return;
         }
 
