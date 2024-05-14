@@ -100,13 +100,15 @@ class JsDataController extends Container implements Module
             return;
         }
 
-        if (isset($_POST['meta']) && is_array($_POST['meta'])) {
-            foreach ($_POST['meta'] as $metaID => $metaValues) {
-                if (isset($metaValues['key']) && isset($metaValues['value'])) {
-                    if ($metaValues['key'] === VCV_PREFIX . 'settingsLocalJsHead' || $metaValues['key'] === VCV_PREFIX . 'settingsLocalJsFooter') {
-                        $sanitizedValue = wp_kses($metaValues['value'], array());
-                        update_post_meta($postID, $metaValues['key'], $sanitizedValue);
-                    }
+        if (!isset($_POST['meta']) || ! is_array($_POST['meta'])) {
+            return;
+        }
+
+        foreach ($_POST['meta'] as $metaValues) {
+            if (isset($metaValues['key']) && isset($metaValues['value'])) {
+                if ($metaValues['key'] === VCV_PREFIX . 'settingsLocalJsHead' || $metaValues['key'] === VCV_PREFIX . 'settingsLocalJsFooter') {
+                    $sanitizedValue = wp_kses($metaValues['value'], array());
+                    update_post_meta($postID, $metaValues['key'], $sanitizedValue);
                 }
             }
         }
