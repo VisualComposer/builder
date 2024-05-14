@@ -84,7 +84,7 @@ class JsDataController extends Container implements Module
      * Sanitize JS fields to prevent add scripts for users without unfiltered_html capability
      *
      * @param $postID
-     * @return mixed
+     * @return void
      */
     public function sanitizeJsFields($postID)
     {
@@ -93,6 +93,10 @@ class JsDataController extends Container implements Module
         }
 
         if (current_user_can('unfiltered_html')) {
+            return;
+        }
+
+        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce('_wpnonce')) {
             return;
         }
 
