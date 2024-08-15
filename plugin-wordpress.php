@@ -112,6 +112,7 @@ define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_AS
 
 require_once $dir . '/visualcomposer/Requirements.php';
 
+
 $errorMessages = false;
 if (!defined('DOING_AJAX') || !DOING_AJAX) {
     $requirements = new VcvCoreRequirements();
@@ -134,4 +135,3 @@ if ($errorMessages) {
     // Bootstrap the system.
     require $dir . '/bootstrap/autoload.php';
 }
-
