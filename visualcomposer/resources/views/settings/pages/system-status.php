@@ -126,7 +126,7 @@ if (!defined('ABSPATH')) {
                                     'There is a new version of Visual Composer Website Builder available.',
                                     'visualcomposer'
                                 ); ?>
-                                <a href="<?php echo esc_url(self_admin_url('plugins.php')); ?>" class="update-link"><?php echo esc_html('Update', 'visualcomposer'); ?></a>.
+                                <a href="<?php echo esc_url(self_admin_url('plugins.php')); ?>" class="update-link"><?php echo esc_html__('Update', 'visualcomposer'); ?></a>.
                             </p>
                         </div>
                     </td>
