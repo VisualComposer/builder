@@ -116,7 +116,7 @@ class WpmlController extends Container implements Module
             'wpml_st_get_post_string_packages',
             [ $this, 'blockPackageTranslation' ],
             100,
-            3
+            2
         );
         /** @see WpmlController::overrideLayoutWithTranslation */
         $this->addFilter(
