@@ -39,7 +39,7 @@ export default class PageSettingsLayouts extends Attribute {
           </div>
         )
         content.push(
-          <TemplateLayoutIcons key={content.length} options={this.props.options || {}} />)
+          <TemplateLayoutIcons onLayoutChange={this.props.onLayoutChange} key={content.length} options={this.props.options || {}} />)
       }
     }
     if (env('VCV_JS_THEME_LAYOUTS')) {
