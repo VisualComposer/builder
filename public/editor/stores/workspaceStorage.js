@@ -258,8 +258,12 @@ addStorage('workspace', (storage) => {
     // Need to trigger parent update in order to render child elements
     // Initially hidden children are not rendered e.g. on editor load all children are hidden
     if (!visibleElementsList.length) {
-      const parent = documentManager.get(element.parent)
-      elementsStorage.trigger('update', parent.id, parent)
+      try {
+        const parent = documentManager.get(element.parent)
+        elementsStorage.trigger('update', parent.id, parent)
+      } catch (e) {
+        console.error('Unable to update the parent inside the workspaceStorage.js: ', e)
+      }
     }
   })
   storage.on('lock', (id, options = {}) => {
