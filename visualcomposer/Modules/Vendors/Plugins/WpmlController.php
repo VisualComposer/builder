@@ -109,7 +109,13 @@ class WpmlController extends Container implements Module
         $this->wpAddFilter(
             'wpml_pb_should_body_be_translated',
             'blockBodyTranslations',
-            10,
+            100,
+            2
+        );
+        $this->wpAddFilter(
+            'wpml_st_get_post_string_packages',
+            [ $this, 'blockPackageTranslation' ],
+            100,
             2
         );
         /** @see WpmlController::overrideLayoutWithTranslation */
@@ -620,6 +626,26 @@ class WpmlController extends Container implements Module
         }
 
         return false;
+    }
+
+    /**
+     * Prevent individual package translations for vcv posts.
+     * We use it in some specific wpml cases to prevent some duplicate translation
+     * that take additional credits from users
+     *
+     * @param array $packageTranslate
+     * @param int $post_id
+     *
+     * @return array
+     */
+    protected function blockPackageTranslation($packageTranslate, $post_id)
+    {
+        $frontendHelper = vchelper('Frontend');
+        if (empty($post_id) || ! $frontendHelper->isVcvPost($post_id)) {
+            return $packageTranslate;
+        }
+
+        return [];
     }
 
     /**
