@@ -32,7 +32,7 @@ class WpFormsController extends Container implements Module
      */
     protected function initialize()
     {
-        if (! defined( 'WPFORMS_VERSION' )) {
+        if (! defined('WPFORMS_VERSION')) {
             return;
         }
 
@@ -51,7 +51,8 @@ class WpFormsController extends Container implements Module
      *
      * @return bool
      */
-    public function disableReCaptcha($result) {
+    public function disableReCaptcha($result)
+    {
         global $post;
 
         if (! $post) {
