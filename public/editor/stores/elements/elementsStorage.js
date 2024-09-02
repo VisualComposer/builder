@@ -277,7 +277,7 @@ addStorage('elements', (storage) => {
       if (wrapperTag) {
         const wrapperData = cook.get({ tag: wrapperTag })
         elementData.parent = wrapperData.toJS().id
-        if (wrapperData && options?.action !== 'merge') {
+        if (wrapperData) {
           storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
         }
       } else if (editorType === 'popup') {
