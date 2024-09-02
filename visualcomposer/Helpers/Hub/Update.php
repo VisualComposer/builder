@@ -57,16 +57,18 @@ class Update implements Helper
         $frontendHelper = vchelper('Frontend');
         foreach ($posts as $id) {
             $post = get_post($id);
-            if (!is_null($post)) {
-                $postTypeHelper = vchelper('PostType');
-                $editorTypeSlug = $postTypeHelper->getEditorTypeByPostTypeDependecy(get_post_type($id));
-                $result[] = [
-                    'id' => $id,
-                    'editableLink' => $frontendHelper->getEditableUrl($id),
-                    'name' => get_the_title($id),
-                    'postType' => $editorTypeSlug,
-                ];
+            if (is_null($post) || $post->post_status === 'trash') {
+                continue;
             }
+
+            $postTypeHelper = vchelper('PostType');
+            $editorTypeSlug = $postTypeHelper->getEditorTypeByPostTypeDependecy(get_post_type($id));
+            $result[] = [
+                'id' => $id,
+                'editableLink' => $frontendHelper->getEditableUrl($id),
+                'name' => get_the_title($id),
+                'postType' => $editorTypeSlug,
+            ];
         }
 
         return [['action' => 'updatePosts', 'data' => $result]];
