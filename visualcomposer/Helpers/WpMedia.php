@@ -270,26 +270,72 @@ class WpMedia implements Helper
         return $sizes;
     }
 
-    public function checkIsImage($string)
+    /**
+     * Check if provided url is image.
+     *
+     * @param string $url
+     *
+     * @return false|int
+     */
+    public function checkIsImage($url)
     {
-        if (!is_string($string)) {
+        if (!is_string($url)) {
             return false;
         }
 
-        $re = '/(\.png|jpg|jpeg|gif)$/';
+        $allowed_image_mime_types_regex = $this->get_allowed_specific_mime_types_regex('image');
 
-        return preg_match($re, strtolower($string));
+        if ($allowed_image_mime_types_regex === '') {
+            return false;
+        }
+
+        return preg_match($allowed_image_mime_types_regex, strtolower($url));
     }
 
-    public function checkIsVideo($string)
+    /**
+     * Check if provided url is video.
+     *
+     * @param string $url
+     *
+     * @return false|int
+     */
+    public function checkIsVideo($url)
     {
-        if (!is_string($string)) {
+        if (!is_string($url)) {
             return false;
         }
 
-        $re = '/(\.mp4|avi|flv|wmv|mov)$/';
+        $allowed_video_mime_types_regex = $this->get_allowed_specific_mime_types_regex('video');
 
-        return preg_match($re, strtolower($string));
+        if ($allowed_video_mime_types_regex === '') {
+            return false;
+        }
+
+        return preg_match($allowed_video_mime_types_regex, strtolower($url));
+    }
+
+    /**
+     * Get allowed specific MIME types that can be loaded to the media library.
+     *
+     * @param string $type
+     *
+     * @return string
+     */
+    public function get_allowed_specific_mime_types_regex($type)
+    {
+        // Get all allowed MIME types
+        $all_mime_types = get_allowed_mime_types();
+
+        // Filter to include only image MIME types
+        $all_mime_types = array_filter($all_mime_types, function ($mime_type) use ($type) {
+            return strpos($mime_type, $type . '/') === 0;
+        });
+
+        if (empty($all_mime_types)) {
+            return '';
+        }
+
+        return '/(\.' . implode('|', array_keys($all_mime_types)) . ')$/';
     }
 
     /**
