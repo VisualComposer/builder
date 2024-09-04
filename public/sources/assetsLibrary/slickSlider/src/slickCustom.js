@@ -2442,7 +2442,7 @@ import './slickCustom.less';
           if (originalId === undefined) {
             originalId = 'slick-slide' + _.instanceUid + i
           }
-          originalId = `${originalId}-${date.getTime()}`
+          originalId = `${originalId}`
           $(_.$slides[ slideIndex ]).clone(true).attr('id', `clone-${originalId}`)
             .attr('data-slick-index', slideIndex - _.slideCount)
             .prependTo(_.$slideTrack).addClass('slick-cloned');
@@ -2454,7 +2454,7 @@ import './slickCustom.less';
           if (originalId === undefined) {
             originalId = 'slick-slide' + _.instanceUid + i
           }
-          originalId = `${originalId}-${date.getTime()}`
+          originalId = `${originalId}`
 
           $(_.$slides[ slideIndex ]).clone(true).attr('id', `clone-${originalId}`)
             .attr('data-slick-index', slideIndex + _.slideCount)
