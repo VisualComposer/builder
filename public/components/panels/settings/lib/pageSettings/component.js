@@ -22,6 +22,19 @@ const viaWPAdminMenu = localizations ? localizations.viaWPAdminMenu : 'in the Wo
 const generalText = localizations ? localizations.general : 'General'
 
 export default class PageSettings extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      layoutData: null
+    }
+
+    this.handleLayoutChange = this.handleLayoutChange.bind(this)
+  }
+
+  handleLayoutChange (newLayoutData) {
+    this.setState({ layoutData: newLayoutData })
+  }
+
   render () {
     const content = []
     const wordpressSettings = []
@@ -53,6 +66,7 @@ export default class PageSettings extends React.Component {
             // required for attributes
           }}
           value='' // required for attributes
+          onLayoutChange={this.handleLayoutChange}
         />
       )
 
@@ -153,16 +167,24 @@ export default class PageSettings extends React.Component {
     }
 
     if (dataManager.get('commentStatus') || dataManager.get('pingStatus')) {
-      const settingName = localizations ? localizations.discussion : 'Discussion'
-      wordpressSettings.push(
-        <AccordionPanel
-          key='discussion'
-          sectionTitle={settingName}
-          isExpanded={true}
-        >
-          <Discussion />
-        </AccordionPanel>
-      )
+      const initialPageTemplate = dataManager.get('pageTemplatesLayoutsCurrent').type
+      const isLayoutSwitchedInCurrentState = this.state.layoutData && this.state.layoutData.type
+      const isDefaultLayout =
+        (!isLayoutSwitchedInCurrentState && initialPageTemplate === 'vc-custom-layout') ||
+        (isLayoutSwitchedInCurrentState && this.state.layoutData.type === 'vc-custom-layout')
+
+      if (isDefaultLayout) {
+        const settingName = localizations ? localizations.discussion : 'Discussion'
+        wordpressSettings.push(
+          <AccordionPanel
+            key='discussion'
+            sectionTitle={settingName}
+            isExpanded={true}
+          >
+            <Discussion />
+          </AccordionPanel>
+        )
+      }
     }
 
     return (
