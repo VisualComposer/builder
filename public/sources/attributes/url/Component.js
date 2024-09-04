@@ -78,7 +78,10 @@ class Url extends Attribute {
   }
 
   componentDidUpdate (prevProps) {
-    if (!lodash.isEqual(prevProps, this.props)) {
+    // in cases when we have multiple linked images
+    // that can be replaced with each other (like in the 'Image Gallery' element)
+    // we should update state every time.
+    if (this.props.imageLink && !lodash.isEqual(prevProps, this.props)) {
       this.setState(this.updateState(this.props))
     }
     if (this.state.isSaveInProgress) {
