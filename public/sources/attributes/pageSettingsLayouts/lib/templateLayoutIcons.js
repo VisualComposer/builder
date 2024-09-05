@@ -112,6 +112,9 @@ export default class TemplateLayoutIcons extends React.Component {
     }
 
     this.updateTemplate(data)
+    if (this.props.onLayoutChange) {
+      this.props.onLayoutChange(data)
+    }
   }
 
   updateTemplate (data) {
