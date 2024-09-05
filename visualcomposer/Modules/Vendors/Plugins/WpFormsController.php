@@ -53,16 +53,9 @@ class WpFormsController extends Container implements Module
      */
     public function disableReCaptcha($result)
     {
-        global $post;
+        $is_recaptcha_scripts_enqueued = wp_script_is('wpforms-recaptcha');
 
-        if (! $post) {
-            return $result;
-        }
-
-        $postTypeHelper = vchelper('PostType');
-        $editor_post_type = $postTypeHelper->getEditorTypeByPostTypeDependecy($post->post_type);
-
-        if ($editor_post_type !== 'default') {
+        if ($is_recaptcha_scripts_enqueued) {
             return true;
         }
 
