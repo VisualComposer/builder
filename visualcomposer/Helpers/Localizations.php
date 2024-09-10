@@ -2291,6 +2291,10 @@ class Localizations extends Container implements Helper
                 'Logo is not set. Please set a logo.',
                 'visualcomposer'
             ),
+            'documentWriteWarning' => __(
+                'Warning: Custom JavaScript won\'t be saved. Avoid using document.write() as it can break the editor. Please refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/write" target="_blank" rel="noopener noreferrer">MDN documentation</a> for more info.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
