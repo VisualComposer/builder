@@ -62,6 +62,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: visualcomposer.zip
+          path: ~/download/visualcomposer
       - name: Get the version
         id: get_version
         run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
@@ -70,7 +71,7 @@ jobs:
       - name: Create new directory
         run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ env.VERSION }}
       - name: Copy files to trunk directory
-        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ env.VERSION }} --delete
+        run: rsync -rc ~/download/visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ env.VERSION }} --delete
       - name: Update svn repository
         env:
           WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
@@ -86,12 +87,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
+        path: ~/download/visualcomposer
         with:
           name: visualcomposer-dev.zip
       - name: Checkout Wordpress.org svn repository
         run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
       - name: Copy files to trunk directory
-        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/trunk/ --delete
+        run: rsync -rc ~/download/visualcomposer ./visualcomposer-wordpress-org/trunk/ --delete
       - name: Update svn repository
         env:
           WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
