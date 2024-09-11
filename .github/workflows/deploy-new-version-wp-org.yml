@@ -73,7 +73,7 @@ jobs:
       - name: Create new directory
         run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ env.VERSION }}
       - name: Copy files to trunk directory
-        run: rsync -rc ~/download/visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ env.VERSION }} --delete
+        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ env.VERSION }} --delete
       - name: Update svn repository
         env:
           WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
@@ -97,7 +97,7 @@ jobs:
       - name: Unzip visualcomposer
         run: unzip ~/download/visualcomposer.zip/visualcomposer.zip -d ./
       - name: Copy files to trunk directory
-        run: rsync -rc ~/download/visualcomposer ./visualcomposer-wordpress-org/trunk/ --delete
+        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/trunk/ --delete
       - name: Update svn repository
         env:
           WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
