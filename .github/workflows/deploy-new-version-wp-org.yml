@@ -30,7 +30,7 @@ jobs:
           yarn --cwd ./builder install
           node ./builder/_infrastructure/vcwb-builder/builder plugin -b ${{ env.VERSION }}  -p ./
       - name: Upload plugin zip
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: visualcomposer.zip
           path: visualcomposer.zip
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Setup PHP version
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v3
         with:
           php-version: '7.4'
       - name: Checkout code
@@ -50,7 +50,7 @@ jobs:
           yarn --cwd ./builder install
           node ./builder/_infrastructure/vcwb-builder/builder plugin -b dev -p ./
       - name: Upload plugin zip
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: visualcomposer-dev.zip
           path: visualcomposer.zip
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-plugin]
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: visualcomposer.zip
       - name: Get the version
@@ -87,7 +87,7 @@ jobs:
     needs: [build-dev-plugin, deploy]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: visualcomposer-dev.zip
       - name: Checkout Wordpress.org svn repository
