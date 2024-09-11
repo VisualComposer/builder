@@ -67,8 +67,6 @@ jobs:
         run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Checkout Wordpress.org svn repository
         run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
-      - name: Unzip visualcomposer
-        run: unzip $GITHUB_WORKSPACE/visualcomposer.zip/visualcomposer.zip -d ./
       - name: Create new directory
         run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ env.VERSION }}
       - name: Copy files to trunk directory
@@ -92,8 +90,6 @@ jobs:
           name: visualcomposer-dev.zip
       - name: Checkout Wordpress.org svn repository
         run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
-      - name: Unzip visualcomposer
-        run: unzip $GITHUB_WORKSPACE/visualcomposer-dev.zip/visualcomposer.zip -d ./
       - name: Copy files to trunk directory
         run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/trunk/ --delete
       - name: Update svn repository
