@@ -87,9 +87,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
-        path: ~/download/visualcomposer
         with:
           name: visualcomposer-dev.zip
+          path: ~/download/visualcomposer
       - name: Checkout Wordpress.org svn repository
         run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
       - name: Copy files to trunk directory
