@@ -20,7 +20,7 @@ jobs:
           yarn --cwd ./builder install
           node ./builder/_infrastructure/vcwb-builder/builder plugin -b dev -p ./
       - name: Upload plugin zip
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: visualcomposer.zip
           path: visualcomposer.zip
@@ -30,9 +30,10 @@ jobs:
     needs: [build-plugin]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v3
         with:
           name: visualcomposer.zip
+          path: visualcomposer.zip
       - name: Checkout Wordpress.org svn repository
         run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
       - name: Unzip visualcomposer
