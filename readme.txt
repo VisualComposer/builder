@@ -3,8 +3,8 @@ Contributors: VisualComposer,veidenbaums,nikitahl,orkunaybek,mrdollar4444,sqarf,
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 7.4
 Requires at least: 5.5
-Tested up to: 6.5.3
-Stable tag: 45.9.0
+Tested up to: 6.6.2
+Stable tag: 45.10.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,36 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 45.10.0 =
+*Release Date - 2024-09-16*
+
+### Free:
+- Update: Google Fonts are updated to feature all latest typographies
+- Fix: Warning about document.write usage has been introduced
+- Fix: Hidden elements work properly and do not break the editor
+- Fix: Strings are set properly and translatable
+
+### Premium:
+- Compatibility: reCaptcha v2 works properly with the editor
+- Compatibility: Visual Composer compatibility with WPML improved
+- Fix: Custom ratio works properly for the post grid elements
+- Fix: Post tag element is being styled properly in the Layout builder templates
+- Fix: Content slider works properly with margin properties
+- Fix: Default Visual Composer layouts without comment area do not have comments option control
+- Fix: Countdown timer element works properly with the CSS animations in Design Options
+- Fix: Accordion element presets work properly in the editor
+- Fix: Menu element link colors work properly
+- Fix: Popups get triggered properly on button actions
+- Fix: Post grid filters work properly on mobile devices
+- Fix: A description for custom excerpt length has been updated
+- Fix: Import options works properly with webp and avif file format
+- Fix: Post title element works properly even if the general title is being disabled
+- Fix: Dynamic title works properly for the post grid buttons
+- Fix: Half outline button is available in Visual Composer Hub
+- Fix: Popups work properly in header and footer layouts
+- Fix: Deletion of global templates is being handled properly
+- Fix: Classic tab background works properly
 
 = 45.9.0 =
 *Release Date - 2024-05-20*
