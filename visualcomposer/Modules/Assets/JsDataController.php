@@ -88,6 +88,10 @@ class JsDataController extends Container implements Module
      */
     public function sanitizeJsFields($postID)
     {
+        if (!is_admin()) {
+            return;
+        }
+
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
@@ -96,7 +100,7 @@ class JsDataController extends Container implements Module
             return;
         }
 
-        if (!isset($_POST['_wpnonce']) || !check_admin_referer('update-post_' . $postID)) {
+        if (!isset($_POST['_wpnonce'])) {
             return;
         }
 
