@@ -88,15 +88,23 @@ class JsDataController extends Container implements Module
      */
     public function sanitizeJsFields($postID)
     {
+        if (!is_admin()) {
+            return;
+        }
+
+        // Verify the nonce specifically on the post edit screen
+        $current_screen = get_current_screen();
+        if ($current_screen && $current_screen->base === 'post' && $current_screen->post_type === get_post_type($postID)) {
+            if (!check_admin_referer('update-post_' . $postID)) {
+                return;
+            }
+        }
+
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
 
         if (current_user_can('unfiltered_html')) {
-            return;
-        }
-
-        if (!isset($_POST['_wpnonce']) || !check_admin_referer('update-post_' . $postID)) {
             return;
         }
 
