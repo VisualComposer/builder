@@ -376,7 +376,7 @@ addStorage('elements', (storage) => {
         }, 0)
       }
     }
-
+    storage.trigger(`element:${id}`, element, source, options)
     const { disableUpdateAssets } = options || {}
     if (disableUpdateAssets !== true) {
       assetsStorage.trigger('updateElement', id, options)

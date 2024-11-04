@@ -50,16 +50,16 @@ export const initEditors = () => {
    */
   const globalJsHead = document.querySelector('#vcv-settingsGlobalJsHead')
   if (globalJsHead !== null) {
-    const globalJsHeadEditor = codeEditor.getEditor(globalJsHead, 'text/html', globalJsHead.value)
-    globalJsHeadEditor.on('change', async () => {
+    window.vcvGlobalJsHeadEditor = codeEditor.getEditor(globalJsHead, 'text/html', globalJsHead.value)
+    window.vcvGlobalJsHeadEditor.on('change', async () => {
       setStatus('ready')
     })
   }
 
   const globalJsFooter = document.querySelector('#vcv-settingsGlobalJsFooter')
   if (globalJsFooter !== null) {
-    const globalJsFooterEditor = codeEditor.getEditor(globalJsFooter, 'text/html', globalJsFooter.value)
-    globalJsFooterEditor.on('change', async () => {
+    window.vcvGlobalJsFooterEditor = codeEditor.getEditor(globalJsFooter, 'text/html', globalJsFooter.value)
+    window.vcvGlobalJsFooterEditor.on('change', async () => {
       setStatus('ready')
     })
   }

@@ -8,6 +8,7 @@ window.ResizeSensor = ResizeSensorModule
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes may not be saved.'
+const documentWriteWarning = localizations && localizations.documentWriteWarningSettings ? localizations.documentWriteWarningSettings : 'Avoiding using document.write as per MDN documentation. This may result in editor not working properly.'
 
 export const dashboard = () => {
   const dashboardContainer = document.querySelector('.vcv-settings')
@@ -108,6 +109,12 @@ export const dashboard = () => {
     }
     const submitButtonContainer = e.target.querySelector('.vcv-submit-button-container')
     const submitButton = e.target.querySelector('.vcv-dashboard-button--save')
+    if (submitButton.id === 'submit_btn-vcv-global-css-js') {
+      const isValid = isValidEditorsValue()
+      if (!isValid) {
+        alert(documentWriteWarning)
+      }
+    }
     // this will get all form fields and encode it as a string
     const data = Array.from(
       new window.FormData(e.target),
@@ -154,6 +161,15 @@ export const dashboard = () => {
       return
     }
     window.jQuery(dataCollectionTableWrapper).slideToggle()
+  }
+
+  const isValidEditorsValue = () => {
+    const regex = /document\.write\s*\(/
+    const headerEditorValue = window.vcvGlobalJsHeadEditor.getValue().trim()
+    const footerEditorValue = window.vcvGlobalJsFooterEditor.getValue().trim()
+    const isValidHeadeEditor = headerEditorValue ? !regex.test(headerEditorValue) : true
+    const isValidFooterEditor = footerEditorValue ? !regex.test(footerEditorValue) : true
+    return isValidFooterEditor && isValidHeadeEditor
   }
 
   if (dataCollectionTableWrapper) {

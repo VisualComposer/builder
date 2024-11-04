@@ -3,6 +3,8 @@ import ScriptControl from './control'
 import HtmlEditor from './htmlEditor'
 import { getStorage, getService } from 'vc-cake'
 import Tooltip from '../../../../tooltip/tooltip'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
@@ -60,6 +62,15 @@ export default class CustomJavascript extends React.Component {
   }
 
   updateSettings (key, value) {
+    const regex = /document\.write\s*\(/
+    if (regex.test(value)) {
+      store.dispatch(notificationAdded({
+        text: CustomJavascript.localizations.documentWriteWarning,
+        html: true,
+        time: 15000
+      }))
+      return false
+    }
     settingsStorage.state(key).set(value)
     this.setState({ [key]: value })
   }
