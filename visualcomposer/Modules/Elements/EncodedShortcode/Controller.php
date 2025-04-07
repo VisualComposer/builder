@@ -32,7 +32,7 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    public function checkEncodedShortcode( $data )
+    public function checkEncodedShortcode($data)
     {
         $user_id = get_current_user_id();
         if (!$user_id) {
