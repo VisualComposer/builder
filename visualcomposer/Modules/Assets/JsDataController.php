@@ -87,7 +87,8 @@ class JsDataController extends Container implements Module
      * @param string $data
      * @return string
      */
-    public function sanitizeJsFields($data) {
+    public function sanitizeJsFields($data)
+    {
         if (current_user_can('unfiltered_html')) {
             return $data;
         }
