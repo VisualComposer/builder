@@ -10,6 +10,8 @@
     <description>A custom coding standard</description>
     <config name="installed_paths" value="../../wp-coding-standards/wpcs,../../phpcompatibility/php-compatibility"/>
 
+    <arg name="parallel" value="10" />
+
     <rule ref="PSR12">
         <exclude name="Generic.Files.LineLength.TooLong"/>
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
