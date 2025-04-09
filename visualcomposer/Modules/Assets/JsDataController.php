@@ -29,7 +29,8 @@ class JsDataController extends Container implements Module
             'vcv:dataAjax:setData',
             'setData'
         );
-        $this->wpAddAction('save_post', 'sanitizeJsFields');
+        $this->wpAddAction('sanitize_post_meta_vcv-settingsLocalJsHead', 'sanitizeJsFields');
+        $this->wpAddAction('sanitize_post_meta_vcv-settingsLocalJsFooter', 'sanitizeJsFields');
     }
 
     protected function getData($response, $payload, Options $optionsHelper)
@@ -83,42 +84,14 @@ class JsDataController extends Container implements Module
     /**
      * Sanitize JS fields to prevent add scripts for users without unfiltered_html capability
      *
-     * @param $postID
-     * @return void
+     * @param string $data
+     * @return string
      */
-    public function sanitizeJsFields($postID)
-    {
-        if (!is_admin()) {
-            return;
-        }
-
-        // Verify the nonce specifically on the post edit screen
-        $current_screen = get_current_screen();
-        if ($current_screen && $current_screen->base === 'post' && $current_screen->post_type === get_post_type($postID)) {
-            if (!check_admin_referer('update-post_' . $postID)) {
-                return;
-            }
-        }
-
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
-
+    public function sanitizeJsFields($data) {
         if (current_user_can('unfiltered_html')) {
-            return;
+            return $data;
         }
 
-        if (!isset($_POST['meta']) || ! is_array($_POST['meta'])) {
-            return;
-        }
-
-        foreach ($_POST['meta'] as $metaValues) {
-            if (isset($metaValues['key']) && isset($metaValues['value'])) {
-                if ($metaValues['key'] === VCV_PREFIX . 'settingsLocalJsHead' || $metaValues['key'] === VCV_PREFIX . 'settingsLocalJsFooter') {
-                    $sanitizedValue = wp_kses($metaValues['value'], array());
-                    update_post_meta($postID, $metaValues['key'], $sanitizedValue);
-                }
-            }
-        }
+        return wp_kses($data, array());
     }
 }
