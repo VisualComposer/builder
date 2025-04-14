@@ -31,6 +31,9 @@ jobs:
     needs: [build-plugin]
     runs-on: ubuntu-latest
     steps:
+      - name: Install SVN
+        run: sudo apt-get update && sudo apt-get install -y subversion
+        
       - uses: actions/download-artifact@v4
         with:
           name: visualcomposer.zip
