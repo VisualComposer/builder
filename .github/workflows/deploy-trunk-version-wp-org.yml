@@ -1,5 +1,6 @@
 name: Update trunk on WordPress.org
 on:
+  workflow_dispatch:
   schedule:
     - cron:  '10 10 * * 1'
 jobs:
