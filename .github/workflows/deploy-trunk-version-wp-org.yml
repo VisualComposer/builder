@@ -20,7 +20,7 @@ jobs:
           yarn --cwd ./builder install
           node ./builder/_infrastructure/vcwb-builder/builder plugin -b dev -p ./
       - name: Upload plugin zip
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: visualcomposer.zip
           path: visualcomposer.zip
@@ -30,7 +30,7 @@ jobs:
     needs: [build-plugin]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: visualcomposer.zip
           path: visualcomposer.zip
