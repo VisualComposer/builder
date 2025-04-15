@@ -29,8 +29,6 @@ class PostType extends Container implements Module
     public function __construct()
     {
         $this->postType = 'vcv_tutorials';
-        $this->postNameSingular = __('Tutorial', 'visualcomposer');
-        $this->postNamePlural = __('Tutorials', 'visualcomposer');
 
         $this->addEvent('vcv:inited', 'registerPostType');
         $this->wpAddAction('admin_init', 'doRedirect');
@@ -61,6 +59,9 @@ class PostType extends Container implements Module
      */
     protected function registerPostType()
     {
+        $this->postNameSingular = __('Tutorial', 'visualcomposer');
+        $this->postNamePlural = __('Tutorials', 'visualcomposer');
+
         register_post_type(
             $this->postType,
             [
