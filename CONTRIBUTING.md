@@ -224,4 +224,3 @@ if (!VcvEnv::has('VCV_DEBUG')) {
 require_once "env.php";
 ```
 
-
