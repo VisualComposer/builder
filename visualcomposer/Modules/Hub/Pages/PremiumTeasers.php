@@ -34,152 +34,9 @@ class PremiumTeasers extends Container implements Module
 
     public function setDashboardSections()
     {
-        $this->dashboardSections[] = [
-            'slug' => 'vcv-custom-site-popups',
-            'name' => __('Popup Builder', 'visualcomposer'),
-            'subTitle' => __('Popup Settings', 'visualcomposer'),
-            'premiumTitle' => __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Specify site-wide popups for specific events (First Page Load, Every Page Load, or Exit Intent) with Popup Builder addon available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'customsitepopups-vcdashboard',
-            'premiumActionBundle' => 'popupBuilder',
-            'iconClass' => 'vcv-ui-icon-dashboard-popup-builder',
-            'parent' => 'vcv-custom-site-popups',
-            'capabilityPart' => 'dashboard_addon_popup_builder',
-            'hideInWpMenu' => false,
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv_templates',
-            'premiumTitle' => __('GLOBAL TEMPLATES IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Create global templates that will automatically update across all site upon changes. Save time on editing with the Global Templates addon available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'templates-vcdashboard',
-            'premiumActionBundle' => 'globalTemplate',
-            'name' => __('Global Templates', 'visualcomposer'),
-            'subTitle' => __('Templates', 'visualcomposer'),
-            'parent' => 'vcv_templates',
-            'iconClass' => 'vcv-ui-icon-dashboard-template',
-            'capabilityPart' => 'dashboard_addon_global_templates',
-            'hideInWpMenu' => false,
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv-headers-footers',
-            'name' => __('Theme Builder', 'visualcomposer'),
-            'subTitle' => __('Theme Builder Settings', 'visualcomposer'),
-            'parent' => 'vcv-headers-footers',
-            'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Replace the theme default layout for pages, posts, and archives with custom layouts using Visual Composer.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'headersfooters-vcdashboard',
-            'premiumActionBundle' => 'themeEditor',
-            'iconClass' => 'vcv-ui-icon-dashboard-theme-builder',
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-            'hideInWpMenu' => false,
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv_headers',
-            'premiumTitle' => __('HEADER BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Create custom header templates or pick a ready-to-use template with the Header Builder available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'headers-vcdashboard',
-            'premiumActionBundle' => 'themeEditor',
-            'name' => __('Headers', 'visualcomposer'),
-            'parent' => 'vcv-headers-footers',
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv_footers',
-            'premiumTitle' => __('FOOTER BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Build a custom website footer or pick a ready-to-use template with the Footer Builder available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'footers-vcdashboard',
-            'premiumActionBundle' => 'themeEditor',
-            'name' => __('Footers', 'visualcomposer'),
-            'parent' => 'vcv-headers-footers',
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv_sidebars',
-            'premiumTitle' => __('SIDEBAR BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Create a custom sidebar or pick a ready-made template with the Sidebar Builder available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'sidebars-vcdashboard',
-            'premiumActionBundle' => 'themeEditor',
-            'name' => __('Sidebars', 'visualcomposer'),
-            'parent' => 'vcv-headers-footers',
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv_layouts',
-            'premiumTitle' => __('LAYOUT EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'layouts-vcdashboard',
-            'premiumActionBundle' => 'themeBuilder',
-            'name' => __('Layouts', 'visualcomposer'),
-            'parent' => 'vcv-headers-footers',
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv-font-manager',
-            'name' => __('Font Manager', 'visualcomposer'),
-            'subTitle' => __('Font Manager', 'visualcomposer'),
-            'premiumTitle' => __('FONT MANAGER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Control the typography and other font styling of your site, including links, paragraphs, headings.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'fontmanager-vcdashboard',
-            'premiumActionBundle' => 'fontManager',
-            'iconClass' => 'vcv-ui-icon-dashboard-a-letter',
-            'parent' => 'vcv-font-manager',
-            'capabilityPart' => 'dashboard_addon_font_manager',
-            'hideInWpMenu' => false,
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv-import',
-            'name' => __('Import', 'visualcomposer'),
-            'subTitle' => '',
-            'parent' => 'vcv-import',
-            'premiumTitle' => __('TEMPLATE IMPORT AND EXPORT IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Migrate your templates from site to site with the Export/Import addon available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'templatesimport-vcdashboard',
-            'iconClass' => 'vcv-ui-icon-dashboard-import',
-            'premiumActionBundle' => 'exportImport',
-            'capabilityPart' => 'dashboard_addon_export_import',
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv_popups',
-            'parent' => 'vcv-custom-site-popups',
-            'name' => __('Popups', 'visualcomposer'),
-            'premiumTitle' => __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Build custom popups with the Popup Builder addon available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => 'customsitepopups-vcdashboard',
-            'premiumActionBundle' => 'popupBuilder',
-            'capabilityPart' => 'dashboard_addon_popup_builder',
-        ];
+        $dashboardTeaser = $this->getDashboardTeasers();
 
-        $this->dashboardSections = $this->addMainValueDashboardSection($this->dashboardSections);
+        $this->dashboardSections = $this->addMainValueDashboardSection($dashboardTeaser);
 
         // Append defaults for all sections
         $this->dashboardSections = array_map(
@@ -203,6 +60,156 @@ class PremiumTeasers extends Container implements Module
             },
             $this->dashboardSections
         );
+    }
+
+    public function getDashboardTeasers()
+    {
+        return [
+            [
+                'slug' => 'vcv-custom-site-popups',
+                'name' => __('Popup Builder', 'visualcomposer'),
+                'subTitle' => __('Popup Settings', 'visualcomposer'),
+                'premiumTitle' => __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Specify site-wide popups for specific events (First Page Load, Every Page Load, or Exit Intent) with Popup Builder addon available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'customsitepopups-vcdashboard',
+                'premiumActionBundle' => 'popupBuilder',
+                'iconClass' => 'vcv-ui-icon-dashboard-popup-builder',
+                'parent' => 'vcv-custom-site-popups',
+                'capabilityPart' => 'dashboard_addon_popup_builder',
+                'hideInWpMenu' => false,
+            ],
+            [
+                'slug' => 'vcv_templates',
+                'premiumTitle' => __('GLOBAL TEMPLATES IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Create global templates that will automatically update across all site upon changes. Save time on editing with the Global Templates addon available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'templates-vcdashboard',
+                'premiumActionBundle' => 'globalTemplate',
+                'name' => __('Global Templates', 'visualcomposer'),
+                'subTitle' => __('Templates', 'visualcomposer'),
+                'parent' => 'vcv_templates',
+                'iconClass' => 'vcv-ui-icon-dashboard-template',
+                'capabilityPart' => 'dashboard_addon_global_templates',
+                'hideInWpMenu' => false,
+            ],
+            [
+                'slug' => 'vcv-headers-footers',
+                'name' => __('Theme Builder', 'visualcomposer'),
+                'subTitle' => __('Theme Builder Settings', 'visualcomposer'),
+                'parent' => 'vcv-headers-footers',
+                'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Replace the theme default layout for pages, posts, and archives with custom layouts using Visual Composer.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'headersfooters-vcdashboard',
+                'premiumActionBundle' => 'themeEditor',
+                'iconClass' => 'vcv-ui-icon-dashboard-theme-builder',
+                'capabilityPart' => 'dashboard_addon_theme_builder',
+                'hideInWpMenu' => false,
+            ],
+            [
+                'slug' => 'vcv_headers',
+                'premiumTitle' => __('HEADER BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Create custom header templates or pick a ready-to-use template with the Header Builder available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'headers-vcdashboard',
+                'premiumActionBundle' => 'themeEditor',
+                'name' => __('Headers', 'visualcomposer'),
+                'parent' => 'vcv-headers-footers',
+                'capabilityPart' => 'dashboard_addon_theme_builder',
+            ],
+            [
+                'slug' => 'vcv_footers',
+                'premiumTitle' => __('FOOTER BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Build a custom website footer or pick a ready-to-use template with the Footer Builder available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'footers-vcdashboard',
+                'premiumActionBundle' => 'themeEditor',
+                'name' => __('Footers', 'visualcomposer'),
+                'parent' => 'vcv-headers-footers',
+                'capabilityPart' => 'dashboard_addon_theme_builder',
+            ],
+            [
+                'slug' => 'vcv_sidebars',
+                'premiumTitle' => __('SIDEBAR BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Create a custom sidebar or pick a ready-made template with the Sidebar Builder available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'sidebars-vcdashboard',
+                'premiumActionBundle' => 'themeEditor',
+                'name' => __('Sidebars', 'visualcomposer'),
+                'parent' => 'vcv-headers-footers',
+                'capabilityPart' => 'dashboard_addon_theme_builder',
+            ],
+            [
+                'slug' => 'vcv_layouts',
+                'premiumTitle' => __('LAYOUT EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'layouts-vcdashboard',
+                'premiumActionBundle' => 'themeBuilder',
+                'name' => __('Layouts', 'visualcomposer'),
+                'parent' => 'vcv-headers-footers',
+                'capabilityPart' => 'dashboard_addon_theme_builder',
+            ],
+            [
+                'slug' => 'vcv-font-manager',
+                'name' => __('Font Manager', 'visualcomposer'),
+                'subTitle' => __('Font Manager', 'visualcomposer'),
+                'premiumTitle' => __('FONT MANAGER IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Control the typography and other font styling of your site, including links, paragraphs, headings.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'fontmanager-vcdashboard',
+                'premiumActionBundle' => 'fontManager',
+                'iconClass' => 'vcv-ui-icon-dashboard-a-letter',
+                'parent' => 'vcv-font-manager',
+                'capabilityPart' => 'dashboard_addon_font_manager',
+                'hideInWpMenu' => false,
+            ],
+            [
+                'slug' => 'vcv-import',
+                'name' => __('Import', 'visualcomposer'),
+                'subTitle' => '',
+                'parent' => 'vcv-import',
+                'premiumTitle' => __('TEMPLATE IMPORT AND EXPORT IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Migrate your templates from site to site with the Export/Import addon available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'templatesimport-vcdashboard',
+                'iconClass' => 'vcv-ui-icon-dashboard-import',
+                'premiumActionBundle' => 'exportImport',
+                'capabilityPart' => 'dashboard_addon_export_import',
+            ],
+            [
+                'slug' => 'vcv_popups',
+                'parent' => 'vcv-custom-site-popups',
+                'name' => __('Popups', 'visualcomposer'),
+                'premiumTitle' => __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+                'premiumDescription' => __(
+                    'Build custom popups with the Popup Builder addon available in Premium.',
+                    'visualcomposer'
+                ),
+                'premiumUrl' => 'customsitepopups-vcdashboard',
+                'premiumActionBundle' => 'popupBuilder',
+                'capabilityPart' => 'dashboard_addon_popup_builder',
+            ],
+        ];
     }
 
     /**
