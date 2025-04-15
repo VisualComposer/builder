@@ -28,6 +28,12 @@ class PremiumTeasers extends Container implements Module
      */
     public function __construct()
     {
+        // Call this function after init for multisite WordPress instances
+        $this->wpAddAction('init', 'checkTeaserVisibility');
+    }
+
+    public function setDashboardSections()
+    {
         $this->dashboardSections[] = [
             'slug' => 'vcv-custom-site-popups',
             'name' => __('Popup Builder', 'visualcomposer'),
@@ -197,9 +203,6 @@ class PremiumTeasers extends Container implements Module
             },
             $this->dashboardSections
         );
-
-        // Call this function after init for multisite WordPress instances
-        $this->wpAddAction('init', 'checkTeaserVisibility');
     }
 
     /**
@@ -235,6 +238,8 @@ class PremiumTeasers extends Container implements Module
     {
         $currentUserAccess = vchelper('AccessCurrentUser');
         $isHubAddonsEnabled = $currentUserAccess->part('hub')->can('addons')->get();
+        $this->setDashboardSections();
+
         if ($isHubAddonsEnabled) {
             $this->wpAddAction(
                 'admin_menu',
