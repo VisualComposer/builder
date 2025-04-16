@@ -3,8 +3,8 @@ Contributors: VisualComposer,veidenbaums,nikitahl,orkunaybek,mrdollar4444,sqarf,
 Tags: page builder, drag and drop website builder, popup builder, landing page builder, theme builder
 Requires PHP: 7.4
 Requires at least: 5.5
-Tested up to: 6.6.2
-Stable tag: 45.10.0
+Tested up to: 6.8
+Stable tag: 45.11.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,13 @@ It is both! Visual Composer’s free version works like a page builder where you
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 45.11.0 =
+*Release Date - 2025-04-17*
+
+### Free:
+- Update: Works properly with WordPress 6.8
+- Fix: Vulnerability issue for encoded shortcode content resolved
 
 = 45.10.0 =
 *Release Date - 2024-09-16*
