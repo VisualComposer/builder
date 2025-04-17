@@ -6,12 +6,12 @@ on:
 jobs:
   build-plugin:
     name: Build the latest version of the Visual Composer plugin
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Setup PHP version
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.2'
       - name: Get the version
         id: get_version
         run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
@@ -36,12 +36,12 @@ jobs:
           path: visualcomposer.zip
   build-dev-plugin:
     name: Build the latest version of the Visual Composer plugin dev version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Setup PHP version
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.2'
       - name: Checkout code
         run: |
           GIT_SSL_NO_VERIFY=true git clone https://github.com/VisualComposer/builder.git --depth 1

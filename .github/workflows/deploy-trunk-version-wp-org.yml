@@ -7,12 +7,12 @@ jobs:
   build-plugin:
     if: github.repository == 'VisualComposer/builder'
     name: Build the latest version of the Visual Composer plugin dev version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Setup PHP version
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.2'
       - name: Checkout code
         run: |
           GIT_SSL_NO_VERIFY=true git clone https://github.com/VisualComposer/builder.git --depth 1
@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Install SVN
         run: sudo apt-get update && sudo apt-get install -y subversion
-        
+
       - uses: actions/download-artifact@v4
         with:
           name: visualcomposer.zip
