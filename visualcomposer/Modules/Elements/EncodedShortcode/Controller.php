@@ -43,7 +43,7 @@ class Controller extends Container implements Module
         }
 
         $data['post_content'] = preg_replace(
-            '/\[\s*vcv_encoded_shortcode\s*\](.*?)\[\s*\/[\s\r\n]*vcv_encoded_shortcode\s*\]/si',
+            '/\[\s*vcv_encoded_shortcode\s*\](.*?)\[\s*\/\s*vcv_encoded_shortcode\s*\]/si',
             '',
             $data['post_content']
         );
