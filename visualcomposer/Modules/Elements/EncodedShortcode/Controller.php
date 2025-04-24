@@ -34,21 +34,16 @@ class Controller extends Container implements Module
      */
     public function checkEncodedShortcode($data)
     {
-        $user_id = get_current_user_id();
-        if (!$user_id) {
+        if (current_user_can('unfiltered_html')) {
             return $data;
         }
 
-        if (user_can($user_id, 'unfiltered_html')) {
-            return $data;
-        }
-
-        if (strpos($data['post_content'], '[vcv_encoded_shortcode]') === false) {
+        if (strpos($data['post_content'], 'vcv_encoded_shortcode') === false) {
             return $data;
         }
 
         $data['post_content'] = preg_replace(
-            '/\[vcv_encoded_shortcode\](.*?)\[\/vcv_encoded_shortcode\]/s',
+            '/\[\s*vcv_encoded_shortcode\s*\](.*?)\[\s*\/[\s\r\n]*vcv_encoded_shortcode\s*\]/si',
             '',
             $data['post_content']
         );
