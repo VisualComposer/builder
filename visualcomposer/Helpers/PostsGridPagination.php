@@ -15,6 +15,6 @@ class PostsGridPagination extends Container implements Helper
 {
     public function getPaginationUrl($id, $page)
     {
-        return add_query_arg('vcv-pagination-' . $id, $page);
+        return esc_url(add_query_arg('vcv-pagination-' . $id, $page));
     }
 }
