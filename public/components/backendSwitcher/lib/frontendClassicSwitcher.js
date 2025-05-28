@@ -75,8 +75,6 @@ export default class FrontendClassicSwitcher extends React.Component {
       url += '?classic-editor=1'
     }
 
-    console.log(url);
-
     window.location.href = url
   }
 
