@@ -74,6 +74,9 @@ export default class FrontendClassicSwitcher extends React.Component {
     } else {
       url += '?classic-editor=1'
     }
+
+    console.log(url);
+
     window.location.href = url
   }
 
@@ -83,9 +86,6 @@ export default class FrontendClassicSwitcher extends React.Component {
     const buttonGutenbergtext = localizations && localizations.gutenbergEditor ? localizations.gutenbergEditor : 'Gutenberg Editor'
     const { editor } = this.state
     const gutenberg = window.VCV_GUTENBERG && window.VCV_GUTENBERG()
-    if (this.state.editor === 'be' && this.wpb === true) {
-      this.showClassicEditor()
-    }
 
     let gutenbergButton = null
     if (!this.props.isGutenbergEditor && gutenberg && editor !== 'gutenberg') {
