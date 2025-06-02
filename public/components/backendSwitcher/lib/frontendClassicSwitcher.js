@@ -16,7 +16,8 @@ export default class FrontendClassicSwitcher extends React.Component {
       beEditorInput.value = 'classic'
     }
     let editor = beEditorInput.value
-    if ((beEditorInput && ['classic', 'gutenberg'].indexOf(editor) === -1) || (editor === 'gutenberg' && !gutenberg)) {
+
+    if (editor === 'gutenberg' && !gutenberg) {
       editor = 'be'
       this.hideClassicEditor()
     }
