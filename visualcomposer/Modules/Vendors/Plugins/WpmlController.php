@@ -638,7 +638,7 @@ class WpmlController extends Container implements Module
      *
      * @return array
      */
-    protected function blockPackageTranslation($packageTranslate, $post_id)
+    public function blockPackageTranslation($packageTranslate, $post_id)
     {
         $frontendHelper = vchelper('Frontend');
         if (empty($post_id) || ! $frontendHelper->isVcvPost($post_id)) {
