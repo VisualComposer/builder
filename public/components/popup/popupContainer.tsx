@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Dispatch } from 'redux' // eslint-disable-line
 import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
-import VotePopup from './popups/votePopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
 import PricingPopup from './popups/pricingPopup'
 import { connect } from 'react-redux'
@@ -62,9 +61,7 @@ const PopupContainer = ({ activePopup, allPopupsHidden, isPopupVisible, popupVis
 
   let activePopupHtml = null
 
-  if (activePopup === 'votePopup') {
-    activePopupHtml = <VotePopup {...popupProps} />
-  } else if (activePopup === 'premiumPromoPopup') {
+  if (activePopup === 'premiumPromoPopup') {
     activePopupHtml = <PremiumPromoPopup {...popupProps} />
   } else if (activePopup === 'pricingPopup') {
     activePopupHtml = <PricingPopup {...popupProps} />

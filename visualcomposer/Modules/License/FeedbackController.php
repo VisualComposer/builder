@@ -32,10 +32,6 @@ class FeedbackController extends Container implements Module
      */
     public function __construct()
     {
-        $this->addFilter('vcv:ajax:vote:score:feedback:submit:adminNonce', 'submitScoreVote');
-
-        $this->addFilter('vcv:ajax:review:survey:submit:adminNonce', 'submitReviewSurvey');
-
         $this->addFilter(
             'vcv:ajax:license:deactivation:submit:adminNonce',
             'deactivationSubmitForm'
@@ -45,8 +41,6 @@ class FeedbackController extends Container implements Module
             'vcv:ajax:license:activation:survey:adminNonce',
             'activationSurveySubmitForm'
         );
-
-        $this->addFilter('vcv:editor:variables', 'addVariables');
 
         $file = plugin_basename(VCV_PLUGIN_FULL_PATH);
         $this->wpAddAction('deactivate_' . $file, 'setDeactivationPopupInterval');
@@ -218,24 +212,6 @@ class FeedbackController extends Container implements Module
         );
 
         return ['status' => true];
-    }
-
-    /**
-     * @param $variables
-     * @param $payload
-     * @param \VisualComposer\Helpers\Popups $popupsHelper
-     *
-     * @return array
-     */
-    protected function addVariables($variables, $payload, Popups $popupsHelper)
-    {
-        $variables[] = [
-            'key' => 'VCV_SHOW_FEEDBACK_FORM',
-            'value' => $popupsHelper->showFeedbackPopup(),
-            'type' => 'constant',
-        ];
-
-        return $variables;
     }
 
     /**
