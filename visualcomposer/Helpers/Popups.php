@@ -15,50 +15,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Popups implements Helper
 {
-    protected static $showFeedbackPopupCache;
-
     protected static $showPremiumPromoPopupCache;
-
-    /**
-     * It a score from 1-10 rating popup survey.
-     *
-     * @note The survey should show up to all users: free and premium.
-     * @note The survey should show up to users who previously submitted answers to our previous surveys version.
-     * @note The survey should appear to the user after 5 days after activation.
-     *
-     * @return bool
-     */
-    public function showFeedbackPopup()
-    {
-        if (!is_null(self::$showFeedbackPopupCache)) {
-            return self::$showFeedbackPopupCache;
-        }
-
-        $user = wp_get_current_user();
-
-        if (empty($user->ID)) {
-            return self::$showFeedbackPopupCache;
-        }
-
-        $optionsHelper = vchelper('Options');
-        $result = false;
-        // do only if feedback not sent previously
-
-        if (!get_user_meta($user->ID, 'vcv-feedback-score', true)) {
-            // Actively used for more then 5 days
-            $isActivelyUsed = vchelper('Plugin')->isActivelyUsed();
-            // System check is OK
-            $systemStatusFailing = $optionsHelper->get('systemCheckFailing', false);
-            // Have at least 3 posts with VCWB
-            $foundPostsOk = vchelper('Plugin')->isHasCertainPostsNumber();
-
-            $result = $isActivelyUsed && !$systemStatusFailing && $foundPostsOk;
-        }
-
-        self::$showFeedbackPopupCache = $result;
-
-        return self::$showFeedbackPopupCache;
-    }
 
     public function showPremiumPromoPopup()
     {
@@ -71,14 +28,6 @@ class Popups implements Helper
         $licenseHelper = vchelper('License');
         // Only if Free license activated and popup never shown before (never closed actually)
         if ($licenseHelper->isPremiumActivated() || !empty($optionsHelper->get('premium-promo-popup-closed'))) {
-            self::$showPremiumPromoPopupCache = $result;
-            return self::$showPremiumPromoPopupCache;
-        }
-
-        // 3 days delay if feedback popup is closed
-        // 14 days delay after free license activated
-        $showFeedbackPopup = $this->showFeedbackPopup();
-        if ($showFeedbackPopup) {
             self::$showPremiumPromoPopupCache = $result;
             return self::$showPremiumPromoPopupCache;
         }
