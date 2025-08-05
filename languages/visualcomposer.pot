@@ -3022,63 +3022,8 @@ msgstr ""
 msgid "Element preset has been removed."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:681
-msgid ""
-"How disappointed would you be if this product no longer existed tomorrow?"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:685
-msgid "Very disappointed"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:689
-msgid "Somewhat disappointed"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:693
-msgid "Not disappointed (it really isn’t that useful)"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:697
-msgid "Submit Your Feedback"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:701
-msgid "How can we become better?"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:705
-msgid ""
-"Thanks for your feedback. Please rate us on WordPress.org and help others to "
-"discover Visual Composer."
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:709
-msgid "Your opinion matters. Help us to improve by taking a quick survey."
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:713
-msgid "Write Your Review"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:717
-msgid "Leave Your Feedback"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:721
-msgid "Like"
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:725
-msgid "Dislike"
-msgstr ""
-
 #: visualcomposer/Helpers/Localizations.php:729
 msgid "The current popup will be replaced with the popup template."
-msgstr ""
-
-#: visualcomposer/Helpers/Localizations.php:734
-msgid "QUICK FEEDBACK"
 msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:738
