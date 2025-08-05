@@ -33,26 +33,4 @@ class Plugin implements Helper
 
         return false;
     }
-
-    /**
-     * Check if user has certain amount of posts.
-     *
-     * @param $posts
-     *
-     * @return bool
-     */
-    public function isHasCertainPostsNumber($posts = 3)
-    {
-        $vcvPosts = new \WP_Query(
-            [
-                'post_type' => 'any',
-                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
-                'posts_per_page' => $posts,
-                'meta_key' => VCV_PREFIX . 'pageContent',
-                'suppress_filters' => true,
-            ]
-        );
-        // @codingStandardsIgnoreLine
-        return (int)$vcvPosts->found_posts >= $posts;
-    }
 }
