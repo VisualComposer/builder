@@ -47,55 +47,6 @@ class FeedbackController extends Container implements Module
     }
 
     /**
-     * Send editor score vote survey to my.visualcomposer.com
-     *
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Url $urlHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     *
-     * @return array
-     */
-    protected function submitScoreVote(
-        Request $requestHelper,
-        Url $urlHelper,
-        License $licenseHelper
-    ) {
-        $feedbackValue = (int)$requestHelper->input('vcv-feedback');
-        if (!$feedbackValue) {
-            return ['status' => false];
-        }
-
-        $user = wp_get_current_user();
-
-        update_user_meta($user->ID, 'vcv-feedback-score', $feedbackValue);
-        update_user_meta($user->ID, 'vcv-feedback-score-time', time());
-
-        $licenseType = $licenseHelper->getType();
-
-        $url = $urlHelper->query(
-            vcvenv('VCV_HUB_URL'),
-            [
-                'vcv-send-feedback' => 'sendFeedback',
-                'vcv-value' => $feedbackValue,
-                'vcv-version' => VCV_VERSION,
-                'vcv-site-url' => get_site_url(),
-                'vcv-user-email' => $user->user_email,
-                'vcv-license-type' => $licenseType,
-                'vcv-user-id' => $licenseHelper->getHashedKey(get_site_url() . $user->ID),
-            ]
-        );
-
-        wp_remote_get(
-            $url,
-            [
-                'timeout' => 30,
-            ]
-        );
-
-        return ['status' => true];
-    }
-
-    /**
      * Send user message editor survey to my.visualcomposer.com
      * It should correspond the user that previously voted to score vote survey.
      *

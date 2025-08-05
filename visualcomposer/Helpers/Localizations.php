@@ -685,46 +685,6 @@ class Localizations extends Container implements Helper
                 'Element preset has been removed.',
                 'visualcomposer'
             ),
-            'feedbackVoteHeadingText' => __(
-                'How likely are you to recommend Visual Composer to friend or colleague?',
-                'visualcomposer'
-            ),
-            'veryDisappointed' => __(
-                'Not likely at all',
-                'visualcomposer'
-            ),
-            'somewhatDisappointed' => __(
-                'Extremely likely',
-                'visualcomposer'
-            ),
-            'negativeReviewHeadingText' => __(
-                'How can we become better?',
-                'visualcomposer'
-            ),
-            'positiveReviewText' => __(
-                'Thanks for your feedback. Please rate us on WordPress.org and help others to discover Visual Composer.',
-                'visualcomposer'
-            ),
-            'negativeReviewText' => __(
-                'Your opinion matters. Help us to improve by taking a quick survey.',
-                'visualcomposer'
-            ),
-            'positiveReviewButtonText' => __(
-                'Write Your Review',
-                'visualcomposer'
-            ),
-            'negativeReviewButtonText' => __(
-                'Leave Your Feedback',
-                'visualcomposer'
-            ),
-            'likeText' => __(
-                'Like',
-                'visualcomposer'
-            ),
-            'dislikeText' => __(
-                'Dislike',
-                'visualcomposer'
-            ),
             'replacePopupTemplateText' => __(
                 'The current popup will be replaced with the popup template.',
                 'visualcomposer'
