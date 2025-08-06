@@ -41,9 +41,13 @@ class Controller extends Container implements Module
         if (strpos($content, 'vcv_encoded_shortcode') === false) {
             return $content;
         }
+        $regex = '/' . $this->get_shortcode_regex('vcv_encoded_shortcode') . '/';
 
-        $regex = $this->get_shortcode_regex('vcv_encoded_shortcode');
-        return preg_replace('/' . $regex . '/', '', $content);
+        while (preg_match($regex, $content)) {
+            $content = preg_replace($regex, '', $content);
+        }
+
+        return $content;
     }
 
     /**
