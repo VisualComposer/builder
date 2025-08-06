@@ -13,13 +13,6 @@ export interface PopupProps {
   onPrimaryButtonClick: () => void
 }
 
-export interface VotePopupProps extends PopupProps {
-  popupVisibilitySet: (status: boolean) => void
-  popupShown: (popupName: string) => void
-  popupsSet: (popups: Popups) => void
-  popups: Popups
-}
-
 export interface PopupInnerProps extends PopupProps {
   children: JSX.Element | JSX.Element[] | null,
   headingText: string
