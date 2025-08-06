@@ -32,10 +32,6 @@ const getActivePopup = (popupData: Popups): string => {
 
 const initialState: popupStore = {
   popups: {
-    votePopup: {
-      visible: dataManager?.get('showFeedbackForm'),
-      priority: 1
-    },
     pricingPopup: {
       visible: !!dataManager?.get('showPricingPopup'),
       priority: 4

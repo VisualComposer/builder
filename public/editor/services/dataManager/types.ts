@@ -304,7 +304,6 @@ declare global {
     vcvAdminAjaxUrl: string,
     VCV_EDITOR_TYPE: () => string,
     VCV_PAGE_TEMPLATES: () => string,
-    VCV_SHOW_FEEDBACK_FORM: () => boolean,
     VCV_SHOW_INITIAL_HELPERS: () => string,
     VCV_SHOW_DATA_COLLECTION_POPUP: () => boolean,
     VCV_HUB_GET_ELEMENTS: () => HubElements,

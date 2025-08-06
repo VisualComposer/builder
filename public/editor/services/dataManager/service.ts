@@ -21,7 +21,6 @@ const dataManager = {
       adminAjaxUrl: () => { return window.vcvAdminAjaxUrl },
       editorType: () => { return window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default' },
       pageTemplates: () => { return window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : '' },
-      showFeedbackForm: () => { return window.VCV_SHOW_FEEDBACK_FORM && window.VCV_SHOW_FEEDBACK_FORM() },
       showInitialHelpers: () => { return window.VCV_SHOW_INITIAL_HELPERS && window.VCV_SHOW_INITIAL_HELPERS() },
       hubGetElements: () => { return window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {} },
       elementsGlobalsUrl: () => { return window.vcvElementsGlobalsUrl },
