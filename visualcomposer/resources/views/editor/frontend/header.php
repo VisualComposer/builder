@@ -16,7 +16,7 @@ if (empty($currentScreen)) {
 }
 global $current_screen;
 if (empty($current_screen->id)) {
-    $current_screen->id = $sourceId;
+    $current_screen->id = (string) $sourceId;
 }
 // @codingStandardsIgnoreEnd
 $globalsHelper->set('typenow', get_post_type());
