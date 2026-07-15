@@ -29,7 +29,7 @@ wp_enqueue_media();
 <head>
     <link rel="profile" href="https://gmpg.org/xfn/11" />
     <meta http-equiv="Content-Type" content="<?php echo esc_attr(get_bloginfo('html_type', 'display')); ?>; charset=<?php echo esc_attr(get_bloginfo('charset', 'display')); ?>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no />
     <title><?php
         // translators: %s: page title
         echo $title;
