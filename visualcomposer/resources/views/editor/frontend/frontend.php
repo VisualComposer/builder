@@ -22,7 +22,7 @@ $variables = vcfilter('vcv:editor:variables', [], ['sourceId' => $sourceId]);
 echo vcview('editor/frontend/header', array(
     'sourceId' => $sourceId,
     'currentScreen' => $current_screen,
-    'hookSuffix' => $hook_suffix,
+    'hookSuffix' => (string) $hook_suffix,
     'globalsHelper' => $globalsHelper,
     'outputHelper' => $outputHelper,
     'title' => sprintf(__('Visual Composer: %s', 'visualcomposer'), esc_html(get_the_title())),

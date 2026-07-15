@@ -33,14 +33,13 @@ $variables = vcfilter(
 echo vcview('editor/frontend/header', array(
     'sourceId' => $sourceId,
     'currentScreen' => $current_screen,
-    'hookSuffix' => $hook_suffix,
+    'hookSuffix' => (string) $hook_suffix,
     'globalsHelper' => $globalsHelper,
     'outputHelper' => $outputHelper,
     'title' => __('Visual Composer: Update', 'visualcomposer'),
     'variables' => $variables,
 ));
 
-$hookSuffix = $hook_suffix;
 $globalsHelper->set('wp_meta_boxes', []);
 if (empty($current_screen)) {
     set_current_screen();
@@ -64,7 +63,7 @@ $extraOutput = vcfilter('vcv:frontend:update:extraOutput', []);
 
 echo vcview('editor/frontend/footer', array(
     'sourceId' => $sourceId,
-    'hookSuffix' => $hook_suffix,
+    'hookSuffix' => (string) $hook_suffix,
     'outputHelper' => $outputHelper,
     'extraOutput' => $extraOutput,
 ));
