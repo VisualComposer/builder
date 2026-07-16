@@ -141,6 +141,10 @@ class PageTemplatesController extends Container implements Module
             return $originalTemplate;
         }
 
+        if (validate_file($current['value']) !== 0) {
+            return $originalTemplate;
+        }
+
         $result = $originalTemplate;
         // Since v41 we merging vc-custom-layout and theme
         if ($current['type'] === 'vc-custom-layout' && strpos($current['value'], 'theme:') !== false) {
@@ -155,6 +159,9 @@ class PageTemplatesController extends Container implements Module
             }
         } elseif ($current['value'] && $current['value'] !== 'default') {
             $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+            if ($result === $current['value']) {
+                $result = $originalTemplate;
+            }
         }
 
         return $result;
