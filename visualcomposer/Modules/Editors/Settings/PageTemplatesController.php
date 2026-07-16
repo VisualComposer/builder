@@ -137,7 +137,7 @@ class PageTemplatesController extends Container implements Module
             ]
         );
 
-        if (empty($current)) {
+        if (empty($current) || validate_file($current['value']) !== 0) {
             return $originalTemplate;
         }
 
@@ -155,6 +155,9 @@ class PageTemplatesController extends Container implements Module
             }
         } elseif ($current['value'] && $current['value'] !== 'default') {
             $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+            if ($result === $current['value']) {
+                $result = $originalTemplate;
+            }
         }
 
         return $result;
