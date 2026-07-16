@@ -137,11 +137,7 @@ class PageTemplatesController extends Container implements Module
             ]
         );
 
-        if (empty($current)) {
-            return $originalTemplate;
-        }
-
-        if (validate_file($current['value']) !== 0) {
+        if (empty($current) || validate_file($current['value']) !== 0) {
             return $originalTemplate;
         }
 
