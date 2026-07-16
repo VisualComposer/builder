@@ -117,6 +117,10 @@ If the problem still occurs, visit %1$smy.visualcomposer.com/support%2$s for tec
      */
     protected function sendAgreeHubTerms(Options $optionsHelper)
     {
+        if (!vchelper('HubDownload')->hasAccess()) {
+            return ['status' => false];
+        }
+
         $optionsHelper->set('agreeHubTerms', time());
         $optionsHelper->deleteTransient('lastBundleUpdate');
 
