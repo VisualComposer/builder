@@ -27,6 +27,10 @@ class AddonDownloadController extends Container implements Module
 
     protected function ajaxDownloadAddon($response, $payload, Request $requestHelper, Token $tokenHelper, License $licenseHelper)
     {
+        if (!vchelper('HubDownload')->hasAccess('addons')) {
+            return false;
+        }
+
         if (empty($response)) {
             $response = [
                 'status' => true,

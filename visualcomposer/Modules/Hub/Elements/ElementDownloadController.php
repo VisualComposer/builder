@@ -32,6 +32,10 @@ class ElementDownloadController extends Container implements Module
         Token $tokenHelper,
         License $licenseHelper
     ) {
+        if (!vchelper('HubDownload')->hasAccess('elements_templates_blocks')) {
+            return false;
+        }
+
         if (empty($response)) {
             $response = [
                 'status' => true,
