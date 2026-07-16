@@ -12,6 +12,35 @@ if (!defined('ABSPATH')) {
 
 class Download implements Helper
 {
+    /**
+     * Check if current user is allowed to access/download Hub content.
+     * Falls back to per-part Role Manager access when the addon is enabled.
+     *
+     * @param string|null $part
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function hasAccess($part = null)
+    {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        if (!vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+            return $currentUserAccessHelper->wpAll('install_plugins')->get();
+        }
+
+        if ($part) {
+            return $currentUserAccessHelper->part('hub')->can($part)->get();
+        }
+
+        return (
+            $currentUserAccessHelper->part('hub')->can('elements_templates_blocks')->get()
+            || $currentUserAccessHelper->part('hub')->can('addons')->get()
+            || $currentUserAccessHelper->part('hub')->can('headers_footers_sidebars')->get()
+            || $currentUserAccessHelper->part('hub')->can('unsplash')->get()
+            || $currentUserAccessHelper->part('hub')->can('giphy')->get()
+        );
+    }
+
     public function getActionName($action)
     {
         $name = $action;
