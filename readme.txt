@@ -222,7 +222,7 @@ It is both! Visual Composer’s free version works like a page builder where you
 
 == Changelog ==
 
-= 45.16.0 =
+= 45.16-beta.1 =
 *Release Date - 2026-07-17*
 
 ### Free:
