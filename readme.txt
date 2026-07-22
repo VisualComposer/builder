@@ -222,6 +222,17 @@ It is both! Visual Composer’s free version works like a page builder where you
 
 == Changelog ==
 
+= 45.16.0 =
+*Release Date - 2026-07-22*
+
+### Free:
+- Compatibility: Visual Composer works properly with WooCommerce 10.9.1
+- Compatibility: Visual Composer works properly with BackWPup plugin
+- Compatibility: Visual Composer works properly with Essential Grid
+- Fix: Resolved WooCommerce Stripe Gateway fatal error
+- Fix: Fixed broken Checkout page when Storefront theme is installed
+- Fix: Resolved sitewide header/footer style issues
+
 = 45.15.0 =
 *Release Date - 2025-08-06*
 
