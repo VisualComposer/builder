@@ -127,7 +127,9 @@
         <exclude-pattern>./visualcomposer/Modules/FrontView/FrontViewController.php</exclude-pattern>
         <exclude-pattern>./visualcomposer/Modules/Vendors/Plugins/WpmlController.php</exclude-pattern>
     </rule>
-    <rule ref="WordPress.WP.DeprecatedFunctions"/>
+    <rule ref="WordPress.WP.DeprecatedFunctions">
+        <exclude-pattern>./visualcomposer/Helpers/Frontend.php</exclude-pattern>
+    </rule>
     <rule ref="WordPress.WP.DeprecatedClasses"/>
     <rule ref="WordPress.WP.DeprecatedParameters"/>
     <rule ref="WordPress.WP.DeprecatedParameterValues"/>

@@ -369,7 +369,7 @@ class Container implements ContainerContract
         if (!$reflector->isInstantiable()) {
             $message = "Target [$concrete] is not instantiable.";
 
-            throw new BindingResolutionException($message);
+            throw new BindingResolutionException(esc_html($message));
         }
 
         $this->buildStack[] = $concrete;

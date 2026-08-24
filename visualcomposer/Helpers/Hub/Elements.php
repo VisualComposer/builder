@@ -307,7 +307,7 @@ class Elements implements Helper
             $dirname = dirname($manifestPath);
             $tag = basename($dirname);
             if (!isset($manifest['elements'], $manifest['elements'][ $tag ])) {
-                throw new \Exception('Element manifest must SET "TAG":' . $manifestPath);
+                throw new \Exception('Element manifest must SET "TAG":' . esc_html($manifestPath));
             }
             $element = $manifest['elements'][ $tag ];
             $element['bundlePath'] = $urlToElementFolder . $tag . '/public/dist/element.bundle.js';
