@@ -128,7 +128,7 @@ trait Access
         $this->setValidAccess(true);
         if (!$result) {
             if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
-                throw new \Exception($message);
+                throw new \Exception(esc_html($message));
             } else {
                 die(esc_html($message));
             }

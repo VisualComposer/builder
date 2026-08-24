@@ -69,7 +69,7 @@ class Autoload extends Container
                     );
                 } elseif (vcvenv('VCV_DEBUG')) {
                     throw new Exception(
-                        '[Failed to add] Class doesnt exists ' . $component['abstract'] . ' try composer update'
+                        '[Failed to add] Class doesnt exists ' . esc_html($component['abstract']) . ' try composer update'
                     );
                 }
             }
@@ -98,7 +98,7 @@ class Autoload extends Container
                     }
                 } elseif (vcvenv('VCV_DEBUG')) {
                     throw new Exception(
-                        '[Failed to Make] Class doesnt exists ' . $component['abstract'] . ' try composer update'
+                        '[Failed to Make] Class doesnt exists ' . esc_html($component['abstract']) . ' try composer update'
                     );
                 }
             }

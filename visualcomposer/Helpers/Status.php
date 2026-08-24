@@ -219,7 +219,10 @@ class Status implements Helper
      */
     public function getUploadDirAccessStatus()
     {
-        return is_writable(wp_upload_dir()['basedir']);
+        /** @var \VisualComposer\Helpers\File $fileHelper */
+        $fileHelper = vchelper('File');
+
+        return $fileHelper->fileSystem->is_writable(wp_upload_dir()['basedir']);
     }
 
     /**
