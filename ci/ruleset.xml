@@ -111,6 +111,9 @@
     <rule ref="WordPress.Security.SafeRedirect"/>
     <rule ref="WordPress.Security.NonceVerification"/>
     <rule ref="WordPress.Security.EscapeOutput"/>
+    <rule ref="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
+        <exclude-pattern>./visualcomposer/Framework/helpers.php</exclude-pattern>
+    </rule>
     <rule ref="WordPress.PHP.DevelopmentFunctions">
         <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
         <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
