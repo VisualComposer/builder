@@ -1,6 +1,6 @@
 # Visual Composer Website Builder circleci config file
 
-version: 2
+version: 2.1
 jobs:
   js-codestyle:
     docker:
