@@ -46,6 +46,10 @@ class JsEditor extends Container implements Module
      */
     protected function buildPage(Options $optionsHelper)
     {
+        if (!$this->hasUnfilteredHtmlAccess()) {
+            return;
+        }
+
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
@@ -96,6 +100,43 @@ class JsEditor extends Container implements Module
                 ]
             );
         }
+    }
+
+    /**
+     * Make sure the current user is allowed to manage custom HTML/JavaScript.
+     *
+     * When the "unfiltered_html" capability is missing we still render the
+     * section, but replace the fields with a notice explaining what is needed.
+     *
+     * @return bool True when the user may manage the editor fields.
+     */
+    protected function hasUnfilteredHtmlAccess()
+    {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        if ($currentUserAccessHelper->hasUserCap('unfiltered_html')) {
+            return true;
+        }
+
+        $sectionCallback = function () {
+            echo sprintf(
+                '<p class="description">%s</p>',
+                esc_html__(
+                    'To manage this section you need to have the "unfiltered_html" capability. Please contact your site administrator to enable it for your user.',
+                    'visualcomposer'
+                )
+            );
+        };
+
+        $this->addSection(
+            [
+                'title' => __('Custom HTML and JavaScript', 'visualcomposer'),
+                'slug' => 'settingsGlobalJs',
+                'page' => $this->slug,
+                'callback' => $sectionCallback,
+            ]
+        );
+
+        return false;
     }
 
     protected function renderEditor($data, $globalSetting)
