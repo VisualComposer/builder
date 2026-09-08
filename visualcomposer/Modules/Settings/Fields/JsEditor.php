@@ -39,6 +39,10 @@ class JsEditor extends Container implements Module
             'vcv:settings:page:vcv-global-css-js:beforeRender',
             'enqueueAssets'
         );
+
+        // Strip scripts on save for users without the "unfiltered_html" capability.
+        $this->wpAddFilter('sanitize_option_' . VCV_PREFIX . 'settingsGlobalJsHead', 'sanitizeGlobalJs');
+        $this->wpAddFilter('sanitize_option_' . VCV_PREFIX . 'settingsGlobalJsFooter', 'sanitizeGlobalJs');
     }
 
     /**
@@ -137,6 +141,21 @@ class JsEditor extends Container implements Module
         );
 
         return false;
+    }
+
+    /**
+     * Prevent users without the "unfiltered_html" capability from saving scripts
+     * into the global HTML/JavaScript settings.
+     *
+     * Reuses the JS sanitizer from the assets module.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    protected function sanitizeGlobalJs($value)
+    {
+        return vcapp('AssetsJsDataController')->sanitizeJsFields($value);
     }
 
     protected function renderEditor($data, $globalSetting)
