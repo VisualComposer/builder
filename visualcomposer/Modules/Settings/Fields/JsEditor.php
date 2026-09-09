@@ -144,18 +144,27 @@ class JsEditor extends Container implements Module
     }
 
     /**
-     * Prevent users without the "unfiltered_html" capability from saving scripts
-     * into the global HTML/JavaScript settings.
-     *
-     * Reuses the JS sanitizer from the assets module.
+     * Prevent users from saving unescaped scripts into the global
+     * HTML/JavaScript settings.
      *
      * @param string $value
+     * @param string $option Full option name passed by the sanitize_option filter.
      *
      * @return string
      */
-    protected function sanitizeGlobalJs($value)
+    protected function sanitizeGlobalJs($value, $option = '')
     {
-        return vcapp('AssetsJsDataController')->sanitizeJsFields($value);
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+
+        if (!$currentUserAccessHelper->wpAll('manage_options')->get()) {
+            return $option === '' ? $value : get_option($option, '');
+        }
+
+        if ($currentUserAccessHelper->hasUserCap('unfiltered_html')) {
+            return $value;
+        }
+
+        return wp_kses($value, []);
     }
 
     protected function renderEditor($data, $globalSetting)
