@@ -392,7 +392,7 @@ function vcvdie($message = '')
     $outputHelper = vchelper('Output');
     $outputHelper->printNotEscaped(is_string($message) ? $message : wp_json_encode($message));
     if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
-        throw new Exception($message);
+        throw new Exception(is_string($message) ? $message : wp_json_encode($message));
     } else {
         exit;
     }

@@ -39,6 +39,10 @@ class JsEditor extends Container implements Module
             'vcv:settings:page:vcv-global-css-js:beforeRender',
             'enqueueAssets'
         );
+
+        // Strip scripts on save for users without the "unfiltered_html" capability.
+        $this->wpAddFilter('sanitize_option_' . VCV_PREFIX . 'settingsGlobalJsHead', 'sanitizeGlobalJs');
+        $this->wpAddFilter('sanitize_option_' . VCV_PREFIX . 'settingsGlobalJsFooter', 'sanitizeGlobalJs');
     }
 
     /**
@@ -46,6 +50,10 @@ class JsEditor extends Container implements Module
      */
     protected function buildPage(Options $optionsHelper)
     {
+        if (!$this->hasUnfilteredHtmlAccess()) {
+            return;
+        }
+
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
@@ -96,6 +104,67 @@ class JsEditor extends Container implements Module
                 ]
             );
         }
+    }
+
+    /**
+     * Make sure the current user is allowed to manage custom HTML/JavaScript.
+     *
+     * When the "unfiltered_html" capability is missing we still render the
+     * section, but replace the fields with a notice explaining what is needed.
+     *
+     * @return bool True when the user may manage the editor fields.
+     */
+    protected function hasUnfilteredHtmlAccess()
+    {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        if ($currentUserAccessHelper->hasUserCap('unfiltered_html')) {
+            return true;
+        }
+
+        $sectionCallback = function () {
+            echo sprintf(
+                '<p class="description">%s</p>',
+                esc_html__(
+                    'To manage this section you need to have the "unfiltered_html" capability. Please contact your site administrator to enable it for your user.',
+                    'visualcomposer'
+                )
+            );
+        };
+
+        $this->addSection(
+            [
+                'title' => __('Custom HTML and JavaScript', 'visualcomposer'),
+                'slug' => 'settingsGlobalJs',
+                'page' => $this->slug,
+                'callback' => $sectionCallback,
+            ]
+        );
+
+        return false;
+    }
+
+    /**
+     * Prevent users from saving unescaped scripts into the global
+     * HTML/JavaScript settings.
+     *
+     * @param string $value
+     * @param string $option Full option name passed by the sanitize_option filter.
+     *
+     * @return string
+     */
+    protected function sanitizeGlobalJs($value, $option = '')
+    {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+
+        if (!$currentUserAccessHelper->wpAll('manage_options')->get()) {
+            return $option === '' ? $value : get_option($option, '');
+        }
+
+        if ($currentUserAccessHelper->hasUserCap('unfiltered_html')) {
+            return $value;
+        }
+
+        return wp_kses($value, []);
     }
 
     protected function renderEditor($data, $globalSetting)

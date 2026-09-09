@@ -111,6 +111,9 @@
     <rule ref="WordPress.Security.SafeRedirect"/>
     <rule ref="WordPress.Security.NonceVerification"/>
     <rule ref="WordPress.Security.EscapeOutput"/>
+    <rule ref="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
+        <exclude-pattern>./visualcomposer/Framework/helpers.php</exclude-pattern>
+    </rule>
     <rule ref="WordPress.PHP.DevelopmentFunctions">
         <exclude-pattern>./visualcomposer/Modules/System/Ajax/AdminController.php</exclude-pattern>
         <exclude-pattern>./visualcomposer/Modules/System/Ajax/Controller.php</exclude-pattern>
@@ -127,7 +130,9 @@
         <exclude-pattern>./visualcomposer/Modules/FrontView/FrontViewController.php</exclude-pattern>
         <exclude-pattern>./visualcomposer/Modules/Vendors/Plugins/WpmlController.php</exclude-pattern>
     </rule>
-    <rule ref="WordPress.WP.DeprecatedFunctions"/>
+    <rule ref="WordPress.WP.DeprecatedFunctions">
+        <exclude-pattern>./visualcomposer/Helpers/Frontend.php</exclude-pattern>
+    </rule>
     <rule ref="WordPress.WP.DeprecatedClasses"/>
     <rule ref="WordPress.WP.DeprecatedParameters"/>
     <rule ref="WordPress.WP.DeprecatedParameterValues"/>

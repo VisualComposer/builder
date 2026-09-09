@@ -61,7 +61,6 @@ class SettingsController extends Container implements Module
     protected function saveSettings($response, $payload, Request $requestHelper, CurrentUser $currentUserAccess)
     {
         vcevent('vcv:settings:save');
-        $hasAccess = null;
         $slug = $requestHelper->input('vcv-page-slug');
         $pageInfo = vchelper('SettingsTabsRegistry')->get($slug);
         $hasAccess = false;

@@ -55,7 +55,7 @@ class Views extends container implements Helper
         if (file_exists($_path)) {
             include($_path);
         } elseif (vcvenv('VCV_DEBUG')) {
-            throw new \Exception('View File doesn`t exists: ' . $_path);
+            throw new \Exception('View File doesn`t exists: ' . esc_html($_path));
         }
         $content = ob_get_clean();
 
