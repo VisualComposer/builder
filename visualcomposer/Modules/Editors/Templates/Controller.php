@@ -131,10 +131,8 @@ class Controller extends Container implements Module
         CurrentUser $currentUserAccessHelper,
         EditorTemplates $editorTemplatesHelper
     ) {
-        $haveAccess = $currentUserAccessHelper->wpAll('edit_posts')->get();
-        if (vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
-            $haveAccess = $currentUserAccessHelper->part('editor_content')->can('user_templates_management')->get();
-        }
+        $haveAccess = $currentUserAccessHelper->wpAll('edit_posts')
+            ->part('editor_content')->can('user_templates_management')->get();
         if ($haveAccess) {
             $templateId = $editorTemplatesHelper->create($type);
             if ($templateId) {
