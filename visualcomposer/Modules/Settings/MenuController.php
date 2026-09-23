@@ -48,6 +48,9 @@ class MenuController extends Container implements Module
 
         $this->wpAddAction('admin_menu', 'arrangeSubmenuItems', 1000);
 
+        /** @see \VisualComposer\Modules\Settings\MenuController::removeEmptyMenu */
+        $this->wpAddAction('admin_menu', 'removeEmptyMenu', 1001);
+
         $this->wpAddAction('after_setup_theme', 'addMenuSectionToDashboard', 100);
     }
 
@@ -69,6 +72,26 @@ class MenuController extends Container implements Module
             $iconUrl = $urlHelper->assetUrl('images/logo/20x14.png');
 
             add_menu_page($title, $title, 'edit_posts', $settingsController->getMainPageSlug(), null, $iconUrl, 76);
+        }
+    }
+
+    /**
+     * Remove the top-level menu if the current user ends up with no accessible
+     * submenu pages under it (add_submenu_page() itself skips entries the user
+     * can't access, so an empty $submenu here means nothing was ever registered).
+     *
+     * @param \VisualComposer\Modules\Settings\Pages\Settings $settingsController
+     */
+    protected function removeEmptyMenu(Settings $settingsController)
+    {
+        if (is_network_admin()) {
+            return;
+        }
+
+        global $submenu;
+        $mainPageSlug = $settingsController->getMainPageSlug();
+        if (empty($submenu[ $mainPageSlug ])) {
+            remove_menu_page($mainPageSlug);
         }
     }
 
