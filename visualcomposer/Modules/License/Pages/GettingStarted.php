@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -51,8 +52,8 @@ class GettingStarted extends Container implements Module
         );
         $this->wpAddAction(
             'admin_menu',
-            function () {
-                if (!vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()) {
+            function (CurrentUser $currentUserAccessHelper) {
+                if (!$this->hasEditorAccess($currentUserAccessHelper)) {
                     return;
                 }
                 $this->call('addPage');
@@ -63,6 +64,19 @@ class GettingStarted extends Container implements Module
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
         $this->addFilter('vcv:wp:dashboard:variables', 'addDashboardVariables');
+    }
+
+    /**
+     * Whether the current user can access the Visual Composer editor at all.
+     *
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
+     *
+     * @return bool
+     */
+    protected function hasEditorAccess(CurrentUser $currentUserAccessHelper)
+    {
+        return $currentUserAccessHelper->wpAll('edit_posts')->get()
+            && $currentUserAccessHelper->hasUserCap('unfiltered_html');
     }
 
     protected function addDashboardVariables($variables, Options $optionsHelper, Request $requestHelper)
