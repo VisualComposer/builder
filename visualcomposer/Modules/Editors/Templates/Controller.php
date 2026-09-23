@@ -256,11 +256,12 @@ class Controller extends Container implements Module
                     update_post_meta($sourceId, '_' . VCV_PREFIX . 'id', uniqid('', true));
                 }
 
-                return [
+                // we already checked for access: skip ->canEdit check in DataAjax/Controller.
+                // Must be an object, not an array - request JSON is always decoded assoc.
+                return (object)[
                     'status' => true,
                     'sourceId' => $templateId,
                     'accessCheck' => false,
-                    // we already checked for access: skip ->canEdit check in DataAjax/Controller
                 ];
             }
 

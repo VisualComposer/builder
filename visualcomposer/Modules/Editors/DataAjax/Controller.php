@@ -97,11 +97,13 @@ class Controller extends Container implements Module
             return [$accessCheck, $sourceId];
         }
 
-        if (is_array($sourceId) && $sourceId['status'] === true) {
-            if (isset($sourceId['accessCheck'])) {
-                $accessCheck = $sourceId['accessCheck'];
+        // Only an object may skip canEdit() below: request JSON is always decoded
+        // with assoc=true, so client input can only ever become an array, not an object.
+        if (is_object($sourceId) && $sourceId->status === true) {
+            if (isset($sourceId->accessCheck)) {
+                $accessCheck = $sourceId->accessCheck;
             }
-            $sourceId = $sourceId['sourceId'];
+            $sourceId = $sourceId->sourceId;
         }
 
         return [$accessCheck, $sourceId];
