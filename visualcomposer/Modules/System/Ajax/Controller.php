@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Helpers\Options;
@@ -132,13 +133,18 @@ class Controller extends Container implements Module
     }
 
     /**
+     * Set up global $post from request source id.
+     * Post is set up only if current user can read it,
+     * handlers that expose or modify post data must do their own edit capability check.
+     *
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      */
-    protected function setSource(Request $requestHelper, PostType $postTypeHelper)
+    protected function setSource(Request $requestHelper, PostType $postTypeHelper, CurrentUser $currentUserHelper)
     {
         $sourceId = $requestHelper->input('vcv-source-id');
-        if (is_numeric($sourceId)) {
+        if (is_numeric($sourceId) && $currentUserHelper->wpAll(['read_post', (int)$sourceId])->get()) {
             $postTypeHelper->setupPost((int)$sourceId);
         }
     }
