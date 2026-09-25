@@ -110,6 +110,23 @@ class Controller extends Container implements Module
     }
 
     /**
+     * Check if current user can get editor data of the post.
+     * Templates are shared between users so read access is enough,
+     * for any other post user must be able to edit it.
+     *
+     * @param \WP_Post $post
+     *
+     * @return bool
+     */
+    protected function canReadData($post)
+    {
+        // @codingStandardsIgnoreLine
+        $capability = $post->post_type === 'vcv_templates' ? 'read_post' : 'edit_post';
+
+        return vchelper('AccessCurrentUser')->wpAll([$capability, $post->ID])->get();
+    }
+
+    /**
      * Get post content.
      *
      * @param $response
@@ -123,7 +140,7 @@ class Controller extends Container implements Module
         Filters $filterHelper
     ) {
         global $post;
-        if (empty($post)) {
+        if (empty($post) || !$this->canReadData($post)) {
             return ['status' => false];
         }
         $sourceId = $post->ID;
