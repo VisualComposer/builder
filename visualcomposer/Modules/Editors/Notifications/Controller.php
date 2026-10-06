@@ -35,23 +35,31 @@ class Controller extends Container implements Module
     /**
      * Listen and save the notifications to db once in a day.
      */
-    protected function listenNotifications()
+    protected function listenNotifications($response)
     {
         $optionsHelper = vchelper('Options');
 
-        if (!$optionsHelper->getTransient('lastNotificationUpdate')) {
-            $response = wp_remote_get(
-                'https://visualcomposer.com/wp-json/vc-api/v1/notifications',
-                [
-                    'timeout' => 30,
-                ]
-            );
-            if (!vcIsBadResponse($response)) {
-                $body = $response['body'];
-                $optionsHelper->set('notifications', $body);
-            }
-            $optionsHelper->setTransient('lastNotificationUpdate', 1, DAY_IN_SECONDS);
+        // Regular option instead of transient, so object cache flush/eviction can't reset it
+        $lastUpdate = (int)$optionsHelper->get('lastNotificationUpdate', 0);
+        $isUpdatedToday = time() - $lastUpdate < DAY_IN_SECONDS;
+        if ($isUpdatedToday) {
+            return $response;
         }
+
+        // Set before request, so concurrent requests don't fetch too
+        $optionsHelper->set('lastNotificationUpdate', time());
+
+        $notificationsResponse = wp_remote_get(
+            'https://visualcomposer.com/wp-json/vc-api/v1/notifications',
+            [
+                'timeout' => 5,
+            ]
+        );
+        if (!vcIsBadResponse($notificationsResponse)) {
+            $optionsHelper->set('notifications', $notificationsResponse['body']);
+        }
+
+        return $response;
     }
 
     /**
