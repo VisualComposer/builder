@@ -5,13 +5,23 @@ class NotificationsControllerTest extends WP_UnitTestCase
     public function testListenNotifications()
     {
         $optionsHelper = vchelper('Options');
-        vcevent('vcv:inited');
+        $optionsHelper->delete('lastNotificationUpdate');
+        wp_set_current_user(1);
+        $factory = new WP_UnitTest_Factory_For_Post($this);
+        $postId = $factory->create(['post_title' => 'Test post']);
+        vchelper('PostType')->setupPost($postId);
 
-        $lastNotificationUpdate = $optionsHelper->getTransient('lastNotificationUpdate');
-        $this->assertNotEquals(
-            false,
-            $lastNotificationUpdate
-        );
+        $data = vcfilter('vcv:dataAjax:getData', ['status' => true], ['sourceId' => $postId]);
+        // Filter must keep the response
+        $this->assertTrue($data['status']);
+
+        $lastNotificationUpdate = (int)$optionsHelper->get('lastNotificationUpdate', 0);
+        $this->assertGreaterThan(0, $lastNotificationUpdate);
+
+        // Second editor load within a day must not refetch
+        vcfilter('vcv:dataAjax:getData', ['status' => true], ['sourceId' => $postId]);
+        $this->assertEquals($lastNotificationUpdate, (int)$optionsHelper->get('lastNotificationUpdate', 0));
+
         $notifications = $optionsHelper->get('notifications', []);
         if (empty($notifications)) {
             $notifications = 'is not empty';
