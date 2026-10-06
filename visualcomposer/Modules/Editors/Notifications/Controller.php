@@ -24,7 +24,7 @@ class Controller extends Container implements Module
      */
     public function __construct()
     {
-        $this->addEvent('vcv:inited', 'listenNotifications');
+        $this->addFilter('vcv:dataAjax:getData', 'listenNotifications');
         $this->addFilter('vcv:dataAjax:getData', 'outputNotificationsData');
         $this->addFilter(
             'vcv:ajax:atarim:comment:button:click:adminNonce',
