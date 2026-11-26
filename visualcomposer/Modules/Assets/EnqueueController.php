@@ -315,13 +315,8 @@ class EnqueueController extends Container implements Module
 
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
-            if (strpos($bundleUrl, 'http') !== 0) {
-                if (strpos($bundleUrl, 'assets-bundles') === false) {
-                    $bundleUrl = '/assets-bundles/' . $bundleUrl;
-                }
-            }
-
-            $path = VCV_PLUGIN_ASSETS_DIR_PATH . $bundleUrl;
+            // Load the bundle strictly by its file name from the assets-bundles directory.
+            $path = vchelper('Assets')->getFilePath(basename($bundleUrl));
             $fileContent = '';
             $fileHelper = vchelper('File');
             if ($fileHelper->exists($path)) {
