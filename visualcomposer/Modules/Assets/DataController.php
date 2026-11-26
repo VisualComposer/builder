@@ -35,6 +35,23 @@ class DataController extends Container implements Module
         );
 
         $this->wpAddAction('update_option_' . VCV_PREFIX . 'settingsGlobalCss', 'updateGlobalCssFromSettings');
+
+        foreach (['vcvSourceCssFileUrl', 'vcvSourceCss', 'vcvSourceAssetsFiles'] as $sourceMetaKey) {
+            /** @see \VisualComposer\Modules\Assets\DataController::protectSourceMeta */
+            $this->wpAddFilter('auth_post_meta_' . $sourceMetaKey, 'protectSourceMeta');
+        }
+    }
+
+    /**
+     * Restrict editing of the plugin-managed source asset meta through the meta
+     * API (REST / core Custom Fields box) to users with the unfiltered_html
+     * capability. The plugin's own update_post_meta() calls are not affected.
+     *
+     * @return bool
+     */
+    protected function protectSourceMeta()
+    {
+        return current_user_can('unfiltered_html');
     }
 
     protected function getData($response, $payload, Options $optionsHelper)
