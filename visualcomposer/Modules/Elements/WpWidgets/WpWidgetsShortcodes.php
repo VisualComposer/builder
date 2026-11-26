@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\WpWidgets;
 use VisualComposer\Modules\Elements\Traits\AddShortcodeTrait;
 
@@ -22,6 +23,7 @@ class WpWidgetsShortcodes extends Container implements Module
 {
     use EventsFilters;
     use AddShortcodeTrait;
+    use WpFiltersActions;
 
     /**
      * WpWidgetsShortcodes constructor.
@@ -30,6 +32,9 @@ class WpWidgetsShortcodes extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsShortcodes::registerShortcode */
         $this->addEvent('vcv:inited', 'registerShortcode');
+
+        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsShortcodes::checkWidgetsShortcode */
+        $this->wpAddFilter('content_save_pre', 'checkWidgetsShortcode');
     }
 
     /**
@@ -76,5 +81,31 @@ class WpWidgetsShortcodes extends Container implements Module
         $output = $widgets->render($atts['key'], $args, $instance);
 
         return $output;
+    }
+
+    /**
+     * Remove vcv_widgets shortcode for users without unfiltered_html capability.
+     *
+     * @param string $content
+     *
+     * @return string
+     */
+    protected function checkWidgetsShortcode($content)
+    {
+        if (current_user_can('unfiltered_html')) {
+            return $content;
+        }
+
+        if (strpos($content, 'vcv_widgets') === false) {
+            return $content;
+        }
+
+        $regex = '/' . get_shortcode_regex(['vcv_widgets']) . '/';
+
+        while (preg_match($regex, $content)) {
+            $content = preg_replace($regex, '', $content);
+        }
+
+        return $content;
     }
 }
